@@ -11,7 +11,7 @@
 @implementation RelatedNetManager
 
 + (NSURLSessionDataTask *)relatedDanmakuWithEpisodeId:(NSUInteger)episodeId
-                                    completionHandler:(void(^)(JHRelatedCollection *responseObject, NSError *eroor))completionHandler {
+                                    completionHandler:(void(^)(JHRelatedCollection *responseObject, NSError *error))completionHandler {
     if (episodeId == 0) {
         if (completionHandler) {
             completionHandler(nil, parameterNoCompletionError());

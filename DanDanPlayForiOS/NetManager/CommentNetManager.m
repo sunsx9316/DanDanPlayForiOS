@@ -44,4 +44,30 @@
     }];
 }
 
++ (void)danmakuWithRelatedCollection:(JHRelatedCollection *)relatedCollection
+                   completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSArray <NSError *>*errors))completionHandler {
+    if (completionHandler == nil) return;
+    
+    if (relatedCollection.collection.count == 0) {
+        completionHandler(nil, @[parameterNoCompletionError()]);
+        return;
+    }
+    
+    NSMutableArray *paths = [NSMutableArray array];
+    [relatedCollection.collection enumerateObjectsUsingBlock:^(JHRelated * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [paths addObject:[NSString stringWithFormat:@"%@/extcomment?url=%@", API_PATH, obj.url]];
+    }];
+    
+    [self batchGETWithPaths:paths progressBlock:nil completionHandler:^(NSArray *responseObjects, NSArray<NSURLSessionTask *> *tasks, NSArray<NSError *> *errors) {
+        
+        JHDanmakuCollection *responseObject = [[JHDanmakuCollection alloc] init];
+        responseObject.collection = [NSMutableArray array];
+        [responseObjects enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [responseObject.collection addObjectsFromArray:[JHDanmakuCollection yy_modelWithDictionary:obj].collection];
+        }];
+        
+        completionHandler(responseObject, errors);
+    }];
+}
+
 @end

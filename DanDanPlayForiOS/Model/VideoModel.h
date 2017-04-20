@@ -8,6 +8,7 @@
 
 #import "JHBase.h"
 
+@class VLCMedia;
 @interface VideoModel : JHBase
 /**
  *  初始化
@@ -38,4 +39,6 @@
  文件总长度，单位为Byte。
  */
 @property (assign, nonatomic, readonly) NSUInteger length;
+
+@property (strong, nonatomic, readonly) VLCMedia *media;
 @end

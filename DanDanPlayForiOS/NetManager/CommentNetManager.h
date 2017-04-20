@@ -9,6 +9,7 @@
 #import "BaseNetManager.h"
 #import "JHDanmakuCollection.h"
 
+@class JHRelatedCollection;
 @interface CommentNetManager : BaseNetManager
 
 /**
@@ -32,5 +33,15 @@
 + (NSURLSessionDataTask *)launchDanmakuWithModel:(JHDanmaku *)model
                                        episodeId:(NSUInteger)episodeId
                                completionHandler:(void(^)(NSError *))completionHandler;
+
+
+/**
+ 批量下载弹幕
+
+ @param relatedCollection 匹配到的弹幕
+ @param completionHandler 回调
+ */
++ (void)danmakuWithRelatedCollection:(JHRelatedCollection *)relatedCollection
+                                    completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSArray <NSError *>*errors))completionHandler;
 
 @end

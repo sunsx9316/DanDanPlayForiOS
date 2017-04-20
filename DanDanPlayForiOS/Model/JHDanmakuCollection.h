@@ -11,4 +11,6 @@
 
 @interface JHDanmakuCollection : JHBaseCollection
 
+#pragma mark - 自定义属性
+@property (strong, nonatomic) NSDate *saveTime;
 @end

@@ -10,7 +10,7 @@
 
 @implementation MatchNetManager
 
-+ (NSURLSessionDataTask *)GETWithVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *eroor))completionHandler {
++ (NSURLSessionDataTask *)matchVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *error))completionHandler {
     
     NSString *hash = model.md5;
     NSUInteger length = model.length;

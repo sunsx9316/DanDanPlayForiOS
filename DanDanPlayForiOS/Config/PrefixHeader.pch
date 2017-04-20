@@ -16,9 +16,12 @@
 #import "MJRefreshHeader+Tools.h"
 #import "UIImageView+Tools.h"
 #import "UIButton+Tools.h"
+#import "MBProgressHUD+Tools.h"
+
 #import "Config.h"
 #import "ConstantHead.h"
 #import "NetManagerHeader.h"
+#import "CacheManager.h"
 #import "ToolsManager.h"
 
 #endif /* PrefixHeader_pch */

@@ -24,5 +24,5 @@
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)GETWithVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *eroor))completionHandler;
++ (NSURLSessionDataTask *)matchVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *error))completionHandler;
 @end

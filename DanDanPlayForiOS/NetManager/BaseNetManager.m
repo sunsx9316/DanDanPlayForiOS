@@ -184,26 +184,26 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
 }
 
 + (void)batchGETWithPaths:(NSArray <NSString *>*)paths
-            progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
-        completionHandler:(void(^)(NSArray <JHResponse *>*responseObjects, NSArray <NSURLSessionTask *>*tasks))completionHandler {
+            progressBlock:(batchProgressAction)progressBlock
+        completionHandler:(batchCompletionAction)completionHandler {
     [self batchRequestWithManager:[self sharedHTTPSessionManager] paths:paths progressBlock:progressBlock completionBlock:completionHandler];
 }
 
 + (void)batchGETDataWithPaths:(NSArray <NSString *>*)paths
-                progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
-            completionHandler:(void(^)(NSArray <JHResponse *>*responseObjects, NSArray <NSURLSessionTask *>*tasks))completionHandler {
+                progressBlock:(batchProgressAction)progressBlock
+            completionHandler:(batchCompletionAction)completionHandler {
     [self batchRequestWithManager:[self sharedHTTPSessionDataManager] paths:paths progressBlock:progressBlock completionBlock:completionHandler];
 }
 
 #pragma mark - 私有方法
 + (void)batchRequestWithManager:(AFHTTPSessionManager *)manager
                           paths:(NSArray <NSString *>*)paths
-                progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
-              completionBlock:(void(^)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks))completionBlock {
+                progressBlock:(batchProgressAction)progressBlock
+              completionBlock:(batchCompletionAction)completionBlock {
     
-    if (!paths.count) {
+    if (paths.count == 0) {
         if (completionBlock) {
-            completionBlock(nil, nil);
+            completionBlock(nil, nil, @[parameterNoCompletionError()]);
         }
         return;
     }
@@ -212,6 +212,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     
     NSMutableArray *responseObjectArr = [NSMutableArray array];
     NSMutableArray *taskArr = [NSMutableArray array];
+    NSMutableArray *errorArr = [NSMutableArray array];
     
     for (NSInteger i = 0; i < paths.count ; ++i) {
         [responseObjectArr addObject:[NSNull null]];
@@ -222,7 +223,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
         
         NSURLSessionDataTask *dataTask = [manager GET:path parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
             if (progressBlock) {
-                progressBlock(i, paths.count, &responseObject);
+                progressBlock(i, paths.count, &responseObject, nil);
             }
             
             @synchronized (responseObjectArr) {
@@ -238,11 +239,16 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
             dispatch_group_leave(group);
         } failure:^(NSURLSessionTask *operation, NSError *error) {
             if (progressBlock) {
-                progressBlock(i, paths.count, nil);
+                progressBlock(i, paths.count, nil, error);
             }
+            
             @synchronized (taskArr) {
                 if (operation) {
                     taskArr[i] = operation;
+                }
+                
+                if (error) {
+                    [errorArr addObject:error];
                 }
             }
             
@@ -253,7 +259,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         if (completionBlock) {
-            completionBlock(responseObjectArr, taskArr);
+            completionBlock(responseObjectArr, taskArr, errorArr);
         }
     });
 }

@@ -19,6 +19,8 @@
  @return 任务
  */
 + (NSURLSessionDataTask *)relatedDanmakuWithEpisodeId:(NSUInteger)episodeId
-                                             completionHandler:(void(^)(JHRelatedCollection *responseObject, NSError *eroor))completionHandler;
+                                             completionHandler:(void(^)(JHRelatedCollection *responseObject, NSError *error))completionHandler;
+
+
 
 @end

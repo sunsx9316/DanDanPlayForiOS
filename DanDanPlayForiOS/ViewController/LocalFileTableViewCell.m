@@ -24,7 +24,7 @@
         
         [self.grayImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.mas_equalTo(0);
-            make.height.mas_equalTo(60);
+//            make.height.mas_equalTo(60);
         }];
         
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -38,6 +38,9 @@
     _model = model;
     self.nameLabel.text = [_model fileName];
     
+    [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
+        [self.bgImgView jh_setImageWithFadeType:image];
+    }];
 }
 
 #pragma mark - 懒加载
@@ -46,6 +49,7 @@
 		_nameLabel = [[UILabel alloc] init];
         _nameLabel.font = NORMAL_SIZE_FONT;
         _nameLabel.numberOfLines = 2;
+        _nameLabel.textColor = [UIColor whiteColor];
         [self.contentView addSubview:_nameLabel];
 	}
 	return _nameLabel;

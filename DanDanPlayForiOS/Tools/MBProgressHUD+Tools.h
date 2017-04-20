@@ -26,6 +26,13 @@
 + (void)showWithText:(NSString *)text atView:(UIView *)view;
 
 /**
+ *  显示错误信息
+ *
+ *  @param error 错误
+ */
++ (void)showWithError:(NSError *)error;
+
+/**
  *  显示一个一直显示的hud面板
  *
  *  @param view 父view 为nil时为windows

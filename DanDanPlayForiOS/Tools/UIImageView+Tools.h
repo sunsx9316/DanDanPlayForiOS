@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (Tools)
-- (void)jh_setImageWithURL:(nullable NSURL *)imageURL;
+- (void)jh_setImageWithURL:(NSURL *)imageURL;
+- (void)jh_setImageWithFadeType:(UIImage *)image;
 @end

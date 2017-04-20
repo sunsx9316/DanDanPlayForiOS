@@ -27,6 +27,10 @@ static MBProgressHUD *progressHUD = nil;
     [hud hideAnimated:YES afterDelay:1];
 }
 
++ (void)showWithError:(NSError *)error {
+    [self showWithText:error.domain atView:nil];
+}
+
 + (void)showIndeterminateHUDWithView:(UIView *)view text:(NSString *)text {
     if (!text.length) text = @"加载中...";
     if (view == nil) {

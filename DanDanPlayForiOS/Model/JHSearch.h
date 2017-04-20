@@ -1,5 +1,5 @@
 //
-//  JHAnime.h
+//  JHSearch.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/18.
@@ -7,9 +7,9 @@
 //
 
 #import "JHBase.h"
-#import "JHEpisodeCollection.h"
+#import "JHEpisode.h"
 
-@interface JHAnime : JHBase
+@interface JHSearch : JHBase
 
 /*
  Title -> name 名称
@@ -20,4 +20,6 @@
  节目类型
  */
 @property (assign, nonatomic) JHEpisodeType type;
+
+@property (strong, nonatomic) NSArray <JHEpisode *>*episodes;
 @end

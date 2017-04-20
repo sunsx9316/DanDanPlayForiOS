@@ -39,6 +39,8 @@
 //项目主色调
 #define MAIN_COLOR RGBCOLOR(51, 151, 252)
 #define BACK_GROUND_COLOR [UIColor whiteColor]
+#define VERY_LIGHT_GRAY_COLOR RGBCOLOR(240, 240, 240)
+#define LIGHT_GRAY_COLOR RGBCOLOR(230, 230, 230)
 
 //字体
 #define SMALL_SIZE_FONT [UIFont systemFontOfSize:13]

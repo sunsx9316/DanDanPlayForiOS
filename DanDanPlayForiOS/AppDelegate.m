@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import <IQKeyboardManager.h>
 
 @interface AppDelegate ()
 
@@ -23,6 +24,9 @@
     self.window.backgroundColor = BACK_GROUND_COLOR;
     self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
+    
+    NSLog(@"%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
+    [self configIQKeyboardManager];
     
     return YES;
 }
@@ -47,6 +51,13 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - 私有方法
+- (void)configIQKeyboardManager {
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enableAutoToolbar = NO;
+    manager.shouldResignOnTouchOutside = YES;
 }
 
 @end

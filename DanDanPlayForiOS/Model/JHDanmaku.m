@@ -22,4 +22,8 @@
              @"token" : @"Token"};
 }
 
++ (NSArray<NSString *> *)modelPropertyBlacklist {
+    return @[@"filter"];
+}
+
 @end

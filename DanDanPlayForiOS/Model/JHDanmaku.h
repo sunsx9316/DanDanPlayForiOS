@@ -54,6 +54,7 @@
  */
 @property (copy, nonatomic) NSString *token;
 
+#pragma mark - 自定义属性
 /**
  *  是否被过滤
  */

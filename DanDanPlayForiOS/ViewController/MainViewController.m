@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"home_home_tab"] selectImg:[UIImage imageNamed:@"home_home_tab_s"] rootVC:[[FileViewController alloc] init] title:@"首页"];
-    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"home_category_tab"] selectImg:[UIImage imageNamed:@"home_category_tab_s"] rootVC:[[SettingViewController alloc] init] title:@"分区"];
+    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"home_category_tab"] selectImg:[UIImage imageNamed:@"home_category_tab_s"] rootVC:[[SettingViewController alloc] init] title:@"设置"];
     
     self.viewControllers = @[fileVC, settingVC];
     self.tabBar.translucent = NO;

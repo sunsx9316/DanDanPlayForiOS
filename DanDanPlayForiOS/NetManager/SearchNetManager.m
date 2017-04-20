@@ -9,7 +9,7 @@
 #import "SearchNetManager.h"
 
 @implementation SearchNetManager
-+ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void(^)(JHAnimeCollection *responseObject, NSError *error))completionHandler {
++ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler {
     
     if (completionHandler == nil) return nil;
     
@@ -27,7 +27,7 @@
     }
     
     return [self GETWithPath:path parameters:nil completionHandler:^(JHResponse *model) {
-        completionHandler([JHAnimeCollection yy_modelWithDictionary:model.responseObject], model.error);
+        completionHandler([JHSearchCollection yy_modelWithDictionary:model.responseObject], model.error);
     }];
 }
 

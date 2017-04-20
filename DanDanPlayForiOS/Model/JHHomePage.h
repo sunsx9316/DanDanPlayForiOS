@@ -53,7 +53,7 @@
 /**
  *  name 名称
  */
-@property (strong, nonatomic) NSString *keyWord;
+@property (strong, nonatomic) NSString *keyword;
 @property (strong, nonatomic) NSURL *imageURL;
 @property (assign, nonatomic) BOOL isFavorite;
 @end

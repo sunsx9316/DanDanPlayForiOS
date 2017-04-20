@@ -7,33 +7,76 @@
 //
 
 #import "LocalFileViewController.h"
+#import "MatchViewController.h"
+
 #import "BaseTableView.h"
 #import "LocalFileTableViewCell.h"
 
-@interface LocalFileViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface LocalFileViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation LocalFileViewController
+{
+    NSArray <VideoModel *>*_currentArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
+    _currentArr = [CacheManager shareCacheManager].videoModels;
+    
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(44);
     }];
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(0);
+        make.top.equalTo(self.searchBar.mas_bottom);
+    }];
+    
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
+    
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MatchViewController *vc = [[MatchViewController alloc] init];
+    VideoModel *model = _currentArr[indexPath.row];
+    vc.model = model;
+    [CacheManager shareCacheManager].currentVideoModel = model;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [ToolsManager shareToolsManager].videoModels.count;
+    return _currentArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     LocalFileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LocalFileTableViewCell" forIndexPath:indexPath];
-    cell.model = [ToolsManager shareToolsManager].videoModels[indexPath.row];
+    cell.model = _currentArr[indexPath.row];
     return cell;
 }
 
+#pragma mark - UISearchBarDelegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length == 0) {
+        _currentArr = [CacheManager shareCacheManager].videoModels;
+        [self.view endEditing:YES];
+    }
+    else {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileName CONTAINS[c] %@", searchText];
+        _currentArr = [[CacheManager shareCacheManager].videoModels filteredArrayUsingPredicate:predicate];
+    }
+    
+    [self.tableView reloadData];
+}
 
 #pragma mark - 懒加载
 - (BaseTableView *)tableView {
@@ -41,6 +84,7 @@
 		_tableView = [[BaseTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.rowHeight = 100;
         [_tableView registerClass:[LocalFileTableViewCell class] forCellReuseIdentifier:@"LocalFileTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         @weakify(self)
@@ -48,11 +92,26 @@
             @strongify(self)
             if (!self) return;
             
+            [[ToolsManager shareToolsManager] startDiscovererVideoWithPath:nil completion:^(NSArray<VideoModel *> *videos) {
+                
+                [self.tableView reloadData];
+                [self.tableView endRefreshing];
+            }];
             
         }];
         [self.view addSubview:_tableView];
 	}
 	return _tableView;
+}
+
+- (UISearchBar *)searchBar {
+    if (_searchBar == nil) {
+        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+        _searchBar.placeholder = @"搜索文件名";
+        _searchBar.delegate = self;
+        [self.view addSubview:_searchBar];
+    }
+    return _searchBar;
 }
 
 @end

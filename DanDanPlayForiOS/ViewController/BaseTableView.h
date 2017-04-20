@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <UIScrollView+EmptyDataSet.h>
+#import "MJRefreshFooter+Tools.h"
+#import "MJRefreshHeader+Tools.h"
 
 @interface BaseTableView : UITableView
 @property (assign, nonatomic, getter=isShowEmptyView) BOOL showEmptyView;
+@property (assign, nonatomic) CGFloat verticalOffsetForEmptyDataSet;
+/**
+ *  [self.mj_header endRefreshing];
+    self.showEmptyView = YES;
+    [self reloadEmptyDataSet];
+ */
+- (void)endRefreshing;
 @end

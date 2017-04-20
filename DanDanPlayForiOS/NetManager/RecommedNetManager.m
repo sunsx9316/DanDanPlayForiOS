@@ -16,7 +16,7 @@
         return nil;
     }
     
-    JHUser *user = [ToolsManager shareToolsManager].user;
+    JHUser *user = [CacheManager shareCacheManager].user;
     
     return [self GETDataWithPath:[NSString stringWithFormat:@"%@/homepage?userId=%ld&token=%@", API_PATH, user.identity, user.token] parameters:nil headerField:@{@"Accept" : @"application/xml"} completionHandler:^(JHResponse *model) {
         if (model.error) {

@@ -11,5 +11,5 @@
  *  基类
  */
 @interface BaseViewController : UIViewController
-
+- (void)configLeftItem;
 @end

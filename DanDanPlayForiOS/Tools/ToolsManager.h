@@ -37,20 +37,26 @@ static inline DanDanPlayDanmakuType danmakuStringToType(NSString *string) {
     return DanDanPlayDanmakuTypeUnknow;
 }
 
+typedef void(^getSnapshotAction)(UIImage *image);
+typedef void(^getVideosAction)(NSArray <VideoModel *>*videos);
+
 @interface ToolsManager : NSObject
 
 + (instancetype)shareToolsManager;
 
-//当前分析的视频模型
-@property (strong, nonatomic) VideoModel *currentVideoModel;
 
-//列表中的视频
-@property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
+/**
+ 获取视频的截图
 
-@property (strong, nonatomic) JHUser *user;
+ @param model 视频模型
+ @param completion 回调
+ */
+- (void)videoSnapShotWithModel:(VideoModel *)model completion:(getSnapshotAction)completion;
 
-
-+ (void)videoSnapShotWithModel:(VideoModel *)model completion:(void(^)(UIImage *))completion;
+/**
+ 扫描视频模型
+ */
+- (void)startDiscovererVideoWithPath:(NSString *)path completion:(getVideosAction)completion;
 
 /**
  *  获取b站视频av号 分集

@@ -27,14 +27,14 @@
 }
 
 - (void)dealloc {
-    NSLog(@"ViewController dealloc");
+    NSLog(@"%@ ViewController dealloc", NSStringFromClass(self.class));
 }
 
 #pragma mark - 私有方法
 - (void)configLeftItem {
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[[[UIImage imageNamed:@"common_rightArrowShadow"] imageByTintColor:[UIColor whiteColor]] imageByRotate180] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"barbuttonicon_back"] forState:UIControlStateNormal];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = item;
 }

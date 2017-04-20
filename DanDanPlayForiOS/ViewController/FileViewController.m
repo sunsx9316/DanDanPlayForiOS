@@ -25,6 +25,10 @@
     [self.view addSubview:self.pageController.view];
 }
 
+- (void)configLeftItem {
+    
+}
+
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController * _Nonnull)pageController {
     return self.VCArr.count;

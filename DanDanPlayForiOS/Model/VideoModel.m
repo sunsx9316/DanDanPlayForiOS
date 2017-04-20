@@ -7,6 +7,7 @@
 //
 
 #import "VideoModel.h"
+#import <MobileVLCKit/VLCMedia.h>
 
 @implementation VideoModel
 {
@@ -14,6 +15,7 @@
     NSURL *_fileURL;
     NSString *_md5;
     NSUInteger _length;
+    VLCMedia *_media;
 }
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL {
@@ -45,4 +47,12 @@
 - (NSUInteger)length {
     return [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil] fileSize];
 }
+
+- (VLCMedia *)media {
+    if (_media == nil) {
+        _media = [[VLCMedia alloc] initWithURL:_fileURL];
+    }
+    return _media;
+}
+
 @end

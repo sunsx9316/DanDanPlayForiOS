@@ -86,7 +86,7 @@
 
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"imageURL":@"ImageUrl",
-             @"keyWord":@"Keyword",
+             @"keyword":@"Keyword",
              @"name":@"Name",
              @"collection":@"Groups",
              @"isFavorite": @"IsFavorite"};

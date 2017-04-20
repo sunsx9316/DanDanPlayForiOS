@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "JHResponse.h"
 
+typedef void(^batchProgressAction)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj, NSError *error);
+
+typedef void(^batchCompletionAction)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks, NSArray <NSError *>*errors);
+
 @interface BaseNetManager : NSObject
 /**
  *  GET封装
@@ -99,8 +103,8 @@
  *  @param completionHandler 完成回调
  */
 + (void)batchGETWithPaths:(NSArray <NSString *>*)paths
-            progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
-          completionHandler:(void(^)(NSArray <JHResponse *>*responseObjects, NSArray <NSURLSessionTask *>*tasks))completionHandler;
+            progressBlock:(batchProgressAction)progressBlock
+          completionHandler:(batchCompletionAction)completionHandler;
 /**
  *  批量GETData任务
  *
@@ -109,6 +113,6 @@
  *  @param completionHandler 完成回调
  */
 + (void)batchGETDataWithPaths:(NSArray <NSString *>*)paths
-            progressBlock:(void(^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj))progressBlock
-          completionHandler:(void(^)(NSArray <JHResponse *>*responseObjects, NSArray <NSURLSessionTask *>*tasks))completionHandler;
+            progressBlock:(batchProgressAction)progressBlock
+          completionHandler:(batchCompletionAction)completionHandler;
 @end

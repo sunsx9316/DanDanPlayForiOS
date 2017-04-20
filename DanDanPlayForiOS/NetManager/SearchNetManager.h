@@ -7,7 +7,7 @@
 //
 
 #import "BaseNetManager.h"
-#import "JHAnimeCollection.h"
+#import "JHSearchCollection.h"
 #import "JHBiliBiliSearchCollection.h"
 #import "JHBiliBiliBangumiCollection.h"
 
@@ -25,7 +25,7 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void(^)(JHAnimeCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler;
 
 /**
  *  搜索b站结果
