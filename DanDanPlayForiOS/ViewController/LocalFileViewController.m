@@ -8,6 +8,7 @@
 
 #import "LocalFileViewController.h"
 #import "MatchViewController.h"
+#import "PlayNavigationController.h"
 
 #import "BaseTableView.h"
 #import "LocalFileTableViewCell.h"
@@ -45,12 +46,37 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    MatchViewController *vc = [[MatchViewController alloc] init];
+    
     VideoModel *model = _currentArr[indexPath.row];
-    vc.model = model;
-    [CacheManager shareCacheManager].currentVideoModel = model;
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    void(^jumpToMatchVCAction)() = ^{
+        MatchViewController *vc = [[MatchViewController alloc] init];
+        vc.model = model;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    };
+    
+    if ([CacheManager shareCacheManager].openFastMatch) {
+        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+        [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
+            aHUD.progress = progress;
+            aHUD.label.text = danmakusProgressToString(progress);
+        } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
+            model.danmakus = responseObject;
+            [aHUD hideAnimated:YES];
+            
+            if (responseObject == nil) {
+                jumpToMatchVCAction();
+            }
+            else {
+                PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:model];
+                [self presentViewController:nav animated:YES completion:nil];
+            }
+        }];
+    }
+    else {
+        jumpToMatchVCAction();
+    }
 }
 
 #pragma mark - UITableViewDataSource

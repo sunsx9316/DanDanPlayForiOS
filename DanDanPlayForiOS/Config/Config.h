@@ -81,5 +81,9 @@ CG_INLINE NSString *JHEpisodeTypeToString(JHEpisodeType type) {
     }
 };
 
+CG_INLINE float jh_systemVersion() {
+    return [UIDevice currentDevice].systemVersion.floatValue;
+};
+
 
 #endif /* Config_h */

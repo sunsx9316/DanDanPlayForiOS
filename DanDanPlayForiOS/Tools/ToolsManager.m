@@ -10,11 +10,11 @@
 #import <YYCache.h>
 #import <MobileVLCKit/MobileVLCKit.h>
 
-static NSString *const thumbnailerBlockKey = @"thumbnailerBlockKey";
-static NSString *const tempImageKey = @"tempImageKey";
+static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
+static NSString *const tempImageKey = @"temp_image";
+static NSString *const videoModelParseKey = @"video_model_parse";
 
 @interface ToolsManager ()<VLCMediaThumbnailerDelegate>
-@property (strong, nonatomic) YYWebImageManager *videoSnapShotImageManager;
 @property (strong, nonatomic) NSMutableArray <VLCMediaThumbnailer *>*thumbnailers;
 @end
 
@@ -56,18 +56,21 @@ static NSString *const tempImageKey = @"tempImageKey";
 }
 
 - (void)videoSnapShotWithModel:(VideoModel *)model completion:(getSnapshotAction)completion {
-    if (model == nil || completion == nil) return;
+    //防止重复获取缩略图
+    if (model == nil || completion == nil || objc_getAssociatedObject(model, &videoModelParseKey)) return;
     
     NSString *key = model.md5;
-    if ([self.videoSnapShotImageManager.cache containsImageForKey:key]) {
-        [self.videoSnapShotImageManager.cache getImageForKey:key withType:YYImageCacheTypeAll withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-            completion(image);
+    if ([[YYWebImageManager sharedManager].cache containsImageForKey:key]) {
+        [[YYWebImageManager sharedManager].cache getImageForKey:key withType:YYImageCacheTypeAll withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(image);
+            });
         }];
         return;
     }
     
     VLCMediaThumbnailer *thumb = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-    thumb.snapshotPosition = 0.2;
+//    thumb.snapshotPosition = 0.2;
     objc_setAssociatedObject(thumb, &thumbnailerBlockKey, ^(UIImage *image){
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(image);
@@ -75,6 +78,8 @@ static NSString *const tempImageKey = @"tempImageKey";
     }, OBJC_ASSOCIATION_COPY_NONATOMIC);
     
     objc_setAssociatedObject(thumb, &tempImageKey, key, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    objc_setAssociatedObject(model, &videoModelParseKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self.thumbnailers addObject:thumb];
     [thumb fetchThumbnail];
 }
@@ -97,10 +102,15 @@ static NSString *const tempImageKey = @"tempImageKey";
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:path] objectEnumerator];
         NSString *subpath = nil;
+        NSFileManager *defaultManager = [NSFileManager defaultManager];
         while ((subpath = [childFilesEnumerator nextObject]) != nil) {
             NSString* fileAbsolutePath = [path stringByAppendingPathComponent:subpath];
-            VideoModel *model = [[VideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:fileAbsolutePath]];
-            [[CacheManager shareCacheManager].videoModels addObject:model];
+            NSDictionary *attributes = [defaultManager attributesOfItemAtPath:fileAbsolutePath error:nil];
+            //过滤隐藏文件
+            if ([attributes[NSFileExtensionHidden] boolValue] == NO) {
+                VideoModel *model = [[VideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:fileAbsolutePath]];
+                [[CacheManager shareCacheManager].videoModels addObject:model];
+            }
         }
         
         if (completion) {
@@ -108,6 +118,7 @@ static NSString *const tempImageKey = @"tempImageKey";
         }
     });
 }
+
 
 + (instancetype)shareToolsManager {
     static dispatch_once_t onceToken;
@@ -123,6 +134,7 @@ static NSString *const tempImageKey = @"tempImageKey";
     getSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
     if (action) {
         action(nil);
+        objc_setAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     [self.thumbnailers removeObject:mediaThumbnailer];
@@ -133,8 +145,9 @@ static NSString *const tempImageKey = @"tempImageKey";
     if (action) {
         UIImage *image = [UIImage imageWithCGImage:thumbnail];
         NSString *key = objc_getAssociatedObject(mediaThumbnailer, &tempImageKey);
-        [self.videoSnapShotImageManager.cache setImage:image forKey:key];
+        [[YYWebImageManager sharedManager].cache setImage:image forKey:key];
         action(image);
+        objc_setAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     [self.thumbnailers removeObject:mediaThumbnailer];
@@ -142,20 +155,6 @@ static NSString *const tempImageKey = @"tempImageKey";
 
 
 #pragma mark - 懒加载
-
-
-- (YYWebImageManager *)videoSnapShotImageManager {
-    if (_videoSnapShotImageManager == nil) {
-        
-        NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
-                                                                   NSUserDomainMask, YES) firstObject];
-        cachePath = [cachePath stringByAppendingPathComponent:@"com.ibireme.yykit/videoSnapShot"];
-        
-        YYImageCache *cache = [[YYImageCache alloc] initWithPath:cachePath];
-        _videoSnapShotImageManager = [[YYWebImageManager alloc] initWithCache:cache queue:nil];
-    }
-    return _videoSnapShotImageManager;
-}
 
 - (NSMutableArray<VLCMediaThumbnailer *> *)thumbnailers {
     if (_thumbnailers == nil) {

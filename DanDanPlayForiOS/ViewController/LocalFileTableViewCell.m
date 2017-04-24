@@ -28,7 +28,7 @@
         }];
         
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.grayImgView).mas_equalTo(UIEdgeInsetsMake(5, 5, 5, 5));
+            make.edges.equalTo(self.grayImgView).mas_equalTo(UIEdgeInsetsMake(10, 5, 5, 5));
         }];
     }
     return self;
@@ -38,9 +38,14 @@
     _model = model;
     self.nameLabel.text = [_model fileName];
     
-    [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
-        [self.bgImgView jh_setImageWithFadeType:image];
-    }];
+    [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.md5]];
+    if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.md5] == NO) {
+        [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
+            if (image == nil) return;
+            
+            [self.bgImgView jh_setImageWithFadeType:image];
+        }];
+    }
 }
 
 #pragma mark - 懒加载

@@ -7,11 +7,8 @@
 //
 
 #import "DanmakuManager.h"
-//#import "DanmakuModel.h"
-//#import "NSString+Tools.h"
-#import "ScrollDanmaku.h"
-#import "FloatDanmaku.h"
-//#import "JHDanmakuEngine+Tools.h"
+#import "JHScrollDanmaku.h"
+#import "JHFloatDanmaku.h"
 #import <GDataXMLNode.h>
 
 typedef void(^callBackBlock)(JHDanmaku *model);
@@ -34,6 +31,8 @@ typedef void(^callBackBlock)(JHDanmaku *model);
 }
 
 + (void)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
+    if (obj == nil || episodeId == 0) return;
+    
     NSMutableArray *danmakus = [NSMutableArray array];
     [self switchParseWithSource:source obj:obj block:^(JHDanmaku *model) {
         [danmakus addObject:model];
@@ -63,6 +62,8 @@ typedef void(^callBackBlock)(JHDanmaku *model);
 
 + (NSArray <JHDanmaku *>*)danmakuCacheWithEpisodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
     
+    if (episodeId == 0) return @[];
+    
     NSString *key = [NSString stringWithFormat:@"%ld", episodeId];
     NSMutableArray *danmakuCache = [NSMutableArray array];
     NSTimeInterval cacheTime = [CacheManager shareCacheManager].danmakuCacheTime * 24 * 3600;
@@ -70,7 +71,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     if (source & DanDanPlayDanmakuTypeBiliBili) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].bilibiliDanmakuCache objectForKey:key];
         //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime ) {
+        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
             [[DanmakuManager shareDanmakuManager].bilibiliDanmakuCache removeObjectForKey:key withBlock:nil];
         }
         else {
@@ -96,7 +97,8 @@ typedef void(^callBackBlock)(JHDanmaku *model);
             [[DanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
         }
         else {
-            [danmakuCache addObjectsFromArray:(NSArray *)[[DanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key]];
+            JHDanmakuCollection *cacheCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
+            [danmakuCache addObjectsFromArray:cacheCollection.collection];
         }
     }
     
@@ -115,6 +117,64 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     }
     
     return danmakuCache;
+}
+
++ (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
+    NSUInteger episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:videoModel];
+    if (episodeId == 0) return;
+    
+    [self saveDanmakuWithObj:obj episodeId:episodeId source:source];
+}
+
++ (NSArray <JHDanmaku *>*)danmakuCacheWithVideoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
+    NSUInteger episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:videoModel];
+    if (episodeId == 0) return @[];
+    
+    return [self danmakuCacheWithEpisodeId:episodeId source:source];
+}
+
++ (NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*>*)converDanmakus:(NSArray <JHDanmaku *>*)danmakus {
+    NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *> *> *dic = [NSMutableDictionary dictionary];
+    UIFont *font = [CacheManager shareCacheManager].danmakuFont;
+    JHDanmakuShadowStyle shadowStyle = [CacheManager shareCacheManager].danmakuShadowStyle;
+
+    [danmakus enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger time = obj.time;
+        NSMutableArray *danmakus = dic[@(time)];
+        if (danmakus == nil) {
+            danmakus = [NSMutableArray array];
+            dic[@(time)] = danmakus;
+        }
+        
+        JHBaseDanmaku *tempDanmaku = nil;
+        if (obj.mode == 4 || obj.mode == 5) {
+            tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font during:3 direction:obj.mode == 4 ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
+        }
+        else {
+            tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font speed:arc4random() % 100 + 50 direction:JHScrollDanmakuDirectionR2L];
+        }
+        tempDanmaku.appearTime = obj.time;
+        
+        [danmakus addObject:tempDanmaku];
+    }];
+
+    return dic;
+}
+
++ (JHBaseDanmaku *)converDanmaku:(JHDanmaku *)danmaku {
+    JHBaseDanmaku *tempDanmaku = nil;
+    UIFont *font = [CacheManager shareCacheManager].danmakuFont;
+    JHDanmakuShadowStyle shadowStyle = [CacheManager shareCacheManager].danmakuShadowStyle;
+    
+    if (danmaku.mode == 4 || danmaku.mode == 5) {
+        tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:danmaku.color] text:danmaku.message shadowStyle:shadowStyle font:font during:3 direction:danmaku.mode == 4 ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
+    }
+    else {
+        tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:danmaku.color] text:danmaku.message shadowStyle:shadowStyle font:font speed:arc4random() % 100 + 50 direction:JHScrollDanmakuDirectionR2L];
+    }
+    tempDanmaku.appearTime = danmaku.time;
+    
+    return tempDanmaku;
 }
 
 //+ (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
@@ -185,8 +245,8 @@ typedef void(^callBackBlock)(JHDanmaku *model);
 }
 
 //官方解析方式
-+ (void)parseOfficialDanmakus:(NSArray<JHDanmaku *> *)danmakus block:(callBackBlock)block{
-    [danmakus enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
++ (void)parseOfficialDanmakus:(JHDanmakuCollection *)danmakus block:(callBackBlock)block{
+    [danmakus.collection enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         model.filter = [self filterWithDanMudataModel:model];
         if (block) block(model);
     }];

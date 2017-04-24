@@ -53,14 +53,11 @@
         _pageController.dataSource = self;
         _pageController.titleColorNormal = [UIColor lightGrayColor];
         _pageController.titleColorSelected = MAIN_COLOR;
-//        _pageController.menuBGColor = MAIN_COLOR;
         _pageController.titleSizeNormal = 13;
         _pageController.titleSizeSelected = 15;
         _pageController.menuViewContentMargin = 5;
         _pageController.itemMargin = 10;
         _pageController.menuHeight = 35;
-//        _pageController.progressWidth = 70;
-//        _pageController.automaticallyCalculatesItemWidths = YES;
         _pageController.menuViewStyle = WMMenuViewStyleLine;
         _pageController.menuViewLayoutMode = WMMenuViewLayoutModeLeft;
         [self addChildViewController:_pageController];

@@ -10,7 +10,7 @@
 
 @implementation UIImageView (Tools)
 - (void)jh_setImageWithURL:(NSURL *)imageURL {
-    [self yy_setImageWithURL:imageURL options:YY_WEB_IMAGE_DEFAULT_OPTION];
+    [self yy_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }
 
 - (void)jh_setImageWithFadeType:(UIImage *)image {

@@ -25,4 +25,14 @@
  @return 任务
  */
 + (NSURLSessionDataTask *)matchVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *error))completionHandler;
+
+/**
+ 快速适配视频 返回弹幕数组
+
+ @param model 视频模型
+ @param progressHandler 进度回调
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)fastMatchVideoModel:(VideoModel *)model progressHandler:(progressAction)progressHandler completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler;
 @end

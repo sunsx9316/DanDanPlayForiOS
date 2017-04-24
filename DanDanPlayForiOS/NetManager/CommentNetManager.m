@@ -8,21 +8,88 @@
 
 #import "CommentNetManager.h"
 #import "NSData+Tools.h"
+#import "DanmakuManager.h"
 
 @implementation CommentNetManager
 
-+ (NSURLSessionDataTask *)danmakusWithProgramId:(NSUInteger)programId completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler {
++ (NSURLSessionDataTask *)danmakusWithEpisodeId:(NSUInteger)episodeId progressHandler:(progressAction)progressHandler completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler {
     
-    if (programId == 0) {
-        if (completionHandler) {
-            completionHandler(nil, parameterNoCompletionError());
+    void(^progressAction)(float progress) = ^(float progress) {
+        if (progressHandler) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressHandler(progress);
+            });
         }
+    };
+    
+    void(^completionAction)(JHDanmakuCollection *responseObject, NSError *error) = ^(JHDanmakuCollection *responseObject, NSError *error) {
+        if (completionHandler) {
+            completionHandler(responseObject, error);
+        }
+    };
+    
+    if (episodeId == 0) {
+        completionAction(nil, parameterNoCompletionError());
         return nil;
     }
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%ld", API_PATH, programId] parameters:nil completionHandler:^(JHResponse *model) {
-        if (completionHandler) {
-            completionHandler([JHDanmakuCollection yy_modelWithJSON:model.responseObject], model.error);
+    NSMutableArray *danmakus = [DanmakuManager danmakuCacheWithEpisodeId:episodeId source:DanDanPlayDanmakuTypeOfficial].mutableCopy;
+    //命中缓存
+    if (danmakus.count) {
+        JHDanmakuCollection *collection = [[JHDanmakuCollection alloc] init];
+        collection.collection = danmakus;
+        
+        progressAction(1.0f);
+        completionAction(collection, nil);
+        
+        return nil;
+    }
+    
+    //下载弹幕
+    progressAction(0.3f);
+    
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%ld", API_PATH, episodeId] parameters:nil completionHandler:^(JHResponse *model) {
+        
+        if (model.error) {
+            completionAction(nil, model.error);
+            return;
+        }
+        
+        JHDanmakuCollection *collection = [JHDanmakuCollection yy_modelWithJSON:model.responseObject];
+        
+        //开启自动请求第三方弹幕的功能
+        if ([CacheManager shareCacheManager].autoRequestThirdPartyDanmaku) {
+            [RelatedNetManager relatedDanmakuWithEpisodeId:episodeId completionHandler:^(JHRelatedCollection *responseObject, NSError *error) {
+                //请求出错 返回之前请求成功的快速匹配弹幕
+                if (error) {
+                    [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+                    completionAction(collection, error);
+                    return;
+                }
+                
+                //下载第三方弹幕
+                progressAction(0.6f);
+                
+                [self danmakuWithRelatedCollection:responseObject completionHandler:^(JHDanmakuCollection *responseObject1, NSArray<NSError *> *errors1) {
+                    
+                    if (collection.collection == nil) {
+                        collection.collection = [NSMutableArray array];
+                    }
+                    
+                    //合并弹幕 并缓存
+                    [collection.collection addObjectsFromArray:responseObject1.collection];
+                    [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+                    
+                    progressAction(1.0f);
+                    completionAction(collection, errors1.firstObject);
+                }];
+            }];
+        }
+        else {
+            [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+            
+            progressAction(1.0f);
+            completionAction(collection, model.error);
         }
     }];
 }

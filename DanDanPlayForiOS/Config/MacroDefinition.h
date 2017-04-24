@@ -1,36 +1,36 @@
 //
-//  ConstantHead.h
+//  MacroDefinition.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/18.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#ifndef ConstantHead_h
-#define ConstantHead_h
+#ifndef MacroDefinition_h
+#define MacroDefinition_h
 
-#ifdef DEBUG
-#define API_DOMAIN @"http://acplay.net/api/"
-#define API_VERSION @"v1"
-
-#define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
-
-#else
+//#ifdef DEBUG
+//#define API_DOMAIN @"http://acplay.net/api/"
+//#define API_VERSION @"v1"
+//
+//#define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
+//
+//#else
 
 #define API_DOMAIN @"https://api.acplay.net/api/"
 #define API_VERSION @"v1"
 
 #define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
 
-#endif
+//#endif
 
 
 
 
 //弹弹官方的key
-#define DANDANPLAY_KEY @""
+#define DANDANPLAY_KEY @"qDB8aAxIaXHjHFqGhSemLe6vjQiyXBppQfrfOVa53CA="
 //弹弹官方的IV
-#define DANDANPLAY_IV @""
+#define DANDANPLAY_IV @"JESamR8uoDdvZoSiRc1MFg=="
 
 //颜色
 #define RGBCOLOR(r,g,b) RGBACOLOR(r,g,b,1)
@@ -66,4 +66,4 @@ self.navigationController.navigationBar.translucent = isTranslucent;
 //YYWebImage 默认加载方法
 #define YY_WEB_IMAGE_DEFAULT_OPTION YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation
 
-#endif /* ConstantHead_h */
+#endif /* MacroDefinition_h */

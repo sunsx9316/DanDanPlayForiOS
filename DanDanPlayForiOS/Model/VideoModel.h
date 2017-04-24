@@ -8,7 +8,7 @@
 
 #import "JHBase.h"
 
-@class VLCMedia;
+@class VLCMedia, JHBaseDanmaku;
 @interface VideoModel : JHBase
 /**
  *  初始化
@@ -40,5 +40,11 @@
  */
 @property (assign, nonatomic, readonly) NSUInteger length;
 
+/**
+ 视频模型
+ */
 @property (strong, nonatomic, readonly) VLCMedia *media;
+
+@property (strong, nonatomic) JHDanmakuCollection *danmakus;
+
 @end

@@ -16,13 +16,10 @@ static MBProgressHUD *progressHUD = nil;
 }
 
 + (void)showWithText:(NSString *)text atView:(UIView *)view {
-    UIView *parentView = [UIApplication sharedApplication].keyWindow;
-    if (!parentView) return;
     
-    [MBProgressHUD hideHUDForView:parentView animated:YES];
+    [MBProgressHUD hideHUDForView:view animated:YES];
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:parentView animated:YES];
-    hud.mode = MBProgressHUDModeText;
+    MBProgressHUD *hud = [self defaultTypeHUDWithMode:MBProgressHUDModeText InView:view];
     hud.label.text = text;
     [hud hideAnimated:YES afterDelay:1];
 }
@@ -33,20 +30,37 @@ static MBProgressHUD *progressHUD = nil;
 
 + (void)showIndeterminateHUDWithView:(UIView *)view text:(NSString *)text {
     if (!text.length) text = @"加载中...";
+    
+    [self hideIndeterminateHUD];
+    
+    progressHUD = [self defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:view];
+    progressHUD.label.text = text;
+}
+
++ (instancetype)showProgressHUDInView:(UIView *)view {
+    MBProgressHUD *progressHUD = [self defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:view];
+    return progressHUD;
+}
+
++ (instancetype)defaultTypeHUDWithMode:(MBProgressHUDMode)mode InView:(UIView *)view {
+    
     if (view == nil) {
         view = [UIApplication sharedApplication].keyWindow;
     }
     
-    [self hideIndeterminateHUD];
-    
-    progressHUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    progressHUD.mode = MBProgressHUDModeIndeterminate;
-    progressHUD.label.text = text;
+    MBProgressHUD *aHUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    aHUD.mode = mode;
+    aHUD.bezelView.color = RGBACOLOR(0, 0, 0, 0.8);
+    aHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+//    aHUD.label.textColor = [UIColor whiteColor];
+    aHUD.contentColor = [UIColor whiteColor];
+    return aHUD;
 }
 
 + (void)hideIndeterminateHUD {
     if (progressHUD) {
         [progressHUD hideAnimated:YES];
+        progressHUD = nil;
     }
 }
 @end

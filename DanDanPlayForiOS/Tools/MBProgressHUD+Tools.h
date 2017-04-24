@@ -40,6 +40,17 @@
  */
 + (void)showIndeterminateHUDWithView:(UIView *)view text:(NSString *)text;
 
+
+
+/**
+ 默认样式的hud
+
+ @param mode 显示样式
+ @param view 父view
+ @return hud
+ */
++ (instancetype)defaultTypeHUDWithMode:(MBProgressHUDMode)mode InView:(UIView *)view;
+
 /**
  *  隐藏一直显示的hud面板
  */

@@ -9,17 +9,34 @@
 #import "BaseNetManager.h"
 #import "JHDanmakuCollection.h"
 
+
+CG_INLINE NSString *danmakusProgressToString(float progress) {
+    if (progress == 0.1f) {
+        return @"快速匹配...";
+    }
+    
+    if (progress == 0.3f) {
+        return @"下载弹幕...";
+    }
+    
+    if (progress == 0.6f) {
+        return @"下载第三方弹幕...";
+    }
+    
+    return @"加载中...";
+};
+
 @class JHRelatedCollection;
 @interface CommentNetManager : BaseNetManager
 
 /**
  获取指定弹幕库（节目编号）的所有弹幕
 
- @param programId 节目编号
+ @param episodeId 节目编号
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)danmakusWithProgramId:(NSUInteger)programId completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)danmakusWithEpisodeId:(NSUInteger)episodeId progressHandler:(progressAction)progressHandler completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler;
 
 /**
  *  发射弹幕方法
@@ -32,7 +49,7 @@
  */
 + (NSURLSessionDataTask *)launchDanmakuWithModel:(JHDanmaku *)model
                                        episodeId:(NSUInteger)episodeId
-                               completionHandler:(void(^)(NSError *))completionHandler;
+                               completionHandler:(void(^)(NSError *error))completionHandler;
 
 
 /**

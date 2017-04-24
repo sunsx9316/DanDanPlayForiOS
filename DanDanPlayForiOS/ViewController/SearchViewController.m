@@ -27,6 +27,7 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {
+        [self.searchBar endEditing:YES];
         id vc = self.pageController.currentViewController;
         [vc setKeyword:searchBar.text];
     }

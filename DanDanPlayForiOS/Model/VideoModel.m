@@ -55,4 +55,8 @@
     return _media;
 }
 
++ (NSArray<NSString *> *)modelPropertyWhitelist {
+    return @[@"fileURL"];
+}
+
 @end

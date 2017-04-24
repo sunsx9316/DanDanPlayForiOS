@@ -11,6 +11,6 @@
 @implementation UIButton (Tools)
 - (void)jh_setImageWithURL:(nullable NSURL *)imageURL
                   forState:(UIControlState)state {
-    [self yy_setImageWithURL:imageURL forState:state options:YY_WEB_IMAGE_DEFAULT_OPTION];
+    [self yy_setImageWithURL:imageURL forState:state placeholder:[UIImage imageNamed:@"place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }
 @end

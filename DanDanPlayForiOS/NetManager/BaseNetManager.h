@@ -13,6 +13,8 @@ typedef void(^batchProgressAction)(NSUInteger numberOfFinishedOperations, NSUInt
 
 typedef void(^batchCompletionAction)(NSArray *responseObjects, NSArray <NSURLSessionTask *>*tasks, NSArray <NSError *>*errors);
 
+typedef void(^progressAction)(float progress);
+
 @interface BaseNetManager : NSObject
 /**
  *  GET封装

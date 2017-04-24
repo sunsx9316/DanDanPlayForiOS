@@ -19,7 +19,7 @@
 #import "MBProgressHUD+Tools.h"
 
 #import "Config.h"
-#import "ConstantHead.h"
+#import "MacroDefinition.h"
 #import "NetManagerHeader.h"
 #import "CacheManager.h"
 #import "ToolsManager.h"

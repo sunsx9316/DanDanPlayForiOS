@@ -29,4 +29,5 @@ target 'DanDanPlayForiOS' do
     pod 'WMPageController'
     pod 'IQKeyboardManager'
     pod 'DZNEmptyDataSet'
+    pod 'NKOColorPickerView'
 end
