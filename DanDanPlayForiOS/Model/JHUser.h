@@ -10,4 +10,5 @@
 
 @interface JHUser : JHBase
 @property (copy, nonatomic) NSString *token;
+@property (strong, nonatomic) NSURL *icoImgURL;
 @end

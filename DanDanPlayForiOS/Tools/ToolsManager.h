@@ -40,10 +40,12 @@ static inline DanDanPlayDanmakuType danmakuStringToType(NSString *string) {
 typedef void(^getSnapshotAction)(UIImage *image);
 typedef void(^getVideosAction)(NSArray <VideoModel *>*videos);
 
+@class HTTPServer;
 @interface ToolsManager : NSObject
 
 + (instancetype)shareToolsManager;
 
++ (HTTPServer *)shareHTTPServer;
 
 /**
  获取视频的截图

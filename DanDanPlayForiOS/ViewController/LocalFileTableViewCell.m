@@ -36,10 +36,10 @@
 
 - (void)setModel:(VideoModel *)model {
     _model = model;
-    self.nameLabel.text = [_model fileName];
+    self.nameLabel.text = [_model fileNameWithPathExtension];
     
-    [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.md5]];
-    if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.md5] == NO) {
+    [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
+    if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.quickHash] == NO) {
         [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
             if (image == nil) return;
             

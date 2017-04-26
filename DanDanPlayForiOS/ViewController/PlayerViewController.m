@@ -84,7 +84,7 @@
 
 - (void)setModel:(VideoModel *)model {
     _model = model;
-    
+    [CacheManager shareCacheManager].currentPlayVideoModel = _model;
     if (self.isViewLoaded) {
         [self reload];
         [self.player play];
@@ -129,6 +129,37 @@
         case JHMediaPlayerStatusPlaying:
             self.interfaceView.playButton.selected = NO;
             [self.danmakuEngine start];
+            break;
+        case JHMediaPlayerStatusStop:
+        {
+            PlayerPlayMode mode = [CacheManager shareCacheManager].playMode;
+            //单集循环
+            if (mode == PlayerPlayModeSingleCircle) {
+                self.model = self.model;
+            }
+            //列表循环
+            else if (mode == PlayerPlayModeCircle) {
+                if (self.model == [CacheManager shareCacheManager].videoModels.lastObject) {
+                    [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels.firstObject];
+//                    self.model = [CacheManager shareCacheManager].videoModels.firstObject;
+                }
+                else {
+                    NSInteger index = [[CacheManager shareCacheManager].videoModels indexOfObject:self.model];
+                    if (index != NSNotFound && index + 1 < [CacheManager shareCacheManager].videoModels.count) {
+                        [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels[index + 1]];
+//                        self.model = [CacheManager shareCacheManager].videoModels[index + 1];
+                    }
+                }
+            }
+            else if (mode == PlayerPlayModeOrder) {
+                NSInteger index = [[CacheManager shareCacheManager].videoModels indexOfObject:self.model];
+                if (index != NSNotFound && index + 1 < [CacheManager shareCacheManager].videoModels.count) {
+                    [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels[index + 1]];
+                }
+            }
+            
+//            [self.configPanelView reloadData];
+        }
             break;
         default:
             self.interfaceView.playButton.selected = YES;
@@ -333,7 +364,6 @@
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
     self.interfaceView.titleLabel.text = _model.fileName;
     [self.player setMediaURL:_model.fileURL];
-    [self.configPanelView reloadData];
     self.danmakuEngine.currentTime = 0;
 }
 

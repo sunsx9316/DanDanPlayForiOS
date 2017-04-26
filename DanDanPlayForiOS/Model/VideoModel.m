@@ -12,9 +12,11 @@
 @implementation VideoModel
 {
     NSString *_fileName;
+    NSString *_fileNameWithPathExtension;
     NSURL *_fileURL;
     NSString *_md5;
     NSUInteger _length;
+    NSString *_quickHash;
     VLCMedia *_media;
 }
 
@@ -32,6 +34,13 @@
     return _fileName;
 }
 
+- (NSString *)fileNameWithPathExtension {
+    if (_fileNameWithPathExtension == nil) {
+        _fileNameWithPathExtension = [_fileURL.path lastPathComponent];
+    }
+    return _fileNameWithPathExtension;
+}
+
 
 - (NSURL *)fileURL {
     return _fileURL;
@@ -46,6 +55,13 @@
 
 - (NSUInteger)length {
     return [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil] fileSize];
+}
+
+- (NSString *)quickHash {
+    if (_quickHash == nil) {
+        _quickHash = [self.fileName md5String];
+    }
+    return _quickHash;
 }
 
 - (VLCMedia *)media {

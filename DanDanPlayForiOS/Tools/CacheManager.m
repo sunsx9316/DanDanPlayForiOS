@@ -17,6 +17,7 @@ static NSString *const danmakuFontKey = @"danmaku_font";
 static NSString *const danmakuShadowStyleKey = @"danmaku_shadow_style";
 static NSString *const subtitleProtectAreaKey = @"subtitle_protect_area";
 static NSString *const danmakuSpeedKey = @"danmaku_speed";
+static NSString *const playerPlayKey = @"player_play";
 
 @interface CacheManager ()
 @property (strong, nonatomic) YYCache *cache;
@@ -178,6 +179,20 @@ static NSString *const danmakuSpeedKey = @"danmaku_speed";
 
 - (void)setDanmakuSpeed:(float)danmakuSpeed {
     [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey];
+}
+
+- (void)setPlayMode:(PlayerPlayMode)playMode {
+    [self.cache setObject:@(playMode) forKey:playerPlayKey];
+}
+
+- (PlayerPlayMode)playMode {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:playerPlayKey];
+    if (num == nil) {
+        num = @(PlayerPlayModeOrder);
+        self.danmakuSpeed = PlayerPlayModeOrder;
+    }
+    
+    return num.integerValue;
 }
 
 @end

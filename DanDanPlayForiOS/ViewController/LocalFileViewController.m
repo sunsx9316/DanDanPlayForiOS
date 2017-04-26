@@ -9,22 +9,30 @@
 #import "LocalFileViewController.h"
 #import "MatchViewController.h"
 #import "PlayNavigationController.h"
+#import "FTPViewController.h"
 
 #import "BaseTableView.h"
 #import "LocalFileTableViewCell.h"
+#import "JHEdgeButton.h"
 
-@interface LocalFileViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface LocalFileViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DZNEmptyDataSetSource>
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation LocalFileViewController
 {
-    NSArray <VideoModel *>*_currentArr;
+    NSMutableArray <VideoModel *>*_currentArr;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"文件";
+    
+    [self configRightItem];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE object:nil];
+    
     _currentArr = [CacheManager shareCacheManager].videoModels;
     
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -40,7 +48,10 @@
     if (self.tableView.mj_header.refreshingBlock) {
         self.tableView.mj_header.refreshingBlock();
     }
-    
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UITableViewDelegate
@@ -79,6 +90,14 @@
     }
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _currentArr.count;
@@ -90,6 +109,34 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    VideoModel *model = _currentArr[indexPath.row];
+    
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"确定要删除吗？" message:@"操作不可恢复" preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [_currentArr removeObject:model];
+        [[NSFileManager defaultManager] removeItemAtURL:model.fileURL error:nil];
+        if (_currentArr != [CacheManager shareCacheManager].videoModels) {
+            [[CacheManager shareCacheManager].videoModels removeObject:model];
+        }
+
+        [self.tableView reloadData];
+    }]];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+#pragma mark - DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"( ´_ゝ`)没有视频 点击刷新" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"通过iTunes、其它软件或者点击右上角的\"+\"号导入" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
+}
+
 #pragma mark - UISearchBarDelegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {
@@ -98,10 +145,37 @@
     }
     else {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fileName CONTAINS[c] %@", searchText];
-        _currentArr = [[CacheManager shareCacheManager].videoModels filteredArrayUsingPredicate:predicate];
+        _currentArr = [[CacheManager shareCacheManager].videoModels filteredArrayUsingPredicate:predicate].mutableCopy;
     }
     
     [self.tableView reloadData];
+}
+
+#pragma mark - 私有方法
+- (void)reload {
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
+}
+
+- (void)configLeftItem {
+    
+}
+
+- (void)configRightItem {
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
+    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)touchRightItem:(UIButton *)button {
+    FTPViewController *vc = [[FTPViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - 懒加载
@@ -111,6 +185,8 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = 100;
+        _tableView.emptyDataSetSource = self;
+        
         [_tableView registerClass:[LocalFileTableViewCell class] forCellReuseIdentifier:@"LocalFileTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         @weakify(self)

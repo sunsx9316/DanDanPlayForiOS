@@ -12,12 +12,12 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>public.video</string>
-			<key>LSHandlerRank</key>
+			<string>public.movie</string>
+			<key>Handler rank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.video</string>
+				<string>public.movie</string>
 			</array>
 		</dict>
 	</array>
@@ -52,6 +52,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

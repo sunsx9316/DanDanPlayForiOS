@@ -10,5 +10,4 @@
 
 @interface PlayerListView : UIView
 @property (copy, nonatomic) void(^didSelectedModelCallBack)(VideoModel *model);
-- (void)reloadData;
 @end

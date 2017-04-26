@@ -82,6 +82,7 @@
     if (_VCArr == nil) {
         OfficialSearchViewController *officialSearchVC = [[OfficialSearchViewController alloc] init];
         officialSearchVC.keyword = _keyword;
+        officialSearchVC.model = _model;
         _VCArr = @[officialSearchVC];
     }
     return _VCArr;

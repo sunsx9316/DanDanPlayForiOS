@@ -264,4 +264,16 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     });
 }
 
++ (void)startMonitoring {
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
+
++ (void)stopMonitoring {
+    [[AFNetworkReachabilityManager sharedManager] stopMonitoring];
+}
+
++ (void)reachabilityStatusChangeBlock:(void (^)(AFNetworkReachabilityStatus status))block {
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:block];
+}
+
 @end

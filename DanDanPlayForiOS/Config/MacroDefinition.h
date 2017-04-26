@@ -66,4 +66,7 @@ self.navigationController.navigationBar.translucent = isTranslucent;
 //YYWebImage 默认加载方法
 #define YY_WEB_IMAGE_DEFAULT_OPTION YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation
 
+#define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
+#define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
+
 #endif /* MacroDefinition_h */

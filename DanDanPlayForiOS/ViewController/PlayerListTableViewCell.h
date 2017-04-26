@@ -10,4 +10,5 @@
 
 @interface PlayerListTableViewCell : UITableViewCell
 @property (strong, nonatomic) VideoModel *model;
+@property (strong, nonatomic) UILabel *titleLabel;
 @end

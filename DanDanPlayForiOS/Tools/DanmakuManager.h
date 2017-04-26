@@ -57,4 +57,7 @@
  @return 转换后的模型
  */
 + (JHBaseDanmaku *)converDanmaku:(JHDanmaku *)danmaku;
+
++ (CGFloat)danmakuCacheSize;
++ (void)removeAllDanmakuCache;
 @end

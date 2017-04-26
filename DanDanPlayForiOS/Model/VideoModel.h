@@ -31,6 +31,11 @@
 @property (copy, nonatomic, readonly) NSString *fileName;
 
 /**
+ 带后缀的文件名
+ */
+@property (copy, nonatomic, readonly) NSString *fileNameWithPathExtension;
+
+/**
  文件前16MB(16x1024x1024Byte)数据的32位MD5结果，不区分大小写
  */
 @property (copy, nonatomic, readonly) NSString *md5;
@@ -39,6 +44,11 @@
  文件总长度，单位为Byte。
  */
 @property (assign, nonatomic, readonly) NSUInteger length;
+
+/**
+ 快速hash 文件名的hash值
+ */
+@property (copy, nonatomic, readonly) NSString *quickHash;
 
 /**
  视频模型

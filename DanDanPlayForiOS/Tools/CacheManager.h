@@ -9,11 +9,30 @@
 #import <Foundation/Foundation.h>
 #import "JHBaseDanmaku.h"
 
+
+/**
+ 视频播放模式
+
+ - PlayerPlayModeSingle: 单集播放
+ - PlayerPlayModeSingleCircle: 单集循环
+ - PlayerPlayModeCircle: 列表循环
+ - PlayerPlayModeOrder: 顺序播放
+ */
+typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
+    PlayerPlayModeSingle,
+    PlayerPlayModeSingleCircle,
+    PlayerPlayModeCircle,
+    PlayerPlayModeOrder,
+};
+
 @class JHUser;
 @interface CacheManager : NSObject
 
+
+@property (strong, nonatomic) JHUser *user;
+
 //当前分析的视频模型
-@property (strong, nonatomic) VideoModel *currentVideoModel;
+@property (strong, nonatomic) VideoModel *currentPlayVideoModel;
 
 //列表中的视频
 @property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
@@ -39,7 +58,6 @@
  */
 @property (assign, nonatomic) BOOL openFastMatch;
 
-@property (strong, nonatomic) JHUser *user;
 
 /**
  弹幕字体
@@ -55,6 +73,11 @@
  字幕保护区域
  */
 @property (assign, nonatomic) BOOL subtitleProtectArea;
+
+/**
+ 播放器播放模式
+ */
+@property (assign, nonatomic) PlayerPlayMode playMode;
 
 /**
  弹幕速度

@@ -66,7 +66,7 @@
         }];
         
         [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.titleLabel.mas_right).mas_offset(-10);
+            make.left.equalTo(self.titleLabel.mas_right).mas_offset(10);
             make.centerY.mas_equalTo(self.titleLabel);
             make.right.mas_offset(-10);
         }];

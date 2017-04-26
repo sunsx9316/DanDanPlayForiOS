@@ -2,19 +2,18 @@
 //  PlayerControlView.m
 //  DanDanPlayForiOS
 //
-//  Created by JimHuang on 2017/4/24.
+//  Created by JimHuang on 2017/4/26.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
 #import "PlayerControlView.h"
-#import "BaseTableView.h"
-#import "PlayerSliderTableViewCell.h"
+
 #import "PlayerControlHeaderView.h"
-#import "PlayerShadowStyleTableViewCell.h"
-#import "PlayerStepTableViewCell.h"
+#import "FTPReceiceTableViewCell.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @interface PlayerControlView ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) UITableView *tableView;
 @end
 
 @implementation PlayerControlView
@@ -38,44 +37,54 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
-        cell.type = PlayerSliderTableViewCellTypeFontSize;
-        return cell;
-    }
-    else if (indexPath.section == 1) {
-        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
-        cell.type = PlayerSliderTableViewCellTypeSpeed;
-        return cell;
-    }
-    else if (indexPath.section == 2) {
-        PlayerShadowStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerShadowStyleTableViewCell" forIndexPath:indexPath];
-        return cell;
-    }
-    else if (indexPath.section == 3) {
-        PlayerStepTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerStepTableViewCell" forIndexPath:indexPath];
-        [cell setTouchStepperCallBack:self.touchStepperCallBack];
-        return cell;
+    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
+    if (cell == nil) {
+        cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
+        cell.titleLabel.textColor = [UIColor whiteColor];
     }
     
-    return nil;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == [CacheManager shareCacheManager].playMode) {
+        cell.iconImgView.hidden = NO;
+    }
+    else {
+        cell.iconImgView.hidden = YES;
+    }
     
+    if (indexPath.row == 0) {
+        cell.titleLabel.text = @"单集播放";
+    }
+    else if (indexPath.row == 1) {
+        cell.titleLabel.text = @"单集循环";
+    }
+    else if (indexPath.row == 2) {
+        cell.titleLabel.text = @"列表循环";
+    }
+    else if (indexPath.row == 3) {
+        cell.titleLabel.text = @"顺序播放";
+    }
+    
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [CacheManager shareCacheManager].playMode = indexPath.row;
+    [tableView reloadData];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
+    view.titleLabel.text = @"播放模式";
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -86,35 +95,15 @@
     return 0.1;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
-    if (section == 0) {
-        view.titleLabel.text = @"弹幕字体大小";
-    }
-    else if (section == 1) {
-        view.titleLabel.text = @"弹幕速度";
-    }
-    else if (section == 2) {
-        view.titleLabel.text = @"弹幕特效";
-    }
-    else if (section == 3) {
-        view.titleLabel.text = @"弹幕时间偏移";
-    }
-    return view;
-}
-
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (UITableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
-        [_tableView registerClass:[PlayerSliderTableViewCell class] forCellReuseIdentifier:@"PlayerSliderTableViewCell"];
         [_tableView registerClass:[PlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"PlayerControlHeaderView"];
-        [_tableView registerClass:[PlayerShadowStyleTableViewCell class] forCellReuseIdentifier:@"PlayerShadowStyleTableViewCell"];
-        [_tableView registerClass:[PlayerStepTableViewCell class] forCellReuseIdentifier:@"PlayerStepTableViewCell"];
         [self addSubview:_tableView];
     }
     return _tableView;

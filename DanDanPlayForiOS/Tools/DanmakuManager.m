@@ -177,39 +177,20 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     return tempDanmaku;
 }
 
-//+ (NSMutableDictionary *)dicWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
-//    NSMutableDictionary <NSNumber *,NSMutableArray <ParentDanmaku *> *> *dic = [NSMutableDictionary dictionary];
-//    if (obj) {
-//        NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
-//        NSInteger danmakuSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
-//        
-//        [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
-//            NSInteger time = model.time;
-//            if (!dic[@(time)]) dic[@(time)] = [NSMutableArray array];
-//            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakuSpecially fontSize: font.pointSize font:font];
-//            danmaku.appearTime = model.time;
-//            danmaku.filter = model.isFilter;
-//            [dic[@(time)] addObject: danmaku];
-//        }];
-//    }
-//    return dic;
-//}
-//
-//+ (NSMutableArray *)arrWithObj:(id)obj source:(DanDanPlayDanmakuSource)source {
-//    NSMutableArray *arr = [NSMutableArray array];
-//    if (obj) {
-//        NSFont *font = [UserDefaultManager shareUserDefaultManager].danmakuFont;
-//        NSInteger danmakufontSpecially = [UserDefaultManager shareUserDefaultManager].danmakuSpecially;
-//        
-//        [self switchParseWithSource:source obj:obj block:^(DanmakuDataModel *model) {
-//            ParentDanmaku *danmaku = [JHDanmakuEngine DanmakuWithText:model.message color:model.color spiritStyle:model.mode shadowStyle:danmakufontSpecially fontSize:font.pointSize font:font];
-//            danmaku.appearTime = model.time;
-//            danmaku.filter = model.isFilter;
-//            [arr addObject: danmaku];
-//        }];
-//    }
-//    return arr;
-//}
++ (CGFloat)danmakuCacheSize {
+    DanmakuManager *manager = [DanmakuManager shareDanmakuManager];
+    CGFloat size = [manager.bilibiliDanmakuCache.diskCache totalCost];
+    size += [manager.acfunDanmakuCache.diskCache totalCost];
+    size += [manager.officialDanmakuCache.diskCache totalCost];
+    return size;
+}
+
++ (void)removeAllDanmakuCache {
+    DanmakuManager *manager = [DanmakuManager shareDanmakuManager];
+    [manager.bilibiliDanmakuCache.diskCache removeAllObjects];
+    [manager.acfunDanmakuCache.diskCache removeAllObjects];
+    [manager.officialDanmakuCache.diskCache removeAllObjects];
+}
 
 #pragma mark - 私有方法
 + (void)switchParseWithSource:(DanDanPlayDanmakuType)source obj:(id)obj block:(callBackBlock)block{

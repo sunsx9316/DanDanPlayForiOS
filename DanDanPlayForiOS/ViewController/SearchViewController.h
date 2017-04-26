@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface SearchViewController : BaseViewController
+@property (strong, nonatomic) VideoModel *model;
 @property (copy, nonatomic) NSString *keyword;
 @end

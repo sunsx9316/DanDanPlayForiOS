@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "JHEdgeButton.h"
 
 @interface BaseViewController ()
 
@@ -32,9 +33,11 @@
 
 #pragma mark - 私有方法
 - (void)configLeftItem {
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
     [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"barbuttonicon_back"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = item;
 }

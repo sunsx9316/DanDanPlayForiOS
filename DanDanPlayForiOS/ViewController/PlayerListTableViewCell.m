@@ -9,7 +9,7 @@
 #import "PlayerListTableViewCell.h"
 
 @interface PlayerListTableViewCell ()
-@property (strong, nonatomic) UILabel *titleLabel;
+
 @end
 
 @implementation PlayerListTableViewCell
@@ -28,7 +28,7 @@
 - (void)setModel:(VideoModel *)model {
     _model = model;
     self.titleLabel.text = _model.fileName;
-    if (_model == [CacheManager shareCacheManager].currentVideoModel) {
+    if (_model == [CacheManager shareCacheManager].currentPlayVideoModel) {
         self.titleLabel.textColor = MAIN_COLOR;
     }
     else {

@@ -28,8 +28,6 @@
         fileName = @"";
     }
     
-    [CacheManager shareCacheManager].currentVideoModel = model;
-    
     return [self GETWithPath:[NSString stringWithFormat:@"%@/match", API_PATH] parameters:@{@"fileName":fileName, @"hash": hash, @"length": @(length)} completionHandler:^(JHResponse *response) {
         
         JHMatcheCollection *collection = [JHMatcheCollection yy_modelWithDictionary: response.responseObject];
@@ -61,8 +59,6 @@
             });
         }
     };
-    
-    [CacheManager shareCacheManager].currentVideoModel = model;
     
     NSMutableArray *danmakus = [DanmakuManager danmakuCacheWithVideoModel:model source:DanDanPlayDanmakuTypeOfficial].mutableCopy;
     //命中缓存

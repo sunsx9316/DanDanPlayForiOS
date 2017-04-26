@@ -26,7 +26,7 @@
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = SMALL_SIZE_FONT;
-        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.textColor = RGBCOLOR(220, 220, 220);
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;

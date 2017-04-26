@@ -30,4 +30,5 @@ target 'DanDanPlayForiOS' do
     pod 'IQKeyboardManager'
     pod 'DZNEmptyDataSet'
     pod 'NKOColorPickerView'
+    pod 'CocoaHTTPServer'
 end

@@ -145,6 +145,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {
         SearchViewController *vc = [[SearchViewController alloc] init];
+        vc.model = self.model;
         vc.keyword = searchBar.text;
         [self.navigationController pushViewController:vc animated:YES];
     }

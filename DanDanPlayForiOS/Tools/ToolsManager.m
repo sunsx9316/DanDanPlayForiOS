@@ -9,6 +9,9 @@
 #import "ToolsManager.h"
 #import <YYCache.h>
 #import <MobileVLCKit/MobileVLCKit.h>
+#import <HTTPServer.h>
+#import "DanDanPlayHTTPConnection.h"
+#import "NSString+Tools.h"
 
 static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
 static NSString *const tempImageKey = @"temp_image";
@@ -59,7 +62,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     //防止重复获取缩略图
     if (model == nil || completion == nil || objc_getAssociatedObject(model, &videoModelParseKey)) return;
     
-    NSString *key = model.md5;
+    NSString *key = model.quickHash;
     if ([[YYWebImageManager sharedManager].cache containsImageForKey:key]) {
         [[YYWebImageManager sharedManager].cache getImageForKey:key withType:YYImageCacheTypeAll withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,7 +73,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     }
     
     VLCMediaThumbnailer *thumb = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-//    thumb.snapshotPosition = 0.2;
+    //    thumb.snapshotPosition = 0.2;
     objc_setAssociatedObject(thumb, &thumbnailerBlockKey, ^(UIImage *image){
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(image);
@@ -87,14 +90,16 @@ static NSString *const videoModelParseKey = @"video_model_parse";
 - (void)startDiscovererVideoWithPath:(NSString *)path completion:(getVideosAction)completion {
     
     if (path.length == 0) {
-        path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+        path = [[UIApplication sharedApplication] documentsPath];
     }
     
     NSFileManager* manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:path]) {
-        if (completion) {
-            completion(@[]);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(@[]);
+            }
+        });
         return;
     }
     
@@ -113,9 +118,11 @@ static NSString *const videoModelParseKey = @"video_model_parse";
             }
         }
         
-        if (completion) {
-            completion([CacheManager shareCacheManager].videoModels);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion([CacheManager shareCacheManager].videoModels);
+            }
+        });
     });
 }
 
@@ -127,6 +134,21 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         manager = [[ToolsManager alloc] init];
     });
     return manager;
+}
+
++ (HTTPServer *)shareHTTPServer {
+    static dispatch_once_t onceToken;
+    static HTTPServer *httpServer = nil;
+    dispatch_once(&onceToken, ^{
+        httpServer = [[HTTPServer alloc] init];
+        [httpServer setType:@"_http._tcp."];
+        NSString *docRoot = [[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"web"] stringByDeletingLastPathComponent];
+        [httpServer setDocumentRoot:docRoot];
+        [httpServer setInterface:[NSString getIPAddress]];
+        [httpServer setPort:23333];
+        [httpServer setConnectionClass:[DanDanPlayHTTPConnection class]];
+    });
+    return httpServer;
 }
 
 #pragma mark - VLCMediaThumbnailerDelegate
@@ -162,6 +184,8 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     }
     return _thumbnailers;
 }
+
+
 
 
 @end

@@ -13,6 +13,10 @@
     [self yy_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }
 
+- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {
+    [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
+}
+
 - (void)jh_setImageWithFadeType:(UIImage *)image {
     CATransition *transition = [CATransition animation];
     transition.duration = 0.4;

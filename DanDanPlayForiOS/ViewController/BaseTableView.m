@@ -54,4 +54,8 @@
     return _verticalOffsetForEmptyDataSet;
 }
 
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return _allowScroll;
+}
+
 @end

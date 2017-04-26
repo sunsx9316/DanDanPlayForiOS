@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 
-#import "FileViewController.h"
+#import "LocalFileViewController.h"
 #import "SettingViewController.h"
 
 @interface MainViewController ()
@@ -19,8 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"home_home_tab"] selectImg:[UIImage imageNamed:@"home_home_tab_s"] rootVC:[[FileViewController alloc] init] title:@"首页"];
-    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"home_category_tab"] selectImg:[UIImage imageNamed:@"home_category_tab_s"] rootVC:[[SettingViewController alloc] init] title:@"设置"];
+    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"file"] selectImg:[UIImage imageNamed:@"file"] rootVC:[[LocalFileViewController alloc] init] title:nil];
+    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"setting"] selectImg:[UIImage imageNamed:@"setting"] rootVC:[[SettingViewController alloc] init] title:nil];
     
     self.viewControllers = @[fileVC, settingVC];
     self.tabBar.translucent = NO;

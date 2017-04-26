@@ -10,5 +10,6 @@
 
 @interface UIImageView (Tools)
 - (void)jh_setImageWithURL:(NSURL *)imageURL;
+- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
 - (void)jh_setImageWithFadeType:(UIImage *)image;
 @end

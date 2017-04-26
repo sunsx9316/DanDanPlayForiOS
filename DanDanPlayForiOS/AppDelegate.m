@@ -42,7 +42,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -52,6 +52,27 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
+    });
+    
+    return YES;
+}
+#else
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
+    });
+    
+    return YES;
+}
+
+#endif
 
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {

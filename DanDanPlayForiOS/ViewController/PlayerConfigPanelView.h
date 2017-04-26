@@ -18,5 +18,4 @@
 @interface PlayerConfigPanelView : JHBlurView
 @property (weak, nonatomic) id<PlayerConfigPanelViewDelegate> delegate;
 @property (assign, nonatomic) BOOL show;
-- (void)reloadData;
 @end

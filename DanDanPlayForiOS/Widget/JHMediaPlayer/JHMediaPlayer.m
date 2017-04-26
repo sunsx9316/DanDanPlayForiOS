@@ -237,6 +237,9 @@
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
+    
+    NSLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+    
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         [self.delegate mediaPlayer:self statusChange:[self status]];
     }

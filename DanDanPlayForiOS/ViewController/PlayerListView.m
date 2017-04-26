@@ -19,9 +19,12 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self addSubview:self.tableView];
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
+        
+        [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"currentPlayVideoModel" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
@@ -30,8 +33,14 @@
     return [self initWithFrame:CGRectZero];
 }
 
-- (void)reloadData {
-    [self.tableView reloadData];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"currentPlayVideoModel"]) {
+        [self.tableView reloadData];
+    }
+}
+
+- (void)dealloc {
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"currentPlayVideoModel" context:nil];
 }
 
 #pragma mark - UITableViewDataSource
@@ -67,7 +76,6 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
         [_tableView registerClass:[PlayerListTableViewCell class] forCellReuseIdentifier:@"PlayerListTableViewCell"];
-        [self addSubview:_tableView];
     }
     return _tableView;
 }

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JHResponse.h"
+#import <AFNetworkReachabilityManager.h>
 
 typedef void(^batchProgressAction)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations, id *responseObj, NSError *error);
 
@@ -117,4 +118,8 @@ typedef void(^progressAction)(float progress);
 + (void)batchGETDataWithPaths:(NSArray <NSString *>*)paths
             progressBlock:(batchProgressAction)progressBlock
           completionHandler:(batchCompletionAction)completionHandler;
+
++ (void)startMonitoring;
++ (void)stopMonitoring;
++ (void)reachabilityStatusChangeBlock:(void (^)(AFNetworkReachabilityStatus status))block;
 @end

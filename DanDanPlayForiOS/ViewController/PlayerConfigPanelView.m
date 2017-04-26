@@ -9,18 +9,19 @@
 #import "PlayerConfigPanelView.h"
 #import <WMMenuView.h>
 #import "PlayerListView.h"
+#import "PlayerDanmakuControlView.h"
 #import "PlayerControlView.h"
 
 @interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate>
 @property (strong, nonatomic) WMMenuView *menu;
 @property (strong, nonatomic) PlayerListView *listView;
-@property (strong, nonatomic) PlayerControlView *controlView;
+@property (strong, nonatomic) PlayerDanmakuControlView *danmakuControlView;
+@property (strong, nonatomic) PlayerControlView *playerControlView;
 @end
 
 @implementation PlayerConfigPanelView
 {
-    PlayerListView *_playerListView;
-    PlayerControlView *_playerControlView;
+    UIView *_currentView;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -31,21 +32,15 @@
             make.height.mas_equalTo(40);
         }];
         
+        [self addSubview:self.listView];
         [self.listView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.menu.mas_bottom);
             make.left.right.bottom.mas_equalTo(0);
         }];
         
-//        [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.menu.mas_bottom);
-//            make.left.right.bottom.mas_equalTo(0);
-//        }];
+        _currentView = self.listView;
     }
     return self;
-}
-
-- (void)reloadData {
-    [_playerListView reloadData];
 }
 
 #pragma mark - WMMenuViewDelegate
@@ -53,29 +48,23 @@
     
     if (currentIndex == index) return;
     
+    [_currentView removeFromSuperview];
+    
     if (index == 0) {
-        if (self.controlView.superview) {
-            [self.controlView removeFromSuperview];
-        }
-        
-        [self addSubview:self.listView];
-        [self.listView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.menu.mas_bottom);
-            make.left.right.bottom.mas_equalTo(0);
-        }];
+        _currentView = self.listView;
+    }
+    else if (index == 1) {
+        _currentView = self.danmakuControlView;
+    }
+    else if (index == 2) {
+        _currentView = self.playerControlView;
     }
     
-    if (index == 1) {
-        if (self.listView.superview) {
-            [self.listView removeFromSuperview];
-        }
-        
-        [self addSubview:self.controlView];
-        [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.menu.mas_bottom);
-            make.left.right.bottom.mas_equalTo(0);
-        }];
-    }
+    [self addSubview:_currentView];
+    [_currentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.menu.mas_bottom);
+        make.left.right.bottom.mas_equalTo(0);
+    }];
 }
 
 
@@ -92,14 +81,17 @@
 
 #pragma mark - WMMenuViewDataSource
 - (NSInteger)numbersOfTitlesInMenuView:(WMMenuView *)menu {
-    return 2;
+    return 3;
 }
 
 - (NSString *)menuView:(WMMenuView *)menu titleAtIndex:(NSInteger)index {
     if (index == 0) {
         return @"播放列表";
     }
-    return @"弹幕设置";
+    else if (index == 1) {
+        return @"弹幕";
+    }
+    return @"播放器";
 }
 
 #pragma mark - 懒加载
@@ -118,24 +110,36 @@
 - (PlayerListView *)listView {
     if (_listView == nil) {
         _listView = [[PlayerListView alloc] init];
-        [self addSubview:_listView];
+        @weakify(self)
+        [_listView setDidSelectedModelCallBack:^(VideoModel *model) {
+            @strongify(self)
+            if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) return;
+            
+            [self.delegate playerConfigPanelView:self didSelectedModel:model];
+        }];
     }
     return _listView;
 }
 
-- (PlayerControlView *)controlView {
-    if (_controlView == nil) {
-        _controlView = [[PlayerControlView alloc] init];
+- (PlayerDanmakuControlView *)danmakuControlView {
+    if (_danmakuControlView == nil) {
+        _danmakuControlView = [[PlayerDanmakuControlView alloc] init];
         @weakify(self)
-        [_controlView setTouchStepperCallBack:^(CGFloat value) {
+        [_danmakuControlView setTouchStepperCallBack:^(CGFloat value) {
             @strongify(self)
             if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didTouchStepper:)]) return;
             
             [self.delegate playerConfigPanelView:self didTouchStepper:value];
         }];
-        [self addSubview:_controlView];
     }
-    return _controlView;
+    return _danmakuControlView;
+}
+
+- (PlayerControlView *)playerControlView {
+    if (_playerControlView == nil) {
+        _playerControlView = [[PlayerControlView alloc] init];
+    }
+    return _playerControlView;
 }
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "OfficialSearchViewController.h"
+#import "PlayerViewController.h"
+#import "PlayNavigationController.h"
+
 #import "SearchAnimeTitleTableViewCell.h"
 #import "SearchEpisodeTableViewCell.h"
 #import "MatchTitleTableViewCell.h"
@@ -69,8 +72,36 @@
     }
 }
 
-- (void)treeView:(RATreeView *)treeView didSelectRowForItem:(id)item {
+- (void)treeView:(RATreeView *)treeView didSelectRowForItem:(JHEpisode *)item {
     [treeView deselectRowForItem:item animated:YES];
+    if ([item isKindOfClass:[JHEpisode class]]) {
+        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+        
+        [CommentNetManager danmakusWithEpisodeId:item.identity progressHandler:^(float progress) {
+            aHUD.progress = progress;
+            aHUD.label.text = danmakusProgressToString(progress);
+        } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
+            [aHUD hideAnimated:YES];
+            self.model.danmakus = responseObject;
+            
+            __block PlayerViewController *vc = nil;
+            [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj isKindOfClass:[PlayerViewController class]]) {
+                    vc = obj;
+                    *stop = YES;
+                }
+            }];
+            
+            if (vc) {
+                vc.model = self.model;
+                [self.navigationController popToViewController:vc animated:YES];
+            }
+            else {
+                PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:self.model];
+                [self presentViewController:nav animated:YES completion:nil];
+            }
+        }];
+    }
 }
 
 #pragma mark - RATreeViewDataSource
