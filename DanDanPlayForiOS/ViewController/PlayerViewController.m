@@ -213,7 +213,10 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length) {
         
-        NSUInteger episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:self.model];
+        NSUInteger episodeId = self.model.danmakus.identity;
+        if (episodeId == 0) {
+            episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:self.model];
+        }
         if (episodeId == 0) return NO;
         
         UIColor *color = self.sendDanmakuConfigView.color;

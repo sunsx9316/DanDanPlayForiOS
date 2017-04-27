@@ -196,9 +196,9 @@
 }
 
 - (int)openVideoSubTitlesFromFile:(NSString *)path {
-    if (self.mediaType == JHMediaTypeLocaleMedia) {
-        return [_localMediaPlayer addPlaybackSlave:[NSURL fileURLWithPath:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
-    }
+//    if (self.mediaType == JHMediaTypeLocaleMedia) {
+//        return [_localMediaPlayer addPlaybackSlave:[NSURL fileURLWithPath:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
+//    }
     return 0;
 }
 
@@ -266,7 +266,7 @@
 - (VLCMediaPlayer *)localMediaPlayer {
     if(_localMediaPlayer == nil) {
         _localMediaPlayer = [[VLCMediaPlayer alloc] init];
-        _localMediaPlayer.libraryInstance.debugLogging = NO;
+//        _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
     }

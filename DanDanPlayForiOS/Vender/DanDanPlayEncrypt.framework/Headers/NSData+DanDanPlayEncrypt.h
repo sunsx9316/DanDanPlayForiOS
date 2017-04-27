@@ -1,5 +1,5 @@
 //
-//  NSData+Tools.h
+//  NSData+DanDanPlayEncrypt.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 17/2/19.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData (Tools)
+@interface NSData (DanDanPlayEncrypt)
 /**
  *  按照弹弹的加密方式进行加密
  *

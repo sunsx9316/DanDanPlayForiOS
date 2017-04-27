@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *openSourceButton;
 @property (weak, nonatomic) IBOutlet UILabel *copyrightLabel;
 @property (weak, nonatomic) IBOutlet UIView *insertView;
+@property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 
 @end
 
@@ -24,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.weiboButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
     [self.officialWebsiteButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
     [self.openSourceButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
     self.insertView.backgroundColor = MAIN_COLOR;
@@ -49,5 +51,10 @@
 - (IBAction)touchOpenSourceButton:(UIButton *)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/sunsx9316/DanDanPlayForiOS"]];
 }
+
+- (IBAction)touchWeiboButton:(UIButton *)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://weibo.com/u/2996607392"]];
+}
+
 
 @end

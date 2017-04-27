@@ -108,7 +108,7 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
-            make.width.height.mas_equalTo(80);
+            make.width.height.mas_equalTo(90);
         }];
         
         [self reloadUserInfo];
@@ -128,10 +128,10 @@
     if (_iconImgView == nil) {
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.contentMode = UIViewContentModeScaleAspectFill;
-        _iconImgView.layer.cornerRadius = 40;
+        _iconImgView.layer.cornerRadius = 45;
         _iconImgView.layer.masksToBounds = YES;
-        _iconImgView.layer.borderWidth = 3;
-        _iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
+        _iconImgView.layer.borderWidth = 5;
+        _iconImgView.layer.borderColor = RGBACOLOR(255, 255, 255, 0.6).CGColor;
     }
     return _iconImgView;
 }

@@ -54,7 +54,6 @@
 		89A42EFE1EA5FF5200FA0DF3 /* JHBiliBiliSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EFD1EA5FF5200FA0DF3 /* JHBiliBiliSearch.m */; };
 		89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F001EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m */; };
 		89A42F041EA6025000FA0DF3 /* JHBiliBiliBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F031EA6025000FA0DF3 /* JHBiliBiliBangumi.m */; };
-		89B04F471E59BCB7007054CB /* NSData+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F461E59BCB7007054CB /* NSData+Tools.m */; };
 		89B04F7B1E59C435007054CB /* JHHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F7A1E59C435007054CB /* JHHomePage.m */; };
 		89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F7D1E59C601007054CB /* GDataXMLElement+Tools.m */; };
 		89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F861E59CE9B007054CB /* ToolsManager.m */; };
@@ -92,6 +91,7 @@
 		89E3F6201E58583F007AB1BD /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61F1E58583F007AB1BD /* BaseViewController.m */; };
 		89E3F6281E585C17007AB1BD /* JHDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* JHDanmaku.m */; };
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
+		89F173031EB1C59F006A2473 /* DanDanPlayEncrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */; };
 		89F5C82A1EAF104D00676361 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89F5C8291EAF104D00676361 /* web */; };
 		89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
 		89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */; };
@@ -196,8 +196,6 @@
 		89A42F001EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBiliBiliBangumiCollection.m; sourceTree = "<group>"; };
 		89A42F021EA6025000FA0DF3 /* JHBiliBiliBangumi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBiliBiliBangumi.h; sourceTree = "<group>"; };
 		89A42F031EA6025000FA0DF3 /* JHBiliBiliBangumi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBiliBiliBangumi.m; sourceTree = "<group>"; };
-		89B04F451E59BCB7007054CB /* NSData+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Tools.h"; sourceTree = "<group>"; };
-		89B04F461E59BCB7007054CB /* NSData+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Tools.m"; sourceTree = "<group>"; };
 		89B04F791E59C435007054CB /* JHHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHHomePage.h; sourceTree = "<group>"; };
 		89B04F7A1E59C435007054CB /* JHHomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHHomePage.m; sourceTree = "<group>"; };
 		89B04F7C1E59C601007054CB /* GDataXMLElement+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLElement+Tools.h"; sourceTree = "<group>"; };
@@ -271,6 +269,7 @@
 		89E3F6271E585C17007AB1BD /* JHDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmaku.m; sourceTree = "<group>"; };
 		89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
 		89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
+		89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
 		89F5C8291EAF104D00676361 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = web; path = DanDanPlayForiOS/web; sourceTree = SOURCE_ROOT; };
 		89F5C82B1EAF10A500676361 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
 		89F5C82C1EAF10A500676361 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
@@ -289,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F173031EB1C59F006A2473 /* DanDanPlayEncrypt.framework in Frameworks */,
 				097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +482,14 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		89D8F8441EB0F5FB009329AA /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */,
+			);
+			path = Vender;
+			sourceTree = "<group>";
+		};
 		89E3F5B01E5829BD007AB1BD = {
 			isa = PBXGroup;
 			children = (
@@ -503,6 +511,7 @@
 		89E3F5BB1E5829BD007AB1BD /* DanDanPlayForiOS */ = {
 			isa = PBXGroup;
 			children = (
+				89D8F8441EB0F5FB009329AA /* Vender */,
 				89F5C8281EAF104100676361 /* Resource */,
 				894CBA951E6BC5260021253F /* Widget */,
 				89E3F6221E585B4E007AB1BD /* Model */,
@@ -591,8 +600,6 @@
 				89E3F6151E5854A2007AB1BD /* UIImageView+Tools.m */,
 				89E3F6171E58552D007AB1BD /* UIButton+Tools.h */,
 				89E3F6181E58552D007AB1BD /* UIButton+Tools.m */,
-				89B04F451E59BCB7007054CB /* NSData+Tools.h */,
-				89B04F461E59BCB7007054CB /* NSData+Tools.m */,
 				899551111EACA62800AE04BC /* JHBaseDanmaku+Tools.h */,
 				899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */,
 				89F5C82B1EAF10A500676361 /* NSString+Tools.h */,
@@ -856,7 +863,6 @@
 				894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */,
 				894CBAA21E6BCA760021253F /* SettingViewController.m in Sources */,
 				89D8F7FA1EB04DA1009329AA /* DanmakuSelectedFontViewController.m in Sources */,
-				89B04F471E59BCB7007054CB /* NSData+Tools.m in Sources */,
 				89E1EA021EADFD5400419C78 /* PlayerControlHeaderView.m in Sources */,
 				89E3F6201E58583F007AB1BD /* BaseViewController.m in Sources */,
 				89D8F8051EB05A60009329AA /* OtherSettingSwitchTableViewCell.m in Sources */,
@@ -994,10 +1000,83 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/PrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(SRCROOT)/DanDanPlayForiOS/Vender/DanDanPlayEncrypt.framework/DanDanPlayEncrypt",
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"FDFullscreenPopGesture\"",
+					"-l\"GDataXML-HTML\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"JHDanmakuRender\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCache\"",
+					"-l\"YYCategories\"",
+					"-l\"YYImage\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"MobileVLCKit\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.player;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1011,10 +1090,83 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/PrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(SRCROOT)/DanDanPlayForiOS/Vender/DanDanPlayEncrypt.framework/DanDanPlayEncrypt",
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"FDFullscreenPopGesture\"",
+					"-l\"GDataXML-HTML\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"JHDanmakuRender\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCache\"",
+					"-l\"YYCategories\"",
+					"-l\"YYImage\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"MobileVLCKit\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.player;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -7,7 +7,7 @@
 //
 
 #import "CommentNetManager.h"
-#import "NSData+Tools.h"
+#import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
 #import "DanmakuManager.h"
 
 @implementation CommentNetManager
@@ -40,6 +40,8 @@
     if (danmakus.count) {
         JHDanmakuCollection *collection = [[JHDanmakuCollection alloc] init];
         collection.collection = danmakus;
+        //修复手动搜索不能发弹幕的问题
+        collection.identity = episodeId;
         
         progressAction(1.0f);
         completionAction(collection, nil);
@@ -58,6 +60,7 @@
         }
         
         JHDanmakuCollection *collection = [JHDanmakuCollection yy_modelWithJSON:model.responseObject];
+        collection.identity = episodeId;
         
         //开启自动请求第三方弹幕的功能
         if ([CacheManager shareCacheManager].autoRequestThirdPartyDanmaku) {

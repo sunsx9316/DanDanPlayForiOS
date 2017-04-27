@@ -24,14 +24,6 @@
 
 //#endif
 
-
-
-
-//弹弹官方的key
-#define DANDANPLAY_KEY @"qDB8aAxIaXHjHFqGhSemLe6vjQiyXBppQfrfOVa53CA="
-//弹弹官方的IV
-#define DANDANPLAY_IV @"JESamR8uoDdvZoSiRc1MFg=="
-
 //颜色
 #define RGBCOLOR(r,g,b) RGBACOLOR(r,g,b,1)
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
