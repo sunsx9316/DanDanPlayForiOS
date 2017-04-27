@@ -13,11 +13,9 @@
 @interface AboutUsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (weak, nonatomic) IBOutlet UIButton *officialWebsiteButton;
-@property (weak, nonatomic) IBOutlet UIButton *openSourceButton;
+
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *insertViews;
 @property (weak, nonatomic) IBOutlet UILabel *copyrightLabel;
-@property (weak, nonatomic) IBOutlet UIView *insertView;
-@property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 
 @end
 
@@ -25,10 +23,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.weiboButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-    [self.officialWebsiteButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-    [self.openSourceButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-    self.insertView.backgroundColor = MAIN_COLOR;
+    [self.insertViews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[UIButton class]]) {
+            UIButton *aButton = obj;
+            [aButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
+        }
+        else {
+            obj.backgroundColor = MAIN_COLOR;
+        }
+    }];
+    
+    
     self.titleLabel.text = [UIApplication sharedApplication].appDisplayName;
     self.versionLabel.text = [NSString stringWithFormat:@"v%@", [UIApplication sharedApplication].appVersion];
     NSLog(@"%@", [NSBundle mainBundle].infoDictionary);
@@ -41,6 +46,7 @@
     else {
         year = [NSString stringWithFormat:@"2017-%ld", date.year];
     }
+    
     self.copyrightLabel.text = [NSString stringWithFormat:@"Copyright © %@年 JimHuang. All rights reserved.", year];
 }
 

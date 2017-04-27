@@ -11,14 +11,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutUsViewController">
             <connections>
-                <outlet property="copyrightLabel" destination="JPC-Fx-Z3z" id="6Z1-Q4-w2y"/>
-                <outlet property="insertView" destination="vUj-g0-2Xg" id="gu8-Gq-hnC"/>
-                <outlet property="officialWebsiteButton" destination="jvq-cq-csh" id="sjb-mT-Qcb"/>
-                <outlet property="openSourceButton" destination="D0b-HC-pDH" id="OXf-DJ-kTi"/>
+                <outlet property="copyrightLabel" destination="JPC-Fx-Z3z" id="hj1-np-Wnn"/>
                 <outlet property="titleLabel" destination="STt-7H-faU" id="8BI-pa-PQ4"/>
                 <outlet property="versionLabel" destination="Ds2-2b-ZEw" id="8Rs-Fq-pBZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="weiboButton" destination="rJe-Tb-gQm" id="Kvq-Zw-hMl"/>
+                <outletCollection property="insertViews" destination="DIQ-WM-pVW" id="qIP-dH-W15"/>
+                <outletCollection property="insertViews" destination="vUj-g0-2Xg" id="RZc-rd-Lbd"/>
+                <outletCollection property="insertViews" destination="D0b-HC-pDH" id="1lo-lR-0ip"/>
+                <outletCollection property="insertViews" destination="rJe-Tb-gQm" id="Bah-xI-5h2"/>
+                <outletCollection property="insertViews" destination="jvq-cq-csh" id="Xt3-49-Etf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -51,7 +52,7 @@
                     <rect key="frame" x="109.5" y="595" width="156" height="28"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vUj-g0-2Xg">
-                            <rect key="frame" x="38" y="6.5" width="1" height="15"/>
+                            <rect key="frame" x="38" y="7" width="1" height="15"/>
                             <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="ZIA-19-ft9"/>
@@ -59,7 +60,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DIQ-WM-pVW">
-                            <rect key="frame" x="109" y="6.5" width="1" height="15"/>
+                            <rect key="frame" x="109" y="7" width="1" height="15"/>
                             <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jvq-cq-csh">
