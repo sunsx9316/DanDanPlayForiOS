@@ -6,10 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "OtherSettingTitleSubtitleTableViewCell.h"
 
-@interface MatchTableViewCell : UITableViewCell
-@property (strong, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UILabel *detailLabel;
+@interface MatchTableViewCell : OtherSettingTitleSubtitleTableViewCell
 @property (strong, nonatomic) JHMatche *model;
 @end

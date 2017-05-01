@@ -29,6 +29,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     SET_NAVIGATION_BAR_CLEAR;
+    //屏幕常亮
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)viewDidLoad {
@@ -55,14 +62,7 @@
         make.height.mas_equalTo(0);
     }];
     
-    NSError *error = nil;
-    if([[ToolsManager shareHTTPServer] start:&error] == NO) {
-        [self setStatus:NO];
-        NSLog(@"Error starting HTTP Server: %@", error);
-    }
-    else {
-        [self setStatus:YES];
-    }
+    [self startHTTPServer];
     
     @weakify(self)
     [BaseNetManager reachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -70,10 +70,14 @@
         if (!self) return;
         
         if (status != AFNetworkReachabilityStatusReachableViaWiFi) {
-            [self setStatus:NO];
+            [self showErrorUI];
         }
         else {
-            [self setStatus:YES];
+            HTTPServer *httpServer = [ToolsManager shareHTTPServer];
+            if (httpServer.isRunning == NO) {
+                [ToolsManager resetHTTPServer];
+                [self startHTTPServer];
+            }
         }
     }];
     
@@ -86,12 +90,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [tableView fd_heightForCellWithIdentifier:@"FTPReceiceTableViewCell" cacheByIndexPath:indexPath configuration:^(FTPReceiceTableViewCell *cell) {
-        cell.titleLabel.text = self.receiveFiles[indexPath.row];
-    }];
-}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -125,23 +123,37 @@
     if (self.receiveFiles.count) {
         [[NSNotificationCenter defaultCenter] postNotificationName:COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE object:nil];
     }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)setStatus:(BOOL)success {
-    if (success) {
-        HTTPServer *httpServer = [ToolsManager shareHTTPServer];
-        self.bgView.backgroundColor = MAIN_COLOR;
-        self.ipLabel.backgroundColor = MAIN_COLOR;
-        self.ipLabel.text = [NSString stringWithFormat:@"http://%@:%hu", [httpServer interface], [httpServer listeningPort]];
-        self.wifiNoticeLabel.text = @"在电脑浏览器输入这个地址有惊喜(￣∇￣)";
+- (void)showSuccessUI {
+    HTTPServer *httpServer = [ToolsManager shareHTTPServer];
+    self.bgView.backgroundColor = MAIN_COLOR;
+    self.ipLabel.backgroundColor = MAIN_COLOR;
+    self.ipLabel.text = [NSString stringWithFormat:@"http://%@:%hu", [httpServer interface], [httpServer listeningPort]];
+    self.wifiNoticeLabel.text = @"在电脑浏览器输入这个地址有惊喜(￣∇￣)";
+}
+
+- (void)showErrorUI {
+    self.bgView.backgroundColor = RGBCOLOR(227, 23, 13);
+    self.ipLabel.backgroundColor = self.bgView.backgroundColor;
+    self.ipLabel.text = @"没有连上Wifi";
+    self.wifiNoticeLabel.text = nil;
+}
+
+- (BOOL)startHTTPServer {
+    NSError *error = nil;
+    BOOL success = [[ToolsManager shareHTTPServer] start:&error];
+    if(success == NO) {
+        NSLog(@"Error starting HTTP Server: %@", error);
+        [self showErrorUI];
     }
     else {
-        self.bgView.backgroundColor = RGBCOLOR(227, 23, 13);
-        self.ipLabel.backgroundColor = self.bgView.backgroundColor;
-        self.ipLabel.text = @"没有连上Wifi";
-        self.wifiNoticeLabel.text = nil;
+        [self showSuccessUI];
     }
+    
+    return success;
 }
 
 - (void)writeFileSuccess:(NSNotification *)notice {
@@ -153,7 +165,7 @@
             
             if (self.receiveFiles.count == 0) {
                 [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.height.mas_equalTo(self.view).multipliedBy(0.3);
+                    make.height.mas_equalTo(self.view).multipliedBy(0.35);
                 }];
                 
                 [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -200,7 +212,7 @@
         
         [self.ipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(self.ipLabel.font.lineHeight + 10);
         }];
         
         [self.wifiNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -221,9 +233,9 @@
         _ipLabel.textColor = [UIColor whiteColor];
         _ipLabel.backgroundColor = MAIN_COLOR;
         _ipLabel.text = @"开启服务中...";
-        _ipLabel.layer.cornerRadius = 20;
         _ipLabel.layer.masksToBounds = YES;
-        _ipLabel.font = [UIFont boldSystemFontOfSize:17];
+        _ipLabel.font = BIG_SIZE_FONT;
+        _ipLabel.layer.cornerRadius = (_ipLabel.font.lineHeight + 10) / 2;
     }
     return _ipLabel;
 }
@@ -242,7 +254,7 @@
         _topNoticeLabel.numberOfLines = 0;
         _topNoticeLabel.textColor = [UIColor whiteColor];
         _topNoticeLabel.textAlignment = NSTextAlignmentCenter;
-        _topNoticeLabel.text = @"果机需要和PC在同一个局域网内，上传过程中，不要关闭这个页面(｀･ω･)";
+        _topNoticeLabel.text = @"果机需要和电脑在同一个局域网内，上传过程中，不要关闭这个页面(｀･ω･)";
         _topNoticeLabel.font = NORMAL_SIZE_FONT;
     }
     return _topNoticeLabel;
@@ -262,6 +274,8 @@
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.estimatedRowHeight = 44;
         [self.view addSubview:_tableView];
     }
     return _tableView;

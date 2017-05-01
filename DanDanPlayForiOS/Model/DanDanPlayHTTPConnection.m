@@ -164,7 +164,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 }
 
 
-- (void)processContent:(NSData*)data WithHeader:(MultipartMessageHeader*)header {
+- (void)processContent:(NSData *)data WithHeader:(MultipartMessageHeader*)header {
 	// here we just write the output from parser to the file.
 	if(storeFile) {
 		[storeFile writeData:data];

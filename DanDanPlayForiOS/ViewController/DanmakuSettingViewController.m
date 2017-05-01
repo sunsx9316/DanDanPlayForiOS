@@ -8,6 +8,10 @@
 
 #import "DanmakuSettingViewController.h"
 #import "DanmakuSelectedFontViewController.h"
+#import "SettingTitleTableViewCell.h"
+
+#import "UIFont+Tools.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @interface DanmakuSettingViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
@@ -48,24 +52,25 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
-        cell.textLabel.font = NORMAL_SIZE_FONT;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    SettingTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingTitleTableViewCell" forIndexPath:indexPath];
     
     if (indexPath.row == 0) {
-        cell.textLabel.text = @"弹幕字体";
+        cell.titleLabel.text = @"弹幕字体";
         UIFont *font = [CacheManager shareCacheManager].danmakuFont;
-        cell.detailTextLabel.font = [UIFont fontWithName:font.fontName size:NORMAL_SIZE_FONT.pointSize];
-        cell.detailTextLabel.text = font.fontName;
+        cell.detailLabel.font = [font fontWithSize:NORMAL_SIZE_FONT.pointSize];
+        if (font.isSystemFont) {
+            cell.detailLabel.text = @"系统字体";
+        }
+        else {
+            cell.detailLabel.text = font.fontName;
+        }
     }
     
     return cell;
 
 }
+
+
 
 #pragma mark - 懒加载
 - (UITableView *)tableView {
@@ -73,10 +78,12 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
-        
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+        [_tableView registerClass:[SettingTitleTableViewCell class] forCellReuseIdentifier:@"SettingTitleTableViewCell"];
+        _tableView.tableFooterView = [[UIView alloc] init];
+
         [self.view addSubview:_tableView];
     }
     return _tableView;

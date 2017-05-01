@@ -16,8 +16,9 @@
 
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "BaseTreeView.h"
+#import "JHEdgeButton.h"
 
-@interface MatchViewController ()<RATreeViewDelegate, RATreeViewDataSource, UISearchBarDelegate>
+@interface MatchViewController ()<RATreeViewDelegate, RATreeViewDataSource, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) BaseTreeView *treeView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray <JHMatche *>*>*classifyDic;
@@ -32,10 +33,11 @@
     [super viewDidLoad];
     
     self.title = @"快速匹配";
+    [self configRightItem];
     
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(SEARCH_BAR_HEIRHT);
     }];
     
     [self.treeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -74,6 +76,10 @@
     }
 }
 
+- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(JHFile *)item {
+    return UITableViewCellEditingStyleNone;
+}
+
 - (void)treeView:(RATreeView *)treeView didSelectRowForItem:(JHMatche *)item {
     [treeView deselectRowForItem:item animated:YES];
     if ([item isKindOfClass:[JHMatche class]]) {
@@ -83,25 +89,10 @@
             aHUD.progress = progress;
             aHUD.label.text = danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
-            [aHUD hideAnimated:YES];
+            [aHUD hideAnimated:NO];
             self.model.danmakus = responseObject;
             
-            __block PlayerViewController *vc = nil;
-            [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([obj isKindOfClass:[PlayerViewController class]]) {
-                    vc = obj;
-                    *stop = YES;
-                }
-            }];
-            
-            if (vc) {
-                vc.model = self.model;
-                [self.navigationController popToViewController:vc animated:YES];
-            }
-            else {
-                PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:self.model];
-                [self presentViewController:nav animated:YES completion:nil];
-            }
+            [self jumpToOtherVC];
         }];
     }
 }
@@ -151,6 +142,30 @@
     }
 }
 
+#pragma mark - DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无数据" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击直接播放" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
+}
+
+#pragma mark - DZNEmptyDataSetDelegate
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.treeView.showEmptyView;
+}
+
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self jumpToOtherVC];
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return YES;
+}
+
 #pragma mark - 私有方法
 - (void)classifyWithColletion:(JHMatcheCollection *)collection {
     [self.classifyDic removeAllObjects];
@@ -168,14 +183,51 @@
     }];
 }
 
+- (void)jumpToOtherVC {
+    __block PlayerViewController *vc = nil;
+    [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[PlayerViewController class]]) {
+            vc = obj;
+            *stop = YES;
+        }
+    }];
+    
+    if (vc) {
+        vc.model = self.model;
+        [self.navigationController popToViewController:vc animated:YES];
+    }
+    else {
+        PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:self.model];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+
+}
+
+- (void)configRightItem {
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
+    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setTitle:@"直接播放" forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)touchRightItem:(UIButton *)button {
+    [self jumpToOtherVC];
+}
+
 #pragma mark - 懒加载
 - (BaseTreeView *)treeView {
     if (_treeView == nil) {
         _treeView = [[BaseTreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
         _treeView.delegate = self;
         _treeView.dataSource = self;
+        _treeView.separatorStyle = RATreeViewCellSeparatorStyleNone;
         _treeView.rowsExpandingAnimation = RATreeViewRowAnimationTop;
         _treeView.rowsCollapsingAnimation = RATreeViewRowAnimationTop;
+        _treeView.jh_tableView.emptyDataSetSource = self;
+        _treeView.jh_tableView.emptyDataSetDelegate = self;
         [_treeView registerClass:[MatchTableViewCell class] forCellReuseIdentifier:@"MatchTableViewCell"];
         [_treeView registerClass:[MatchTitleTableViewCell class] forCellReuseIdentifier:@"MatchTitleTableViewCell"];
         @weakify(self)

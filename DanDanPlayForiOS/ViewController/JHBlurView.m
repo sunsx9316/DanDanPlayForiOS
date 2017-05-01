@@ -24,6 +24,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.blurView.frame = self.bounds;
+    [self sendSubviewToBack:self.blurView];
 }
 
 - (UIVisualEffectView *)blurView {

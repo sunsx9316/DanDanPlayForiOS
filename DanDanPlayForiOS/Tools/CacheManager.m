@@ -7,6 +7,7 @@
 //
 
 #import "CacheManager.h"
+#import "UIFont+Tools.h"
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -14,6 +15,7 @@ static NSString *const autoRequestThirdPartyDanmakuKey = @"auto_request_third_pa
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const openFastMatchKey = @"open_fast_match";
 static NSString *const danmakuFontKey = @"danmaku_font";
+static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
 static NSString *const danmakuShadowStyleKey = @"danmaku_shadow_style";
 static NSString *const subtitleProtectAreaKey = @"subtitle_protect_area";
 static NSString *const danmakuSpeedKey = @"danmaku_speed";
@@ -36,11 +38,20 @@ static NSString *const playerPlayKey = @"player_play";
 }
 
 #pragma mark - 懒加载
-- (NSMutableArray<VideoModel *> *)videoModels {
-    if (_videoModels == nil) {
-        _videoModels = [NSMutableArray array];
+//- (NSMutableArray<VideoModel *> *)videoModels {
+//    if (_videoModels == nil) {
+//        _videoModels = [NSMutableArray array];
+//    }
+//    return _videoModels;
+//}
+
+- (JHFile *)rootFile {
+    if (_rootFile == nil) {
+        _rootFile = [[JHFile alloc] init];
+        _rootFile.type = JHFileTypeFolder;
+        _rootFile.fileURL = [[UIApplication sharedApplication] documentsURL];
     }
-    return _videoModels;
+    return _rootFile;
 }
 
 - (YYCache *)cache {
@@ -60,14 +71,21 @@ static NSString *const playerPlayKey = @"player_play";
 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
     [self.cache setObject:danmakuFont forKey:danmakuFontKey withBlock:nil];
+    [self.cache setObject:@(danmakuFont.isSystemFont) forKey:danmakuFontIsSystemFontKey withBlock:nil];
 }
 
 - (UIFont *)danmakuFont {
     UIFont *font = (UIFont *)[self.cache objectForKey:danmakuFontKey];
     if (font == nil) {
-        font = [UIFont systemFontOfSize:16];
+        font = NORMAL_SIZE_FONT;
+        font.isSystemFont = YES;
         self.danmakuFont = font;
     }
+    else {
+        NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuFontIsSystemFontKey];
+        font.isSystemFont = num.boolValue;
+    }
+    
     return font;
 }
 
@@ -112,7 +130,7 @@ static NSString *const playerPlayKey = @"player_play";
 }
 
 - (void)setAutoRequestThirdPartyDanmaku:(BOOL)autoRequestThirdPartyDanmaku {
-    [self.cache setObject:@(autoRequestThirdPartyDanmaku) forKey:autoRequestThirdPartyDanmakuKey];
+    [self.cache setObject:@(autoRequestThirdPartyDanmaku) forKey:autoRequestThirdPartyDanmakuKey withBlock:nil];
 }
 
 - (BOOL)autoRequestThirdPartyDanmaku {
@@ -145,17 +163,17 @@ static NSString *const playerPlayKey = @"player_play";
 - (void)addDanmakuFilter:(JHFilter *)danmakuFilter {
     NSMutableArray *arr = [NSMutableArray arrayWithArray:(NSArray *)[self.cache objectForKey:danmakuFiltersKey]];
     [arr addObject:danmakuFilter];
-    [self.cache setObject:arr forKey:danmakuFiltersKey];
+    [self.cache setObject:arr forKey:danmakuFiltersKey withBlock:nil];
 }
 
 - (void)removeDanmakuFilter:(JHFilter *)danmakuFilter {
     NSMutableArray *arr = [NSMutableArray arrayWithArray:(NSArray *)[self.cache objectForKey:danmakuFiltersKey]];
     [arr removeObject:danmakuFilter];
-    [self.cache setObject:arr forKey:danmakuFiltersKey];
+    [self.cache setObject:arr forKey:danmakuFiltersKey withBlock:nil];
 }
 
 - (void)setOpenFastMatch:(BOOL)openFastMatch {
-    [self.cache setObject:@(openFastMatch) forKey:openFastMatchKey];
+    [self.cache setObject:@(openFastMatch) forKey:openFastMatchKey withBlock:nil];
 }
 
 - (BOOL)openFastMatch {
@@ -178,18 +196,18 @@ static NSString *const playerPlayKey = @"player_play";
 }
 
 - (void)setDanmakuSpeed:(float)danmakuSpeed {
-    [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey];
+    [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey withBlock:nil];
 }
 
 - (void)setPlayMode:(PlayerPlayMode)playMode {
-    [self.cache setObject:@(playMode) forKey:playerPlayKey];
+    [self.cache setObject:@(playMode) forKey:playerPlayKey withBlock:nil];
 }
 
 - (PlayerPlayMode)playMode {
     NSNumber *num = (NSNumber *)[self.cache objectForKey:playerPlayKey];
     if (num == nil) {
         num = @(PlayerPlayModeOrder);
-        self.danmakuSpeed = PlayerPlayModeOrder;
+        self.playMode = PlayerPlayModeOrder;
     }
     
     return num.integerValue;

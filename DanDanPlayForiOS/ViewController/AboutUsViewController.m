@@ -26,6 +26,7 @@
     [self.insertViews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[UIButton class]]) {
             UIButton *aButton = obj;
+            aButton.titleLabel.font = VERY_SMALL_SIZE_FONT;
             [aButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
         }
         else {
@@ -35,15 +36,17 @@
     
     
     self.titleLabel.text = [UIApplication sharedApplication].appDisplayName;
+    self.titleLabel.font = VERY_BIG_SIZE_FONT;
     self.versionLabel.text = [NSString stringWithFormat:@"v%@", [UIApplication sharedApplication].appVersion];
-    NSLog(@"%@", [NSBundle mainBundle].infoDictionary);
+    self.versionLabel.font = VERY_SMALL_SIZE_FONT;
+    self.copyrightLabel.font = VERY_SMALL_SIZE_FONT;
     
     NSDate *date = [NSDate date];
     NSString *year = nil;
     if (date.year == 2017) {
         year = @"2017";
     }
-    else {
+    else if (date.year > 2017) {
         year = [NSString stringWithFormat:@"2017-%ld", date.year];
     }
     

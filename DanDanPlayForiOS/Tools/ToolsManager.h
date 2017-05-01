@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "VideoModel.h"
 #import "JhUser.h"
+#import "JHFile.h"
 
 static inline NSString *danmakuTypeToString(DanDanPlayDanmakuType type) {
     switch (type) {
@@ -37,8 +38,8 @@ static inline DanDanPlayDanmakuType danmakuStringToType(NSString *string) {
     return DanDanPlayDanmakuTypeUnknow;
 }
 
-typedef void(^getSnapshotAction)(UIImage *image);
-typedef void(^getVideosAction)(NSArray <VideoModel *>*videos);
+typedef void(^GetSnapshotAction)(UIImage *image);
+typedef void(^GetVideosAction)(JHFile *file);
 
 @class HTTPServer;
 @interface ToolsManager : NSObject
@@ -46,19 +47,27 @@ typedef void(^getVideosAction)(NSArray <VideoModel *>*videos);
 + (instancetype)shareToolsManager;
 
 + (HTTPServer *)shareHTTPServer;
-
++ (void)resetHTTPServer;
 /**
  获取视频的截图
 
  @param model 视频模型
  @param completion 回调
  */
-- (void)videoSnapShotWithModel:(VideoModel *)model completion:(getSnapshotAction)completion;
+- (void)videoSnapShotWithModel:(VideoModel *)model completion:(GetSnapshotAction)completion;
 
 /**
  扫描视频模型
  */
-- (void)startDiscovererVideoWithPath:(NSString *)path completion:(getVideosAction)completion;
+- (void)startDiscovererVideoWithFileModel:(JHFile *)fileModel completion:(GetVideosAction)completion;
+
+/**
+ 搜索文件
+
+ @param aURL 路径
+ @param completion 回调
+ */
+- (void)startSearchVideoWithFileModel:(JHFile *)fileModel searchKey:(NSString *)key completion:(GetVideosAction)completion;
 
 
 /**

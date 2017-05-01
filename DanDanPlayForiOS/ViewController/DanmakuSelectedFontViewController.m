@@ -9,6 +9,7 @@
 #import "DanmakuSelectedFontViewController.h"
 #import "BaseTableView.h"
 #import "FTPReceiceTableViewCell.h"
+#import "UIFont+Tools.h"
 
 @interface DanmakuSelectedFontViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -35,10 +36,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
     if (indexPath.section == 0) {
-        [CacheManager shareCacheManager].danmakuFont = [UIFont systemFontOfSize:danmakuFont.pointSize];
+        UIFont *tempFont = [UIFont systemFontOfSize:danmakuFont.pointSize];
+        tempFont.isSystemFont = YES;
+        [CacheManager shareCacheManager].danmakuFont = tempFont;
     }
     else {
-        [CacheManager shareCacheManager].danmakuFont = [UIFont fontWithName:self.fonts[indexPath.row] size:danmakuFont.pointSize];
+        UIFont *tempFont = [UIFont fontWithName:self.fonts[indexPath.row] size:danmakuFont.pointSize];
+        tempFont.isSystemFont = NO;
+        [CacheManager shareCacheManager].danmakuFont = tempFont;
     }
     
     [tableView reloadData];
@@ -58,9 +63,10 @@
     FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
     
     if (indexPath.section == 0) {
-        UIFont *font = [UIFont systemFontOfSize:NORMAL_SIZE_FONT.pointSize];
-        cell.titleLabel.text = [NSString stringWithFormat:@"%@（默认）", font.fontName];
-        cell.titleLabel.font = font;
+        cell.titleLabel.text = @"系统字体";
+        cell.titleLabel.font = NORMAL_SIZE_FONT;
+        
+//        cell.iconImgView.hidden = ![[CacheManager shareCacheManager].danmakuFont.fontName isEqualToString:cell.titleLabel.font.fontName];
     }
     else {
         UIFont *font = [UIFont fontWithName:self.fonts[indexPath.row] size:NORMAL_SIZE_FONT.pointSize];
@@ -68,8 +74,14 @@
         cell.titleLabel.font = font;
     }
     
+    UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
     
-    cell.iconImgView.hidden = ![[CacheManager shareCacheManager].danmakuFont.fontName isEqual:cell.titleLabel.font.fontName];
+    if (indexPath.section == 0) {
+        cell.iconImgView.hidden = !danmakuFont.isSystemFont;
+    }
+    else {
+        cell.iconImgView.hidden = ![danmakuFont.fontName isEqualToString:self.fonts[indexPath.row]];
+    }
     
     return cell;
     
@@ -82,10 +94,12 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowScroll = YES;
-        _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
+        
         [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+        _tableView.tableFooterView = [[UIView alloc] init];
         
         @weakify(self)
         _tableView.mj_header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{

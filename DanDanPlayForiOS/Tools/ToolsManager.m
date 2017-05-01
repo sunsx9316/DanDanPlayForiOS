@@ -7,11 +7,31 @@
 //
 
 #import "ToolsManager.h"
+#import "DanDanPlayHTTPConnection.h"
+#import "NSString+Tools.h"
 #import <YYCache.h>
 #import <MobileVLCKit/MobileVLCKit.h>
 #import <HTTPServer.h>
-#import "DanDanPlayHTTPConnection.h"
-#import "NSString+Tools.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+
+
+/**
+ 判断文件是不是视频
+
+ @param aURL 路径
+ @return 是不是视频
+ */
+CG_INLINE BOOL isVideoFile(NSURL *aURL) {
+    CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
+    CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
+    BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeMovie);
+    CFRelease(fileUTI);
+    return flag;
+};
+
+CG_INLINE BOOL isExclude(NSString *name) {
+    return [name containsString:@"Inbox"];
+};
 
 static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
 static NSString *const tempImageKey = @"temp_image";
@@ -58,7 +78,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     completion(aid, index);
 }
 
-- (void)videoSnapShotWithModel:(VideoModel *)model completion:(getSnapshotAction)completion {
+- (void)videoSnapShotWithModel:(VideoModel *)model completion:(GetSnapshotAction)completion {
     //防止重复获取缩略图
     if (model == nil || completion == nil || objc_getAssociatedObject(model, &videoModelParseKey)) return;
     
@@ -87,40 +107,97 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     [thumb fetchThumbnail];
 }
 
-- (void)startDiscovererVideoWithPath:(NSString *)path completion:(getVideosAction)completion {
+- (void)startDiscovererVideoWithFileModel:(JHFile *)fileModel completion:(GetVideosAction)completion {
     
-    if (path.length == 0) {
-        path = [[UIApplication sharedApplication] documentsPath];
+    if (fileModel == nil) {
+        fileModel = [CacheManager shareCacheManager].rootFile;
     }
     
     NSFileManager* manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:path]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(@[]);
-            }
-        });
-        return;
-    }
     
-    [[CacheManager shareCacheManager].videoModels removeAllObjects];
+    NSMutableArray *subFiles = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:path] objectEnumerator];
-        NSString *subpath = nil;
-        NSFileManager *defaultManager = [NSFileManager defaultManager];
-        while ((subpath = [childFilesEnumerator nextObject]) != nil) {
-            NSString* fileAbsolutePath = [path stringByAppendingPathComponent:subpath];
-            NSDictionary *attributes = [defaultManager attributesOfItemAtPath:fileAbsolutePath error:nil];
-            //过滤隐藏文件
-            if ([attributes[NSFileExtensionHidden] boolValue] == NO) {
-                VideoModel *model = [[VideoModel alloc] initWithFileURL:[NSURL fileURLWithPath:fileAbsolutePath]];
-                [[CacheManager shareCacheManager].videoModels addObject:model];
+        
+        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:fileModel.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles | NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:nil];
+        
+        for (NSURL *aURL in childFilesEnumerator) {
+//            NSLog(@"%@", aURL);
+            NSDictionary <NSFileAttributeKey, id>*attributes = [manager attributesOfItemAtPath:aURL.path error:nil];
+            
+            if ([attributes[NSFileType] isEqualToString:NSFileTypeDirectory] && isExclude(aURL.lastPathComponent) == NO) {
+                JHFile *aFile = [[JHFile alloc] init];
+                aFile.parentFile = fileModel;
+                aFile.type = JHFileTypeFolder;
+                aFile.fileURL = aURL;
+                [subFiles addObject:aFile];
+            }
+            else if (isVideoFile(aURL)) {
+                JHFile *aFile = [[JHFile alloc] init];
+                aFile.parentFile = fileModel;
+                aFile.type = JHFileTypeDocument;
+                aFile.fileURL = aURL;
+                [subFiles addObject:aFile];
             }
         }
         
+        [subFiles sortUsingComparator:^NSComparisonResult(JHFile * _Nonnull obj1, JHFile * _Nonnull obj2) {
+            return obj2.type - obj1.type;
+        }];
+        
+        fileModel.subFiles = subFiles;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
-                completion([CacheManager shareCacheManager].videoModels);
+                completion(fileModel);
+            }
+        });
+    });
+}
+
+- (void)startSearchVideoWithFileModel:(JHFile *)fileModel searchKey:(NSString *)key completion:(GetVideosAction)completion {
+    
+    if (key.length == 0) {
+        if (completion) {
+            completion(nil);
+        }
+        return;
+    }
+    
+    if (fileModel == nil) {
+        fileModel = [[JHFile alloc] init];
+        fileModel.fileURL = [[UIApplication sharedApplication] documentsURL];
+    }
+    
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:fileModel.fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+    
+    NSMutableArray *subFiles = [NSMutableArray array];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSURL *aURL in childFilesEnumerator) {
+//            NSLog(@"%@", aURL);
+            
+            if (isVideoFile(aURL) && [aURL.lastPathComponent rangeOfString:key options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                JHFile *aFile = [[JHFile alloc] init];
+                aFile.parentFile = fileModel;
+                NSDictionary <NSFileAttributeKey, id>*attributes = [manager attributesOfItemAtPath:aURL.path error:nil];
+                if ([attributes[NSFileType] isEqualToString:NSFileTypeRegular]) {
+                    aFile.type = JHFileTypeDocument;
+                }
+                else if ([attributes[NSFileType] isEqualToString:NSFileTypeDirectory]) {
+                    aFile.type = JHFileTypeFolder;
+                }
+                
+                aFile.fileURL = aURL;
+                [subFiles addObject:aFile];
+            }
+        }
+        
+        fileModel.subFiles = subFiles;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(fileModel);
             }
         });
     });
@@ -144,16 +221,22 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         [httpServer setType:@"_http._tcp."];
         NSString *docRoot = [[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"web"] stringByDeletingLastPathComponent];
         [httpServer setDocumentRoot:docRoot];
+                [httpServer setConnectionClass:[DanDanPlayHTTPConnection class]];
         [httpServer setInterface:[NSString getIPAddress]];
         [httpServer setPort:23333];
-        [httpServer setConnectionClass:[DanDanPlayHTTPConnection class]];
     });
     return httpServer;
 }
 
++ (void)resetHTTPServer {
+    HTTPServer *httpServer = [self shareHTTPServer];
+    [httpServer setInterface:[NSString getIPAddress]];
+    [httpServer setPort:23333];
+}
+
 #pragma mark - VLCMediaThumbnailerDelegate
 - (void)mediaThumbnailerDidTimeOut:(VLCMediaThumbnailer *)mediaThumbnailer {
-    getSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
+    GetSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
     if (action) {
         action(nil);
         objc_setAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -163,7 +246,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
 }
 
 - (void)mediaThumbnailer:(VLCMediaThumbnailer *)mediaThumbnailer didFinishThumbnail:(CGImageRef)thumbnail {
-    getSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
+    GetSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
     if (action) {
         UIImage *image = [UIImage imageWithCGImage:thumbnail];
         NSString *key = objc_getAssociatedObject(mediaThumbnailer, &tempImageKey);

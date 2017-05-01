@@ -53,6 +53,7 @@ static MBProgressHUD *progressHUD = nil;
     aHUD.bezelView.color = RGBACOLOR(0, 0, 0, 0.8);
     aHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
 //    aHUD.label.textColor = [UIColor whiteColor];
+    aHUD.label.font = NORMAL_SIZE_FONT;
     aHUD.contentColor = [UIColor whiteColor];
     return aHUD;
 }

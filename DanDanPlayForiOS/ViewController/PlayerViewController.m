@@ -16,9 +16,12 @@
 #import "PlayerConfigPanelView.h"
 #import "PlayerSendDanmakuConfigView.h"
 
-#define CONFIG_VIEW_WIDTH_RATE 0.4
+#import <IQKeyboardManager.h>
+#import <YYKeyboardManager.h>
 
-@interface PlayerViewController ()<UITextFieldDelegate, JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate>
+#define CONFIG_VIEW_WIDTH_RATE 0.5
+
+@interface PlayerViewController ()<UITextFieldDelegate, JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, YYKeyboardObserver>
 @property (strong, nonatomic) PlayerInterfaceView *interfaceView;
 @property (strong, nonatomic) UIView *gestureView;
 @property (strong, nonatomic) JHMediaPlayer *player;
@@ -37,19 +40,33 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [IQKeyboardManager sharedManager].enable = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.player play];
+    if (self.player.isPlaying == NO) {
+        [self.player play];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable = YES;
+    if (self.player.isPlaying) {
+        [self.player pause];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor blackColor];
+    
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuFont" options:NSKeyValueObservingOptionNew context:nil];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuSpeed" options:NSKeyValueObservingOptionNew context:nil];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuShadowStyle" options:NSKeyValueObservingOptionNew context:nil];
+    [[YYKeyboardManager defaultManager] addObserver:self];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
         if ([CacheManager shareCacheManager].subtitleProtectArea) {
@@ -80,6 +97,13 @@
     }];
     
     [self reload];
+    
+    //延后2秒隐藏控制面板
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self touchInteractionView];
+        });
+    });
 }
 
 - (void)setModel:(VideoModel *)model {
@@ -94,6 +118,7 @@
 - (void)dealloc {
     [self.player stop];
     [self.danmakuEngine stop];
+    [[YYKeyboardManager defaultManager] removeObserver:self];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuFont"];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuSpeed"];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuShadowStyle"];
@@ -107,6 +132,7 @@
     else if ([keyPath isEqualToString:@"danmakuSpeed"]) {
         float speed = [change[NSKeyValueChangeNewKey] floatValue];
         [self.danmakuEngine setSpeed:speed];
+        NSLog(@"弹幕速度 %f", speed);
     }
     else if ([keyPath isEqualToString:@"danmakuShadowStyle"]) {
         JHDanmakuShadowStyle style = [change[NSKeyValueChangeNewKey] integerValue];
@@ -127,8 +153,10 @@
 - (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status {
     switch (status) {
         case JHMediaPlayerStatusPlaying:
+        {
             self.interfaceView.playButton.selected = NO;
             [self.danmakuEngine start];
+        }
             break;
         case JHMediaPlayerStatusStop:
         {
@@ -139,26 +167,38 @@
             }
             //列表循环
             else if (mode == PlayerPlayModeCircle) {
-                if (self.model == [CacheManager shareCacheManager].videoModels.lastObject) {
-                    [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels.firstObject];
-//                    self.model = [CacheManager shareCacheManager].videoModels.firstObject;
-                }
-                else {
-                    NSInteger index = [[CacheManager shareCacheManager].videoModels indexOfObject:self.model];
-                    if (index != NSNotFound && index + 1 < [CacheManager shareCacheManager].videoModels.count) {
-                        [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels[index + 1]];
-//                        self.model = [CacheManager shareCacheManager].videoModels[index + 1];
+                JHFile *currentFile = self.model.file;
+                JHFile *parentFile = currentFile.parentFile;
+                NSInteger index = [parentFile.subFiles indexOfObject:currentFile];
+                
+                if (index != NSNotFound) {
+                    NSInteger count = parentFile.subFiles.count;
+                    //找到下一个是视频的模型
+                    for (NSInteger i = 0; i < count; ++i) {
+                        currentFile = parentFile.subFiles[(i + 1 + index) % count];
+                        if (currentFile.type == JHFileTypeDocument) {
+                            [self playerConfigPanelView:self.configPanelView didSelectedModel:currentFile.videoModel];
+                            return;
+                        }
                     }
                 }
             }
             else if (mode == PlayerPlayModeOrder) {
-                NSInteger index = [[CacheManager shareCacheManager].videoModels indexOfObject:self.model];
-                if (index != NSNotFound && index + 1 < [CacheManager shareCacheManager].videoModels.count) {
-                    [self playerConfigPanelView:self.configPanelView didSelectedModel:[CacheManager shareCacheManager].videoModels[index + 1]];
+                JHFile *currentFile = self.model.file;
+                JHFile *parentFile = currentFile.parentFile;
+                NSInteger index = [parentFile.subFiles indexOfObject:currentFile];
+                if (index != NSNotFound) {
+                    NSInteger count = parentFile.subFiles.count;
+                    //找到下一个是视频的模型
+                    for (NSInteger i = index + 1; i < count; ++i) {
+                        currentFile = parentFile.subFiles[i];
+                        if (currentFile.type == JHFileTypeDocument) {
+                            [self playerConfigPanelView:self.configPanelView didSelectedModel:currentFile.videoModel];
+                            return;
+                        }
+                    }
                 }
             }
-            
-//            [self.configPanelView reloadData];
         }
             break;
         default:
@@ -190,7 +230,7 @@
             aHUD.label.text = danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             model.danmakus = responseObject;
-            [aHUD hideAnimated:YES];
+            [aHUD hideAnimated:NO];
             
             if (responseObject == nil) {
                 jumpToMatchVCAction();
@@ -248,6 +288,30 @@
         }];
     }
     return YES;
+}
+
+#pragma mark - JHKeyboardObserver
+- (void)keyboardChangedWithTransition:(YYKeyboardTransition)transition {
+    if (transition.toVisible) {
+        if (self.player.isPlaying) {
+            [self.player pause];
+        }
+        [self.interfaceView.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_offset(-transition.toFrame.size.height);
+        }];
+    }
+    else {
+        if (self.player.isPlaying == NO) {
+            [self.player play];
+        }
+        [self.interfaceView.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_offset(0);
+        }];
+    }
+    
+    [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
+        [self.interfaceView layoutIfNeeded];
+    } completion:nil];
 }
 
 #pragma mark - 私有方法
@@ -367,6 +431,7 @@
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
     self.interfaceView.titleLabel.text = _model.fileName;
     [self.player setMediaURL:_model.fileURL];
+    
     self.danmakuEngine.currentTime = 0;
 }
 
@@ -374,6 +439,7 @@
 - (PlayerInterfaceView *)interfaceView {
     if (_interfaceView == nil) {
         _interfaceView = [[PlayerInterfaceView alloc] init];
+//        _interfaceView.alpha = 0;
         [_interfaceView.backButton addTarget:self action:@selector(touchBackButton:) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.playButton addTarget:self action:@selector(touchPlayButton) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.progressSlider addTarget:self action:@selector(touchSliderDown:) forControlEvents:UIControlEventTouchDown];

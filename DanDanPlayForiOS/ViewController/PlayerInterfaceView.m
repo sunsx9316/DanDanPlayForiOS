@@ -27,7 +27,7 @@
         
         [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_offset(-20);
-            make.bottom.equalTo(self.bottomView.mas_top).mas_offset(-10);
+            make.bottom.equalTo(self.bottomView.mas_top).mas_offset(-10 - jh_isPad() * 10);
         }];
     }
     return self;
@@ -56,7 +56,8 @@
         [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.mas_offset(10);
             make.bottom.mas_offset(-10);
-            make.width.height.mas_equalTo(50);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(30 + jh_isPad() * 20);
         }];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,9 +90,9 @@
         [_bottomView addSubview:self.sendDanmakuConfigButton];
         
         [self.sendDanmakuTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(10);
+            make.top.mas_offset(15);
             make.left.mas_offset(20);
-            make.height.mas_equalTo(35);
+            make.height.mas_equalTo(35 + jh_isPad() * 10);
         }];
         
         [self.sendDanmakuConfigButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,8 +118,8 @@
         }];
         
         [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.currentTimeLabel.mas_right);
-            make.top.equalTo(self.sendDanmakuTextField.mas_bottom);
+            make.left.equalTo(self.currentTimeLabel.mas_right).mas_offset(10);
+            make.top.equalTo(self.sendDanmakuTextField.mas_bottom).mas_offset(15);
             make.bottom.mas_offset(-10);
         }];
         
@@ -154,7 +155,7 @@
 - (UILabel *)currentTimeLabel {
     if (_currentTimeLabel == nil) {
         _currentTimeLabel = [[UILabel alloc] init];
-        _currentTimeLabel.font = [UIFont systemFontOfSize:13];
+        _currentTimeLabel.font = SMALL_SIZE_FONT;
         _currentTimeLabel.textColor = [UIColor whiteColor];
         _currentTimeLabel.text = @"00:00";
         _currentTimeLabel.textAlignment = NSTextAlignmentCenter;
@@ -165,7 +166,7 @@
 - (UILabel *)totalTimeLabel {
     if (_totalTimeLabel == nil) {
         _totalTimeLabel = [[UILabel alloc] init];
-        _totalTimeLabel.font = [UIFont systemFontOfSize:13];
+        _totalTimeLabel.font = SMALL_SIZE_FONT;
         _totalTimeLabel.textColor = [UIColor whiteColor];
         _totalTimeLabel.text = @"00:00";
         _totalTimeLabel.textAlignment = NSTextAlignmentCenter;
@@ -184,10 +185,10 @@
 - (UITextField *)sendDanmakuTextField {
     if (_sendDanmakuTextField == nil) {
         _sendDanmakuTextField = [[UITextField alloc] init];
-        _sendDanmakuTextField.borderStyle = UITextBorderStyleNone;
+        _sendDanmakuTextField.borderStyle = UITextBorderStyleRoundedRect;
         _sendDanmakuTextField.returnKeyType = UIReturnKeySend;
         _sendDanmakuTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"吐个嘈~" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-        _sendDanmakuTextField.textColor = [UIColor whiteColor];
+//        _sendDanmakuTextField.textColor = [UIColor whiteColor];
     }
     return _sendDanmakuTextField;
 }

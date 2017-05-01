@@ -7,8 +7,9 @@
 //
 
 #import "OtherSettingViewController.h"
-#import "MatchTableViewCell.h"
+//#import "MatchTableViewCell.h"
 #import "OtherSettingSwitchTableViewCell.h"
+#import "OtherSettingTitleSubtitleTableViewCell.h"
 #import "DanmakuManager.h"
 
 @interface OtherSettingViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -129,7 +130,7 @@
     }
     
     
-    MatchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MatchTableViewCell" forIndexPath:indexPath];
+    OtherSettingTitleSubtitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherSettingTitleSubtitleTableViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     if (indexPath.row == 3) {
         cell.titleLabel.text = @"弹幕缓存时间";
@@ -177,10 +178,11 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerNib:[UINib nibWithNibName:@"OtherSettingSwitchTableViewCell" bundle:nil] forCellReuseIdentifier:@"OtherSettingSwitchTableViewCell"];
-        [_tableView registerClass:[MatchTableViewCell class] forCellReuseIdentifier:@"MatchTableViewCell"];
+        [_tableView registerClass:[OtherSettingTitleSubtitleTableViewCell class] forCellReuseIdentifier:@"OtherSettingTitleSubtitleTableViewCell"];
         
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+        _tableView.tableFooterView = [[UIView alloc] init];
         [self.view addSubview:_tableView];
     }
     return _tableView;

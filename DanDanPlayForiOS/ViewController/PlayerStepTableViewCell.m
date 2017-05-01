@@ -62,6 +62,7 @@
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.text = @"0s";
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.font = NORMAL_SIZE_FONT;
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;

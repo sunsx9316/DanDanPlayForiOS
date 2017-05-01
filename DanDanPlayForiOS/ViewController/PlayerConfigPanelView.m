@@ -8,13 +8,14 @@
 
 #import "PlayerConfigPanelView.h"
 #import <WMMenuView.h>
-#import "PlayerListView.h"
+//#import "PlayerListView.h"
 #import "PlayerDanmakuControlView.h"
 #import "PlayerControlView.h"
+#import "FileManagerView.h"
 
-@interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate>
+@interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate, FileManagerViewDelegate>
 @property (strong, nonatomic) WMMenuView *menu;
-@property (strong, nonatomic) PlayerListView *listView;
+@property (strong, nonatomic) FileManagerView *listView;
 @property (strong, nonatomic) PlayerDanmakuControlView *danmakuControlView;
 @property (strong, nonatomic) PlayerControlView *playerControlView;
 @end
@@ -69,7 +70,7 @@
 
 
 - (CGFloat)menuView:(WMMenuView *)menu titleSizeForState:(WMMenuItemState)state {
-    return 14;
+    return NORMAL_SIZE_FONT.pointSize;
 }
 
 - (UIColor *)menuView:(WMMenuView *)menu titleColorForState:(WMMenuItemState)state {
@@ -77,6 +78,11 @@
         return [UIColor whiteColor];
     }
     return MAIN_COLOR;
+}
+
+- (CGFloat)menuView:(WMMenuView *)menu widthForItemAtIndex:(NSInteger)index {
+    NSString *str = [self menuView:menu titleAtIndex:index];
+    return [str sizeForFont:NORMAL_SIZE_FONT size:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) mode:NSLineBreakByWordWrapping].width + 20;
 }
 
 #pragma mark - WMMenuViewDataSource
@@ -94,6 +100,13 @@
     return @"播放器";
 }
 
+#pragma mark - FileManagerViewDelegate
+- (void)managerView:(FileManagerView *)managerView didselectedModel:(JHFile *)file {
+    if ([self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) {
+        [self.delegate playerConfigPanelView:self didSelectedModel:file.videoModel];
+    }
+}
+
 #pragma mark - 懒加载
 - (WMMenuView *)menu {
     if (_menu == nil) {
@@ -107,16 +120,19 @@
     return _menu;
 }
 
-- (PlayerListView *)listView {
+- (FileManagerView *)listView {
     if (_listView == nil) {
-        _listView = [[PlayerListView alloc] init];
-        @weakify(self)
-        [_listView setDidSelectedModelCallBack:^(VideoModel *model) {
-            @strongify(self)
-            if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) return;
-            
-            [self.delegate playerConfigPanelView:self didSelectedModel:model];
-        }];
+        _listView = [[FileManagerView alloc] init];
+        _listView.delegate = self;
+        _listView.type = FileManagerViewTypePlayerList;
+        
+//        @weakify(self)
+//        [_listView setDidSelectedModelCallBack:^(VideoModel *model) {
+//            @strongify(self)
+//            if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) return;
+//            
+//            [self.delegate playerConfigPanelView:self didSelectedModel:model];
+//        }];
     }
     return _listView;
 }

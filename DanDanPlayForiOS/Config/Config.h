@@ -85,5 +85,9 @@ CG_INLINE float jh_systemVersion() {
     return [UIDevice currentDevice].systemVersion.floatValue;
 };
 
+CG_INLINE BOOL jh_isPad() {
+    return [UIDevice currentDevice].isPad;
+};
+
 
 #endif /* Config_h */

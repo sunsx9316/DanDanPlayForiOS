@@ -7,6 +7,7 @@
 //
 
 #import "PlayerSliderTableViewCell.h"
+#import "UIFont+Tools.h"
 
 @interface PlayerSliderTableViewCell ()
 
@@ -21,7 +22,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self.currentValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(40);
+            make.width.mas_equalTo(40 + jh_isPad() * 20);
             make.centerY.mas_equalTo(0);
             make.left.mas_offset(0);
         }];
@@ -45,12 +46,17 @@
     switch (_type) {
         case PlayerSliderTableViewCellTypeFontSize:
         {
-            [CacheManager shareCacheManager].danmakuFont = [UIFont systemFontOfSize:self.slider.value];
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+            NSInteger value = self.slider.value;
+            UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
+            UIFont *tempFont = [danmakuFont fontWithSize:value];
+            tempFont.isSystemFont = danmakuFont.isSystemFont;
+            [CacheManager shareCacheManager].danmakuFont = tempFont;
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", value];
         }
             break;
         case PlayerSliderTableViewCellTypeSpeed:
         {
+//            NSLog(@"%f", self.slider.value); 
             [CacheManager shareCacheManager].danmakuSpeed = self.slider.value;
             self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
             self.currentValueLabel.textColor = sender.value == sender.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
@@ -65,30 +71,21 @@
 - (void)setType:(PlayerSliderTableViewCellType)type {
     _type = type;
     
-    switch (_type) {
-        case PlayerSliderTableViewCellTypeFontSize:
-        {
-            self.currentValueLabel.textColor = [UIColor whiteColor];
-            self.slider.minimumValue = 10;
-            self.slider.maximumValue = 32;
-            self.slider.value = [CacheManager shareCacheManager].danmakuFont.pointSize;
-            self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.maximumValue];
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
-        }
-            break;
-            case PlayerSliderTableViewCellTypeSpeed:
-        {
-            self.slider.minimumValue = 0.2;
-            self.slider.maximumValue = 3.0;
-            self.slider.value = [CacheManager shareCacheManager].danmakuSpeed;
-            self.currentValueLabel.textColor = self.slider.value == self.slider.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
-            self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
-        }
-            break;
-            
-        default:
-            break;
+    if (_type == PlayerSliderTableViewCellTypeFontSize) {
+        self.currentValueLabel.textColor = [UIColor whiteColor];
+        self.slider.value = [CacheManager shareCacheManager].danmakuFont.pointSize;
+        self.slider.minimumValue = 10;
+        self.slider.maximumValue = 32;
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+    }
+    else if (_type == PlayerSliderTableViewCellTypeSpeed) {
+        self.slider.value = [CacheManager shareCacheManager].danmakuSpeed;
+        self.slider.minimumValue = 0.2;
+        self.slider.maximumValue = 3.0;
+        self.currentValueLabel.textColor = self.slider.value == self.slider.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
     }
 }
 
@@ -96,6 +93,8 @@
 - (UISlider *)slider {
     if (_slider == nil) {
         _slider = [[UISlider alloc] init];
+        _slider.minimumValue = 0;
+        _slider.maximumValue = INTMAX_MAX;
         [_slider addTarget:self action:@selector(touchSlider:) forControlEvents:UIControlEventValueChanged];
         _slider.minimumTrackTintColor = MAIN_COLOR;
         [self.contentView addSubview:_slider];

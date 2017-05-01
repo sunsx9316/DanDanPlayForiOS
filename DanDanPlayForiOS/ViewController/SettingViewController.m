@@ -12,6 +12,8 @@
 #import "AboutUsViewController.h"
 
 #import "UIApplication+Tools.h"
+#import "SettingTitleTableViewCell.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
@@ -38,15 +40,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
-        cell.textLabel.font = NORMAL_SIZE_FONT;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-    }
-    
+    SettingTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingTitleTableViewCell" forIndexPath:indexPath];
+    cell.titleLabel.textColor = [UIColor blackColor];
     [self.dataSourceArr[indexPath.row] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         [cell setValue:obj forKeyPath:key];
     }];
@@ -58,22 +53,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         DanmakuSettingViewController *vc = [[DanmakuSettingViewController alloc] init];
-        vc.title = self.dataSourceArr[indexPath.row][@"textLabel.text"];
+        vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 1) {
         OtherSettingViewController *vc = [[OtherSettingViewController alloc] init];
-        vc.title = self.dataSourceArr[indexPath.row][@"textLabel.text"];
+        vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 2) {
         AboutUsViewController *vc = [[AboutUsViewController alloc] init];
-        vc.title = self.dataSourceArr[indexPath.row][@"textLabel.text"];
+        vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44 + jh_isPad() * 10;
+//    return [tableView fd_heightForCellWithIdentifier:@"SettingTitleTableViewCell" cacheByIndexPath:indexPath configuration:^(SettingTitleTableViewCell *cell) {
+//        [self.dataSourceArr[indexPath.row] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+//            [cell setValue:obj forKeyPath:key];
+//        }];
+//    }];
 }
 
 #pragma mark - 私有方法
@@ -108,7 +112,7 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
-            make.width.height.mas_equalTo(90);
+            make.width.height.mas_equalTo(90 + jh_isPad() * 40);
         }];
         
         [self reloadUserInfo];
@@ -124,11 +128,12 @@
     return _iconBGImgView;
 }
 
+
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.contentMode = UIViewContentModeScaleAspectFill;
-        _iconImgView.layer.cornerRadius = 45;
+        _iconImgView.layer.cornerRadius = (90 + jh_isPad() * 40) / 2;
         _iconImgView.layer.masksToBounds = YES;
         _iconImgView.layer.borderWidth = 5;
         _iconImgView.layer.borderColor = RGBACOLOR(255, 255, 255, 0.6).CGColor;
@@ -138,11 +143,13 @@
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         _tableView.tableHeaderView = self.headView;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 44;
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+//        _tableView.rowHeight = 44;
+        [_tableView registerClass:[SettingTitleTableViewCell class] forCellReuseIdentifier:@"SettingTitleTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         [self.view addSubview:_tableView];
     }
@@ -151,9 +158,9 @@
 
 - (NSArray<NSDictionary *> *)dataSourceArr {
     if (_dataSourceArr == nil) {
-        _dataSourceArr = @[@{@"textLabel.text": @"弹幕设置"},
-                           @{@"textLabel.text": @"其他设置"},
-                           @{@"textLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]},];
+        _dataSourceArr = @[@{@"titleLabel.text": @"弹幕设置"},
+                           @{@"titleLabel.text": @"其他设置"},
+                           @{@"titleLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]},];
         
     }
     return _dataSourceArr;

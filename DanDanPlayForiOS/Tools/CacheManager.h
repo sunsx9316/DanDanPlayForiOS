@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
     PlayerPlayModeOrder,
 };
 
-@class JHUser;
+@class JHUser, JHFile;
 @interface CacheManager : NSObject
 
 
@@ -35,7 +35,9 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
 @property (strong, nonatomic) VideoModel *currentPlayVideoModel;
 
 //列表中的视频
-@property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
+//@property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
+
+@property (strong, nonatomic) JHFile *rootFile;
 
 /**
  弹幕过滤
@@ -63,6 +65,7 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
  弹幕字体
  */
 @property (strong, nonatomic) UIFont *danmakuFont;
+
 
 /**
  弹幕边缘特效

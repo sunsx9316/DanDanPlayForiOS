@@ -72,6 +72,10 @@
     }
 }
 
+- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(JHFile *)item {
+    return UITableViewCellEditingStyleNone;
+}
+
 - (void)treeView:(RATreeView *)treeView didSelectRowForItem:(JHEpisode *)item {
     [treeView deselectRowForItem:item animated:YES];
     if ([item isKindOfClass:[JHEpisode class]]) {
@@ -181,6 +185,7 @@
         _treeView = [[BaseTreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
         _treeView.delegate = self;
         _treeView.dataSource = self;
+        _treeView.separatorStyle = RATreeViewCellSeparatorStyleNone;
         _treeView.rowsExpandingAnimation = RATreeViewRowAnimationTop;
         _treeView.rowsCollapsingAnimation = RATreeViewRowAnimationTop;
         [_treeView registerClass:[SearchAnimeTitleTableViewCell class] forCellReuseIdentifier:@"SearchAnimeTitleTableViewCell"];

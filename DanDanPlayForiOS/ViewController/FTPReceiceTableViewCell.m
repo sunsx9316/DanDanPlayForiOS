@@ -8,10 +8,6 @@
 
 #import "FTPReceiceTableViewCell.h"
 
-@interface FTPReceiceTableViewCell ()
-
-@end
-
 @implementation FTPReceiceTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -46,12 +42,13 @@
 
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
-        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fav_folder_video_select"]];
+        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cheak_mark"]];
         [_iconImgView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_iconImgView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [self.contentView addSubview:_iconImgView];
     }
     return _iconImgView;
 }
+
 
 @end

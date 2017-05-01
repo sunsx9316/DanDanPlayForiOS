@@ -52,7 +52,7 @@
 #pragma mark - 懒加载
 - (UISearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
         _searchBar.delegate = self;
         _searchBar.placeholder = @"找不到？试试手动♂搜索";
         _searchBar.returnKeyType = UIReturnKeySearch;
@@ -66,11 +66,12 @@
         _pageController.dataSource = self;
         _pageController.titleColorNormal = [UIColor lightGrayColor];
         _pageController.titleColorSelected = MAIN_COLOR;
-        _pageController.titleSizeNormal = 13;
-        _pageController.titleSizeSelected = 15;
+        _pageController.titleSizeNormal = SMALL_SIZE_FONT.pointSize;
+        _pageController.titleSizeSelected = NORMAL_SIZE_FONT.pointSize;
         _pageController.menuViewContentMargin = 5;
         _pageController.itemMargin = 10;
-        _pageController.menuHeight = 35;
+        _pageController.automaticallyCalculatesItemWidths = YES;
+        _pageController.menuHeight = NORMAL_SIZE_FONT.lineHeight + 20;
         _pageController.menuViewStyle = WMMenuViewStyleLine;
         _pageController.menuViewLayoutMode = WMMenuViewLayoutModeLeft;
         [self addChildViewController:_pageController];

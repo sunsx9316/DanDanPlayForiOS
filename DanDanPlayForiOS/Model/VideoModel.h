@@ -8,7 +8,7 @@
 
 #import "JHBase.h"
 
-@class VLCMedia, JHBaseDanmaku;
+@class VLCMedia, JHBaseDanmaku, JHFile;
 @interface VideoModel : JHBase
 /**
  *  初始化
@@ -55,6 +55,13 @@
  */
 @property (strong, nonatomic, readonly) VLCMedia *media;
 
+/**
+ 弹幕
+ */
 @property (strong, nonatomic) JHDanmakuCollection *danmakus;
 
+/**
+ 文件模型
+ */
+@property (strong, nonatomic) JHFile *file;
 @end

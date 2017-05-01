@@ -39,6 +39,10 @@
         _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"无", @"描边", @"投影", @"模糊阴影"]];
         _segmentedControl.tintColor = MAIN_COLOR;
         [_segmentedControl addTarget:self action:@selector(touchSegmentedControl:) forControlEvents:UIControlEventValueChanged];
+        if (jh_isPad()) {
+            [_segmentedControl setTitleTextAttributes:@{NSFontAttributeName : NORMAL_SIZE_FONT} forState:UIControlStateSelected];
+            [_segmentedControl setTitleTextAttributes:@{NSFontAttributeName : NORMAL_SIZE_FONT} forState:UIControlStateNormal];            
+        }
         _segmentedControl.selectedSegmentIndex = [CacheManager shareCacheManager].danmakuShadowStyle - 100;
         [self.contentView addSubview:_segmentedControl];
     }

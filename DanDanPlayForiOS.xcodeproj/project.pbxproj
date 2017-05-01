@@ -22,13 +22,19 @@
 		89350B181EAB125700072DA5 /* JHEdgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B151EAB125700072DA5 /* JHEdgeButton.m */; };
 		89350B191EAB125700072DA5 /* JHEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B171EAB125700072DA5 /* JHEdgeLabel.m */; };
 		89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */; };
+		8939FB4A1EB334520063BBA1 /* JHFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB491EB334520063BBA1 /* JHFile.m */; };
+		8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */; };
+		8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4F1EB397040063BBA1 /* FileManagerView.m */; };
+		8939FB541EB3A1590063BBA1 /* BaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */; };
+		8939FB571EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */; };
+		893E8F151EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 893E8F141EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m */; };
+		8946D52B1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */; };
 		894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* MainViewController.m */; };
 		894CBAA21E6BCA760021253F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* SettingViewController.m */; };
 		894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA71E6C06F70021253F /* LocalFileViewController.m */; };
 		894CBAAB1E6C073A0021253F /* FTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* FTPViewController.m */; };
-		894CBAAF1E6C12A80021253F /* LocalFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* LocalFileTableViewCell.m */; };
+		894CBAAF1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */; };
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
-		8995510D1EAC9E4800AE04BC /* PlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510C1EAC9E4800AE04BC /* PlayerListView.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
 		899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */; };
 		8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996B9F91EAA28450018E8B0 /* PlayerViewController.m */; };
@@ -67,7 +73,7 @@
 		89D8F81A1EB09CAC009329AA /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89D8F8181EB09CAC009329AA /* AboutUsViewController.xib */; };
 		89D8F81F1EB0B112009329AA /* PlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
-		89E1E9F71EADA04700419C78 /* PlayerListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* PlayerListTableViewCell.m */; };
+		89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */; };
 		89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */; };
 		89E1E9FE1EADF13600419C78 /* PlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9FC1EADF13600419C78 /* PlayerSliderTableViewCell.m */; };
 		89E1EA021EADFD5400419C78 /* PlayerControlHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA011EADFD5400419C78 /* PlayerControlHeaderView.m */; };
@@ -75,7 +81,7 @@
 		89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* PlayerStepTableViewCell.m */; };
 		89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA0C1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m */; };
 		89E3F5BE1E5829BD007AB1BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
-		89E3F5C11E5829BD007AB1BD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.m */; };
+		89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
 		89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
 		89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
 		89E3F5FC1E585135007AB1BD /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5ED1E585135007AB1BD /* BaseNetManager.m */; };
@@ -92,6 +98,9 @@
 		89E3F6281E585C17007AB1BD /* JHDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* JHDanmaku.m */; };
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
 		89F173031EB1C59F006A2473 /* DanDanPlayEncrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */; };
+		89F173061EB1F6F0006A2473 /* SettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */; };
+		89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
+		89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */; };
 		89F5C82A1EAF104D00676361 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89F5C8291EAF104D00676361 /* web */; };
 		89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
 		89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */; };
@@ -129,6 +138,20 @@
 		89350B171EAB125700072DA5 /* JHEdgeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHEdgeLabel.m; sourceTree = "<group>"; };
 		89350B1A1EAB44CB00072DA5 /* PlayNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayNavigationController.h; sourceTree = "<group>"; };
 		89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayNavigationController.m; sourceTree = "<group>"; };
+		8939FB481EB334520063BBA1 /* JHFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHFile.h; sourceTree = "<group>"; };
+		8939FB491EB334520063BBA1 /* JHFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHFile.m; sourceTree = "<group>"; };
+		8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderLongCollectionViewCell.h; sourceTree = "<group>"; };
+		8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderLongCollectionViewCell.m; sourceTree = "<group>"; };
+		8939FB4E1EB397040063BBA1 /* FileManagerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerView.h; sourceTree = "<group>"; };
+		8939FB4F1EB397040063BBA1 /* FileManagerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerView.m; sourceTree = "<group>"; };
+		8939FB521EB3A1590063BBA1 /* BaseCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCollectionView.h; sourceTree = "<group>"; };
+		8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCollectionView.m; sourceTree = "<group>"; };
+		8939FB551EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderShortCollectionViewCell.h; sourceTree = "<group>"; };
+		8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderShortCollectionViewCell.m; sourceTree = "<group>"; };
+		893E8F131EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		893E8F141EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		8946D5291EB6D38800161833 /* FileManagerBaseCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerBaseCollectionViewCell.h; sourceTree = "<group>"; };
+		8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerBaseCollectionViewCell.m; sourceTree = "<group>"; };
 		894CBA9B1E6BC8D20021253F /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		894CBA9C1E6BC8D20021253F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		894CBAA01E6BCA760021253F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -137,12 +160,10 @@
 		894CBAA71E6C06F70021253F /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		894CBAA91E6C073A0021253F /* FTPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPViewController.h; sourceTree = "<group>"; };
 		894CBAAA1E6C073A0021253F /* FTPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPViewController.m; sourceTree = "<group>"; };
-		894CBAAD1E6C12A80021253F /* LocalFileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileTableViewCell.h; sourceTree = "<group>"; };
-		894CBAAE1E6C12A80021253F /* LocalFileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileTableViewCell.m; sourceTree = "<group>"; };
+		894CBAAD1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFileLongCollectionViewCell.h; sourceTree = "<group>"; };
+		894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFileLongCollectionViewCell.m; sourceTree = "<group>"; };
 		896F594D1EA710A8004F4313 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		896F594E1EA710A8004F4313 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
-		8995510B1EAC9E4800AE04BC /* PlayerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerListView.h; sourceTree = "<group>"; };
-		8995510C1EAC9E4800AE04BC /* PlayerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerListView.m; sourceTree = "<group>"; };
 		8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConfigPanelView.h; sourceTree = "<group>"; };
 		8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerConfigPanelView.m; sourceTree = "<group>"; };
 		899551111EACA62800AE04BC /* JHBaseDanmaku+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHBaseDanmaku+Tools.h"; sourceTree = "<group>"; };
@@ -220,8 +241,8 @@
 		89D8F81E1EB0B112009329AA /* PlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlView.m; sourceTree = "<group>"; };
 		89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlPlayModeTableViewCell.h; sourceTree = "<group>"; };
 		89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlPlayModeTableViewCell.m; sourceTree = "<group>"; };
-		89E1E9F51EADA04700419C78 /* PlayerListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerListTableViewCell.h; sourceTree = "<group>"; };
-		89E1E9F61EADA04700419C78 /* PlayerListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerListTableViewCell.m; sourceTree = "<group>"; };
+		89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderPlayerListCollectionViewCell.h; sourceTree = "<group>"; };
+		89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderPlayerListCollectionViewCell.m; sourceTree = "<group>"; };
 		89E1E9F81EADA82000419C78 /* PlayerDanmakuControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuControlView.h; sourceTree = "<group>"; };
 		89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuControlView.m; sourceTree = "<group>"; };
 		89E1E9FB1EADF13600419C78 /* PlayerSliderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSliderTableViewCell.h; sourceTree = "<group>"; };
@@ -237,7 +258,7 @@
 		89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3F5BD1E5829BD007AB1BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		89E3F5C01E5829BD007AB1BD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		89E3F5C81E5829BD007AB1BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		89E3F5CB1E5829BD007AB1BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89E3F5CD1E5829BD007AB1BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -270,6 +291,12 @@
 		89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
 		89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
 		89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
+		89F173041EB1F6F0006A2473 /* SettingTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTitleTableViewCell.h; sourceTree = "<group>"; };
+		89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTitleTableViewCell.m; sourceTree = "<group>"; };
+		89F173361EB20E4D006A2473 /* UIFont+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Tools.h"; sourceTree = "<group>"; };
+		89F173371EB20E4D006A2473 /* UIFont+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Tools.m"; sourceTree = "<group>"; };
+		89F173391EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingTitleSubtitleTableViewCell.h; sourceTree = "<group>"; };
+		89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherSettingTitleSubtitleTableViewCell.m; sourceTree = "<group>"; };
 		89F5C8291EAF104D00676361 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = web; path = DanDanPlayForiOS/web; sourceTree = SOURCE_ROOT; };
 		89F5C82B1EAF10A500676361 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
 		89F5C82C1EAF10A500676361 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
@@ -346,14 +373,10 @@
 			children = (
 				8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */,
 				8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */,
-				8995510B1EAC9E4800AE04BC /* PlayerListView.h */,
-				8995510C1EAC9E4800AE04BC /* PlayerListView.m */,
 				89E1E9F81EADA82000419C78 /* PlayerDanmakuControlView.h */,
 				89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */,
 				89D8F81D1EB0B112009329AA /* PlayerControlView.h */,
 				89D8F81E1EB0B112009329AA /* PlayerControlView.m */,
-				89E1E9F51EADA04700419C78 /* PlayerListTableViewCell.h */,
-				89E1E9F61EADA04700419C78 /* PlayerListTableViewCell.m */,
 				89E1E9FB1EADF13600419C78 /* PlayerSliderTableViewCell.h */,
 				89E1E9FC1EADF13600419C78 /* PlayerSliderTableViewCell.m */,
 				89E1EA031EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.h */,
@@ -370,6 +393,27 @@
 				89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		8939FB511EB398D70063BBA1 /* FileManagerView */ = {
+			isa = PBXGroup;
+			children = (
+				8946D5291EB6D38800161833 /* FileManagerBaseCollectionViewCell.h */,
+				8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */,
+				894CBAAD1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.h */,
+				894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */,
+				8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.h */,
+				8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */,
+				8939FB551EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.h */,
+				8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */,
+				89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.h */,
+				89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */,
+				8939FB4E1EB397040063BBA1 /* FileManagerView.h */,
+				8939FB4F1EB397040063BBA1 /* FileManagerView.m */,
+				893E8F131EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.h */,
+				893E8F141EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m */,
+			);
+			name = FileManagerView;
 			sourceTree = "<group>";
 		};
 		894CBA951E6BC5260021253F /* Widget */ = {
@@ -391,6 +435,8 @@
 				896F594E1EA710A8004F4313 /* BaseTableView.m */,
 				8916C7BD1EA8958D00A2233D /* BaseTreeView.h */,
 				8916C7BE1EA8958D00A2233D /* BaseTreeView.m */,
+				8939FB521EB3A1590063BBA1 /* BaseCollectionView.h */,
+				8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */,
 				89350B111EAB0DA000072DA5 /* JHBlurView.h */,
 				89350B121EAB0DA000072DA5 /* JHBlurView.m */,
 			);
@@ -435,8 +481,7 @@
 		894CBAAC1E6C0CEF0021253F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				894CBAAD1E6C12A80021253F /* LocalFileTableViewCell.h */,
-				894CBAAE1E6C12A80021253F /* LocalFileTableViewCell.m */,
+				8939FB511EB398D70063BBA1 /* FileManagerView */,
 				8916C7C01EA89A8A00A2233D /* MatchTitleTableViewCell.h */,
 				8916C7C11EA89A8A00A2233D /* MatchTitleTableViewCell.m */,
 				8916C7BA1EA85DB400A2233D /* MatchTableViewCell.h */,
@@ -478,6 +523,10 @@
 				89D8F8021EB05A60009329AA /* OtherSettingSwitchTableViewCell.h */,
 				89D8F8031EB05A60009329AA /* OtherSettingSwitchTableViewCell.m */,
 				89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */,
+				89F173041EB1F6F0006A2473 /* SettingTitleTableViewCell.h */,
+				89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */,
+				89F173391EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.h */,
+				89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -520,7 +569,7 @@
 				89E3F6041E58519B007AB1BD /* Config */,
 				89E3F5EB1E585135007AB1BD /* NetManager */,
 				89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */,
-				89E3F5C01E5829BD007AB1BD /* AppDelegate.m */,
+				89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */,
 				89E3F5BC1E5829BD007AB1BD /* Supporting Files */,
 			);
 			path = DanDanPlayForiOS;
@@ -606,6 +655,8 @@
 				89F5C82C1EAF10A500676361 /* NSString+Tools.m */,
 				89D8F7F21EB040E6009329AA /* UIApplication+Tools.h */,
 				89D8F7F31EB040E6009329AA /* UIApplication+Tools.m */,
+				89F173361EB20E4D006A2473 /* UIFont+Tools.h */,
+				89F173371EB20E4D006A2473 /* UIFont+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -629,6 +680,8 @@
 			children = (
 				89F5C82E1EAF112200676361 /* DanDanPlayHTTPConnection.h */,
 				89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */,
+				8939FB481EB334520063BBA1 /* JHFile.h */,
+				8939FB491EB334520063BBA1 /* JHFile.m */,
 				89B04F6E1E59C1C3007054CB /* 视频模型 */,
 				89A42E951EA5B0BA00FA0DF3 /* JHBase.h */,
 				89A42E961EA5B0BA00FA0DF3 /* JHBase.m */,
@@ -813,11 +866,13 @@
 				89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */,
 				89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
+				8946D52B1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m in Sources */,
 				89D8F8001EB0588F009329AA /* OtherSettingViewController.m in Sources */,
+				89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */,
 				8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */,
 				89A42EAB1EA5E10F00FA0DF3 /* JHDanmakuCollection.m in Sources */,
 				89F8CDBB1EA78A10000D5F3F /* CacheManager.m in Sources */,
-				894CBAAF1E6C12A80021253F /* LocalFileTableViewCell.m in Sources */,
+				894CBAAF1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m in Sources */,
 				8916C7D01EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m in Sources */,
 				894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */,
 				89A42EB11EA5E7D000FA0DF3 /* JHMatche.m in Sources */,
@@ -833,16 +888,20 @@
 				89A42EA41EA5B22A00FA0DF3 /* JHResponse.m in Sources */,
 				89E3F6101E585320007AB1BD /* MJRefreshHeader+Tools.m in Sources */,
 				89350B081EAAFB9900072DA5 /* JHMediaPlayer.m in Sources */,
+				8939FB571EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m in Sources */,
 				8916C7C21EA89A8A00A2233D /* MatchTitleTableViewCell.m in Sources */,
 				89E3F6191E58552D007AB1BD /* UIButton+Tools.m in Sources */,
 				89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */,
+				893E8F151EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m in Sources */,
 				89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */,
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
 				899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */,
 				89D8F7F71EB04B12009329AA /* DanmakuSettingViewController.m in Sources */,
 				89A42EBD1EA5EDE500FA0DF3 /* JHRelatedCollection.m in Sources */,
+				8939FB4A1EB334520063BBA1 /* JHFile.m in Sources */,
 				89A42F041EA6025000FA0DF3 /* JHBiliBiliBangumi.m in Sources */,
 				89A42EF21EA5FC3200FA0DF3 /* JHEpisode.m in Sources */,
+				8939FB541EB3A1590063BBA1 /* BaseCollectionView.m in Sources */,
 				89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */,
 				89A42EEF1EA5FB9000FA0DF3 /* JHSearch.m in Sources */,
 				89E3F5FE1E585135007AB1BD /* FilterNetManager.m in Sources */,
@@ -855,6 +914,7 @@
 				89350B191EAB125700072DA5 /* JHEdgeLabel.m in Sources */,
 				896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */,
 				89A42E9A1EA5B0BA00FA0DF3 /* JHBaseCollection.m in Sources */,
+				89F173061EB1F6F0006A2473 /* SettingTitleTableViewCell.m in Sources */,
 				89A42E991EA5B0BA00FA0DF3 /* JHBase.m in Sources */,
 				89E3F5FF1E585135007AB1BD /* MatchNetManager.m in Sources */,
 				89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */,
@@ -870,15 +930,17 @@
 				89A42EA01EA5B14100FA0DF3 /* JHFilterCollection.m in Sources */,
 				89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */,
 				89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */,
+				8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */,
 				89E3F6161E5854A2007AB1BD /* UIImageView+Tools.m in Sources */,
-				89E1E9F71EADA04700419C78 /* PlayerListTableViewCell.m in Sources */,
+				89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m in Sources */,
 				89A42EC01EA5F09500FA0DF3 /* VideoModel.m in Sources */,
 				89A42EB71EA5EB4500FA0DF3 /* RelatedNetManager.m in Sources */,
+				8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m in Sources */,
+				89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */,
 				89E3F6001E585135007AB1BD /* RecommedNetManager.m in Sources */,
 				89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */,
-				89E3F5C11E5829BD007AB1BD /* AppDelegate.m in Sources */,
+				89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */,
 				89E3F6131E58539D007AB1BD /* MJRefreshFooter+Tools.m in Sources */,
-				8995510D1EAC9E4800AE04BC /* PlayerListView.m in Sources */,
 				89E3F5BE1E5829BD007AB1BD /* main.m in Sources */,
 				89A42EFE1EA5FF5200FA0DF3 /* JHBiliBiliSearch.m in Sources */,
 				89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */,
