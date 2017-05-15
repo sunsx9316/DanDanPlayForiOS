@@ -64,13 +64,13 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 2) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK]];
+    }
+    else if (indexPath.row == 3) {
         AboutUsViewController *vc = [[AboutUsViewController alloc] init];
         vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (indexPath.row == 3) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK]];
     }
 }
 
@@ -163,8 +163,8 @@
     if (_dataSourceArr == nil) {
         _dataSourceArr = @[@{@"titleLabel.text": @"弹幕设置"},
                            @{@"titleLabel.text": @"其他设置"},
-                           @{@"titleLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]},
-                           @{@"titleLabel.text": @"问题反馈"}];
+                           @{@"titleLabel.text": @"评价"},
+                           @{@"titleLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}];
         
     }
     return _dataSourceArr;
