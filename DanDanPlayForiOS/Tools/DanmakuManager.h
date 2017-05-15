@@ -18,7 +18,7 @@
  @param episodeId 节目id
  @param source 类型
  */
-+ (void)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source;
++ (JHDanmakuCollection *)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source;
 
 /**
  获取缓存弹幕

@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSUInteger, PlayerSliderTableViewCellType) {
     PlayerSliderTableViewCellTypeFontSize,
     PlayerSliderTableViewCellTypeSpeed,
+    PlayerSliderTableViewCellTypeOpacity,
 };
 
 @interface PlayerSliderTableViewCell : UITableViewCell

@@ -15,11 +15,13 @@ static NSString *const autoRequestThirdPartyDanmakuKey = @"auto_request_third_pa
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const openFastMatchKey = @"open_fast_match";
 static NSString *const danmakuFontKey = @"danmaku_font";
+static NSString *const danmakuOpacityKey = @"danmaku_opacity";
 static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
 static NSString *const danmakuShadowStyleKey = @"danmaku_shadow_style";
 static NSString *const subtitleProtectAreaKey = @"subtitle_protect_area";
 static NSString *const danmakuSpeedKey = @"danmaku_speed";
 static NSString *const playerPlayKey = @"player_play";
+static NSString *const folderCacheKey = @"folder_cache";
 
 @interface CacheManager ()
 @property (strong, nonatomic) YYCache *cache;
@@ -199,6 +201,20 @@ static NSString *const playerPlayKey = @"player_play";
     [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey withBlock:nil];
 }
 
+- (float)danmakuOpacity {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuOpacityKey];
+    if (num == nil) {
+        num = @1;
+        self.danmakuOpacity = 1;
+    }
+    
+    return num.floatValue;
+}
+
+- (void)setDanmakuOpacity:(float)danmakuOpacity {
+    [self.cache setObject:@(danmakuOpacity) forKey:danmakuOpacityKey withBlock:nil];
+}
+
 - (void)setPlayMode:(PlayerPlayMode)playMode {
     [self.cache setObject:@(playMode) forKey:playerPlayKey withBlock:nil];
 }
@@ -211,6 +227,21 @@ static NSString *const playerPlayKey = @"player_play";
     }
     
     return num.integerValue;
+}
+
+- (NSMutableDictionary *)folderCache {
+    NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[[CacheManager shareCacheManager].cache objectForKey:folderCacheKey];
+    if ([dic isKindOfClass:[NSMutableDictionary class]] == NO) {
+        dic = [dic mutableCopy];
+        [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
+            dic[key] = [obj mutableCopy];
+        }];
+    }
+    return dic;
+}
+
+- (void)setFolderCache:(NSMutableDictionary<NSString *, NSArray<NSString *> *> *)folderCache {
+    [[CacheManager shareCacheManager].cache setObject:folderCache forKey:folderCacheKey withBlock:nil];
 }
 
 @end

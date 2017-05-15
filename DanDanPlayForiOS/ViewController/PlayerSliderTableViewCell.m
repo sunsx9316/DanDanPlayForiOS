@@ -62,6 +62,13 @@
             self.currentValueLabel.textColor = sender.value == sender.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
         }
             break;
+        case PlayerSliderTableViewCellTypeOpacity:
+        {
+            //            NSLog(@"%f", self.slider.value);
+            [CacheManager shareCacheManager].danmakuOpacity = self.slider.value;
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
+        }
+            break;
             
         default:
             break;
@@ -84,6 +91,14 @@
         self.slider.minimumValue = 0.2;
         self.slider.maximumValue = 3.0;
         self.currentValueLabel.textColor = self.slider.value == self.slider.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
+    }
+    if (_type == PlayerSliderTableViewCellTypeOpacity) {
+        self.currentValueLabel.textColor = [UIColor whiteColor];
+        self.slider.value = [CacheManager shareCacheManager].danmakuSpeed;
+        self.slider.minimumValue = 0.0f;
+        self.slider.maximumValue = 1.0f;
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
         self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
     }

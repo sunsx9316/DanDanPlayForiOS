@@ -28,17 +28,18 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
 @class JHUser, JHFile;
 @interface CacheManager : NSObject
 
-
 @property (strong, nonatomic) JHUser *user;
 
 //当前分析的视频模型
 @property (strong, nonatomic) VideoModel *currentPlayVideoModel;
 
+//存储文件夹名称和文件hash
+@property (strong, nonatomic) NSMutableDictionary <NSString *, NSArray <NSString *>*>*folderCache;
+
 //列表中的视频
 //@property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
 
 @property (strong, nonatomic) JHFile *rootFile;
-
 /**
  弹幕过滤
  */
@@ -86,6 +87,11 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
  弹幕速度
  */
 @property (assign, nonatomic) float danmakuSpeed;
+
+/**
+ 弹幕不透明度
+ */
+@property (assign, nonatomic) float danmakuOpacity;
 
 - (void)addDanmakuFilter:(JHFilter *)danmakuFilter;
 - (void)removeDanmakuFilter:(JHFilter *)danmakuFilter;

@@ -11,4 +11,5 @@
 @interface FileManagerFolderLongCollectionViewCell : FileManagerBaseCollectionViewCell
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIImageView *iconImgView;
+@property (strong, nonatomic) UILabel *detailLabel;
 @end

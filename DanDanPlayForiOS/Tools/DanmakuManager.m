@@ -30,10 +30,11 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     return manager;
 }
 
-+ (void)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
-    if (obj == nil || episodeId == 0) return;
++ (JHDanmakuCollection *)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
+    if (obj == nil || episodeId == 0) return nil;
     
-    NSMutableArray *danmakus = [NSMutableArray array];
+    //过滤重复弹幕
+    NSMutableSet *danmakus = [NSMutableSet set];
     [self switchParseWithSource:source obj:obj block:^(JHDanmaku *model) {
         [danmakus addObject:model];
     }];
@@ -55,9 +56,10 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     }
     
     JHDanmakuCollection *danmakuCollection = [[JHDanmakuCollection alloc] init];
-    danmakuCollection.collection = danmakus;
+    danmakuCollection.collection = [danmakus.allObjects mutableCopy];
     danmakuCollection.saveTime = [NSDate date];
     [cache setObject:danmakuCollection forKey:key withBlock:nil];
+    return danmakuCollection;
 }
 
 + (NSArray <JHDanmaku *>*)danmakuCacheWithEpisodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
@@ -65,9 +67,11 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     if (episodeId == 0) return @[];
     
     NSString *key = [NSString stringWithFormat:@"%ld", episodeId];
-    NSMutableArray *danmakuCache = [NSMutableArray array];
+    //过滤重复弹幕
+    NSMutableSet *danmakuCache = [NSMutableSet set];
     NSTimeInterval cacheTime = [CacheManager shareCacheManager].danmakuCacheTime * 24 * 3600;
     
+    //获取的是B站弹幕
     if (source & DanDanPlayDanmakuTypeBiliBili) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].bilibiliDanmakuCache objectForKey:key];
         //缓存过期
@@ -79,6 +83,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
         }
     }
     
+    //获取的是A站弹幕
     if (source & DanDanPlayDanmakuTypeAcfun) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].acfunDanmakuCache objectForKey:key];
         //缓存过期
@@ -90,6 +95,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
         }
     }
     
+    //获取的是官方弹幕
     if (source & DanDanPlayDanmakuTypeOfficial) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
         //缓存过期
@@ -116,7 +122,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
         }
     }
     
-    return danmakuCache;
+    return danmakuCache.allObjects;
 }
 
 + (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {

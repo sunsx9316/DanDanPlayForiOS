@@ -10,13 +10,12 @@
 
 @implementation FileManagerFolderShortCollectionViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.iconImgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.left.mas_offset(5);
             make.right.mas_offset(-5);
         }];
-        
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.iconImgView.mas_bottom).mas_offset(5);

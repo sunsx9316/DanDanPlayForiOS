@@ -59,15 +59,22 @@ typedef void(^GetVideosAction)(JHFile *file);
 /**
  扫描视频模型
  */
-- (void)startDiscovererVideoWithFileModel:(JHFile *)fileModel completion:(GetVideosAction)completion;
+- (void)startDiscovererVideoWithCompletion:(GetVideosAction)completion;
 
+/**
+ 添加文件到文件夹
+
+ @param files 文件
+ @param folderName 文件夹
+ */
+- (void)addFiles:(NSArray <JHFile *>*)files toFolder:(NSString *)folderName;
 /**
  搜索文件
 
  @param aURL 路径
  @param completion 回调
  */
-- (void)startSearchVideoWithFileModel:(JHFile *)fileModel searchKey:(NSString *)key completion:(GetVideosAction)completion;
+- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetVideosAction)completion;
 
 
 /**

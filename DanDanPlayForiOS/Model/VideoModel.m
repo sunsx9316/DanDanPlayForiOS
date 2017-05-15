@@ -59,7 +59,7 @@
 
 - (NSString *)quickHash {
     if (_quickHash == nil) {
-        _quickHash = [self.fileName md5String];
+        _quickHash = [self.fileNameWithPathExtension md5String];
     }
     return _quickHash;
 }

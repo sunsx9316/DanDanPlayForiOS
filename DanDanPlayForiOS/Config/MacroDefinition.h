@@ -66,4 +66,6 @@ self.navigationController.navigationBar.translucent = isTranslucent;
 #define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
 #define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
 
+#define APP_LINK @"itms-apps://itunes.apple.com/app/id1189757764"
+
 #endif /* MacroDefinition_h */

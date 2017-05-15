@@ -51,6 +51,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
         manager = [AFHTTPSessionManager manager];
         [manager.requestSerializer setValue:@"iOS" forHTTPHeaderField:@"X-Client-Name"];
         [manager.requestSerializer setValue:[UIApplication sharedApplication].appVersion forHTTPHeaderField:@"X-Client-Version"];
+        manager.requestSerializer.timeoutInterval = 10;
     });
     return manager;
 }
@@ -63,6 +64,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
         dataManager.responseSerializer = [AFHTTPDataResponseSerializer serializer];
         [dataManager.requestSerializer setValue:@"iOS" forHTTPHeaderField:@"X-Client-Name"];
         [dataManager.requestSerializer setValue:[UIApplication sharedApplication].appVersion forHTTPHeaderField:@"X-Client-Version"];
+        dataManager.requestSerializer.timeoutInterval = 10;
     });
     return dataManager;
 }

@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-
+#import "BaseNavigationController.h"
 #import "LocalFileViewController.h"
 #import "SettingViewController.h"
 
@@ -29,7 +29,7 @@
 
 - (UINavigationController *)navigationControllerWithNormalImg:(UIImage *)normalImg selectImg:(UIImage *)selectImg rootVC:(UIViewController *)rootVC title:(NSString *)title {
     UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:title image:normalImg selectedImage:[[selectImg imageByTintColor:MAIN_COLOR] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    UINavigationController *navVC = [[BaseNavigationController alloc] initWithRootViewController:rootVC];
     navVC.tabBarItem = item;
     item.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     return navVC;

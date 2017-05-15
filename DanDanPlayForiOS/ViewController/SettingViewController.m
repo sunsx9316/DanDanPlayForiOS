@@ -69,6 +69,9 @@
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
+    else if (indexPath.row == 3) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK]];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -160,7 +163,8 @@
     if (_dataSourceArr == nil) {
         _dataSourceArr = @[@{@"titleLabel.text": @"弹幕设置"},
                            @{@"titleLabel.text": @"其他设置"},
-                           @{@"titleLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]},];
+                           @{@"titleLabel.text": [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]},
+                           @{@"titleLabel.text": @"问题反馈"}];
         
     }
     return _dataSourceArr;

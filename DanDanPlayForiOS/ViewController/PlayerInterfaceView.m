@@ -231,7 +231,7 @@
         _switchLabel = [[UILabel alloc] init];
         _switchLabel.font = SMALL_SIZE_FONT;
         _switchLabel.textColor = [UIColor whiteColor];
-        _switchLabel.text = @"弹幕开关";
+        _switchLabel.text = @"弹幕";
         [_switchLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_switchLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }

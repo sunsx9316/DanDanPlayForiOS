@@ -35,6 +35,7 @@
     //进度条是否不响应通知
     BOOL _isSliderNoActionNotice;
     NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*> *_danmakuDic;
+    NSInteger _currentTime;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,11 +62,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _currentTime = -1;
     self.view.backgroundColor = [UIColor blackColor];
     
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuFont" options:NSKeyValueObservingOptionNew context:nil];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuSpeed" options:NSKeyValueObservingOptionNew context:nil];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuShadowStyle" options:NSKeyValueObservingOptionNew context:nil];
+    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuOpacity" options:NSKeyValueObservingOptionNew context:nil];
     [[YYKeyboardManager defaultManager] addObserver:self];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -122,6 +125,7 @@
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuFont"];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuSpeed"];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuShadowStyle"];
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuOpacity"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -137,6 +141,9 @@
     else if ([keyPath isEqualToString:@"danmakuShadowStyle"]) {
         JHDanmakuShadowStyle style = [change[NSKeyValueChangeNewKey] integerValue];
         self.danmakuEngine.globalShadowStyle = style;
+    }
+    else if ([keyPath isEqualToString:@"danmakuOpacity"]) {
+        self.danmakuEngine.canvas.alpha = [change[NSKeyValueChangeNewKey] floatValue];
     }
 }
 
@@ -210,6 +217,9 @@
 
 #pragma mark - JHDanmakuEngineDelegate
 - (NSArray <__kindof JHBaseDanmaku*>*)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time {
+    if (_currentTime == time) return nil;
+    
+    _currentTime = time;
     return _danmakuDic[@(time)];
 }
 

@@ -4,7 +4,7 @@
 //
 //  Created by JimHuang on 2017/4/24.
 //  Copyright © 2017年 JimHuang. All rights reserved.
-//
+//  弹幕控制面板
 
 #import <UIKit/UIKit.h>
 

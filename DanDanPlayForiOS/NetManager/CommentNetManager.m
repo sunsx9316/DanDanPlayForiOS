@@ -59,7 +59,7 @@
             return;
         }
         
-        JHDanmakuCollection *collection = [JHDanmakuCollection yy_modelWithJSON:model.responseObject];
+        __block JHDanmakuCollection *collection = [JHDanmakuCollection yy_modelWithJSON:model.responseObject];
         collection.identity = episodeId;
         
         //开启自动请求第三方弹幕的功能
@@ -67,7 +67,7 @@
             [RelatedNetManager relatedDanmakuWithEpisodeId:episodeId completionHandler:^(JHRelatedCollection *responseObject, NSError *error) {
                 //请求出错 返回之前请求成功的快速匹配弹幕
                 if (error) {
-                    [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+                    collection = [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
                     completionAction(collection, error);
                     return;
                 }
@@ -83,7 +83,7 @@
                     
                     //合并弹幕 并缓存
                     [collection.collection addObjectsFromArray:responseObject1.collection];
-                    [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+                    collection = [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
                     
                     progressAction(1.0f);
                     completionAction(collection, errors1.firstObject);
@@ -91,7 +91,7 @@
             }];
         }
         else {
-            [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
+            collection = [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
             
             progressAction(1.0f);
             completionAction(collection, model.error);

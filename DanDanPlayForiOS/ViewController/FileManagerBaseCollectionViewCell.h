@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FileManagerBaseCollectionViewCell : UICollectionViewCell
+@interface FileManagerBaseCollectionViewCell : UITableViewCell
 @property (strong, nonatomic) UIView *maskView;
 @end

@@ -42,7 +42,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -57,10 +57,15 @@
         return cell;
     }
     else if (indexPath.section == 2) {
-        PlayerShadowStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerShadowStyleTableViewCell" forIndexPath:indexPath];
+        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
+        cell.type = PlayerSliderTableViewCellTypeOpacity;
         return cell;
     }
     else if (indexPath.section == 3) {
+        PlayerShadowStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerShadowStyleTableViewCell" forIndexPath:indexPath];
+        return cell;
+    }
+    else if (indexPath.section == 4) {
         PlayerStepTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerStepTableViewCell" forIndexPath:indexPath];
         [cell setTouchStepperCallBack:self.touchStepperCallBack];
         return cell;
@@ -95,9 +100,12 @@
         view.titleLabel.text = @"弹幕速度";
     }
     else if (section == 2) {
-        view.titleLabel.text = @"弹幕特效";
+        view.titleLabel.text = @"弹幕透明度";
     }
     else if (section == 3) {
+        view.titleLabel.text = @"弹幕特效";
+    }
+    else if (section == 4) {
         view.titleLabel.text = @"弹幕时间偏移";
     }
     return view;

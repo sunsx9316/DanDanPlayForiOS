@@ -164,7 +164,9 @@
             NSLog(@"%@", path);
             
             if (self.receiveFiles.count == 0) {
-                [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+                [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.bottom.mas_equalTo(0);
+                    make.top.equalTo(self.holdView.mas_bottom);
                     make.height.mas_equalTo(self.view).multipliedBy(0.35);
                 }];
                 
@@ -175,7 +177,8 @@
             
             [self.receiveFiles addObject:path];
             [self.tableView insertRow:self.receiveFiles.count - 1 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
-        }        
+            
+        }
     });
 }
 
