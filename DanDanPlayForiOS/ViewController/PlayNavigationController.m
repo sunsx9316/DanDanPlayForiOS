@@ -21,14 +21,6 @@
     return [self initWithRootViewController:vc];
 }
 
-//- (UIInterfaceOrientationMask)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController {
-//    return self.topViewController.supportedInterfaceOrientations;
-//}
-//
-//- (UIInterfaceOrientation)navigationControllerPreferredInterfaceOrientationForPresentation:(UINavigationController *)navigationController {
-//    return self.topViewController.preferredInterfaceOrientationForPresentation;
-//}
-
 //设置是否允许自动旋转
 - (BOOL)shouldAutorotate {
     return NO;

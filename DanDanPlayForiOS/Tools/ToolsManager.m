@@ -122,31 +122,9 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         
         NSMutableDictionary <NSString *, JHFile *>*folderDic = [NSMutableDictionary dictionary];
         
-        //        [self.folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
-        //            JHFile *folder = [[JHFile alloc] init];
-        //            folder.type = JHFileTypeFolder;
-        //            folder.subFiles = [NSMutableArray array];
-        //            folder.parentFile = fileModel;
-        //            folderDic[key] = folder;
-        //            [subFiles addObject:folder];
-        //        }];
-        
         NSMutableDictionary *folderCache = [CacheManager shareCacheManager].folderCache;
         for (NSURL *aURL in childFilesEnumerator) {
-            //            NSLog(@"%@", aURL);
-            //            NSDictionary <NSFileAttributeKey, id>*attributes = [manager attributesOfItemAtPath:aURL.path error:nil];
-            
-            //            if ([attributes[NSFileType] isEqualToString:NSFileTypeDirectory] && isExclude(aURL.lastPathComponent) == NO) {
-            //                JHFile *aFile = [[JHFile alloc] init];
-            //                aFile.parentFile = fileModel;
-            //                aFile.type = JHFileTypeFolder;
-            //                aFile.fileURL = aURL;
-            //                [subFiles addObject:aFile];
-            //            }
-            //            else
-            
             if (isVideoFile(aURL)) {
-                
                 JHFile *aFile = [[JHFile alloc] init];
                 aFile.type = JHFileTypeDocument;
                 aFile.fileURL = aURL;
@@ -207,9 +185,15 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     
     NSMutableArray <NSString *>*hashArr = [NSMutableArray array];
     [files enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [hashArr addObject:obj.videoModel.quickHash];
+        if (obj.type == JHFileTypeFolder) {
+            [obj.subFiles enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+                [hashArr addObject:obj1.videoModel.quickHash];
+            }];
+        }
+        else {
+            [hashArr addObject:obj.videoModel.quickHash];
+        }
     }];
-    
     
     NSMutableDictionary <NSString *, NSMutableArray <NSString *>*>*folderCache = (NSMutableDictionary <NSString *, NSMutableArray <NSString *>*> *)[CacheManager shareCacheManager].folderCache;
     NSMutableArray *arr = nil;
@@ -218,12 +202,12 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         folderCache = [NSMutableDictionary dictionary];
     }
     
-    if (folderName.length == 0) {
-        [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
-            [obj removeObjectsInArray:hashArr];
-        }];
-    }
-    else if (folderCache[folderName]) {
+    //移除文件夹视频
+    [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj removeObjectsInArray:hashArr];
+    }];
+    
+    if (folderCache[folderName]) {
         arr = folderCache[folderName];
     }
     else {
@@ -248,7 +232,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         return;
     }
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", key];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"videoModel.fileNameWithPathExtension CONTAINS[c] %@", key];
     JHFile *aFile = [[JHFile alloc] init];
     aFile.type = JHFileTypeFolder;
     aFile.subFiles = [[self.videoArray filteredArrayUsingPredicate:pred] mutableCopy];

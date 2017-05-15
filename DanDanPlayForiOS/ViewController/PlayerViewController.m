@@ -441,7 +441,6 @@
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
     self.interfaceView.titleLabel.text = _model.fileName;
     [self.player setMediaURL:_model.fileURL];
-    
     self.danmakuEngine.currentTime = 0;
 }
 
@@ -497,6 +496,7 @@
         _danmakuEngine = [[JHDanmakuEngine alloc] init];
         _danmakuEngine.delegate = self;
         [_danmakuEngine setSpeed:[CacheManager shareCacheManager].danmakuSpeed];
+        _danmakuEngine.canvas.alpha = [CacheManager shareCacheManager].danmakuOpacity;
         [self.view insertSubview:_danmakuEngine.canvas aboveSubview:self.player.mediaView];
     }
     return _danmakuEngine;

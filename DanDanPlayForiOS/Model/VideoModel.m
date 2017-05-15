@@ -75,4 +75,20 @@
     return @[@"fileURL"];
 }
 
+- (NSUInteger)hash {
+    return self.fileURL.hash;
+}
+
+- (BOOL)isEqual:(VideoModel *)object {
+    if ([object isKindOfClass:[self class]] == NO) {
+        return NO;
+    }
+    
+    if (self == object) {
+        return YES;
+    }
+    
+    return [self.fileURL isEqual:object.fileURL];
+}
+
 @end

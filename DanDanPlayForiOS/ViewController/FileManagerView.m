@@ -7,10 +7,10 @@
 //
 
 #import "FileManagerView.h"
-#import "FileManagerFileLongCollectionViewCell.h"
-#import "FileManagerFolderLongCollectionViewCell.h"
-#import "FileManagerFolderShortCollectionViewCell.h"
-#import "FileManagerFolderPlayerListCollectionViewCell.h"
+#import "FileManagerFileLongViewCell.h"
+#import "FileManagerFolderLongViewCell.h"
+#import "FileManagerFolderCollectionViewCell.h"
+#import "FileManagerFolderPlayerListViewCell.h"
 
 #import "BaseTableView.h"
 
@@ -30,7 +30,6 @@
 
 @implementation FileManagerView
 {
-    JHFile *_currentFile;
     //记录当前路径
     JHFile *_tempFile;
     NSIndexPath *_currentIndex;
@@ -39,9 +38,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        
+        _currentFile = [CacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
         [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"currentPlayVideoModel" options:NSKeyValueObservingOptionNew context:nil];
-        
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_equalTo(0);
         }];
@@ -51,8 +49,6 @@
             make.height.mas_equalTo(0);
             make.top.equalTo(self.tableView.mas_bottom);
         }];
-        
-        [self.tableView.mj_header beginRefreshing];
     }
     return self;
 }
@@ -95,29 +91,28 @@
     }
 }
 
-- (void)reloadData {
-    [self.tableView reloadData];
+- (void)reloadDataWithAnimate:(BOOL)flag {
+    if (flag) {
+        [self.tableView.mj_header beginRefreshing];
+    }
+    else {
+        if (self.tableView.mj_header.refreshingBlock) {
+            self.tableView.mj_header.refreshingBlock();
+        }
+    }
 }
 
 - (void)setType:(FileManagerViewType)type {
     _type = type;
-    
     if (self.superview) {
-        
         [self.tableView reloadData];
-        
-//        [self.collectionView performBatchUpdates:^{
-//            
-//        } completion:^(BOOL finished) {
-//            
-//            [self.collectionView.collectionViewLayout invalidateLayout];
-//            if (_type == FileManagerViewTypeLong || _type == FileManagerViewTypePlayerList) {
-//                [self.collectionView setCollectionViewLayout:self.longStyleFlowLayout animated:YES];
-//            }
-//            else {
-//                [self.collectionView setCollectionViewLayout:self.shortStyleFlowLayout animated:YES];
-//            }
-//        }];
+    }
+}
+
+- (void)setCurrentFile:(JHFile *)currentFile {
+    _currentFile = currentFile;
+    if (self.superview) {
+        [self.tableView reloadData];
     }
 }
 
@@ -140,7 +135,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        FileManagerFolderLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
+        FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
         NSString *documentsPath = [UIApplication sharedApplication].documentsPath;
         NSString *path = [_currentFile.parentFile.fileURL.path stringByReplacingOccurrencesOfString:documentsPath withString:@""];
         if (path.length == 0) {
@@ -153,23 +148,29 @@
         cell.detailLabel.text = nil;
         cell.iconImgView.image = [UIImage imageNamed:@"file"];
         cell.maskView.hidden = YES;
+        if (_type == FileManagerViewTypePlayerList) {
+            cell.titleLabel.textColor = [UIColor whiteColor];
+        }
+        else {
+            cell.titleLabel.textColor = [UIColor blackColor];
+        }
         return cell;
     }
     
     JHFile *file = _currentFile.subFiles[indexPath.row];
     
-    void(^setupCell)(FileManagerBaseCollectionViewCell *) = ^(FileManagerBaseCollectionViewCell *cell) {
+    void(^setupCell)(FileManagerBaseViewCell *) = ^(FileManagerBaseViewCell *cell) {
         cell.maskView.hidden = !([self.selectedIndexs containsObject:file] && _isEditMode);
     };
     
     if (_type == FileManagerViewTypePlayerList) {
         if (file.type == JHFileTypeDocument) {
-            FileManagerFolderPlayerListCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListCollectionViewCell" forIndexPath:indexPath];
+            FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
             cell.model = file.videoModel;
             return cell;
         }
         
-        FileManagerFolderLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
+        FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
         cell.titleLabel.text = file.fileURL.lastPathComponent;
         cell.detailLabel.text = [NSString stringWithFormat:@"%ld个视频", file.subFiles.count];
         cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
@@ -179,50 +180,21 @@
     }
     
     if (file.type == JHFileTypeDocument) {
-        FileManagerFileLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongCollectionViewCell" forIndexPath:indexPath];
+        FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
         setupCell(cell);
         return cell;
     }
     
-    FileManagerFolderLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
+    FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.fileURL.lastPathComponent;
     cell.detailLabel.text = [NSString stringWithFormat:@"%ld个视频", file.subFiles.count];
     cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
     setupCell(cell);
     return cell;
-    
-//    else if (_type == FileManagerViewTypeLong) {
-//        if (file.type == JHFileTypeDocument) {
-//            FileManagerFileLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongCollectionViewCell" forIndexPath:indexPath];
-//            cell.model = file.videoModel;
-//            setupCell(cell);
-//            return cell;
-//        }
-//        
-//        FileManagerFolderLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
-//        cell.titleLabel.text = file.fileURL.lastPathComponent;
-//        cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
-//        setupCell(cell);
-//        return cell;
-//        
-//    }
-//    
-//    if (file.type == JHFileTypeDocument) {
-//        FileManagerFileLongCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongCollectionViewCell" forIndexPath:indexPath];
-//        cell.model = file.videoModel;
-//        setupCell(cell);
-//        return cell;
-//    }
-//    
-//    FileManagerFolderShortCollectionViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderShortCollectionViewCell" forIndexPath:indexPath];
-//    cell.titleLabel.text = file.fileURL.lastPathComponent;
-//    setupCell(cell);
-//    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     JHFile *file = _currentFile.subFiles[indexPath.row];
     [self deleteFiles:@[file]];
 }
@@ -281,7 +253,6 @@
             [tableView reloadData];
         }
         else {
-
             JHFile *file = _currentFile.subFiles[indexPath.row];
 
             if (file.type == JHFileTypeDocument) {
@@ -290,158 +261,12 @@
                 }
             }
             else if (file.type == JHFileTypeFolder) {
-//                [[ToolsManager shareToolsManager] startDiscovererVideoWithFileModel:file completion:^(JHFile *file) {
                     _currentFile = file;
                     [tableView reloadData];
-//                }];
             }
         }
     }
 }
-
-//#pragma mark - UICollectionViewDelegate
-//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    if (_isEditMode && indexPath.section) {
-//        JHFile *file = _currentFile.subFiles[indexPath.row];
-//            if ([self.selectedIndexs containsObject:file]) {
-//                [self.selectedIndexs removeObject:file];
-//            }
-//            else {
-//                [self.selectedIndexs addObject:file];
-//            }
-//            [collectionView reloadData];
-//    }
-//    else {
-//        if (indexPath.section == 0) {
-//            _currentFile = _currentFile.parentFile;
-//            [collectionView reloadData];
-//        }
-//        else {
-//            
-//            JHFile *file = _currentFile.subFiles[indexPath.row];
-//            
-//            if (file.type == JHFileTypeDocument) {
-//                if ([self.delegate respondsToSelector:@selector(managerView:didselectedModel:)]) {
-//                    [self.delegate managerView:self didselectedModel:_currentFile.subFiles[indexPath.item]];
-//                }
-//            }
-//            else if (file.type == JHFileTypeFolder) {
-////                [[ToolsManager shareToolsManager] startDiscovererVideoWithFileModel:file completion:^(JHFile *file) {
-//                    _currentFile = file;
-//                    [collectionView reloadData];
-////                }];
-//            }
-//        }
-//    }
-//    
-//}
-//
-//#pragma mark - UICollectionViewDataSource
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return 2;
-//}
-//
-//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    if (section == 0) {
-//        if (_currentFile.parentFile) {
-//            return 1;
-//        }
-//        return 0;
-//    }
-//    
-//    return _currentFile.subFiles.count;
-//}
-
-//- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    if (indexPath.section == 0) {
-//        FileManagerFolderLongCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
-//        NSString *documentsPath = [UIApplication sharedApplication].documentsPath;
-//        NSString *path = [_currentFile.parentFile.fileURL.path stringByReplacingOccurrencesOfString:documentsPath withString:@""];
-//        if (path.length == 0) {
-//            path = @"返回根目录";
-//        }
-//        else {
-//            path = [@"返回上一级 ..." stringByAppendingPathComponent:path];
-//        }
-//        cell.titleLabel.text = path;
-//        cell.iconImgView.image = [UIImage imageNamed:@"file"];
-//        cell.maskView.hidden = YES;
-//        return cell;
-//    }
-//    
-//    JHFile *file = _currentFile.subFiles[indexPath.row];
-//    
-//    void(^setupCell)(FileManagerBaseCollectionViewCell *) = ^(FileManagerBaseCollectionViewCell *cell) {
-//        cell.maskView.hidden = !([self.selectedIndexs containsObject:file] && _isEditMode);
-//    };
-//    
-//    if (_type == FileManagerViewTypePlayerList) {
-//        if (file.type == JHFileTypeDocument) {
-//            FileManagerFolderPlayerListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFolderPlayerListCollectionViewCell" forIndexPath:indexPath];
-//            cell.model = file.videoModel;
-//            return cell;
-//        }
-//        
-//        FileManagerFolderLongCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
-//        cell.titleLabel.text = file.fileURL.lastPathComponent;
-//        cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
-//        cell.titleLabel.textColor = [UIColor whiteColor];
-//        return cell;
-//    }
-//    else if (_type == FileManagerViewTypeLong) {
-//        if (file.type == JHFileTypeDocument) {
-//            FileManagerFileLongCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFileLongCollectionViewCell" forIndexPath:indexPath];
-//            cell.model = file.videoModel;
-//            setupCell(cell);
-//            return cell;
-//        }
-//        
-//        FileManagerFolderLongCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFolderLongCollectionViewCell" forIndexPath:indexPath];
-//        cell.titleLabel.text = file.fileURL.lastPathComponent;
-//        cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
-//        setupCell(cell);
-//        return cell;
-//        
-//    }
-//    
-//    if (file.type == JHFileTypeDocument) {
-//        FileManagerFileLongCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFileLongCollectionViewCell" forIndexPath:indexPath];
-//        cell.model = file.videoModel;
-//        setupCell(cell);
-//        return cell;
-//    }
-//    
-//    FileManagerFolderShortCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FileManagerFolderShortCollectionViewCell" forIndexPath:indexPath];
-//    cell.titleLabel.text = file.fileURL.lastPathComponent;
-//    setupCell(cell);
-//    return cell;
-//}
-
-//#pragma mark - UICollectionViewDelegateFlowLayout
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    //返回上一级
-//    if (indexPath.section == 0) {
-//        return CGSizeMake(self.width, 53 + 20 * jh_isPad());
-//    }
-//    
-//    if (_type == FileManagerViewTypeLong) {
-//        return CGSizeMake(self.width, 100 + 40 * jh_isPad());
-//    }
-//    
-//    if (_type == FileManagerViewTypePlayerList) {
-//        JHFile *file = _currentFile.subFiles[indexPath.row];
-//        if (file.type == JHFileTypeDocument) {
-//            return CGSizeMake(self.width, 60 + 30 * jh_isPad());
-//        }
-//        return CGSizeMake(self.width, 70 + 30 * jh_isPad());
-//    }
-//    
-//    float width = (self.width - 4 * SHORT_TYPE_EDGE) / 3 - 1;
-//    return CGSizeMake(width, width);
-//}
 
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
@@ -583,95 +408,6 @@
 }
 
 #pragma mark - 懒加载
-//- (BaseCollectionView *)collectionView {
-//    if (_collectionView == nil) {
-//
-//        UICollectionViewLayout *layout = nil;
-//        if (_type == FileManagerViewTypeLong || _type == FileManagerViewTypePlayerList) {
-//            layout = self.longStyleFlowLayout;
-//        }
-//        else {
-//            layout = self.shortStyleFlowLayout;
-//        }
-//        
-//        _collectionView = [[BaseCollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
-//        _collectionView.delegate = self;
-//        _collectionView.dataSource = self;
-//        _collectionView.emptyDataSetSource = self;
-//        @weakify(self)
-//        [_collectionView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithActionBlock:^(UILongPressGestureRecognizer * _Nonnull gesture) {
-//            @strongify(self)
-//            if (!self) return;
-//            
-//            switch (gesture.state) {
-//                case UIGestureRecognizerStateBegan:
-//                {
-//                    //播放视频样式不允许编辑
-//                    if (self.type != FileManagerViewTypePlayerList && self->_currentFile.subFiles.count) {
-//                        self->_isEditMode = YES;
-//                        [self.editView mas_updateConstraints:^(MASConstraintMaker *make) {
-//                            make.height.mas_equalTo(50);
-//                        }];
-//                        
-//                        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
-//                        if (indexPath) {
-//                            [self.selectedIndexs addObject:self->_currentFile.subFiles[indexPath.row]];
-//                            [self.collectionView reloadData];
-//                        }
-//                        
-//                        
-//                        
-//                        [UIView animateWithDuration:0.3 animations:^{
-//                            [self layoutIfNeeded];
-//                        } completion:nil];
-//                    }
-//                }
-//                    break;
-//                default:
-//                    break;
-//            }
-//            
-//        }]];
-//        _collectionView.backgroundColor = [UIColor clearColor];
-//        
-//        [_collectionView registerClass:[FileManagerFileLongCollectionViewCell class] forCellWithReuseIdentifier:@"FileManagerFileLongCollectionViewCell"];
-//        [_collectionView registerClass:[FileManagerFolderLongCollectionViewCell class] forCellWithReuseIdentifier:@"FileManagerFolderLongCollectionViewCell"];
-//        [_collectionView registerClass:[FileManagerFolderShortCollectionViewCell class] forCellWithReuseIdentifier:@"FileManagerFolderShortCollectionViewCell"];
-//        [_collectionView registerClass:[FileManagerFolderPlayerListCollectionViewCell class] forCellWithReuseIdentifier:@"FileManagerFolderPlayerListCollectionViewCell"];
-//
-//        _collectionView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
-//            @strongify(self)
-//            if (!self) return;
-//            
-//            [[ToolsManager shareToolsManager] startDiscovererVideoWithCompletion:^(JHFile *file) {
-//                _currentFile = file;
-//                [self.collectionView reloadData];
-//                [self.collectionView endRefreshing];
-//            }];
-//        }];
-//        [self addSubview:_collectionView];
-//    }
-//    return _collectionView;
-//}
-//
-//- (UICollectionViewFlowLayout *)longStyleFlowLayout {
-//    if (_longStyleFlowLayout == nil) {
-//        _longStyleFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-//        _longStyleFlowLayout.minimumLineSpacing = 0;
-//        _longStyleFlowLayout.minimumInteritemSpacing = 0;
-//    }
-//    return _longStyleFlowLayout;
-//}
-//
-//- (UICollectionViewFlowLayout *)shortStyleFlowLayout {
-//    if (_shortStyleFlowLayout == nil) {
-//        _shortStyleFlowLayout = [[UICollectionViewFlowLayout alloc] init];
-//        _shortStyleFlowLayout.minimumLineSpacing = SHORT_TYPE_EDGE;
-//        _shortStyleFlowLayout.minimumInteritemSpacing = SHORT_TYPE_EDGE;
-//        _shortStyleFlowLayout.sectionInset = UIEdgeInsetsMake(0, SHORT_TYPE_EDGE, 0, SHORT_TYPE_EDGE);
-//    }
-//    return _shortStyleFlowLayout;
-//}
 
 - (BaseTableView *)tableView {
     if (_tableView == nil) {
@@ -681,10 +417,10 @@
         _tableView.dataSource = self;
         _tableView.emptyDataSetSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[FileManagerFileLongCollectionViewCell class] forCellReuseIdentifier:@"FileManagerFileLongCollectionViewCell"];
-        [_tableView registerClass:[FileManagerFolderLongCollectionViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongCollectionViewCell"];
-        [_tableView registerClass:[FileManagerFolderShortCollectionViewCell class] forCellReuseIdentifier:@"FileManagerFolderShortCollectionViewCell"];
-        [_tableView registerClass:[FileManagerFolderPlayerListCollectionViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListCollectionViewCell"];
+        [_tableView registerClass:[FileManagerFileLongViewCell class] forCellReuseIdentifier:@"FileManagerFileLongViewCell"];
+        [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
+        [_tableView registerClass:[FileManagerFolderCollectionViewCell class] forCellReuseIdentifier:@"FileManagerFolderCollectionViewCell"];
+        [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         
         @weakify(self)
         [_tableView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithActionBlock:^(UILongPressGestureRecognizer * _Nonnull gesture) {

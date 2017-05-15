@@ -96,7 +96,7 @@
     }
     if (_type == PlayerSliderTableViewCellTypeOpacity) {
         self.currentValueLabel.textColor = [UIColor whiteColor];
-        self.slider.value = [CacheManager shareCacheManager].danmakuSpeed;
+        self.slider.value = [CacheManager shareCacheManager].danmakuOpacity;
         self.slider.minimumValue = 0.0f;
         self.slider.maximumValue = 1.0f;
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];

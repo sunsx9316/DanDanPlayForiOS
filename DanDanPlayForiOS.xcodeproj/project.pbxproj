@@ -23,17 +23,17 @@
 		89350B191EAB125700072DA5 /* JHEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B171EAB125700072DA5 /* JHEdgeLabel.m */; };
 		89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */; };
 		8939FB4A1EB334520063BBA1 /* JHFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB491EB334520063BBA1 /* JHFile.m */; };
-		8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */; };
+		8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m */; };
 		8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4F1EB397040063BBA1 /* FileManagerView.m */; };
 		8939FB541EB3A1590063BBA1 /* BaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */; };
-		8939FB571EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */; };
+		8939FB571EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB561EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.m */; };
 		893E8F151EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 893E8F141EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m */; };
-		8946D52B1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */; };
+		8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */; };
 		894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* MainViewController.m */; };
 		894CBAA21E6BCA760021253F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* SettingViewController.m */; };
 		894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA71E6C06F70021253F /* LocalFileViewController.m */; };
 		894CBAAB1E6C073A0021253F /* FTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* FTPViewController.m */; };
-		894CBAAF1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */; };
+		894CBAAF1E6C12A80021253F /* FileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */; };
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
 		898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
@@ -74,7 +74,7 @@
 		89D8F81A1EB09CAC009329AA /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89D8F8181EB09CAC009329AA /* AboutUsViewController.xib */; };
 		89D8F81F1EB0B112009329AA /* PlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
-		89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */; };
+		89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */; };
 		89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */; };
 		89E1E9FE1EADF13600419C78 /* PlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9FC1EADF13600419C78 /* PlayerSliderTableViewCell.m */; };
 		89E1EA021EADFD5400419C78 /* PlayerControlHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA011EADFD5400419C78 /* PlayerControlHeaderView.m */; };
@@ -141,18 +141,18 @@
 		89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayNavigationController.m; sourceTree = "<group>"; };
 		8939FB481EB334520063BBA1 /* JHFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHFile.h; sourceTree = "<group>"; };
 		8939FB491EB334520063BBA1 /* JHFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHFile.m; sourceTree = "<group>"; };
-		8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderLongCollectionViewCell.h; sourceTree = "<group>"; };
-		8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderLongCollectionViewCell.m; sourceTree = "<group>"; };
+		8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderLongViewCell.h; sourceTree = "<group>"; };
+		8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderLongViewCell.m; sourceTree = "<group>"; };
 		8939FB4E1EB397040063BBA1 /* FileManagerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerView.h; sourceTree = "<group>"; };
 		8939FB4F1EB397040063BBA1 /* FileManagerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerView.m; sourceTree = "<group>"; };
 		8939FB521EB3A1590063BBA1 /* BaseCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCollectionView.h; sourceTree = "<group>"; };
 		8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCollectionView.m; sourceTree = "<group>"; };
-		8939FB551EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderShortCollectionViewCell.h; sourceTree = "<group>"; };
-		8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderShortCollectionViewCell.m; sourceTree = "<group>"; };
+		8939FB551EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderCollectionViewCell.h; sourceTree = "<group>"; };
+		8939FB561EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderCollectionViewCell.m; sourceTree = "<group>"; };
 		893E8F131EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		893E8F141EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		8946D5291EB6D38800161833 /* FileManagerBaseCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerBaseCollectionViewCell.h; sourceTree = "<group>"; };
-		8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerBaseCollectionViewCell.m; sourceTree = "<group>"; };
+		8946D5291EB6D38800161833 /* FileManagerBaseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerBaseViewCell.h; sourceTree = "<group>"; };
+		8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerBaseViewCell.m; sourceTree = "<group>"; };
 		894CBA9B1E6BC8D20021253F /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		894CBA9C1E6BC8D20021253F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		894CBAA01E6BCA760021253F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -161,8 +161,8 @@
 		894CBAA71E6C06F70021253F /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		894CBAA91E6C073A0021253F /* FTPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPViewController.h; sourceTree = "<group>"; };
 		894CBAAA1E6C073A0021253F /* FTPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPViewController.m; sourceTree = "<group>"; };
-		894CBAAD1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFileLongCollectionViewCell.h; sourceTree = "<group>"; };
-		894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFileLongCollectionViewCell.m; sourceTree = "<group>"; };
+		894CBAAD1E6C12A80021253F /* FileManagerFileLongViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFileLongViewCell.h; sourceTree = "<group>"; };
+		894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFileLongViewCell.m; sourceTree = "<group>"; };
 		896F594D1EA710A8004F4313 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		896F594E1EA710A8004F4313 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -244,8 +244,8 @@
 		89D8F81E1EB0B112009329AA /* PlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlView.m; sourceTree = "<group>"; };
 		89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlPlayModeTableViewCell.h; sourceTree = "<group>"; };
 		89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlPlayModeTableViewCell.m; sourceTree = "<group>"; };
-		89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderPlayerListCollectionViewCell.h; sourceTree = "<group>"; };
-		89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderPlayerListCollectionViewCell.m; sourceTree = "<group>"; };
+		89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderPlayerListViewCell.h; sourceTree = "<group>"; };
+		89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderPlayerListViewCell.m; sourceTree = "<group>"; };
 		89E1E9F81EADA82000419C78 /* PlayerDanmakuControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuControlView.h; sourceTree = "<group>"; };
 		89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDanmakuControlView.m; sourceTree = "<group>"; };
 		89E1E9FB1EADF13600419C78 /* PlayerSliderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSliderTableViewCell.h; sourceTree = "<group>"; };
@@ -401,16 +401,16 @@
 		8939FB511EB398D70063BBA1 /* FileManagerView */ = {
 			isa = PBXGroup;
 			children = (
-				8946D5291EB6D38800161833 /* FileManagerBaseCollectionViewCell.h */,
-				8946D52A1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m */,
-				894CBAAD1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.h */,
-				894CBAAE1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m */,
-				8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.h */,
-				8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m */,
-				8939FB551EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.h */,
-				8939FB561EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m */,
-				89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.h */,
-				89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m */,
+				8946D5291EB6D38800161833 /* FileManagerBaseViewCell.h */,
+				8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */,
+				894CBAAD1E6C12A80021253F /* FileManagerFileLongViewCell.h */,
+				894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */,
+				8939FB4B1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.h */,
+				8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m */,
+				8939FB551EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.h */,
+				8939FB561EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.m */,
+				89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListViewCell.h */,
+				89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */,
 				8939FB4E1EB397040063BBA1 /* FileManagerView.h */,
 				8939FB4F1EB397040063BBA1 /* FileManagerView.m */,
 				893E8F131EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.h */,
@@ -871,13 +871,13 @@
 				89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */,
 				89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
-				8946D52B1EB6D38800161833 /* FileManagerBaseCollectionViewCell.m in Sources */,
+				8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */,
 				89D8F8001EB0588F009329AA /* OtherSettingViewController.m in Sources */,
 				89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */,
 				8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */,
 				89A42EAB1EA5E10F00FA0DF3 /* JHDanmakuCollection.m in Sources */,
 				89F8CDBB1EA78A10000D5F3F /* CacheManager.m in Sources */,
-				894CBAAF1E6C12A80021253F /* FileManagerFileLongCollectionViewCell.m in Sources */,
+				894CBAAF1E6C12A80021253F /* FileManagerFileLongViewCell.m in Sources */,
 				8916C7D01EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m in Sources */,
 				894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */,
 				89A42EB11EA5E7D000FA0DF3 /* JHMatche.m in Sources */,
@@ -893,7 +893,7 @@
 				89A42EA41EA5B22A00FA0DF3 /* JHResponse.m in Sources */,
 				89E3F6101E585320007AB1BD /* MJRefreshHeader+Tools.m in Sources */,
 				89350B081EAAFB9900072DA5 /* JHMediaPlayer.m in Sources */,
-				8939FB571EB3ACFE0063BBA1 /* FileManagerFolderShortCollectionViewCell.m in Sources */,
+				8939FB571EB3ACFE0063BBA1 /* FileManagerFolderCollectionViewCell.m in Sources */,
 				8916C7C21EA89A8A00A2233D /* MatchTitleTableViewCell.m in Sources */,
 				89E3F6191E58552D007AB1BD /* UIButton+Tools.m in Sources */,
 				89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */,
@@ -938,10 +938,10 @@
 				89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */,
 				8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */,
 				89E3F6161E5854A2007AB1BD /* UIImageView+Tools.m in Sources */,
-				89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListCollectionViewCell.m in Sources */,
+				89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */,
 				89A42EC01EA5F09500FA0DF3 /* VideoModel.m in Sources */,
 				89A42EB71EA5EB4500FA0DF3 /* RelatedNetManager.m in Sources */,
-				8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongCollectionViewCell.m in Sources */,
+				8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m in Sources */,
 				89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */,
 				89E3F6001E585135007AB1BD /* RecommedNetManager.m in Sources */,
 				89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */,

@@ -23,8 +23,8 @@ typedef NS_ENUM(NSUInteger, FileManagerViewType) {
 
 @interface FileManagerView : UIView
 @property (copy, nonatomic) NSString *searchKey;
-
+@property (strong, nonatomic) JHFile *currentFile;
 @property (assign, nonatomic) FileManagerViewType type;
 @property (weak, nonatomic) id<FileManagerViewDelegate>delegate;
-- (void)reloadData;
+- (void)reloadDataWithAnimate:(BOOL)flag;
 @end
