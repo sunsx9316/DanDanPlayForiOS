@@ -76,11 +76,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44 + jh_isPad() * 10;
-//    return [tableView fd_heightForCellWithIdentifier:@"SettingTitleTableViewCell" cacheByIndexPath:indexPath configuration:^(SettingTitleTableViewCell *cell) {
-//        [self.dataSourceArr[indexPath.row] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            [cell setValue:obj forKeyPath:key];
-//        }];
-//    }];
 }
 
 #pragma mark - 私有方法

@@ -140,9 +140,6 @@
         _fileManagerView = [[FileManagerView alloc] initWithFrame:CGRectMake(0, self.searchBar.bottom, self.view.width, self.view.height - self.searchBar.bottom)];
         _fileManagerView.delegate = self;
         [_fileManagerView reloadDataWithAnimate:YES];
-        if (jh_isPad()) {
-            _fileManagerView.type = FileManagerViewTypeShort;
-        }
         [self.view addSubview:_fileManagerView];
     }
     return _fileManagerView;

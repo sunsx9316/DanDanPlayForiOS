@@ -57,11 +57,6 @@
     return [self initWithFrame:[UIScreen mainScreen].bounds];
 }
 
-//- (void)layoutSubviews {
-//    [self.collectionView.collectionViewLayout invalidateLayout];
-//    [super layoutSubviews];
-//}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"currentPlayVideoModel"]) {
         [self.tableView reloadData];

@@ -88,6 +88,7 @@
         [_bottomView addSubview:self.danmakuHideSwitch];
         [_bottomView addSubview:self.switchLabel];
         [_bottomView addSubview:self.sendDanmakuConfigButton];
+        [_bottomView addSubview:self.subTitleIndexButton];
         
         [self.sendDanmakuTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(15);
@@ -105,9 +106,14 @@
             make.centerY.equalTo(self.sendDanmakuTextField);
         }];
         
+        [self.subTitleIndexButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.sendDanmakuConfigButton.mas_right).mas_offset(10);
+            make.centerY.equalTo(self.sendDanmakuTextField);
+        }];
+        
         [self.danmakuHideSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.switchLabel.mas_left).mas_offset(-5);
-            make.left.equalTo(self.sendDanmakuConfigButton.mas_right).mas_offset(10);
+            make.left.equalTo(self.subTitleIndexButton.mas_right).mas_offset(10);
             make.centerY.equalTo(self.sendDanmakuTextField);
         }];
         
@@ -245,6 +251,16 @@
         _sendDanmakuConfigButton.inset = CGSizeMake(10, 8);
     }
     return _sendDanmakuConfigButton;
+}
+
+- (JHEdgeButton *)subTitleIndexButton {
+    if (_subTitleIndexButton == nil) {
+        _subTitleIndexButton = [[JHEdgeButton alloc] init];
+        [_subTitleIndexButton setTitle:@"字幕轨道" forState:UIControlStateNormal];
+        _settingButton.titleLabel.font = NORMAL_SIZE_FONT;
+        _subTitleIndexButton.inset = CGSizeMake(10, 8);
+    }
+    return _subTitleIndexButton;
 }
 
 @end

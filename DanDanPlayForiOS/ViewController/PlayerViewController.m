@@ -8,6 +8,7 @@
 
 #import "PlayerViewController.h"
 #import "MatchViewController.h"
+#import "SubTitleViewController.h"
 
 #import "PlayerInterfaceView.h"
 #import "JHMediaPlayer.h"
@@ -15,6 +16,7 @@
 #import "DanmakuManager.h"
 #import "PlayerConfigPanelView.h"
 #import "PlayerSendDanmakuConfigView.h"
+#import "PlayerSubTitleIndexView.h"
 
 #import <IQKeyboardManager.h>
 #import <YYKeyboardManager.h>
@@ -28,6 +30,7 @@
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
 @property (strong, nonatomic) PlayerConfigPanelView *configPanelView;
 @property (strong, nonatomic) PlayerSendDanmakuConfigView *sendDanmakuConfigView;
+@property (strong, nonatomic) PlayerSubTitleIndexView *subTitleIndexView;
 @end
 
 @implementation PlayerViewController
@@ -259,6 +262,10 @@
     self.danmakuEngine.offsetTime = value;
 }
 
+- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedSubTitle:(NSURL *)aURL {
+    [self.player openVideoSubTitlesFromFile:aURL.path];
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.text.length) {
@@ -437,6 +444,13 @@
     [self.sendDanmakuConfigView show];
 }
 
+- (void)touchSubTitleIndexButton {
+    self.subTitleIndexView.currentVideoSubTitleIndex = self.player.currentSubtitleIndex;
+    self.subTitleIndexView.videoSubTitlesIndexes = self.player.subtitleIndexs;
+    self.subTitleIndexView.videoSubTitlesNames = self.player.subtitleTitles;
+    [self.subTitleIndexView show];
+}
+
 - (void)reload {
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
     self.interfaceView.titleLabel.text = _model.fileName;
@@ -457,6 +471,7 @@
         [_interfaceView.settingButton addTarget:self action:@selector(touchSettingButton) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.danmakuHideSwitch addTarget:self action:@selector(touchSwitch:) forControlEvents:UIControlEventValueChanged];
         [_interfaceView.sendDanmakuConfigButton addTarget:self action:@selector(touchSendDanmakuConfigButton) forControlEvents:UIControlEventTouchUpInside];
+        [_interfaceView.subTitleIndexButton addTarget:self action:@selector(touchSubTitleIndexButton) forControlEvents:UIControlEventTouchUpInside];
         _interfaceView.sendDanmakuTextField.delegate = self;
         [self.view insertSubview:_interfaceView aboveSubview:self.gestureView];
     }
@@ -516,6 +531,34 @@
         _sendDanmakuConfigView = [[PlayerSendDanmakuConfigView alloc] initWithFrame:self.view.bounds];
     }
     return _sendDanmakuConfigView;
+}
+
+- (PlayerSubTitleIndexView *)subTitleIndexView {
+    if (_subTitleIndexView == nil) {
+        _subTitleIndexView = [[PlayerSubTitleIndexView alloc] initWithFrame:self.view.bounds];
+        @weakify(self)
+        [_subTitleIndexView setSelectedIndexCallBack:^(int index) {
+            @strongify(self)
+            if (!self) return;
+            
+            self.player.currentSubtitleIndex = index;
+        }];
+        
+        [_subTitleIndexView setDidTapEmptyViewCallBack:^{
+            SubTitleViewController *vc = [[SubTitleViewController alloc] init];
+            @strongify(self)
+            if (!self) return;
+            
+            [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
+                @strongify(self)
+                if (!self) return;
+                
+                [self.player openVideoSubTitlesFromFile:aURL.path];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    return _subTitleIndexView;
 }
 
 @end

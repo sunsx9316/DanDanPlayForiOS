@@ -125,7 +125,8 @@
         _listView = [[FileManagerView alloc] init];
         _listView.delegate = self;
         _listView.type = FileManagerViewTypePlayerList;
-        
+        _listView.currentFile = [CacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
+//        [_listView reloadDataWithAnimate:NO];
 //        @weakify(self)
 //        [_listView setDidSelectedModelCallBack:^(VideoModel *model) {
 //            @strongify(self)

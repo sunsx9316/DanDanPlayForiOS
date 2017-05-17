@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
+		8913D7DD1ECC49E700B7975D /* SubTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */; };
+		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
 		8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* MatchViewController.m */; };
 		8916C7BC1EA85DB400A2233D /* MatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* MatchTableViewCell.m */; };
 		8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BE1EA8958D00A2233D /* BaseTreeView.m */; };
@@ -71,7 +73,6 @@
 		89D8F8051EB05A60009329AA /* OtherSettingSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8031EB05A60009329AA /* OtherSettingSwitchTableViewCell.m */; };
 		89D8F8061EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */; };
 		89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* AboutUsViewController.m */; };
-		89D8F81A1EB09CAC009329AA /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89D8F8181EB09CAC009329AA /* AboutUsViewController.xib */; };
 		89D8F81F1EB0B112009329AA /* PlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
 		89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */; };
@@ -111,6 +112,10 @@
 
 /* Begin PBXFileReference section */
 		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8913D7DB1ECC49E700B7975D /* SubTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubTitleViewController.h; sourceTree = "<group>"; };
+		8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubTitleViewController.m; sourceTree = "<group>"; };
+		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
+		8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubTitleIndexView.m; sourceTree = "<group>"; };
 		8916C7B71EA85BC900A2233D /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
 		8916C7B81EA85BC900A2233D /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
 		8916C7BA1EA85DB400A2233D /* MatchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchTableViewCell.h; sourceTree = "<group>"; };
@@ -239,7 +244,6 @@
 		89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OtherSettingSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		89D8F8161EB09CAC009329AA /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		89D8F8171EB09CAC009329AA /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
-		89D8F8181EB09CAC009329AA /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
 		89D8F81D1EB0B112009329AA /* PlayerControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlView.h; sourceTree = "<group>"; };
 		89D8F81E1EB0B112009329AA /* PlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlView.m; sourceTree = "<group>"; };
 		89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlPlayModeTableViewCell.h; sourceTree = "<group>"; };
@@ -394,6 +398,8 @@
 				89350B0F1EAB059000072DA5 /* PlayerInterfaceView.m */,
 				89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */,
 				89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */,
+				8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */,
+				8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -476,7 +482,6 @@
 				89D8F7FF1EB0588F009329AA /* OtherSettingViewController.m */,
 				89D8F8161EB09CAC009329AA /* AboutUsViewController.h */,
 				89D8F8171EB09CAC009329AA /* AboutUsViewController.m */,
-				89D8F8181EB09CAC009329AA /* AboutUsViewController.xib */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -507,6 +512,8 @@
 				8996B9F91EAA28450018E8B0 /* PlayerViewController.m */,
 				89350B1A1EAB44CB00072DA5 /* PlayNavigationController.h */,
 				89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */,
+				8913D7DB1ECC49E700B7975D /* SubTitleViewController.h */,
+				8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */,
 			);
 			name = "播放";
 			sourceTree = "<group>";
@@ -801,7 +808,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89D8F81A1EB09CAC009329AA /* AboutUsViewController.xib in Resources */,
 				89F5C82A1EAF104D00676361 /* web in Resources */,
 				89D8F8061EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
@@ -899,6 +905,7 @@
 				89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */,
 				893E8F151EB4D0B700606610 /* FileManagerCollectionViewFlowLayout.m in Sources */,
 				89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */,
+				8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */,
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
 				899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */,
 				89D8F7F71EB04B12009329AA /* DanmakuSettingViewController.m in Sources */,
@@ -952,6 +959,7 @@
 				89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* SearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */,
+				8913D7DD1ECC49E700B7975D /* SubTitleViewController.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
 				89E3F6011E585135007AB1BD /* SearchNetManager.m in Sources */,
 				89A42EF81EA5FCA200FA0DF3 /* JHSearchCollection.m in Sources */,

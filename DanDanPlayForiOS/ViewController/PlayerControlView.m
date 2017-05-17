@@ -7,6 +7,7 @@
 //
 
 #import "PlayerControlView.h"
+#import "SubTitleViewController.h"
 
 #import "PlayerControlHeaderView.h"
 #import "FTPReceiceTableViewCell.h"
@@ -36,45 +37,49 @@
 }
 
 #pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
-    if (cell == nil) {
-        cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
-        cell.titleLabel.textColor = [UIColor whiteColor];
-    }
-    
-    if (indexPath.row == [CacheManager shareCacheManager].playMode) {
-        cell.iconImgView.hidden = NO;
-    }
-    else {
-        cell.iconImgView.hidden = YES;
-    }
-    
-    if (indexPath.row == 0) {
-        cell.titleLabel.text = @"单集播放";
-    }
-    else if (indexPath.row == 1) {
-        cell.titleLabel.text = @"单集循环";
-    }
-    else if (indexPath.row == 2) {
-        cell.titleLabel.text = @"列表循环";
-    }
-    else if (indexPath.row == 3) {
-        cell.titleLabel.text = @"顺序播放";
-    }
-    
-    return cell;
+        FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
+        if (cell == nil) {
+            cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
+            cell.titleLabel.textColor = [UIColor whiteColor];
+        }
+        
+        if (indexPath.row == [CacheManager shareCacheManager].playMode) {
+            cell.iconImgView.hidden = NO;
+        }
+        else {
+            cell.iconImgView.hidden = YES;
+        }
+        
+        if (indexPath.row == 0) {
+            cell.titleLabel.text = @"单集播放";
+        }
+        else if (indexPath.row == 1) {
+            cell.titleLabel.text = @"单集循环";
+        }
+        else if (indexPath.row == 2) {
+            cell.titleLabel.text = @"列表循环";
+        }
+        else if (indexPath.row == 3) {
+            cell.titleLabel.text = @"顺序播放";
+        }
+        
+        return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [CacheManager shareCacheManager].playMode = indexPath.row;
-    [tableView reloadData];
+        [CacheManager shareCacheManager].playMode = indexPath.row;
+        [tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

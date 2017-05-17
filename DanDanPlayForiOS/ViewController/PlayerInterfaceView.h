@@ -25,4 +25,5 @@
 @property (strong, nonatomic) JHEdgeButton *settingButton;
 @property (strong, nonatomic) UISwitch *danmakuHideSwitch;
 @property (strong, nonatomic) UIButton *playButton;
+@property (strong, nonatomic) JHEdgeButton *subTitleIndexButton;
 @end

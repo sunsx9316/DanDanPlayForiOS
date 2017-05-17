@@ -39,7 +39,7 @@ static inline DanDanPlayDanmakuType danmakuStringToType(NSString *string) {
 }
 
 typedef void(^GetSnapshotAction)(UIImage *image);
-typedef void(^GetVideosAction)(JHFile *file);
+typedef void(^GetFilesAction)(JHFile *file);
 
 @class HTTPServer;
 @interface ToolsManager : NSObject
@@ -59,7 +59,14 @@ typedef void(^GetVideosAction)(JHFile *file);
 /**
  扫描视频模型
  */
-- (void)startDiscovererVideoWithCompletion:(GetVideosAction)completion;
+- (void)startDiscovererVideoWithCompletion:(GetFilesAction)completion;
+
+/**
+ 扫描字幕文件
+
+ @param completion 回调
+ */
+- (void)startDiscovererSubTitleWithCompletion:(GetFilesAction)completion;
 
 /**
  添加文件到文件夹
@@ -74,7 +81,7 @@ typedef void(^GetVideosAction)(JHFile *file);
  @param aURL 路径
  @param completion 回调
  */
-- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetVideosAction)completion;
+- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetFilesAction)completion;
 
 
 /**

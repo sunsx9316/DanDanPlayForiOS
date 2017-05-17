@@ -14,6 +14,7 @@
 #import <HTTPServer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+static const NSArray <NSString *>*_subtitles;
 
 /**
  判断文件是不是视频
@@ -26,6 +27,24 @@ CG_INLINE BOOL isVideoFile(NSURL *aURL) {
     CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
     BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeMovie);
     CFRelease(fileUTI);
+    return flag;
+};
+
+CG_INLINE BOOL isSubTitleFile(NSURL *aURL) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _subtitles = @[@"SSA", @"ASS", @"SMI", @"SRT", @"SUB", @"LRC", @"SST", @"TXT", @"XSS", @"PSB", @"SSB"];
+    });
+    
+    NSString *pathExtension = aURL.pathExtension;
+    __block BOOL flag = NO;
+    [_subtitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            flag = YES;
+            *stop = YES;
+        }
+    }];
+    
     return flag;
 };
 
@@ -109,7 +128,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     [thumb fetchThumbnail];
 }
 
-- (void)startDiscovererVideoWithCompletion:(GetVideosAction)completion {
+- (void)startDiscovererVideoWithCompletion:(GetFilesAction)completion {
     
     JHFile *fileModel = [CacheManager shareCacheManager].rootFile;
     
@@ -180,6 +199,30 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     });
 }
 
+- (void)startDiscovererSubTitleWithCompletion:(GetFilesAction)completion {
+    if (completion == nil) return;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSFileManager *manager = [NSFileManager defaultManager];
+        JHFile *rootFile = [[JHFile alloc] init];
+        rootFile.subFiles = [NSMutableArray array];
+        
+        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:[[UIApplication sharedApplication] documentsURL] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+        
+        for (NSURL *url in childFilesEnumerator) {
+            if (isSubTitleFile(url)) {
+                JHFile *file = [[JHFile alloc] init];
+                file.fileURL = url;
+                [rootFile.subFiles addObject:file];
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(rootFile);
+        });
+    });
+}
+
 - (void)addFiles:(NSArray <JHFile *>*)files toFolder:(NSString *)folderName {
     if (files.count == 0) return;
     
@@ -221,7 +264,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     [[CacheManager shareCacheManager] setFolderCache:(NSMutableDictionary <NSString *, NSArray <NSString *>*>*)folderCache];
 }
 
-- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetVideosAction)completion {
+- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetFilesAction)completion {
     
     if (completion == nil) return;
     

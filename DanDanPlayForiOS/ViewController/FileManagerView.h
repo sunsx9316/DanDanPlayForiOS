@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, FileManagerViewType) {
     FileManagerViewTypeLong,
-    FileManagerViewTypeShort,
+//    FileManagerViewTypeShort,
     FileManagerViewTypePlayerList,
 };
 
