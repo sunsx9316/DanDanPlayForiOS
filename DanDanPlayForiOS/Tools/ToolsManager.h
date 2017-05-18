@@ -41,6 +41,11 @@ static inline DanDanPlayDanmakuType danmakuStringToType(NSString *string) {
 typedef void(^GetSnapshotAction)(UIImage *image);
 typedef void(^GetFilesAction)(JHFile *file);
 
+typedef NS_ENUM(NSUInteger, PickerFileType) {
+    PickerFileTypeSubtitle,
+    PickerFileTypeDanmaku,
+};
+
 @class HTTPServer;
 @interface ToolsManager : NSObject
 
@@ -61,12 +66,14 @@ typedef void(^GetFilesAction)(JHFile *file);
  */
 - (void)startDiscovererVideoWithCompletion:(GetFilesAction)completion;
 
-/**
- 扫描字幕文件
 
+/**
+ 扫描文件
+
+ @param type 文件类型
  @param completion 回调
  */
-- (void)startDiscovererSubTitleWithCompletion:(GetFilesAction)completion;
+- (void)startDiscovererFileWithType:(PickerFileType)type completion:(GetFilesAction)completion;
 
 /**
  添加文件到文件夹

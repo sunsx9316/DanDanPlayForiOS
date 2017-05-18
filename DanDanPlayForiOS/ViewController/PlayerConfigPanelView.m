@@ -13,6 +13,8 @@
 #import "PlayerControlView.h"
 #import "FileManagerView.h"
 
+#import "PickerFileViewController.h"
+
 @interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate, FileManagerViewDelegate>
 @property (strong, nonatomic) WMMenuView *menu;
 @property (strong, nonatomic) FileManagerView *listView;
@@ -126,14 +128,6 @@
         _listView.delegate = self;
         _listView.type = FileManagerViewTypePlayerList;
         _listView.currentFile = [CacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
-//        [_listView reloadDataWithAnimate:NO];
-//        @weakify(self)
-//        [_listView setDidSelectedModelCallBack:^(VideoModel *model) {
-//            @strongify(self)
-//            if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) return;
-//            
-//            [self.delegate playerConfigPanelView:self didSelectedModel:model];
-//        }];
     }
     return _listView;
 }
@@ -147,6 +141,20 @@
             if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didTouchStepper:)]) return;
             
             [self.delegate playerConfigPanelView:self didTouchStepper:value];
+        }];
+        
+        [_danmakuControlView setTouchSelectedDanmakuCellCallBack:^{
+            @strongify(self)
+            
+            PickerFileViewController *vc = [[PickerFileViewController alloc] init];
+            vc.type = PickerFileTypeDanmaku;
+            [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
+                @strongify(self)
+                if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedDanmaku:)]) return;
+                
+                [self.delegate playerConfigPanelView:self didSelectedDanmaku:aURL];
+            }];
+            [self.viewController.navigationController pushViewController:vc animated:YES];
         }];
     }
     return _danmakuControlView;

@@ -15,6 +15,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 static const NSArray <NSString *>*_subtitles;
+static const NSArray <NSString *>*_danmakuTypes;
 
 /**
  判断文件是不是视频
@@ -48,21 +49,44 @@ CG_INLINE BOOL isSubTitleFile(NSURL *aURL) {
     return flag;
 };
 
+CG_INLINE BOOL isDanmakuFile(NSURL *aURL) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _danmakuTypes = @[@"XML"];
+    });
+    
+    NSString *pathExtension = aURL.pathExtension;
+    __block BOOL flag = NO;
+    [_danmakuTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            flag = YES;
+            *stop = YES;
+        }
+    }];
+    
+    return flag;
+};
+
 //CG_INLINE BOOL isExclude(NSString *name) {
 //    return [name containsString:@"Inbox"];
 //};
 
 static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
 static NSString *const tempImageKey = @"temp_image";
-static NSString *const videoModelParseKey = @"video_model_parse";
+//static NSString *const videoModelISParseKey = @"video_model_is_parse";
+//static NSString *const videoModelKey = @"video_model";
 
 @interface ToolsManager ()<VLCMediaThumbnailerDelegate>
-@property (strong, nonatomic) NSMutableArray <VLCMediaThumbnailer *>*thumbnailers;
-
+//@property (strong, nonatomic) NSMutableArray <VLCMediaThumbnailer *>*thumbnailers;
 @property (strong, nonatomic) NSMutableArray <JHFile *>*videoArray;
+@property (strong, nonatomic) VLCMediaThumbnailer *thumbnailer;
+@property (strong, nonatomic) NSMutableSet <VideoModel *>*parseVideo;
 @end
 
 @implementation ToolsManager
+{
+    VideoModel *_currentParseVideoModel;
+}
 
 + (void)bilibiliAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *page))completion {
     //http://www.bilibili.com/video/av46431/index_2.html
@@ -101,31 +125,21 @@ static NSString *const videoModelParseKey = @"video_model_parse";
 
 - (void)videoSnapShotWithModel:(VideoModel *)model completion:(GetSnapshotAction)completion {
     //防止重复获取缩略图
-    if (model == nil || completion == nil || objc_getAssociatedObject(model, &videoModelParseKey)) return;
+    if (model == nil || completion == nil || [self.parseVideo containsObject:model]) return;
     
-    NSString *key = model.quickHash;
-    if ([[YYWebImageManager sharedManager].cache containsImageForKey:key]) {
-        [[YYWebImageManager sharedManager].cache getImageForKey:key withType:YYImageCacheTypeAll withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(image);
-            });
-        }];
-        return;
+    objc_setAssociatedObject(model, &thumbnailerBlockKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(model, &tempImageKey, model.quickHash, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    
+    [self.parseVideo addObject:model];
+    
+    if (_thumbnailer == nil) {
+        _thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
     }
     
-    VLCMediaThumbnailer *thumb = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-    //    thumb.snapshotPosition = 0.2;
-    objc_setAssociatedObject(thumb, &thumbnailerBlockKey, ^(UIImage *image){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(image);
-        });
-    }, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    
-    objc_setAssociatedObject(thumb, &tempImageKey, key, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    objc_setAssociatedObject(model, &videoModelParseKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self.thumbnailers addObject:thumb];
-    [thumb fetchThumbnail];
+    if (_currentParseVideoModel == nil) {
+        _currentParseVideoModel = model;
+        [self.thumbnailer fetchThumbnail];
+    }
 }
 
 - (void)startDiscovererVideoWithCompletion:(GetFilesAction)completion {
@@ -199,7 +213,7 @@ static NSString *const videoModelParseKey = @"video_model_parse";
     });
 }
 
-- (void)startDiscovererSubTitleWithCompletion:(GetFilesAction)completion {
+- (void)startDiscovererFileWithType:(PickerFileType)type completion:(GetFilesAction)completion {
     if (completion == nil) return;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -210,10 +224,19 @@ static NSString *const videoModelParseKey = @"video_model_parse";
         NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:[[UIApplication sharedApplication] documentsURL] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
         
         for (NSURL *url in childFilesEnumerator) {
-            if (isSubTitleFile(url)) {
-                JHFile *file = [[JHFile alloc] init];
-                file.fileURL = url;
-                [rootFile.subFiles addObject:file];
+            if (type == PickerFileTypeSubtitle) {
+                if (isSubTitleFile(url)) {
+                    JHFile *file = [[JHFile alloc] init];
+                    file.fileURL = url;
+                    [rootFile.subFiles addObject:file];
+                }
+            }
+            else if (type == PickerFileTypeDanmaku) {
+                if (isDanmakuFile(url)) {
+                    JHFile *file = [[JHFile alloc] init];
+                    file.fileURL = url;
+                    [rootFile.subFiles addObject:file];
+                }
             }
         }
         
@@ -354,36 +377,67 @@ static NSString *const videoModelParseKey = @"video_model_parse";
 
 #pragma mark - VLCMediaThumbnailerDelegate
 - (void)mediaThumbnailerDidTimeOut:(VLCMediaThumbnailer *)mediaThumbnailer {
-    GetSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
+    NSLog(@"超时......");
+    GetSnapshotAction action = objc_getAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey);
     if (action) {
-        action(nil);
-        objc_setAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            action(nil);
+        });
+        objc_setAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(_currentParseVideoModel, &tempImageKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
-    [self.thumbnailers removeObject:mediaThumbnailer];
+    [self.parseVideo removeObject:_currentParseVideoModel];
+    
+    if (self.parseVideo.count) {
+        VideoModel *model = self.parseVideo.anyObject;
+        _currentParseVideoModel = model;
+        self.thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
+        [self.thumbnailer fetchThumbnail];
+    }
+    else {
+        _currentParseVideoModel = nil;
+    }
 }
 
 - (void)mediaThumbnailer:(VLCMediaThumbnailer *)mediaThumbnailer didFinishThumbnail:(CGImageRef)thumbnail {
-    GetSnapshotAction action = objc_getAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey);
-    if (action) {
-        UIImage *image = [UIImage imageWithCGImage:thumbnail];
-        NSString *key = objc_getAssociatedObject(mediaThumbnailer, &tempImageKey);
+    NSLog(@"成功......");
+    GetSnapshotAction action = objc_getAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey);
+    NSString *key = objc_getAssociatedObject(_currentParseVideoModel, &tempImageKey);
+    UIImage *image = [UIImage imageWithCGImage:thumbnail];
+    
+    if (image) {
         [[YYWebImageManager sharedManager].cache setImage:image forKey:key];
-        action(image);
-        objc_setAssociatedObject(mediaThumbnailer, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
-    [self.thumbnailers removeObject:mediaThumbnailer];
+    if (action) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            action(image);
+        });
+        objc_setAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(_currentParseVideoModel, &tempImageKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
+    [self.parseVideo removeObject:_currentParseVideoModel];
+    
+    if (self.parseVideo.count) {
+        VideoModel *model = self.parseVideo.anyObject;
+        _currentParseVideoModel = model;
+        self.thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
+        [self.thumbnailer fetchThumbnail];
+    }
+    else {
+        _currentParseVideoModel = nil;
+    }
 }
 
 
 #pragma mark - 懒加载
-
-- (NSMutableArray<VLCMediaThumbnailer *> *)thumbnailers {
-    if (_thumbnailers == nil) {
-        _thumbnailers = [NSMutableArray array];
+- (NSMutableSet<VideoModel *> *)parseVideo {
+    if (_parseVideo == nil) {
+        _parseVideo = [NSMutableSet set];
     }
-    return _thumbnailers;
+    return _parseVideo;
 }
 
 - (NSMutableArray<JHFile *> *)videoArray {

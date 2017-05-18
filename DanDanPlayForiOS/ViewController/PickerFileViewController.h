@@ -1,5 +1,5 @@
 //
-//  SubTitleViewController.h
+//  PickerFileViewController.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/5/17.
@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface SubTitleViewController : BaseViewController
+@interface PickerFileViewController : BaseViewController
+@property (assign, nonatomic) PickerFileType type;
 @property (copy, nonatomic) void(^selectedSubTitleCallBack)(NSURL *);
 @end

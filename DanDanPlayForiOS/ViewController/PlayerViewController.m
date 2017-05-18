@@ -8,7 +8,7 @@
 
 #import "PlayerViewController.h"
 #import "MatchViewController.h"
-#import "SubTitleViewController.h"
+#import "PickerFileViewController.h"
 
 #import "PlayerInterfaceView.h"
 #import "JHMediaPlayer.h"
@@ -262,8 +262,16 @@
     self.danmakuEngine.offsetTime = value;
 }
 
-- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedSubTitle:(NSURL *)aURL {
-    [self.player openVideoSubTitlesFromFile:aURL.path];
+- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedDanmaku:(NSURL *)aURL {
+    NSError *err;
+    NSData *danmaku = [[NSData alloc] initWithContentsOfURL:aURL options:NSDataReadingMappedIfSafe error:&err];
+    if (err) {
+        [MBProgressHUD showWithText:@"弹幕读取出错"];
+    }
+    else {
+        _danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
+        self.danmakuEngine.currentTime = self.player.currentTime;
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -545,7 +553,7 @@
         }];
         
         [_subTitleIndexView setDidTapEmptyViewCallBack:^{
-            SubTitleViewController *vc = [[SubTitleViewController alloc] init];
+            PickerFileViewController *vc = [[PickerFileViewController alloc] init];
             @strongify(self)
             if (!self) return;
             

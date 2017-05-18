@@ -41,9 +41,7 @@
     [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
     if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.quickHash] == NO) {
         [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
-            if (image == nil) return;
-            
-            [self.bgImgView jh_setImageWithFadeType:image];
+            [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
         }];
     }
 }

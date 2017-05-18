@@ -10,4 +10,5 @@
 
 @interface PlayerDanmakuControlView : UIView
 @property (copy, nonatomic) void(^touchStepperCallBack)(CGFloat value);
+@property (copy, nonatomic) void(^touchSelectedDanmakuCellCallBack)();
 @end

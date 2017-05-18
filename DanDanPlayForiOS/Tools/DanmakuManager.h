@@ -9,6 +9,7 @@
 
 
 @class JHBaseDanmaku;
+
 @interface DanmakuManager : NSObject
 
 /**
@@ -58,6 +59,25 @@
  */
 + (JHBaseDanmaku *)converDanmaku:(JHDanmaku *)danmaku;
 
+
+/**
+ 转换本地弹幕
+
+ @param source 弹幕来源
+ @param obj 弹幕对象
+ @return 弹幕字典
+ */
++ (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)parseLocalDanmakuWithSource:(DanDanPlayDanmakuType)source obj:(id)obj;
+
+/**
+ 弹幕缓存大小
+
+ @return 弹幕缓存大小
+ */
 + (CGFloat)danmakuCacheSize;
+
+/**
+ 移除弹幕缓存时间
+ */
 + (void)removeAllDanmakuCache;
 @end

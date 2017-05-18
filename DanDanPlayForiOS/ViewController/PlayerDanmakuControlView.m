@@ -7,11 +7,14 @@
 //
 
 #import "PlayerDanmakuControlView.h"
+#import "PickerFileViewController.h"
+
 #import "BaseTableView.h"
 #import "PlayerSliderTableViewCell.h"
 #import "PlayerControlHeaderView.h"
 #import "PlayerShadowStyleTableViewCell.h"
 #import "PlayerStepTableViewCell.h"
+#import "FileManagerFolderPlayerListViewCell.h"
 
 @interface PlayerDanmakuControlView ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -42,7 +45,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -70,12 +73,20 @@
         [cell setTouchStepperCallBack:self.touchStepperCallBack];
         return cell;
     }
+    else if (indexPath.section == 5) {
+        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
+        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+        cell.titleLabel.text = @"选择本地弹幕...";
+        return cell;
+    }
     
     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.section == 5 && self.touchSelectedDanmakuCellCallBack) {
+        self.touchSelectedDanmakuCellCallBack();
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -123,6 +134,7 @@
         [_tableView registerClass:[PlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"PlayerControlHeaderView"];
         [_tableView registerClass:[PlayerShadowStyleTableViewCell class] forCellReuseIdentifier:@"PlayerShadowStyleTableViewCell"];
         [_tableView registerClass:[PlayerStepTableViewCell class] forCellReuseIdentifier:@"PlayerStepTableViewCell"];
+        [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [self addSubview:_tableView];
     }
     return _tableView;

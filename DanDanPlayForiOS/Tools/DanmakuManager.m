@@ -11,7 +11,7 @@
 #import "JHFloatDanmaku.h"
 #import <GDataXMLNode.h>
 
-typedef void(^callBackBlock)(JHDanmaku *model);
+typedef void(^CallBackAction)(JHDanmaku *model);
 
 @interface DanmakuManager ()
 @property (strong, nonatomic) YYCache *bilibiliDanmakuCache;
@@ -198,8 +198,18 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     [manager.officialDanmakuCache.diskCache removeAllObjects];
 }
 
++ (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)parseLocalDanmakuWithSource:(DanDanPlayDanmakuType)source obj:(id)obj {
+    NSMutableArray *danmakus = [NSMutableArray array];
+    [self switchParseWithSource:source obj:obj block:^(JHDanmaku *model) {
+        [danmakus addObject:model];
+    }];
+    
+    return [self converDanmakus:danmakus];
+}
+
+
 #pragma mark - 私有方法
-+ (void)switchParseWithSource:(DanDanPlayDanmakuType)source obj:(id)obj block:(callBackBlock)block{
++ (void)switchParseWithSource:(DanDanPlayDanmakuType)source obj:(id)obj block:(CallBackAction)block {
     if (source & DanDanPlayDanmakuTypeBiliBili || source & DanDanPlayDanmakuTypeByUser) {
         [self parseBilibiliDamakus:obj block:block];
     }
@@ -211,9 +221,8 @@ typedef void(^callBackBlock)(JHDanmaku *model);
     }
 }
 
-
 //a站解析方式
-+ (void)parseAcfunDanmakus:(NSArray *)danmakus block:(callBackBlock)block {
++ (void)parseAcfunDanmakus:(NSArray *)danmakus block:(CallBackAction)block {
     for (NSArray *arr2 in danmakus) {
         for (NSDictionary *dic in arr2) {
             NSString *str = dic[@"c"];
@@ -232,7 +241,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
 }
 
 //官方解析方式
-+ (void)parseOfficialDanmakus:(JHDanmakuCollection *)danmakus block:(callBackBlock)block{
++ (void)parseOfficialDanmakus:(JHDanmakuCollection *)danmakus block:(CallBackAction)block{
     [danmakus.collection enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         model.filter = [self filterWithDanMudataModel:model];
         if (block) block(model);
@@ -240,7 +249,7 @@ typedef void(^callBackBlock)(JHDanmaku *model);
 }
 
 //b站解析方式
-+ (void)parseBilibiliDamakus:(NSData *)data block:(callBackBlock)block {
++ (void)parseBilibiliDamakus:(NSData *)data block:(CallBackAction)block {
     GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
     GDataXMLElement *rootElement = document.rootElement;
     NSArray *array = [rootElement elementsForName:@"d"];

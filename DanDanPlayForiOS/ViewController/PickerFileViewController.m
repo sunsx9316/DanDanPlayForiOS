@@ -1,28 +1,34 @@
 //
-//  SubTitleViewController.m
+//  PickerFileViewController.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/5/17.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "SubTitleViewController.h"
+#import "PickerFileViewController.h"
 
 #import "BaseTableView.h"
 #import "FileManagerFolderPlayerListViewCell.h"
 
-@interface SubTitleViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface PickerFileViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
 @end
 
-@implementation SubTitleViewController
+@implementation PickerFileViewController
 {
     JHFile *_currentFile;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"选择字幕";
+    if (self.type == PickerFileTypeDanmaku) {
+        self.title = @"选择弹幕";
+    }
+    else {
+        self.title = @"选择字幕";
+    }
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -69,7 +75,7 @@
             @strongify(self)
             if (!self) return;
             
-            [[ToolsManager shareToolsManager] startDiscovererSubTitleWithCompletion:^(JHFile *file) {
+            [[ToolsManager shareToolsManager] startDiscovererFileWithType:self.type completion:^(JHFile *file) {
                 _currentFile = file;
                 [self.tableView reloadData];
                 [self.tableView endRefreshing];

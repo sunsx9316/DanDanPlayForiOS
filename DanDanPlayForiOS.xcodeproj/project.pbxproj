@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
-		8913D7DD1ECC49E700B7975D /* SubTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */; };
+		8913D7DD1ECC49E700B7975D /* PickerFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DC1ECC49E700B7975D /* PickerFileViewController.m */; };
 		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
 		8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* MatchViewController.m */; };
 		8916C7BC1EA85DB400A2233D /* MatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* MatchTableViewCell.m */; };
@@ -112,8 +112,8 @@
 
 /* Begin PBXFileReference section */
 		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8913D7DB1ECC49E700B7975D /* SubTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubTitleViewController.h; sourceTree = "<group>"; };
-		8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubTitleViewController.m; sourceTree = "<group>"; };
+		8913D7DB1ECC49E700B7975D /* PickerFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerFileViewController.h; sourceTree = "<group>"; };
+		8913D7DC1ECC49E700B7975D /* PickerFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerFileViewController.m; sourceTree = "<group>"; };
 		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
 		8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubTitleIndexView.m; sourceTree = "<group>"; };
 		8916C7B71EA85BC900A2233D /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
@@ -455,9 +455,9 @@
 		894CBA9E1E6BCA3A0021253F /* 文件 */ = {
 			isa = PBXGroup;
 			children = (
-				894CBAAC1E6C0CEF0021253F /* View */,
 				8996B9F71EAA28330018E8B0 /* 播放 */,
 				8916C7C61EA8BB6600A2233D /* 搜索 */,
+				894CBAAC1E6C0CEF0021253F /* View */,
 				894CBAA61E6C06F70021253F /* LocalFileViewController.h */,
 				894CBAA71E6C06F70021253F /* LocalFileViewController.m */,
 				894CBAA91E6C073A0021253F /* FTPViewController.h */,
@@ -512,8 +512,8 @@
 				8996B9F91EAA28450018E8B0 /* PlayerViewController.m */,
 				89350B1A1EAB44CB00072DA5 /* PlayNavigationController.h */,
 				89350B1B1EAB44CB00072DA5 /* PlayNavigationController.m */,
-				8913D7DB1ECC49E700B7975D /* SubTitleViewController.h */,
-				8913D7DC1ECC49E700B7975D /* SubTitleViewController.m */,
+				8913D7DB1ECC49E700B7975D /* PickerFileViewController.h */,
+				8913D7DC1ECC49E700B7975D /* PickerFileViewController.m */,
 			);
 			name = "播放";
 			sourceTree = "<group>";
@@ -959,7 +959,7 @@
 				89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* SearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */,
-				8913D7DD1ECC49E700B7975D /* SubTitleViewController.m in Sources */,
+				8913D7DD1ECC49E700B7975D /* PickerFileViewController.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
 				89E3F6011E585135007AB1BD /* SearchNetManager.m in Sources */,
 				89A42EF81EA5FCA200FA0DF3 /* JHSearchCollection.m in Sources */,
