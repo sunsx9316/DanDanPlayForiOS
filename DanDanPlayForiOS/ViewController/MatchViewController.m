@@ -91,7 +91,7 @@
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             [aHUD hideAnimated:NO];
             self.model.danmakus = responseObject;
-            
+            self.model.matchName = item.name;
             [self jumpToOtherVC];
         }];
     }

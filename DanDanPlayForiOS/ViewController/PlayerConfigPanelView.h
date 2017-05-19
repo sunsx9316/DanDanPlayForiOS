@@ -13,8 +13,8 @@
 @optional
 - (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedModel:(VideoModel *)model;
 - (void)playerConfigPanelView:(PlayerConfigPanelView *)view didTouchStepper:(CGFloat)value;
-//- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedSubTitle:(NSURL *)aURL;
-- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedDanmaku:(NSURL *)aURL;
+- (void)playerConfigPanelViewDidTouchSelectedDanmakuCell;
+- (void)playerConfigPanelViewDidTouchMatchCell;
 @end
 
 @interface PlayerConfigPanelView : JHBlurView

@@ -40,7 +40,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     }];
     
     YYCache *cache = nil;
-    NSString *key = [NSString stringWithFormat:@"%ld", episodeId];
+    NSString *key = [NSString stringWithFormat:@"%lu", (unsigned long)episodeId];
     if (source & DanDanPlayDanmakuTypeBiliBili) {
         cache = [DanmakuManager shareDanmakuManager].bilibiliDanmakuCache;
     }
@@ -66,7 +66,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     
     if (episodeId == 0) return @[];
     
-    NSString *key = [NSString stringWithFormat:@"%ld", episodeId];
+    NSString *key = [NSString stringWithFormat:@"%lu", (unsigned long)episodeId];
     //过滤重复弹幕
     NSMutableSet *danmakuCache = [NSMutableSet set];
     NSTimeInterval cacheTime = [CacheManager shareCacheManager].danmakuCacheTime * 24 * 3600;
@@ -114,7 +114,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
         
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
         //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime ) {
+        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
             [[DanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
         }
         else {
@@ -126,14 +126,16 @@ typedef void(^CallBackAction)(JHDanmaku *model);
 }
 
 + (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
-    NSUInteger episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:videoModel];
+    NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:videoModel];
+    NSUInteger episodeId = [dic[videoEpisodeIdKey] integerValue];
     if (episodeId == 0) return;
     
     [self saveDanmakuWithObj:obj episodeId:episodeId source:source];
 }
 
 + (NSArray <JHDanmaku *>*)danmakuCacheWithVideoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
-    NSUInteger episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:videoModel];
+    NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:videoModel];
+    NSUInteger episodeId = [dic[videoEpisodeIdKey] integerValue];
     if (episodeId == 0) return @[];
     
     return [self danmakuCacheWithEpisodeId:episodeId source:source];
@@ -157,7 +159,17 @@ typedef void(^CallBackAction)(JHDanmaku *model);
             tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font during:3 direction:obj.mode == 4 ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
         }
         else {
-            tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font speed:arc4random() % 100 + 50 direction:JHScrollDanmakuDirectionR2L];
+            CGFloat speed = 130 - obj.message.length * 2.5;
+            
+            if (speed < 50) {
+                speed = 50;
+            }
+            
+            speed += arc4random() % 20;
+            
+            //arc4random() % 100 + 50
+            
+            tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font speed:speed direction:JHScrollDanmakuDirectionR2L];
         }
         tempDanmaku.appearTime = obj.time;
         
@@ -168,19 +180,9 @@ typedef void(^CallBackAction)(JHDanmaku *model);
 }
 
 + (JHBaseDanmaku *)converDanmaku:(JHDanmaku *)danmaku {
-    JHBaseDanmaku *tempDanmaku = nil;
-    UIFont *font = [CacheManager shareCacheManager].danmakuFont;
-    JHDanmakuShadowStyle shadowStyle = [CacheManager shareCacheManager].danmakuShadowStyle;
+    if (danmaku == nil) return nil;
     
-    if (danmaku.mode == 4 || danmaku.mode == 5) {
-        tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:danmaku.color] text:danmaku.message shadowStyle:shadowStyle font:font during:3 direction:danmaku.mode == 4 ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
-    }
-    else {
-        tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:danmaku.color] text:danmaku.message shadowStyle:shadowStyle font:font speed:arc4random() % 100 + 50 direction:JHScrollDanmakuDirectionR2L];
-    }
-    tempDanmaku.appearTime = danmaku.time;
-    
-    return tempDanmaku;
+    return [self converDanmakus:@[danmaku]].allValues.firstObject.firstObject;
 }
 
 + (CGFloat)danmakuCacheSize {

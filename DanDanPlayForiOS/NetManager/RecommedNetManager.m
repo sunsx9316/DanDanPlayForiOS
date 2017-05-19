@@ -18,7 +18,7 @@
     
     JHUser *user = [CacheManager shareCacheManager].user;
     
-    return [self GETDataWithPath:[NSString stringWithFormat:@"%@/homepage?userId=%ld&token=%@", API_PATH, user.identity, user.token] parameters:nil headerField:@{@"Accept" : @"application/xml"} completionHandler:^(JHResponse *model) {
+    return [self GETDataWithPath:[NSString stringWithFormat:@"%@/homepage?userId=%lu&token=%@", API_PATH, (unsigned long)user.identity, user.token] parameters:nil headerField:@{@"Accept" : @"application/xml"} completionHandler:^(JHResponse *model) {
         if (model.error) {
             completionHandler(nil, model.error);
         }

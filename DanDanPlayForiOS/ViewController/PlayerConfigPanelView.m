@@ -75,7 +75,7 @@
     return NORMAL_SIZE_FONT.pointSize;
 }
 
-- (UIColor *)menuView:(WMMenuView *)menu titleColorForState:(WMMenuItemState)state {
+- (UIColor *)menuView:(WMMenuView *)menu titleColorForState:(WMMenuItemState)state atIndex:(NSInteger)index {
     if (state == WMMenuItemStateNormal) {
         return [UIColor whiteColor];
     }
@@ -138,23 +138,23 @@
         @weakify(self)
         [_danmakuControlView setTouchStepperCallBack:^(CGFloat value) {
             @strongify(self)
-            if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didTouchStepper:)]) return;
-            
-            [self.delegate playerConfigPanelView:self didTouchStepper:value];
+            if ([self.delegate respondsToSelector:@selector(playerConfigPanelView:didTouchStepper:)]) {
+                [self.delegate playerConfigPanelView:self didTouchStepper:value];
+            }
         }];
         
         [_danmakuControlView setTouchSelectedDanmakuCellCallBack:^{
             @strongify(self)
-            
-            PickerFileViewController *vc = [[PickerFileViewController alloc] init];
-            vc.type = PickerFileTypeDanmaku;
-            [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
-                @strongify(self)
-                if (![self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedDanmaku:)]) return;
-                
-                [self.delegate playerConfigPanelView:self didSelectedDanmaku:aURL];
-            }];
-            [self.viewController.navigationController pushViewController:vc animated:YES];
+            if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchSelectedDanmakuCell)]) {
+                [self.delegate playerConfigPanelViewDidTouchSelectedDanmakuCell];
+            }
+        }];
+        
+        [_danmakuControlView setTouchMatchVideoCellCallBack:^{
+            @strongify(self)
+            if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchMatchCell)]) {
+                [self.delegate playerConfigPanelViewDidTouchMatchCell];
+            }
         }];
     }
     return _danmakuControlView;

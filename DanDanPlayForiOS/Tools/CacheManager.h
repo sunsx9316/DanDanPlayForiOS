@@ -25,6 +25,9 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
     PlayerPlayModeOrder,
 };
 
+FOUNDATION_EXPORT NSString *const videoNameKey;
+FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
+
 @class JHUser, JHFile;
 @interface CacheManager : NSObject
 
@@ -35,9 +38,6 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
 
 //存储文件夹名称和文件hash
 @property (strong, nonatomic) NSMutableDictionary <NSString *, NSArray <NSString *>*>*folderCache;
-
-//列表中的视频
-//@property (strong, nonatomic) NSMutableArray <VideoModel *>*videoModels;
 
 @property (strong, nonatomic) JHFile *rootFile;
 /**
@@ -98,20 +98,21 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
 
 
 /**
- 获取缓存中的关联id
+ 获取缓存中的关联 videoNameKey 视频名称 videoEpisodeIdKey 节目id
  
  @param model 视频模型
  @return 关联的id
  */
-- (NSUInteger)episodeIdWithVideoModel:(VideoModel *)model;
+- (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model;
 
 /**
  关联视频和本地节目id
 
  @param episodeId 节目id
+ @param episodeId 节目名称
  @param model 视频模型
  */
-- (void)saveEpisodeId:(NSUInteger)episodeId videoModel:(VideoModel *)model;
+- (void)saveEpisodeId:(NSUInteger)episodeId episodeName:(NSString *)episodeName videoModel:(VideoModel *)model;
 
 + (instancetype)shareCacheManager;
 

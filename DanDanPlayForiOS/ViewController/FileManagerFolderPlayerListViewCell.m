@@ -26,7 +26,7 @@
 
 - (void)setModel:(VideoModel *)model {
     _model = model;
-    self.titleLabel.text = _model.fileName;
+    self.titleLabel.text = _model.name;
     if ([_model isEqual:[CacheManager shareCacheManager].currentPlayVideoModel]) {
         self.titleLabel.textColor = MAIN_COLOR;
     }

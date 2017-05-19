@@ -52,7 +52,7 @@
     //下载弹幕
     progressAction(0.3f);
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%ld", API_PATH, episodeId] parameters:nil completionHandler:^(JHResponse *model) {
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/comment/%lu", API_PATH, (unsigned long)episodeId] parameters:nil completionHandler:^(JHResponse *model) {
         
         if (model.error) {
             completionAction(nil, model.error);
@@ -109,7 +109,7 @@
         return nil;
     }
     
-    return [self PUTWithPath:[NSString stringWithFormat:@"%@/comment/%ld?clientId=ddplayios", API_PATH, episodeId] HTTPBody:[[model yy_modelToJSONData] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self PUTWithPath:[NSString stringWithFormat:@"%@/comment/%lu?clientId=ddplayios", API_PATH, (unsigned long)episodeId] HTTPBody:[[model yy_modelToJSONData] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
         if (completionHandler) {
             completionHandler(model.error);
         }

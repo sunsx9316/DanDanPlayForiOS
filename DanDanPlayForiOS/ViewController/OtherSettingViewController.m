@@ -139,7 +139,7 @@
             cell.detailLabel.text = @"不缓存";
         }
         else {
-            cell.detailLabel.text = [NSString stringWithFormat:@"%ld天", day];
+            cell.detailLabel.text = [NSString stringWithFormat:@"%ld天", (long)day];
         }
     }
     else {

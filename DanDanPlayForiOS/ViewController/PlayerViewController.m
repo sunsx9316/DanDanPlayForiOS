@@ -17,6 +17,7 @@
 #import "PlayerConfigPanelView.h"
 #import "PlayerSendDanmakuConfigView.h"
 #import "PlayerSubTitleIndexView.h"
+#import "PlayerNoticeView.h"
 
 #import <IQKeyboardManager.h>
 #import <YYKeyboardManager.h>
@@ -31,19 +32,22 @@
 @property (strong, nonatomic) PlayerConfigPanelView *configPanelView;
 @property (strong, nonatomic) PlayerSendDanmakuConfigView *sendDanmakuConfigView;
 @property (strong, nonatomic) PlayerSubTitleIndexView *subTitleIndexView;
+@property (strong, nonatomic) PlayerNoticeView *matchNoticeView;
 @end
 
 @implementation PlayerViewController
 {
     //进度条是否不响应通知
     BOOL _isSliderNoActionNotice;
+    //状态栏是否隐藏
+    BOOL _statusBarHide;
     NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*> *_danmakuDic;
     NSInteger _currentTime;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
@@ -60,6 +64,14 @@
     if (self.player.isPlaying) {
         [self.player pause];
     }
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return _statusBarHide;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidLoad {
@@ -102,12 +114,16 @@
         make.left.equalTo(self.view.mas_right);
     }];
     
+    [self.matchNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.centerY.mas_equalTo(0);
+    }];
+    
     [self reload];
     
     //延后2秒隐藏控制面板
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self touchInteractionView];
+            [self controlInterfaceViewVisiable:NO];
         });
     });
 }
@@ -262,16 +278,32 @@
     self.danmakuEngine.offsetTime = value;
 }
 
-- (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedDanmaku:(NSURL *)aURL {
-    NSError *err;
-    NSData *danmaku = [[NSData alloc] initWithContentsOfURL:aURL options:NSDataReadingMappedIfSafe error:&err];
-    if (err) {
-        [MBProgressHUD showWithText:@"弹幕读取出错"];
-    }
-    else {
-        _danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
-        self.danmakuEngine.currentTime = self.player.currentTime;
-    }
+- (void)playerConfigPanelViewDidTouchSelectedDanmakuCell {
+    @weakify(self)
+    PickerFileViewController *vc = [[PickerFileViewController alloc] init];
+    vc.type = PickerFileTypeDanmaku;
+    [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
+        @strongify(self)
+        if (!self) return;
+        
+        NSError *err;
+        NSData *danmaku = [[NSData alloc] initWithContentsOfURL:aURL options:NSDataReadingMappedIfSafe error:&err];
+        if (err) {
+            [MBProgressHUD showWithText:@"弹幕读取出错"];
+        }
+        else {
+            self->_danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
+            self.danmakuEngine.currentTime = self.player.currentTime;
+        }
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)playerConfigPanelViewDidTouchMatchCell {
+    MatchViewController *vc = [[MatchViewController alloc] init];
+    vc.model = self.model;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -280,7 +312,8 @@
         
         NSUInteger episodeId = self.model.danmakus.identity;
         if (episodeId == 0) {
-            episodeId = [[CacheManager shareCacheManager] episodeIdWithVideoModel:self.model];
+            NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:self.model];
+            episodeId = [dic[videoEpisodeIdKey] integerValue];
         }
         if (episodeId == 0) return NO;
         
@@ -317,6 +350,8 @@
 
 #pragma mark - JHKeyboardObserver
 - (void)keyboardChangedWithTransition:(YYKeyboardTransition)transition {
+    if (self.navigationController.topViewController != self) return;
+    
     if (transition.toVisible) {
         if (self.player.isPlaying) {
             [self.player pause];
@@ -341,23 +376,7 @@
 
 #pragma mark - 私有方法
 - (void)touchInteractionView {
-    //显示
-    if (self.interfaceView.alpha == 0) {
-        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.interfaceView.alpha = 1;
-        } completion:nil];
-    }
-    //隐藏
-    else {
-        [self.view endEditing:YES];
-        if (self.configPanelView.show) {
-            [self touchSettingButton];
-        }
-        
-        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.interfaceView.alpha = 0;
-        } completion:nil];
-    }
+    [self controlInterfaceViewVisiable:self.interfaceView.alpha == 0];
 }
 
 - (void)touchBackButton:(UIButton *)sender {
@@ -459,11 +478,42 @@
     [self.subTitleIndexView show];
 }
 
+- (void)controlInterfaceViewVisiable:(BOOL)visiable {
+    //显示
+    _statusBarHide = !visiable;
+    if (visiable) {
+        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.interfaceView.alpha = 1;
+            [self setNeedsStatusBarAppearanceUpdate];
+        } completion:nil];
+    }
+    //隐藏
+    else {
+        [self.view endEditing:YES];
+        if (self.configPanelView.show) {
+            [self touchSettingButton];
+        }
+        
+        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.interfaceView.alpha = 0;
+            [self setNeedsStatusBarAppearanceUpdate];
+        } completion:nil];
+    }
+}
+
 - (void)reload {
+    //转换弹幕
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
-    self.interfaceView.titleLabel.text = _model.fileName;
+    self.interfaceView.titleLabel.text = _model.name;
     [self.player setMediaURL:_model.fileURL];
     self.danmakuEngine.currentTime = 0;
+    
+    NSString *matchName = _model.matchName;
+    [self.matchNoticeView.titleButton setTitle:matchName forState:UIControlStateNormal];
+    if (matchName.length) {
+        [self.view addSubview:self.matchNoticeView];
+        [self.matchNoticeView show];
+    }
 }
 
 #pragma mark - 懒加载
@@ -567,6 +617,14 @@
         }];
     }
     return _subTitleIndexView;
+}
+
+- (PlayerNoticeView *)matchNoticeView {
+    if (_matchNoticeView == nil) {
+        _matchNoticeView = [[PlayerNoticeView alloc] init];
+        [self.view addSubview:_matchNoticeView];
+    }
+    return _matchNoticeView;
 }
 
 @end

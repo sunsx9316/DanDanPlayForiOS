@@ -54,14 +54,15 @@
         [_topView addSubview:self.settingButton];
         
         [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.mas_offset(10);
+            make.top.mas_offset(20);
+            make.left.mas_offset(10);
             make.bottom.mas_offset(-10);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(30 + jh_isPad() * 20);
         }];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(0);
+            make.centerY.mas_equalTo(self.backButton);
             make.left.equalTo(self.backButton.mas_right).mas_offset(10);
             //            make.right.mas_offset(-10);
         }];
@@ -256,7 +257,7 @@
 - (JHEdgeButton *)subTitleIndexButton {
     if (_subTitleIndexButton == nil) {
         _subTitleIndexButton = [[JHEdgeButton alloc] init];
-        [_subTitleIndexButton setTitle:@"字幕轨道" forState:UIControlStateNormal];
+        [_subTitleIndexButton setTitle:@"字幕" forState:UIControlStateNormal];
         _settingButton.titleLabel.font = NORMAL_SIZE_FONT;
         _subTitleIndexButton.inset = CGSizeMake(10, 8);
     }

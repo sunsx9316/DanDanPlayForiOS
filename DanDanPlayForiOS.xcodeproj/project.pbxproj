@@ -36,6 +36,7 @@
 		894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA71E6C06F70021253F /* LocalFileViewController.m */; };
 		894CBAAB1E6C073A0021253F /* FTPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* FTPViewController.m */; };
 		894CBAAF1E6C12A80021253F /* FileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */; };
+		895F32301ECE9C8900368333 /* PlayerNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 895F322F1ECE9C8900368333 /* PlayerNoticeView.m */; };
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
 		898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
@@ -168,6 +169,8 @@
 		894CBAAA1E6C073A0021253F /* FTPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPViewController.m; sourceTree = "<group>"; };
 		894CBAAD1E6C12A80021253F /* FileManagerFileLongViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFileLongViewCell.h; sourceTree = "<group>"; };
 		894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFileLongViewCell.m; sourceTree = "<group>"; };
+		895F322E1ECE9C8900368333 /* PlayerNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerNoticeView.h; sourceTree = "<group>"; };
+		895F322F1ECE9C8900368333 /* PlayerNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerNoticeView.m; sourceTree = "<group>"; };
 		896F594D1EA710A8004F4313 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		896F594E1EA710A8004F4313 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -362,6 +365,10 @@
 		8916C7CA1EA8C20A00A2233D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8916C7CB1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.h */,
+				8916C7CC1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.m */,
+				8916C7CE1EA8DCFB00A2233D /* SearchEpisodeTableViewCell.h */,
+				8916C7CF1EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -400,6 +407,8 @@
 				89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */,
 				8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */,
 				8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */,
+				895F322E1ECE9C8900368333 /* PlayerNoticeView.h */,
+				895F322F1ECE9C8900368333 /* PlayerNoticeView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -455,6 +464,7 @@
 		894CBA9E1E6BCA3A0021253F /* 文件 */ = {
 			isa = PBXGroup;
 			children = (
+				895F32311ECEB3CD00368333 /* 匹配 */,
 				8996B9F71EAA28330018E8B0 /* 播放 */,
 				8916C7C61EA8BB6600A2233D /* 搜索 */,
 				894CBAAC1E6C0CEF0021253F /* View */,
@@ -462,8 +472,6 @@
 				894CBAA71E6C06F70021253F /* LocalFileViewController.m */,
 				894CBAA91E6C073A0021253F /* FTPViewController.h */,
 				894CBAAA1E6C073A0021253F /* FTPViewController.m */,
-				8916C7B71EA85BC900A2233D /* MatchViewController.h */,
-				8916C7B81EA85BC900A2233D /* MatchViewController.m */,
 			);
 			name = "文件";
 			sourceTree = "<group>";
@@ -490,16 +498,29 @@
 			isa = PBXGroup;
 			children = (
 				8939FB511EB398D70063BBA1 /* FileManagerView */,
+				89A1C0171EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.h */,
+				89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		895F32311ECEB3CD00368333 /* 匹配 */ = {
+			isa = PBXGroup;
+			children = (
+				895F32321ECEB3D500368333 /* View */,
+				8916C7B71EA85BC900A2233D /* MatchViewController.h */,
+				8916C7B81EA85BC900A2233D /* MatchViewController.m */,
+			);
+			name = "匹配";
+			sourceTree = "<group>";
+		};
+		895F32321ECEB3D500368333 /* View */ = {
+			isa = PBXGroup;
+			children = (
 				8916C7C01EA89A8A00A2233D /* MatchTitleTableViewCell.h */,
 				8916C7C11EA89A8A00A2233D /* MatchTitleTableViewCell.m */,
 				8916C7BA1EA85DB400A2233D /* MatchTableViewCell.h */,
 				8916C7BB1EA85DB400A2233D /* MatchTableViewCell.m */,
-				8916C7CB1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.h */,
-				8916C7CC1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.m */,
-				8916C7CE1EA8DCFB00A2233D /* SearchEpisodeTableViewCell.h */,
-				8916C7CF1EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m */,
-				89A1C0171EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.h */,
-				89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -925,6 +946,7 @@
 				89E3F6281E585C17007AB1BD /* JHDanmaku.m in Sources */,
 				89350B191EAB125700072DA5 /* JHEdgeLabel.m in Sources */,
 				896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */,
+				895F32301ECE9C8900368333 /* PlayerNoticeView.m in Sources */,
 				89A42E9A1EA5B0BA00FA0DF3 /* JHBaseCollection.m in Sources */,
 				89F173061EB1F6F0006A2473 /* SettingTitleTableViewCell.m in Sources */,
 				89A42E991EA5B0BA00FA0DF3 /* JHBase.m in Sources */,

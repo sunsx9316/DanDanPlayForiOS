@@ -23,7 +23,7 @@
         path = [NSString stringWithFormat:@"%@/searchall/%@", API_PATH, [keyword stringByURLEncode]];
     }
     else {
-        path = [NSString stringWithFormat:@"%@/searchall/%@/%ld", API_PATH, [keyword stringByURLEncode], episode];
+        path = [NSString stringWithFormat:@"%@/searchall/%@/%lu", API_PATH, [keyword stringByURLEncode], (unsigned long)episode];
     }
     
     return [self GETWithPath:path parameters:nil completionHandler:^(JHResponse *model) {
@@ -54,7 +54,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%ld.ver?", seasonId];
+    NSString *path = [NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%lu.ver?", (unsigned long)seasonId];
     
     return [self GETDataWithPath:path parameters:nil completionHandler:^(JHResponse *model) {
         if ([model.responseObject isKindOfClass:[NSData class]]) {

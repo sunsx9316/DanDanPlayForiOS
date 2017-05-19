@@ -46,12 +46,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = _currentFile.subFiles[indexPath.row].videoModel.fileNameWithPathExtension;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.titleLabel.textColor = [UIColor blackColor];
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.selectedSubTitleCallBack) {
         self.selectedSubTitleCallBack(_currentFile.subFiles[indexPath.row].fileURL);
     }

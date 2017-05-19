@@ -23,6 +23,10 @@ static NSString *const danmakuSpeedKey = @"danmaku_speed";
 static NSString *const playerPlayKey = @"player_play";
 static NSString *const folderCacheKey = @"folder_cache";
 
+NSString *const videoNameKey = @"video_name";
+NSString *const videoEpisodeIdKey = @"video_episode_id";
+
+
 @interface CacheManager ()
 @property (strong, nonatomic) YYCache *cache;
 @end
@@ -40,12 +44,6 @@ static NSString *const folderCacheKey = @"folder_cache";
 }
 
 #pragma mark - 懒加载
-//- (NSMutableArray<VideoModel *> *)videoModels {
-//    if (_videoModels == nil) {
-//        _videoModels = [NSMutableArray array];
-//    }
-//    return _videoModels;
-//}
 
 - (JHFile *)rootFile {
     if (_rootFile == nil) {
@@ -145,17 +143,25 @@ static NSString *const folderCacheKey = @"folder_cache";
     return [autoRequestThirdPartyDanmaku boolValue];
 }
 
-- (NSUInteger)episodeIdWithVideoModel:(VideoModel *)model {
+- (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model {
     if (model == nil) return 0;
     
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:model.md5];
-    return num.integerValue;
+    NSDictionary *dic = (NSDictionary *)[self.cache objectForKey:[NSString stringWithFormat:@"video_model_%@", model.md5]];
+    return dic;
 }
 
-- (void)saveEpisodeId:(NSUInteger)episodeId videoModel:(VideoModel *)model {
+- (void)saveEpisodeId:(NSUInteger)episodeId
+          episodeName:(NSString *)episodeName
+           videoModel:(VideoModel *)model {
     if (model.md5.length == 0 || episodeId == 0) return;
     
-    [self.cache setObject:@(episodeId) forKey:model.md5 withBlock:nil];
+    if (episodeName.length == 0) {
+        episodeName = @"";
+    }
+    
+    NSDictionary *dic = @{videoNameKey : episodeName , videoEpisodeIdKey : @(episodeId)};
+    
+    [self.cache setObject:dic forKey:[NSString stringWithFormat:@"video_model_%@", model.md5] withBlock:nil];
 }
 
 - (NSArray<JHFilter *> *)danmakuFilters {

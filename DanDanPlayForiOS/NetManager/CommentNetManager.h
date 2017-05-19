@@ -36,7 +36,9 @@ CG_INLINE NSString *danmakusProgressToString(float progress) {
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)danmakusWithEpisodeId:(NSUInteger)episodeId progressHandler:(progressAction)progressHandler completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)danmakusWithEpisodeId:(NSUInteger)episodeId
+                                progressHandler:(progressAction)progressHandler
+                              completionHandler:(void(^)(JHDanmakuCollection *responseObject, NSError *error))completionHandler;
 
 /**
  *  发射弹幕方法

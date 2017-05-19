@@ -10,5 +10,14 @@
 
 @interface PlayerDanmakuControlView : UIView
 @property (copy, nonatomic) void(^touchStepperCallBack)(CGFloat value);
+
+/**
+ 加载本地弹幕
+ */
 @property (copy, nonatomic) void(^touchSelectedDanmakuCellCallBack)();
+
+/**
+ 手动匹配视频
+ */
+@property (copy, nonatomic) void(^touchMatchVideoCellCallBack)();
 @end

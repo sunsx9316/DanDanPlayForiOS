@@ -51,7 +51,7 @@
             UIFont *tempFont = [danmakuFont fontWithSize:value];
             tempFont.isSystemFont = danmakuFont.isSystemFont;
             [CacheManager shareCacheManager].danmakuFont = tempFont;
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", value];
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)value];
         }
             break;
         case PlayerSliderTableViewCellTypeSpeed:
@@ -83,8 +83,8 @@
         self.slider.value = [CacheManager shareCacheManager].danmakuFont.pointSize;
         self.slider.minimumValue = 10;
         self.slider.maximumValue = 32;
-        self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.maximumValue];
-        self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (long)self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)self.slider.value];
     }
     else if (_type == PlayerSliderTableViewCellTypeSpeed) {
         self.slider.value = [CacheManager shareCacheManager].danmakuSpeed;

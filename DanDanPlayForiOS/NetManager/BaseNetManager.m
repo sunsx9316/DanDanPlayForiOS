@@ -22,7 +22,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     
     NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
     NSUInteger statusCode = response.statusCode;
-    NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%ld ", statusCode];
+    NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%lu ", (unsigned long)statusCode];
     if (statusCode == 400) {
         [str appendString:@"客户端发送的请求有错误"];
     }

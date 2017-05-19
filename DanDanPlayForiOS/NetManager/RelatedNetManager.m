@@ -19,7 +19,7 @@
         return nil;
     }
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/related/%ld", API_PATH, episodeId] parameters:nil completionHandler:^(JHResponse *model) {
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/related/%lu", API_PATH, (unsigned long)episodeId] parameters:nil completionHandler:^(JHResponse *model) {
         if (completionHandler) {
             completionHandler([JHRelatedCollection yy_modelWithJSON:model.responseObject], model.error);
         }

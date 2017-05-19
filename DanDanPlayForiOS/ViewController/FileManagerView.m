@@ -109,6 +109,16 @@
     if (self.superview) {
         [self.tableView reloadData];
     }
+    
+    if (_type == FileManagerViewTypePlayerList) {
+        VideoModel *vm = [CacheManager shareCacheManager].currentPlayVideoModel;
+        [_currentFile.subFiles enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.videoModel isEqual:vm]) {
+                [self.tableView scrollToRow:idx inSection:1 atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                *stop = YES;
+            }
+        }];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -167,7 +177,7 @@
         
         FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
         cell.titleLabel.text = file.fileURL.lastPathComponent;
-        cell.detailLabel.text = [NSString stringWithFormat:@"%ld个视频", file.subFiles.count];
+        cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
         cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
         cell.titleLabel.textColor = [UIColor whiteColor];
         cell.detailLabel.textColor = [UIColor whiteColor];
@@ -183,7 +193,7 @@
     
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.fileURL.lastPathComponent;
-    cell.detailLabel.text = [NSString stringWithFormat:@"%ld个视频", file.subFiles.count];
+    cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
     cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
     setupCell(cell);
     return cell;
@@ -245,6 +255,7 @@
     else {
         if (indexPath.section == 0) {
             _currentFile = _currentFile.parentFile;
+            [self touchCancelButton:nil];
             [tableView reloadData];
         }
         else {
@@ -322,16 +333,18 @@
 }
 
 - (void)touchCancelButton:(UIButton *)button {
-    [self.selectedIndexs removeAllObjects];
-    _isEditMode = NO;
-    [self.tableView reloadData];
-    [self.editView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(0);
-    }];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        [self layoutIfNeeded];
-    }];
+    if (_isEditMode == YES) {
+        [self.selectedIndexs removeAllObjects];
+        _isEditMode = NO;
+        [self.tableView reloadData];
+        [self.editView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(0);
+        }];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            [self layoutIfNeeded];
+        }];
+    }
 }
 
 - (void)deleteFiles:(NSArray <JHFile *>*)files {
@@ -370,7 +383,7 @@
                     }
                     else {
                         index++;
-                        aHUD.label.text = [NSString stringWithFormat:@"%ld/%ld", index, totalCount];
+                        aHUD.label.text = [NSString stringWithFormat:@"%ld/%ld", (long)index, (long)totalCount];
                     }
                 }];
                 
@@ -383,7 +396,7 @@
                 if (err == nil) {
                     [obj.parentFile.subFiles removeObject:obj];
                     index++;
-                    aHUD.label.text = [NSString stringWithFormat:@"%ld/%ld", index, totalCount];
+                    aHUD.label.text = [NSString stringWithFormat:@"%ld/%ld", (long)index, (long)totalCount];
                 }
                 else {
                     [aHUD hideAnimated:YES];

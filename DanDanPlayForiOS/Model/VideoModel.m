@@ -27,7 +27,7 @@
     return self;
 }
 
-- (NSString *)fileName {
+- (NSString *)name {
     if (_fileName == nil) {
         _fileName = [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
     }
@@ -54,7 +54,7 @@
 }
 
 - (NSUInteger)length {
-    return [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil] fileSize];
+    return (NSUInteger)[[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.path error:nil] fileSize];
 }
 
 - (NSString *)quickHash {

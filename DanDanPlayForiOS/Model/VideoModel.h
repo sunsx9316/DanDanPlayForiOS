@@ -10,6 +10,12 @@
 
 @class VLCMedia, JHBaseDanmaku, JHFile;
 @interface VideoModel : JHBase
+
+/*
+ 文件名 :name
+ 
+ */
+
 /**
  *  初始化
  *
@@ -19,16 +25,10 @@
  */
 - (instancetype)initWithFileURL:(NSURL *)fileURL;
 
-
 /**
  文件路径
  */
 @property (copy, nonatomic, readonly) NSURL *fileURL;
-
-/**
- 文件名
- */
-@property (copy, nonatomic, readonly) NSString *fileName;
 
 /**
  带后缀的文件名
@@ -64,4 +64,9 @@
  文件模型
  */
 @property (strong, nonatomic) JHFile *file;
+
+/**
+ 匹配名称
+ */
+@property (strong, nonatomic) NSString *matchName;
 @end

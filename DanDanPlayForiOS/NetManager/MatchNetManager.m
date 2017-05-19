@@ -15,7 +15,7 @@
     
     NSString *hash = model.md5;
     NSUInteger length = model.length;
-    NSString *fileName = model.fileName;
+    NSString *fileName = model.name;
     
     if (!hash.length) {
         if (completionHandler) {
@@ -33,7 +33,8 @@
         JHMatcheCollection *collection = [JHMatcheCollection yy_modelWithDictionary: response.responseObject];
         if (collection.collection.count == 1) {
             JHMatche *matchModel = collection.collection.firstObject;
-            [[CacheManager shareCacheManager] saveEpisodeId:matchModel.identity videoModel:model];
+            model.matchName = matchModel.name;
+            [[CacheManager shareCacheManager] saveEpisodeId:matchModel.identity episodeName:matchModel.name videoModel:model];
         }
         
         if (completionHandler) {
@@ -65,6 +66,9 @@
     if (danmakus.count) {
         JHDanmakuCollection *collection = [[JHDanmakuCollection alloc] init];
         collection.collection = danmakus;
+        
+        NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:model];
+        model.matchName = dic[videoNameKey];
         
         progressAction(1.0f);
         completionAction(collection, nil);

@@ -45,7 +45,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 6;
+    return 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -79,7 +79,13 @@
         cell.titleLabel.text = @"选择本地弹幕...";
         return cell;
     }
-    
+    else if (indexPath.section == 6) {
+        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
+        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+        cell.titleLabel.text = @"手动匹配视频";
+        return cell;
+    }
+
     return nil;
 }
 
@@ -87,15 +93,25 @@
     if (indexPath.section == 5 && self.touchSelectedDanmakuCellCallBack) {
         self.touchSelectedDanmakuCellCallBack();
     }
+    else if (indexPath.section == 6 && self.touchMatchVideoCellCallBack) {
+        self.touchMatchVideoCellCallBack();
+    }
 }
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44 + jh_isPad() * 20;
+    if (indexPath.section < 5) {
+        return 44 + jh_isPad() * 20;
+    }
+    
+    return 64 + jh_isPad() * 20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    if (section < 5) {
+        return 30;
+    }
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -103,23 +119,27 @@
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
-    if (section == 0) {
-        view.titleLabel.text = @"弹幕字体大小";
+    if (section < 5) {
+        PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
+        if (section == 0) {
+            view.titleLabel.text = @"弹幕字体大小";
+        }
+        else if (section == 1) {
+            view.titleLabel.text = @"弹幕速度";
+        }
+        else if (section == 2) {
+            view.titleLabel.text = @"弹幕透明度";
+        }
+        else if (section == 3) {
+            view.titleLabel.text = @"弹幕特效";
+        }
+        else if (section == 4) {
+            view.titleLabel.text = @"弹幕时间偏移";
+        }
+        return view;
     }
-    else if (section == 1) {
-        view.titleLabel.text = @"弹幕速度";
-    }
-    else if (section == 2) {
-        view.titleLabel.text = @"弹幕透明度";
-    }
-    else if (section == 3) {
-        view.titleLabel.text = @"弹幕特效";
-    }
-    else if (section == 4) {
-        view.titleLabel.text = @"弹幕时间偏移";
-    }
-    return view;
+    
+    return nil;
 }
 
 #pragma mark - 懒加载

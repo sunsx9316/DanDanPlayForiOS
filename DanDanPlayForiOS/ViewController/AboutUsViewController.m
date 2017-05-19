@@ -148,29 +148,29 @@
         [_holdView addSubview:insertView2];
         
         [self.officialButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.leading.bottom.mas_equalTo(0);
+            make.top.left.bottom.mas_equalTo(0);
         }];
         
         [insertView1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
-            make.leading.equalTo(self.officialButton.mas_trailing);
+            make.left.equalTo(self.officialButton.mas_right);
             make.size.mas_equalTo(CGSizeMake(1, 15));
         }];
         
         [self.openSourceButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
-            make.leading.equalTo(insertView1.mas_trailing);
+            make.left.equalTo(insertView1.mas_right);
         }];
         
         [insertView2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
-            make.leading.equalTo(self.openSourceButton.mas_trailing);
+            make.left.equalTo(self.openSourceButton.mas_right);
             make.size.mas_equalTo(insertView1);
         }];
         
         [self.weiboButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.trailing.bottom.mas_equalTo(0);
-            make.leading.equalTo(insertView2.mas_trailing);
+            make.right.bottom.mas_equalTo(0);
+            make.left.equalTo(insertView2.mas_right);
         }];
         
         [self.view addSubview:_holdView];
@@ -190,7 +190,7 @@
             year = @"2017";
         }
         else if (date.year > 2017) {
-            year = [NSString stringWithFormat:@"2017-%ld", date.year];
+            year = [NSString stringWithFormat:@"2017-%ld", (long)date.year];
         }
     
         _copyrightLabel.text = [NSString stringWithFormat:@"Copyright © %@年 JimHuang. All rights reserved.", year];

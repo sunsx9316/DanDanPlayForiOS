@@ -37,7 +37,7 @@
 }
 
 - (void)touchStepper:(UIStepper *)stepper {
-    self.titleLabel.text = [NSString stringWithFormat:@"%lds", (NSInteger)stepper.value];
+    self.titleLabel.text = [NSString stringWithFormat:@"%lds", (long)stepper.value];
     if (self.touchStepperCallBack) {
         self.touchStepperCallBack(stepper.value);
     }
