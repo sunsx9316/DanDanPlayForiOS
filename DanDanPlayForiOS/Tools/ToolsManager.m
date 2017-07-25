@@ -10,7 +10,7 @@
 #import "DanDanPlayHTTPConnection.h"
 #import "NSString+Tools.h"
 #import <YYCache.h>
-#import <DynamicMobileVLCKit/DynamicMobileVLCKit.h>
+#import <MobileVLCKit/MobileVLCKit.h>
 #import <HTTPServer.h>
 #import <TOSMBSession.h>
 #import <TOSMBSessionFile.h>

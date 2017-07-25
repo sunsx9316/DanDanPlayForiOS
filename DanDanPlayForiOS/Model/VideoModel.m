@@ -7,7 +7,7 @@
 //
 
 #import "VideoModel.h"
-#import <DynamicMobileVLCKit/DynamicMobileVLCKit.h>
+#import <MobileVLCKit/MobileVLCKit.h>
 
 @implementation VideoModel
 {

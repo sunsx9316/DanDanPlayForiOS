@@ -13,8 +13,7 @@ target 'DanDanPlayForiOS' do
     #pod 'UMengUShare/Social/WeChat'
 # 集成QQ
     #pod 'UMengUShare/Social/QQ'
-    #pod 'MobileVLCKit-prod', '~> 2.7.9'
-    #pod 'MobileVLCKit-unstable', '~> 3.0.0a23'
+    pod 'MobileVLCKit-unstable', '~> 3.0.0a31'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'

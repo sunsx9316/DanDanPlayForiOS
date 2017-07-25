@@ -7,7 +7,7 @@
 //
 
 #import "JHMediaPlayer.h"
-#import <DynamicMobileVLCKit/DynamicMobileVLCKit.h>
+#import <MobileVLCKit/MobileVLCKit.h>
 #import <Photos/Photos.h>
 
 //最大音量
@@ -218,7 +218,7 @@
 //    if (self.mediaType == JHMediaTypeLocaleMedia) {
     return [_localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
 //    }
-//    return [_localMediaPlayer openVideoSubTitlesFromFile:[path.path stringByURLDecode]];
+//    return [_localMediaPlayer openVideoSubTitlesFromFile:b];
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
