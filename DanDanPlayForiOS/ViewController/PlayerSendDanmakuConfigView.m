@@ -50,6 +50,10 @@
         [[UIApplication sharedApplication].keyWindow addSubview:self];
     }
     
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 1;
     } completion:nil];

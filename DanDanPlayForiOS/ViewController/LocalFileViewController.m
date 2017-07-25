@@ -9,31 +9,25 @@
 #import "LocalFileViewController.h"
 #import "MatchViewController.h"
 #import "PlayNavigationController.h"
-#import "FTPViewController.h"
+#import "HTTPServerViewController.h"
+#import "RemoteSelectedView.h"
+#import "SMBViewController.h"
 
-//#import "BaseTreeView.h"
-//#import "LocalFileTableViewCell.h"
-//#import "LocalFolderTableViewCell.h"
 #import "JHEdgeButton.h"
 #import "FileManagerView.h"
 
 @interface LocalFileViewController ()<UISearchBarDelegate, FileManagerViewDelegate>
-//@property (strong, nonatomic) BaseTreeView *treeView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) FileManagerView *fileManagerView;
 @end
 
 @implementation LocalFileViewController
 {
-//    NSMutableArray <VideoModel *>*_currentArr;
     JHFile *_currentFile;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"文件";
-    
-    [self configRightItem];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE object:nil];
     
@@ -67,7 +61,6 @@
 #pragma mark - FileManagerViewDelegate
 - (void)managerView:(FileManagerView *)managerView didselectedModel:(JHFile *)file {
     VideoModel *model = file.videoModel;
-
     void(^jumpToMatchVCAction)() = ^{
         MatchViewController *vc = [[MatchViewController alloc] init];
         vc.model = model;
@@ -101,27 +94,11 @@
 
 #pragma mark - 私有方法
 - (void)reload {
-    [self.fileManagerView reloadDataWithAnimate:NO];
+    [self.fileManagerView refreshingWithAnimate:NO];
 }
 
 - (void)configLeftItem {
     
-}
-
-- (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.rightBarButtonItem = item;
-}
-
-- (void)touchRightItem:(UIButton *)button {
-    FTPViewController *vc = [[FTPViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - 懒加载
@@ -139,7 +116,7 @@
     if (_fileManagerView == nil) {
         _fileManagerView = [[FileManagerView alloc] initWithFrame:CGRectMake(0, self.searchBar.bottom, self.view.width, self.view.height - self.searchBar.bottom)];
         _fileManagerView.delegate = self;
-        [_fileManagerView reloadDataWithAnimate:YES];
+        [_fileManagerView refreshingWithAnimate:YES];
         [self.view addSubview:_fileManagerView];
     }
     return _fileManagerView;

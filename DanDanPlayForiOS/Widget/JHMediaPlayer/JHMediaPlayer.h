@@ -117,7 +117,7 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
  *
  *  @return 是否成功 0失败 1成功
  */
-- (int)openVideoSubTitlesFromFile:(NSString *)path;
+- (int)openVideoSubTitlesFromFile:(NSURL *)path;
 /**
  *  初始化
  *

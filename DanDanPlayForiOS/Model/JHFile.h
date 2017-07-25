@@ -7,6 +7,7 @@
 //
 
 #import "JHBase.h"
+#import "TOSMBSessionFile+Tools.h"
 
 typedef NS_ENUM(NSUInteger, JHFileType) {
     JHFileTypeUnknow,
@@ -14,12 +15,14 @@ typedef NS_ENUM(NSUInteger, JHFileType) {
     JHFileTypeFolder,
 };
 
-//@class VideoModel;
+
 @interface JHFile : JHBase
-//@property (assign, nonatomic) BOOL isParse;
-@property (assign, nonatomic) JHFileType type;
-@property (strong, nonatomic) NSURL *fileURL;
-@property (strong, nonatomic) NSMutableArray <JHFile *>*subFiles;
-@property (weak, nonatomic) JHFile *parentFile;
+@property (assign, nonatomic, readonly) JHFileType type;
+@property (strong, nonatomic, readonly) NSURL *fileURL;
 @property (strong, nonatomic, readonly) VideoModel *videoModel;
+- (instancetype)initWithFileURL:(NSURL *)fileURL type:(JHFileType)type;
+
+@property (strong, nonatomic) NSMutableArray <__kindof JHFile *>*subFiles;
+@property (weak, nonatomic) __kindof JHFile *parentFile;
+- (void)removeFromParentFile;
 @end

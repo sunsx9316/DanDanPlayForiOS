@@ -4,7 +4,7 @@
 //
 //  Created by JimHuang on 2017/5/17.
 //  Copyright © 2017年 JimHuang. All rights reserved.
-//
+//  字幕选择视图
 
 #import <UIKit/UIKit.h>
 

@@ -52,53 +52,71 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == 3) {
-        
-        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
-        @weakify(vc)
-        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-        [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            @strongify(vc)
-            if (!vc) return;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             
-            UITextField *textField = vc.textFields.firstObject;
-            [CacheManager shareCacheManager].danmakuCacheTime = [textField.text integerValue];
-            [self.tableView reloadRow:3 inSection:0 withRowAnimation:UITableViewRowAnimationNone];
-        }]];
-        
-        [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.keyboardType = UIKeyboardTypeNumberPad;
-        }];
-        
-        [self presentViewController:vc animated:YES completion:nil];
-    }
-    else if (indexPath.row == 4) {
-        [MBProgressHUD showIndeterminateHUDWithView:self.view text:@"删除中..."];
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [DanmakuManager removeAllDanmakuCache];
-            [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
-            [self reloadCacheSizeWithCompletion:^{
-                [MBProgressHUD hideIndeterminateHUD];
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
+            @weakify(vc)
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                @strongify(vc)
+                if (!vc) return;
+                
+                UITextField *textField = vc.textFields.firstObject;
+                [CacheManager shareCacheManager].danmakuCacheTime = [textField.text integerValue];
                 [self.tableView reloadRow:4 inSection:0 withRowAnimation:UITableViewRowAnimationNone];
+            }]];
+            
+            [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                textField.keyboardType = UIKeyboardTypeNumberPad;
             }];
-        });
+            
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+        else if (indexPath.row == 1) {
+            [MBProgressHUD showLoadingInView:self.view text:@"删除中..."];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                [DanmakuManager removeAllDanmakuCache];
+                [CacheManager removeAllCache];
+                [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
+                [self reloadCacheSizeWithCompletion:^{
+                    [MBProgressHUD hideLoading];
+                    [self.tableView reloadRow:5 inSection:0 withRowAnimation:UITableViewRowAnimationNone];
+                }];
+            });
+        }
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 3) {
+    if (indexPath.section == 0) {
         return 55;
     }
     return 44;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
+}
+
 #pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    if (section == 0) {
+        return 5;
+    }
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 3) {
+    if (indexPath.section == 0) {
         OtherSettingSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherSettingSwitchTableViewCell" forIndexPath:indexPath];
         
         if (indexPath.row == 0) {
@@ -125,6 +143,22 @@
                 [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
             }];
         }
+        else if (indexPath.row == 3) {
+            cell.titleLabel.text = @"自动加载远程设备字幕";
+            cell.detailLabel.text = @"大概没有人会关掉";
+            cell.aSwitch.on = [CacheManager shareCacheManager].openAutoDownloadSubtitle;
+            [cell setTouchSwitchCallBack:^{
+                [CacheManager shareCacheManager].openAutoDownloadSubtitle = ![CacheManager shareCacheManager].openAutoDownloadSubtitle;
+            }];
+        }
+        else if (indexPath.row == 4) {
+            cell.titleLabel.text = @"优先加载本地和远程设备同名弹幕";
+            cell.detailLabel.text = @"会替换掉网络弹幕";
+            cell.aSwitch.on = [CacheManager shareCacheManager].priorityLoadLocalDanmaku;
+            [cell setTouchSwitchCallBack:^{
+                [CacheManager shareCacheManager].priorityLoadLocalDanmaku = ![CacheManager shareCacheManager].priorityLoadLocalDanmaku;
+            }];
+        }
         
         return cell;
     }
@@ -132,7 +166,7 @@
     
     OtherSettingTitleSubtitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherSettingTitleSubtitleTableViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
-    if (indexPath.row == 3) {
+    if (indexPath.row == 0) {
         cell.titleLabel.text = @"弹幕缓存时间";
         NSInteger day = [CacheManager shareCacheManager].danmakuCacheTime;
         if (day == 0) {
@@ -153,6 +187,7 @@
 - (void)reloadCacheSizeWithCompletion:(dispatch_block_t)completion {
     [[YYWebImageManager sharedManager].cache.diskCache totalCostWithBlock:^(NSInteger totalCost) {
         totalCost += [DanmakuManager danmakuCacheSize];
+        totalCost += [CacheManager cacheSize];
         
         float cache = totalCost / 1000.0;
         

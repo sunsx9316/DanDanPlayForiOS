@@ -8,6 +8,7 @@
 
 #import "CacheManager.h"
 #import "UIFont+Tools.h"
+#import <TOSMBSessionFile.h>
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -22,6 +23,10 @@ static NSString *const subtitleProtectAreaKey = @"subtitle_protect_area";
 static NSString *const danmakuSpeedKey = @"danmaku_speed";
 static NSString *const playerPlayKey = @"player_play";
 static NSString *const folderCacheKey = @"folder_cache";
+static NSString *const SMBLoginKey = @"SMB_login";
+static NSString *const lastPlayTimeKey = @"last_play_time";
+static NSString *const openAutoDownloadSubtitleKey = @"open_auto_download_subtitle";
+static NSString *const priorityLoadLocalDanmakuKey = @"priority_load_local_danmaku";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -29,6 +34,9 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 @interface CacheManager ()
 @property (strong, nonatomic) YYCache *cache;
+@property (strong, nonatomic) YYCache *episodeInfoCache;
+@property (strong, nonatomic) YYCache *lastPlayTimeCache;
+@property (strong, nonatomic) YYCache *smbFileHashCache;
 @end
 
 @implementation CacheManager
@@ -44,16 +52,6 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark - 懒加载
-
-- (JHFile *)rootFile {
-    if (_rootFile == nil) {
-        _rootFile = [[JHFile alloc] init];
-        _rootFile.type = JHFileTypeFolder;
-        _rootFile.fileURL = [[UIApplication sharedApplication] documentsURL];
-    }
-    return _rootFile;
-}
-
 - (YYCache *)cache {
     if (_cache == nil) {
         _cache = [[YYCache alloc] initWithName:@"dandanplay_cache"];
@@ -61,6 +59,29 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return _cache;
 }
 
+- (YYCache *)episodeInfoCache {
+    if (_episodeInfoCache == nil) {
+        _episodeInfoCache = [[YYCache alloc] initWithName:@"episode_info_cache"];
+    }
+    return _episodeInfoCache;
+}
+
+- (YYCache *)lastPlayTimeCache {
+    if (_lastPlayTimeCache == nil) {
+        _lastPlayTimeCache = [[YYCache alloc] initWithName:@"last_play_time_cache"];
+    }
+    return _lastPlayTimeCache;
+}
+
+- (YYCache *)smbFileHashCache {
+    if (_smbFileHashCache == nil) {
+        _smbFileHashCache = [[YYCache alloc] initWithName:@"smb_file_hash_cache"];
+    }
+    return _smbFileHashCache;
+}
+
+
+#pragma mark -
 - (void)setUser:(JHUser *)user {
     [self.cache setObject:user forKey:userSaveKey withBlock:nil];
 }
@@ -69,6 +90,16 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return (JHUser *)[self.cache objectForKey:userSaveKey];
 }
 
+#pragma mark -
+- (JHFile *)rootFile {
+    if (_rootFile == nil) {
+        _rootFile = [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
+    }
+    return _rootFile;
+}
+
+
+#pragma mark - 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
     [self.cache setObject:danmakuFont forKey:danmakuFontKey withBlock:nil];
     [self.cache setObject:@(danmakuFont.isSystemFont) forKey:danmakuFontIsSystemFontKey withBlock:nil];
@@ -89,6 +120,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return font;
 }
 
+#pragma mark - 
 - (void)setDanmakuShadowStyle:(JHDanmakuShadowStyle)danmakuShadowStyle {
     [self.cache setObject:@(danmakuShadowStyle) forKey:danmakuShadowStyleKey withBlock:nil];
 }
@@ -102,6 +134,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return [num integerValue];
 }
 
+#pragma mark - 
 - (void)setSubtitleProtectArea:(BOOL)subtitleProtectArea {
     [self.cache setObject:@(subtitleProtectArea) forKey:subtitleProtectAreaKey withBlock:nil];
 }
@@ -115,6 +148,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return [num boolValue];
 }
 
+#pragma mark -
 - (void)setDanmakuCacheTime:(NSUInteger)danmakuCacheTime {
     [self.cache setObject:@(danmakuCacheTime) forKey:danmakuCacheTimeKey withBlock:nil];
 }
@@ -129,6 +163,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return [time unsignedIntegerValue];
 }
 
+#pragma mark -
 - (void)setAutoRequestThirdPartyDanmaku:(BOOL)autoRequestThirdPartyDanmaku {
     [self.cache setObject:@(autoRequestThirdPartyDanmaku) forKey:autoRequestThirdPartyDanmakuKey withBlock:nil];
 }
@@ -143,11 +178,53 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return [autoRequestThirdPartyDanmaku boolValue];
 }
 
+#pragma mark -
+- (void)setOpenFastMatch:(BOOL)openFastMatch {
+    [self.cache setObject:@(openFastMatch) forKey:openFastMatchKey withBlock:nil];
+}
+
+- (BOOL)openFastMatch {
+    NSNumber * num = (NSNumber *)[self.cache objectForKey:openFastMatchKey];
+    if (num == nil) {
+        num = @(YES);
+        self.openFastMatch = YES;
+    }
+    return num.boolValue;
+}
+
+#pragma mark -
+- (void)setOpenAutoDownloadSubtitle:(BOOL)openAutoDownloadSubtitle {
+    [self.cache setObject:@(openAutoDownloadSubtitle) forKey:openAutoDownloadSubtitleKey withBlock:nil];
+}
+
+- (BOOL)openAutoDownloadSubtitle {
+    NSNumber * num = (NSNumber *)[self.cache objectForKey:openAutoDownloadSubtitleKey];
+    if (num == nil) {
+        num = @(YES);
+        self.openAutoDownloadSubtitle = YES;
+    }
+    return num.boolValue;
+}
+
+#pragma mark -
+- (void)setPriorityLoadLocalDanmaku:(BOOL)priorityLoadLocalDanmaku {
+    [self.cache setObject:@(priorityLoadLocalDanmaku) forKey:priorityLoadLocalDanmakuKey withBlock:nil];
+}
+
+- (BOOL)priorityLoadLocalDanmaku {
+    NSNumber * num = (NSNumber *)[self.cache objectForKey:priorityLoadLocalDanmakuKey];
+    if (num == nil) {
+        num = @(NO);
+        self.priorityLoadLocalDanmaku = NO;
+    }
+    return num.boolValue;
+}
+
+#pragma mark -
 - (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model {
     if (model == nil) return 0;
     
-    NSDictionary *dic = (NSDictionary *)[self.cache objectForKey:[NSString stringWithFormat:@"video_model_%@", model.md5]];
-    return dic;
+    return (NSDictionary *)[self.episodeInfoCache objectForKey:model.md5];
 }
 
 - (void)saveEpisodeId:(NSUInteger)episodeId
@@ -161,9 +238,76 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     
     NSDictionary *dic = @{videoNameKey : episodeName , videoEpisodeIdKey : @(episodeId)};
     
-    [self.cache setObject:dic forKey:[NSString stringWithFormat:@"video_model_%@", model.md5] withBlock:nil];
+    [self.episodeInfoCache setObject:dic forKey:model.md5 withBlock:nil];
 }
 
+#pragma mark -
+- (void)setPlayMode:(PlayerPlayMode)playMode {
+    [self.cache setObject:@(playMode) forKey:playerPlayKey withBlock:nil];
+}
+
+- (PlayerPlayMode)playMode {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:playerPlayKey];
+    if (num == nil) {
+        num = @(PlayerPlayModeOrder);
+        self.playMode = PlayerPlayModeOrder;
+    }
+    
+    return num.integerValue;
+}
+
+#pragma mark - 
+- (float)danmakuSpeed {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuSpeedKey];
+    if (num == nil) {
+        num = @1;
+        self.danmakuSpeed = 1;
+    }
+    
+    return num.floatValue;
+}
+
+- (void)setDanmakuSpeed:(float)danmakuSpeed {
+    [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey withBlock:nil];
+}
+
+#pragma mark -
+- (float)danmakuOpacity {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuOpacityKey];
+    if (num == nil) {
+        num = @1;
+        self.danmakuOpacity = 1;
+    }
+    
+    return num.floatValue;
+}
+
+- (void)setDanmakuOpacity:(float)danmakuOpacity {
+    [self.cache setObject:@(danmakuOpacity) forKey:danmakuOpacityKey withBlock:nil];
+}
+
+#pragma mark -
+- (NSMutableDictionary *)folderCache {
+    NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[self.cache objectForKey:folderCacheKey];
+    
+    if (dic == nil) {
+        dic = [NSMutableDictionary dictionary];
+    }
+    
+    if ([dic isKindOfClass:[NSMutableDictionary class]] == NO) {
+        dic = [dic mutableCopy];
+        [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
+            dic[key] = [obj mutableCopy];
+        }];
+    }
+    return dic;
+}
+
+- (void)setFolderCache:(NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *)folderCache {
+    [self.cache setObject:folderCache forKey:folderCacheKey withBlock:nil];
+}
+
+#pragma mark -
 - (NSArray<JHFilter *> *)danmakuFilters {
     return (NSArray *)[self.cache objectForKey:danmakuFiltersKey];
 }
@@ -180,74 +324,81 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     [self.cache setObject:arr forKey:danmakuFiltersKey withBlock:nil];
 }
 
-- (void)setOpenFastMatch:(BOOL)openFastMatch {
-    [self.cache setObject:@(openFastMatch) forKey:openFastMatchKey withBlock:nil];
-}
+#pragma mark -
 
-- (BOOL)openFastMatch {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:openFastMatchKey];
-    if (num == nil) {
-        num = @(YES);
-        self.openFastMatch = YES;
-    }
-    return num.boolValue;
-}
-
-- (float)danmakuSpeed {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuSpeedKey];
-    if (num == nil) {
-        num = @1;
-        self.danmakuSpeed = 1;
-    }
+- (void)saveLastPlayTime:(NSInteger)time videoModel:(VideoModel *)model {
+    if (model == nil) return;
     
-    return num.floatValue;
+    [self.lastPlayTimeCache setObject:@(time) forKey:model.quickHash];
 }
 
-- (void)setDanmakuSpeed:(float)danmakuSpeed {
-    [self.cache setObject:@(danmakuSpeed) forKey:danmakuSpeedKey withBlock:nil];
-}
-
-- (float)danmakuOpacity {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuOpacityKey];
+- (NSInteger)lastPlayTimeWithVideoModel:(VideoModel *)model {
+    NSNumber *num = (NSNumber *)[self.lastPlayTimeCache objectForKey:model.quickHash];
+    //不存在
     if (num == nil) {
-        num = @1;
-        self.danmakuOpacity = 1;
+        return -1;
     }
-    
-    return num.floatValue;
-}
-
-- (void)setDanmakuOpacity:(float)danmakuOpacity {
-    [self.cache setObject:@(danmakuOpacity) forKey:danmakuOpacityKey withBlock:nil];
-}
-
-- (void)setPlayMode:(PlayerPlayMode)playMode {
-    [self.cache setObject:@(playMode) forKey:playerPlayKey withBlock:nil];
-}
-
-- (PlayerPlayMode)playMode {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:playerPlayKey];
-    if (num == nil) {
-        num = @(PlayerPlayModeOrder);
-        self.playMode = PlayerPlayModeOrder;
-    }
-    
     return num.integerValue;
 }
 
-- (NSMutableDictionary *)folderCache {
-    NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[[CacheManager shareCacheManager].cache objectForKey:folderCacheKey];
-    if ([dic isKindOfClass:[NSMutableDictionary class]] == NO) {
-        dic = [dic mutableCopy];
-        [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
-            dic[key] = [obj mutableCopy];
-        }];
-    }
-    return dic;
+#pragma mark -
+
+- (void)setSMBInfos:(NSArray<JHSMBInfo *> *)SMBInfos {
+    [self.cache setObject:SMBInfos forKey:SMBLoginKey withBlock:nil];
 }
 
-- (void)setFolderCache:(NSMutableDictionary<NSString *, NSArray<NSString *> *> *)folderCache {
-    [[CacheManager shareCacheManager].cache setObject:folderCache forKey:folderCacheKey withBlock:nil];
+- (NSArray<JHSMBInfo *> *)SMBInfos {
+    NSArray *arr = (NSArray *)[self.cache objectForKey:SMBLoginKey];
+    if (arr == nil) {
+        arr = [NSMutableArray array];
+        self.SMBInfos = arr;
+    }
+    
+    if ([arr isKindOfClass:[NSMutableArray class]] == NO) {
+        arr = [arr mutableCopy];
+        self.SMBInfos = arr;
+    }
+    return arr;
+}
+
+- (void)saveSMBInfo:(JHSMBInfo *)info {
+    NSMutableArray *arr = (NSMutableArray *)[self.cache objectForKey:SMBLoginKey];
+    if ([arr containsObject:info] == NO) {
+        [arr addObject:info];
+        self.SMBInfos = arr;        
+    }
+}
+
+- (void)removeSMBInfo:(JHSMBInfo *)info {
+    NSMutableArray *arr = (NSMutableArray *)[self.cache objectForKey:SMBLoginKey];
+    [arr removeObject:info];
+    self.SMBInfos = arr;
+}
+
+#pragma mark -
+- (void)saveSMBFileHashWithHash:(NSString *)hash file:(TOSMBSessionFile *)file {
+    if (file == nil) return;
+    [self.smbFileHashCache setObject:hash forKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
+}
+
+- (NSString *)SMBFileHash:(TOSMBSessionFile *)file {
+    return (NSString *)[self.smbFileHashCache objectForKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
+}
+
+#pragma mark - 
++ (NSUInteger)cacheSize {
+    CacheManager *manager = [CacheManager shareCacheManager];
+    NSInteger size = [manager.episodeInfoCache.diskCache totalCost];
+    size += [manager.lastPlayTimeCache.diskCache totalCost];
+    size += [manager.smbFileHashCache.diskCache totalCost];
+    return size;
+}
+
++ (void)removeAllCache {
+    CacheManager *manager = [CacheManager shareCacheManager];
+    [manager.episodeInfoCache.diskCache removeAllObjects];
+    [manager.lastPlayTimeCache.diskCache removeAllObjects];
+    [manager.smbFileHashCache.diskCache removeAllObjects];
 }
 
 @end

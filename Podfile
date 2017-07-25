@@ -13,7 +13,8 @@ target 'DanDanPlayForiOS' do
     #pod 'UMengUShare/Social/WeChat'
 # 集成QQ
     #pod 'UMengUShare/Social/QQ'
-    pod 'MobileVLCKit-prod', '~> 2.7.9'
+    #pod 'MobileVLCKit-prod', '~> 2.7.9'
+    #pod 'MobileVLCKit-unstable', '~> 3.0.0a23'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'
@@ -32,4 +33,5 @@ target 'DanDanPlayForiOS' do
     pod 'NKOColorPickerView'
     pod 'CocoaHTTPServer'
     pod 'YYKeyboardManager'
+    pod 'TOSMBClient'
 end

@@ -10,5 +10,6 @@
 
 @interface PickerFileViewController : BaseViewController
 @property (assign, nonatomic) PickerFileType type;
-@property (copy, nonatomic) void(^selectedSubTitleCallBack)(NSURL *);
+@property (strong, nonatomic) JHSMBFile *file;
+@property (copy, nonatomic) void(^selectedFileCallBack)(JHSMBFile *);
 @end

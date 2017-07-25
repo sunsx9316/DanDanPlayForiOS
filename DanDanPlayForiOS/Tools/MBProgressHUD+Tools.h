@@ -38,7 +38,7 @@
  *  @param view 父view 为nil时为windows
  *  @param text 文字 为nil时为加载中
  */
-+ (void)showIndeterminateHUDWithView:(UIView *)view text:(NSString *)text;
++ (void)showLoadingInView:(UIView *)view text:(NSString *)text;
 
 
 
@@ -54,5 +54,5 @@
 /**
  *  隐藏一直显示的hud面板
  */
-+ (void)hideIndeterminateHUD;
++ (void)hideLoading;
 @end

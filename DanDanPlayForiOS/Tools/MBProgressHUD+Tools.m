@@ -28,10 +28,10 @@ static MBProgressHUD *progressHUD = nil;
     [self showWithText:error.domain atView:nil];
 }
 
-+ (void)showIndeterminateHUDWithView:(UIView *)view text:(NSString *)text {
++ (void)showLoadingInView:(UIView *)view text:(NSString *)text {
     if (!text.length) text = @"加载中...";
     
-    [self hideIndeterminateHUD];
+    [self hideLoading];
     
     progressHUD = [self defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:view];
     progressHUD.label.text = text;
@@ -58,7 +58,7 @@ static MBProgressHUD *progressHUD = nil;
     return aHUD;
 }
 
-+ (void)hideIndeterminateHUD {
++ (void)hideLoading {
     if (progressHUD) {
         [progressHUD hideAnimated:YES];
         progressHUD = nil;

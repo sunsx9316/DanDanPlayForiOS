@@ -6,13 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //  文件管理视图
 
-#import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSUInteger, FileManagerViewType) {
-    FileManagerViewTypeLong,
-//    FileManagerViewTypeShort,
-    FileManagerViewTypePlayerList,
-};
+#import "BaseTableView.h"
+#import "FileManagerFileLongViewCell.h"
+#import "FileManagerFolderLongViewCell.h"
 
 @class FileManagerView;
 @protocol FileManagerViewDelegate <NSObject>
@@ -21,10 +17,13 @@ typedef NS_ENUM(NSUInteger, FileManagerViewType) {
 
 @end
 
-@interface FileManagerView : UIView
+@interface FileManagerView : UIView<UITableViewDataSource, UITableViewDelegate>
+@property (strong, nonatomic) BaseTableView *tableView;
 @property (copy, nonatomic) NSString *searchKey;
 @property (strong, nonatomic) JHFile *currentFile;
-@property (assign, nonatomic) FileManagerViewType type;
 @property (weak, nonatomic) id<FileManagerViewDelegate>delegate;
+@property (strong, nonatomic, readonly) UILongPressGestureRecognizer *longPressGestureRecognizer;
+- (void)refreshingWithAnimate:(BOOL)flag;
+- (void)viewScrollToTop:(BOOL)flag;
 - (void)reloadDataWithAnimate:(BOOL)flag;
 @end

@@ -31,6 +31,7 @@
     return [self GETWithPath:[NSString stringWithFormat:@"%@/match", API_PATH] parameters:@{@"fileName":fileName, @"hash": hash, @"length": @(length)} completionHandler:^(JHResponse *response) {
         
         JHMatcheCollection *collection = [JHMatcheCollection yy_modelWithDictionary: response.responseObject];
+        //精准匹配
         if (collection.collection.count == 1) {
             JHMatche *matchModel = collection.collection.firstObject;
             model.matchName = matchModel.name;

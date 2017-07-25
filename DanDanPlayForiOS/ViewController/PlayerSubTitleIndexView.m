@@ -47,6 +47,13 @@
         [[UIApplication sharedApplication].keyWindow addSubview:self];
     }
     
+    
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
+    [self.tableView reloadData];
+    
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 1;
     } completion:nil];
@@ -98,8 +105,8 @@
         if (self.selectedIndexCallBack) {
             self.currentVideoSubTitleIndex = [self.videoSubTitlesIndexes[indexPath.row] intValue];
             [tableView reloadData];
-            [self dismiss];
             self.selectedIndexCallBack(self.currentVideoSubTitleIndex);
+            [self dismiss];
         }
     }
 }

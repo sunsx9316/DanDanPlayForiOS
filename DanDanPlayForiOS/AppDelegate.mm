@@ -17,15 +17,17 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
+    
+//    [CacheManager shareCacheManager].folderCache = nil;
+    
     MainViewController *vc = [[MainViewController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = BACK_GROUND_COLOR;
     self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
-    
-    NSLog(@"%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES));
     [self configIQKeyboardManager];
-    
     return YES;
 }
 

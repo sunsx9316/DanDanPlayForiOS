@@ -7,7 +7,7 @@
 //
 
 #import "JHMediaPlayer.h"
-#import <MobileVLCKit/MobileVLCKit.h>
+#import <DynamicMobileVLCKit/DynamicMobileVLCKit.h>
 #import <Photos/Photos.h>
 
 //最大音量
@@ -148,7 +148,6 @@
 
 - (void)stop {
     [_localMediaPlayer stop];
-//    _currentLocalMedia = nil;
 }
 
 
@@ -174,33 +173,36 @@
         
         UIImage *tempImage = [[UIImage alloc] initWithContentsOfFile:directoryPath];
         
-        NSMutableArray *imageIds = [NSMutableArray array];
+//        NSMutableArray *imageIds = [NSMutableArray array];
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
             //写入图片到相册
-            PHAssetChangeRequest *req = [PHAssetChangeRequest creationRequestForAssetFromImage:tempImage];
+            /*PHAssetChangeRequest *req = */[PHAssetChangeRequest creationRequestForAssetFromImage:tempImage];
             //记录本地标识，等待完成后取到相册中的图片对象
-            [imageIds addObject:req.placeholderForCreatedAsset.localIdentifier];
+//            [imageIds addObject:req.placeholderForCreatedAsset.localIdentifier];
         } completionHandler:^(BOOL success, NSError * _Nullable error) {
             
             if (success) {
+                if (completion) {
+                completion(tempImage, nil);
+            }
                 //成功后取相册中的图片对象
-                __block PHAsset *imageAsset = nil;
-                PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:imageIds options:nil];
-                [result enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    
-                    imageAsset = obj;
-                    *stop = YES;
-                    
-                }];
-                
-                if (imageAsset) {
-                    //加载图片数据
-                    [[PHImageManager defaultManager] requestImageDataForAsset:imageAsset options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                        if (completion) {
-                            completion([[UIImage alloc] initWithData:imageData], nil);
-                        }
-                    }];
-                }
+//                __block PHAsset *imageAsset = nil;
+//                PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:imageIds options:nil];
+//                [result enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    
+//                    imageAsset = obj;
+//                    *stop = YES;
+//                    
+//                }];
+//                
+//                if (imageAsset) {
+//                    //加载图片数据
+//                    [[PHImageManager defaultManager] requestImageDataForAsset:imageAsset options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+//                        if (completion) {
+//                            completion([[UIImage alloc] initWithData:imageData], nil);
+//                        }
+//                    }];
+//                }
             }
             else {
                 if (completion) {
@@ -212,21 +214,23 @@
     });
 }
 
-- (int)openVideoSubTitlesFromFile:(NSString *)path {
+- (int)openVideoSubTitlesFromFile:(NSURL *)path {
 //    if (self.mediaType == JHMediaTypeLocaleMedia) {
-//        return [_localMediaPlayer addPlaybackSlave:[NSURL fileURLWithPath:path] type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
+    return [_localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
 //    }
-    return [_localMediaPlayer openVideoSubTitlesFromFile:path];
+//    return [_localMediaPlayer openVideoSubTitlesFromFile:[path.path stringByURLDecode]];
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
 //    [self stop];
     if (!mediaURL) return;
+    
     _mediaURL = mediaURL;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.absoluteString hasPrefix:@"smb://"]) {
         self.localMediaPlayer.media = [[VLCMedia alloc] initWithURL:mediaURL];
-        self.localMediaPlayer.delegate = self;
     }
+    
+    self.localMediaPlayer.delegate = self;
     _length = -1;
 }
 

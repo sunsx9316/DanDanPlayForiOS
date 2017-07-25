@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JHBaseDanmaku.h"
-
+#import "JHSMBInfo.h"
 
 /**
  视频播放模式
@@ -28,22 +28,28 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
 FOUNDATION_EXPORT NSString *const videoNameKey;
 FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
-@class JHUser, JHFile;
+@class JHUser, JHFile, TOSMBSessionFile;
 @interface CacheManager : NSObject
 
 @property (strong, nonatomic) JHUser *user;
 
-//当前分析的视频模型
-@property (strong, nonatomic) VideoModel *currentPlayVideoModel;
-
-//存储文件夹名称和文件hash
-@property (strong, nonatomic) NSMutableDictionary <NSString *, NSArray <NSString *>*>*folderCache;
-
 @property (strong, nonatomic) JHFile *rootFile;
+
 /**
- 弹幕过滤
+ 弹幕字体
  */
-@property (strong, nonatomic) NSArray <JHFilter *>*danmakuFilters;
+@property (strong, nonatomic) UIFont *danmakuFont;
+
+/**
+ 弹幕边缘特效
+ */
+@property (assign, nonatomic) JHDanmakuShadowStyle danmakuShadowStyle;
+
+/**
+ 字幕保护区域
+ */
+@property (assign, nonatomic) BOOL subtitleProtectArea;
+
 
 /**
  弹幕缓存时间 默认7天
@@ -55,28 +61,20 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  */
 @property (assign, nonatomic) BOOL autoRequestThirdPartyDanmaku;
 
-
 /**
  是否打开快速匹配
  */
 @property (assign, nonatomic) BOOL openFastMatch;
 
+/**
+ 是否自动下载远程设备字幕
+ */
+@property (assign, nonatomic) BOOL openAutoDownloadSubtitle;
 
 /**
- 弹幕字体
+ 优先加载本地弹幕
  */
-@property (strong, nonatomic) UIFont *danmakuFont;
-
-
-/**
- 弹幕边缘特效
- */
-@property (assign, nonatomic) JHDanmakuShadowStyle danmakuShadowStyle;
-
-/**
- 字幕保护区域
- */
-@property (assign, nonatomic) BOOL subtitleProtectArea;
+@property (assign, nonatomic) BOOL priorityLoadLocalDanmaku;
 
 /**
  播放器播放模式
@@ -93,17 +91,18 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  */
 @property (assign, nonatomic) float danmakuOpacity;
 
-- (void)addDanmakuFilter:(JHFilter *)danmakuFilter;
-- (void)removeDanmakuFilter:(JHFilter *)danmakuFilter;
-
+/**
+ 存储文件夹名称和文件hash
+ */
+@property (strong, nonatomic) NSMutableDictionary <NSString *, NSMutableArray <NSString *>*>*folderCache;
 
 /**
- 获取缓存中的关联 videoNameKey 视频名称 videoEpisodeIdKey 节目id
- 
- @param model 视频模型
- @return 关联的id
+ 弹幕过滤
  */
-- (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model;
+@property (strong, nonatomic) NSArray <JHFilter *>*danmakuFilters;
+
+- (void)addDanmakuFilter:(JHFilter *)danmakuFilter;
+- (void)removeDanmakuFilter:(JHFilter *)danmakuFilter;
 
 /**
  关联视频和本地节目id
@@ -113,7 +112,54 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  @param model 视频模型
  */
 - (void)saveEpisodeId:(NSUInteger)episodeId episodeName:(NSString *)episodeName videoModel:(VideoModel *)model;
+/**
+ 获取缓存中的关联 videoNameKey 视频名称 videoEpisodeIdKey 节目id
+ 
+ @param model 视频模型
+ @return 关联的id
+ */
+- (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model;
 
+//存储上次播放时间
+//@property (strong, nonatomic) NSMutableDictionary <NSString *, NSNumber *>* lastPlayTimeCache;
+- (void)saveLastPlayTime:(NSInteger)time videoModel:(VideoModel *)model;
+- (NSInteger)lastPlayTimeWithVideoModel:(VideoModel *)model;
+
+
+/**
+ smb共享登录信息
+ */
+@property (strong, nonatomic) NSArray <JHSMBInfo *>*SMBInfos;
+- (void)saveSMBInfo:(JHSMBInfo *)info;
+- (void)removeSMBInfo:(JHSMBInfo *)info;
+
+
+/**
+ 保存smb文件Hash
+
+ @param hash hash
+ @param file smb文件
+ */
+- (void)saveSMBFileHashWithHash:(NSString *)hash file:(TOSMBSessionFile *)file;
+
+/**
+ 获取smb文件hash
+
+ @param file smb文件
+ @return hash
+ */
+- (NSString *)SMBFileHash:(TOSMBSessionFile *)file;
+
+//当前分析的视频模型
+@property (strong, nonatomic) VideoModel *currentPlayVideoModel;
+
+
+/**
+ 缓存大小
+
+ @return byte
+ */
++ (NSUInteger)cacheSize;
++ (void)removeAllCache;
 + (instancetype)shareCacheManager;
-
 @end

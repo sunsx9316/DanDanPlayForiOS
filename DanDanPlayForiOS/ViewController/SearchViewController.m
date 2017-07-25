@@ -7,12 +7,12 @@
 //
 
 #import "SearchViewController.h"
-#import <WMPageController.h>
+#import "JHDefaultPageViewController.h"
 #import "OfficialSearchViewController.h"
 
 @interface SearchViewController ()<UISearchBarDelegate, WMPageControllerDataSource>
 @property (strong, nonatomic) UISearchBar *searchBar;
-@property (strong, nonatomic) WMPageController *pageController;
+@property (strong, nonatomic) JHDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <UIViewController *>*VCArr;
 @end
 
@@ -49,6 +49,10 @@
     return @"网络传输";
 }
 
+- (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView {
+    return CGRectMake(0, 0, self.view.width, NORMAL_SIZE_FONT.lineHeight + 20);
+}
+
 #pragma mark - 懒加载
 - (UISearchBar *)searchBar {
     if (_searchBar == nil) {
@@ -60,20 +64,10 @@
     return _searchBar;
 }
 
-- (WMPageController *)pageController {
+- (JHDefaultPageViewController *)pageController {
     if(_pageController == nil) {
-        _pageController = [[WMPageController alloc] init];
+        _pageController = [[JHDefaultPageViewController alloc] init];
         _pageController.dataSource = self;
-        _pageController.titleColorNormal = [UIColor lightGrayColor];
-        _pageController.titleColorSelected = MAIN_COLOR;
-        _pageController.titleSizeNormal = SMALL_SIZE_FONT.pointSize;
-        _pageController.titleSizeSelected = NORMAL_SIZE_FONT.pointSize;
-        _pageController.menuViewContentMargin = 5;
-        _pageController.itemMargin = 10;
-        _pageController.automaticallyCalculatesItemWidths = YES;
-        _pageController.menuHeight = NORMAL_SIZE_FONT.lineHeight + 20;
-        _pageController.menuViewStyle = WMMenuViewStyleLine;
-        _pageController.menuViewLayoutMode = WMMenuViewLayoutModeLeft;
         [self addChildViewController:_pageController];
     }
     return _pageController;

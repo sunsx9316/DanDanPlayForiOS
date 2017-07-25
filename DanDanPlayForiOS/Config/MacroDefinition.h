@@ -48,21 +48,11 @@
 //其它
 #define SEARCH_BAR_HEIRHT 44
 
-//导航栏
-//设置成自定义颜色
-#define SET_NAV_BAR_COLOR(color, isTranslucent) self.navigationController.navigationBar.barTintColor = color;\
-[self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];\
-self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];\
-self.navigationController.navigationBar.translucent = isTranslucent;
-//设置成默认样式
-#define SET_NAV_BAR_DEFAULT SET_NAV_BAR_COLOR(MAIN_COLOR, NO)
-//透明
-#define SET_NAVIGATION_BAR_CLEAR SET_NAV_BAR_COLOR([UIColor whiteColor], YES)
-
 
 //YYWebImage 默认加载方法
 #define YY_WEB_IMAGE_DEFAULT_OPTION YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation
 
+//通知文件列表刷新
 #define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
 #define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
 

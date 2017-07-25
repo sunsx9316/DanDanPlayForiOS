@@ -15,6 +15,11 @@
 @end
 
 @interface PlayerNoticeView : JHBlurView
+
+/**
+ 自动隐藏时间 默认 2s
+ */
+@property (assign, nonatomic) float autoDismissTime;
 @property (strong, nonatomic) UIButton *titleButton;
 @property (weak, nonatomic) id<PlayerNoticeViewDelegate>delegate;
 - (void)show;

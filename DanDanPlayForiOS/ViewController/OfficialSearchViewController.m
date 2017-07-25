@@ -130,7 +130,7 @@
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(nullable id)item {
     if ([item isKindOfClass:[NSNumber class]]) {
         MatchTitleTableViewCell *cell = [treeView dequeueReusableCellWithIdentifier:@"MatchTitleTableViewCell"];
-        cell.titleLabel.text = JHEpisodeTypeToString([item integerValue]);
+        cell.titleLabel.text = jh_episodeTypeToString([item integerValue]);
         [cell expandArrow:[treeView isCellForItemExpanded:item] animate:NO];
         return cell;
     }

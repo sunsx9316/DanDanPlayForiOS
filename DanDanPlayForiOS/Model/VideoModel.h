@@ -8,6 +8,9 @@
 
 #import "JHBase.h"
 
+//匹配的长度 16M
+#define MEDIA_MATCH_LENGTH 16777216
+
 @class VLCMedia, JHBaseDanmaku, JHFile;
 @interface VideoModel : JHBase
 
@@ -63,7 +66,7 @@
 /**
  文件模型
  */
-@property (strong, nonatomic) JHFile *file;
+@property (weak, nonatomic) __kindof JHFile *file;
 
 /**
  匹配名称

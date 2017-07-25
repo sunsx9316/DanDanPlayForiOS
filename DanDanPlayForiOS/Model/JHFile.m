@@ -13,12 +13,35 @@
     VideoModel *_videoModel;
 }
 
+- (instancetype)initWithFileURL:(NSURL *)fileURL type:(JHFileType)type {
+    if (self = [super init]) {
+        _fileURL = fileURL;
+        _type = type;
+    }
+    return self;
+}
+
+- (NSString *)name {
+    return self.fileURL.lastPathComponent;
+}
+
 - (VideoModel *)videoModel {
     if (_videoModel == nil) {
         _videoModel = [[VideoModel alloc] initWithFileURL:self.fileURL];
         _videoModel.file = self;
     }
     return _videoModel;
+}
+
+- (NSMutableArray<JHFile *> *)subFiles {
+    if (_subFiles == nil) {
+        _subFiles = [NSMutableArray array];
+    }
+    return _subFiles;
+}
+
+- (void)removeFromParentFile {
+    [self.parentFile.subFiles removeObject:self];
 }
 
 - (NSUInteger)hash {

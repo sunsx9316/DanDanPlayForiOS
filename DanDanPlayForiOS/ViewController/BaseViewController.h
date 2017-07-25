@@ -12,4 +12,5 @@
  */
 @interface BaseViewController : UIViewController
 - (void)configLeftItem;
+- (void)touchLeftItem:(UIButton *)button;
 @end

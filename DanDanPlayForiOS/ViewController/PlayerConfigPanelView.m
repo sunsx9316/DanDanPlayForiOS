@@ -8,18 +8,18 @@
 
 #import "PlayerConfigPanelView.h"
 #import <WMMenuView.h>
-//#import "PlayerListView.h"
 #import "PlayerDanmakuControlView.h"
-#import "PlayerControlView.h"
-#import "FileManagerView.h"
+#import "PlayerVideoControlView.h"
+#import "FileManagerPlayerListView.h"
+#import "SMBVideoModel.h"
 
 #import "PickerFileViewController.h"
 
 @interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate, FileManagerViewDelegate>
 @property (strong, nonatomic) WMMenuView *menu;
-@property (strong, nonatomic) FileManagerView *listView;
+@property (strong, nonatomic) FileManagerPlayerListView *listView;
 @property (strong, nonatomic) PlayerDanmakuControlView *danmakuControlView;
-@property (strong, nonatomic) PlayerControlView *playerControlView;
+@property (strong, nonatomic) PlayerVideoControlView *playerControlView;
 @end
 
 @implementation PlayerConfigPanelView
@@ -29,6 +29,9 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        
+        _show = YES;
+        
         [self.menu mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(10);
             make.left.right.mas_equalTo(0);
@@ -44,6 +47,44 @@
         _currentView = self.listView;
     }
     return self;
+}
+
+- (void)showWithAnimate:(BOOL)flag {
+    if (self.superview && _show == NO) {
+        _show = YES;
+        [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.right.mas_equalTo(0);
+            make.width.mas_equalTo(self.superview.mas_width).multipliedBy(CONFIG_VIEW_WIDTH_RATE);
+        }];
+        
+        if (flag) {
+            [self animate:^{
+                [self layoutIfNeeded];
+            } completion:nil];
+        }
+    }
+}
+
+- (void)dismissWithAnimate:(BOOL)flag {
+    if (self.superview && _show) {
+        _show = NO;
+        [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.mas_equalTo(0);
+            make.left.equalTo(self.superview.mas_right);
+            make.width.mas_equalTo(self.superview.mas_width).multipliedBy(CONFIG_VIEW_WIDTH_RATE);
+        }];
+        
+        if (flag) {
+            [self animate:^{
+                [self layoutIfNeeded];
+            } completion:nil];
+        }
+    }
+}
+
+#pragma mark - 私有方法
+- (void)animate:(dispatch_block_t)animateBlock completion:(void (^)(BOOL finished))completion {
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:8 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:animateBlock completion:completion];
 }
 
 #pragma mark - WMMenuViewDelegate
@@ -122,11 +163,10 @@
     return _menu;
 }
 
-- (FileManagerView *)listView {
+- (FileManagerPlayerListView *)listView {
     if (_listView == nil) {
-        _listView = [[FileManagerView alloc] init];
+        _listView = [[FileManagerPlayerListView alloc] init];
         _listView.delegate = self;
-        _listView.type = FileManagerViewTypePlayerList;
         _listView.currentFile = [CacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
     }
     return _listView;
@@ -160,9 +200,9 @@
     return _danmakuControlView;
 }
 
-- (PlayerControlView *)playerControlView {
+- (PlayerVideoControlView *)playerControlView {
     if (_playerControlView == nil) {
-        _playerControlView = [[PlayerControlView alloc] init];
+        _playerControlView = [[PlayerVideoControlView alloc] init];
     }
     return _playerControlView;
 }

@@ -20,8 +20,7 @@
     if (self = [super initWithFrame:frame]) {
         
         self.alpha = 0;
-        self.layer.cornerRadius = 5;
-        self.layer.masksToBounds = YES;
+        _autoDismissTime = 3;
         
         [self.titleButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.mas_offset(5);
@@ -43,16 +42,22 @@
 }
 
 - (void)show {
-    
+
     if (self.superview == nil) {
         [[UIApplication sharedApplication].keyWindow addSubview:self];
     }
     
-    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    
+    self.transform = CGAffineTransformMakeTranslation(-20, 0);
+    
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 1;
+        self.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         @weakify(self)
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:2 block:^(NSTimer * _Nonnull timer) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:_autoDismissTime block:^(NSTimer * _Nonnull timer) {
             @strongify(self);
             if (!self) return;
             
@@ -66,8 +71,9 @@
     
     [self.timer invalidate];
     
-    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:8 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 0;
+        self.transform = CGAffineTransformMakeTranslation(-20, 0);
     } completion:^(BOOL finished) {
 //        [self removeFromSuperview];
     }];

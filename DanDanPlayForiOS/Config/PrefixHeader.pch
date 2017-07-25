@@ -23,5 +23,6 @@
 #import "NetManagerHeader.h"
 #import "CacheManager.h"
 #import "ToolsManager.h"
+#import "UIViewController+Tools.h"
 
 #endif /* PrefixHeader_pch */

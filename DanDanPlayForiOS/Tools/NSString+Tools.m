@@ -38,4 +38,69 @@
     return address;
 }
 
++ (void)bilibiliAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *page))completion {
+    //http://www.bilibili.com/video/av46431/index_2.html
+    if (!path) {
+        completion(nil, nil);
+    }
+    
+    NSString *aid;
+    NSString *index;
+    NSArray *arr = [path componentsSeparatedByString:@"/"];
+    for (NSString *obj in arr) {
+        if ([obj hasPrefix: @"av"]) {
+            aid = [obj substringFromIndex: 2];
+        }
+        else if ([obj hasPrefix: @"index"]) {
+            index = [[obj componentsSeparatedByString: @"."].firstObject componentsSeparatedByString: @"_"].lastObject;
+        }
+    }
+    completion(aid, index);
+}
+
++ (void)acfunAidWithPath:(NSString *)path complectionHandler:(void(^)(NSString *aid, NSString *index))completion {
+    if (!path) {
+        completion(nil, nil);
+    }
+    
+    NSString *aid;
+    NSString *index;
+    NSArray *arr = [[path componentsSeparatedByString: @"/"].lastObject componentsSeparatedByString:@"_"];
+    if (arr.count == 2) {
+        index = arr.lastObject;
+        aid = [arr.firstObject substringFromIndex: 2];
+    }
+    completion(aid, index);
+}
+
+- (BOOL)isSubtileFileWithVideoPath:(NSString *)videoPath {
+    if (jh_isSubTitleFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
+        return NO;
+    }
+    
+    NSString *subtitleName = [self stringByDeletingPathExtension];
+    NSString *pathName = [videoPath stringByDeletingPathExtension];
+    NSRange range = [subtitleName rangeOfString:pathName];
+    
+    if (range.location != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isDanmakuFileWithVideoPath:(NSString *)videoPath {
+    if (jh_isDanmakuFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
+        return NO;
+    }
+    
+    NSString *danmakuName = [self stringByDeletingPathExtension];
+    NSString *pathName = [videoPath stringByDeletingPathExtension];
+    NSRange range = [danmakuName rangeOfString:pathName];
+    
+    if (range.location != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

@@ -21,28 +21,35 @@
 
 #import <IQKeyboardManager.h>
 #import <YYKeyboardManager.h>
+#import "SMBVideoModel.h"
+#import "NSString+Tools.h"
+#import <MediaPlayer/MediaPlayer.h>
 
-#define CONFIG_VIEW_WIDTH_RATE 0.5
+static const float slowRate = 0.3f;
+static const float normalRate = 0.5f;
+static const float fastRate = 1.0f;
+
+typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
+    InterfaceViewPanTypeProgress,
+    InterfaceViewPanTypeVolume,
+    InterfaceViewPanTypeLight,
+};
 
 @interface PlayerViewController ()<UITextFieldDelegate, JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, YYKeyboardObserver>
 @property (strong, nonatomic) PlayerInterfaceView *interfaceView;
-@property (strong, nonatomic) UIView *gestureView;
 @property (strong, nonatomic) JHMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
-@property (strong, nonatomic) PlayerConfigPanelView *configPanelView;
-@property (strong, nonatomic) PlayerSendDanmakuConfigView *sendDanmakuConfigView;
-@property (strong, nonatomic) PlayerSubTitleIndexView *subTitleIndexView;
-@property (strong, nonatomic) PlayerNoticeView *matchNoticeView;
 @end
 
 @implementation PlayerViewController
 {
     //进度条是否不响应通知
     BOOL _isSliderNoActionNotice;
-    //状态栏是否隐藏
-    BOOL _statusBarHide;
     NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*> *_danmakuDic;
     NSInteger _currentTime;
+    //滑动速率
+    float _sliderRate;
+    InterfaceViewPanType _panType;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,7 +74,7 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return _statusBarHide;
+    return !_interfaceView.isShow;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -80,11 +87,15 @@
     _currentTime = -1;
     self.view.backgroundColor = [UIColor blackColor];
     
-    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuFont" options:NSKeyValueObservingOptionNew context:nil];
-    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuSpeed" options:NSKeyValueObservingOptionNew context:nil];
-    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuShadowStyle" options:NSKeyValueObservingOptionNew context:nil];
-    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuOpacity" options:NSKeyValueObservingOptionNew context:nil];
+    NSArray *keyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity"];
+    [keyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[CacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
+    }];
+    
+    
     [[YYKeyboardManager defaultManager] addObserver:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
         if ([CacheManager shareCacheManager].subtitleProtectArea) {
@@ -96,7 +107,7 @@
         }
     }];
     
-    [self.gestureView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.player.mediaView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
     
@@ -104,47 +115,35 @@
         make.edges.mas_equalTo(0);
     }];
     
-    [self.player.mediaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
-    }];
-    
-    [self.configPanelView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.mas_equalTo(0);
-        make.width.mas_equalTo(self.view.mas_width).multipliedBy(CONFIG_VIEW_WIDTH_RATE);
-        make.left.equalTo(self.view.mas_right);
-    }];
-    
-    [self.matchNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.centerY.mas_equalTo(0);
-    }];
-    
     [self reload];
-    
-    //延后2秒隐藏控制面板
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self controlInterfaceViewVisiable:NO];
-        });
-    });
 }
 
 - (void)setModel:(VideoModel *)model {
+    
+    VideoModel *oldVideoModel = _model;
+    //保存上次播放时间
     _model = model;
     [CacheManager shareCacheManager].currentPlayVideoModel = _model;
+    
     if (self.isViewLoaded) {
+        [[CacheManager shareCacheManager] saveLastPlayTime:self.player.currentTime videoModel:oldVideoModel];
         [self reload];
         [self.player play];
     }
 }
 
 - (void)dealloc {
+    //保存上次播放时间
+    [[CacheManager shareCacheManager] saveLastPlayTime:self.player.currentTime videoModel:_model];
+    
     [self.player stop];
     [self.danmakuEngine stop];
     [[YYKeyboardManager defaultManager] removeObserver:self];
-    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuFont"];
-    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuSpeed"];
-    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuShadowStyle"];
-    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuOpacity"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSArray *keyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity"];
+    [keyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[CacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
+    }];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -203,7 +202,7 @@
                     for (NSInteger i = 0; i < count; ++i) {
                         currentFile = parentFile.subFiles[(i + 1 + index) % count];
                         if (currentFile.type == JHFileTypeDocument) {
-                            [self playerConfigPanelView:self.configPanelView didSelectedModel:currentFile.videoModel];
+                            [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
                             return;
                         }
                     }
@@ -219,7 +218,7 @@
                     for (NSInteger i = index + 1; i < count; ++i) {
                         currentFile = parentFile.subFiles[i];
                         if (currentFile.type == JHFileTypeDocument) {
-                            [self playerConfigPanelView:self.configPanelView didSelectedModel:currentFile.videoModel];
+                            [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
                             return;
                         }
                     }
@@ -244,33 +243,55 @@
 
 #pragma mark - PlayerConfigPanelViewDelegate
 - (void)playerConfigPanelView:(PlayerConfigPanelView *)view didSelectedModel:(VideoModel *)model {
-    
-    void(^jumpToMatchVCAction)() = ^{
-        MatchViewController *vc = [[MatchViewController alloc] init];
-        vc.model = model;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    };
-    
-    if ([CacheManager shareCacheManager].openFastMatch) {
-        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-        [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
-            aHUD.progress = progress;
-            aHUD.label.text = danmakusProgressToString(progress);
-        } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
-            model.danmakus = responseObject;
-            [aHUD hideAnimated:NO];
+    //smb文件 获取文件hash值之后再匹配弹幕
+    if ([model isKindOfClass:[SMBVideoModel class]]) {
+        SMBVideoModel *aVideoModel = (SMBVideoModel *)model;
+        JHSMBFile *file = aVideoModel.file;
+        
+        if (jh_isVideoFile(file.fileURL.absoluteString)) {
+            void(^matchVideoAction)(NSString *) = ^(NSString *path) {
+                NSString *hash = [[[NSFileHandle fileHandleForReadingAtPath:path] readDataOfLength: MEDIA_MATCH_LENGTH] md5String];
+                [[CacheManager shareCacheManager] saveSMBFileHashWithHash:hash file:file.sessionFile];
+                SMBVideoModel *model = [[SMBVideoModel alloc] initWithFileURL:file.sessionFile.fullURL hash:hash length:file.sessionFile.fileSize];
+                model.file = file;
+                [self matchVideoWithModel:model];
+            };
             
-            if (responseObject == nil) {
-                jumpToMatchVCAction();
+            //查找是否获取过文件hash
+            NSString *hash = [[CacheManager shareCacheManager] SMBFileHash:file.sessionFile];
+            if (hash.length) {
+                SMBVideoModel *model = [[SMBVideoModel alloc] initWithFileURL:file.sessionFile.fullURL hash:hash length:file.sessionFile.fileSize];
+                model.file = file;
+                
+                [self matchVideoWithModel:model];
             }
             else {
-                self.model = model;
+                MBProgressHUD *_aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+                _aHUD.label.text = @"分析视频中...";
+                
+                [[ToolsManager shareToolsManager] downloadSMBFile:file progress:^(uint64_t totalBytesReceived, int64_t totalBytesExpectedToReceive, TOSMBSessionDownloadTask *downloadTask) {
+                    _aHUD.progress = totalBytesReceived * 1.0 / MIN(totalBytesExpectedToReceive, MEDIA_MATCH_LENGTH);
+                    if (totalBytesReceived >= MEDIA_MATCH_LENGTH) {
+                        [downloadTask cancel];
+                    }
+                } cancel:^(NSString *cachePath) {
+                    [_aHUD hideAnimated:YES];
+                    matchVideoAction(cachePath);
+                } completion:^(NSString *destinationFilePath, NSError *error) {
+                    [_aHUD hideAnimated:YES];
+                    
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                    }
+                    else {
+                        matchVideoAction(destinationFilePath);
+                    }
+                }];
             }
-        }];
+        }
     }
     else {
-        jumpToMatchVCAction();
+        [self matchVideoWithModel:model];
     }
 }
 
@@ -282,18 +303,16 @@
     @weakify(self)
     PickerFileViewController *vc = [[PickerFileViewController alloc] init];
     vc.type = PickerFileTypeDanmaku;
-    [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
+    vc.file = self.model.file;
+    [vc setSelectedFileCallBack:^(JHSMBFile *file) {
         @strongify(self)
         if (!self) return;
         
-        NSError *err;
-        NSData *danmaku = [[NSData alloc] initWithContentsOfURL:aURL options:NSDataReadingMappedIfSafe error:&err];
-        if (err) {
-            [MBProgressHUD showWithText:@"弹幕读取出错"];
+        if ([file isKindOfClass:[JHSMBFile class]]) {
+            [self downloadDanmakuFile:file];
         }
         else {
-            self->_danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
-            self.danmakuEngine.currentTime = self.player.currentTime;
+            [self openDanmakuWithURL:file.fileURL];
         }
     }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -317,18 +336,19 @@
         }
         if (episodeId == 0) return NO;
         
-        UIColor *color = self.sendDanmakuConfigView.color;
+        UIColor *color = self.interfaceView.sendDanmakuConfigView.color;
         JHUser *user = [CacheManager shareCacheManager].user;
         
         JHDanmaku *danmaku = [[JHDanmaku alloc] init];
         danmaku.color = color.red * 256 * 256 * 255 + color.green * 256 * 255 + color.blue * 255;
         danmaku.time = self.player.currentTime;
-        danmaku.mode = self.sendDanmakuConfigView.danmakuMode;
+        danmaku.mode = self.interfaceView.sendDanmakuConfigView.danmakuMode;
         danmaku.token = user.token;
         danmaku.userId = user.identity;
         danmaku.message = textField.text;
-        
-        [self touchInteractionView];
+        //隐藏UI
+        [self.interfaceView dismissWithAnimate:YES];
+        //发射弹幕
         [CommentNetManager launchDanmakuWithModel:danmaku episodeId:episodeId completionHandler:^(NSError *error) {
             if (error) {
                 [MBProgressHUD showWithText:@"发送失败"];
@@ -356,28 +376,209 @@
         if (self.player.isPlaying) {
             [self.player pause];
         }
+        
+        [self.interfaceView expandDanmakuTextField];
         [self.interfaceView.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.mas_offset(-transition.toFrame.size.height);
         }];
+        
+        [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
+            [self.interfaceView layoutIfNeeded];
+        } completion:nil];
     }
     else {
         if (self.player.isPlaying == NO) {
             [self.player play];
         }
+        
+        [self.interfaceView packUpDanmakuTextField];
         [self.interfaceView.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.mas_offset(0);
         }];
+        
+        [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
+            [self.interfaceView dismissWithAnimate:NO];
+        } completion:nil];
     }
     
-    [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
-        [self.interfaceView layoutIfNeeded];
-    } completion:nil];
 }
 
 #pragma mark - 私有方法
-- (void)touchInteractionView {
-    [self controlInterfaceViewVisiable:self.interfaceView.alpha == 0];
+- (void)applicationDidEnterBackground {
+    if (self.player.isPlaying) {
+        [self.player pause];
+    }
 }
+
+- (void)applicationWillEnterForeground {
+    if (self.player.isPlaying == NO) {
+        [self.player play];
+    }
+}
+
+- (void)reload {
+    //转换弹幕
+    _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
+    self.interfaceView.titleLabel.text = _model.name;
+    //更换视频
+    [self.player setMediaURL:_model.fileURL];
+    self.danmakuEngine.currentTime = 0;
+    
+    //设置匹配名称
+    NSString *matchName = _model.matchName;
+    [self.interfaceView.matchNoticeView.titleButton setTitle:matchName forState:UIControlStateNormal];
+    if (matchName.length) {
+        [self.interfaceView.matchNoticeView show];
+    }
+    
+    //设置上次播放时间
+    NSInteger lastPlayTime = [[CacheManager shareCacheManager] lastPlayTimeWithVideoModel:_model];
+    if (lastPlayTime > 0) {
+        [self.interfaceView.lastTimeNoticeView.titleButton setTitle:[NSString stringWithFormat:@"继续观看: %@", jh_mediaFormatterTime((int)lastPlayTime)] forState:UIControlStateNormal];
+        @weakify(self)
+        [self.interfaceView.lastTimeNoticeView.titleButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
+            @strongify(self)
+            if (!self) return;
+            
+            [self.player jump:(int)lastPlayTime completionHandler:^(NSTimeInterval time) {
+                [self.danmakuEngine setCurrentTime:time];
+            }];
+        }];
+        [self.interfaceView.lastTimeNoticeView show];
+    }
+    
+    JHSMBFile *file = _model.file;
+    JHSMBFile *parentFile = file.parentFile;
+    
+    //远程视频文件
+    if ([CacheManager shareCacheManager].openAutoDownloadSubtitle && [_model isKindOfClass:[SMBVideoModel class]]) {
+        NSString *videoPath = file.sessionFile.filePath;
+        [parentFile.subFiles enumerateObjectsUsingBlock:^(JHSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *path = obj.sessionFile.filePath;
+            if ([path isSubtileFileWithVideoPath:videoPath]) {
+                *stop = YES;
+                [self downloadSubtitleFile:obj];
+            }
+        }];
+    }
+    
+    //弹幕
+    if ([CacheManager shareCacheManager].priorityLoadLocalDanmaku) {
+        if ([_model isKindOfClass:[SMBVideoModel class]]) {
+            NSString *videoPath = file.sessionFile.filePath;
+            [parentFile.subFiles enumerateObjectsUsingBlock:^(JHSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.sessionFile.filePath isDanmakuFileWithVideoPath:videoPath]) {
+                    *stop = YES;
+                    [self downloadDanmakuFile:obj];
+                }
+            }];
+        }
+        else {
+            NSArray *subtitles = [ToolsManager subTitleFileWithLocalURL:file.fileURL];
+            if (subtitles.count) {
+                [self openDanmakuWithURL:subtitles.firstObject];
+            }
+        }
+    }
+}
+
+/**
+ 下载字幕文件
+ 
+ @param file 字幕文件
+ */
+- (void)downloadSubtitleFile:(JHSMBFile *)file {
+    NSString *downloadPath = jh_subtitleDownloadPath();
+    NSString *cachePath = [downloadPath stringByAppendingPathComponent:file.name];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
+        [self.player openVideoSubTitlesFromFile:[NSURL fileURLWithPath:cachePath]];
+    }
+    else {
+        [[ToolsManager shareToolsManager] downloadSMBFile:file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+            [self.player openVideoSubTitlesFromFile:[NSURL fileURLWithPath:destinationFilePath]];
+        }];
+    }
+}
+
+
+/**
+ 下载弹幕
+ 
+ @param file 弹幕文件
+ */
+- (void)downloadDanmakuFile:(JHSMBFile *)file {
+    NSString *downloadPath = jh_danmakuDownloadPath();
+    NSString *cachePath = [downloadPath stringByAppendingPathComponent:file.name];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
+        [self openDanmakuWithURL:[NSURL fileURLWithPath:cachePath]];
+    }
+    else {
+        [[ToolsManager shareToolsManager] downloadSMBFile:file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+            if (error) {
+                [MBProgressHUD showWithError:error];
+            }
+            else {
+                [self openDanmakuWithURL:[NSURL fileURLWithPath:destinationFilePath]];
+            }
+        }];
+    }
+}
+
+
+/**
+ 尝试打开本地弹幕文件
+ 
+ @param url 路径
+ */
+- (void)openDanmakuWithURL:(NSURL *)url {
+    NSError *err;
+    NSData *danmaku = [[NSData alloc] initWithContentsOfURL:url options:NSDataReadingMappedIfSafe error:&err];
+    if (err) {
+        [MBProgressHUD showWithText:@"弹幕读取出错"];
+    }
+    else {
+        self->_danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
+        self.danmakuEngine.currentTime = self.player.currentTime;
+    }
+}
+
+/**
+ 查找视频弹幕
+ 
+ @param model 视频模型
+ */
+- (void)matchVideoWithModel:(VideoModel *)model {
+    void(^jumpToMatchVCAction)() = ^{
+        MatchViewController *vc = [[MatchViewController alloc] init];
+        vc.model = model;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    };
+    
+    if ([CacheManager shareCacheManager].openFastMatch) {
+        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+        [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
+            aHUD.progress = progress;
+            aHUD.label.text = danmakusProgressToString(progress);
+        } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
+            model.danmakus = responseObject;
+            [aHUD hideAnimated:NO];
+            
+            if (responseObject == nil) {
+                jumpToMatchVCAction();
+            }
+            else {
+                [self.interfaceView dismissWithAnimate:YES];
+                self.model = model;
+            }
+        }];
+    }
+    else {
+        jumpToMatchVCAction();
+    }
+}
+
+#pragma mark UI
 
 - (void)touchBackButton:(UIButton *)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -413,146 +614,178 @@
     MBProgressHUD *aHUD = [self.view viewWithTag:1000];
     if (aHUD == nil) {
         aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeDeterminateHorizontalBar InView:self.view];
+        aHUD.label.numberOfLines = 0;
         aHUD.tag = 1000;
     }
     
     int length = [self.player length];
-    aHUD.label.text = [NSString stringWithFormat:@"%@/%@", jh_mediaFormatterTime(length * slider.value), jh_mediaFormatterTime(length)];
+    NSString *time = [NSString stringWithFormat:@"%@/%@", jh_mediaFormatterTime(length * slider.value), jh_mediaFormatterTime(length)];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:time attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    NSString *speed = nil;
+    if (_sliderRate == slowRate) {
+        speed = @"\n慢速";
+    }
+    else if (_sliderRate == normalRate) {
+        speed = @"\n中速";
+    }
+    else {
+        speed = @"\n快速";
+    }
+    
+    [str appendAttributedString:[[NSAttributedString alloc] initWithString:speed attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor whiteColor]}]];
+    aHUD.label.attributedText = str;
     aHUD.progress = slider.value;
-}
-
-- (void)panScreen:(UIPanGestureRecognizer *)panGesture {
-    if (panGesture.state == UIGestureRecognizerStateBegan) {
-        [self touchSliderDown:self.interfaceView.progressSlider];
-    }
-    else if (panGesture.state == UIGestureRecognizerStateEnded) {
-        [self touchSliderUp:self.interfaceView.progressSlider];
-    }
-    else {
-        float x = self.player.position + ([panGesture translationInView:nil].x / self.view.width);
-        self.interfaceView.progressSlider.value = x;
-        [self touchSlider:self.interfaceView.progressSlider];
-    }
-    
-}
-
-- (void)touchSettingButton {
-    
-    self.configPanelView.show = !self.configPanelView.show;
-    
-    if (self.configPanelView.show == NO) {
-        [self.configPanelView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.mas_equalTo(0);
-            make.left.equalTo(self.view.mas_right);
-            make.width.mas_equalTo(self.view.mas_width).multipliedBy(CONFIG_VIEW_WIDTH_RATE);
-        }];
-    }
-    else {
-        [self.configPanelView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.mas_equalTo(0);
-            make.width.mas_equalTo(self.view.mas_width).multipliedBy(CONFIG_VIEW_WIDTH_RATE);
-        }];
-    }
-    
-    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
-        [self.view layoutIfNeeded];
-    } completion:nil];
 }
 
 - (void)touchSwitch:(UISwitch *)sender {
     self.danmakuEngine.canvas.hidden = !sender.on;
 }
 
-- (void)touchSendDanmakuConfigButton {
-    [[UIApplication sharedApplication].keyWindow addSubview:self.sendDanmakuConfigView];
-    [self.sendDanmakuConfigView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
-    }];
-    [self.sendDanmakuConfigView show];
-}
-
 - (void)touchSubTitleIndexButton {
-    self.subTitleIndexView.currentVideoSubTitleIndex = self.player.currentSubtitleIndex;
-    self.subTitleIndexView.videoSubTitlesIndexes = self.player.subtitleIndexs;
-    self.subTitleIndexView.videoSubTitlesNames = self.player.subtitleTitles;
-    [self.subTitleIndexView show];
+    [self.interfaceView endEditing:YES];
+    self.interfaceView.subTitleIndexView.currentVideoSubTitleIndex = self.player.currentSubtitleIndex;
+    self.interfaceView.subTitleIndexView.videoSubTitlesIndexes = self.player.subtitleIndexs;
+    self.interfaceView.subTitleIndexView.videoSubTitlesNames = self.player.subtitleTitles;
+    [self.interfaceView.subTitleIndexView show];
 }
 
-- (void)controlInterfaceViewVisiable:(BOOL)visiable {
-    //显示
-    _statusBarHide = !visiable;
-    if (visiable) {
-        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.interfaceView.alpha = 1;
-            [self setNeedsStatusBarAppearanceUpdate];
-        } completion:nil];
-    }
-    //隐藏
-    else {
-        [self.view endEditing:YES];
-        if (self.configPanelView.show) {
-            [self touchSettingButton];
+- (void)panScreen:(UIPanGestureRecognizer *)panGesture {
+    if (panGesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint translation = [panGesture translationInView:nil];
+        CGPoint point = [panGesture locationInView:nil];
+        NSLog(@"%@", NSStringFromCGPoint(translation));
+        //横向移动
+        if (fabs(translation.y) < 0.8) {
+            //让slider不响应进度更新
+            [self touchSliderDown:self.interfaceView.progressSlider];
+            _panType = InterfaceViewPanTypeProgress;
         }
-        
-        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.interfaceView.alpha = 0;
-            [self setNeedsStatusBarAppearanceUpdate];
-        } completion:nil];
+        //亮度调节
+        else if (point.x < self.view.width / 2) {
+            _panType = InterfaceViewPanTypeLight;
+        }
+        //音量调节
+        else {
+            _panType = InterfaceViewPanTypeVolume;
+        }
+    }
+    else if (panGesture.state == UIGestureRecognizerStateEnded) {
+        if (_panType == InterfaceViewPanTypeProgress) {
+            [self touchSliderUp:self.interfaceView.progressSlider];
+        }
+    }
+    else {
+        if (_panType == InterfaceViewPanTypeProgress) {
+            float y = [panGesture locationInView:self.view].y;
+            if (y >= 0 && y <= self.view.height / 3) {
+                _sliderRate = slowRate;
+            }
+            else if (y >= self.view.height / 3 && y <= self.view.height * 2 / 3) {
+                _sliderRate = normalRate;
+            }
+            else {
+                _sliderRate = fastRate;
+            }
+            
+            float x = self.player.position + ([panGesture translationInView:nil].x / self.view.width) * _sliderRate;
+            self.interfaceView.progressSlider.value = x;
+            [self touchSlider:self.interfaceView.progressSlider];
+        }
+        else {
+            float rate = -[panGesture translationInView:nil].y;
+            [panGesture setTranslation:CGPointZero inView:nil];
+            rate /= self.view.height;
+            
+            if (_panType == InterfaceViewPanTypeVolume) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                float volume = [MPMusicPlayerController applicationMusicPlayer].volume;
+                volume += rate;
+                [[MPMusicPlayerController applicationMusicPlayer] setVolume:volume];
+#pragma clang diagnostic pop
+            }
+            else {
+                float brightness = [UIScreen mainScreen].brightness;
+                brightness += rate;
+                [[UIScreen mainScreen] setBrightness:brightness];
+            }
+        }
     }
 }
 
-- (void)reload {
-    //转换弹幕
-    _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
-    self.interfaceView.titleLabel.text = _model.name;
-    [self.player setMediaURL:_model.fileURL];
-    self.danmakuEngine.currentTime = 0;
-    
-    NSString *matchName = _model.matchName;
-    [self.matchNoticeView.titleButton setTitle:matchName forState:UIControlStateNormal];
-    if (matchName.length) {
-        [self.view addSubview:self.matchNoticeView];
-        [self.matchNoticeView show];
+- (void)tapGesture:(UITapGestureRecognizer *)sender {
+    if (self.interfaceView.isShow) {
+        [self.interfaceView dismissWithAnimate:YES];
+    }
+    else {
+        [self.interfaceView showWithAnimate:YES];
     }
 }
+
 
 #pragma mark - 懒加载
 - (PlayerInterfaceView *)interfaceView {
     if (_interfaceView == nil) {
-        _interfaceView = [[PlayerInterfaceView alloc] init];
-//        _interfaceView.alpha = 0;
+        _interfaceView = [[PlayerInterfaceView alloc] initWithFrame:self.view.bounds];
         [_interfaceView.backButton addTarget:self action:@selector(touchBackButton:) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.playButton addTarget:self action:@selector(touchPlayButton) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.progressSlider addTarget:self action:@selector(touchSliderDown:) forControlEvents:UIControlEventTouchDown];
         [_interfaceView.progressSlider addTarget:self action:@selector(touchSliderUp:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchCancel];
         [_interfaceView.progressSlider addTarget:self action:@selector(touchSlider:) forControlEvents:UIControlEventValueChanged];
-        [_interfaceView.settingButton addTarget:self action:@selector(touchSettingButton) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.danmakuHideSwitch addTarget:self action:@selector(touchSwitch:) forControlEvents:UIControlEventValueChanged];
-        [_interfaceView.sendDanmakuConfigButton addTarget:self action:@selector(touchSendDanmakuConfigButton) forControlEvents:UIControlEventTouchUpInside];
         [_interfaceView.subTitleIndexButton addTarget:self action:@selector(touchSubTitleIndexButton) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         _interfaceView.sendDanmakuTextField.delegate = self;
-        [self.view insertSubview:_interfaceView aboveSubview:self.gestureView];
-    }
-    return _interfaceView;
-}
-
-- (UIView *)gestureView {
-    if (_gestureView == nil) {
-        _gestureView = [[UIView alloc] init];
-        UITapGestureRecognizer *showInteractionViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchInteractionView)];
-        [_gestureView addGestureRecognizer:showInteractionViewGesture];
+        _interfaceView.configPanelView.delegate = self;
+        
+        //手势
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        tapGesture.numberOfTapsRequired = 1;
+        [_interfaceView.gestureView addGestureRecognizer:tapGesture];
         
         UITapGestureRecognizer *pauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchPlayButton)];
         pauseGesture.numberOfTapsRequired = 2;
-        [_gestureView addGestureRecognizer:pauseGesture];
-        
+        [_interfaceView.gestureView addGestureRecognizer:pauseGesture];
+        [tapGesture requireGestureRecognizerToFail:pauseGesture];
         
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScreen:)];
-        [_gestureView addGestureRecognizer:panGesture];
+        [_interfaceView.gestureView addGestureRecognizer:panGesture];
         
-        [self.view insertSubview:_gestureView aboveSubview:self.danmakuEngine.canvas];
+        //字幕视图
+        @weakify(self)
+        [_interfaceView.subTitleIndexView setSelectedIndexCallBack:^(int index) {
+            @strongify(self)
+            if (!self) return;
+            
+            self.player.currentSubtitleIndex = index;
+        }];
+        
+        [_interfaceView.subTitleIndexView setDidTapEmptyViewCallBack:^{
+            @strongify(self)
+            if (!self) return;
+            
+            PickerFileViewController *vc = [[PickerFileViewController alloc] init];
+            vc.type = PickerFileTypeSubtitle;
+            vc.file = self.model.file;
+            [vc setSelectedFileCallBack:^(JHSMBFile *file) {
+                @strongify(self)
+                if (!self) return;
+                
+                if ([file isKindOfClass:[JHSMBFile class]]) {
+                    [self downloadSubtitleFile:file];
+                }
+                else {
+                    [self.player openVideoSubTitlesFromFile:file.fileURL];
+                }
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        
+        [self.view addSubview:_interfaceView];
     }
-    return _gestureView;
+    return _interfaceView;
 }
 
 - (JHMediaPlayer *)player {
@@ -573,58 +806,6 @@
         [self.view insertSubview:_danmakuEngine.canvas aboveSubview:self.player.mediaView];
     }
     return _danmakuEngine;
-}
-
-- (PlayerConfigPanelView *)configPanelView {
-    if (_configPanelView == nil) {
-        _configPanelView = [[PlayerConfigPanelView alloc] initWithFrame:CGRectMake(0, 0, self.view.width * CONFIG_VIEW_WIDTH_RATE, self.view.height)];
-        _configPanelView.delegate = self;
-        [self.view addSubview:_configPanelView];
-    }
-    return _configPanelView;
-}
-
-- (PlayerSendDanmakuConfigView *)sendDanmakuConfigView {
-    if (_sendDanmakuConfigView == nil) {
-        _sendDanmakuConfigView = [[PlayerSendDanmakuConfigView alloc] initWithFrame:self.view.bounds];
-    }
-    return _sendDanmakuConfigView;
-}
-
-- (PlayerSubTitleIndexView *)subTitleIndexView {
-    if (_subTitleIndexView == nil) {
-        _subTitleIndexView = [[PlayerSubTitleIndexView alloc] initWithFrame:self.view.bounds];
-        @weakify(self)
-        [_subTitleIndexView setSelectedIndexCallBack:^(int index) {
-            @strongify(self)
-            if (!self) return;
-            
-            self.player.currentSubtitleIndex = index;
-        }];
-        
-        [_subTitleIndexView setDidTapEmptyViewCallBack:^{
-            PickerFileViewController *vc = [[PickerFileViewController alloc] init];
-            @strongify(self)
-            if (!self) return;
-            
-            [vc setSelectedSubTitleCallBack:^(NSURL *aURL) {
-                @strongify(self)
-                if (!self) return;
-                
-                [self.player openVideoSubTitlesFromFile:aURL.path];
-            }];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-    }
-    return _subTitleIndexView;
-}
-
-- (PlayerNoticeView *)matchNoticeView {
-    if (_matchNoticeView == nil) {
-        _matchNoticeView = [[PlayerNoticeView alloc] init];
-        [self.view addSubview:_matchNoticeView];
-    }
-    return _matchNoticeView;
 }
 
 @end

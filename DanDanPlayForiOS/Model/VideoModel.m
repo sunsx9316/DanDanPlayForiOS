@@ -7,7 +7,7 @@
 //
 
 #import "VideoModel.h"
-#import <MobileVLCKit/VLCMedia.h>
+#import <DynamicMobileVLCKit/DynamicMobileVLCKit.h>
 
 @implementation VideoModel
 {
@@ -29,7 +29,7 @@
 
 - (NSString *)name {
     if (_fileName == nil) {
-        _fileName = [[_fileURL.path lastPathComponent] stringByDeletingPathExtension];
+        _fileName = [[[_fileURL.path lastPathComponent] stringByDeletingPathExtension] stringByURLDecode];
     }
     return _fileName;
 }
@@ -48,7 +48,7 @@
 
 - (NSString *)md5 {
     if (_md5 == nil) {
-        _md5 = [[[NSFileHandle fileHandleForReadingFromURL:_fileURL error:nil] readDataOfLength: 16777216] md5String];
+        _md5 = [[[NSFileHandle fileHandleForReadingFromURL:_fileURL error:nil] readDataOfLength: MEDIA_MATCH_LENGTH] md5String];
     }
     return _md5;
 }
@@ -59,7 +59,7 @@
 
 - (NSString *)quickHash {
     if (_quickHash == nil) {
-        _quickHash = [self.fileNameWithPathExtension md5String];
+        _quickHash = [[NSString stringWithFormat:@"%@%ld", self.fileNameWithPathExtension, self.length] md5String];
     }
     return _quickHash;
 }

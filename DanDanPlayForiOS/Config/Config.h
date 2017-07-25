@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, JHEpisodeType) {
     JHEpisodeTypeUnknow = 99,
 };
 
-CG_INLINE NSString *JHEpisodeTypeToString(JHEpisodeType type) {
+CG_INLINE NSString *jh_episodeTypeToString(JHEpisodeType type) {
     switch (type) {
         case JHEpisodeTypeAnimate:
             return @"TV动画";
@@ -89,5 +89,20 @@ CG_INLINE BOOL jh_isPad() {
     return [UIDevice currentDevice].isPad;
 };
 
+CG_INLINE NSString *jh_subtitleDownloadPath() {
+    NSString *path = [[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:@"subtitle"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path] == NO) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return path;
+}
+
+CG_INLINE NSString *jh_danmakuDownloadPath() {
+    NSString *path = [[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:@"danmaku"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path] == NO) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return path;
+}
 
 #endif /* Config_h */

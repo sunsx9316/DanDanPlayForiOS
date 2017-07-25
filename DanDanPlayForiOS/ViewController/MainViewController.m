@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 #import "BaseNavigationController.h"
-#import "LocalFileViewController.h"
+#import "FileViewController.h"
 #import "SettingViewController.h"
 
 @interface MainViewController ()
@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"file"] selectImg:[UIImage imageNamed:@"file"] rootVC:[[LocalFileViewController alloc] init] title:nil];
+    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"file"] selectImg:[UIImage imageNamed:@"file"] rootVC:[[FileViewController alloc] init] title:nil];
     UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"setting"] selectImg:[UIImage imageNamed:@"setting"] rootVC:[[SettingViewController alloc] init] title:nil];
     
     self.viewControllers = @[fileVC, settingVC];
