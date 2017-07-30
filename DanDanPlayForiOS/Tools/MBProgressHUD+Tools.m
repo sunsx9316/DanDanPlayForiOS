@@ -12,16 +12,22 @@ static MBProgressHUD *progressHUD = nil;
 
 @implementation MBProgressHUD (Tools)
 + (void)showWithText:(NSString *)text {
-    [self showWithText:text atView:nil];
+    [self showWithText:text atView:nil afterDelay:1];
 }
 
 + (void)showWithText:(NSString *)text atView:(UIView *)view {
-    
+    [self showWithText:text atView:view afterDelay:1];
+}
+
++ (void)showWithText:(NSString *)text
+              atView:(UIView *)view
+          afterDelay:(NSTimeInterval)afterDelay {
     [MBProgressHUD hideHUDForView:view animated:YES];
     
     MBProgressHUD *hud = [self defaultTypeHUDWithMode:MBProgressHUDModeText InView:view];
     hud.label.text = text;
-    [hud hideAnimated:YES afterDelay:1];
+    hud.label.numberOfLines = 0;
+    [hud hideAnimated:YES afterDelay:afterDelay];
 }
 
 + (void)showWithError:(NSError *)error {

@@ -26,6 +26,17 @@
 + (void)showWithText:(NSString *)text atView:(UIView *)view;
 
 /**
+ 只显示文字
+ 
+ @param text 文字
+ @param view 父视图
+ @param afterDelay 多少秒之后隐藏
+ */
++ (void)showWithText:(NSString *)text
+              atView:(UIView *)view
+          afterDelay:(NSTimeInterval)afterDelay;
+
+/**
  *  显示错误信息
  *
  *  @param error 错误
@@ -39,8 +50,6 @@
  *  @param text 文字 为nil时为加载中
  */
 + (void)showLoadingInView:(UIView *)view text:(NSString *)text;
-
-
 
 /**
  默认样式的hud

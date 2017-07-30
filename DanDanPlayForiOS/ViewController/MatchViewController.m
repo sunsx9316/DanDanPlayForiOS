@@ -206,6 +206,7 @@
 - (void)configRightItem {
     JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
     backButton.inset = CGSizeMake(10, 10);
+    backButton.titleLabel.font = NORMAL_SIZE_FONT;
     [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:@"直接播放" forState:UIControlStateNormal];
     [backButton sizeToFit];

@@ -87,16 +87,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 	HTTPLogTrace();
 	
 	if ([method isEqualToString:@"POST"] && [path isEqualToString:UPLOAD_PATH]) {
-//		NSString* templatePath = [[config documentRoot] stringByAppendingPathComponent:@"upload.html"];
-//		return [[HTTPFileResponse alloc] initWithFilePath:templatePath forConnection:self];
         return [[HTTPDataResponse alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
 	}
     
     if( [method isEqualToString:@"GET"]) {
-        // let download the uploaded files
-//        if ([path hasPrefix:@"/upload"]) {
-//            return [[HTTPDataResponse alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
-//        }
         
         if ([path hasPrefix:@"/version"]) {
             return [[HTTPDataResponse alloc] initWithData:[[[UIApplication sharedApplication] appVersion]  dataUsingEncoding:NSUTF8StringEncoding]];

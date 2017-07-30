@@ -12,12 +12,23 @@
 
 - (NSURL *)fullURL {
     //smb://xiaoming:123456@192.168.1.100/xiaoming/Desktop/1.mp4
-    TOSMBSession *session = [ToolsManager shareSMBSession];
+    TOSMBSession *session = [ToolsManager shareToolsManager].SMBSession;
     //两次URL编码
-    NSString *aStr = [NSString stringWithFormat:@"smb://%@:%@@%@%@", [[session.userName stringByURLEncode] stringByURLEncode], session.password, session.ipAddress, [[self.filePath stringByURLEncode] stringByURLEncode]];
-    NSString* encodedString = aStr;
+    NSMutableString *path = [[NSMutableString alloc] initWithString:@"smb://"];
+    if (session.userName.length && session.password.length) {
+        [path appendFormat:@"%@:%@@", [[session.userName stringByURLEncode] stringByURLEncode], [[session.password stringByURLEncode] stringByURLEncode]];
+    }
+    else if (session.userName.length && session.password.length == 0) {
+        [path appendFormat:@"%@@", [[session.userName stringByURLEncode] stringByURLEncode]];
+    }
     
-    return [NSURL URLWithString:encodedString];
+    if (session.ipAddress.length) {
+        [path appendString:session.ipAddress];
+    }
+    
+    [path appendFormat:@"%@", [[self.filePath stringByURLEncode] stringByURLEncode]];
+
+    return [NSURL URLWithString:path];
 }
 
 @end

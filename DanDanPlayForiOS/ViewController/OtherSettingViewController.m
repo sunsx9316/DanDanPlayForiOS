@@ -52,9 +52,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
             @weakify(vc)
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
@@ -64,7 +63,7 @@
                 
                 UITextField *textField = vc.textFields.firstObject;
                 [CacheManager shareCacheManager].danmakuCacheTime = [textField.text integerValue];
-                [self.tableView reloadRow:4 inSection:0 withRowAnimation:UITableViewRowAnimationNone];
+                [self.tableView reloadRow:0 inSection:1 withRowAnimation:UITableViewRowAnimationNone];
             }]];
             
             [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -81,7 +80,7 @@
                 [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
                 [self reloadCacheSizeWithCompletion:^{
                     [MBProgressHUD hideLoading];
-                    [self.tableView reloadRow:5 inSection:0 withRowAnimation:UITableViewRowAnimationNone];
+                    [self.tableView reloadRow:1 inSection:1 withRowAnimation:UITableViewRowAnimationNone];
                 }];
             });
         }

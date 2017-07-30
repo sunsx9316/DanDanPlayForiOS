@@ -9,7 +9,7 @@
 #import "SMBLoginHeaderView.h"
 
 @interface SMBLoginHeaderView ()
-@property (strong, nonatomic) UILabel *titleLabel;
+
 @end
 
 @implementation SMBLoginHeaderView
@@ -21,20 +21,39 @@
             make.centerY.mas_equalTo(0);
             make.left.mas_equalTo(10);
         }];
+        
+        [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(0);
+            make.left.equalTo(self.titleLabel.mas_right).mas_offset(10);
+        }];
     }
     return self;
+}
+
+- (void)touchAddButton:(UIButton *)sender {
+    if (self.touchAddButtonCallback) {
+        self.touchAddButtonCallback();
+    }
 }
 
 #pragma mark - 懒加载
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = SMALL_SIZE_FONT;
+        _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.textColor = [UIColor darkGrayColor];
-        _titleLabel.text = @"登录历史";
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;
+}
+
+- (UIButton *)addButton {
+    if (_addButton == nil) {
+        _addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        [_addButton addTarget:self action:@selector(touchAddButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_addButton];
+    }
+    return _addButton;
 }
 
 @end

@@ -40,9 +40,7 @@
 		89681B361F08FAE400103CFF /* SMBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B351F08FAE400103CFF /* SMBViewController.m */; };
 		89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B381F08FB9A00103CFF /* UIViewController+Tools.m */; };
 		89681B3F1F090EDA00103CFF /* JHSMBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B3E1F090EDA00103CFF /* JHSMBInfo.m */; };
-		89681B421F09123200103CFF /* SMBInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B411F09123200103CFF /* SMBInputTableViewCell.m */; };
 		89681B451F09157300103CFF /* RemoteSelectedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B441F09157300103CFF /* RemoteSelectedView.m */; };
-		89681B481F092A8D00103CFF /* SMBLoginTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B471F092A8D00103CFF /* SMBLoginTableViewCell.m */; };
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
 		897F02BC1F259DD900A8D1E5 /* FileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* FileManagerPlayerListView.m */; };
 		897F02BF1F25A40500A8D1E5 /* FileManagerPickFileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BE1F25A40500A8D1E5 /* FileManagerPickFileView.m */; };
@@ -89,6 +87,9 @@
 		89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* AboutUsViewController.m */; };
 		89D8F81F1EB0B112009329AA /* PlayerVideoControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerVideoControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
+		89DDCFAF1F2A3DA3007B83CA /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFAE1F2A3DA3007B83CA /* web */; };
+		89DDCFB11F2A3DB0007B83CA /* course in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFB01F2A3DB0007B83CA /* course */; };
+		89DDCFB41F2A3EA6007B83CA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DDCFB31F2A3EA6007B83CA /* WebViewController.m */; };
 		89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */; };
 		89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F91EADA82000419C78 /* PlayerDanmakuControlView.m */; };
 		89E1E9FE1EADF13600419C78 /* PlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9FC1EADF13600419C78 /* PlayerSliderTableViewCell.m */; };
@@ -115,10 +116,10 @@
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
 		89E8341F1F1E1AF700E781EB /* PlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */; };
 		89E834291F1E5A5400E781EB /* SMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* SMBVideoModel.m */; };
+		89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */; };
 		89F173061EB1F6F0006A2473 /* SettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */; };
 		89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
 		89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */; };
-		89F5C82A1EAF104D00676361 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89F5C8291EAF104D00676361 /* web */; };
 		89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
 		89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */; };
 		89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DanmakuManager.m */; };
@@ -204,12 +205,8 @@
 		89681B381F08FB9A00103CFF /* UIViewController+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Tools.m"; sourceTree = "<group>"; };
 		89681B3D1F090EDA00103CFF /* JHSMBInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSMBInfo.h; sourceTree = "<group>"; };
 		89681B3E1F090EDA00103CFF /* JHSMBInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSMBInfo.m; sourceTree = "<group>"; };
-		89681B401F09123200103CFF /* SMBInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBInputTableViewCell.h; sourceTree = "<group>"; };
-		89681B411F09123200103CFF /* SMBInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBInputTableViewCell.m; sourceTree = "<group>"; };
 		89681B431F09157300103CFF /* RemoteSelectedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteSelectedView.h; sourceTree = "<group>"; };
 		89681B441F09157300103CFF /* RemoteSelectedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteSelectedView.m; sourceTree = "<group>"; };
-		89681B461F092A8D00103CFF /* SMBLoginTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBLoginTableViewCell.h; sourceTree = "<group>"; };
-		89681B471F092A8D00103CFF /* SMBLoginTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBLoginTableViewCell.m; sourceTree = "<group>"; };
 		896F594D1EA710A8004F4313 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		896F594E1EA710A8004F4313 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		897F02BA1F259DD900A8D1E5 /* FileManagerPlayerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerPlayerListView.h; sourceTree = "<group>"; };
@@ -304,6 +301,10 @@
 		89D8F81E1EB0B112009329AA /* PlayerVideoControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerVideoControlView.m; sourceTree = "<group>"; };
 		89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlPlayModeTableViewCell.h; sourceTree = "<group>"; };
 		89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlPlayModeTableViewCell.m; sourceTree = "<group>"; };
+		89DDCFAE1F2A3DA3007B83CA /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
+		89DDCFB01F2A3DB0007B83CA /* course */ = {isa = PBXFileReference; lastKnownFileType = folder; path = course; sourceTree = "<group>"; };
+		89DDCFB21F2A3EA6007B83CA /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		89DDCFB31F2A3EA6007B83CA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		89E1E9F51EADA04700419C78 /* FileManagerFolderPlayerListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFolderPlayerListViewCell.h; sourceTree = "<group>"; };
 		89E1E9F61EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderPlayerListViewCell.m; sourceTree = "<group>"; };
 		89E1E9F81EADA82000419C78 /* PlayerDanmakuControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDanmakuControlView.h; sourceTree = "<group>"; };
@@ -357,6 +358,8 @@
 		89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerInterfaceHolderView.m; sourceTree = "<group>"; };
 		89E834271F1E5A5400E781EB /* SMBVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBVideoModel.h; sourceTree = "<group>"; };
 		89E834281F1E5A5400E781EB /* SMBVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBVideoModel.m; sourceTree = "<group>"; };
+		89EC0E5A1F2D812A004D3C12 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
 		89F173041EB1F6F0006A2473 /* SettingTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTitleTableViewCell.h; sourceTree = "<group>"; };
 		89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTitleTableViewCell.m; sourceTree = "<group>"; };
@@ -364,7 +367,6 @@
 		89F173371EB20E4D006A2473 /* UIFont+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Tools.m"; sourceTree = "<group>"; };
 		89F173391EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingTitleSubtitleTableViewCell.h; sourceTree = "<group>"; };
 		89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherSettingTitleSubtitleTableViewCell.m; sourceTree = "<group>"; };
-		89F5C8291EAF104D00676361 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = web; path = DanDanPlayForiOS/web; sourceTree = SOURCE_ROOT; };
 		89F5C82B1EAF10A500676361 /* NSString+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tools.h"; sourceTree = "<group>"; };
 		89F5C82C1EAF10A500676361 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
 		89F5C82E1EAF112200676361 /* DanDanPlayHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanPlayHTTPConnection.h; sourceTree = "<group>"; };
@@ -514,6 +516,8 @@
 				89681B351F08FAE400103CFF /* SMBViewController.m */,
 				891C22F21F0A296000B4661F /* SMBFileViewController.h */,
 				891C22F31F0A296000B4661F /* SMBFileViewController.m */,
+				89EC0E5A1F2D812A004D3C12 /* HelpViewController.h */,
+				89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */,
 			);
 			name = "文件";
 			sourceTree = "<group>";
@@ -542,10 +546,6 @@
 				8939FB511EB398D70063BBA1 /* FileManagerView */,
 				89A1C0171EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.h */,
 				89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */,
-				89681B401F09123200103CFF /* SMBInputTableViewCell.h */,
-				89681B411F09123200103CFF /* SMBInputTableViewCell.m */,
-				89681B461F092A8D00103CFF /* SMBLoginTableViewCell.h */,
-				89681B471F092A8D00103CFF /* SMBLoginTableViewCell.m */,
 				89681B431F09157300103CFF /* RemoteSelectedView.h */,
 				89681B441F09157300103CFF /* RemoteSelectedView.m */,
 				899F5FA11F2349F20068A1DB /* SMBLoginHeaderView.h */,
@@ -807,6 +807,8 @@
 				894CBA9C1E6BC8D20021253F /* MainViewController.m */,
 				89A467951F162DDA001840C7 /* JHDefaultPageViewController.h */,
 				89A467961F162DDA001840C7 /* JHDefaultPageViewController.m */,
+				89DDCFB21F2A3EA6007B83CA /* WebViewController.h */,
+				89DDCFB31F2A3EA6007B83CA /* WebViewController.m */,
 				894CBA961E6BC54D0021253F /* View */,
 				894CBA9F1E6BCA460021253F /* 设置 */,
 				894CBA9E1E6BCA3A0021253F /* 文件 */,
@@ -873,7 +875,8 @@
 		89F5C8281EAF104100676361 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				89F5C8291EAF104D00676361 /* web */,
+				89DDCFB01F2A3DB0007B83CA /* course */,
+				89DDCFAE1F2A3DA3007B83CA /* web */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -940,8 +943,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F5C82A1EAF104D00676361 /* web in Resources */,
+				89DDCFB11F2A3DB0007B83CA /* course in Resources */,
 				89D8F8061EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib in Resources */,
+				89DDCFAF1F2A3DA3007B83CA /* web in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
 				89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */,
 			);
@@ -1009,6 +1013,7 @@
 				89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */,
 				89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
+				89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */,
 				8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */,
 				89D8F8001EB0588F009329AA /* OtherSettingViewController.m in Sources */,
 				89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */,
@@ -1045,6 +1050,7 @@
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
 				899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */,
 				89D8F7F71EB04B12009329AA /* DanmakuSettingViewController.m in Sources */,
+				89DDCFB41F2A3EA6007B83CA /* WebViewController.m in Sources */,
 				89A42EBD1EA5EDE500FA0DF3 /* JHRelatedCollection.m in Sources */,
 				89BDE9111F1BA41D00B49EA8 /* FileManagerVideoTableViewCell.m in Sources */,
 				8939FB4A1EB334520063BBA1 /* JHFile.m in Sources */,
@@ -1088,7 +1094,6 @@
 				8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */,
 				89E3F6161E5854A2007AB1BD /* UIImageView+Tools.m in Sources */,
 				89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */,
-				89681B481F092A8D00103CFF /* SMBLoginTableViewCell.m in Sources */,
 				89A42EC01EA5F09500FA0DF3 /* VideoModel.m in Sources */,
 				89A467971F162DDA001840C7 /* JHDefaultPageViewController.m in Sources */,
 				89A42EB71EA5EB4500FA0DF3 /* RelatedNetManager.m in Sources */,
@@ -1096,7 +1101,6 @@
 				89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */,
 				89E3F6001E585135007AB1BD /* RecommedNetManager.m in Sources */,
 				89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */,
-				89681B421F09123200103CFF /* SMBInputTableViewCell.m in Sources */,
 				89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */,
 				89E3F6131E58539D007AB1BD /* MJRefreshFooter+Tools.m in Sources */,
 				89E3F5BE1E5829BD007AB1BD /* main.m in Sources */,
@@ -1245,7 +1249,6 @@
 					"-l\"FDFullscreenPopGesture\"",
 					"-l\"GDataXML-HTML\"",
 					"-l\"IQKeyboardManager\"",
-					"-l\"JHDanmakuRender\"",
 					"-l\"MBProgressHUD\"",
 					"-l\"MJRefresh\"",
 					"-l\"Masonry\"",
@@ -1333,7 +1336,6 @@
 					"-l\"FDFullscreenPopGesture\"",
 					"-l\"GDataXML-HTML\"",
 					"-l\"IQKeyboardManager\"",
-					"-l\"JHDanmakuRender\"",
 					"-l\"MBProgressHUD\"",
 					"-l\"MJRefresh\"",
 					"-l\"Masonry\"",

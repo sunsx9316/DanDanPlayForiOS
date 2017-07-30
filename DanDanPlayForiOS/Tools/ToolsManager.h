@@ -152,5 +152,5 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
                  cancel:(void(^)(NSString *cachePath))cancel
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion;
 
-+ (TOSMBSession *)shareSMBSession;
+@property (strong, nonatomic) TOSMBSession *SMBSession;
 @end

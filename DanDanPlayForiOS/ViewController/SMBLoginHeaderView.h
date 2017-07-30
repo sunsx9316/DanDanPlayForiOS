@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SMBLoginHeaderView : UITableViewHeaderFooterView
-
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UIButton *addButton;
+@property (copy, nonatomic) void(^touchAddButtonCallback)();
 @end

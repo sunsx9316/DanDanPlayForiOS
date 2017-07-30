@@ -1,0 +1,24 @@
+.li_title {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.head {
+  font-size: 45px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.detail {
+  font-size: 30px;
+  text-align: center;
+}
+
+.warning {
+  color: red
+}
+
+li {
+  margin-left: 60px;
+  margin-right: 60px;
+}

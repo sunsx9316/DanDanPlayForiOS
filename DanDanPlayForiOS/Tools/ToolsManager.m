@@ -357,59 +357,19 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"videoModel.fileNameWithPathExtension CONTAINS[c] %@", key];
     JHFile *aFile = [[JHFile alloc] initWithFileURL:nil type:JHFileTypeFolder];
-//    aFile.type = JHFileTypeFolder;
     aFile.subFiles = [[self.videoArray filteredArrayUsingPredicate:pred] mutableCopy];
     completion(aFile);
-    
-    //    if (fileModel == nil) {
-    //        fileModel = [[JHFile alloc] init];
-    //        fileModel.fileURL = [[UIApplication sharedApplication] documentsURL];
-    //    }
-    
-    //    NSFileManager* manager = [NSFileManager defaultManager];
-    //    NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:fileModel.fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
-    //
-    //    NSMutableArray *subFiles = [NSMutableArray array];
-    //
-    //    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    //        for (NSURL *aURL in childFilesEnumerator) {
-    //            //            NSLog(@"%@", aURL);
-    //
-    //            if (jh_isVideoFile(aURL) && [aURL.lastPathComponent rangeOfString:key options:NSCaseInsensitiveSearch].location != NSNotFound) {
-    //                JHFile *aFile = [[JHFile alloc] init];
-    //                aFile.parentFile = fileModel;
-    //                NSDictionary <NSFileAttributeKey, id>*attributes = [manager attributesOfItemAtPath:aURL.path error:nil];
-    //                if ([attributes[NSFileType] isEqualToString:NSFileTypeRegular]) {
-    //                    aFile.type = JHFileTypeDocument;
-    //                }
-    //                else if ([attributes[NSFileType] isEqualToString:NSFileTypeDirectory]) {
-    //                    aFile.type = JHFileTypeFolder;
-    //                }
-    //
-    //                aFile.fileURL = aURL;
-    //                [subFiles addObject:aFile];
-    //            }
-    //        }
-    //
-    //        fileModel.subFiles = subFiles;
-    //
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            if (completion) {
-    //                completion(fileModel);
-    //            }
-    //        });
-    //    });
 }
 
 #pragma mark - SMB
-+ (TOSMBSession *)shareSMBSession {
-    static dispatch_once_t onceToken;
-    static TOSMBSession *_session = nil;
-    dispatch_once(&onceToken, ^{
-        _session = [[TOSMBSession alloc] init];
-    });
-    return _session;
-}
+//+ (TOSMBSession *)shareSMBSession {
+//    static dispatch_once_t onceToken;
+//    static TOSMBSession *_session = nil;
+//    dispatch_once(&onceToken, ^{
+//        _session = [[TOSMBSession alloc] init];
+//    });
+//    return _session;
+//}
 
 - (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
                                       completion:(GetSMBFilesAction)completion {
@@ -419,7 +379,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 - (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
                                         fileType:(PickerFileType)fileType
                                       completion:(GetSMBFilesAction)completion {
-    TOSMBSession *session = [self.class shareSMBSession];
+    TOSMBSession *session = self.SMBSession;
     
     //根目录
     if (parentFile == nil) {
@@ -467,11 +427,11 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 
 - (void)setSmbInfo:(JHSMBInfo *)smbInfo {
     _smbInfo = smbInfo;
-    TOSMBSession *session = [self.class shareSMBSession];
+    TOSMBSession *session = [[TOSMBSession alloc] init];
     session.password = _smbInfo.password;
     session.userName = _smbInfo.userName;
     session.hostName = _smbInfo.hostName;
-//    session.ipAddress = _smbInfo.ipAddress;
+    self.SMBSession = session;
 }
 
 - (void)downloadSMBFile:(JHSMBFile *)file
@@ -486,7 +446,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
                progress:(void(^)(uint64_t totalBytesReceived, int64_t totalBytesToReceive, TOSMBSessionDownloadTask *task))progress
                  cancel:(void(^)(NSString *cachePath))cancel
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion {
-    TOSMBSessionDownloadTask *task = [[self.class shareSMBSession] downloadTaskForFileAtPath:file.sessionFile.filePath destinationPath:destinationPath delegate:self];
+    TOSMBSessionDownloadTask *task = [self.SMBSession downloadTaskForFileAtPath:file.sessionFile.filePath destinationPath:destinationPath delegate:self];
     objc_setAssociatedObject(task, &smbProgressBlockKey, progress, OBJC_ASSOCIATION_COPY_NONATOMIC);
     objc_setAssociatedObject(task, &smbCompletionBlockKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
     
@@ -506,6 +466,13 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     
     [task resume];
 }
+
+//- (TOSMBSession *)SMBSession {
+//    if (_SMBSession == nil) {
+//        _SMBSession = [[TOSMBSession alloc] init];
+//    }
+//    return _SMBSession;
+//}
 
 #pragma mark - TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask

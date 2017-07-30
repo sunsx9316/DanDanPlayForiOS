@@ -11,12 +11,15 @@
 #import "LocalFileViewController.h"
 #import "SMBViewController.h"
 #import "HTTPServerViewController.h"
+#import "HelpViewController.h"
 
 #import "JHEdgeButton.h"
 
 @interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <UIViewController *>*VCArr;
+@property (strong, nonatomic) UIButton *httpButton;
+@property (strong, nonatomic) UIButton *helpButton;
 @end
 
 @implementation FileViewController
@@ -37,9 +40,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint offset = [change[NSKeyValueChangeNewKey] CGPointValue];
-        float alpha = 1 - (offset.x / self.view.width);
-        self.navigationItem.rightBarButtonItem.customView.userInteractionEnabled = alpha == 1;
-        self.navigationItem.rightBarButtonItem.customView.alpha = alpha;
+        float alpha = offset.x / self.view.width;
+        self.httpButton.alpha = 1 - alpha;
+        self.helpButton.alpha = alpha;
     }
 }
 
@@ -50,17 +53,23 @@
 }
 
 - (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    UIView *holdView = [[UIView alloc] initWithFrame:self.httpButton.bounds];
+    [holdView addSubview:self.httpButton];
+    [holdView addSubview:self.helpButton];
+    self.helpButton.alpha = 0;
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:holdView];
     self.navigationItem.rightBarButtonItem = item;
 }
 
-- (void)touchRightItem:(UIButton *)button {
+- (void)touchHttpButton:(UIButton *)button {
     HTTPServerViewController *vc = [[HTTPServerViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchHelpButton:(UIButton *)button {
+    HelpViewController *vc = [[HelpViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -107,6 +116,24 @@
         _VCArr = @[[[LocalFileViewController alloc] init], [[SMBViewController alloc] init]];
     }
     return _VCArr;
+}
+
+- (UIButton *)httpButton {
+    if (_httpButton == nil) {
+        _httpButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [_httpButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_httpButton setBackgroundImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
+    }
+    return _httpButton;
+}
+
+- (UIButton *)helpButton {
+    if (_helpButton == nil) {
+        _helpButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [_helpButton addTarget:self action:@selector(touchHelpButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_helpButton setBackgroundImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
+    }
+    return _helpButton;
 }
 
 @end
