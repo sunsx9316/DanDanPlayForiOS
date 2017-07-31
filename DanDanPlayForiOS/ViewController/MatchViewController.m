@@ -135,6 +135,7 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {
+        [self.view endEditing:YES];
         SearchViewController *vc = [[SearchViewController alloc] init];
         vc.model = self.model;
         vc.keyword = searchBar.text;

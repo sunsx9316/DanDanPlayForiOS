@@ -13,7 +13,7 @@
 @interface SearchViewController ()<UISearchBarDelegate, WMPageControllerDataSource>
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
-@property (strong, nonatomic) NSArray <UIViewController *>*VCArr;
+@property (strong, nonatomic) NSArray <NSString *>*titleArr;
 @end
 
 @implementation SearchViewController
@@ -35,18 +35,18 @@
 
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController * _Nonnull)pageController {
-    return self.VCArr.count;
+    return self.titleArr.count;
 }
 
 - (__kindof UIViewController * _Nonnull)pageController:(WMPageController * _Nonnull)pageController viewControllerAtIndex:(NSInteger)index {
-    return self.VCArr[index];
+    OfficialSearchViewController *officialSearchVC = [[OfficialSearchViewController alloc] init];
+    officialSearchVC.keyword = _keyword;
+    officialSearchVC.model = _model;
+    return officialSearchVC;
 }
 
 - (NSString * _Nonnull)pageController:(WMPageController * _Nonnull)pageController titleAtIndex:(NSInteger)index {
-    if (index == 0) {
-        return @"官方搜索";
-    }
-    return @"网络传输";
+    return self.titleArr[index];
 }
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView {
@@ -73,14 +73,12 @@
     return _pageController;
 }
 
-- (NSArray<UIViewController *> *)VCArr {
-    if (_VCArr == nil) {
-        OfficialSearchViewController *officialSearchVC = [[OfficialSearchViewController alloc] init];
-        officialSearchVC.keyword = _keyword;
-        officialSearchVC.model = _model;
-        _VCArr = @[officialSearchVC];
+- (NSArray<NSString *> *)titleArr {
+    if (_titleArr == nil) {
+        _titleArr = @[@"官方搜索"];
     }
-    return _VCArr;
+    return _titleArr;
 }
+
 
 @end

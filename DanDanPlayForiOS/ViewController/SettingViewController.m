@@ -14,6 +14,7 @@
 #import "UIApplication+Tools.h"
 #import "SettingTitleTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "UIView+Tools.h"
 
 @interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
@@ -92,7 +93,7 @@
 
 - (UIView *)headView {
     if (_headView == nil) {
-        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * 0.3)];
+        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * 0.4)];
         _headView.clipsToBounds = YES;
         
         UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
@@ -122,6 +123,7 @@
     if (_iconBGImgView == nil) {
         _iconBGImgView = [[UIImageView alloc] init];
         _iconBGImgView.contentMode = UIViewContentModeScaleAspectFill;
+        [_iconBGImgView addMotionEffectWithMaxOffset:20];
     }
     return _iconBGImgView;
 }
@@ -135,6 +137,8 @@
         _iconImgView.layer.masksToBounds = YES;
         _iconImgView.layer.borderWidth = 5;
         _iconImgView.layer.borderColor = RGBACOLOR(255, 255, 255, 0.6).CGColor;
+        [_iconImgView addMotionEffectWithMaxOffset:30];
+        
     }
     return _iconImgView;
 }

@@ -25,4 +25,16 @@
     return self;
 }
 
+#pragma mark - 懒加载
+- (UILabel *)titleLabel {
+    if (_titleLabel == nil) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.font = NORMAL_SIZE_FONT;
+        _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.numberOfLines = 0;
+        [self.contentView addSubview:_titleLabel];
+    }
+    return _titleLabel;
+}
+
 @end

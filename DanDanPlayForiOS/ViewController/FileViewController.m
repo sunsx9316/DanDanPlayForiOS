@@ -17,7 +17,7 @@
 
 @interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
-@property (strong, nonatomic) NSArray <UIViewController *>*VCArr;
+@property (strong, nonatomic) NSArray <NSString *>*titleArr;
 @property (strong, nonatomic) UIButton *httpButton;
 @property (strong, nonatomic) UIButton *helpButton;
 @end
@@ -76,18 +76,18 @@
 
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    return self.VCArr.count;
+    return self.titleArr.count;
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-    return self.VCArr[index];
+    if (index == 0) {
+        return [[LocalFileViewController alloc] init];
+    }
+    return [[SMBViewController alloc] init];
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
-    if (index == 0) {
-        return @"本机文件";
-    }
-    return @"远程设备";
+    return self.titleArr[index];
 }
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView {
@@ -111,13 +111,6 @@
     return _pageController;
 }
 
-- (NSArray<UIViewController *> *)VCArr {
-    if (_VCArr == nil) {
-        _VCArr = @[[[LocalFileViewController alloc] init], [[SMBViewController alloc] init]];
-    }
-    return _VCArr;
-}
-
 - (UIButton *)httpButton {
     if (_httpButton == nil) {
         _httpButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -134,6 +127,13 @@
         [_helpButton setBackgroundImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
     }
     return _helpButton;
+}
+
+- (NSArray<NSString *> *)titleArr {
+    if (_titleArr == nil) {
+        _titleArr = @[@"本机文件", @"远程设备"];
+    }
+    return _titleArr;
 }
 
 @end

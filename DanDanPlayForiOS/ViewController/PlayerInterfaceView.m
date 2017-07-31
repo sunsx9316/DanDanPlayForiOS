@@ -164,7 +164,7 @@
 #pragma mark - 懒加载
 - (UIView *)topView {
     if (_topView == nil) {
-        _topView = [[UIView alloc] init];
+        _topView = [[PlayerInterfaceHolderView alloc] init];
         
         UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"comment_gradual_gray"] yy_imageByRotate180]];
         bgImgView.alpha = 0.8;
@@ -204,7 +204,7 @@
 
 - (UIView *)bottomView {
     if (_bottomView == nil) {
-        _bottomView = [[UIView alloc] init];
+        _bottomView = [[PlayerInterfaceHolderView alloc] init];
         
         UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_gradual_gray"]];
         bgImgView.alpha = 0.8;

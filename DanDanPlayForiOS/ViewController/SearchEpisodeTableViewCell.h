@@ -8,6 +8,6 @@
 
 #import "MatchTableViewCell.h"
 
-@interface SearchEpisodeTableViewCell : MatchTableViewCell
-
+@interface SearchEpisodeTableViewCell : UITableViewCell
+@property (strong, nonatomic) UILabel *titleLabel;
 @end

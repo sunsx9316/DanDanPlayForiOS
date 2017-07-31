@@ -9,13 +9,13 @@
 #import "JHMediaPlayer.h"
 #import <MobileVLCKit/MobileVLCKit.h>
 #import <Photos/Photos.h>
+#import "NSString+Tools.h"
 
 //最大音量
 #define MAX_VOLUME 200.0
 
 @interface JHMediaPlayer()<VLCMediaPlayerDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
-//@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @end
 
 @implementation JHMediaPlayer
@@ -23,8 +23,8 @@
     NSTimeInterval _length;
     NSTimeInterval _currentTime;
     JHMediaPlayerStatus _status;
-//    VLCMedia *_currentLocalMedia;
 }
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"state"] && [change[NSKeyValueChangeNewKey] isEqual:change[NSKeyValueChangeOldKey]] == NO) {
@@ -41,6 +41,7 @@
     [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_localMediaPlayer removeObserver:self forKeyPath:@"state"];
+    [BaseNetManager stopMonitoring];
 }
 
 
@@ -68,8 +69,12 @@
         case VLCMediaPlayerStatePaused:
             _status = JHMediaPlayerStatusPause;
             break;
-        default:
+        case VLCMediaPlayerStatePlaying:
+        case VLCMediaPlayerStateBuffering:
             _status = JHMediaPlayerStatusPlaying;
+            break;
+        default:
+            _status = JHMediaPlayerStatusPause;
             break;
     }
     return _status;
@@ -224,9 +229,9 @@
 - (void)setMediaURL:(NSURL *)mediaURL {
 //    [self stop];
     if (!mediaURL) return;
-    
     _mediaURL = mediaURL;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.absoluteString hasPrefix:@"smb://"]) {
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"]) {
         self.localMediaPlayer.media = [[VLCMedia alloc] initWithURL:mediaURL];
     }
     
@@ -246,8 +251,6 @@
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:progress:currentTime:totalTime:)]) {
         NSTimeInterval nowTime = [self currentTime];
         NSTimeInterval videoTime = [self length];
-//        NSString *nowDateTime = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:nowTime]];
-//        NSString *videoDateTime = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:videoTime]];
         
         NSString *nowDateTime = jh_mediaFormatterTime(nowTime);
         NSString *videoDateTime = jh_mediaFormatterTime(videoTime);
@@ -256,21 +259,6 @@
         [self.delegate mediaPlayer:self progress:nowTime / videoTime currentTime:nowDateTime totalTime:videoDateTime];
     }
 }
-
-//- (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-//    
-//    NSLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
-//    
-//    if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
-//        JHMediaPlayerStatus status = [self status];
-//        if (status == JHMediaPlayerStatusStop && self.localMediaPlayer.isPlaying == NO) {
-//            [self.delegate mediaPlayer:self statusChange:JHMediaPlayerStatusStop];
-//        }
-//        else {
-//            [self.delegate mediaPlayer:self statusChange:status];
-//        }
-//    }
-//}
 
 #pragma mark - 私有方法
 
@@ -288,7 +276,6 @@
 - (VLCMediaPlayer *)localMediaPlayer {
     if(_localMediaPlayer == nil) {
         _localMediaPlayer = [[VLCMediaPlayer alloc] init];
-//        _localMediaPlayer.libraryInstance.debugLogging = NO;
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
         [_localMediaPlayer addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
@@ -302,13 +289,5 @@
     }
     return _mediaView;
 }
-
-//- (NSDateFormatter *)dateFormatter {
-//    if(_dateFormatter == nil) {
-//        _dateFormatter = [[NSDateFormatter alloc] init];
-//        _dateFormatter.dateFormat = _timeFormat?_timeFormat:@"mm:ss";
-//    }
-//    return _dateFormatter;
-//}
 
 @end

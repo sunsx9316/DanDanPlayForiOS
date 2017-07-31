@@ -8,6 +8,8 @@
 
 #import "OtherSettingTitleSubtitleTableViewCell.h"
 
-@interface MatchTableViewCell : OtherSettingTitleSubtitleTableViewCell
+@interface MatchTableViewCell : UITableViewCell
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *detailLabel;
 @property (strong, nonatomic) JHMatche *model;
 @end

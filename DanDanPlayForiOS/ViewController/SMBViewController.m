@@ -13,9 +13,10 @@
 #import "SMBLoginHeaderView.h"
 
 #import <TOSMBClient.h>
+#import "BaseTableView.h"
 
 @interface SMBViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) NSMutableArray <TONetBIOSNameServiceEntry *>*nameServiceEntries;
 @property (strong, nonatomic) TONetBIOSNameService *netbiosService;
 @end
@@ -29,14 +30,9 @@
         make.edges.mas_equalTo(0);
     }];
     
-    self.netbiosService = [[TONetBIOSNameService alloc] init];
-    [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
-        [self.nameServiceEntries addObject:entry];
-        [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
-    } removed:^(TONetBIOSNameServiceEntry *entry) {
-        [self.nameServiceEntries removeObject:entry];
-        [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
-    }];
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -143,7 +139,7 @@
         [MBProgressHUD hideLoading];
         
         if (error) {
-            [MBProgressHUD showWithText:[NSString stringWithFormat:@"连接失败 失败原因 %@", error] atView:nil afterDelay:1.5];
+            [MBProgressHUD showWithText:@"连接失败"];
             [ToolsManager shareToolsManager].smbInfo = nil;
         }
         else {
@@ -193,17 +189,36 @@
 }
 
 #pragma mark - 懒加载
-- (UITableView *)tableView {
+- (BaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 44;
         _tableView.backgroundColor = BACK_GROUND_COLOR;
-        //        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
         _tableView.tableFooterView = [[UIView alloc] init];
+        @weakify(self)
+        _tableView.mj_header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{
+            @strongify(self)
+            if (!self) return;
+            
+            [self.netbiosService stopDiscovery];
+            [self.nameServiceEntries removeAllObjects];
+            
+            self.netbiosService = [[TONetBIOSNameService alloc] init];
+            [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
+                [self.nameServiceEntries addObject:entry];
+                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+            } removed:^(TONetBIOSNameServiceEntry *entry) {
+                [self.nameServiceEntries removeObject:entry];
+                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+            
+            [self.tableView.mj_header endRefreshing];
+        }];
+        
         [self.view addSubview:_tableView];
     }
     return _tableView;

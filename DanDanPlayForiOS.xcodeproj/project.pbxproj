@@ -44,6 +44,7 @@
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
 		897F02BC1F259DD900A8D1E5 /* FileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* FileManagerPlayerListView.m */; };
 		897F02BF1F25A40500A8D1E5 /* FileManagerPickFileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BE1F25A40500A8D1E5 /* FileManagerPickFileView.m */; };
+		8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
 		898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
 		899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */; };
@@ -213,6 +214,8 @@
 		897F02BB1F259DD900A8D1E5 /* FileManagerPlayerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerPlayerListView.m; sourceTree = "<group>"; };
 		897F02BD1F25A40500A8D1E5 /* FileManagerPickFileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerPickFileView.h; sourceTree = "<group>"; };
 		897F02BE1F25A40500A8D1E5 /* FileManagerPickFileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerPickFileView.m; sourceTree = "<group>"; };
+		8987C1201F2ED964005BC154 /* UIView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Tools.h"; sourceTree = "<group>"; };
+		8987C1211F2ED964005BC154 /* UIView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Tools.m"; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConfigPanelView.h; sourceTree = "<group>"; };
@@ -792,6 +795,8 @@
 				89681B381F08FB9A00103CFF /* UIViewController+Tools.m */,
 				891C22F51F0A51E700B4661F /* TOSMBSessionFile+Tools.h */,
 				891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */,
+				8987C1201F2ED964005BC154 /* UIView+Tools.h */,
+				8987C1211F2ED964005BC154 /* UIView+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1116,6 +1121,7 @@
 				89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */,
 				89681B361F08FAE400103CFF /* SMBViewController.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
+				8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */,
 				89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

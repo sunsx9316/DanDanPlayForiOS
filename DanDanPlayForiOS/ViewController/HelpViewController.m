@@ -12,7 +12,7 @@
 
 @interface HelpViewController ()<WMPageControllerDataSource, WMPageControllerDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
-@property (strong, nonatomic) NSArray <UIViewController *>*VCArr;
+@property (strong, nonatomic) NSArray <NSURL *>*URLArr;
 @end
 
 @implementation HelpViewController
@@ -25,11 +25,14 @@
 
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    return self.VCArr.count;
+    return self.URLArr.count;
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-    return self.VCArr[index];
+    WebViewController *vc = [[WebViewController alloc] init];
+    vc.URL = self.URLArr[index];
+    vc.showProgressView = NO;
+    return vc;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
@@ -64,22 +67,29 @@
     return _pageController;
 }
 
-- (NSArray<UIViewController *> *)VCArr {
-    if (_VCArr == nil) {
-        WebViewController *windowsVC = [[WebViewController alloc] init];
-        windowsVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"windows" ofType:@"html" inDirectory:@"course"]];
-        windowsVC.showProgressView = NO;
-        
-        WebViewController *macVC = [[WebViewController alloc] init];
-        macVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"mac" ofType:@"html" inDirectory:@"course"]];
-        macVC.showProgressView = NO;
-        
-        WebViewController *routerVC = [[WebViewController alloc] init];
-        routerVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"router" ofType:@"html" inDirectory:@"course"]];
-        routerVC.showProgressView = NO;
-        
-        _VCArr = @[windowsVC, macVC, routerVC];
+- (NSArray<NSURL *> *)URLArr {
+    if (_URLArr == nil) {
+        _URLArr = @[[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"windows" ofType:@"html" inDirectory:@"course"]], [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"mac" ofType:@"html" inDirectory:@"course"]], [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"router" ofType:@"html" inDirectory:@"course"]]];
     }
-    return _VCArr;
+    return _URLArr;
 }
+
+//- (NSArray<UIViewController *> *)VCArr {
+//    if (_VCArr == nil) {
+//        WebViewController *windowsVC = [[WebViewController alloc] init];
+//        windowsVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"windows" ofType:@"html" inDirectory:@"course"]];
+//        windowsVC.showProgressView = NO;
+//        
+//        WebViewController *macVC = [[WebViewController alloc] init];
+//        macVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"mac" ofType:@"html" inDirectory:@"course"]];
+//        macVC.showProgressView = NO;
+//        
+//        WebViewController *routerVC = [[WebViewController alloc] init];
+//        routerVC.URL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"router" ofType:@"html" inDirectory:@"course"]];
+//        routerVC.showProgressView = NO;
+//        
+//        _VCArr = @[windowsVC, macVC, routerVC];
+//    }
+//    return _VCArr;
+//}
 @end

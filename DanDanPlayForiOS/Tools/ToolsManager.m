@@ -15,8 +15,6 @@
 #import <TOSMBSession.h>
 #import <TOSMBSessionFile.h>
 
-//static const NSArray <NSString *>*_subtitles;
-
 CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
     static dispatch_once_t onceToken;
@@ -467,12 +465,6 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     [task resume];
 }
 
-//- (TOSMBSession *)SMBSession {
-//    if (_SMBSession == nil) {
-//        _SMBSession = [[TOSMBSession alloc] init];
-//    }
-//    return _SMBSession;
-//}
 
 #pragma mark - TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask

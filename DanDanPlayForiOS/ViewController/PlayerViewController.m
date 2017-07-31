@@ -25,9 +25,9 @@
 #import "NSString+Tools.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-static const float slowRate = 0.3f;
-static const float normalRate = 0.5f;
-static const float fastRate = 1.0f;
+static const float slowRate = 0.1f;
+static const float normalRate = 0.3f;
+static const float fastRate = 0.7f;
 
 typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     InterfaceViewPanTypeProgress,
@@ -201,7 +201,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                     //找到下一个是视频的模型
                     for (NSInteger i = 0; i < count; ++i) {
                         currentFile = parentFile.subFiles[(i + 1 + index) % count];
-                        if (currentFile.type == JHFileTypeDocument) {
+                        if (currentFile.type == JHFileTypeDocument && jh_isVideoFile(currentFile.fileURL.absoluteString)) {
                             [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
                             return;
                         }
@@ -217,7 +217,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                     //找到下一个是视频的模型
                     for (NSInteger i = index + 1; i < count; ++i) {
                         currentFile = parentFile.subFiles[i];
-                        if (currentFile.type == JHFileTypeDocument) {
+                        if (currentFile.type == JHFileTypeDocument && jh_isVideoFile(currentFile.fileURL.absoluteString)) {
                             [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
                             return;
                         }
@@ -656,7 +656,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         CGPoint point = [panGesture locationInView:nil];
         NSLog(@"%@", NSStringFromCGPoint(translation));
         //横向移动
-        if (fabs(translation.y) < 0.8) {
+        if (fabs(translation.y) < 0.5) {
             //让slider不响应进度更新
             [self touchSliderDown:self.interfaceView.progressSlider];
             _panType = InterfaceViewPanTypeProgress;
