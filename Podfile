@@ -7,6 +7,7 @@ target 'DanDanPlayForiOS' do
 
   # Pods for DanDanPlayForiOS
 
+  pod 'UMengAnalytics'
   # 集成新浪微博
     #pod 'UMengUShare/Social/Sina'
 # 集成微信
@@ -22,7 +23,7 @@ target 'DanDanPlayForiOS' do
     pod 'MJRefresh'
     pod 'MBProgressHUD'
     pod 'GDataXML-HTML'
-    pod 'JHDanmakuRender'
+    #pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
     pod 'FDFullscreenPopGesture'
     pod 'RATreeView'

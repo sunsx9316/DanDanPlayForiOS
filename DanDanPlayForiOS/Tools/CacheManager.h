@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "JHBaseDanmaku.h"
 #import "JHSMBInfo.h"
+#import "DownloadStatusView.h"
 
 /**
  视频播放模式
@@ -25,15 +26,33 @@ typedef NS_ENUM(NSUInteger, PlayerPlayMode) {
     PlayerPlayModeOrder,
 };
 
+typedef NS_ENUM(NSUInteger, SMBDownloadTasksDidChangeType) {
+    SMBDownloadTasksDidChangeTypeAdd,
+    SMBDownloadTasksDidChangeTypeRemove,
+};
+
 FOUNDATION_EXPORT NSString *const videoNameKey;
 FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
-@class JHUser, JHFile, TOSMBSessionFile;
+//缓存所有弹幕的标识
+#define CACHE_ALL_DANMAKU_FLAG 9999
+
+@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask;
+
+@protocol CacheManagerDelagate <NSObject>
+@optional
+- (void)SMBDownloadTasksDidChange:(NSArray <TOSMBSessionDownloadTask *>*)tasks type:(SMBDownloadTasksDidChangeType)type;
+
+- (void)SMBDownloadTasksDidDownloadCompletion;
+@end
+
 @interface CacheManager : NSObject
 
 @property (strong, nonatomic) JHUser *user;
 
 @property (strong, nonatomic) JHFile *rootFile;
+
+@property (strong, nonatomic) DownloadStatusView *downloadView;
 
 /**
  弹幕字体
@@ -75,6 +94,12 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  优先加载本地弹幕
  */
 @property (assign, nonatomic) BOOL priorityLoadLocalDanmaku;
+
+
+/**
+ 显示下载状态视图
+ */
+@property (assign, nonatomic) BOOL showDownloadStatusView;
 
 /**
  播放器播放模式
@@ -161,5 +186,17 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  */
 + (NSUInteger)cacheSize;
 + (void)removeAllCache;
+
+- (void)addObserver:(id<CacheManagerDelagate>)observer;
+- (void)removeObserver:(id<CacheManagerDelagate>)observer;
+- (void)addSMBSessionDownloadTask:(TOSMBSessionDownloadTask *)task;
+- (void)addSMBSessionDownloadTasks:(NSArray <TOSMBSessionDownloadTask *>*)tasks;
+- (void)removeSMBSessionDownloadTasks:(NSArray <TOSMBSessionDownloadTask *>*)tasks;
+- (void)removeSMBSessionDownloadTask:(TOSMBSessionDownloadTask *)task;
+- (NSArray <TOSMBSessionDownloadTask *>*)downloadTasks;
+
+@property (assign, nonatomic) NSUInteger totoalExpectedToReceive;
+@property (assign, nonatomic) NSUInteger totoalToReceive;
+
 + (instancetype)shareCacheManager;
 @end

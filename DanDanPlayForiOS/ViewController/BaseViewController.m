@@ -28,7 +28,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"%@ ViewController dealloc", NSStringFromClass(self.class));
+    NSLog(@"%@ dealloc", NSStringFromClass(self.class));
 }
 
 #pragma mark - 私有方法

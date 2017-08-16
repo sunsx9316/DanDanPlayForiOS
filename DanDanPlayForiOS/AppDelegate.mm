@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import <IQKeyboardManager.h>
+#import <UMMobClick/MobClick.h>
 
 @interface AppDelegate ()
 
@@ -19,6 +20,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
+    [self configIQKeyboardManager];
+    [self configUM];
     
 //    [CacheManager shareCacheManager].folderCache = nil;
     
@@ -27,7 +30,7 @@
     self.window.backgroundColor = BACK_GROUND_COLOR;
     self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
-    [self configIQKeyboardManager];
+    
     return YES;
 }
 
@@ -79,6 +82,12 @@
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enableAutoToolbar = NO;
     manager.shouldResignOnTouchOutside = YES;
+}
+
+- (void)configUM {
+    UMConfigInstance.appKey = UMAPPKEY;
+    UMConfigInstance.channelId = @"App Store";
+    [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
 }
 
 @end

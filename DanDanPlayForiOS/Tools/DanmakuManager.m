@@ -69,7 +69,14 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     NSString *key = [NSString stringWithFormat:@"%lu", (unsigned long)episodeId];
     //过滤重复弹幕
     NSMutableSet *danmakuCache = [NSMutableSet set];
-    NSTimeInterval cacheTime = [CacheManager shareCacheManager].danmakuCacheTime * 24 * 3600;
+    NSUInteger danmakuCacheTime = [CacheManager shareCacheManager].danmakuCacheTime;
+    NSTimeInterval cacheTime = 0;
+    if (danmakuCacheTime >= CACHE_ALL_DANMAKU_FLAG) {
+        cacheTime = CGFLOAT_MAX;
+    }
+    else {
+        cacheTime = [CacheManager shareCacheManager].danmakuCacheTime * 24 * 3600;
+    }
     
     //获取的是B站弹幕
     if (source & DanDanPlayDanmakuTypeBiliBili) {
@@ -87,7 +94,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     if (source & DanDanPlayDanmakuTypeAcfun) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].acfunDanmakuCache objectForKey:key];
         //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime ) {
+        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
             [[DanmakuManager shareDanmakuManager].acfunDanmakuCache removeObjectForKey:key withBlock:nil];
         }
         else {
@@ -99,7 +106,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     if (source & DanDanPlayDanmakuTypeOfficial) {
         JHDanmakuCollection *tempCollection = (JHDanmakuCollection *)[[DanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
         //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime ) {
+        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
             [[DanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
         }
         else {

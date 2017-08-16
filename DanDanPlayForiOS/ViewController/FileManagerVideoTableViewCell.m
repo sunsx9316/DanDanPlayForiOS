@@ -17,7 +17,7 @@
 @implementation FileManagerVideoTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) { 
         [self.imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(15);
             make.centerY.mas_equalTo(0);

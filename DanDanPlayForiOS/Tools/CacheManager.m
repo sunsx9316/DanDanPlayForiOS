@@ -9,6 +9,7 @@
 #import "CacheManager.h"
 #import "UIFont+Tools.h"
 #import <TOSMBSessionFile.h>
+#import <TOSMBSessionDownloadTaskPrivate.h>
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -27,19 +28,26 @@ static NSString *const SMBLoginKey = @"SMB_login";
 static NSString *const lastPlayTimeKey = @"last_play_time";
 static NSString *const openAutoDownloadSubtitleKey = @"open_auto_download_subtitle";
 static NSString *const priorityLoadLocalDanmakuKey = @"priority_load_local_danmaku";
+static NSString *const showDownloadStatusViewKey = @"show_down_load_status_view";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 
-@interface CacheManager ()
+@interface CacheManager ()<TOSMBSessionDownloadTaskDelegate>
 @property (strong, nonatomic) YYCache *cache;
 @property (strong, nonatomic) YYCache *episodeInfoCache;
 @property (strong, nonatomic) YYCache *lastPlayTimeCache;
 @property (strong, nonatomic) YYCache *smbFileHashCache;
+@property (strong, nonatomic) NSMutableArray <TOSMBSessionDownloadTask *>*aDownloadTasks;
 @end
 
 @implementation CacheManager
+{
+    NSHashTable *_observers;
+    //已经接收的大小
+    NSUInteger _totalAlreadyReceive;
+}
 
 + (instancetype)shareCacheManager {
     static CacheManager *manager = nil;
@@ -49,6 +57,13 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     });
     
     return manager;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _observers = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsWeakMemory|NSPointerFunctionsObjectPointerPersonality capacity:0];
+    }
+    return self;
 }
 
 #pragma mark - 懒加载
@@ -98,6 +113,15 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return _rootFile;
 }
 
+#pragma mark - 
+- (DownloadStatusView *)downloadView {
+    if (_downloadView == nil) {
+        _downloadView = [[DownloadStatusView alloc] init];
+        _downloadView.hidden = !self.showDownloadStatusView;
+        [self addObserver:(DownloadStatusView <CacheManagerDelagate>*)_downloadView];
+    }
+    return _downloadView;
+}
 
 #pragma mark - 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
@@ -221,8 +245,23 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
+- (void)setShowDownloadStatusView:(BOOL)showDownloadStatusView {
+    self.downloadView.hidden = !showDownloadStatusView;
+    [self.cache setObject:@(showDownloadStatusView) forKey:showDownloadStatusViewKey withBlock:nil];
+}
+
+- (BOOL)showDownloadStatusView {
+    NSNumber * num = (NSNumber *)[self.cache objectForKey:showDownloadStatusViewKey];
+    if (num == nil) {
+        num = @(YES);
+        self.showDownloadStatusView = YES;
+    }
+    return num.boolValue;
+}
+
+#pragma mark -
 - (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model {
-    if (model == nil) return 0;
+    if (model == nil) return nil;
     
     return (NSDictionary *)[self.episodeInfoCache objectForKey:model.md5];
 }
@@ -399,6 +438,112 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     [manager.episodeInfoCache.diskCache removeAllObjects];
     [manager.lastPlayTimeCache.diskCache removeAllObjects];
     [manager.smbFileHashCache.diskCache removeAllObjects];
+}
+
+#pragma mark - 
+
+- (void)addObserver:(id<CacheManagerDelagate>)observer {
+    if (!observer) return;
+    [_observers addObject:observer];
+}
+
+- (void)removeObserver:(id<CacheManagerDelagate>)observer {
+    if (!observer) return;
+    [_observers removeObject:observer];
+}
+
+- (void)addSMBSessionDownloadTask:(TOSMBSessionDownloadTask *)task {
+    if (task == nil) return;
+    
+    [self addSMBSessionDownloadTasks:@[task]];
+}
+
+- (void)addSMBSessionDownloadTasks:(NSArray <TOSMBSessionDownloadTask *>*)tasks {
+    if (tasks.count == 0) return;
+    
+    [tasks enumerateObjectsUsingBlock:^(TOSMBSessionDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.delegate = self;
+        _totoalExpectedToReceive += obj.countOfBytesExpectedToReceive;
+    }];
+    
+    [self.aDownloadTasks addObjectsFromArray:tasks];
+    for (id<CacheManagerDelagate> observer in _observers.copy) {
+        if ([observer respondsToSelector:@selector(SMBDownloadTasksDidChange:type:)]) {
+            [observer SMBDownloadTasksDidChange:self.aDownloadTasks type:SMBDownloadTasksDidChangeTypeAdd];
+        }
+    }
+}
+
+- (void)removeSMBSessionDownloadTasks:(NSArray <TOSMBSessionDownloadTask *>*)tasks {
+    [self removeSMBSessionDownloadTasks:tasks byUser:YES];
+}
+
+- (void)removeSMBSessionDownloadTask:(TOSMBSessionDownloadTask *)task {
+    if (task == nil) return;
+    [self removeSMBSessionDownloadTasks:@[task] byUser:YES];
+}
+
+- (void)removeSMBSessionDownloadTasks:(NSArray <TOSMBSessionDownloadTask *>*)tasks byUser:(BOOL)byUser {
+    if (tasks.count == 0) return;
+    
+    if (byUser) {
+        [tasks enumerateObjectsUsingBlock:^(TOSMBSessionDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            _totoalExpectedToReceive -= obj.countOfBytesExpectedToReceive;
+        }];
+    }
+    
+    [self.aDownloadTasks removeObjectsInArray:tasks];
+    for (id<CacheManagerDelagate> observer in _observers.copy) {
+        if ([observer respondsToSelector:@selector(SMBDownloadTasksDidChange:type:)]) {
+            [observer SMBDownloadTasksDidChange:self.aDownloadTasks type:SMBDownloadTasksDidChangeTypeRemove];
+        }
+    }
+    
+    //全部下载完成
+    if (self.aDownloadTasks.count == 0) {
+        _totoalExpectedToReceive = 0;
+        _totalAlreadyReceive = 0;
+        
+        for (id<CacheManagerDelagate> observer in _observers.copy) {
+            if ([observer respondsToSelector:@selector(SMBDownloadTasksDidDownloadCompletion)]) {
+                [observer SMBDownloadTasksDidDownloadCompletion];
+            }
+        }
+    }
+}
+
+- (NSArray <TOSMBSessionDownloadTask *>*)downloadTasks {
+    return self.aDownloadTasks;
+}
+
+- (NSMutableArray<TOSMBSessionDownloadTask *> *)aDownloadTasks {
+    if (_aDownloadTasks == nil) {
+        _aDownloadTasks = [NSMutableArray array];
+    }
+    return _aDownloadTasks;
+}
+
+- (NSUInteger)totoalToReceive {
+    __block NSUInteger _receive = 0;
+    
+    [self.aDownloadTasks enumerateObjectsUsingBlock:^(TOSMBSessionDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        _receive += obj.countOfBytesReceived;
+    }];
+    
+    return _totalAlreadyReceive + _receive;
+}
+
+#pragma mark TOSMBSessionDownloadTaskDelegate
+
+- (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath {
+    
+    if (downloadTask) {
+        _totalAlreadyReceive += downloadTask.countOfBytesExpectedToReceive;
+        //移除下载成功的任务
+        [self removeSMBSessionDownloadTasks:@[downloadTask] byUser:NO];
+    }
+    //刷新本地列表
+    [[NSNotificationCenter defaultCenter] postNotificationName:COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE object:nil];
 }
 
 @end

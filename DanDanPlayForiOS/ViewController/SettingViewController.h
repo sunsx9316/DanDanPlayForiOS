@@ -2,9 +2,9 @@
 //  SettingViewController.h
 //  DanDanPlayForiOS
 //
-//  Created by JimHuang on 17/3/5.
+//  Created by JimHuang on 2017/4/26.
 //  Copyright © 2017年 JimHuang. All rights reserved.
-//
+//  其他设置
 
 #import "BaseViewController.h"
 

@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 #import "FileViewController.h"
-#import "SettingViewController.h"
+#import "MineViewController.h"
 
 @interface MainViewController ()
 @end
@@ -19,7 +19,7 @@
     [super viewDidLoad];
     
     UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"file"] selectImg:[UIImage imageNamed:@"file"] rootVC:[[FileViewController alloc] init] title:nil];
-    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"setting"] selectImg:[UIImage imageNamed:@"setting"] rootVC:[[SettingViewController alloc] init] title:nil];
+    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"mine"] selectImg:[UIImage imageNamed:@"mine"] rootVC:[[MineViewController alloc] init] title:nil];
     
     self.viewControllers = @[fileVC, settingVC];
     self.tabBar.translucent = NO;

@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configRightItem];
+    
     [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(0);
         make.top.mas_offset(30);
@@ -63,6 +65,22 @@
 
 - (void)touchWeiboButton:(UIButton *)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://weibo.com/u/2996607392"]];
+}
+
+#pragma mark - 私有方法
+- (void)configRightItem {
+    JHEdgeButton *button = [[JHEdgeButton alloc] init];
+    button.inset = CGSizeMake(10, 10);
+    [button addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"评价一发" forState:UIControlStateNormal];
+    button.titleLabel.font = NORMAL_SIZE_FONT;
+    [button sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)touchRightItem:(UIButton *)button {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK]];
 }
 
 #pragma mark - 懒加载

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface OtherSettingSwitchTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *aSwitch;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *detailLabel;
+@property (strong, nonatomic) UISwitch *aSwitch;
 @property (copy, nonatomic) void(^touchSwitchCallBack)();
 @end

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
+		8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */; };
+		8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */; };
 		8913D7DD1ECC49E700B7975D /* PickerFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DC1ECC49E700B7975D /* PickerFileViewController.m */; };
 		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
 		8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* MatchViewController.m */; };
@@ -20,6 +22,7 @@
 		8916C7D01EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CF1EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m */; };
 		891C22F41F0A296000B4661F /* SMBFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F31F0A296000B4661F /* SMBFileViewController.m */; };
 		891C22F71F0A51E700B4661F /* TOSMBSessionFile+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */; };
+		8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */; };
 		89350B081EAAFB9900072DA5 /* JHMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350AFF1EAAFB9900072DA5 /* JHMediaPlayer.m */; };
 		89350B101EAB059000072DA5 /* PlayerInterfaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B0F1EAB059000072DA5 /* PlayerInterfaceView.m */; };
 		89350B131EAB0DA000072DA5 /* JHBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B121EAB0DA000072DA5 /* JHBlurView.m */; };
@@ -32,7 +35,7 @@
 		8939FB541EB3A1590063BBA1 /* BaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* BaseCollectionView.m */; };
 		8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */; };
 		894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* MainViewController.m */; };
-		894CBAA21E6BCA760021253F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* SettingViewController.m */; };
+		894CBAA21E6BCA760021253F /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* MineViewController.m */; };
 		894CBAA81E6C06F70021253F /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA71E6C06F70021253F /* LocalFileViewController.m */; };
 		894CBAAB1E6C073A0021253F /* HTTPServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* HTTPServerViewController.m */; };
 		894CBAAF1E6C12A80021253F /* FileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */; };
@@ -44,6 +47,8 @@
 		896F594F1EA710A8004F4313 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* BaseTableView.m */; };
 		897F02BC1F259DD900A8D1E5 /* FileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* FileManagerPlayerListView.m */; };
 		897F02BF1F25A40500A8D1E5 /* FileManagerPickFileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BE1F25A40500A8D1E5 /* FileManagerPickFileView.m */; };
+		8981170C1F3343C700B34352 /* DownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DownloadTableViewCell.m */; };
+		8981170F1F334ECD00B34352 /* SettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* SettingDownloadTableViewCell.m */; };
 		8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
 		898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
@@ -80,11 +85,9 @@
 		89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F861E59CE9B007054CB /* ToolsManager.m */; };
 		89BDE9111F1BA41D00B49EA8 /* FileManagerVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDE9101F1BA41D00B49EA8 /* FileManagerVideoTableViewCell.m */; };
 		89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F31EB040E6009329AA /* UIApplication+Tools.m */; };
-		89D8F7F71EB04B12009329AA /* DanmakuSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F61EB04B12009329AA /* DanmakuSettingViewController.m */; };
 		89D8F7FA1EB04DA1009329AA /* DanmakuSelectedFontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F91EB04DA1009329AA /* DanmakuSelectedFontViewController.m */; };
-		89D8F8001EB0588F009329AA /* OtherSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7FF1EB0588F009329AA /* OtherSettingViewController.m */; };
+		89D8F8001EB0588F009329AA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7FF1EB0588F009329AA /* SettingViewController.m */; };
 		89D8F8051EB05A60009329AA /* OtherSettingSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8031EB05A60009329AA /* OtherSettingSwitchTableViewCell.m */; };
-		89D8F8061EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */; };
 		89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* AboutUsViewController.m */; };
 		89D8F81F1EB0B112009329AA /* PlayerVideoControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerVideoControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
@@ -98,6 +101,7 @@
 		89E1EA051EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA041EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m */; };
 		89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* PlayerStepTableViewCell.m */; };
 		89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA0C1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m */; };
+		89E393E71F3DB6250010EAF0 /* DownloadStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E393E61F3DB6250010EAF0 /* DownloadStatusView.m */; };
 		89E3F5BE1E5829BD007AB1BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
 		89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
 		89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
@@ -117,12 +121,22 @@
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
 		89E8341F1F1E1AF700E781EB /* PlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */; };
 		89E834291F1E5A5400E781EB /* SMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* SMBVideoModel.m */; };
+		89E8C9991F3DDEF100CCF4BC /* JHSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* JHSetting.m */; };
 		89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */; };
 		89F173061EB1F6F0006A2473 /* SettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */; };
 		89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
 		89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */; };
 		89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
 		89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */; };
+		89F7AB071F3725C5004D48D5 /* JHBaseDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAF51F3725C5004D48D5 /* JHBaseDanmaku.m */; };
+		89F7AB081F3725C5004D48D5 /* JHFloatDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAF71F3725C5004D48D5 /* JHFloatDanmaku.m */; };
+		89F7AB091F3725C5004D48D5 /* JHScrollDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAF91F3725C5004D48D5 /* JHScrollDanmaku.m */; };
+		89F7AB0A1F3725C5004D48D5 /* JHDanmakuCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAFB1F3725C5004D48D5 /* JHDanmakuCanvas.m */; };
+		89F7AB0B1F3725C5004D48D5 /* JHDanmakuClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAFD1F3725C5004D48D5 /* JHDanmakuClock.m */; };
+		89F7AB0C1F3725C5004D48D5 /* JHDanmakuContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AAFF1F3725C5004D48D5 /* JHDanmakuContainer.m */; };
+		89F7AB0D1F3725C5004D48D5 /* JHDanmakuEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AB011F3725C5004D48D5 /* JHDanmakuEngine.m */; };
+		89F7AB0E1F3725C5004D48D5 /* JHDanmakuRender.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 89F7AB041F3725C5004D48D5 /* JHDanmakuRender.podspec */; };
+		89F7AB0F1F3725C5004D48D5 /* JHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F7AB061F3725C5004D48D5 /* JHDisplayLink.m */; };
 		89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DanmakuManager.m */; };
 		89F8CDBB1EA78A10000D5F3F /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDBA1EA78A10000D5F3F /* CacheManager.m */; };
 /* End PBXBuildFile section */
@@ -142,6 +156,10 @@
 
 /* Begin PBXFileReference section */
 		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8905BD9F1F32C7EA0055BC84 /* SMBFileOprationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBFileOprationView.h; sourceTree = "<group>"; };
+		8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBFileOprationView.m; sourceTree = "<group>"; };
+		8905BDA21F32CEBA0055BC84 /* DownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
+		8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
 		8913D7DB1ECC49E700B7975D /* PickerFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerFileViewController.h; sourceTree = "<group>"; };
 		8913D7DC1ECC49E700B7975D /* PickerFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerFileViewController.m; sourceTree = "<group>"; };
 		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
@@ -166,6 +184,8 @@
 		891C22F31F0A296000B4661F /* SMBFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBFileViewController.m; sourceTree = "<group>"; };
 		891C22F51F0A51E700B4661F /* TOSMBSessionFile+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TOSMBSessionFile+Tools.h"; sourceTree = "<group>"; };
 		891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TOSMBSessionFile+Tools.m"; sourceTree = "<group>"; };
+		8920A2E01F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TOSMBSessionDownloadTask+Tools.h"; sourceTree = "<group>"; };
+		8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TOSMBSessionDownloadTask+Tools.m"; sourceTree = "<group>"; };
 		89350AFE1EAAFB9900072DA5 /* JHMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHMediaPlayer.h; sourceTree = "<group>"; };
 		89350AFF1EAAFB9900072DA5 /* JHMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHMediaPlayer.m; sourceTree = "<group>"; };
 		89350B0E1EAB059000072DA5 /* PlayerInterfaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInterfaceView.h; sourceTree = "<group>"; };
@@ -190,8 +210,8 @@
 		8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerBaseViewCell.m; sourceTree = "<group>"; };
 		894CBA9B1E6BC8D20021253F /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		894CBA9C1E6BC8D20021253F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		894CBAA01E6BCA760021253F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
-		894CBAA11E6BCA760021253F /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		894CBAA01E6BCA760021253F /* MineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineViewController.h; sourceTree = "<group>"; };
+		894CBAA11E6BCA760021253F /* MineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineViewController.m; sourceTree = "<group>"; };
 		894CBAA61E6C06F70021253F /* LocalFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileViewController.h; sourceTree = "<group>"; };
 		894CBAA71E6C06F70021253F /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		894CBAA91E6C073A0021253F /* HTTPServerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServerViewController.h; sourceTree = "<group>"; };
@@ -214,6 +234,10 @@
 		897F02BB1F259DD900A8D1E5 /* FileManagerPlayerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerPlayerListView.m; sourceTree = "<group>"; };
 		897F02BD1F25A40500A8D1E5 /* FileManagerPickFileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerPickFileView.h; sourceTree = "<group>"; };
 		897F02BE1F25A40500A8D1E5 /* FileManagerPickFileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerPickFileView.m; sourceTree = "<group>"; };
+		8981170A1F3343C700B34352 /* DownloadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadTableViewCell.h; sourceTree = "<group>"; };
+		8981170B1F3343C700B34352 /* DownloadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadTableViewCell.m; sourceTree = "<group>"; };
+		8981170D1F334ECD00B34352 /* SettingDownloadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDownloadTableViewCell.h; sourceTree = "<group>"; };
+		8981170E1F334ECD00B34352 /* SettingDownloadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDownloadTableViewCell.m; sourceTree = "<group>"; };
 		8987C1201F2ED964005BC154 /* UIView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Tools.h"; sourceTree = "<group>"; };
 		8987C1211F2ED964005BC154 /* UIView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Tools.m"; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -289,15 +313,12 @@
 		89BDE9101F1BA41D00B49EA8 /* FileManagerVideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerVideoTableViewCell.m; sourceTree = "<group>"; };
 		89D8F7F21EB040E6009329AA /* UIApplication+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Tools.h"; sourceTree = "<group>"; };
 		89D8F7F31EB040E6009329AA /* UIApplication+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Tools.m"; sourceTree = "<group>"; };
-		89D8F7F51EB04B12009329AA /* DanmakuSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuSettingViewController.h; sourceTree = "<group>"; };
-		89D8F7F61EB04B12009329AA /* DanmakuSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuSettingViewController.m; sourceTree = "<group>"; };
 		89D8F7F81EB04DA1009329AA /* DanmakuSelectedFontViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuSelectedFontViewController.h; sourceTree = "<group>"; };
 		89D8F7F91EB04DA1009329AA /* DanmakuSelectedFontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuSelectedFontViewController.m; sourceTree = "<group>"; };
-		89D8F7FE1EB0588F009329AA /* OtherSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingViewController.h; sourceTree = "<group>"; };
-		89D8F7FF1EB0588F009329AA /* OtherSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherSettingViewController.m; sourceTree = "<group>"; };
+		89D8F7FE1EB0588F009329AA /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		89D8F7FF1EB0588F009329AA /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		89D8F8021EB05A60009329AA /* OtherSettingSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherSettingSwitchTableViewCell.h; sourceTree = "<group>"; };
 		89D8F8031EB05A60009329AA /* OtherSettingSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherSettingSwitchTableViewCell.m; sourceTree = "<group>"; };
-		89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OtherSettingSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		89D8F8161EB09CAC009329AA /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		89D8F8171EB09CAC009329AA /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		89D8F81D1EB0B112009329AA /* PlayerVideoControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerVideoControlView.h; sourceTree = "<group>"; };
@@ -322,6 +343,8 @@
 		89E1EA071EAE0DCD00419C78 /* PlayerStepTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerStepTableViewCell.m; sourceTree = "<group>"; };
 		89E1EA0B1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSendDanmakuConfigView.h; sourceTree = "<group>"; };
 		89E1EA0C1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSendDanmakuConfigView.m; sourceTree = "<group>"; };
+		89E393E51F3DB6250010EAF0 /* DownloadStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadStatusView.h; sourceTree = "<group>"; };
+		89E393E61F3DB6250010EAF0 /* DownloadStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadStatusView.m; sourceTree = "<group>"; };
 		89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3F5BD1E5829BD007AB1BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -361,6 +384,8 @@
 		89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerInterfaceHolderView.m; sourceTree = "<group>"; };
 		89E834271F1E5A5400E781EB /* SMBVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBVideoModel.h; sourceTree = "<group>"; };
 		89E834281F1E5A5400E781EB /* SMBVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBVideoModel.m; sourceTree = "<group>"; };
+		89E8C9971F3DDEF100CCF4BC /* JHSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSetting.h; sourceTree = "<group>"; };
+		89E8C9981F3DDEF100CCF4BC /* JHSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSetting.m; sourceTree = "<group>"; };
 		89EC0E5A1F2D812A004D3C12 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
@@ -374,6 +399,25 @@
 		89F5C82C1EAF10A500676361 /* NSString+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tools.m"; sourceTree = "<group>"; };
 		89F5C82E1EAF112200676361 /* DanDanPlayHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanDanPlayHTTPConnection.h; sourceTree = "<group>"; };
 		89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanDanPlayHTTPConnection.m; sourceTree = "<group>"; };
+		89F7AAF41F3725C5004D48D5 /* JHBaseDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseDanmaku.h; sourceTree = "<group>"; };
+		89F7AAF51F3725C5004D48D5 /* JHBaseDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBaseDanmaku.m; sourceTree = "<group>"; };
+		89F7AAF61F3725C5004D48D5 /* JHFloatDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHFloatDanmaku.h; sourceTree = "<group>"; };
+		89F7AAF71F3725C5004D48D5 /* JHFloatDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHFloatDanmaku.m; sourceTree = "<group>"; };
+		89F7AAF81F3725C5004D48D5 /* JHScrollDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHScrollDanmaku.h; sourceTree = "<group>"; };
+		89F7AAF91F3725C5004D48D5 /* JHScrollDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHScrollDanmaku.m; sourceTree = "<group>"; };
+		89F7AAFA1F3725C5004D48D5 /* JHDanmakuCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuCanvas.h; sourceTree = "<group>"; };
+		89F7AAFB1F3725C5004D48D5 /* JHDanmakuCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuCanvas.m; sourceTree = "<group>"; };
+		89F7AAFC1F3725C5004D48D5 /* JHDanmakuClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuClock.h; sourceTree = "<group>"; };
+		89F7AAFD1F3725C5004D48D5 /* JHDanmakuClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuClock.m; sourceTree = "<group>"; };
+		89F7AAFE1F3725C5004D48D5 /* JHDanmakuContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuContainer.h; sourceTree = "<group>"; };
+		89F7AAFF1F3725C5004D48D5 /* JHDanmakuContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuContainer.m; sourceTree = "<group>"; };
+		89F7AB001F3725C5004D48D5 /* JHDanmakuEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuEngine.h; sourceTree = "<group>"; };
+		89F7AB011F3725C5004D48D5 /* JHDanmakuEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmakuEngine.m; sourceTree = "<group>"; };
+		89F7AB021F3725C5004D48D5 /* JHDanmakuMacroDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuMacroDefinition.h; sourceTree = "<group>"; };
+		89F7AB031F3725C5004D48D5 /* JHDanmakuRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmakuRender.h; sourceTree = "<group>"; };
+		89F7AB041F3725C5004D48D5 /* JHDanmakuRender.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JHDanmakuRender.podspec; sourceTree = "<group>"; };
+		89F7AB051F3725C5004D48D5 /* JHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDisplayLink.h; sourceTree = "<group>"; };
+		89F7AB061F3725C5004D48D5 /* JHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDisplayLink.m; sourceTree = "<group>"; };
 		89F8CDAF1EA7757F000D5F3F /* DanmakuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuManager.h; sourceTree = "<group>"; };
 		89F8CDB01EA7757F000D5F3F /* DanmakuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuManager.m; sourceTree = "<group>"; };
 		89F8CDB91EA78A10000D5F3F /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
@@ -409,6 +453,15 @@
 				A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		8905BD9E1F32C7CF0055BC84 /* SMBFileOprationView */ = {
+			isa = PBXGroup;
+			children = (
+				8905BD9F1F32C7EA0055BC84 /* SMBFileOprationView.h */,
+				8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */,
+			);
+			name = SMBFileOprationView;
 			sourceTree = "<group>";
 		};
 		8916C7C61EA8BB6600A2233D /* 搜索 */ = {
@@ -528,17 +581,18 @@
 		894CBA9F1E6BCA460021253F /* 设置 */ = {
 			isa = PBXGroup;
 			children = (
+				89E8C9961F3DDED400CCF4BC /* Model */,
 				89D8F8011EB05A11009329AA /* View */,
-				894CBAA01E6BCA760021253F /* SettingViewController.h */,
-				894CBAA11E6BCA760021253F /* SettingViewController.m */,
-				89D8F7F51EB04B12009329AA /* DanmakuSettingViewController.h */,
-				89D8F7F61EB04B12009329AA /* DanmakuSettingViewController.m */,
+				894CBAA01E6BCA760021253F /* MineViewController.h */,
+				894CBAA11E6BCA760021253F /* MineViewController.m */,
 				89D8F7F81EB04DA1009329AA /* DanmakuSelectedFontViewController.h */,
 				89D8F7F91EB04DA1009329AA /* DanmakuSelectedFontViewController.m */,
-				89D8F7FE1EB0588F009329AA /* OtherSettingViewController.h */,
-				89D8F7FF1EB0588F009329AA /* OtherSettingViewController.m */,
+				89D8F7FE1EB0588F009329AA /* SettingViewController.h */,
+				89D8F7FF1EB0588F009329AA /* SettingViewController.m */,
 				89D8F8161EB09CAC009329AA /* AboutUsViewController.h */,
 				89D8F8171EB09CAC009329AA /* AboutUsViewController.m */,
+				8905BDA21F32CEBA0055BC84 /* DownloadViewController.h */,
+				8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -546,6 +600,7 @@
 		894CBAAC1E6C0CEF0021253F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8905BD9E1F32C7CF0055BC84 /* SMBFileOprationView */,
 				8939FB511EB398D70063BBA1 /* FileManagerView */,
 				89A1C0171EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.h */,
 				89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */,
@@ -656,11 +711,16 @@
 			children = (
 				89D8F8021EB05A60009329AA /* OtherSettingSwitchTableViewCell.h */,
 				89D8F8031EB05A60009329AA /* OtherSettingSwitchTableViewCell.m */,
-				89D8F8041EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib */,
 				89F173041EB1F6F0006A2473 /* SettingTitleTableViewCell.h */,
 				89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */,
+				8981170D1F334ECD00B34352 /* SettingDownloadTableViewCell.h */,
+				8981170E1F334ECD00B34352 /* SettingDownloadTableViewCell.m */,
 				89F173391EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.h */,
 				89F1733A1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m */,
+				8981170A1F3343C700B34352 /* DownloadTableViewCell.h */,
+				8981170B1F3343C700B34352 /* DownloadTableViewCell.m */,
+				89E393E51F3DB6250010EAF0 /* DownloadStatusView.h */,
+				89E393E61F3DB6250010EAF0 /* DownloadStatusView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -668,6 +728,7 @@
 		89D8F8441EB0F5FB009329AA /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				89F7AAF21F3725C5004D48D5 /* JHDanmakuRender */,
 				89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */,
 			);
 			path = Vender;
@@ -797,6 +858,8 @@
 				891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */,
 				8987C1201F2ED964005BC154 /* UIView+Tools.h */,
 				8987C1211F2ED964005BC154 /* UIView+Tools.m */,
+				8920A2E01F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.h */,
+				8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -877,6 +940,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		89E8C9961F3DDED400CCF4BC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				89E8C9971F3DDEF100CCF4BC /* JHSetting.h */,
+				89E8C9981F3DDEF100CCF4BC /* JHSetting.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		89F5C8281EAF104100676361 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +956,40 @@
 				89DDCFAE1F2A3DA3007B83CA /* web */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		89F7AAF21F3725C5004D48D5 /* JHDanmakuRender */ = {
+			isa = PBXGroup;
+			children = (
+				89F7AAF31F3725C5004D48D5 /* Danmaku */,
+				89F7AAFA1F3725C5004D48D5 /* JHDanmakuCanvas.h */,
+				89F7AAFB1F3725C5004D48D5 /* JHDanmakuCanvas.m */,
+				89F7AAFC1F3725C5004D48D5 /* JHDanmakuClock.h */,
+				89F7AAFD1F3725C5004D48D5 /* JHDanmakuClock.m */,
+				89F7AAFE1F3725C5004D48D5 /* JHDanmakuContainer.h */,
+				89F7AAFF1F3725C5004D48D5 /* JHDanmakuContainer.m */,
+				89F7AB001F3725C5004D48D5 /* JHDanmakuEngine.h */,
+				89F7AB011F3725C5004D48D5 /* JHDanmakuEngine.m */,
+				89F7AB021F3725C5004D48D5 /* JHDanmakuMacroDefinition.h */,
+				89F7AB031F3725C5004D48D5 /* JHDanmakuRender.h */,
+				89F7AB041F3725C5004D48D5 /* JHDanmakuRender.podspec */,
+				89F7AB051F3725C5004D48D5 /* JHDisplayLink.h */,
+				89F7AB061F3725C5004D48D5 /* JHDisplayLink.m */,
+			);
+			path = JHDanmakuRender;
+			sourceTree = "<group>";
+		};
+		89F7AAF31F3725C5004D48D5 /* Danmaku */ = {
+			isa = PBXGroup;
+			children = (
+				89F7AAF41F3725C5004D48D5 /* JHBaseDanmaku.h */,
+				89F7AAF51F3725C5004D48D5 /* JHBaseDanmaku.m */,
+				89F7AAF61F3725C5004D48D5 /* JHFloatDanmaku.h */,
+				89F7AAF71F3725C5004D48D5 /* JHFloatDanmaku.m */,
+				89F7AAF81F3725C5004D48D5 /* JHScrollDanmaku.h */,
+				89F7AAF91F3725C5004D48D5 /* JHScrollDanmaku.m */,
+			);
+			path = Danmaku;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -949,9 +1055,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				89DDCFB11F2A3DB0007B83CA /* course in Resources */,
-				89D8F8061EB05A60009329AA /* OtherSettingSwitchTableViewCell.xib in Resources */,
 				89DDCFAF1F2A3DA3007B83CA /* web in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
+				89F7AB0E1F3725C5004D48D5 /* JHDanmakuRender.podspec in Resources */,
 				89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1016,12 +1122,14 @@
 				89D8F81F1EB0B112009329AA /* PlayerVideoControlView.m in Sources */,
 				894CBAAB1E6C073A0021253F /* HTTPServerViewController.m in Sources */,
 				89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */,
+				89F7AB0C1F3725C5004D48D5 /* JHDanmakuContainer.m in Sources */,
 				89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
 				89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */,
 				8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */,
-				89D8F8001EB0588F009329AA /* OtherSettingViewController.m in Sources */,
+				89D8F8001EB0588F009329AA /* SettingViewController.m in Sources */,
 				89F1733B1EB222E0006A2473 /* OtherSettingTitleSubtitleTableViewCell.m in Sources */,
+				89F7AB071F3725C5004D48D5 /* JHBaseDanmaku.m in Sources */,
 				891C22F41F0A296000B4661F /* SMBFileViewController.m in Sources */,
 				8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */,
 				899F5FA31F2349F20068A1DB /* SMBLoginHeaderView.m in Sources */,
@@ -1037,6 +1145,7 @@
 				8916C7C91EA8BB8D00A2233D /* OfficialSearchViewController.m in Sources */,
 				89350B101EAB059000072DA5 /* PlayerInterfaceView.m in Sources */,
 				8916C7BC1EA85DB400A2233D /* MatchTableViewCell.m in Sources */,
+				89F7AB0F1F3725C5004D48D5 /* JHDisplayLink.m in Sources */,
 				89E1EA051EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m in Sources */,
 				89A42EFB1EA5FF4400FA0DF3 /* JHBiliBiliSearchCollection.m in Sources */,
 				89350B181EAB125700072DA5 /* JHEdgeButton.m in Sources */,
@@ -1045,6 +1154,7 @@
 				89A467941F162C31001840C7 /* FileViewController.m in Sources */,
 				89A42EA41EA5B22A00FA0DF3 /* JHResponse.m in Sources */,
 				89E3F6101E585320007AB1BD /* MJRefreshHeader+Tools.m in Sources */,
+				89F7AB0A1F3725C5004D48D5 /* JHDanmakuCanvas.m in Sources */,
 				89350B081EAAFB9900072DA5 /* JHMediaPlayer.m in Sources */,
 				8916C7C21EA89A8A00A2233D /* MatchTitleTableViewCell.m in Sources */,
 				89E3F6191E58552D007AB1BD /* UIButton+Tools.m in Sources */,
@@ -1054,7 +1164,6 @@
 				89681B451F09157300103CFF /* RemoteSelectedView.m in Sources */,
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
 				899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */,
-				89D8F7F71EB04B12009329AA /* DanmakuSettingViewController.m in Sources */,
 				89DDCFB41F2A3EA6007B83CA /* WebViewController.m in Sources */,
 				89A42EBD1EA5EDE500FA0DF3 /* JHRelatedCollection.m in Sources */,
 				89BDE9111F1BA41D00B49EA8 /* FileManagerVideoTableViewCell.m in Sources */,
@@ -1082,26 +1191,34 @@
 				89A42E991EA5B0BA00FA0DF3 /* JHBase.m in Sources */,
 				89E3F5FF1E585135007AB1BD /* MatchNetManager.m in Sources */,
 				89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */,
+				89F7AB091F3725C5004D48D5 /* JHScrollDanmaku.m in Sources */,
 				89A42EEC1EA5F87500FA0DF3 /* JHUser.m in Sources */,
 				8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */,
 				894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */,
 				898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */,
-				894CBAA21E6BCA760021253F /* SettingViewController.m in Sources */,
+				894CBAA21E6BCA760021253F /* MineViewController.m in Sources */,
+				89E8C9991F3DDEF100CCF4BC /* JHSetting.m in Sources */,
 				89D8F7FA1EB04DA1009329AA /* DanmakuSelectedFontViewController.m in Sources */,
 				89E1EA021EADFD5400419C78 /* PlayerControlHeaderView.m in Sources */,
 				89E8341F1F1E1AF700E781EB /* PlayerInterfaceHolderView.m in Sources */,
 				89E3F6201E58583F007AB1BD /* BaseViewController.m in Sources */,
 				89D8F8051EB05A60009329AA /* OtherSettingSwitchTableViewCell.m in Sources */,
 				89B04F7B1E59C435007054CB /* JHHomePage.m in Sources */,
+				8981170C1F3343C700B34352 /* DownloadTableViewCell.m in Sources */,
+				89F7AB0B1F3725C5004D48D5 /* JHDanmakuClock.m in Sources */,
 				89A42EA01EA5B14100FA0DF3 /* JHFilterCollection.m in Sources */,
 				89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */,
+				8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */,
 				89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */,
+				8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */,
 				8939FB501EB397040063BBA1 /* FileManagerView.m in Sources */,
+				89F7AB0D1F3725C5004D48D5 /* JHDanmakuEngine.m in Sources */,
 				89E3F6161E5854A2007AB1BD /* UIImageView+Tools.m in Sources */,
 				89E1E9F71EADA04700419C78 /* FileManagerFolderPlayerListViewCell.m in Sources */,
 				89A42EC01EA5F09500FA0DF3 /* VideoModel.m in Sources */,
 				89A467971F162DDA001840C7 /* JHDefaultPageViewController.m in Sources */,
 				89A42EB71EA5EB4500FA0DF3 /* RelatedNetManager.m in Sources */,
+				8981170F1F334ECD00B34352 /* SettingDownloadTableViewCell.m in Sources */,
 				8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m in Sources */,
 				89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */,
 				89E3F6001E585135007AB1BD /* RecommedNetManager.m in Sources */,
@@ -1114,6 +1231,8 @@
 				89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* SearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */,
+				89E393E71F3DB6250010EAF0 /* DownloadStatusView.m in Sources */,
+				89F7AB081F3725C5004D48D5 /* JHFloatDanmaku.m in Sources */,
 				8913D7DD1ECC49E700B7975D /* PickerFileViewController.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
 				89E3F6011E585135007AB1BD /* SearchNetManager.m in Sources */,
@@ -1121,6 +1240,7 @@
 				89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */,
 				89681B361F08FAE400103CFF /* SMBViewController.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
+				8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
 				8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */,
 				89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */,
 			);

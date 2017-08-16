@@ -194,7 +194,7 @@
         _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.estimatedRowHeight = 44;
+        _tableView.estimatedRowHeight = 50;
         _tableView.backgroundColor = BACK_GROUND_COLOR;
         [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
@@ -210,10 +210,10 @@
             self.netbiosService = [[TONetBIOSNameService alloc] init];
             [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries addObject:entry];
-                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView reloadData];
             } removed:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries removeObject:entry];
-                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView reloadData];
             }];
             
             [self.tableView.mj_header endRefreshing];

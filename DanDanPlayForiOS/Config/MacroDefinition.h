@@ -58,4 +58,7 @@
 
 #define APP_LINK @"itms-apps://itunes.apple.com/app/id1189757764"
 
+//友盟appkey
+#define UMAPPKEY @"5825c795f29d9872ed0002ab"
+
 #endif /* MacroDefinition_h */

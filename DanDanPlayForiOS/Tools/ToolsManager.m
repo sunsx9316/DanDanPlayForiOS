@@ -212,7 +212,10 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
                 if (flag == YES) continue;
                 
                 //根目录
-                if ([parentURL isEqual:rootFile.fileURL]) {
+                NSURLRelationship ship;
+                [[NSFileManager defaultManager] getRelationship:&ship ofDirectoryAtURL:parentURL toItemAtURL:rootFile.fileURL error:nil];
+                
+                if (ship == NSURLRelationshipSame) {
                     aFile.parentFile = rootFile;
                     [rootFile.subFiles addObject:aFile];
                 }
@@ -429,6 +432,8 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     session.password = _smbInfo.password;
     session.userName = _smbInfo.userName;
     session.hostName = _smbInfo.hostName;
+    //最大下载任务数
+    session.maxTaskOperationCount = 3;
     self.SMBSession = session;
 }
 
@@ -477,6 +482,13 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     }
 }
 
+
+/**
+ 下载成功回调
+
+ @param downloadTask 任务
+ @param destinationPath 路径
+ */
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath {
     void(^completionAction)(NSString *destinationFilePath, NSError *error) = objc_getAssociatedObject(downloadTask, &smbCompletionBlockKey);
     if (completionAction) {
@@ -486,13 +498,22 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     [self removeAssociatedObjectWithTask:downloadTask];
 }
 
+
+/**
+ 连接失败回调
+
+ @param task 任务
+ @param error 错误
+ */
 - (void)task:(TOSMBSessionTask *)task didCompleteWithError:(NSError *)error {
-    void(^completionAction)(NSString *destinationFilePath, NSError *error) = objc_getAssociatedObject(task, &smbCompletionBlockKey);
-    if (completionAction) {
-        completionAction(nil, error);
-        [task removeObserverBlocks];
+    if (error) {
+        void(^completionAction)(NSString *destinationFilePath, NSError *error) = objc_getAssociatedObject(task, &smbCompletionBlockKey);
+        if (completionAction) {
+            completionAction(nil, error);
+            [task removeObserverBlocks];
+        }
+        [self removeAssociatedObjectWithTask:task];
     }
-    [self removeAssociatedObjectWithTask:task];
 }
 
 - (void)removeAssociatedObjectWithTask:(TOSMBSessionTask *)task {
