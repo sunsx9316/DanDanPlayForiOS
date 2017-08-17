@@ -94,8 +94,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     
     [[YYKeyboardManager defaultManager] addObserver:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
         if ([CacheManager shareCacheManager].subtitleProtectArea) {
@@ -404,18 +402,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 #pragma mark - 私有方法
-- (void)applicationDidEnterBackground {
-    if (self.player.isPlaying) {
-        [self.player pause];
-    }
-}
-
-- (void)applicationWillEnterForeground {
-    if (self.player.isPlaying == NO) {
-        [self.player play];
-    }
-}
-
 - (void)reload {
     //转换弹幕
     _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
@@ -790,7 +776,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (JHMediaPlayer *)player {
     if (_player == nil) {
-        _player = [[JHMediaPlayer alloc] init];
+        _player = [JHMediaPlayer sharePlayer];
         _player.delegate = self;
         [self.view addSubview:_player.mediaView];
     }

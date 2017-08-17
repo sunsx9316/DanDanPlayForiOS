@@ -109,6 +109,10 @@
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请允许弹弹play访问您的相册</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

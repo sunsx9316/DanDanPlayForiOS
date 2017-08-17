@@ -25,6 +25,14 @@
     JHMediaPlayerStatus _status;
 }
 
++ (instancetype)sharePlayer {
+    static dispatch_once_t onceToken;
+    static JHMediaPlayer *_player = nil;
+    dispatch_once(&onceToken, ^{
+        _player = [[JHMediaPlayer alloc] init];
+    });
+    return _player;
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"state"] && [change[NSKeyValueChangeNewKey] isEqual:change[NSKeyValueChangeOldKey]] == NO) {

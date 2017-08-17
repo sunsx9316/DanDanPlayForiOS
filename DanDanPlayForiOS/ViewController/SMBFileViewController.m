@@ -211,7 +211,7 @@
     JHEdgeButton *selectedButton = [[JHEdgeButton alloc] init];
     selectedButton.inset = CGSizeMake(10, 10);
     [selectedButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [selectedButton setTitle:@"选择" forState:UIControlStateNormal];
+    [selectedButton setTitle:@"下载" forState:UIControlStateNormal];
     [selectedButton setTitle:@"取消" forState:UIControlStateSelected];
     selectedButton.titleLabel.font = NORMAL_SIZE_FONT;
     [selectedButton sizeToFit];

@@ -23,7 +23,7 @@ target 'DanDanPlayForiOS' do
     pod 'MJRefresh'
     pod 'MBProgressHUD'
     pod 'GDataXML-HTML'
-    #pod 'JHDanmakuRender'
+    pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
     pod 'FDFullscreenPopGesture'
     pod 'RATreeView'

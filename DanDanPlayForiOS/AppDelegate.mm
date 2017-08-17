@@ -10,20 +10,25 @@
 #import "MainViewController.h"
 #import <IQKeyboardManager.h>
 #import <UMMobClick/MobClick.h>
+#import <AVFoundation/AVFoundation.h>
+#import "JHMediaPlayer.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+{
+    UIBackgroundTaskIdentifier _bgTaskId;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
     [self configIQKeyboardManager];
     [self configUM];
-    
-//    [CacheManager shareCacheManager].folderCache = nil;
+    [self configOther];
     
     MainViewController *vc = [[MainViewController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -34,9 +39,36 @@
     return YES;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+//进入后台
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    _bgTaskId = [AppDelegate backgroundPlayerID:_bgTaskId];
+    
+    
+    //设置锁屏界面
+    VideoModel *model = [CacheManager shareCacheManager].currentPlayVideoModel;
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    if (model.name.length) {
+        dict[MPMediaItemPropertyTitle] = model.name;
+    }
+    
+    UIImage *img = [[YYWebImageManager sharedManager].cache getImageForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:model.quickHash]]];
+    if (img) {
+        dict[MPMediaItemPropertyArtwork] = [[MPMediaItemArtwork alloc] initWithImage:img];
+    }
+    //设置歌曲时长
+    dict[MPMediaItemPropertyPlaybackDuration] = @([JHMediaPlayer sharePlayer].length);
+    //设置已经播放时长
+    dict[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @([JHMediaPlayer sharePlayer].currentTime);
+    
+    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -88,6 +120,76 @@
     UMConfigInstance.appKey = UMAPPKEY;
     UMConfigInstance.channelId = @"App Store";
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
+}
+
+- (void)configOther {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+}
+
+
++ (UIBackgroundTaskIdentifier)backgroundPlayerID:(UIBackgroundTaskIdentifier)backTaskId {
+    //设置并激活音频会话类别
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [session setActive:YES error:nil];
+    //允许应用程序接收远程控制
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    //设置后台任务ID
+    UIBackgroundTaskIdentifier newTaskId = UIBackgroundTaskInvalid;
+    newTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+    if(newTaskId != UIBackgroundTaskInvalid && backTaskId != UIBackgroundTaskInvalid) {
+        [[UIApplication sharedApplication] endBackgroundTask:backTaskId];
+    }
+    return newTaskId;
+}
+
+- (void)handleInterreption:(NSNotification *)aNotification {
+    BOOL interruption = [aNotification.userInfo[AVAudioSessionInterruptionTypeKey] boolValue];
+    
+    //中断
+    if (interruption) {
+        if ([JHMediaPlayer sharePlayer].isPlaying) {
+            [[JHMediaPlayer sharePlayer] pause];
+        }
+    }
+    //恢复
+    else {
+        if ([JHMediaPlayer sharePlayer].isPlaying == NO) {
+            [[JHMediaPlayer sharePlayer] play];
+        }
+    }
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    JHMediaPlayer *player = [JHMediaPlayer sharePlayer];
+    switch (event.subtype) {
+        case UIEventSubtypeRemoteControlPlay:
+        {
+            if (player.isPlaying == NO) {
+                [player play];
+            }
+        }
+            break;
+        case UIEventSubtypeRemoteControlPause:
+        {
+            if (player.isPlaying == YES) {
+                [player pause];
+            }
+        }
+            break;
+        case UIEventSubtypeRemoteControlTogglePlayPause:
+        {
+            if (player.isPlaying == YES) {
+                [player pause];
+            }
+            else {
+                [player play];
+            }
+        }
+            
+        default:
+            break;
+    }
 }
 
 @end

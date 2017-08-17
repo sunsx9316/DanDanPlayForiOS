@@ -60,6 +60,7 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
 
 
 @interface JHMediaPlayer : NSObject
++ (instancetype)sharePlayer;
 @property (strong, nonatomic) UIView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
