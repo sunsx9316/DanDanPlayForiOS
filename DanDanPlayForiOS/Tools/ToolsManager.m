@@ -14,6 +14,7 @@
 #import <HTTPServer.h>
 #import <TOSMBSession.h>
 #import <TOSMBSessionFile.h>
+#import "NSURL+Tools.h"
 
 CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -23,6 +24,10 @@ CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     });
     return _danmakuTypes;
 };
+
+UIKIT_EXTERN JHFile *jh_getANewRootFile() {
+    return [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
+}
 
 UIKIT_EXTERN DanDanPlayDanmakuType jh_danmakuStringToType(NSString *string) {
     if ([string isEqualToString: @"acfun"]) {
@@ -52,27 +57,28 @@ UIKIT_EXTERN NSString *jh_danmakuTypeToString(DanDanPlayDanmakuType type) {
 }
 
 UIKIT_EXTERN BOOL jh_isSubTitleFile(NSString *aURL) {
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        _subtitles = @[@"SSA", @"ASS", @"SMI", @"SRT", @"SUB", @"LRC", @"SST", @"TXT", @"XSS", @"PSB", @"SSB"];
-//    });
-//    
-//    NSString *pathExtension = aURL.pathExtension;
-//    __block BOOL flag = NO;
-//    [_subtitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
-//            flag = YES;
-//            *stop = YES;
-//        }
-//    }];
-//    
-//    return flag;
+    static dispatch_once_t onceToken;
+    static NSArray *_subtitles = nil;
+    dispatch_once(&onceToken, ^{
+        _subtitles = @[@"SSA", @"ASS", @"SMI", @"SRT", @"SUB", @"LRC", @"SST", @"TXT", @"XSS", @"PSB", @"SSB"];
+    });
     
-    CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
-    CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
-    BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeText);
-    CFRelease(fileUTI);
+    NSString *pathExtension = aURL.pathExtension;
+    __block BOOL flag = NO;
+    [_subtitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            flag = YES;
+            *stop = YES;
+        }
+    }];
+    
     return flag;
+    
+//        CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
+//        CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
+//        BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeText);
+//        CFRelease(fileUTI);
+//        return flag;
 };
 
 UIKIT_EXTERN BOOL jh_isVideoFile(NSString *aURL) {
@@ -98,13 +104,17 @@ UIKIT_EXTERN BOOL jh_isDanmakuFile(NSString *aURL) {
     return flag;
 };
 
+UIKIT_EXTERN BOOL jh_isRootFile(NSURL *url) {
+    return [url relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
+};
+
 static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
 static NSString *const tempImageKey = @"temp_image";
 static NSString *const smbProgressBlockKey = @"smb_progress_block";
 static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 
 @interface ToolsManager ()<VLCMediaThumbnailerDelegate, TOSMBSessionDownloadTaskDelegate>
-@property (strong, nonatomic) NSMutableArray <JHFile *>*videoArray;
+//@property (strong, nonatomic) NSMutableArray <JHFile *>*videoArray;
 @property (strong, nonatomic) VLCMediaThumbnailer *thumbnailer;
 @property (strong, nonatomic) NSMutableSet <VideoModel *>*parseVideo;
 @end
@@ -156,86 +166,93 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 }
 
 #pragma mark - 本地文件
-
-- (void)startDiscovererVideoWithFile:(JHFile *)file completion:(GetFilesAction)completion {
+- (void)startDiscovererVideoWithFile:(JHFile *)file
+                                type:(PickerFileType)type
+                          completion:(GetFilesAction)completion {
+    //    JHFile *rootFile = [CacheManager shareCacheManager].rootFile;
+    JHFile *rootFile = jh_getANewRootFile();
+    //    [rootFile.subFiles removeAllObjects];
     
-    JHFile *rootFile = [CacheManager shareCacheManager].rootFile;
-    [rootFile.subFiles removeAllObjects];
+    //    if (type == PickerFileTypeAll) {
+    //        [self.videoArray removeAllObjects];
+    //    }
     
     NSFileManager* manager = [NSFileManager defaultManager];
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
-        
-        NSMutableDictionary <NSString *, JHFile *>*folderDic = [NSMutableDictionary dictionary];
-        
-        //用户自定义的目录 存储文件的quickHash
-        NSMutableDictionary *folderCache = [CacheManager shareCacheManager].folderCache;
-        
-        JHFile *(^getParentFileAction)(NSURL *, NSString *) = ^(NSURL *parentURL, NSString *key) {
-            if ([key isEqualToString:@"/"]) {
-                return rootFile;
-            }
-            
-            JHFile *parentFile = folderDic[key];
-            if (parentFile == nil) {
-                parentFile = [[JHFile alloc] initWithFileURL:parentURL type:JHFileTypeFolder];
-                parentFile.parentFile = rootFile;
-                folderDic[key] = parentFile;
-            }
-            return parentFile;
-        };
-        
-        for (NSURL *aURL in childFilesEnumerator) {
-            if (jh_isVideoFile(aURL.absoluteString)) {
-                JHFile *aFile = [[JHFile alloc] initWithFileURL:aURL type:JHFileTypeDocument];
-                //方便搜索
-                [self.videoArray addObject:aFile];
-                
-                NSURL *parentURL = [aURL URLByDeletingLastPathComponent];
-                NSString *parentFileType = [[[NSFileManager defaultManager] attributesOfItemAtPath:parentURL.path error:nil] fileType];
-                
-                __block BOOL flag = NO;
-                [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
-                    //如果文件被用户转移过
-                    if ([obj containsObject:aFile.videoModel.quickHash]) {
-                        JHFile *parentFile = getParentFileAction([rootFile.fileURL URLByAppendingPathComponent:key], key);
-                        aFile.parentFile = parentFile;
-                        [parentFile.subFiles addObject:aFile];
-                        
-                        flag = YES;
-                        *stop = YES;
-                    }
-                }];
-                
-                //用户已经转移 则不进行之后的操作
-                if (flag == YES) continue;
-                
-                //根目录
-                NSURLRelationship ship;
-                [[NSFileManager defaultManager] getRelationship:&ship ofDirectoryAtURL:parentURL toItemAtURL:rootFile.fileURL error:nil];
-                
-                if (ship == NSURLRelationshipSame) {
-                    aFile.parentFile = rootFile;
-                    [rootFile.subFiles addObject:aFile];
-                }
-                //上层目录是文件夹则创建文件夹
-                else if ([parentFileType isEqualToString:NSFileTypeDirectory]) {
-                    JHFile *parentFile = getParentFileAction(parentURL, parentURL.lastPathComponent);
-                    aFile.parentFile = parentFile;
-                    [parentFile.subFiles addObject:aFile];
-                }
-            }
+    NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+    
+    NSMutableDictionary <NSString *, JHFile *>*folderDic = [NSMutableDictionary dictionary];
+    
+    //用户自定义的目录 存储文件的quickHash
+    NSMutableDictionary *folderCache = [CacheManager shareCacheManager].folderCache;
+    
+    JHFile *(^getParentFileAction)(NSURL *, NSString *) = ^(NSURL *parentURL, NSString *key) {
+        if ([key isEqualToString:@"/"]) {
+            return rootFile;
         }
         
-        [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
-        
-        //把文件夹排在前面
-        [rootFile.subFiles sortUsingComparator:^NSComparisonResult(JHFile * _Nonnull obj1, JHFile * _Nonnull obj2) {
-            return obj2.type - obj1.type;
-        }];
-        
-        __block JHFile *tempFile = rootFile;
+        JHFile *parentFile = folderDic[key];
+        if (parentFile == nil) {
+            parentFile = [[JHFile alloc] initWithFileURL:parentURL type:JHFileTypeFolder];
+            parentFile.parentFile = rootFile;
+            folderDic[key] = parentFile;
+        }
+        return parentFile;
+    };
+    
+    for (NSURL *aURL in childFilesEnumerator) {
+        if (((type & PickerFileTypeVideo) && jh_isVideoFile(aURL.absoluteString)) ||
+            ((type & PickerFileTypeSubtitle) && jh_isSubTitleFile(aURL.absoluteString)) ||
+            ((type & PickerFileTypeDanmaku) && jh_isDanmakuFile(aURL.absoluteString))) {
+            JHFile *aFile = [[JHFile alloc] initWithFileURL:aURL type:JHFileTypeDocument];
+            
+            NSURL *parentURL = [aURL URLByDeletingLastPathComponent];
+            NSString *parentFileType = [[[NSFileManager defaultManager] attributesOfItemAtPath:parentURL.path error:nil] fileType];
+            
+            __block BOOL flag = NO;
+            [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
+                //如果文件被用户转移过
+                if ([obj containsObject:aFile.videoModel.quickHash]) {
+                    JHFile *parentFile = getParentFileAction([rootFile.fileURL URLByAppendingPathComponent:key], key);
+                    aFile.parentFile = parentFile;
+                    [parentFile.subFiles addObject:aFile];
+                    
+                    flag = YES;
+                    *stop = YES;
+                }
+            }];
+            
+            //用户已经转移 则不进行之后的操作
+            if (flag == YES) continue;
+            
+            //根目录
+            if ([parentURL relationshipWithURL:rootFile.fileURL] == NSURLRelationshipSame) {
+                aFile.parentFile = rootFile;
+                [rootFile.subFiles addObject:aFile];
+            }
+            //上层目录是文件夹则创建文件夹
+            else if ([parentFileType isEqualToString:NSFileTypeDirectory]) {
+                JHFile *parentFile = getParentFileAction(parentURL, parentURL.lastPathComponent);
+                aFile.parentFile = parentFile;
+                [parentFile.subFiles addObject:aFile];
+            }
+        }
+    }
+    
+    [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
+    
+    //把文件夹排在前面
+    [rootFile.subFiles sortUsingComparator:^NSComparisonResult(JHFile * _Nonnull obj1, JHFile * _Nonnull obj2) {
+        return obj2.type - obj1.type;
+    }];
+    
+    if (jh_isRootFile(file.fileURL)) {
+        if (completion) {
+            completion(rootFile);
+        }
+    }
+    else {
+        __block JHFile *tempFile = nil;
         [rootFile.subFiles enumerateObjectsUsingBlock:^(__kindof JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj.fileURL isEqual:file.fileURL]) {
                 tempFile = obj;
@@ -243,12 +260,10 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
             }
         }];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(tempFile);
-            }
-        });
-    });
+        if (completion) {
+            completion(tempFile);
+        }
+    }
 }
 
 - (void)startDiscovererFileWithType:(PickerFileType)type completion:(GetFilesAction)completion {
@@ -258,7 +273,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         NSFileManager *manager = [NSFileManager defaultManager];
         NSMutableDictionary *folderDic = [NSMutableDictionary dictionary];
         
-        JHFile *rootFile = [[JHFile alloc] initWithFileURL:[CacheManager shareCacheManager].rootFile.fileURL type:JHFileTypeFolder];
+        JHFile *rootFile = jh_getANewRootFile();
         
         JHFile *(^getParentFileAction)(NSURL *) = ^(NSURL *parentURL) {
             if ([parentURL isEqual:rootFile.fileURL]) {
@@ -307,7 +322,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 
 - (void)moveFiles:(NSArray <JHFile *>*)files toFolder:(NSString *)folderName {
     if (files.count == 0) return;
-
+    
     //转移文件的hash数组
     NSMutableArray <NSString *>*hashArr = [NSMutableArray array];
     [files enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -345,7 +360,9 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     [[CacheManager shareCacheManager] setFolderCache:folderCache];
 }
 
-- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetFilesAction)completion {
+- (void)startSearchVideoWithRootFile:(JHFile *)file
+                           searchKey:(NSString *)key
+                          completion:(GetFilesAction)completion {
     
     if (completion == nil) return;
     
@@ -356,21 +373,27 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         return;
     }
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"videoModel.fileNameWithPathExtension CONTAINS[c] %@", key];
+    NSMutableArray *arr = [NSMutableArray array];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", key];
+    
+    for (NSInteger i = 0; i < file.subFiles.count; ++i) {
+        JHFile *obj = file.subFiles[i];
+        if (obj.type == JHFileTypeFolder) {
+            [file.subFiles removeObject:obj];
+            [file.subFiles addObjectsFromArray:obj.subFiles];
+            i--;
+        }
+        else if ([pred evaluateWithObject:obj.fileURL.lastPathComponent]) {
+            [arr addObject:obj];
+        }
+    }
+    
     JHFile *aFile = [[JHFile alloc] initWithFileURL:nil type:JHFileTypeFolder];
-    aFile.subFiles = [[self.videoArray filteredArrayUsingPredicate:pred] mutableCopy];
+    aFile.subFiles = arr;
     completion(aFile);
 }
 
 #pragma mark - SMB
-//+ (TOSMBSession *)shareSMBSession {
-//    static dispatch_once_t onceToken;
-//    static TOSMBSession *_session = nil;
-//    dispatch_once(&onceToken, ^{
-//        _session = [[TOSMBSession alloc] init];
-//    });
-//    return _session;
-//}
 
 - (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
                                       completion:(GetSMBFilesAction)completion {
@@ -385,6 +408,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     //根目录
     if (parentFile == nil) {
         parentFile = [[JHSMBFile alloc] initWithFileURL:[NSURL URLWithString:@"/"] type:JHFileTypeFolder];
+        parentFile.relativeURL = [NSURL URLWithString:@"/"];
     }
     
     //对路径进行url解码
@@ -399,18 +423,21 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
             if (obj.directory) {
                 [aFolders addObject:file];
             }
-            else if(fileType == PickerFileTypeSubtitle) {
-                if (jh_isSubTitleFile(obj.filePath)) {
+            else {                
+                if (fileType == PickerFileTypeAll) {
                     [aFiles addObject:file];
                 }
-            }
-            else if(fileType == PickerFileTypeDanmaku) {
-                if (jh_isDanmakuFile(obj.filePath)) {
-                    [aFiles addObject:file];
+                else {
+                    if(fileType & PickerFileTypeVideo && jh_isVideoFile(obj.filePath)) {
+                        [aFiles addObject:file];
+                    }
+                    else if(fileType & PickerFileTypeSubtitle && jh_isSubTitleFile(obj.filePath)) {
+                        [aFiles addObject:file];
+                    }
+                    else if(fileType & PickerFileTypeDanmaku && jh_isDanmakuFile(obj.filePath)) {
+                        [aFiles addObject:file];
+                    }
                 }
-            }
-            else {
-                [aFiles addObject:file];
             }
         }];
         
@@ -427,13 +454,16 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 }
 
 - (void)setSmbInfo:(JHSMBInfo *)smbInfo {
+    [self.SMBSession cancelAllRequests];
     _smbInfo = smbInfo;
     TOSMBSession *session = [[TOSMBSession alloc] init];
     session.password = _smbInfo.password;
     session.userName = _smbInfo.userName;
     session.hostName = _smbInfo.hostName;
     //最大下载任务数
-    session.maxTaskOperationCount = 3;
+    session.maxTaskOperationCount = 5;
+//    dispatch_queue_t serialQueue = dispatch_queue_create("com.dandanplay.smbdownload", DISPATCH_QUEUE_SERIAL);
+//    [session setValue:serialQueue forKey:@"serialQueue"];
     self.SMBSession = session;
 }
 
@@ -485,7 +515,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 
 /**
  下载成功回调
-
+ 
  @param downloadTask 任务
  @param destinationPath 路径
  */
@@ -501,7 +531,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 
 /**
  连接失败回调
-
+ 
  @param task 任务
  @param error 错误
  */
@@ -608,11 +638,11 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     return _parseVideo;
 }
 
-- (NSMutableArray<JHFile *> *)videoArray {
-    if (_videoArray == nil) {
-        _videoArray = [NSMutableArray array];
-    }
-    return _videoArray;
-}
+//- (NSMutableArray<JHFile *> *)videoArray {
+//    if (_videoArray == nil) {
+//        _videoArray = [NSMutableArray array];
+//    }
+//    return _videoArray;
+//}
 
 @end

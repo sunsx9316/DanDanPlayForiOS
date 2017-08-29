@@ -12,6 +12,11 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *view = [super hitTest:point withEvent:event];
+    
+    if (self.touchViewCallBack) {
+        self.touchViewCallBack();
+    }
+    
     if (view == self) {
         return nil;
     }

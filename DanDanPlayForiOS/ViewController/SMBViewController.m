@@ -23,16 +23,24 @@
 
 @implementation SMBViewController
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.netbiosService stopDiscovery];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"浏览电脑文件";
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
-    
-    if (self.tableView.mj_header.refreshingBlock) {
-        self.tableView.mj_header.refreshingBlock();
-    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -78,7 +86,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40;
+    if (section == 0) {
+        return 40;
+    }
+    
+    if (([CacheManager shareCacheManager].SMBInfos.count)) {
+        return 40;
+    }
+    return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -86,13 +101,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
-            JHSMBInfo *info = [[JHSMBInfo alloc] init];
-            info.hostName = entry.name;
-            [self showAlertViewControllerWithModel:info];
-        });
+        TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
+        JHSMBInfo *info = [[JHSMBInfo alloc] init];
+        info.hostName = entry.name;
+        [self showAlertViewControllerWithModel:info];
     }
     //点击历史
     else if (indexPath.section == 1) {
@@ -112,8 +127,8 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
     if (section == 0) {
+        SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
         view.titleLabel.text = @"本地服务器";
         @weakify(self)
         [view setTouchAddButtonCallback:^{
@@ -123,12 +138,17 @@
             [self showAlertViewControllerWithModel:nil];
         }];
         view.addButton.hidden = NO;
+        return view;
     }
-    else {
+    
+    if ([CacheManager shareCacheManager].SMBInfos.count) {
+        SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
         view.titleLabel.text = @"登录历史";
         view.addButton.hidden = YES;
+        return view;
     }
-    return view;
+    
+    return nil;
 }
 
 #pragma mark - 私有方法
@@ -139,7 +159,7 @@
         [MBProgressHUD hideLoading];
         
         if (error) {
-            [MBProgressHUD showWithText:@"连接失败"];
+            [MBProgressHUD showWithError:error];
             [ToolsManager shareToolsManager].smbInfo = nil;
         }
         else {
@@ -174,15 +194,18 @@
     [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"服务器 例如:xiaoming 不区分大小写";
         textField.text = model.hostName;
+        textField.font = NORMAL_SIZE_FONT;
     }];
     
     [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"用户名";
+        textField.font = NORMAL_SIZE_FONT;
     }];
     
     [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"密码";
         textField.secureTextEntry = YES;
+        textField.font = NORMAL_SIZE_FONT;
     }];
     
     [self presentViewController:vc animated:YES completion:nil];
@@ -199,18 +222,21 @@
         [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
         _tableView.tableFooterView = [[UIView alloc] init];
+        
         @weakify(self)
-        _tableView.mj_header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{
             @strongify(self)
             if (!self) return;
             
             [self.netbiosService stopDiscovery];
             [self.nameServiceEntries removeAllObjects];
+            [self.tableView reloadData];
             
             self.netbiosService = [[TONetBIOSNameService alloc] init];
             [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries addObject:entry];
                 [self.tableView reloadData];
+                
             } removed:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries removeObject:entry];
                 [self.tableView reloadData];
@@ -218,6 +244,11 @@
             
             [self.tableView.mj_header endRefreshing];
         }];
+        
+        [header setTitle:@"下拉扫描本地SMB服务器（￣工￣）" forState:MJRefreshStateIdle];
+        [header setTitle:@"松手扫描(￣▽￣)" forState:MJRefreshStatePulling];
+        [header setTitle:@"扫描中... (　´_ゝ｀)" forState:MJRefreshStateRefreshing];
+        _tableView.mj_header = header;
         
         [self.view addSubview:_tableView];
     }

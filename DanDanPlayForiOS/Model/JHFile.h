@@ -17,8 +17,8 @@ typedef NS_ENUM(NSUInteger, JHFileType) {
 
 
 @interface JHFile : JHBase
-@property (assign, nonatomic, readonly) JHFileType type;
-@property (strong, nonatomic, readonly) NSURL *fileURL;
+@property (assign, nonatomic) JHFileType type;
+@property (strong, nonatomic) NSURL *fileURL;
 @property (strong, nonatomic, readonly) VideoModel *videoModel;
 - (instancetype)initWithFileURL:(NSURL *)fileURL type:(JHFileType)type;
 

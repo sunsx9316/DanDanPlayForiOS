@@ -9,11 +9,14 @@
 #import "JHSMBFile.h"
 #import "SMBVideoModel.h"
 
+@interface JHSMBFile ()
+@property (strong, nonatomic, readwrite) TOSMBSessionFile *sessionFile;
+@end
+
 @implementation JHSMBFile
 {
     SMBVideoModel *_videoModel;
     TOSMBSessionFile *_sessionFile;
-    NSString *_quickHash;
 }
 
 - (instancetype)initWithSMBSessionFile:(TOSMBSessionFile *)file {
@@ -28,7 +31,10 @@
 }
 
 - (NSURL *)relativeURL {
-    return [NSURL URLWithString:[_sessionFile.filePath stringByURLEncode]];
+    if (_relativeURL == nil) {
+        _relativeURL = [NSURL URLWithString:[_sessionFile.filePath stringByURLEncode]];
+    }
+    return _relativeURL;
 }
 
 - (VideoModel *)videoModel {

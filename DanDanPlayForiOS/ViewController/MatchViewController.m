@@ -45,9 +45,7 @@
         make.top.equalTo(self.searchBar.mas_bottom);
     }];
     
-    if (self.treeView.jh_tableView.mj_header.refreshingBlock) {
-        self.treeView.jh_tableView.mj_header.refreshingBlock();
-    }
+    [self.treeView.jh_tableView.mj_header beginRefreshing];
     
 }
 

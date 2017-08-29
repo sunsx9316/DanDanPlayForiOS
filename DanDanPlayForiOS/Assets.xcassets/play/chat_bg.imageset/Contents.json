@@ -13,14 +13,14 @@
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 26,
-          "top" : 25,
-          "right" : 44,
-          "left" : 8
+          "bottom" : 34,
+          "top" : 34,
+          "right" : 34,
+          "left" : 34
         }
       },
       "idiom" : "universal",
-      "filename" : "selected_bg@2x.png",
+      "filename" : "chat_bg@2x.png",
       "scale" : "2x"
     },
     {

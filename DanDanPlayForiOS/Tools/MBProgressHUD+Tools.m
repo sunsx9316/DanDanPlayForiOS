@@ -31,7 +31,9 @@ static MBProgressHUD *progressHUD = nil;
 }
 
 + (void)showWithError:(NSError *)error {
-    [self showWithText:error.domain atView:nil];
+    NSString *errStr = error.userInfo[NSLocalizedDescriptionKey];
+    
+    [self showWithText:errStr.length ? errStr : error.domain atView:nil];
 }
 
 + (void)showLoadingInView:(UIView *)view text:(NSString *)text {

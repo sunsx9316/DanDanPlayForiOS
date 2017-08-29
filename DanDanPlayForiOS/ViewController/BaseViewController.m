@@ -36,7 +36,7 @@
     JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
     backButton.inset = CGSizeMake(10, 10);
     [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"barbuttonicon_back"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"back_item"] forState:UIControlStateNormal];
     [backButton sizeToFit];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = item;

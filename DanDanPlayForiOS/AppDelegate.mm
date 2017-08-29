@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import <IQKeyboardManager.h>
-#import <UMMobClick/MobClick.h>
+#import <Bugly/Bugly.h>
 #import <AVFoundation/AVFoundation.h>
 #import "JHMediaPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -26,8 +26,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
+//    [CacheManager shareCacheManager].folderCache = nil;
     [self configIQKeyboardManager];
-    [self configUM];
+    [self configBugly];
     [self configOther];
     
     MainViewController *vc = [[MainViewController alloc] init];
@@ -116,10 +117,8 @@
     manager.shouldResignOnTouchOutside = YES;
 }
 
-- (void)configUM {
-    UMConfigInstance.appKey = UMAPPKEY;
-    UMConfigInstance.channelId = @"App Store";
-    [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
+- (void)configBugly {
+    [Bugly startWithAppId:BUGLYKEY];
 }
 
 - (void)configOther {

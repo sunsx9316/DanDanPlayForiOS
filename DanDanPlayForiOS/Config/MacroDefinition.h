@@ -9,13 +9,12 @@
 #ifndef MacroDefinition_h
 #define MacroDefinition_h
 
-//#ifdef DEBUG
-//#define API_DOMAIN @"http://acplay.net/api/"
-//#define API_VERSION @"v1"
-//
-//#define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
-//
-//#else
+#ifdef DEBUG
+#define NSLog(...) printf("%s\n", [[NSString stringWithFormat:__VA_ARGS__]UTF8String]);
+#else
+#define NSLog(format, ...)
+#endif
+
 
 #define API_DOMAIN @"https://api.acplay.net/api/"
 #define API_VERSION @"v1"
@@ -55,10 +54,13 @@
 //通知文件列表刷新
 #define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
 #define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
+//删除文件
+#define DELETE_FILE_SUCCESS_NOTICE @"delete_file_success"
+#define MOVE_FILE_SUCCESS_NOTICE @"move_file_success"
 
 #define APP_LINK @"itms-apps://itunes.apple.com/app/id1189757764"
 
-//友盟appkey
-#define UMAPPKEY @"5825c795f29d9872ed0002ab"
+//bugly appkey
+#define BUGLYKEY @"5a3d1ad706"
 
 #endif /* MacroDefinition_h */

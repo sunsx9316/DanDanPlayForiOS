@@ -18,6 +18,9 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+        self.selectedBackgroundView = [[UIView alloc] init];
+        
         [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
@@ -40,10 +43,24 @@
     
     [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
     if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.quickHash] == NO) {
+        @weakify(self)
         [[ToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
+            @strongify(self)
+            if (!self) return;
+            
             [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
         }];
     }
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    self.grayView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    self.grayView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
 }
 
 #pragma mark - 懒加载

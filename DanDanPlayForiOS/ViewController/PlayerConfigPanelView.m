@@ -13,9 +13,9 @@
 #import "FileManagerPlayerListView.h"
 #import "SMBVideoModel.h"
 
-#import "PickerFileViewController.h"
+//#import "PickerFileViewController.h"
 
-@interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate, FileManagerViewDelegate>
+@interface PlayerConfigPanelView ()<WMMenuViewDataSource, WMMenuViewDelegate, FileManagerPlayerListViewDelegete>
 @property (strong, nonatomic) WMMenuView *menu;
 @property (strong, nonatomic) FileManagerPlayerListView *listView;
 @property (strong, nonatomic) PlayerDanmakuControlView *danmakuControlView;
@@ -60,7 +60,11 @@
         if (flag) {
             [self animate:^{
                 [self layoutIfNeeded];
+                [self.listView scrollToCurrentFile];
             } completion:nil];
+        }
+        else {
+            [self.listView scrollToCurrentFile];
         }
     }
 }
@@ -143,8 +147,8 @@
     return @"播放器";
 }
 
-#pragma mark - FileManagerViewDelegate
-- (void)managerView:(FileManagerView *)managerView didselectedModel:(JHFile *)file {
+#pragma mark - FileManagerPlayerListViewDelegete
+- (void)managerView:(FileManagerPlayerListView *)managerView didselectedModel:(JHFile *)file {
     if ([self.delegate respondsToSelector:@selector(playerConfigPanelView:didSelectedModel:)]) {
         [self.delegate playerConfigPanelView:self didSelectedModel:file.videoModel];
     }

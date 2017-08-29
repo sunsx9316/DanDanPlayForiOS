@@ -56,11 +56,15 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
 - (void)mediaPlayer:(JHMediaPlayer *)player progress:(float)progress currentTime:(NSString *)currentTime totalTime:(NSString *)totalTime;
 
 - (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status;
+
+- (void)mediaPlayer:(JHMediaPlayer *)player rateChange:(float)rate;
 @end
 
 
 @interface JHMediaPlayer : NSObject
+
 + (instancetype)sharePlayer;
+
 @property (strong, nonatomic) UIView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
@@ -68,6 +72,7 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
 @property (strong, nonatomic, readonly) NSArray *subtitleIndexs;
 @property (strong, nonatomic, readonly) NSArray *subtitleTitles;
 @property (assign, nonatomic) int currentSubtitleIndex;
+@property (assign, nonatomic) float speed;
 /**
  *  位置 0 ~ 1
  */

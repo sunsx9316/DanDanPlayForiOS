@@ -7,7 +7,7 @@
 //
 
 #import "PlayerDanmakuControlView.h"
-#import "PickerFileViewController.h"
+//#import "PickerFileViewController.h"
 
 #import "BaseTableView.h"
 #import "PlayerSliderTableViewCell.h"
@@ -15,6 +15,7 @@
 #import "PlayerShadowStyleTableViewCell.h"
 #import "PlayerStepTableViewCell.h"
 #import "FileManagerFolderPlayerListViewCell.h"
+#import "UIFont+Tools.h"
 
 @interface PlayerDanmakuControlView ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -49,19 +50,51 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    @weakify(self)
     if (indexPath.section == 0) {
         PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
         cell.type = PlayerSliderTableViewCellTypeFontSize;
+        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
+            @strongify(self)
+            if (!self) return;
+            
+            NSInteger value = aCell.slider.value;
+            UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
+            UIFont *tempFont = [danmakuFont fontWithSize:value];
+            tempFont.isSystemFont = danmakuFont.isSystemFont;
+            [CacheManager shareCacheManager].danmakuFont = tempFont;
+            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)value];
+        };
         return cell;
     }
     else if (indexPath.section == 1) {
         PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
         cell.type = PlayerSliderTableViewCellTypeSpeed;
+        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
+            @strongify(self)
+            if (!self) return;
+            
+            UISlider *slider = aCell.slider;
+            
+            [CacheManager shareCacheManager].danmakuSpeed = slider.value;
+            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", slider.value];
+            aCell.currentValueLabel.textColor = slider.value == slider.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
+        };
         return cell;
     }
     else if (indexPath.section == 2) {
         PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
         cell.type = PlayerSliderTableViewCellTypeOpacity;
+        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
+            @strongify(self)
+            if (!self) return;
+            
+            UISlider *slider = aCell.slider;
+            
+            [CacheManager shareCacheManager].danmakuOpacity = slider.value;
+            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", slider.value];
+        };
+        
         return cell;
     }
     else if (indexPath.section == 3) {
@@ -76,7 +109,7 @@
     else if (indexPath.section == 5) {
         FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
         cell.titleLabel.textAlignment = NSTextAlignmentCenter;
-        cell.titleLabel.text = @"选择本地弹幕...";
+        cell.titleLabel.text = @"手动加载弹幕...";
         return cell;
     }
     else if (indexPath.section == 6) {
@@ -90,6 +123,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 5 && self.touchSelectedDanmakuCellCallBack) {
         self.touchSelectedDanmakuCellCallBack();
     }

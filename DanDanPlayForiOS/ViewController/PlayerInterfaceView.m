@@ -11,28 +11,26 @@
 #import "JHBlurView.h"
 #import "JHEdgeButton.h"
 
+#import <YYKeyboardManager.h>
+
+#define AUTO_DISS_MISS_TIME 3.5f
+
 @interface PlayerInterfaceView ()
 
 @property (strong, nonatomic) NSTimer *timer;
 
 @property (strong, nonatomic) PlayerInterfaceHolderView *interfaceHoldView;
 /**
- 弹幕开关
- */
-@property (strong, nonatomic) UILabel *switchLabel;
-
-/**
  设置按钮
  */
 @property (strong, nonatomic) JHEdgeButton *settingButton;
-@property (strong, nonatomic) JHEdgeButton *sendDanmakuConfigButton;
+@property (strong, nonatomic) UIButton *sendDanmakuButton;
 @end
 
 @implementation PlayerInterfaceView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        
         _show = YES;
         
         [self.gestureView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -60,36 +58,21 @@
         }];
         
         @weakify(self)
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:2 block:^(NSTimer * _Nonnull timer) {
+        self.timer = [NSTimer timerWithTimeInterval:AUTO_DISS_MISS_TIME block:^(NSTimer * _Nonnull timer) {
             @strongify(self)
             if (!self) return;
             
             [self dismissWithAnimate:YES];
-        } repeats:NO];
+            timer.fireDate = [NSDate distantFuture];
+        } repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        [self resetTimer];
     }
     return self;
 }
 
 - (instancetype)init {
     return [self initWithFrame:CGRectZero];
-}
-
-- (void)expandDanmakuTextField {
-    [self.sendDanmakuTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_offset(15);
-        make.height.mas_equalTo(35 + jh_isPad() * 10);
-        make.left.mas_offset(20);
-    }];
-}
-
-- (void)packUpDanmakuTextField {
-    [self.sendDanmakuTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_offset(15);
-        make.height.mas_equalTo(35 + jh_isPad() * 10);
-        make.width.mas_equalTo(70);
-    }];
-    
-    self.sendDanmakuTextField.text = nil;
 }
 
 - (void)showWithAnimate:(BOOL)flag {
@@ -137,6 +120,7 @@
     }
 }
 
+
 #pragma mark - 私有方法
 - (void)touchSettingButton:(UIButton *)button {
     if (self.configPanelView.isShow) {
@@ -144,6 +128,7 @@
     }
     else {
         [self.configPanelView showWithAnimate:NO];
+        [self pauserTimer];
     }
     
     [self animate:^{
@@ -151,19 +136,28 @@
     } completion:nil];
 }
 
-- (void)touchSendDanmakuConfigButton:(UIButton *)sender {
-    [self.sendDanmakuConfigView show];
-    [self endEditing:YES];
-}
-
 - (void)animate:(dispatch_block_t)animateBlock completion:(void (^)(BOOL finished))completion {
     [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:8 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:animateBlock completion:completion];
+}
+
+- (void)touchSendDanmakuButton:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(interfaceViewDidTouchSendDanmakuButton)]) {
+        [self.delegate interfaceViewDidTouchSendDanmakuButton];
+    }
+}
+
+- (void)resetTimer {
+    self.timer.fireDate = [NSDate dateWithTimeIntervalSinceNow:AUTO_DISS_MISS_TIME];
+}
+
+- (void)pauserTimer {
+    self.timer.fireDate = [NSDate distantFuture];
 }
 
 #pragma mark - 懒加载
 - (UIView *)topView {
     if (_topView == nil) {
-        _topView = [[PlayerInterfaceHolderView alloc] init];
+        _topView = [[UIView alloc] init];
         
         UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"comment_gradual_gray"] yy_imageByRotate180]];
         bgImgView.alpha = 0.8;
@@ -189,7 +183,6 @@
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self.backButton);
             make.left.equalTo(self.backButton.mas_right).mas_offset(10);
-            //            make.right.mas_offset(-10);
         }];
         
         [self.settingButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -203,7 +196,7 @@
 
 - (UIView *)bottomView {
     if (_bottomView == nil) {
-        _bottomView = [[PlayerInterfaceHolderView alloc] init];
+        _bottomView = [[UIView alloc] init];
         
         UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_gradual_gray"]];
         bgImgView.alpha = 0.8;
@@ -216,33 +209,9 @@
         [_bottomView addSubview:self.currentTimeLabel];
         [_bottomView addSubview:self.progressSlider];
         [_bottomView addSubview:self.totalTimeLabel];
-        [_bottomView addSubview:self.sendDanmakuTextField];
+        [_bottomView addSubview:self.sendDanmakuButton];
         [_bottomView addSubview:self.danmakuHideSwitch];
-        [_bottomView addSubview:self.switchLabel];
         [_bottomView addSubview:self.subTitleIndexButton];
-        
-        [self.sendDanmakuTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(15);
-            make.height.mas_equalTo(35 + jh_isPad() * 10);
-            float width = [self.sendDanmakuTextField.attributedPlaceholder boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.width;
-            make.width.mas_equalTo(width + 15);
-        }];
-        
-        [self.switchLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_offset(-10);
-            make.centerY.equalTo(self.sendDanmakuTextField);
-        }];
-        
-        [self.subTitleIndexButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.sendDanmakuTextField.mas_right).mas_offset(10);
-            make.centerY.equalTo(self.sendDanmakuTextField);
-        }];
-        
-        [self.danmakuHideSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.switchLabel.mas_left).mas_offset(-5);
-            make.left.equalTo(self.subTitleIndexButton.mas_right).mas_offset(10);
-            make.centerY.equalTo(self.sendDanmakuTextField);
-        }];
         
         [self.currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
@@ -252,8 +221,7 @@
         
         [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.currentTimeLabel.mas_right).mas_offset(10);
-            make.top.equalTo(self.sendDanmakuTextField.mas_bottom).mas_offset(15);
-            make.bottom.mas_offset(-10);
+            make.top.mas_offset(15);
         }];
         
         [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -263,6 +231,23 @@
             make.width.mas_equalTo(self.currentTimeLabel);
         }];
         
+        [self.danmakuHideSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.currentTimeLabel.mas_bottom).mas_offset(15);
+            make.right.mas_offset(-10);
+            make.bottom.mas_offset(-15);
+        }];
+        
+        [self.sendDanmakuButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.danmakuHideSwitch.mas_left).mas_offset(-20);
+            make.centerY.equalTo(self.danmakuHideSwitch);
+        }];
+        
+        [self.subTitleIndexButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_offset(20);
+            make.centerY.equalTo(self.danmakuHideSwitch);
+        }];
+        
+        
     }
     return _bottomView;
 }
@@ -270,7 +255,7 @@
 - (UIButton *)backButton {
     if (_backButton == nil) {
         _backButton = [[UIButton alloc] init];
-        [_backButton setImage:[UIImage imageNamed:@"barbuttonicon_back"] forState:UIControlStateNormal];
+        [_backButton setImage:[UIImage imageNamed:@"back_item"] forState:UIControlStateNormal];
     }
     return _backButton;
 }
@@ -314,16 +299,20 @@
     return _progressSlider;
 }
 
-- (UITextField *)sendDanmakuTextField {
-    if (_sendDanmakuTextField == nil) {
-        _sendDanmakuTextField = [[UITextField alloc] init];
-        _sendDanmakuTextField.borderStyle = UITextBorderStyleRoundedRect;
-        _sendDanmakuTextField.returnKeyType = UIReturnKeySend;
-        _sendDanmakuTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"吐个嘈~" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-        _sendDanmakuTextField.rightView = self.sendDanmakuConfigButton;
-        _sendDanmakuTextField.rightViewMode = UITextFieldViewModeWhileEditing;
+- (UIButton *)sendDanmakuButton {
+    if (_sendDanmakuButton == nil) {
+        JHEdgeButton *aButton = [[JHEdgeButton alloc] init];
+        aButton.inset = CGSizeMake(30, 5);
+        _sendDanmakuButton = aButton;
+        _sendDanmakuButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_sendDanmakuButton setTitle:@"吐个嘈~" forState:UIControlStateNormal];
+        [_sendDanmakuButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.8] forState:UIControlStateNormal];
+        _sendDanmakuButton.layer.cornerRadius = 6;
+        _sendDanmakuButton.layer.masksToBounds = YES;
+        _sendDanmakuButton.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
+        [_sendDanmakuButton addTarget:self action:@selector(touchSendDanmakuButton:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _sendDanmakuTextField;
+    return _sendDanmakuButton;
 }
 
 - (JHEdgeButton *)settingButton {
@@ -344,7 +333,6 @@
         _danmakuHideSwitch = [[UISwitch alloc] init];
         _danmakuHideSwitch.onTintColor = MAIN_COLOR;
         _danmakuHideSwitch.on = YES;
-        _danmakuHideSwitch.transform = CGAffineTransformMakeScale(0.9, 0.9);
     }
     return _danmakuHideSwitch;
 }
@@ -358,29 +346,6 @@
         
     }
     return _playButton;
-}
-
-- (UILabel *)switchLabel {
-    if (_switchLabel == nil) {
-        _switchLabel = [[UILabel alloc] init];
-        _switchLabel.font = SMALL_SIZE_FONT;
-        _switchLabel.textColor = [UIColor whiteColor];
-        _switchLabel.text = @"弹幕";
-        [_switchLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-        [_switchLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    }
-    return _switchLabel;
-}
-
-- (JHEdgeButton *)sendDanmakuConfigButton {
-    if (_sendDanmakuConfigButton == nil) {
-        _sendDanmakuConfigButton = [[JHEdgeButton alloc] init];
-        [_sendDanmakuConfigButton setImage:[UIImage imageNamed:@"player_danmaku_color"] forState:UIControlStateNormal];
-        _sendDanmakuConfigButton.inset = CGSizeMake(10, 8);
-        [_sendDanmakuConfigButton sizeToFit];
-        [_sendDanmakuConfigButton addTarget:self action:@selector(touchSendDanmakuConfigButton:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _sendDanmakuConfigButton;
 }
 
 - (UIButton *)subTitleIndexButton {
@@ -405,6 +370,13 @@
 - (PlayerInterfaceHolderView *)interfaceHoldView {
     if (_interfaceHoldView == nil) {
         _interfaceHoldView = [[PlayerInterfaceHolderView alloc] initWithFrame:self.bounds];
+        @weakify(self)
+        [_interfaceHoldView setTouchViewCallBack:^{
+            @strongify(self)
+            if (!self) return;
+            
+            [self resetTimer];
+        }];
         
         [_interfaceHoldView addSubview:self.topView];
         [_interfaceHoldView addSubview:self.bottomView];
@@ -435,13 +407,6 @@
         [self addSubview:_gestureView];
     }
     return _gestureView;
-}
-
-- (PlayerSendDanmakuConfigView *)sendDanmakuConfigView {
-    if (_sendDanmakuConfigView == nil) {
-        _sendDanmakuConfigView = [[PlayerSendDanmakuConfigView alloc] initWithFrame:self.bounds];
-    }
-    return _sendDanmakuConfigView;
 }
 
 - (PlayerSubTitleIndexView *)subTitleIndexView {

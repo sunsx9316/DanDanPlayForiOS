@@ -8,6 +8,12 @@
 
 #import "JHBase.h"
 
+typedef NS_ENUM(NSUInteger, JHDanmakuMode) {
+    JHDanmakuModeNormal = 1,
+    JHDanmakuModeBottom = 4,
+    JHDanmakuModeTop = 5,
+};
+
 @interface JHDanmaku : JHBase
 
 /*
@@ -23,7 +29,7 @@
 /**
  *  Mode: 弹幕模式，1普通弹幕，4底部弹幕，5顶部弹幕。
  */
-@property (nonatomic, assign) NSInteger mode;
+@property (nonatomic, assign) JHDanmakuMode mode;
 /**
  *  Color: 32位整形数的弹幕颜色，算法为 R*256*256 + G*256 + B。
  */

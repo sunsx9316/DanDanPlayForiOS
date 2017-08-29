@@ -41,6 +41,14 @@
 }
 
 - (void)removeFromParentFile {
+    NSMutableDictionary <NSString *, NSMutableArray <NSString *>*>*folderCache = (NSMutableDictionary <NSString *, NSMutableArray <NSString *>*> *)[CacheManager shareCacheManager].folderCache;
+    //从自定义文件夹缓存移除
+    [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<NSString *> * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj removeObject:self.videoModel.quickHash];
+    }];
+    
+    [CacheManager shareCacheManager].folderCache = folderCache;
+    
     [self.parentFile.subFiles removeObject:self];
 }
 

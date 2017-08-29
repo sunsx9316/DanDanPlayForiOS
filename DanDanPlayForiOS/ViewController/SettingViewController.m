@@ -331,17 +331,17 @@
         }];
         [danmakuSetting.items addObject:requestThreePartyDamakuItem];
         
-        JHSettingItem *priorityLoadLocalDanmakuItem = [[JHSettingItem alloc] init];
-        priorityLoadLocalDanmakuItem.title = @"优先加载本地与视频同名的弹幕";
-        priorityLoadLocalDanmakuItem.detail = @"会替换掉网络弹幕";
-        priorityLoadLocalDanmakuItem.type = JHSettingItemTypeSwitch;
-        [priorityLoadLocalDanmakuItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-        }];
-        [priorityLoadLocalDanmakuItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].priorityLoadLocalDanmaku = ![CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-        }];
-        [danmakuSetting.items addObject:priorityLoadLocalDanmakuItem];
+//        JHSettingItem *priorityLoadLocalDanmakuItem = [[JHSettingItem alloc] init];
+//        priorityLoadLocalDanmakuItem.title = @"优先加载本地与视频同名的弹幕";
+//        priorityLoadLocalDanmakuItem.detail = @"会替换掉网络弹幕";
+//        priorityLoadLocalDanmakuItem.type = JHSettingItemTypeSwitch;
+//        [priorityLoadLocalDanmakuItem setSwitchStatusCallBack:^{
+//            return [CacheManager shareCacheManager].priorityLoadLocalDanmaku;
+//        }];
+//        [priorityLoadLocalDanmakuItem setSwitchStatusChangeCallBack:^{
+//            [CacheManager shareCacheManager].priorityLoadLocalDanmaku = ![CacheManager shareCacheManager].priorityLoadLocalDanmaku;
+//        }];
+//        [danmakuSetting.items addObject:priorityLoadLocalDanmakuItem];
         
         JHSettingItem *danmakuCacheTimeItem = [[JHSettingItem alloc] init];
         danmakuCacheTimeItem.title = @"弹幕缓存时间";

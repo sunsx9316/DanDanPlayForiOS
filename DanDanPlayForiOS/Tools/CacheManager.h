@@ -50,7 +50,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 @property (strong, nonatomic) JHUser *user;
 
-@property (strong, nonatomic) JHFile *rootFile;
+//@property (strong, nonatomic) JHFile *rootFile;
 
 @property (strong, nonatomic) DownloadStatusView *downloadView;
 
@@ -93,7 +93,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 /**
  优先加载本地弹幕
  */
-@property (assign, nonatomic) BOOL priorityLoadLocalDanmaku;
+//@property (assign, nonatomic) BOOL priorityLoadLocalDanmaku;
 
 
 /**
@@ -115,6 +115,17 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  弹幕不透明度
  */
 @property (assign, nonatomic) float danmakuOpacity;
+
+
+/**
+ 选择的弹幕颜色
+ */
+@property (strong, nonatomic) UIColor *sendDanmakuColor;
+
+/**
+ 选择的弹幕类型
+ */
+@property (assign, nonatomic) JHDanmakuMode sendDanmakuMode;
 
 /**
  存储文件夹名称和文件hash
@@ -146,7 +157,6 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 - (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model;
 
 //存储上次播放时间
-//@property (strong, nonatomic) NSMutableDictionary <NSString *, NSNumber *>* lastPlayTimeCache;
 - (void)saveLastPlayTime:(NSInteger)time videoModel:(VideoModel *)model;
 - (NSInteger)lastPlayTimeWithVideoModel:(VideoModel *)model;
 

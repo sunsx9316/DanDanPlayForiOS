@@ -7,14 +7,17 @@ target 'DanDanPlayForiOS' do
 
   # Pods for DanDanPlayForiOS
 
-  pod 'UMengAnalytics'
   # 集成新浪微博
     #pod 'UMengUShare/Social/Sina'
 # 集成微信
     #pod 'UMengUShare/Social/WeChat'
 # 集成QQ
     #pod 'UMengUShare/Social/QQ'
-    pod 'MobileVLCKit-unstable', '~> 3.0.0a31'
+#  pod 'UMengAnalytics'
+
+    pod 'Bugly'
+    pod 'MobileVLCKit-unstable', '~> 3.0.0a33'
+    #pod 'MobileVLCKit-prod', '~> 2.7.9'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'
@@ -25,7 +28,7 @@ target 'DanDanPlayForiOS' do
     pod 'GDataXML-HTML'
     pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
-    pod 'FDFullscreenPopGesture'
+    #pod 'FDFullscreenPopGesture'
     pod 'RATreeView'
     pod 'WMPageController'
     pod 'IQKeyboardManager'
@@ -34,4 +37,7 @@ target 'DanDanPlayForiOS' do
     pod 'CocoaHTTPServer'
     pod 'YYKeyboardManager'
     pod 'TOSMBClient'
+    pod 'MGSwipeTableCell'
+    pod 'UITextView+Placeholder'
+    
 end

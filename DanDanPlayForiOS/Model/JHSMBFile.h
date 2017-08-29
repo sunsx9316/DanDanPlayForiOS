@@ -18,6 +18,6 @@
 /**
  相对路径
  */
-@property (strong, nonatomic, readonly) NSURL *relativeURL;
+@property (strong, nonatomic) NSURL *relativeURL;
 - (instancetype)initWithSMBSessionFile:(TOSMBSessionFile *)file;
 @end

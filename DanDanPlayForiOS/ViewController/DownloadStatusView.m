@@ -232,6 +232,7 @@
     if (_progressMask == nil) {
         _progressMask = [CALayer layer];
         _progressMask.backgroundColor = [UIColor blackColor].CGColor;
+        _progressMask.frame = CGRectMake(0, PROGRESS_VIEW_SIZE, PROGRESS_VIEW_SIZE, 0);
     }
     return _progressMask;
 }

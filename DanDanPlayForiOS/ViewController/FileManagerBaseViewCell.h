@@ -6,8 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <MGSwipeTableCell.h>
 
-@interface FileManagerBaseViewCell : UITableViewCell
-@property (strong, nonatomic) UIView *maskView;
+@interface FileManagerBaseViewCell : MGSwipeTableCell
+
 @end

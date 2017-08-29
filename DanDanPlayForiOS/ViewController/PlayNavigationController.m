@@ -8,6 +8,7 @@
 
 #import "PlayNavigationController.h"
 #import "PlayerViewController.h"
+#import "FileManagerNavigationBar.h"
 
 @interface PlayNavigationController ()
 
@@ -18,7 +19,16 @@
 - (instancetype)initWithModel:(VideoModel *)model {
     PlayerViewController *vc = [[PlayerViewController alloc] init];
     vc.model = model;
-    return [self initWithRootViewController:vc];
+    
+    if (self = [super initWithNavigationBarClass:[FileManagerNavigationBar class] toolbarClass:nil]) {
+        [self setViewControllers:@[vc]];
+    }
+    
+    return self;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 //设置是否允许自动旋转

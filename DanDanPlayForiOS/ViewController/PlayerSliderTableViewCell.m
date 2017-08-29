@@ -43,35 +43,15 @@
 }
 
 - (void)touchSlider:(UISlider *)sender {
-    switch (_type) {
-        case PlayerSliderTableViewCellTypeFontSize:
-        {
-            NSInteger value = self.slider.value;
-            UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
-            UIFont *tempFont = [danmakuFont fontWithSize:value];
-            tempFont.isSystemFont = danmakuFont.isSystemFont;
-            [CacheManager shareCacheManager].danmakuFont = tempFont;
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)value];
-        }
-            break;
-        case PlayerSliderTableViewCellTypeSpeed:
-        {
-//            NSLog(@"%f", self.slider.value); 
-            [CacheManager shareCacheManager].danmakuSpeed = self.slider.value;
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
-            self.currentValueLabel.textColor = sender.value == sender.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
-        }
-            break;
-        case PlayerSliderTableViewCellTypeOpacity:
-        {
-            //            NSLog(@"%f", self.slider.value);
-            [CacheManager shareCacheManager].danmakuOpacity = self.slider.value;
-            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
-        }
-            break;
-            
-        default:
-            break;
+    sender.value = [[NSString stringWithFormat:@"%.1f", sender.value] floatValue];
+    if (self.touchSliderCallback) {
+        self.touchSliderCallback(self);
+    }
+}
+
+- (void)touchSliderUp:(UISlider *)sender {
+    if (self.touchSliderUpCallback) {
+        self.touchSliderUpCallback(self);
     }
 }
 
@@ -94,11 +74,19 @@
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
         self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
     }
-    if (_type == PlayerSliderTableViewCellTypeOpacity) {
+    else if (_type == PlayerSliderTableViewCellTypeOpacity) {
         self.currentValueLabel.textColor = [UIColor whiteColor];
         self.slider.value = [CacheManager shareCacheManager].danmakuOpacity;
         self.slider.minimumValue = 0.0f;
         self.slider.maximumValue = 1.0f;
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
+    }
+    else if (_type == PlayerSliderTableViewCellTypeRate) {
+        self.currentValueLabel.textColor = [UIColor whiteColor];
+        self.slider.value = 1;
+        self.slider.minimumValue = 0.5f;
+        self.slider.maximumValue = 2.0f;
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
         self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
     }
@@ -111,6 +99,7 @@
         _slider.minimumValue = 0;
         _slider.maximumValue = INTMAX_MAX;
         [_slider addTarget:self action:@selector(touchSlider:) forControlEvents:UIControlEventValueChanged];
+        [_slider addTarget:self action:@selector(touchSliderUp:) forControlEvents:UIControlEventTouchUpInside];
         _slider.minimumTrackTintColor = MAIN_COLOR;
         [self.contentView addSubview:_slider];
     }

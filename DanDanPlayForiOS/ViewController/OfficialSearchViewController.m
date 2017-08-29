@@ -34,9 +34,7 @@
         make.edges.mas_equalTo(0);
     }];
     
-    if (self.treeView.jh_tableView.mj_header.refreshingBlock) {
-        self.treeView.jh_tableView.mj_header.refreshingBlock();
-    }
+    [self.treeView.jh_tableView.mj_header beginRefreshing];
 }
 
 - (void)setKeyword:(NSString *)keyword {

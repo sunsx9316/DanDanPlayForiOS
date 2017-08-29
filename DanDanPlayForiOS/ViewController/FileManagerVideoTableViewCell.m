@@ -11,7 +11,6 @@
 
 @interface FileManagerVideoTableViewCell ()
 @property (strong, nonatomic) UIImageView *imgView;
-@property (strong, nonatomic) UILabel *fileTypeLabel;
 @end
 
 @implementation FileManagerVideoTableViewCell

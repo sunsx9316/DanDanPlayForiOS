@@ -8,26 +8,40 @@
 
 #import "FileViewController.h"
 #import "JHDefaultPageViewController.h"
-#import "LocalFileViewController.h"
 #import "SMBViewController.h"
 #import "HTTPServerViewController.h"
 #import "HelpViewController.h"
+#import "FileManagerViewController.h"
+#import "FileManagerNavigationController.h"
 
 #import "JHEdgeButton.h"
+#import "FileManagerSearchView.h"
 
-@interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate>
+@interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate, UISearchBarDelegate, FileManagerSearchViewDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <NSString *>*titleArr;
 @property (strong, nonatomic) UIButton *httpButton;
 @property (strong, nonatomic) UIButton *helpButton;
+@property (strong, nonatomic) UISearchBar *searchBar;
+
+@property (strong, nonatomic) FileManagerSearchView *searchView;
 @end
 
 @implementation FileViewController
+{
+    __weak FileManagerViewController *_fileManagerViewController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configRightItem];
-    self.navigationItem.title = @"文件";
+    
+    UIView *searchBarHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
+    [searchBarHolderView addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    self.navigationItem.titleView = searchBarHolderView;
     
     //监听滚动
     [self.pageController.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
@@ -43,6 +57,7 @@
         float alpha = offset.x / self.view.width;
         self.httpButton.alpha = 1 - alpha;
         self.helpButton.alpha = alpha;
+        self.searchBar.alpha = 1 - alpha;
     }
 }
 
@@ -53,13 +68,26 @@
 }
 
 - (void)configRightItem {
-    UIView *holdView = [[UIView alloc] initWithFrame:self.httpButton.bounds];
+    UIView *holdView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     [holdView addSubview:self.httpButton];
     [holdView addSubview:self.helpButton];
+    
+    [self.httpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.mas_equalTo(0);
+        make.edges.mas_equalTo(0);
+    }];
+    
+    [self.helpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.mas_equalTo(0);
+        make.edges.mas_equalTo(0);
+    }];
+    
     self.helpButton.alpha = 0;
     
+    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spaceBar.width = -10;
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:holdView];
-    self.navigationItem.rightBarButtonItem = item;
+    self.navigationItem.rightBarButtonItems = @[spaceBar, item];
 }
 
 - (void)touchHttpButton:(UIButton *)button {
@@ -81,7 +109,11 @@
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
     if (index == 0) {
-        return [[LocalFileViewController alloc] init];
+        FileManagerViewController *vc = [[FileManagerViewController alloc] init];
+        vc.file = jh_getANewRootFile();
+        _fileManagerViewController = vc;
+        FileManagerNavigationController *nav = [[FileManagerNavigationController alloc] initWithRootViewController:vc];
+        return nav;
     }
     return [[SMBViewController alloc] init];
 }
@@ -99,6 +131,17 @@
     return CGRectMake(0, menuViewHeight, self.view.width, self.view.height - menuViewHeight);
 }
 
+#pragma mark - UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    [self.searchView show];
+    return NO;
+}
+
+#pragma mark - FileManagerSearchViewDelegate
+- (void)searchView:(FileManagerSearchView *)searchView didSelectedFile:(JHFile *)file {
+    [_fileManagerViewController matchFile:file];
+}
+
 #pragma mark - 懒加载
 - (JHDefaultPageViewController *)pageController {
     if (_pageController == nil) {
@@ -111,11 +154,22 @@
     return _pageController;
 }
 
+- (UISearchBar *)searchBar {
+    if (_searchBar == nil) {
+        _searchBar = [[UISearchBar alloc] init];
+        _searchBar.placeholder = @"搜索文件名";
+        _searchBar.delegate = self;
+        _searchBar.backgroundImage = [[UIImage alloc] init];
+        _searchBar.tintColor = [UIColor whiteColor];
+    }
+    return _searchBar;
+}
+
 - (UIButton *)httpButton {
     if (_httpButton == nil) {
         _httpButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [_httpButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_httpButton setBackgroundImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
+        [_httpButton setImage:[UIImage imageNamed:@"add_file"] forState:UIControlStateNormal];
     }
     return _httpButton;
 }
@@ -124,9 +178,17 @@
     if (_helpButton == nil) {
         _helpButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [_helpButton addTarget:self action:@selector(touchHelpButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_helpButton setBackgroundImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
+        [_helpButton setImage:[UIImage imageNamed:@"help"] forState:UIControlStateNormal];
     }
     return _helpButton;
+}
+
+- (FileManagerSearchView *)searchView {
+    if (_searchView == nil) {
+        _searchView = [[FileManagerSearchView alloc] init];
+        _searchView.delegete = self;
+    }
+    return _searchView;
 }
 
 - (NSArray<NSString *> *)titleArr {

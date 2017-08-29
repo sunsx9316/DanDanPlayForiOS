@@ -9,14 +9,14 @@
 #import "HTTPServerViewController.h"
 #import <HTTPServer.h>
 #import "JHEdgeButton.h"
-#import "JHEdgeLabel.h"
+#import "JHActivityEdgeLabel.h"
 #import "FTPReceiceTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 
 @interface HTTPServerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UIImageView *wifiImgView;
 @property (strong, nonatomic) UIView *bgView;
-@property (strong, nonatomic) JHEdgeLabel *ipLabel;
+@property (strong, nonatomic) JHActivityEdgeLabel *ipLabel;
 @property (strong, nonatomic) UILabel *topNoticeLabel;
 @property (strong, nonatomic) UILabel *wifiNoticeLabel;
 @property (strong, nonatomic) UIView *holdView;
@@ -29,7 +29,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarWithColor:[UIColor clearColor]];
-//    SET_NAVIGATION_BAR_CLEAR;
     //屏幕常亮
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
@@ -78,6 +77,9 @@
             if (httpServer.isRunning == NO) {
                 [ToolsManager resetHTTPServer];
                 [self startHTTPServer];
+            }
+            else {
+                [self showSuccessUI];
             }
         }
     }];
@@ -166,6 +168,19 @@
     });
 }
 
+- (void)longPresswifiNoticeLabel:(UILongPressGestureRecognizer *)gesture {
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        [self.ipLabel becomeFirstResponder];
+        
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        CGRect rect = CGRectZero;
+        rect.origin = CGPointMake([gesture locationInView:self.ipLabel].x, 0);
+        
+        [menuController setTargetRect:rect inView:self.ipLabel];
+        [menuController setMenuVisible:YES animated:YES];
+    }
+}
+
 #pragma mark - 懒加载
 
 - (UIView *)bgView {
@@ -212,9 +227,9 @@
     return _holdView;
 }
 
-- (JHEdgeLabel *)ipLabel {
+- (JHActivityEdgeLabel *)ipLabel {
     if (_ipLabel == nil) {
-        _ipLabel = [[JHEdgeLabel alloc] init];
+        _ipLabel = [[JHActivityEdgeLabel alloc] init];
         _ipLabel.inset = CGSizeMake(30, 0);
         _ipLabel.textAlignment = NSTextAlignmentCenter;
         _ipLabel.textColor = [UIColor whiteColor];
@@ -223,6 +238,8 @@
         _ipLabel.layer.masksToBounds = YES;
         _ipLabel.font = BIG_SIZE_FONT;
         _ipLabel.layer.cornerRadius = (_ipLabel.font.lineHeight + 10) / 2;
+        _ipLabel.userInteractionEnabled = YES;
+        [_ipLabel addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPresswifiNoticeLabel:)]];
     }
     return _ipLabel;
 }

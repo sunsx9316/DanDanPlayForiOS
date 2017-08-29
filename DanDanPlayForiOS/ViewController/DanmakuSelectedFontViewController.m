@@ -10,10 +10,11 @@
 #import "BaseTableView.h"
 #import "FTPReceiceTableViewCell.h"
 #import "UIFont+Tools.h"
+#import "SMBLoginHeaderView.h"
 
 @interface DanmakuSelectedFontViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
-@property (strong, nonatomic) NSArray <NSString *>*fonts;
+@property (strong, nonatomic) NSArray <NSDictionary <NSString *, NSArray *>*>*fonts;
 @end
 
 @implementation DanmakuSelectedFontViewController
@@ -41,7 +42,9 @@
         [CacheManager shareCacheManager].danmakuFont = tempFont;
     }
     else {
-        UIFont *tempFont = [UIFont fontWithName:self.fonts[indexPath.row] size:danmakuFont.pointSize];
+        NSDictionary *dic = self.fonts[indexPath.section - 1];
+        NSArray *arr = dic.allValues.firstObject;
+        UIFont *tempFont = [UIFont fontWithName:arr[indexPath.row] size:danmakuFont.pointSize];
         tempFont.isSystemFont = NO;
         [CacheManager shareCacheManager].danmakuFont = tempFont;
     }
@@ -49,14 +52,39 @@
     [tableView reloadData];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
+    if (section == 0) {
+        view.titleLabel.text = @"系统字体";
+    }
+    else {
+        view.titleLabel.text = self.fonts[section - 1].allKeys.firstObject;
+    }
+    view.addButton.hidden = YES;
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1 + self.fonts.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return section == 0 ? 1 : self.fonts.count;
+    if (section == 0) {
+        return 1;
+    }
+    NSDictionary *dic = self.fonts[section - 1];
+    NSArray *arr = dic.allValues.firstObject;
+    return arr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -65,11 +93,12 @@
     if (indexPath.section == 0) {
         cell.titleLabel.text = @"系统字体";
         cell.titleLabel.font = NORMAL_SIZE_FONT;
-        
-//        cell.iconImgView.hidden = ![[CacheManager shareCacheManager].danmakuFont.fontName isEqualToString:cell.titleLabel.font.fontName];
     }
     else {
-        UIFont *font = [UIFont fontWithName:self.fonts[indexPath.row] size:NORMAL_SIZE_FONT.pointSize];
+        NSDictionary *dic = self.fonts[indexPath.section - 1];
+        NSArray *arr = dic.allValues.firstObject;
+        
+        UIFont *font = [UIFont fontWithName:arr[indexPath.row] size:NORMAL_SIZE_FONT.pointSize];
         cell.titleLabel.text = font.fontName;
         cell.titleLabel.font = font;
     }
@@ -80,7 +109,10 @@
         cell.iconImgView.hidden = !danmakuFont.isSystemFont;
     }
     else {
-        cell.iconImgView.hidden = ![danmakuFont.fontName isEqualToString:self.fonts[indexPath.row]];
+        NSDictionary *dic = self.fonts[indexPath.section - 1];
+        NSArray *arr = dic.allValues.firstObject;
+        
+        cell.iconImgView.hidden = ![danmakuFont.fontName isEqualToString:arr[indexPath.row]];
     }
     
     return cell;
@@ -98,6 +130,8 @@
         _tableView.estimatedRowHeight = 44;
         
         [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
+        
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         _tableView.tableFooterView = [[UIView alloc] init];
         
@@ -107,10 +141,15 @@
             if (!self) return;
             
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                NSMutableArray *fonts = [NSMutableArray array];
+                NSMutableArray <NSMutableDictionary *>*fonts = [NSMutableArray array];
                 NSArray<NSString *> *familyNames = [UIFont familyNames];
                 [familyNames enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    [fonts addObjectsFromArray:[UIFont fontNamesForFamilyName:obj]];
+                    NSArray *arr = [UIFont fontNamesForFamilyName:obj];
+                    if (arr.count) {
+                        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+                        dic[obj] = arr;
+                        [fonts addObject:dic];
+                    }
                 }];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{

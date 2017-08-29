@@ -9,10 +9,10 @@
 #import "PlayerControlHeaderView.h"
 
 @implementation PlayerControlHeaderView
-
-
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
+        self.contentView.backgroundColor = RGBACOLOR(0, 0, 0, 0.1);
+        
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
             make.centerY.mas_equalTo(0);

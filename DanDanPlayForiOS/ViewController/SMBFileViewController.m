@@ -7,7 +7,7 @@
 //
 
 #import "SMBFileViewController.h"
-#import "FileManagerView.h"
+//#import "FileManagerView.h"
 #import "PlayNavigationController.h"
 #import "MatchViewController.h"
 
@@ -31,6 +31,7 @@
     JHSMBFile *_selectedFile;
     dispatch_group_t _group;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -52,6 +53,10 @@
         self.navigationItem.title = _file.name;
         [self.tableView.mj_header beginRefreshing];
     }
+}
+
+- (void)dealloc {
+    _group = nil;
 }
 
 #pragma mark - UITableViewDataSource
@@ -119,6 +124,8 @@
     if (tableView.isEditing) {
         return;
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     JHSMBFile *file = _file.subFiles[indexPath.row];
     
@@ -257,6 +264,8 @@
 - (void)touchDownloadButton:(UIButton *)sender {
     NSArray <NSIndexPath *>*arr =  [self.tableView indexPathsForSelectedRows];
     
+    if (arr.count == 0) return;
+    
     NSMutableArray <TOSMBSessionDownloadTask *>*taskArr = [NSMutableArray array];
     
     MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:nil];
@@ -264,11 +273,13 @@
     
     NSString *downloadPath = [UIApplication sharedApplication].documentsPath;
     
+    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.download", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    
     [arr enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JHSMBFile *file = _file.subFiles[obj.row];
         //文件夹
         if (file.type == JHFileTypeFolder) {
-            dispatch_group_async(_group, dispatch_get_global_queue(0, 0), ^{
+            dispatch_group_async(_group, _queue, ^{
                 dispatch_group_enter(_group);
                 [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:file completion:^(JHSMBFile *file1, NSError *error1) {
                     [file1.subFiles enumerateObjectsUsingBlock:^(__kindof JHSMBFile * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
@@ -291,11 +302,10 @@
             });
         }
         else {
-            dispatch_group_async(_group, dispatch_get_global_queue(0, 0), ^{
+            dispatch_group_async(_group, _queue, ^{
                 TOSMBSessionDownloadTask *aTask = [[ToolsManager shareToolsManager].SMBSession downloadTaskForFileAtPath:file.sessionFile.filePath destinationPath:downloadPath delegate:nil];
                 //设置文件大小
                 [aTask setValue:@(file.sessionFile.fileSize) forKey:@"countOfBytesExpectedToReceive"];
-                
                 [taskArr addObject:aTask];
             });
         }
@@ -328,8 +338,6 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowsMultipleSelectionDuringEditing = YES;
-//        [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
-//        [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
         @weakify(self)
         _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
             @strongify(self)
@@ -337,7 +345,7 @@
             
             [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:self.file completion:^(JHSMBFile *file, NSError *error) {
                 if (error) {
-                    [MBProgressHUD showWithError:error];
+                    [MBProgressHUD showWithText:@"网络错误"];
                 }
                 else {
                     self.file = file;

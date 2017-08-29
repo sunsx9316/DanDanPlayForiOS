@@ -16,15 +16,13 @@
 @property (strong, nonatomic) JHBlurView *contentView;
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UIButton *resetButton;
 @end
 
 @implementation PlayerSendDanmakuConfigView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.color = [UIColor whiteColor];
-        self.titleLabel.textColor = self.color;
-        self.danmakuMode = 1;
         self.alpha = 0;
         
         [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -32,10 +30,16 @@
         }];
         
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(20);
-            make.bottom.mas_offset(-20);
+            make.top.mas_offset(10);
+            make.bottom.mas_offset(-10);
             make.centerX.mas_equalTo(0);
             make.width.mas_equalTo(self).multipliedBy(0.5);
+        }];
+        
+        [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_right);
+            make.right.mas_offset(0);
+            make.centerY.mas_equalTo(0);
         }];
     }
     return self;
@@ -69,16 +73,32 @@
 
 #pragma mark - 懒加载
 - (void)touchSegmentedControl:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0) {
-        _danmakuMode = 1;
-    }
-    else if (sender.selectedSegmentIndex == 1) {
-        _danmakuMode = 5;
+    JHDanmakuMode _danmakuMode;
+    if (sender.selectedSegmentIndex == 1) {
+        _danmakuMode = JHDanmakuModeTop;
     }
     else if (sender.selectedSegmentIndex == 2) {
-        _danmakuMode = 4;
+        _danmakuMode = JHDanmakuModeBottom;
+    }
+    else {
+        _danmakuMode = JHDanmakuModeNormal;
+    }
+    [CacheManager shareCacheManager].sendDanmakuMode = _danmakuMode;
+    
+    if (self.selectedCallback) {
+        self.selectedCallback([CacheManager shareCacheManager].sendDanmakuColor, _danmakuMode);
     }
 }
+
+- (void)touchResetButton:(UIButton *)sender {
+    [CacheManager shareCacheManager].sendDanmakuColor = [UIColor whiteColor];
+    [CacheManager shareCacheManager].sendDanmakuMode = JHDanmakuModeNormal;
+    
+    self.colorPickerView.color = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.segmentedControl.selectedSegmentIndex = 0;
+}
+
 
 #pragma mark - 懒加载
 
@@ -87,7 +107,7 @@
         _contentView = [[JHBlurView alloc] init];
         _contentView.layer.masksToBounds = YES;
         _contentView.layer.cornerRadius = 5;
-        _contentView.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        _contentView.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         
         [_contentView addSubview:self.segmentedControl];
         [_contentView addSubview:self.colorPickerView];
@@ -103,7 +123,6 @@
             make.left.mas_offset(10);
             make.right.mas_offset(-10);
         }];
-
         
         [self.colorPickerView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.segmentedControl.mas_bottom).mas_offset(10);
@@ -120,7 +139,17 @@
     if (_segmentedControl == nil) {
         _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"普通", @"顶部", @"底部"]];
         [_segmentedControl addTarget:self action:@selector(touchSegmentedControl:) forControlEvents:UIControlEventValueChanged];
-        _segmentedControl.selectedSegmentIndex = 0;
+        _segmentedControl.tintColor = MAIN_COLOR;
+        JHDanmakuMode mode = [CacheManager shareCacheManager].sendDanmakuMode;
+        if (mode == JHDanmakuModeBottom) {
+            _segmentedControl.selectedSegmentIndex = 2;
+        }
+        else if (mode == JHDanmakuModeTop) {
+            _segmentedControl.selectedSegmentIndex = 1;
+        }
+        else {
+            _segmentedControl.selectedSegmentIndex = 0;
+        }
         _segmentedControl.tintColor = MAIN_COLOR;
     }
     return _segmentedControl;
@@ -129,18 +158,24 @@
 - (NKOColorPickerView *)colorPickerView {
     if (_colorPickerView == nil) {
         @weakify(self)
-        _colorPickerView = [[NKOColorPickerView alloc] initWithFrame:CGRectMake(0, 0, self.width - 20, self.height - 50) color:self.color andDidChangeColorBlock:^(UIColor *color){
-            
-        }];
+        _colorPickerView = [[NKOColorPickerView alloc] initWithFrame:CGRectMake(0, 0, self.width - 20, self.height - 50) color:nil andDidChangeColorBlock:nil];
         
-        _colorPickerView.color = self.color;
+        _colorPickerView.color = [CacheManager shareCacheManager].sendDanmakuColor;
         [_colorPickerView setDidChangeColorBlock:^(UIColor *color) {
             @strongify(self)
             if (!self) return;
             
-            self.color = color;
+            [CacheManager shareCacheManager].sendDanmakuColor = color;
             self.titleLabel.textColor = color;
+            
+            if (self.selectedCallback) {
+                self.selectedCallback(color, [CacheManager shareCacheManager].sendDanmakuMode);
+            }
         }];
+        
+        UIView *aView = [_colorPickerView valueForKey:@"crossHairs"];
+        aView.size = CGSizeMake(30, 30);
+        aView.layer.cornerRadius = 15;
     }
     return _colorPickerView;
 }
@@ -155,7 +190,7 @@
             
             [self dismiss];
         }]];
-        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
+        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.7);
         [self addSubview:_bgView];
     }
     return _bgView;
@@ -166,9 +201,19 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.text = @"_(:3」∠)_ 测试弹幕";
-        
+        _titleLabel.textColor = [CacheManager shareCacheManager].sendDanmakuColor;
     }
     return _titleLabel;
+}
+
+- (UIButton *)resetButton {
+    if (_resetButton == nil) {
+        _resetButton = [[UIButton alloc] init];
+        [_resetButton setImage:[UIImage imageNamed:@"reset"] forState:UIControlStateNormal];
+        [_resetButton addTarget:self action:@selector(touchResetButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_resetButton];
+    }
+    return _resetButton;
 }
 
 @end

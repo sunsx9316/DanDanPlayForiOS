@@ -22,7 +22,7 @@
     UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"mine"] selectImg:[UIImage imageNamed:@"mine"] rootVC:[[MineViewController alloc] init] title:nil];
     
     self.viewControllers = @[fileVC, settingVC];
-    self.tabBar.translucent = NO;
+//    self.tabBar.translucent = NO;
 }
 
 - (BOOL)shouldAutorotate {

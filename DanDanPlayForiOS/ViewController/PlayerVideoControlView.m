@@ -7,11 +7,13 @@
 //
 
 #import "PlayerVideoControlView.h"
-#import "PickerFileViewController.h"
+//#import "PickerFileViewController.h"
 
 #import "PlayerControlHeaderView.h"
 #import "FTPReceiceTableViewCell.h"
+#import "PlayerSliderTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "JHMediaPlayer.h"
 
 @interface PlayerVideoControlView ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
@@ -38,57 +40,86 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    }
     return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-        FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
-        if (cell == nil) {
-            cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
-            cell.titleLabel.textColor = [UIColor whiteColor];
-        }
+    if (indexPath.section == 0) {
+        @weakify(self)
+        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
+        cell.type = PlayerSliderTableViewCellTypeRate;
+        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
+            @strongify(self)
+            if (!self) return;
+            
+            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", aCell.slider.value];
+        };
         
-        if (indexPath.row == [CacheManager shareCacheManager].playMode) {
-            cell.iconImgView.hidden = NO;
-        }
-        else {
-            cell.iconImgView.hidden = YES;
-        }
-        
-        if (indexPath.row == 0) {
-            cell.titleLabel.text = @"单集播放";
-        }
-        else if (indexPath.row == 1) {
-            cell.titleLabel.text = @"单集循环";
-        }
-        else if (indexPath.row == 2) {
-            cell.titleLabel.text = @"列表循环";
-        }
-        else if (indexPath.row == 3) {
-            cell.titleLabel.text = @"顺序播放";
-        }
+        cell.touchSliderUpCallback = ^(PlayerSliderTableViewCell *aCell) {
+            @strongify(self)
+            if (!self) return;
+            
+            [JHMediaPlayer sharePlayer].speed = aCell.slider.value;
+        };
         
         return cell;
+    }
+    
+    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
+    if (cell == nil) {
+        cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
+        cell.titleLabel.textColor = [UIColor whiteColor];
+    }
+    
+    if (indexPath.row == [CacheManager shareCacheManager].playMode) {
+        cell.iconImgView.hidden = NO;
+    }
+    else {
+        cell.iconImgView.hidden = YES;
+    }
+    
+    if (indexPath.row == 0) {
+        cell.titleLabel.text = @"单集播放";
+    }
+    else if (indexPath.row == 1) {
+        cell.titleLabel.text = @"单集循环";
+    }
+    else if (indexPath.row == 2) {
+        cell.titleLabel.text = @"列表循环";
+    }
+    else if (indexPath.row == 3) {
+        cell.titleLabel.text = @"顺序播放";
+    }
+    
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-        [CacheManager shareCacheManager].playMode = indexPath.row;
-        [tableView reloadData];
+    [CacheManager shareCacheManager].playMode = indexPath.row;
+    [tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 44 + jh_isPad() * 20;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
-    view.titleLabel.text = @"播放模式";
+    if (section == 0) {
+        view.titleLabel.text = @"播放速度";
+    }
+    else {
+        view.titleLabel.text = @"播放模式";
+    }
     return view;
 }
 
@@ -108,6 +139,7 @@
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
+        [_tableView registerClass:[PlayerSliderTableViewCell class] forCellReuseIdentifier:@"PlayerSliderTableViewCell"];
         [_tableView registerClass:[PlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"PlayerControlHeaderView"];
         [self addSubview:_tableView];
     }

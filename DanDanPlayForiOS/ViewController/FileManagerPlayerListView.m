@@ -7,44 +7,40 @@
 //
 
 #import "FileManagerPlayerListView.h"
+#import "BaseTableView.h"
+
 #import "FileManagerFolderPlayerListViewCell.h"
 #import "FileManagerVideoTableViewCell.h"
+#import "FileManagerFolderLongViewCell.h"
+#import "FileManagerFileLongViewCell.h"
+
+@interface FileManagerPlayerListView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource>
+@property (strong, nonatomic) BaseTableView *tableView;
+@end
 
 @implementation FileManagerPlayerListView
+{
+    JHFile *_dataSourceFile;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
-        [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"currentPlayVideoModel" options:NSKeyValueObservingOptionNew context:nil];
+        self.currentFile = [CacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
         
-        [self.tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
-        [self.tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
-        
-        [self.tableView removeGestureRecognizer:self.longPressGestureRecognizer];
-        
-        @weakify(self)
-        self.tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
-            @strongify(self)
-            if (!self) return;
-            
-            if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
-                [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)self.currentFile completion:^(JHFile *file, NSError *error) {
-                    self.currentFile = file;
-                    [self.tableView reloadData];
-                    [self.tableView endRefreshing];
-                }];
-            }
-            else {
-                [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:self.currentFile completion:^(JHFile *file) {
-                    self.currentFile = file;
-                    [self.tableView reloadData];
-                    [self.tableView endRefreshing];
-                }];
-            }
+        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
         }];
+        
+        [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"currentPlayVideoModel" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
+
+- (instancetype)init {
+    return [self initWithFrame:[UIScreen mainScreen].bounds];
+}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"currentPlayVideoModel"]) {
@@ -57,16 +53,65 @@
 }
 
 - (void)setCurrentFile:(JHFile *)currentFile {
-    [super setCurrentFile:currentFile];
-    
-    VideoModel *vm = [CacheManager shareCacheManager].currentPlayVideoModel;
-    [currentFile.subFiles enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.videoModel isEqual:vm]) {
-            //当前列表滚动到播放的视频位置
-            [self.tableView scrollToRow:idx inSection:1 atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-            *stop = YES;
+    _currentFile = currentFile;
+    [self.tableView reloadData];
+}
+
+- (void)scrollToCurrentFile {
+    if ([self tableView:self.tableView numberOfRowsInSection:1]) {
+        VideoModel *vm = [CacheManager shareCacheManager].currentPlayVideoModel;
+        [_dataSourceFile.subFiles enumerateObjectsUsingBlock:^(JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.videoModel isEqual:vm]) {
+                //当前列表滚动到播放的视频位置
+                [self.tableView scrollToRow:idx inSection:1 atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                *stop = YES;
+            }
+        }];
+    }
+}
+
+#pragma mark - 私有方法
+- (void)reloadDataWithAnimate:(BOOL)flag {
+    if (flag == NO) {
+        [self.tableView reloadData];
+    }
+    else {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)viewScrollToTop:(BOOL)flag {
+    if (self.currentFile.parentFile) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:flag];
+    }
+    else {
+        if ([self tableView:self.tableView numberOfRowsInSection:1]) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:flag];
         }
-    }];
+    }
+}
+
+- (JHSMBFile *)filterWithFile:(JHSMBFile *)file {
+    if ([file isKindOfClass:[JHSMBFile class]]) {
+        JHSMBFile *tempParentFile = [[JHSMBFile alloc] initWithSMBSessionFile:file.sessionFile];
+        tempParentFile.parentFile = file.parentFile;
+        tempParentFile.type = file.type;
+        
+        [file.subFiles enumerateObjectsUsingBlock:^(__kindof JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.type == JHFileTypeFolder || jh_isVideoFile(obj.fileURL.absoluteString)) {
+                [tempParentFile.subFiles addObject:obj];
+            }
+        }];
+        
+        return tempParentFile;
+    }
+    return file;
+}
+
+#pragma mark - DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"(´_ゝ`)没有视频 点击刷新" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
 }
 
 #pragma mark - UITableViewDataSource
@@ -101,11 +146,11 @@
     }
     
     
-    JHFile *file = self.currentFile.subFiles[indexPath.row];
+    JHFile *file = _dataSourceFile.subFiles[indexPath.row];
     //文件
     if (file.type == JHFileTypeDocument) {
         //远程文件
-        if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+        if ([file isKindOfClass:[JHSMBFile class]]) {
             
             FileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerVideoTableViewCell" forIndexPath:indexPath];
             cell.model = (JHSMBFile *)file;
@@ -128,7 +173,7 @@
     //文件夹
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     //远程文件
-    if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+    if ([file isKindOfClass:[JHSMBFile class]]) {
         cell.titleLabel.text = file.name;
         cell.detailLabel.text = nil;
     }
@@ -143,11 +188,32 @@
     return cell;
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleNone;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    _dataSourceFile = [self filterWithFile:(JHSMBFile *)_currentFile];
+    return 2;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        if (_dataSourceFile.parentFile) {
+            return 1;
+        }
+        return 0;
+    }
+    
+    return _dataSourceFile.subFiles.count;
+}
+
+
 #pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //返回上一级
@@ -155,7 +221,7 @@
         return 53 + 20 * jh_isPad();
     }
     
-    JHFile *file = self.currentFile.subFiles[indexPath.row];
+    JHFile *file = _dataSourceFile.subFiles[indexPath.row];
     if (file.type == JHFileTypeDocument) {
         return 60 + 30 * jh_isPad();
     }
@@ -163,22 +229,25 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
-        self.currentFile = self.currentFile.parentFile;
+        self.currentFile = _dataSourceFile.parentFile;
         [self reloadDataWithAnimate:YES];
         [self viewScrollToTop:NO];
     }
     else {
-        JHFile *file = self.currentFile.subFiles[indexPath.row];
+        JHFile *file = _dataSourceFile.subFiles[indexPath.row];
         
         if (file.type == JHFileTypeDocument) {
             if ([self.delegate respondsToSelector:@selector(managerView:didselectedModel:)]) {
-                [self.delegate managerView:self didselectedModel:self.currentFile.subFiles[indexPath.item]];
+                [self.delegate managerView:self didselectedModel:_dataSourceFile.subFiles[indexPath.item]];
             }
         }
-        else if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+        else if ([file isKindOfClass:[JHSMBFile class]]) {
             [MBProgressHUD showLoadingInView:self text:nil];
-            [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)file completion:^(JHFile *aFile, NSError *error) {
+            
+            [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)file completion:^(JHSMBFile *file, NSError *error) {
                 [MBProgressHUD hideLoading];
                 if (error) {
                     [MBProgressHUD showWithError:error];
@@ -189,6 +258,7 @@
                     [self viewScrollToTop:NO];
                 }
             }];
+            
         }
         else {
             self.currentFile = file;
@@ -196,6 +266,49 @@
             [self viewScrollToTop:NO];
         }
     }
+}
+
+
+#pragma mark - 懒加载
+- (BaseTableView *)tableView {
+    if (_tableView == nil) {
+        _tableView = [[BaseTableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.emptyDataSetSource = self;
+        _tableView.estimatedRowHeight = 60;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[FileManagerFileLongViewCell class] forCellReuseIdentifier:@"FileManagerFileLongViewCell"];
+        [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
+        
+        [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
+        [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
+        
+        @weakify(self)
+        _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
+            @strongify(self)
+            if (!self) return;
+            
+            if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+                [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)self.currentFile fileType:PickerFileTypeAll completion:^(JHSMBFile *file, NSError *error) {
+                    self.currentFile = file;
+                    [self.tableView reloadData];
+                    [self.tableView endRefreshing];
+                }];
+            }
+            else {
+                [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:self.currentFile type:PickerFileTypeVideo completion:^(JHFile *file) {
+                    self.currentFile = file;
+                    [self.tableView reloadData];
+                    [self.tableView endRefreshing];
+                }];
+            }
+        }];
+        
+        [self addSubview:_tableView];
+    }
+    return _tableView;
 }
 
 @end

@@ -49,7 +49,6 @@
     [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_localMediaPlayer removeObserver:self forKeyPath:@"state"];
-    [BaseNetManager stopMonitoring];
 }
 
 
@@ -146,6 +145,17 @@
     return _localMediaPlayer.currentVideoSubTitleIndex;
 }
 
+- (void)setSpeed:(float)speed {
+    _localMediaPlayer.rate = speed;
+    if ([self.delegate respondsToSelector:@selector(mediaPlayer:rateChange:)]) {
+        [self.delegate mediaPlayer:self rateChange:_localMediaPlayer.rate];
+    }
+}
+
+- (float)speed {
+    return _localMediaPlayer.rate;
+}
+
 #pragma mark 播放器控制
 - (BOOL)isPlaying {
     return [_localMediaPlayer isPlaying];
@@ -231,7 +241,8 @@
 //    if (self.mediaType == JHMediaTypeLocaleMedia) {
     return [_localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
 //    }
-//    return [_localMediaPlayer openVideoSubTitlesFromFile:b];
+    
+//    return [_localMediaPlayer openVideoSubTitlesFromFile:a];
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
@@ -240,7 +251,9 @@
     _mediaURL = mediaURL;
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"]) {
-        self.localMediaPlayer.media = [[VLCMedia alloc] initWithURL:mediaURL];
+        VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
+        [media addOptions:@{@"freetype-font" : @"Helvetica Neue"}];
+        self.localMediaPlayer.media = media;
     }
     
     self.localMediaPlayer.delegate = self;

@@ -12,8 +12,17 @@
 #import "PlayerSendDanmakuConfigView.h"
 #import "PlayerNoticeView.h"
 
+@class PlayerInterfaceView;
+@protocol PlayerInterfaceViewDelegate <NSObject>
+
+@optional
+- (void)interfaceViewDidTouchSendDanmakuButton;
+@end
+
 @class JHBlurView;
 @interface PlayerInterfaceView : UIView
+@property (weak, nonatomic) id<PlayerInterfaceViewDelegate> delegate;
+
 @property (strong, nonatomic) UIView *topView;
 @property (strong, nonatomic) UIView *bottomView;
 
@@ -23,28 +32,18 @@
 @property (strong, nonatomic) UILabel *currentTimeLabel;
 @property (strong, nonatomic) UILabel *totalTimeLabel;
 @property (strong, nonatomic) UISlider *progressSlider;
-@property (strong, nonatomic) UITextField *sendDanmakuTextField;
+
 @property (strong, nonatomic) UISwitch *danmakuHideSwitch;
 @property (strong, nonatomic) UIButton *playButton;
 @property (strong, nonatomic) UIButton *subTitleIndexButton;
 
 @property (strong, nonatomic) UIView *gestureView;
 @property (strong, nonatomic) PlayerConfigPanelView *configPanelView;
-@property (strong, nonatomic) PlayerSendDanmakuConfigView *sendDanmakuConfigView;
 @property (strong, nonatomic) PlayerSubTitleIndexView *subTitleIndexView;
 @property (strong, nonatomic) PlayerNoticeView *matchNoticeView;
 @property (strong, nonatomic) PlayerNoticeView *lastTimeNoticeView;
 @property (assign, nonatomic, readonly, getter=isShow) BOOL show;
 
-/**
- 展开发送弹幕输入框
- */
-- (void)expandDanmakuTextField;
-
-/**
- 收起发送弹幕输入框
- */
-- (void)packUpDanmakuTextField;
 
 /**
  显示
@@ -55,4 +54,6 @@
  隐藏
  */
 - (void)dismissWithAnimate:(BOOL)flag;
+
+- (void)resetTimer;
 @end

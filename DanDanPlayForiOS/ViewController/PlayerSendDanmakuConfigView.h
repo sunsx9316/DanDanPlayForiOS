@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PlayerSendDanmakuConfigView : UIView
-@property (strong, nonatomic) UIColor *color;
-@property (assign, nonatomic) int danmakuMode;
+@property (copy, nonatomic) void(^selectedCallback)(UIColor *color, JHDanmakuMode mode);
 - (void)show;
 - (void)dismiss;
 @end

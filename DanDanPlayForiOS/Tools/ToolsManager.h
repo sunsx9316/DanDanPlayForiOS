@@ -41,14 +41,32 @@ UIKIT_EXTERN BOOL jh_isVideoFile(NSString *aURL);
  */
 UIKIT_EXTERN BOOL jh_isDanmakuFile(NSString *aURL);
 
+
+/**
+ 生成一个根目录文件夹
+
+ @return 根目录
+ */
+UIKIT_EXTERN JHFile *jh_getANewRootFile();
+
+
+/**
+ 判断路径是不是根目录
+
+ @param url 路径
+ @return    是不是根目录
+ */
+UIKIT_EXTERN BOOL jh_isRootFile(NSURL *url);
+
 typedef void(^GetSnapshotAction)(UIImage *image);
 typedef void(^GetFilesAction)(JHFile *file);
 typedef void(^GetSMBFilesAction)(JHSMBFile *file, NSError *error);
 
 typedef NS_ENUM(NSUInteger, PickerFileType) {
-    PickerFileTypeAll,
-    PickerFileTypeSubtitle,
-    PickerFileTypeDanmaku,
+    PickerFileTypeVideo = 1 << 0,
+    PickerFileTypeSubtitle = 1 << 1,
+    PickerFileTypeDanmaku = 1 << 2,
+    PickerFileTypeAll = PickerFileTypeVideo | PickerFileTypeSubtitle | PickerFileTypeDanmaku
 };
 
 @class HTTPServer, TOSMBSession;
@@ -70,7 +88,9 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 /**
  扫描视频模型
  */
-- (void)startDiscovererVideoWithFile:(JHFile *)file completion:(GetFilesAction)completion;
+- (void)startDiscovererVideoWithFile:(JHFile *)file
+                                type:(PickerFileType)type
+                          completion:(GetFilesAction)completion;
 
 
 /**
@@ -94,7 +114,9 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  @param aURL 路径
  @param completion 回调
  */
-- (void)startSearchVideoWithSearchKey:(NSString *)key completion:(GetFilesAction)completion;
+- (void)startSearchVideoWithRootFile:(JHFile *)file
+                           searchKey:(NSString *)key
+                          completion:(GetFilesAction)completion;
 
 #pragma mark - HTTPServer
 + (HTTPServer *)shareHTTPServer;

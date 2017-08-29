@@ -11,4 +11,5 @@
 @interface FileManagerVideoTableViewCell : FileManagerBaseViewCell
 @property (strong, nonatomic) JHSMBFile *model;
 @property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *fileTypeLabel;
 @end

@@ -29,6 +29,8 @@ static NSString *const lastPlayTimeKey = @"last_play_time";
 static NSString *const openAutoDownloadSubtitleKey = @"open_auto_download_subtitle";
 static NSString *const priorityLoadLocalDanmakuKey = @"priority_load_local_danmaku";
 static NSString *const showDownloadStatusViewKey = @"show_down_load_status_view";
+static NSString *const sendDanmakuColorKey = @"send_danmaku_color";
+static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -106,12 +108,12 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
-- (JHFile *)rootFile {
-    if (_rootFile == nil) {
-        _rootFile = [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
-    }
-    return _rootFile;
-}
+//- (JHFile *)rootFile {
+//    if (_rootFile == nil) {
+//        _rootFile = [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
+//    }
+//    return _rootFile;
+//}
 
 #pragma mark - 
 - (DownloadStatusView *)downloadView {
@@ -238,8 +240,8 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 - (BOOL)priorityLoadLocalDanmaku {
     NSNumber * num = (NSNumber *)[self.cache objectForKey:priorityLoadLocalDanmakuKey];
     if (num == nil) {
-        num = @(NO);
-        self.priorityLoadLocalDanmaku = NO;
+        num = @(YES);
+        self.priorityLoadLocalDanmaku = YES;
     }
     return num.boolValue;
 }
@@ -326,6 +328,35 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
+- (UIColor *)sendDanmakuColor {
+    UIColor *color = (UIColor *)[self.cache objectForKey:sendDanmakuColorKey];
+    if (color == nil) {
+        color = [UIColor whiteColor];
+        self.sendDanmakuColor = color;
+    }
+    return color;
+}
+
+- (void)setSendDanmakuColor:(UIColor *)sendDanmakuColor {
+    [self.cache setObject:sendDanmakuColor forKey:sendDanmakuColorKey];
+}
+
+#pragma mark -
+- (JHDanmakuMode)sendDanmakuMode {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:sendDanmakuModeKey];
+    if (num == nil) {
+        num = @(JHDanmakuModeNormal);
+        self.sendDanmakuMode = JHDanmakuModeNormal;
+    }
+    
+    return num.integerValue;
+}
+
+- (void)setSendDanmakuMode:(JHDanmakuMode)sendDanmakuMode {
+    [self.cache setObject:@(sendDanmakuMode) forKey:sendDanmakuModeKey];
+}
+
+#pragma mark -
 - (NSMutableDictionary *)folderCache {
     NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[self.cache objectForKey:folderCacheKey];
     
@@ -343,7 +374,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 - (void)setFolderCache:(NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *)folderCache {
-    [self.cache setObject:folderCache forKey:folderCacheKey withBlock:nil];
+    [self.cache setObject:folderCache forKey:folderCacheKey];
 }
 
 #pragma mark -

@@ -16,6 +16,9 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+        self.selectedBackgroundView = [[UIView alloc] init];
+        
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
             make.left.mas_offset(10);
@@ -24,7 +27,6 @@
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
             make.centerY.mas_equalTo(0);
-//            make.right.mas_offset(-10);
         }];
         
         [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
