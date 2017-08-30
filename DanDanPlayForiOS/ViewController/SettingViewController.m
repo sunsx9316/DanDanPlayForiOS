@@ -382,7 +382,7 @@
         
         JHSettingItem *openAutoDownloadSubtitleItem = [[JHSettingItem alloc] init];
         openAutoDownloadSubtitleItem.title = @"自动加载远程设备字幕";
-        openAutoDownloadSubtitleItem.detail = @"会大概没人会关掉";
+        openAutoDownloadSubtitleItem.detail = @"大概没人会关掉";
         openAutoDownloadSubtitleItem.type = JHSettingItemTypeSwitch;
         [openAutoDownloadSubtitleItem setSwitchStatusCallBack:^{
             return [CacheManager shareCacheManager].openAutoDownloadSubtitle;
