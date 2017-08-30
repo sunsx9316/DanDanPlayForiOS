@@ -156,7 +156,7 @@
     if (_iconBGImgView == nil) {
         _iconBGImgView = [[UIImageView alloc] init];
         _iconBGImgView.contentMode = UIViewContentModeScaleAspectFill;
-        [_iconBGImgView addMotionEffectWithMaxOffset:20];
+//        [_iconBGImgView addMotionEffectWithMaxOffset:20];
     }
     return _iconBGImgView;
 }
@@ -170,7 +170,7 @@
         _iconImgView.layer.masksToBounds = YES;
         _iconImgView.layer.borderWidth = 5;
         _iconImgView.layer.borderColor = RGBACOLOR(255, 255, 255, 0.6).CGColor;
-        [_iconImgView addMotionEffectWithMaxOffset:30];
+//        [_iconImgView addMotionEffectWithMaxOffset:30];
         
     }
     return _iconImgView;

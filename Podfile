@@ -13,7 +13,6 @@ target 'DanDanPlayForiOS' do
     #pod 'UMengUShare/Social/WeChat'
 # 集成QQ
     #pod 'UMengUShare/Social/QQ'
-#  pod 'UMengAnalytics'
 
     pod 'Bugly'
     pod 'MobileVLCKit-unstable', '~> 3.0.0a33'
@@ -35,7 +34,7 @@ target 'DanDanPlayForiOS' do
     pod 'NKOColorPickerView'
     pod 'CocoaHTTPServer'
     pod 'YYKeyboardManager'
-    pod 'TOSMBClient'
+    pod 'TOSMBClient', '<= 1.0.5'
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
     

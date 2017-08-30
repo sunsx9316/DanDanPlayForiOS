@@ -28,10 +28,10 @@
         }];
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.fileTypeLabel.mas_right).mas_offset(10);
+            make.left.equalTo(self.imgView.mas_right).mas_offset(10);
 //            make.bottom.mas_offset(-5);
             make.right.mas_offset(-10);
-            make.centerY.equalTo(self.fileTypeLabel);
+            make.centerY.equalTo(self.imgView);
         }];
     }
     return self;
@@ -42,12 +42,22 @@
     self.titleLabel.text = _model.name;
     if (jh_isVideoFile(_model.fileURL.absoluteString)) {
         self.fileTypeLabel.text = _model.fileURL.pathExtension;
+//        self.imgView.hidden = NO;
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.imgView.mas_right).mas_offset(10);
+        }];
+        
         [self.fileTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(36);
+            make.width.mas_equalTo(40 + jh_isPad() * 10);
         }];
     }
     else {
         self.fileTypeLabel.text = nil;
+//        self.imgView.hidden = YES;
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.imgView.mas_right).mas_offset(0);
+        }];
+        
         [self.fileTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(0);
         }];

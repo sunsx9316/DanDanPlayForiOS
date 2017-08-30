@@ -461,7 +461,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     session.userName = _smbInfo.userName;
     session.hostName = _smbInfo.hostName;
     //最大下载任务数
-    session.maxTaskOperationCount = 5;
+    session.maxDownloadOperationCount = 5;
 //    dispatch_queue_t serialQueue = dispatch_queue_create("com.dandanplay.smbdownload", DISPATCH_QUEUE_SERIAL);
 //    [session setValue:serialQueue forKey:@"serialQueue"];
     self.SMBSession = session;
@@ -488,7 +488,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         @strongify(self)
         if (!self) return;
         
-        if (newVal.integerValue == TOSMBSessionTaskStateCancelled) {
+        if (newVal.integerValue == TOSMBSessionDownloadTaskStateCancelled) {
             if (cancel) {
                 cancel([obj valueForKey:@"tempFilePath"]);
                 [obj removeObserverBlocks];
@@ -535,7 +535,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
  @param task 任务
  @param error 错误
  */
-- (void)task:(TOSMBSessionTask *)task didCompleteWithError:(NSError *)error {
+- (void)downloadTask:(TOSMBSessionDownloadTask *)task didCompleteWithError:(NSError *)error {
     if (error) {
         void(^completionAction)(NSString *destinationFilePath, NSError *error) = objc_getAssociatedObject(task, &smbCompletionBlockKey);
         if (completionAction) {
@@ -546,7 +546,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     }
 }
 
-- (void)removeAssociatedObjectWithTask:(TOSMBSessionTask *)task {
+- (void)removeAssociatedObjectWithTask:(TOSMBSessionDownloadTask *)task {
     objc_setAssociatedObject(task, &smbCompletionBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(task, &smbProgressBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
