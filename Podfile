@@ -17,7 +17,6 @@ target 'DanDanPlayForiOS' do
 
     pod 'Bugly'
     pod 'MobileVLCKit-unstable', '~> 3.0.0a33'
-    #pod 'MobileVLCKit-prod', '~> 2.7.9'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'
