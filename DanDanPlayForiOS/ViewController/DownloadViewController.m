@@ -54,12 +54,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     TOSMBSessionDownloadTask *task = [CacheManager shareCacheManager].downloadTasks[indexPath.row];
-    if (task.state == TOSMBSessionTaskStateSuspended) {
+    if (task.state == TOSMBSessionDownloadTaskStateSuspended) {
         [task resume];
         DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell updateDataSourceWithAnimate:YES];
     }
-    else if (task.state == TOSMBSessionTaskStateRunning) {
+    else if (task.state == TOSMBSessionDownloadTaskStateRunning) {
         [task suspend];
         DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell updateDataSourceWithAnimate:YES];

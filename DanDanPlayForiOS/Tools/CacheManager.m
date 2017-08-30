@@ -9,7 +9,7 @@
 #import "CacheManager.h"
 #import "UIFont+Tools.h"
 #import <TOSMBSessionFile.h>
-#import <TOSMBSessionDownloadTaskPrivate.h>
+//#import <TOSMBSessionDownloadTaskPrivate.h>
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -493,7 +493,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     if (tasks.count == 0) return;
     
     [tasks enumerateObjectsUsingBlock:^(TOSMBSessionDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.delegate = self;
+        [obj setValue:self forKey:@"delegate"];
         _totoalExpectedToReceive += obj.countOfBytesExpectedToReceive;
     }];
     
