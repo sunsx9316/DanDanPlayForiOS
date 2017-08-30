@@ -28,19 +28,15 @@
     [self.netbiosService stopDiscovery];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (self.tableView.mj_header.refreshingBlock) {
-        self.tableView.mj_header.refreshingBlock();
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"浏览电脑文件";
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -235,11 +231,11 @@
             self.netbiosService = [[TONetBIOSNameService alloc] init];
             [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries addObject:entry];
-                [self.tableView reloadData];
+                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
                 
             } removed:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries removeObject:entry];
-                [self.tableView reloadData];
+                [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
             
             [self.tableView.mj_header endRefreshing];

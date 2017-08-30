@@ -462,8 +462,6 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     session.hostName = _smbInfo.hostName;
     //最大下载任务数
     session.maxDownloadOperationCount = 5;
-//    dispatch_queue_t serialQueue = dispatch_queue_create("com.dandanplay.smbdownload", DISPATCH_QUEUE_SERIAL);
-//    [session setValue:serialQueue forKey:@"serialQueue"];
     self.SMBSession = session;
 }
 

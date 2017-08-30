@@ -559,11 +559,13 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             NSMutableArray *tempArr = [NSMutableArray arrayWithArray:tempFile.subFiles];
             [tempArr enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(JHSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (type & PickerFileTypeDanmaku && jh_isDanmakuFile(obj.fileURL.absoluteString) == NO) {
-                    [tempArr removeObject:obj];
-                }
-                else if (type & PickerFileTypeSubtitle && jh_isSubTitleFile(obj.fileURL.absoluteString) == NO) {
-                    [tempArr removeObject:obj];
+                if (obj.type == JHFileTypeDocument) {
+                    if ((type & PickerFileTypeDanmaku) && jh_isDanmakuFile(obj.fileURL.absoluteString) == NO) {
+                        [tempArr removeObject:obj];
+                    }
+                    else if ((type & PickerFileTypeSubtitle) && jh_isSubTitleFile(obj.fileURL.absoluteString) == NO) {
+                        [tempArr removeObject:obj];
+                    }
                 }
             }];
             
