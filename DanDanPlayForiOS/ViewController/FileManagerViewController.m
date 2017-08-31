@@ -60,7 +60,9 @@
     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     if (jh_isRootFile(self.file.fileURL)) {
         self.automaticallyAdjustsScrollViewInsets = NO;
-        [self.tableView.mj_header beginRefreshing];
+        if (self.tableView.mj_header.refreshingBlock) {
+            self.tableView.mj_header.refreshingBlock();
+        }
     }
     else {
         self.automaticallyAdjustsScrollViewInsets = YES;

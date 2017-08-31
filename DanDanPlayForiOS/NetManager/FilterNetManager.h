@@ -17,5 +17,5 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)cloudfilterListWithCompletionHandler:(void(^)(JHFilterCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)cloudFilterListWithCompletionHandler:(void(^)(JHFilterCollection *responseObject, NSError *error))completionHandler;
 @end

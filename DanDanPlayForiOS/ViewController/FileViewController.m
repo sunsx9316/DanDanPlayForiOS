@@ -73,12 +73,10 @@
     [holdView addSubview:self.helpButton];
     
     [self.httpButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.mas_equalTo(0);
         make.edges.mas_equalTo(0);
     }];
     
     [self.helpButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.mas_equalTo(0);
         make.edges.mas_equalTo(0);
     }];
     

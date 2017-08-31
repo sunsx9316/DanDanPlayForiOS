@@ -53,7 +53,7 @@
     if (_selectedAllButton == nil) {
         _selectedAllButton = [[UIButton alloc] init];
         [_selectedAllButton setTitle:@"全选" forState:UIControlStateNormal];
-        [_selectedAllButton setImage:[UIImage imageNamed:@"cheak_mark"] forState:UIControlStateSelected];
+        [_selectedAllButton setImage:[UIImage imageNamed:@"cheak_mark_selected"] forState:UIControlStateSelected];
         [_selectedAllButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
         _selectedAllButton.titleLabel.font = NORMAL_SIZE_FONT;
         _selectedAllButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);

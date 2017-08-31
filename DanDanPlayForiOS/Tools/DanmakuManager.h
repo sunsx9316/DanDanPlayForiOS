@@ -22,16 +22,6 @@
 + (JHDanmakuCollection *)saveDanmakuWithObj:(id)obj episodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source;
 
 /**
- 获取缓存弹幕
-
- @param episodeId 节目id
- @param source 类型
- @return 缓存弹幕
- */
-+ (NSArray <JHDanmaku *>*)danmakuCacheWithEpisodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source;
-
-
-/**
  根据视频模型保存弹幕
 
  @param obj 弹幕
@@ -41,7 +31,16 @@
 + (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source;
 
 /**
- 获取缓存弹幕
+ 根据节目id获取缓存弹幕
+ 
+ @param episodeId 节目id
+ @param source 类型
+ @return 缓存弹幕
+ */
++ (NSArray <JHDanmaku *>*)danmakuCacheWithEpisodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source;
+
+/**
+ 根据视频模型获取缓存弹幕
  
  @param videoModel 视频模型 需要关联过节目才能获取到
  @param source 类型
@@ -49,7 +48,14 @@
  */
 + (NSArray <JHDanmaku *>*)danmakuCacheWithVideoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source;
 
-+ (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <JHDanmaku *>*)danmakus;
+/**
+ 转换弹幕
+
+ @param danmakus 弹幕数组
+ @param filter 是否过滤弹幕
+ @return 时间字典形式
+ */
++ (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <JHDanmaku *>*)danmakus filter:(BOOL)filter;
 
 /**
  转换弹幕模型
@@ -68,6 +74,8 @@
  @return 弹幕字典
  */
 + (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)parseLocalDanmakuWithSource:(DanDanPlayDanmakuType)source obj:(id)obj;
+
++ (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <JHFilter *>*)danmakuFilters;
 
 /**
  弹幕缓存大小

@@ -135,10 +135,13 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 /**
  弹幕过滤
  */
-@property (strong, nonatomic) NSArray <JHFilter *>*danmakuFilters;
-
-- (void)addDanmakuFilter:(JHFilter *)danmakuFilter;
-- (void)removeDanmakuFilter:(JHFilter *)danmakuFilter;
+@property (strong, nonatomic, readonly) NSArray <JHFilter *>*danmakuFilters;
+- (void)addFilter:(JHFilter *)model;
+- (void)addFilters:(NSArray <JHFilter *>*)models;
+- (void)addFilters:(NSArray <JHFilter *>*)models atHeader:(BOOL)atHeader;
+- (void)removeFilter:(JHFilter *)model;
+- (void)removeFilters:(NSArray <JHFilter *>*)models;
+- (void)updateFilter:(JHFilter *)model;
 
 /**
  关联视频和本地节目id

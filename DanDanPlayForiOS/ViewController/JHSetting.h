@@ -12,6 +12,7 @@ typedef NS_ENUM(NSUInteger, JHSettingItemType) {
     JHSettingItemTypeDanmakuFont,
     JHSettingItemTypeSwitch,
     JHSettingItemTypeLeftRight,
+    JHSettingItemTypeFilter,
 };
 
 @interface JHSettingItem : JHBase

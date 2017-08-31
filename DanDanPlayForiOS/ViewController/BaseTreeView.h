@@ -7,19 +7,9 @@
 //
 
 #import <RATreeView/RATreeView.h>
-#import <UIScrollView+EmptyDataSet.h>
-#import "MJRefreshFooter+Tools.h"
-#import "MJRefreshHeader+Tools.h"
+#import "UIScrollView+Base.h"
 
 @interface BaseTreeView : RATreeView
-@property (assign, nonatomic, getter=isShowEmptyView) BOOL showEmptyView;
-@property (assign, nonatomic) CGFloat verticalOffsetForEmptyDataSet;
-@property (assign, nonatomic) BOOL allowScroll;
-/**
- *  [self.mj_header endRefreshing];
- self.showEmptyView = YES;
- [self reloadEmptyDataSet];
- */
 - (void)endRefreshing;
 @end
 

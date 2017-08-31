@@ -23,4 +23,6 @@
  内容
  */
 @property (copy, nonatomic) NSString *content;
+
+@property (assign, nonatomic) BOOL enable;
 @end

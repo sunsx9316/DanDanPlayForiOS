@@ -42,6 +42,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 @property (strong, nonatomic) YYCache *lastPlayTimeCache;
 @property (strong, nonatomic) YYCache *smbFileHashCache;
 @property (strong, nonatomic) NSMutableArray <TOSMBSessionDownloadTask *>*aDownloadTasks;
+@property (strong, nonatomic) NSMutableArray <JHFilter *>*aFilterCollection;
 @end
 
 @implementation CacheManager
@@ -378,21 +379,68 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
-- (NSArray<JHFilter *> *)danmakuFilters {
-    return (NSArray *)[self.cache objectForKey:danmakuFiltersKey];
+#pragma mark -
+- (NSArray *)danmakuFilters {
+    return self.aFilterCollection;
 }
 
-- (void)addDanmakuFilter:(JHFilter *)danmakuFilter {
-    NSMutableArray *arr = [NSMutableArray arrayWithArray:(NSArray *)[self.cache objectForKey:danmakuFiltersKey]];
-    [arr addObject:danmakuFilter];
-    [self.cache setObject:arr forKey:danmakuFiltersKey withBlock:nil];
+- (void)addFilter:(JHFilter *)model {
+    [self.aFilterCollection addObject:model];
+    [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
 }
 
-- (void)removeDanmakuFilter:(JHFilter *)danmakuFilter {
-    NSMutableArray *arr = [NSMutableArray arrayWithArray:(NSArray *)[self.cache objectForKey:danmakuFiltersKey]];
-    [arr removeObject:danmakuFilter];
-    [self.cache setObject:arr forKey:danmakuFiltersKey withBlock:nil];
+- (void)addFilters:(NSArray <JHFilter *>*)models {
+    [self.aFilterCollection addObjectsFromArray:models];
+    [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
 }
+
+- (void)addFilters:(NSArray <JHFilter *>*)models atHeader:(BOOL)atHeader {
+    if (atHeader) {
+        [self.aFilterCollection insertObjects:models atIndex:0];
+    }
+    else {
+        [self.aFilterCollection addObjectsFromArray:models];
+    }
+    [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
+}
+
+- (void)removeFilter:(JHFilter *)model {
+    [self.aFilterCollection removeObject:model];
+    [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
+}
+
+- (void)removeFilters:(NSArray <JHFilter *>*)models {
+    [self.aFilterCollection removeObjectsInArray:models];
+    [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
+}
+
+- (void)updateFilter:(JHFilter *)model {
+    NSInteger index = [self.aFilterCollection indexOfObject:model];
+    if (index != NSNotFound) {
+        [self.aFilterCollection replaceObjectAtIndex:index withObject:model];
+        [self.cache setObject:self.aFilterCollection forKey:danmakuFiltersKey];
+    }
+    else {
+        [self addFilter:model];
+    }
+}
+
+- (NSMutableArray<JHFilter *> *)aFilterCollection {
+    if (_aFilterCollection == nil) {
+        _aFilterCollection = (NSMutableArray *)[self.cache objectForKey:danmakuFiltersKey];
+        
+        if (_aFilterCollection == nil) {
+            _aFilterCollection = [NSMutableArray array];
+            [self.cache setObject:_aFilterCollection forKey:danmakuFiltersKey];
+        }
+        
+        if ([_aFilterCollection isKindOfClass:[NSMutableArray class]] == NO) {
+            _aFilterCollection = [_aFilterCollection mutableCopy];
+        }
+    }
+    return _aFilterCollection;
+}
+
 
 #pragma mark -
 

@@ -10,6 +10,7 @@
 #import "JHScrollDanmaku.h"
 #import "JHFloatDanmaku.h"
 #import <GDataXMLNode.h>
+#import "JHBaseDanmaku+Tools.h"
 
 typedef void(^CallBackAction)(JHDanmaku *model);
 
@@ -60,6 +61,14 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     danmakuCollection.saveTime = [NSDate date];
     [cache setObject:danmakuCollection forKey:key withBlock:nil];
     return danmakuCollection;
+}
+
++ (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
+    NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:videoModel];
+    NSUInteger episodeId = [dic[videoEpisodeIdKey] integerValue];
+    if (episodeId == 0) return;
+    
+    [self saveDanmakuWithObj:obj episodeId:episodeId source:source];
 }
 
 + (NSArray <JHDanmaku *>*)danmakuCacheWithEpisodeId:(NSUInteger)episodeId source:(DanDanPlayDanmakuType)source {
@@ -132,13 +141,6 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     return danmakuCache.allObjects;
 }
 
-+ (void)saveDanmakuWithObj:(id)obj videoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
-    NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:videoModel];
-    NSUInteger episodeId = [dic[videoEpisodeIdKey] integerValue];
-    if (episodeId == 0) return;
-    
-    [self saveDanmakuWithObj:obj episodeId:episodeId source:source];
-}
 
 + (NSArray <JHDanmaku *>*)danmakuCacheWithVideoModel:(VideoModel *)videoModel source:(DanDanPlayDanmakuType)source {
     NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:videoModel];
@@ -148,11 +150,12 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     return [self danmakuCacheWithEpisodeId:episodeId source:source];
 }
 
-+ (NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*>*)converDanmakus:(NSArray <JHDanmaku *>*)danmakus {
++ (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <JHDanmaku *>*)danmakus filter:(BOOL)filter {
     NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     UIFont *font = [CacheManager shareCacheManager].danmakuFont;
     JHDanmakuShadowStyle shadowStyle = [CacheManager shareCacheManager].danmakuShadowStyle;
-
+    NSArray *danmakuFilters = [CacheManager shareCacheManager].danmakuFilters;
+    
     [danmakus enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSInteger time = obj.time;
         NSMutableArray *danmakus = dic[@(time)];
@@ -162,8 +165,8 @@ typedef void(^CallBackAction)(JHDanmaku *model);
         }
         
         JHBaseDanmaku *tempDanmaku = nil;
-        if (obj.mode == 4 || obj.mode == 5) {
-            tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font during:3 direction:obj.mode == 4 ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
+        if (obj.mode == JHDanmakuModeBottom || obj.mode == JHDanmakuModeTop) {
+            tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font during:3 direction:obj.mode == JHDanmakuModeBottom ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
         }
         else {
             CGFloat speed = 130 - obj.message.length * 2.5;
@@ -174,11 +177,12 @@ typedef void(^CallBackAction)(JHDanmaku *model);
             
             speed += arc4random() % 20;
             
-            //arc4random() % 100 + 50
-            
             tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font speed:speed direction:JHScrollDanmakuDirectionR2L];
         }
         tempDanmaku.appearTime = obj.time;
+        if (filter) {
+            tempDanmaku.filter = [self filterWithDanmakuContent:obj.message danmakuFilters:danmakuFilters];
+        }
         
         [danmakus addObject:tempDanmaku];
     }];
@@ -189,7 +193,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
 + (JHBaseDanmaku *)converDanmaku:(JHDanmaku *)danmaku {
     if (danmaku == nil) return nil;
     
-    return [self converDanmakus:@[danmaku]].allValues.firstObject.firstObject;
+    return [self converDanmakus:@[danmaku] filter:NO].allValues.firstObject.firstObject;
 }
 
 + (CGFloat)danmakuCacheSize {
@@ -213,7 +217,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
         [danmakus addObject:model];
     }];
     
-    return [self converDanmakus:danmakus];
+    return [self converDanmakus:danmakus filter:NO];
 }
 
 
@@ -243,7 +247,6 @@ typedef void(^CallBackAction)(JHDanmaku *model);
             model.color = [tempArr[1] intValue];
             model.mode = [tempArr[2] intValue];
             model.message = dic[@"m"];
-            model.filter = [self filterWithDanMudataModel:model];
             if (block) block(model);
         }
     }
@@ -252,7 +255,6 @@ typedef void(^CallBackAction)(JHDanmaku *model);
 //官方解析方式
 + (void)parseOfficialDanmakus:(JHDanmakuCollection *)danmakus block:(CallBackAction)block{
     [danmakus.collection enumerateObjectsUsingBlock:^(JHDanmaku * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        model.filter = [self filterWithDanMudataModel:model];
         if (block) block(model);
     }];
 }
@@ -269,23 +271,21 @@ typedef void(^CallBackAction)(JHDanmaku *model);
             model.mode = [strArr[1] intValue];
             model.color = [strArr[3] intValue];
             model.message = [ele stringValue];
-            model.filter = [self filterWithDanMudataModel:model];
             if (block) block(model);
     }
 }
 
 
 //过滤弹幕
-+ (BOOL)filterWithDanMudataModel:(JHDanmaku *)model {
-    NSArray <JHFilter *>*danmakuFilters = [CacheManager shareCacheManager].danmakuFilters;
++ (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <JHFilter *>*)danmakuFilters {
     for (JHFilter *filter in danmakuFilters) {
         //使用正则表达式
         if (filter.isRegex) {
-            if ([model.message matchesRegex:filter.content options:NSRegularExpressionCaseInsensitive]) {
+            if ([content matchesRegex:filter.content options:NSRegularExpressionCaseInsensitive]) {
                 return YES;
             }
         }
-        else if ([model.message containsString:filter.content]){
+        else if ([content containsString:filter.content]){
             return YES;
         }
     }

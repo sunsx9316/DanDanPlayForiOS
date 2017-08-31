@@ -109,7 +109,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     }];
     
     return [[self sharedHTTPSessionDataManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"GETDATA 请求成功：%@ \n\n%@", task.originalRequest.URL, [responseObject jsonStringEncoded]);
+        NSLog(@"GETDATA 请求成功：%@ \n\n%@", task.originalRequest.URL, [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         [headerField enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             [[self sharedHTTPSessionDataManager].requestSerializer setValue:nil forHTTPHeaderField:key];
         }];

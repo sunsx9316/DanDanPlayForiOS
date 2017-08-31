@@ -42,7 +42,7 @@
 
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
-        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cheak_mark"]];
+        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cheak_mark_selected"]];
         [_iconImgView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_iconImgView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [self.contentView addSubview:_iconImgView];

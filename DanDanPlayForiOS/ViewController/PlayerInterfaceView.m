@@ -212,6 +212,7 @@
         [_bottomView addSubview:self.sendDanmakuButton];
         [_bottomView addSubview:self.danmakuHideSwitch];
         [_bottomView addSubview:self.subTitleIndexButton];
+        [_bottomView addSubview:self.screenShotButton];
         
         [self.currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
@@ -247,6 +248,10 @@
             make.centerY.equalTo(self.danmakuHideSwitch);
         }];
         
+        [self.screenShotButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.subTitleIndexButton);
+            make.left.equalTo(self.subTitleIndexButton.mas_right).mas_offset(10);
+        }];
         
     }
     return _bottomView;
@@ -320,7 +325,7 @@
         _settingButton = [[JHEdgeButton alloc] init];
         _settingButton.inset = CGSizeMake(20, 6);
         [_settingButton setTitle:@"设置" forState:UIControlStateNormal];
-        _settingButton.titleLabel.font = NORMAL_SIZE_FONT;
+        _settingButton.titleLabel.font = BIG_SIZE_FONT;
         [_settingButton addTarget:self action:@selector(touchSettingButton:) forControlEvents:UIControlEventTouchUpInside];
         [_settingButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_settingButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -352,11 +357,22 @@
     if (_subTitleIndexButton == nil) {
         JHEdgeButton *_aButton = [[JHEdgeButton alloc] init];
         [_aButton setTitle:@"字幕" forState:UIControlStateNormal];
-        _aButton.titleLabel.font = NORMAL_SIZE_FONT;
-        _aButton.inset = CGSizeMake(10, 8);
+        _aButton.titleLabel.font = BIG_SIZE_FONT;
+        _aButton.inset = CGSizeMake(10, 10);
         _subTitleIndexButton = _aButton;
     }
     return _subTitleIndexButton;
+}
+
+- (UIButton *)screenShotButton {
+    if (_screenShotButton == nil) {
+        JHEdgeButton *_aButton = [[JHEdgeButton alloc] init];
+        _aButton.inset = CGSizeMake(10, 10);
+        _aButton.adjustsImageWhenHighlighted = YES;
+        _screenShotButton = _aButton;
+        [_screenShotButton setImage:[UIImage imageNamed:@"screen_shot"] forState:UIControlStateNormal];
+    }
+    return _screenShotButton;
 }
 
 - (PlayerConfigPanelView *)configPanelView {

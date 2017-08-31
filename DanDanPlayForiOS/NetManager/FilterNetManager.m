@@ -10,7 +10,7 @@
 #import <GDataXMLNode.h>
 
 @implementation FilterNetManager
-+ (NSURLSessionDataTask *)cloudfilterListWithCompletionHandler:(void(^)(JHFilterCollection *responseObject, NSError *error))completionHandler {
++ (NSURLSessionDataTask *)cloudFilterListWithCompletionHandler:(void(^)(JHFilterCollection *responseObject, NSError *error))completionHandler {
     
 #ifdef DEBUG
     NSString *path = @"http://api.acplay.net:8089/config/filter.xml";
@@ -35,6 +35,7 @@
                 model.content = dataElement.stringValue;
                 model.name = [[dataElement attributeForName:@"Name"] stringValue];
                 model.isRegex = [[[dataElement attributeForName:@"IsRegex"] stringValue] isEqualToString:@"true"];
+                model.enable = YES;
                 [responseObject.collection addObject:model];
             }
             

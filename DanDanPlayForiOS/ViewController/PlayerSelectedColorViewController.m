@@ -128,6 +128,7 @@
         _textView.returnKeyType = UIReturnKeySend;
         _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
         _textView.delegate = self;
+        _textView.alwaysBounceVertical = YES;
         [self.view addSubview:_textView];
     }
     return _textView;

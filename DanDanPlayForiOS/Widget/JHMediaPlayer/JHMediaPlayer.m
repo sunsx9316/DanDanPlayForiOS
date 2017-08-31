@@ -16,6 +16,7 @@
 
 @interface JHMediaPlayer()<VLCMediaPlayerDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
+@property (copy, nonatomic) SnapshotCompleteBlock snapshotCompleteBlock;
 @end
 
 @implementation JHMediaPlayer
@@ -175,10 +176,10 @@
 
 
 #pragma mark 功能
-- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(snapshotCompleteBlock)completion {
+- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(SnapshotCompleteBlock)completion {
     //vlc截图方式
     NSError *error = nil;
-    NSString *directoryPath = [NSString stringWithFormat:@"%@/VLC_snapshot/%@", NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject, [NSDate date]];
+    NSString *directoryPath = [NSString stringWithFormat:@"%@/VLC_snapshot", NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject];
     if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error];
     }
@@ -191,62 +192,29 @@
         return;
     }
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [_localMediaPlayer saveVideoSnapshotAt:directoryPath withWidth:size.width andHeight:size.height];
-        
-        UIImage *tempImage = [[UIImage alloc] initWithContentsOfFile:directoryPath];
-        
-//        NSMutableArray *imageIds = [NSMutableArray array];
-        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            //写入图片到相册
-            /*PHAssetChangeRequest *req = */[PHAssetChangeRequest creationRequestForAssetFromImage:tempImage];
-            //记录本地标识，等待完成后取到相册中的图片对象
-//            [imageIds addObject:req.placeholderForCreatedAsset.localIdentifier];
-        } completionHandler:^(BOOL success, NSError * _Nullable error) {
-            
-            if (success) {
-                if (completion) {
-                completion(tempImage, nil);
-            }
-                //成功后取相册中的图片对象
-//                __block PHAsset *imageAsset = nil;
-//                PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:imageIds options:nil];
-//                [result enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                    
-//                    imageAsset = obj;
-//                    *stop = YES;
-//                    
-//                }];
-//                
-//                if (imageAsset) {
-//                    //加载图片数据
-//                    [[PHImageManager defaultManager] requestImageDataForAsset:imageAsset options:nil resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-//                        if (completion) {
-//                            completion([[UIImage alloc] initWithData:imageData], nil);
-//                        }
-//                    }];
-//                }
-            }
-            else {
-                if (completion) {
-                    completion(nil, error);
-                }
-            }
-            
-        }];
-    });
+    self.snapshotCompleteBlock = completion;
+    
+    NSString *aPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", [NSDate date].hash]];
+    if ([_mediaURL.absoluteString containsString:@"smb"]) {
+        UIView *aView = self.localMediaPlayer.drawable;
+        UIImage *tempImage = [aView snapshotImageAfterScreenUpdates:YES];
+        [self saveImage:tempImage];
+    }
+    else {
+        [self.localMediaPlayer saveVideoSnapshotAt:aPath withWidth:size.width andHeight:size.height];
+    }
 }
 
 - (int)openVideoSubTitlesFromFile:(NSURL *)path {
-//    if (self.mediaType == JHMediaTypeLocaleMedia) {
+    //    if (self.mediaType == JHMediaTypeLocaleMedia) {
     return [_localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
-//    }
+    //    }
     
-//    return [_localMediaPlayer openVideoSubTitlesFromFile:a];
+    //    return [_localMediaPlayer openVideoSubTitlesFromFile:a];
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
-//    [self stop];
+    //    [self stop];
     if (!mediaURL) return;
     _mediaURL = mediaURL;
     
@@ -281,7 +249,35 @@
     }
 }
 
+- (void)mediaPlayerSnapshot:(NSNotification *)aNotification {
+    UIImage *tempImage = self.localMediaPlayer.lastSnapshot;
+    [self saveImage:tempImage];
+}
+
 #pragma mark - 私有方法
+- (void)saveImage:(UIImage *)image {
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        //写入图片到相册
+        [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.snapshotCompleteBlock) {
+                    self.snapshotCompleteBlock(image, nil);
+                    self.snapshotCompleteBlock = nil;
+                }
+            });
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.snapshotCompleteBlock) {
+                    self.snapshotCompleteBlock(nil, error);
+                    self.snapshotCompleteBlock = nil;
+                }
+            });
+        }
+    }];
+}
 
 #pragma mark 播放结束
 - (void)playEnd:(NSNotification *)sender {

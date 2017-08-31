@@ -15,8 +15,15 @@
 @implementation BaseTreeView
 
 - (void)endRefreshing {
-    [self.jh_tableView.mj_header endRefreshing];
-    self.showEmptyView = YES;
+    if (self.jh_tableView.mj_header.isRefreshing) {
+        [self.jh_tableView.mj_header endRefreshing];
+    }
+    
+    if (self.jh_tableView.mj_footer.isRefreshing) {
+        [self.jh_tableView.mj_footer endRefreshing];
+    }
+    
+    self.jh_tableView.showEmptyView = YES;
     [self.jh_tableView reloadEmptyDataSet];
 }
 
@@ -26,37 +33,8 @@
         self.jh_tableView.emptyDataSetDelegate = self;
         self.jh_tableView.tableFooterView = [[UIView alloc] init];
         self.backgroundColor = BACK_GROUND_COLOR;
-//        _verticalOffsetForEmptyDataSet = 50;
     }
     return self;
-}
-
-#pragma mark - DZNEmptyDataSetSource
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无数据" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-    return str;
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击重试" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-    return str;
-}
-
-#pragma mark - DZNEmptyDataSetDelegate
-- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
-    return _showEmptyView;
-}
-
-- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
-    [self.jh_tableView.mj_header beginRefreshing];
-}
-
-- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
-    return _verticalOffsetForEmptyDataSet;
-}
-
-- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
-    return _allowScroll;
 }
 
 @end

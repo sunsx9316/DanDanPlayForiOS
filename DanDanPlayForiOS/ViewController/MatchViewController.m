@@ -154,7 +154,7 @@
 
 #pragma mark - DZNEmptyDataSetDelegate
 - (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
-    return self.treeView.showEmptyView;
+    return self.treeView.jh_tableView.showEmptyView;
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {

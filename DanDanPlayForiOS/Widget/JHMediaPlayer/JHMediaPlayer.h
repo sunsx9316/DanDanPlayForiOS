@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, JHSnapshotType) {
 };
 
 
-typedef void(^snapshotCompleteBlock)(UIImage *image, NSError *error);
+typedef void(^SnapshotCompleteBlock)(UIImage *image, NSError *error);
 
 
 /**
@@ -115,7 +115,7 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
  *  @param size  宽 如果为 CGSizeZero则为原视频的宽高
  *  @param height 高 如果填0则为原视频高
  */
-- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(snapshotCompleteBlock)completion;
+- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(SnapshotCompleteBlock)completion;
 /**
  *  加载字幕文件
  *

@@ -29,6 +29,16 @@
 
 @implementation MineViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.iconImgView addMotionEffectWithMaxOffset:30];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.iconImgView removeMotionEffect];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"我的";
@@ -156,7 +166,6 @@
     if (_iconBGImgView == nil) {
         _iconBGImgView = [[UIImageView alloc] init];
         _iconBGImgView.contentMode = UIViewContentModeScaleAspectFill;
-//        [_iconBGImgView addMotionEffectWithMaxOffset:20];
     }
     return _iconBGImgView;
 }
@@ -170,8 +179,6 @@
         _iconImgView.layer.masksToBounds = YES;
         _iconImgView.layer.borderWidth = 5;
         _iconImgView.layer.borderColor = RGBACOLOR(255, 255, 255, 0.6).CGColor;
-//        [_iconImgView addMotionEffectWithMaxOffset:30];
-        
     }
     return _iconImgView;
 }

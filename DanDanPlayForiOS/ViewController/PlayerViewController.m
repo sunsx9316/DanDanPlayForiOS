@@ -31,6 +31,9 @@ static const float slowRate = 0.05f;
 static const float normalRate = 0.2f;
 static const float fastRate = 0.6f;
 
+//在主线程分析弹幕的时间
+#define PARSE_TIME 10
+
 typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     InterfaceViewPanTypeInactive,
     InterfaceViewPanTypeProgress,
@@ -238,14 +241,15 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHBaseDanmaku *)danmaku {
-    //用户发送
+    //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:danmaku.attributedString];
         [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : MAIN_COLOR} range:NSMakeRange(0, str.length)];
         danmaku.attributedString = str;
+        return YES;
     }
     
-    return YES;
+    return !danmaku.filter;
 }
 
 #pragma mark - PlayerConfigPanelViewDelegate
@@ -382,7 +386,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 #pragma mark - 私有方法
 - (void)reload {
     //转换弹幕
-    _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection];
+    _danmakuDic = [DanmakuManager converDanmakus:_model.danmakus.collection filter:NO];
+    [self asynFilterDanmakuWithTime:0];
+    
     self.interfaceView.titleLabel.text = _model.name;
     //更换视频
     [self.player setMediaURL:_model.fileURL];
@@ -619,6 +625,42 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
 }
 
+
+- (void)asynFilterDanmakuWithTime:(NSInteger)time {
+    //获取弹幕最大时间
+    NSInteger maxTime = [_danmakuDic.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSNumber * _Nonnull obj1, NSNumber * _Nonnull obj2) {
+        return obj1.integerValue - obj2.integerValue;
+    }].lastObject.integerValue;
+    
+    NSArray <JHFilter *>*danmakuFilters = [CacheManager shareCacheManager].danmakuFilters;
+    
+    for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
+        NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
+        //已经分析过
+        if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
+        
+        [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.filter = [DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters];
+        }];
+        [arr setAssociateValue:@(YES) withKey:_cmd];
+    }
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSInteger i = time + PARSE_TIME; i < maxTime; ++i) {
+            NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
+            //已经分析过
+            if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
+            
+            [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj.filter = [DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters];
+            }];
+            [arr setAssociateValue:@(YES) withKey:_cmd];
+            
+        }
+    });
+    
+}
+
 #pragma mark UI
 
 - (void)touchBackButton:(UIButton *)sender {
@@ -646,6 +688,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         
         [self.danmakuEngine setCurrentTime:time];
         self->_isSliderNoActionNotice = NO;
+        [self asynFilterDanmakuWithTime:time];
         MBProgressHUD *aHUD = [self.view viewWithTag:1000];
         [aHUD hideAnimated:YES];
     }];
@@ -691,6 +734,17 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     self.interfaceView.subTitleIndexView.videoSubTitlesIndexes = self.player.subtitleIndexs;
     self.interfaceView.subTitleIndexView.videoSubTitlesNames = self.player.subtitleTitles;
     [self.interfaceView.subTitleIndexView show];
+}
+
+- (void)touchScreenShotButton:(UIButton *)sender {
+    [self.player saveVideoSnapshotwithSize:CGSizeZero completionHandler:^(UIImage *image, NSError *error) {
+        if (error) {
+            [MBProgressHUD showWithText:@"截图失败"];
+        }
+        else {
+            [MBProgressHUD showWithText:@"截图成功"];
+        }
+    }];
 }
 
 - (void)panScreen:(UIPanGestureRecognizer *)panGesture {
@@ -783,6 +837,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         [_interfaceView.progressSlider addTarget:self action:@selector(touchSlider:) forControlEvents:UIControlEventValueChanged];
         [_interfaceView.danmakuHideSwitch addTarget:self action:@selector(touchSwitch:) forControlEvents:UIControlEventValueChanged];
         [_interfaceView.subTitleIndexButton addTarget:self action:@selector(touchSubTitleIndexButton) forControlEvents:UIControlEventTouchUpInside];
+        [_interfaceView.screenShotButton addTarget:self action:@selector(touchScreenShotButton:) forControlEvents:UIControlEventTouchUpInside];
         
         _interfaceView.configPanelView.delegate = self;
         _interfaceView.delegate = self;

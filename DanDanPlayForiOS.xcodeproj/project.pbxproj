@@ -53,6 +53,9 @@
 		8981170C1F3343C700B34352 /* DownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DownloadTableViewCell.m */; };
 		8981170F1F334ECD00B34352 /* SettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* SettingDownloadTableViewCell.m */; };
 		8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
+		898AD23C1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23B1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m */; };
+		898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */; };
+		898AD2421F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m */; };
 		898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
 		899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */; };
@@ -124,6 +127,7 @@
 		89E3F6201E58583F007AB1BD /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61F1E58583F007AB1BD /* BaseViewController.m */; };
 		89E3F6281E585C17007AB1BD /* JHDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* JHDanmaku.m */; };
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
+		89E5AFAE1F56CB2300CD4334 /* DanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DanmakuFilterViewController.m */; };
 		89E8341F1F1E1AF700E781EB /* PlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */; };
 		89E834291F1E5A5400E781EB /* SMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* SMBVideoModel.m */; };
 		89E8C9991F3DDEF100CCF4BC /* JHSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* JHSetting.m */; };
@@ -244,6 +248,12 @@
 		8981170E1F334ECD00B34352 /* SettingDownloadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDownloadTableViewCell.m; sourceTree = "<group>"; };
 		8987C1201F2ED964005BC154 /* UIView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Tools.h"; sourceTree = "<group>"; };
 		8987C1211F2ED964005BC154 /* UIView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Tools.m"; sourceTree = "<group>"; };
+		898AD23A1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuFilterTableViewCell.h; sourceTree = "<group>"; };
+		898AD23B1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuFilterTableViewCell.m; sourceTree = "<group>"; };
+		898AD23D1F57A7460040B7C4 /* UIScrollView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Base.h"; sourceTree = "<group>"; };
+		898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Base.m"; sourceTree = "<group>"; };
+		898AD2401F57BFA60040B7C4 /* DanmakuFilterDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuFilterDetailViewController.h; sourceTree = "<group>"; };
+		898AD2411F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuFilterDetailViewController.m; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		898E74DA1EC6F5B3005137B4 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConfigPanelView.h; sourceTree = "<group>"; };
@@ -388,6 +398,8 @@
 		89E3F6271E585C17007AB1BD /* JHDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmaku.m; sourceTree = "<group>"; };
 		89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
 		89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
+		89E5AFAC1F56CB2300CD4334 /* DanmakuFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuFilterViewController.h; sourceTree = "<group>"; };
+		89E5AFAD1F56CB2300CD4334 /* DanmakuFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuFilterViewController.m; sourceTree = "<group>"; };
 		89E8341D1F1E1AF700E781EB /* PlayerInterfaceHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInterfaceHolderView.h; sourceTree = "<group>"; };
 		89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerInterfaceHolderView.m; sourceTree = "<group>"; };
 		89E834271F1E5A5400E781EB /* SMBVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBVideoModel.h; sourceTree = "<group>"; };
@@ -590,6 +602,10 @@
 				894CBAA11E6BCA760021253F /* MineViewController.m */,
 				89D8F7F81EB04DA1009329AA /* DanmakuSelectedFontViewController.h */,
 				89D8F7F91EB04DA1009329AA /* DanmakuSelectedFontViewController.m */,
+				89E5AFAC1F56CB2300CD4334 /* DanmakuFilterViewController.h */,
+				89E5AFAD1F56CB2300CD4334 /* DanmakuFilterViewController.m */,
+				898AD2401F57BFA60040B7C4 /* DanmakuFilterDetailViewController.h */,
+				898AD2411F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m */,
 				89D8F7FE1EB0588F009329AA /* SettingViewController.h */,
 				89D8F7FF1EB0588F009329AA /* SettingViewController.m */,
 				89D8F8161EB09CAC009329AA /* AboutUsViewController.h */,
@@ -741,6 +757,8 @@
 				8981170B1F3343C700B34352 /* DownloadTableViewCell.m */,
 				89E393E51F3DB6250010EAF0 /* DownloadStatusView.h */,
 				89E393E61F3DB6250010EAF0 /* DownloadStatusView.m */,
+				898AD23A1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.h */,
+				898AD23B1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -882,6 +900,8 @@
 				8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */,
 				891E69EC1F48085700F69975 /* NSURL+Tools.h */,
 				891E69ED1F48085700F69975 /* NSURL+Tools.m */,
+				898AD23D1F57A7460040B7C4 /* UIScrollView+Base.h */,
+				898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -1167,6 +1187,7 @@
 				891E69EE1F48085700F69975 /* NSURL+Tools.m in Sources */,
 				89350B181EAB125700072DA5 /* JHEdgeButton.m in Sources */,
 				8916C7CD1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.m in Sources */,
+				898AD23C1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m in Sources */,
 				89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */,
 				89A467941F162C31001840C7 /* FileViewController.m in Sources */,
 				89FBDED31F457C7800663865 /* FileManagerViewController.m in Sources */,
@@ -1214,6 +1235,7 @@
 				8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */,
 				89FBDED61F457C9200663865 /* FileManagerNavigationController.m in Sources */,
 				894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */,
+				898AD2421F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m in Sources */,
 				898E74DB1EC6F5B3005137B4 /* BaseNavigationController.m in Sources */,
 				894CBAA21E6BCA760021253F /* MineViewController.m in Sources */,
 				89E8C9991F3DDEF100CCF4BC /* JHSetting.m in Sources */,
@@ -1226,6 +1248,7 @@
 				8981170C1F3343C700B34352 /* DownloadTableViewCell.m in Sources */,
 				89A42EA01EA5B14100FA0DF3 /* JHFilterCollection.m in Sources */,
 				89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */,
+				89E5AFAE1F56CB2300CD4334 /* DanmakuFilterViewController.m in Sources */,
 				8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */,
 				89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */,
 				8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */,
@@ -1256,6 +1279,7 @@
 				89681B361F08FAE400103CFF /* SMBViewController.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
 				8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
+				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,
 				8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */,
 				893166A61F52983200B4A4EE /* HYSwitch.m in Sources */,
 				89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */,

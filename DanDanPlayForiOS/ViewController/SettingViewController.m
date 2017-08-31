@@ -8,7 +8,8 @@
 
 #import "SettingViewController.h"
 #import "DanmakuSelectedFontViewController.h"
-//#import "MatchTableViewCell.h"
+#import "DanmakuFilterViewController.h"
+
 #import "OtherSettingSwitchTableViewCell.h"
 #import "OtherSettingTitleSubtitleTableViewCell.h"
 #import "SettingTitleTableViewCell.h"
@@ -65,6 +66,10 @@
         DanmakuSelectedFontViewController *vc = [[DanmakuSelectedFontViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
+    else if (item.type == JHSettingItemTypeFilter) {
+        DanmakuFilterViewController *vc = [[DanmakuFilterViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     else if (item.type == JHSettingItemTypeLeftRight) {
         if ([item.title isEqualToString:@"弹幕缓存时间"]) {
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
@@ -110,10 +115,6 @@
         return 55;
     }
     return 44;
-//    if (indexPath.section == 0) {
-//        return 55;
-//    }
-//    return 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -153,12 +154,12 @@
             UIFont *font = [CacheManager shareCacheManager].danmakuFont;
             cell.detailLabel.font = [font fontWithSize:NORMAL_SIZE_FONT.pointSize];
         cell.detailLabel.text = item.detailTextCallBack();
-//            if (font.isSystemFont) {
-//                cell.detailLabel.text = @"系统字体";
-//            }
-//            else {
-//                cell.detailLabel.text = font.fontName;
-//            }
+        return cell;
+    }
+    
+    if (item.type == JHSettingItemTypeFilter) {
+        SettingTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingTitleTableViewCell" forIndexPath:indexPath];
+        cell.titleLabel.text = item.title;
         return cell;
     }
     
@@ -171,74 +172,10 @@
         return cell;
     }
     
-    
-    
-//    if (indexPath.section == 0) {
-//        OtherSettingSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherSettingSwitchTableViewCell" forIndexPath:indexPath];
-//        
-//        if (indexPath.row == 0) {
-//            cell.titleLabel.text = @"弹幕快速匹配";
-//            cell.detailLabel.text = @"自动识别视频 并匹配弹幕";
-//            cell.aSwitch.on = [CacheManager shareCacheManager].openFastMatch;
-//            [cell setTouchSwitchCallBack:^{
-//                [CacheManager shareCacheManager].openFastMatch = ![CacheManager shareCacheManager].openFastMatch;
-//            }];
-//        }
-//        else if (indexPath.row == 1) {
-//            cell.titleLabel.text = @"字幕保护区域";
-//            cell.detailLabel.text = @"在画面底部大约15%的位置禁止弹幕出现";
-//            cell.aSwitch.on = [CacheManager shareCacheManager].subtitleProtectArea;
-//            [cell setTouchSwitchCallBack:^{
-//                [CacheManager shareCacheManager].subtitleProtectArea = ![CacheManager shareCacheManager].subtitleProtectArea;
-//            }];
-//        }
-//        else if (indexPath.row == 2) {
-//            cell.titleLabel.text = @"自动请求第三方弹幕";
-//            cell.detailLabel.text = @"会把ABC站的弹幕也一起加进来";
-//            cell.aSwitch.on = [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-//            [cell setTouchSwitchCallBack:^{
-//                [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-//            }];
-//        }
-//        else if (indexPath.row == 3) {
-//            cell.titleLabel.text = @"自动加载远程设备字幕";
-//            cell.detailLabel.text = @"大概没有人会关掉";
-//            cell.aSwitch.on = [CacheManager shareCacheManager].openAutoDownloadSubtitle;
-//            [cell setTouchSwitchCallBack:^{
-//                [CacheManager shareCacheManager].openAutoDownloadSubtitle = ![CacheManager shareCacheManager].openAutoDownloadSubtitle;
-//            }];
-//        }
-//        else if (indexPath.row == 4) {
-//            cell.titleLabel.text = @"优先加载本地和远程设备同名弹幕";
-//            cell.detailLabel.text = @"会替换掉网络弹幕";
-//            cell.aSwitch.on = [CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-//            [cell setTouchSwitchCallBack:^{
-//                [CacheManager shareCacheManager].priorityLoadLocalDanmaku = ![CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-//            }];
-//        }
-//        
-//        return cell;
-//    }
-    
-    
     OtherSettingTitleSubtitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OtherSettingTitleSubtitleTableViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     cell.titleLabel.text = item.title;
     cell.detailLabel.text = item.detailTextCallBack();
-//    if (indexPath.row == 0) {
-//        cell.titleLabel.text = @"弹幕缓存时间";
-//        NSInteger day = [CacheManager shareCacheManager].danmakuCacheTime;
-//        if (day == 0) {
-//            cell.detailLabel.text = @"不缓存";
-//        }
-//        else {
-//            cell.detailLabel.text = [NSString stringWithFormat:@"%ld天", (long)day];
-//        }
-//    }
-//    else {
-//        cell.titleLabel.text = @"清除缓存";
-//        cell.detailLabel.text = _cacheSize;
-//    }
     return cell;
 }
 
@@ -305,6 +242,11 @@
             }
         }];
         [danmakuSetting.items addObject:danmakuFontItem];
+        
+        JHSettingItem *danmakuFilterItem = [[JHSettingItem alloc] init];
+        danmakuFilterItem.title = @"弹幕屏蔽列表";
+        danmakuFilterItem.type = JHSettingItemTypeFilter;
+        [danmakuSetting.items addObject:danmakuFilterItem];
 
         
         JHSettingItem *fastMatchItem = [[JHSettingItem alloc] init];
