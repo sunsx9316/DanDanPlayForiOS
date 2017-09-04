@@ -70,6 +70,20 @@ typedef void(^progressAction)(float progress);
                              HTTPBody:(NSData *)HTTPBody
                     completionHandler:(void(^)(JHResponse *model))completionHandler;
 
+
+/**
+ *  DELETE封装
+ *
+ *  @param path       路径
+ *  @param HTTPBody   HTTPBody 需要发送的数据
+ *  @param completionHandler   回调
+ *
+ *  @return 任务
+ */
++ (NSURLSessionDataTask *)DELETEWithPath:(NSString *)path
+                             parameters:(id)parameters
+                    completionHandler:(void(^)(JHResponse *model))completionHandler;
+
 /**
  *  断点续传封装
  *

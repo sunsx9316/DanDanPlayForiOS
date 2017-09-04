@@ -60,7 +60,16 @@
 
 #define APP_LINK @"itms-apps://itunes.apple.com/app/id1189757764"
 
+#define CLIENT_ID @"ddplayios"
+
 //bugly appkey
-#define BUGLYKEY @"5a3d1ad706"
+#define BUGLY_KEY @"5a3d1ad706"
+//友盟分享key
+#define UM_SHARE_KEY @"5825c795f29d9872ed0002ab"
+
+#define QQ_APP_KEY @"1105795526"
+#define WEIBO_APP_KEY @"2376360757"
+#define WEIBO_APP_SECRET @"aa483da3b5ad318ceb3a1d7e4070e186"
+#define WEIBO_REDIRECT_URL @"https://api.acplay.net/oauth/weiboios"
 
 #endif /* MacroDefinition_h */

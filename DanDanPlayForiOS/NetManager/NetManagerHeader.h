@@ -15,5 +15,7 @@
 #import "RecommedNetManager.h"
 #import "SearchNetManager.h"
 #import "RelatedNetManager.h"
+#import "LoginNetManager.h"
+#import "FavoriteNetManager.h"
 
 #endif /* NetManagerHeader_h */

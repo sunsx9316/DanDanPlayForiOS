@@ -60,6 +60,12 @@
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
 		899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */; };
 		8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996B9F91EAA28450018E8B0 /* PlayerViewController.m */; };
+		89988D191F5A5D57001413BE /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D181F5A5D57001413BE /* HomePageViewController.m */; };
+		89988D1C1F5A6162001413BE /* HomePageItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D1B1F5A6162001413BE /* HomePageItemViewController.m */; };
+		89988D201F5A63C1001413BE /* HomePageItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D1F1F5A63C1001413BE /* HomePageItemTableViewCell.m */; };
+		89988D231F5A6620001413BE /* HomePageItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D221F5A6620001413BE /* HomePageItemCollectionViewCell.m */; };
+		89988D2A1F5AB975001413BE /* LoginNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D291F5AB975001413BE /* LoginNetManager.m */; };
+		89988D2D1F5AC0E0001413BE /* FavoriteNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D2C1F5AC0E0001413BE /* FavoriteNetManager.m */; };
 		899F5F9D1F22F3100068A1DB /* JHSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5F9C1F22F3100068A1DB /* JHSMBFile.m */; };
 		899F5FA31F2349F20068A1DB /* SMBLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5FA21F2349F20068A1DB /* SMBLoginHeaderView.m */; };
 		89A1C0191EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */; };
@@ -99,6 +105,8 @@
 		89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* AboutUsViewController.m */; };
 		89D8F81F1EB0B112009329AA /* PlayerVideoControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F81E1EB0B112009329AA /* PlayerVideoControlView.m */; };
 		89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */; };
+		89DA37521F5D127F003D7D59 /* NSDate+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37511F5D127F003D7D59 /* NSDate+Tools.m */; };
+		89DA37551F5D1FBD003D7D59 /* HomePageBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37541F5D1FBD003D7D59 /* HomePageBannerView.m */; };
 		89DDCFAF1F2A3DA3007B83CA /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFAE1F2A3DA3007B83CA /* web */; };
 		89DDCFB11F2A3DB0007B83CA /* course in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFB01F2A3DB0007B83CA /* course */; };
 		89DDCFB41F2A3EA6007B83CA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DDCFB31F2A3EA6007B83CA /* WebViewController.m */; };
@@ -262,6 +270,18 @@
 		899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JHBaseDanmaku+Tools.m"; sourceTree = "<group>"; };
 		8996B9F81EAA28450018E8B0 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		8996B9F91EAA28450018E8B0 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
+		89988D171F5A5D57001413BE /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
+		89988D181F5A5D57001413BE /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
+		89988D1A1F5A6162001413BE /* HomePageItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageItemViewController.h; sourceTree = "<group>"; };
+		89988D1B1F5A6162001413BE /* HomePageItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageItemViewController.m; sourceTree = "<group>"; };
+		89988D1E1F5A63C1001413BE /* HomePageItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageItemTableViewCell.h; sourceTree = "<group>"; };
+		89988D1F1F5A63C1001413BE /* HomePageItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageItemTableViewCell.m; sourceTree = "<group>"; };
+		89988D211F5A6620001413BE /* HomePageItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageItemCollectionViewCell.h; sourceTree = "<group>"; };
+		89988D221F5A6620001413BE /* HomePageItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageItemCollectionViewCell.m; sourceTree = "<group>"; };
+		89988D281F5AB975001413BE /* LoginNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginNetManager.h; sourceTree = "<group>"; };
+		89988D291F5AB975001413BE /* LoginNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginNetManager.m; sourceTree = "<group>"; };
+		89988D2B1F5AC0E0001413BE /* FavoriteNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteNetManager.h; sourceTree = "<group>"; };
+		89988D2C1F5AC0E0001413BE /* FavoriteNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteNetManager.m; sourceTree = "<group>"; };
 		899F5F9B1F22F3100068A1DB /* JHSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSMBFile.h; sourceTree = "<group>"; };
 		899F5F9C1F22F3100068A1DB /* JHSMBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSMBFile.m; sourceTree = "<group>"; };
 		899F5FA11F2349F20068A1DB /* SMBLoginHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBLoginHeaderView.h; sourceTree = "<group>"; };
@@ -343,6 +363,10 @@
 		89D8F81E1EB0B112009329AA /* PlayerVideoControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerVideoControlView.m; sourceTree = "<group>"; };
 		89D8F8201EB0B196009329AA /* PlayerControlPlayModeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerControlPlayModeTableViewCell.h; sourceTree = "<group>"; };
 		89D8F8211EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerControlPlayModeTableViewCell.m; sourceTree = "<group>"; };
+		89DA37501F5D127F003D7D59 /* NSDate+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Tools.h"; sourceTree = "<group>"; };
+		89DA37511F5D127F003D7D59 /* NSDate+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Tools.m"; sourceTree = "<group>"; };
+		89DA37531F5D1FBD003D7D59 /* HomePageBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageBannerView.h; sourceTree = "<group>"; };
+		89DA37541F5D1FBD003D7D59 /* HomePageBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageBannerView.m; sourceTree = "<group>"; };
 		89DDCFAE1F2A3DA3007B83CA /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
 		89DDCFB01F2A3DB0007B83CA /* course */ = {isa = PBXFileReference; lastKnownFileType = folder; path = course; sourceTree = "<group>"; };
 		89DDCFB21F2A3EA6007B83CA /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -722,6 +746,31 @@
 			name = view;
 			sourceTree = "<group>";
 		};
+		89988D161F5A5D3C001413BE /* 主页 */ = {
+			isa = PBXGroup;
+			children = (
+				89988D1D1F5A63AD001413BE /* view */,
+				89988D171F5A5D57001413BE /* HomePageViewController.h */,
+				89988D181F5A5D57001413BE /* HomePageViewController.m */,
+				89988D1A1F5A6162001413BE /* HomePageItemViewController.h */,
+				89988D1B1F5A6162001413BE /* HomePageItemViewController.m */,
+			);
+			name = "主页";
+			sourceTree = "<group>";
+		};
+		89988D1D1F5A63AD001413BE /* view */ = {
+			isa = PBXGroup;
+			children = (
+				89DA37531F5D1FBD003D7D59 /* HomePageBannerView.h */,
+				89DA37541F5D1FBD003D7D59 /* HomePageBannerView.m */,
+				89988D1E1F5A63C1001413BE /* HomePageItemTableViewCell.h */,
+				89988D1F1F5A63C1001413BE /* HomePageItemTableViewCell.m */,
+				89988D211F5A6620001413BE /* HomePageItemCollectionViewCell.h */,
+				89988D221F5A6620001413BE /* HomePageItemCollectionViewCell.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
 		89A5C2C51F4A8C750058EB43 /* FDFullscreenPopGesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,6 +888,10 @@
 				89E3F5F51E585135007AB1BD /* RecommedNetManager.m */,
 				89E3F5F61E585135007AB1BD /* SearchNetManager.h */,
 				89E3F5F71E585135007AB1BD /* SearchNetManager.m */,
+				89988D281F5AB975001413BE /* LoginNetManager.h */,
+				89988D291F5AB975001413BE /* LoginNetManager.m */,
+				89988D2B1F5AC0E0001413BE /* FavoriteNetManager.h */,
+				89988D2C1F5AC0E0001413BE /* FavoriteNetManager.m */,
 			);
 			path = NetManager;
 			sourceTree = "<group>";
@@ -902,6 +955,8 @@
 				891E69ED1F48085700F69975 /* NSURL+Tools.m */,
 				898AD23D1F57A7460040B7C4 /* UIScrollView+Base.h */,
 				898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */,
+				89DA37501F5D127F003D7D59 /* NSDate+Tools.h */,
+				89DA37511F5D127F003D7D59 /* NSDate+Tools.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -922,6 +977,7 @@
 				894CBA961E6BC54D0021253F /* View */,
 				894CBA9F1E6BCA460021253F /* 设置 */,
 				894CBA9E1E6BCA3A0021253F /* 文件 */,
+				89988D161F5A5D3C001413BE /* 主页 */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1122,6 +1178,7 @@
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide@2x.png",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_colormap.png",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -1178,6 +1235,7 @@
 				8916C7D01EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m in Sources */,
 				89A42EB11EA5E7D000FA0DF3 /* JHMatche.m in Sources */,
 				89350B131EAB0DA000072DA5 /* JHBlurView.m in Sources */,
+				89988D231F5A6620001413BE /* HomePageItemCollectionViewCell.m in Sources */,
 				897F02BC1F259DD900A8D1E5 /* FileManagerPlayerListView.m in Sources */,
 				8916C7C91EA8BB8D00A2233D /* OfficialSearchViewController.m in Sources */,
 				89350B101EAB059000072DA5 /* PlayerInterfaceView.m in Sources */,
@@ -1186,6 +1244,7 @@
 				89A42EFB1EA5FF4400FA0DF3 /* JHBiliBiliSearchCollection.m in Sources */,
 				891E69EE1F48085700F69975 /* NSURL+Tools.m in Sources */,
 				89350B181EAB125700072DA5 /* JHEdgeButton.m in Sources */,
+				89988D191F5A5D57001413BE /* HomePageViewController.m in Sources */,
 				8916C7CD1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.m in Sources */,
 				898AD23C1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m in Sources */,
 				89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */,
@@ -1199,6 +1258,7 @@
 				89E3F6191E58552D007AB1BD /* UIButton+Tools.m in Sources */,
 				89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */,
 				89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */,
+				89988D201F5A63C1001413BE /* HomePageItemTableViewCell.m in Sources */,
 				8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */,
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
 				899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */,
@@ -1233,6 +1293,8 @@
 				89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */,
 				89A42EEC1EA5F87500FA0DF3 /* JHUser.m in Sources */,
 				8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */,
+				89988D1C1F5A6162001413BE /* HomePageItemViewController.m in Sources */,
+				89988D2D1F5AC0E0001413BE /* FavoriteNetManager.m in Sources */,
 				89FBDED61F457C9200663865 /* FileManagerNavigationController.m in Sources */,
 				894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */,
 				898AD2421F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m in Sources */,
@@ -1265,6 +1327,7 @@
 				89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */,
 				89E3F6131E58539D007AB1BD /* MJRefreshFooter+Tools.m in Sources */,
 				89E3F5BE1E5829BD007AB1BD /* main.m in Sources */,
+				89DA37521F5D127F003D7D59 /* NSDate+Tools.m in Sources */,
 				89A42EFE1EA5FF5200FA0DF3 /* JHBiliBiliSearch.m in Sources */,
 				89681B3F1F090EDA00103CFF /* JHSMBInfo.m in Sources */,
 				89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */,
@@ -1273,10 +1336,12 @@
 				89E393E71F3DB6250010EAF0 /* DownloadStatusView.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
 				89E3F6011E585135007AB1BD /* SearchNetManager.m in Sources */,
+				89DA37551F5D1FBD003D7D59 /* HomePageBannerView.m in Sources */,
 				89314B201F4690C0002C1AEA /* FileManagerEditView.m in Sources */,
 				89A42EF81EA5FCA200FA0DF3 /* JHSearchCollection.m in Sources */,
 				89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */,
 				89681B361F08FAE400103CFF /* SMBViewController.m in Sources */,
+				89988D2A1F5AB975001413BE /* LoginNetManager.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
 				8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
 				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,

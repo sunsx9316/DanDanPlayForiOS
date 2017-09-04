@@ -45,6 +45,10 @@
     
     //监听滚动
     [self.pageController.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [RecommedNetManager recommedInfoWithCompletionHandler:^(JHHomePage *responseObject, NSError *error) {
+        
+    }];
 }
 
 - (void)dealloc {
@@ -125,7 +129,7 @@
 }
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForContentView:(WMScrollView *)contentView {
-    const float menuViewHeight = NORMAL_SIZE_FONT.lineHeight + 20;
+    const float menuViewHeight = CGRectGetMaxY([self pageController:pageController preferredFrameForMenuView:pageController.menuView]);
     return CGRectMake(0, menuViewHeight, self.view.width, self.view.height - menuViewHeight);
 }
 

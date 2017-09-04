@@ -46,12 +46,13 @@
 @interface JHBangumiCollection : JHBaseCollection
 @property (assign, nonatomic) NSInteger weekDay;
 @property (strong, nonatomic, readonly) NSString *weekDayStringValue;
-@property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;
+//@property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;
 @end
 
 @interface JHBangumi : JHBaseCollection
 /**
  *  name 名称
+ *  @"collection" : [JHBangumiGroup class]
  */
 @property (strong, nonatomic) NSString *keyword;
 @property (strong, nonatomic) NSURL *imageURL;

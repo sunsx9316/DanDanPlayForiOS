@@ -8,11 +8,11 @@ target 'DanDanPlayForiOS' do
   # Pods for DanDanPlayForiOS
 
   # 集成新浪微博
-    #pod 'UMengUShare/Social/Sina'
+    pod 'UMengUShare/Social/ReducedSina'
+# 集成QQ
+    pod 'UMengUShare/Social/ReducedQQ'
 # 集成微信
     #pod 'UMengUShare/Social/WeChat'
-# 集成QQ
-    #pod 'UMengUShare/Social/QQ'
 
     pod 'Bugly'
     pod 'MobileVLCKit-unstable', '~> 3.0.0a33'
@@ -37,5 +37,6 @@ target 'DanDanPlayForiOS' do
     pod 'TOSMBClient', '<= 1.0.5'
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
+    pod 'iCarousel'
     
 end

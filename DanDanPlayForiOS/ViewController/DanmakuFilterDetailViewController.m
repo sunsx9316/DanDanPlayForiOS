@@ -23,9 +23,14 @@
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [IQKeyboardManager sharedManager].enable = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.textView becomeFirstResponder];
 }
 
 - (void)dealloc {
@@ -54,16 +59,15 @@
 
 #pragma mark - YYKeyboardObserver
 - (void)keyboardChangedWithTransition:(YYKeyboardTransition)transition {
+    NSLog(@"%d %d", transition.toVisible, transition.fromVisible);
+    
     if (transition.toVisible) {
         float offset = transition.toFrame.size.height;
-        
-        
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
             self.textView.contentInset = UIEdgeInsetsMake(0, 0, offset, 0);
         } completion:nil];
     }
     else {
-        
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{
             self.textView.contentInset = UIEdgeInsetsZero;
         } completion:nil];
@@ -100,7 +104,7 @@
         
         self.model.isRegex = !self.model.isRegex;
         sender.selected = self.model.isRegex;
-        if (self.addFilterCallback) {
+        if (self.addFilterCallback && self.textView.text.length) {
             self.addFilterCallback(self.model);
         }
     }];
@@ -126,7 +130,6 @@
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.delegate = self;
         _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-        _textView.alwaysBounceVertical = YES;
         [self.view addSubview:_textView];
     }
     return _textView;

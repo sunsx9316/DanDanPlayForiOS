@@ -10,8 +10,8 @@
 #import <WebKit/WebKit.h>
 
 @interface WebViewController : BaseViewController<WKNavigationDelegate, WKUIDelegate>
-@property (strong, nonatomic) NSURL *URL;
-
+- (instancetype)initWithURL:(NSURL *)URL;
+- (instancetype)initWithRequest:(NSURLRequest *)request;
 /**
  显示顶部的进度条 默认YES
  */

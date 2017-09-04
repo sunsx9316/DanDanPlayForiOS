@@ -56,6 +56,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //滑动速率
     float _sliderRate;
     InterfaceViewPanType _panType;
+//    NSBlockOperation *_operation;
+    NSOperationQueue *_queue;
+    NSLock *_lock;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,6 +87,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _lock = [[NSLock alloc] init];
+    _queue = [[NSOperationQueue alloc] init];
     _currentTime = -1;
     self.view.backgroundColor = [UIColor blackColor];
     
@@ -139,6 +144,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [keyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[CacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
     }];
+    
+    _lock = nil;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -634,31 +641,39 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     NSArray <JHFilter *>*danmakuFilters = [CacheManager shareCacheManager].danmakuFilters;
     
+    //主线程先分析一部分弹幕
     for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
         NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
         //已经分析过
         if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
         
         [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            obj.filter = [DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters];
+            [self setDanmakuFilter:obj filter:[DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
         }];
         [arr setAssociateValue:@(YES) withKey:_cmd];
     }
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    //子线程继续分析
+    [_queue cancelAllOperations];
+    [_queue addOperationWithBlock:^{
         for (NSInteger i = time + PARSE_TIME; i < maxTime; ++i) {
             NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
             //已经分析过
             if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
             
             [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                obj.filter = [DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters];
+                [self setDanmakuFilter:obj filter:[DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
             }];
             [arr setAssociateValue:@(YES) withKey:_cmd];
-            
         }
-    });
+    }];
     
+}
+
+- (void)setDanmakuFilter:(JHBaseDanmaku *)danmaku filter:(BOOL)filter {
+    [_lock lock];
+    danmaku.filter = filter;
+    [_lock unlock];
 }
 
 #pragma mark UI

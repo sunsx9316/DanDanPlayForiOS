@@ -29,8 +29,7 @@
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-    WebViewController *vc = [[WebViewController alloc] init];
-    vc.URL = self.URLArr[index];
+    WebViewController *vc = [[WebViewController alloc] initWithURL:self.URLArr[index]];
     vc.showProgressView = NO;
     return vc;
 }

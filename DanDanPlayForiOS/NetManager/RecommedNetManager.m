@@ -53,7 +53,7 @@
                     NSDictionary *dic = [element keysValuesForElementKeys:@[@"DayOfWeek", @"Bangumi"]];
                     JHBangumiCollection *model = [[JHBangumiCollection alloc] init];
                     model.weekDay = [dic[@"DayOfWeek"] integerValue];
-                    model.bangumis = [NSMutableArray array];
+                    model.collection = [NSMutableArray array];
                     [(NSMutableArray *)homePageModel.bangumis addObject:model];
                     
                     for (GDataXMLElement *aBangumiElement in dic[@"Bangumi"]) {
@@ -67,7 +67,7 @@
                         }
                         
                         JHBangumi *bangumiDataModel = [JHBangumi yy_modelWithDictionary:dic];
-                        [(NSMutableArray *)model.bangumis addObject:bangumiDataModel];
+                        [(NSMutableArray *)model.collection addObject:bangumiDataModel];
                     }
                 }
                 
@@ -78,17 +78,5 @@
             }
         }
     }];
-}
-
-#pragma mark - 私有方法
-/**
- *  获取今天星期
- *
- *  @return 1~6对应星期一~六 0对应星期天
- */
-+ (NSInteger)weekDay {
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = [gregorian components:NSCalendarUnitWeekday fromDate:[NSDate date]];
-    return [comps weekday] - 1;
 }
 @end

@@ -14,8 +14,8 @@
 #import "UIApplication+Tools.h"
 #import "SettingTitleTableViewCell.h"
 #import "SettingDownloadTableViewCell.h"
-//#import <UITableView+FDTemplateLayoutCell.h>
 #import "UIView+Tools.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 #define TITLE_KEY @"titleLabel.text"
 
@@ -156,6 +156,52 @@
             make.center.mas_equalTo(0);
             make.width.height.mas_equalTo(90 + jh_isPad() * 40);
         }];
+        
+//        @weakify(self)
+//        [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
+//            @strongify(self)
+//            if (!self) return;
+//            
+//            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
+//                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
+//
+//                    UMSocialUserInfoResponse *resp = result;
+//                    
+//                    [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ?JHLoginSourceWeibo : JHLoginSourceQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHSearchCollection *responseObject, NSError *error) {
+//                        
+//                    }];
+//                    
+//                    // 第三方登录数据(为空表示平台未提供)
+//                    // 授权数据
+//                    NSLog(@" uid: %@", resp.uid);
+//                    NSLog(@" openid: %@", resp.openid);
+//                    NSLog(@" accessToken: %@", resp.accessToken);
+//                    NSLog(@" refreshToken: %@", resp.refreshToken);
+//                    NSLog(@" expiration: %@", resp.expiration);
+//                    
+//                    // 用户数据
+//                    NSLog(@" name: %@", resp.name);
+//                    NSLog(@" iconurl: %@", resp.iconurl);
+//                    NSLog(@" gender: %@", resp.unionGender);
+//                    
+//                    // 第三方平台SDK原始数据
+//                    NSLog(@" originalResponse: %@", resp.originalResponse);
+//                }];
+//            };
+//            
+//            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"请选择登录平台" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//            [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                loginWithTypeAction(UMSocialPlatformType_QQ);
+//            }]];
+//            
+//            [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                loginWithTypeAction(UMSocialPlatformType_Sina);
+//            }]];
+//            
+//            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+//            
+//            [self presentViewController:vc animated:YES completion:nil];
+//        }]];
         
         [self reloadUserInfo];
     }

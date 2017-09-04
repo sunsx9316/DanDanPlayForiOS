@@ -17,7 +17,7 @@
  *
  *  @return 可读的错误
  */
-CG_INLINE NSError *humanReadableError(NSError *error) {
+CG_INLINE NSError *jh_humanReadableError(NSError *error) {
     if (error == nil) return nil;
     
     NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
@@ -85,7 +85,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"GET 请求失败：%@ \n\n%@", task.originalRequest.URL, error);
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        NSError *temErr = humanReadableError(error);
+        NSError *temErr = jh_humanReadableError(error);
         
         completionHandler([[JHResponse alloc] initWithResponseObject:nil error:temErr]);
     }];
@@ -123,7 +123,7 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
             [[self sharedHTTPSessionDataManager].requestSerializer setValue:nil forHTTPHeaderField:key];
         }];
         
-        NSError *temErr = humanReadableError(error);
+        NSError *temErr = jh_humanReadableError(error);
         
         if (completionHandler) {
             completionHandler([[JHResponse alloc] initWithResponseObject:nil error:temErr]);
@@ -148,11 +148,25 @@ CG_INLINE NSError *humanReadableError(NSError *error) {
             NSLog(@"PUT 请求成功：%@", path);
         }
         
-        NSError *temErr = humanReadableError(error);
+        NSError *temErr = jh_humanReadableError(error);
         completionHandler([[JHResponse alloc] initWithResponseObject:response error:temErr]);
     }];
     [task resume];
     return task;
+}
+
++ (NSURLSessionDataTask *)DELETEWithPath:(NSString *)path
+                              parameters:(id)parameters
+                       completionHandler:(void(^)(JHResponse *model))completionHandler {
+    return [[self sharedHTTPSessionManager] DELETE:path parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:nil]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:nil error:jh_humanReadableError(error)]);
+        }
+    }];
 }
 
 + (NSURLSessionDownloadTask *)downloadTaskWithResumeData:(NSData *)resumeData

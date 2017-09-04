@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import <IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
+#import <UMSocialCore/UMSocialCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "JHMediaPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -29,6 +30,7 @@
 //    [CacheManager shareCacheManager].folderCache = nil;
     [self configIQKeyboardManager];
     [self configBugly];
+    [self configUMShare];
     [self configOther];
     
     MainViewController *vc = [[MainViewController alloc] init];
@@ -89,26 +91,28 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+    if (!result) {
         [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
-    });
+        return YES;
+    }
     
-    return YES;
+    return result;
 }
-#else
+//#else
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
+    if (!result) {
         [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
-    });
-    
-    return YES;
+        return YES;
+    }
+    return result;
 }
 
-#endif
+//#endif
 
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {
@@ -118,8 +122,16 @@
 }
 
 - (void)configBugly {
-    [Bugly startWithAppId:BUGLYKEY];
+    [Bugly startWithAppId:BUGLY_KEY];
 }
+
+- (void)configUMShare {
+    [[UMSocialManager defaultManager] openLog:YES];
+    [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
+}
+
 
 - (void)configOther {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
