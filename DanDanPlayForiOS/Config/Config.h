@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, DanDanPlayDanmakuType) {
  - JHEpisodeTypeThreeDTVPlayOrChineseAnimate: 三次元电视剧或国产动画
  - JHEpisodeTypeUnknow: 未知（尚未分类）
  */
-typedef NS_ENUM(NSUInteger, JHEpisodeType) {
+typedef NS_ENUM(NSInteger, JHEpisodeType) {
     JHEpisodeTypeAnimate = 1,
     JHEpisodeTypeAnimateSpecial,
     JHEpisodeTypeOVA,

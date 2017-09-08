@@ -132,22 +132,39 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
 }
 
 + (NSURLSessionDataTask *)PUTWithPath:(NSString *)path
-                             HTTPBody:(NSData *)HTTPBody
+                           parameters:(id)parameters
                     completionHandler:(void(^)(JHResponse *model))completionHandler {
-    
+    return [[self sharedHTTPSessionManager] PUT:path parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"PUT 请求成功：%@", path);
+        
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:nil]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"PUT 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
+        
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:nil error:jh_humanReadableError(error)]);
+        }
+    }];
+}
+
++ (NSURLSessionDataTask *)PUTDataWithPath:(NSString *)path
+                                     data:(NSData *)data
+                        completionHandler:(void(^)(JHResponse *model))completionHandler {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"PUT";
-    request.HTTPBody = HTTPBody;
+    request.HTTPBody = data;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
+
     NSURLSessionDataTask *task = [[self sharedHTTPSessionManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"PUT 请求失败：%@ \n\n %@", path, error);
+            NSLog(@"PUT 请求失败：%@ \n\n %@ \n\n %@", path, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], error);
         }
         else {
             NSLog(@"PUT 请求成功：%@", path);
         }
-        
+
         NSError *temErr = jh_humanReadableError(error);
         completionHandler([[JHResponse alloc] initWithResponseObject:response error:temErr]);
     }];

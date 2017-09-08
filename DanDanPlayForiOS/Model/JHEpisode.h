@@ -14,4 +14,7 @@
  Id -> idntity 节目id
  Title -> name 节目名称
  */
+
+@property (assign, nonatomic) BOOL isOnAir;
+@property (copy, nonatomic) NSString *time;
 @end

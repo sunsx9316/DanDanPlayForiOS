@@ -167,7 +167,7 @@
                     [_aHUD hideAnimated:YES];
                     
                     if (error) {
-                        [MBProgressHUD showWithError:error];
+                        [MBProgressHUD showWithError:error atView:self.view];
                     }
                     else {
                         matchVideoAction(destinationFilePath);
@@ -195,7 +195,7 @@
         MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
         [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
             aHUD.progress = progress;
-            aHUD.label.text = danmakusProgressToString(progress);
+            aHUD.label.text = jh_danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             model.danmakus = responseObject;
             [aHUD hideAnimated:NO];

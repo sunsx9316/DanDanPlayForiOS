@@ -150,7 +150,7 @@
             
             [FilterNetManager cloudFilterListWithCompletionHandler:^(JHFilterCollection *responseObject, NSError *error) {
                 if (error) {
-                    [MBProgressHUD showWithError:error];
+                    [MBProgressHUD showWithError:error atView:self.view];
                 }
                 else {
                     

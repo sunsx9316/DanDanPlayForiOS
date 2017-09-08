@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName];
+    
     [self configRightItem];
     
     [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {

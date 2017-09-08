@@ -42,4 +42,6 @@
  @return 是不是视频的弹幕路径
  */
 - (BOOL)isDanmakuFileWithVideoPath:(NSString *)videoPath;
+
+- (JHDMHYParse *)parseModel;
 @end

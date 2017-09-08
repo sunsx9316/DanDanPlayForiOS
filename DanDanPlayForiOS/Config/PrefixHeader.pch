@@ -15,6 +15,7 @@
 #import "MJRefreshFooter+Tools.h"
 #import "MJRefreshHeader+Tools.h"
 #import "UIImageView+Tools.h"
+#import "CALayer+Tools.h"
 #import "UIButton+Tools.h"
 #import "MBProgressHUD+Tools.h"
 

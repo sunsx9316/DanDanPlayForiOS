@@ -8,12 +8,13 @@
 
 #import "HomePageItemTableViewCell.h"
 #import "HomePageItemCollectionViewCell.h"
+#import "JHEdgeButton.h"
 
 @interface HomePageItemTableViewCell ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) UIButton *likeButton;
+@property (strong, nonatomic) JHEdgeButton *likeButton;
 @end
 
 @implementation HomePageItemTableViewCell
@@ -25,27 +26,27 @@
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
             make.width.mas_offset(60);
-            make.height.mas_offset(70);
+            make.height.mas_offset(80);
             make.centerY.mas_equalTo(0);
-//            make.bottom.mas_offset(-10);
         }];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
-            make.top.equalTo(self.iconImgView).mas_offset(5);
+            make.top.mas_offset(10);
         }];
         
         [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.titleLabel.mas_right).mas_offset(10);
-            make.right.mas_offset(-10);
-            make.top.equalTo(self.titleLabel);
+            make.left.equalTo(self.titleLabel.mas_right);
+            make.right.mas_offset(-5);
+            make.centerY.equalTo(self.titleLabel);
         }];
         
         [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.iconImgView.mas_bottom).mas_offset(-5);
+//            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(10);
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
             make.right.mas_offset(-10);
-            make.height.mas_equalTo(NORMAL_SIZE_FONT.lineHeight + 11);
+            make.height.mas_equalTo(NORMAL_SIZE_FONT.lineHeight + 15);
+            make.bottom.mas_offset(-10);
         }];
     }
     return self;
@@ -56,7 +57,13 @@
     [self.iconImgView jh_setImageWithURL:_model.imageURL];
     self.titleLabel.text = _model.name;
     self.likeButton.selected = _model.isFavorite;
-    [self.collectionView reloadData];
+    self.likeButton.hidden = [CacheManager shareCacheManager].user == nil;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [self.collectionView reloadData];
+       });
+    });
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -95,7 +102,6 @@
 #pragma mark - 私有方法
 - (void)touchLikeButton:(UIButton *)button {
     if (self.touchLikeCallBack) {
-        _model.isFavorite = !_model.isFavorite;
         self.touchLikeCallBack(_model);
     }
 }
@@ -122,10 +128,10 @@
     return _titleLabel;
 }
 
-- (UIButton *)likeButton {
+- (JHEdgeButton *)likeButton {
     if (_likeButton == nil) {
-        _likeButton = [[UIButton alloc] init];
-        _likeButton.hidden = YES;
+        _likeButton = [[JHEdgeButton alloc] init];
+        _likeButton.inset = CGSizeMake(20, 20);
         [_likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateSelected];
         [_likeButton setImage:[UIImage imageNamed:@"unlike"] forState:UIControlStateNormal];
         [_likeButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -144,7 +150,7 @@
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor clearColor];
+        _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;

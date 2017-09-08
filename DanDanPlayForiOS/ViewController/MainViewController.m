@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     UINavigationController *homeVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"bangumi"] selectImg:[UIImage imageNamed:@"bangumi"] rootVC:[[HomePageViewController alloc] init] title:nil];
-    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"file"] selectImg:[UIImage imageNamed:@"file"] rootVC:[[FileViewController alloc] init] title:nil];
+    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"tabbar_file"] selectImg:[UIImage imageNamed:@"tabbar_file"] rootVC:[[FileViewController alloc] init] title:nil];
     UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"mine"] selectImg:[UIImage imageNamed:@"mine"] rootVC:[[MineViewController alloc] init] title:nil];
     
     self.viewControllers = @[homeVC, fileVC, settingVC];

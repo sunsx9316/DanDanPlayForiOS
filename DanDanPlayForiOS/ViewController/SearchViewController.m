@@ -24,6 +24,16 @@
     [self.view addSubview:self.pageController.view];
 }
 
+- (void)configLeftItem {
+    [super configLeftItem];
+    UIBarButtonItem *item = self.navigationItem.leftBarButtonItem;
+    self.navigationItem.leftBarButtonItem = nil;
+    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spaceBar.width = 15;
+    self.navigationItem.leftBarButtonItems = @[item, spaceBar];
+}
+
+
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {

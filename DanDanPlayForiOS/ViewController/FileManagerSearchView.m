@@ -172,6 +172,7 @@
         _searchBar.showsCancelButton = YES;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.barTintColor = [UIColor whiteColor];
+        _searchBar.tintColor = MAIN_COLOR;
         [self addSubview:_searchBar];
     }
     return _searchBar;

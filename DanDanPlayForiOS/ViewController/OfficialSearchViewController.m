@@ -81,7 +81,7 @@
         
         [CommentNetManager danmakusWithEpisodeId:item.identity progressHandler:^(float progress) {
             aHUD.progress = progress;
-            aHUD.label.text = danmakusProgressToString(progress);
+            aHUD.label.text = jh_danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             [aHUD hideAnimated:YES];
             self.model.danmakus = responseObject;
@@ -200,7 +200,7 @@
             
             [SearchNetManager searchOfficialWithKeyword:keywords.firstObject episode:[keywords.lastObject integerValue] completionHandler:^(JHSearchCollection *responseObject, NSError *error) {
                 if (error) {
-                    [MBProgressHUD showWithError:error];
+                    [MBProgressHUD showWithError:error atView:self.view];
                 }
                 else {
                     [self classifyWithColletion:responseObject];

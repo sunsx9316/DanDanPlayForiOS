@@ -33,6 +33,7 @@ static const float fastRate = 0.6f;
 
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
+#define HUD_TAG 10086
 
 typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     InterfaceViewPanTypeInactive,
@@ -187,6 +188,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             break;
         case JHMediaPlayerStatusStop:
         {
+            //防止中途终止
+            if (fabs(player.currentTime - player.length) > 2) break;
+            
             PlayerPlayMode mode = [CacheManager shareCacheManager].playMode;
             //单集循环
             if (mode == PlayerPlayModeSingleCircle) {
@@ -299,7 +303,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                     [_aHUD hideAnimated:YES];
                     
                     if (error) {
-                        [MBProgressHUD showWithError:error];
+                        [MBProgressHUD showWithError:error atView:self.view];
                     }
                     else {
                         matchVideoAction(destinationFilePath);
@@ -440,7 +444,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
     
     //弹幕
-    //    if ([CacheManager shareCacheManager].priorityLoadLocalDanmaku) {
     if ([_model isKindOfClass:[SMBVideoModel class]]) {
         NSString *videoPath = file.sessionFile.filePath;
         [parentFile.subFiles enumerateObjectsUsingBlock:^(JHSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -456,7 +459,13 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             [self openDanmakuWithURL:subtitles.firstObject];
         }
     }
-    //    }
+    
+    //添加播放记录
+    [FavoriteNetManager favoriteAddHistoryWithUser:[CacheManager shareCacheManager].user episodeId:_model.identity addToFavorite:YES completionHandler:^(NSError *error) {
+        if (error == nil) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ATTENTION_SUCCESS_NOTICE object:@(_model.identity) userInfo:@{ATTENTION_KEY : @(YES)}];
+        }
+    }];
 }
 
 /**
@@ -492,7 +501,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     else {
         [[ToolsManager shareToolsManager] downloadSMBFile:file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
             if (error) {
-                [MBProgressHUD showWithError:error];
+                [MBProgressHUD showWithError:error atView:self.view];
             }
             else {
                 [self openDanmakuWithURL:[NSURL fileURLWithPath:destinationFilePath]];
@@ -536,7 +545,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
         [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
             aHUD.progress = progress;
-            aHUD.label.text = danmakusProgressToString(progress);
+            aHUD.label.text = jh_danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             model.danmakus = responseObject;
             [aHUD hideAnimated:NO];
@@ -704,17 +713,17 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         [self.danmakuEngine setCurrentTime:time];
         self->_isSliderNoActionNotice = NO;
         [self asynFilterDanmakuWithTime:time];
-        MBProgressHUD *aHUD = [self.view viewWithTag:1000];
+        MBProgressHUD *aHUD = [self.view viewWithTag:HUD_TAG];
         [aHUD hideAnimated:YES];
     }];
 }
 
 - (void)touchSlider:(UISlider *)slider {
-    MBProgressHUD *aHUD = [self.view viewWithTag:1000];
+    MBProgressHUD *aHUD = [self.view viewWithTag:HUD_TAG];
     if (aHUD == nil) {
         aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeDeterminateHorizontalBar InView:self.view];
         aHUD.label.numberOfLines = 0;
-        aHUD.tag = 1000;
+        aHUD.tag = HUD_TAG;
     }
     
     int length = [self.player length];
@@ -776,7 +785,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             CGPoint point = [panGesture locationInView:nil];
             CGPoint velocity = [panGesture velocityInView:nil];
             
-            if (fabs(velocity.x) > 30 && fabs(velocity.y) > 30) {
+            if (fabs(velocity.x) > 25 && fabs(velocity.y) > 25) {
                 //横向移动
                 if (fabs(translation.y) < 5) {
                     //让slider不响应进度更新

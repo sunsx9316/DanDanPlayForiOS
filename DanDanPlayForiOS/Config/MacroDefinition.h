@@ -18,10 +18,10 @@
 
 #define API_DOMAIN @"https://api.acplay.net/api/"
 #define API_VERSION @"v1"
-
 #define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
+//动漫花园解析url
+#define API_DMHY_DOMAIN @"https://res.chinacloudsites.cn"
 
-//#endif
 
 //颜色
 #define RGBCOLOR(r,g,b) RGBACOLOR(r,g,b,1)
@@ -54,6 +54,8 @@
 //通知文件列表刷新
 #define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
 #define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
+#define ATTENTION_SUCCESS_NOTICE @"attention_success"
+#define ATTENTION_KEY @"attention"
 //删除文件
 #define DELETE_FILE_SUCCESS_NOTICE @"delete_file_success"
 #define MOVE_FILE_SUCCESS_NOTICE @"move_file_success"
@@ -62,12 +64,13 @@
 
 #define CLIENT_ID @"ddplayios"
 
+
 //bugly appkey
 #define BUGLY_KEY @"5a3d1ad706"
 //友盟分享key
 #define UM_SHARE_KEY @"5825c795f29d9872ed0002ab"
 
-#define QQ_APP_KEY @"1105795526"
+#define QQ_APP_KEY @"100523131"
 #define WEIBO_APP_KEY @"2376360757"
 #define WEIBO_APP_SECRET @"aa483da3b5ad318ceb3a1d7e4070e186"
 #define WEIBO_REDIRECT_URL @"https://api.acplay.net/oauth/weiboios"

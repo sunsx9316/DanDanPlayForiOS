@@ -10,10 +10,10 @@
 
 @implementation LoginNetManager
 
-+ (NSURLSessionDataTask *)loginWithSource:(JHLoginSource)source
++ (NSURLSessionDataTask *)loginWithSource:(JHUserType)source
                                    userId:(NSString *)userId
                                     token:(NSString *)token
-                        completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler {
+                        completionHandler:(void(^)(JHUser *responseObject, NSError *error))completionHandler {
     if (completionHandler == nil) return nil;
     
     if (userId.length == 0 || token.length == 0){
@@ -21,10 +21,10 @@
         return nil;
     }
     
-    NSString *sourceStr = source == JHLoginSourceWeibo ? @"weibo" : @"qq";
+    NSString *sourceStr = jh_userTypeToString(source);
     
-    return [self GETWithPath:[NSString stringWithFormat:@"%@/applogin", API_PATH] parameters:@{@"source" : sourceStr, @"userid" : userId, @"accesstoken" : token} completionHandler:^(JHResponse *model) {
-        
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/applogin/%@", API_PATH, sourceStr] parameters:@{@"userid" : userId, @"accesstoken" : token} completionHandler:^(JHResponse *model) {
+        completionHandler([JHUser yy_modelWithJSON:model.responseObject], model.error);
     }];
 }
 

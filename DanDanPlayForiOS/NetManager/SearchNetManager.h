@@ -10,6 +10,8 @@
 #import "JHSearchCollection.h"
 #import "JHBiliBiliSearchCollection.h"
 #import "JHBiliBiliBangumiCollection.h"
+#import "JHDMHYSearchCollection.h"
+#import "JHDMHYSearchConfig.h"
 
 @interface SearchNetManager : BaseNetManager
 /**
@@ -25,7 +27,9 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword
+                                            episode:(NSUInteger)episode
+                                  completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler;
 
 /**
  *  搜索b站结果
@@ -35,7 +39,8 @@
  *
  *  @return 任务
  */
-+ (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void(^)(JHBiliBiliSearchCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword
+                                  completionHandler:(void(^)(JHBiliBiliSearchCollection *responseObject, NSError *error))completionHandler;
 /**
  *  获取b站番剧详情
  *
@@ -45,5 +50,15 @@
  *  @return 任务
  */
 + (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithSeasonId:(NSUInteger)seasonId completionHandler:(void(^)(JHBiliBiliBangumiCollection *responseObject, NSError *error))completionHandler;
+
+
+/**
+ 搜索动漫花园
+
+ @param config 配置
+ @return 任务
+ */
++ (NSURLSessionDataTask *)searchDMHYWithConfig:(JHDMHYSearchConfig *)config
+                              completionHandler:(void(^)(JHDMHYSearchCollection *responseObject, NSError *error))completionHandler;
 
 @end

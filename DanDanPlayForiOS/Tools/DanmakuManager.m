@@ -59,6 +59,7 @@ typedef void(^CallBackAction)(JHDanmaku *model);
     JHDanmakuCollection *danmakuCollection = [[JHDanmakuCollection alloc] init];
     danmakuCollection.collection = [danmakus.allObjects mutableCopy];
     danmakuCollection.saveTime = [NSDate date];
+    danmakuCollection.identity = episodeId;
     [cache setObject:danmakuCollection forKey:key withBlock:nil];
     return danmakuCollection;
 }

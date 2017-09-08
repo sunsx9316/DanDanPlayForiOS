@@ -15,4 +15,29 @@
  *  @return 1~6对应星期一~六 0对应星期天
  */
 + (NSInteger)currentWeekDay;
+
+
+/**
+ 将字符串格式化为默认时间
+
+ @param dateString 字符串
+ @return 时间
+ */
++ (NSDate *)dateWithDefaultFormatString:(NSString *)dateString;
+
+/**
+ 将时间格式化成字符串的形式
+
+ @param date 时间
+ @return 字符串
+ */
++ (NSString *)attentionTimeStyleWithDate:(NSDate *)date;
+
+/**
+ 播放历史时间格式
+
+ @param date 时间
+ @return 字符串
+ */
++ (NSString *)historyTimeStyleWithDate:(NSDate *)date;
 @end

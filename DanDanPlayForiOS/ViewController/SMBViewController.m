@@ -155,7 +155,7 @@
         [MBProgressHUD hideLoading];
         
         if (error) {
-            [MBProgressHUD showWithError:error];
+            [MBProgressHUD showWithError:error atView:self.view];
             [ToolsManager shareToolsManager].smbInfo = nil;
         }
         else {

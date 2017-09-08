@@ -8,11 +8,10 @@
 
 #import "JHDanmaku.h"
 
-@interface JHDanmaku ()
-@property (copy, nonatomic) NSString *timeStringValue;
-@end
-
 @implementation JHDanmaku
+{
+    NSNumber *_timerValue;
+}
 
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"time":@"Time",
@@ -34,22 +33,22 @@
     if ([object isMemberOfClass:[self class]] == NO) return NO;
     
     if ([object.message isEqual:self.message] && object.color == self.color) {
-        if ([object.timeStringValue isEqual:self.timeStringValue]) return YES;
+        if ([object.timeValue isEqual:self.timeValue]) return YES;
     }
     
     return NO;
 }
 
 - (NSUInteger)hash {
-    return self.message.hash | self.color | self.timeStringValue.hash;
+    return self.message.hash | self.color | [self timeValue].hash;
 }
 
 #pragma mark - 懒加载
-- (NSString *)timeStringValue {
-    if (_timeStringValue == nil) {
-        _timeStringValue = [NSString stringWithFormat:@"%.2f", self.time];
+- (NSNumber *)timeValue {
+    if (_timerValue == nil) {
+        _timerValue = @(self.time);
     }
-    return _timeStringValue;
+    return _timerValue;
 }
 
 @end

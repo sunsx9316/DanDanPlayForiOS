@@ -11,8 +11,10 @@
 @implementation JHEpisode
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"identity" : @"Id",
-             @"name" : @"Title"};
+    return @{@"identity" : @[@"Id", @"EpisodeId"],
+             @"name" : @[@"Title", @"EpisodeTitle"],
+             @"time" : @"Time",
+             @"isOnAir" : @"IsOnAir"};
 }
 
 @end

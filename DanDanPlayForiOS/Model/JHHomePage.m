@@ -89,7 +89,8 @@
              @"keyword":@"Keyword",
              @"name":@"Name",
              @"collection":@"Groups",
-             @"isFavorite": @"IsFavorite"};
+             @"isFavorite": @"IsFavorite",
+             @"identity" : @"AnimeId"};
 }
 
 + (NSDictionary *)modelContainerPropertyGenericClass {

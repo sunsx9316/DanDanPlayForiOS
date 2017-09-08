@@ -10,40 +10,47 @@
 #import "HomePageItemViewController.h"
 #import "JHDefaultPageViewController.h"
 #import "WebViewController.h"
+#import "HomePageSearchViewController.h"
 
 #import "MJRefreshHeader+Tools.h"
 #import "NSDate+Tools.h"
-#import <iCarousel.h>
-#import "HomePageBannerView.h"
+#import "JHEdgeButton.h"
 
 #define HEAD_VIEW_HEIGHT (self.view.height * .4)
 
-@interface HomePageViewController ()<WMPageControllerDelegate, WMPageControllerDataSource, iCarouselDelegate, iCarouselDataSource>
+@interface HomePageViewController ()<WMPageControllerDelegate, WMPageControllerDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageViewController;
 @property (strong, nonatomic) JHHomePage *model;
-@property (strong, nonatomic) iCarousel *headView;
-@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation HomePageViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"新番列表";
     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
-    [RecommedNetManager recommedInfoWithCompletionHandler:^(JHHomePage *responseObject, NSError *error) {
-        if (error) {
-            [MBProgressHUD showWithError:error];
-        }
-        else {
-            self.model = responseObject;
-            [self.pageViewController reloadData];
-        }
-        
-        [self.pageViewController.scrollView.mj_header endRefreshing];
+    [self configRightItem];
+    
+    [self.view addSubview:self.pageViewController.view];
+    
+    [self requestHomePageWithAnimate:YES completion:^{
+        [self.pageViewController reloadData];
     }];
+    
+    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"user" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"user"]) {
+        [self requestHomePageWithAnimate:NO completion:^{
+            [self.pageViewController reloadData];
+        }];
+    }
+}
+
+- (void)dealloc {
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"user"];
 }
 
 - (void)configLeftItem {
@@ -58,34 +65,22 @@
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
     HomePageItemViewController *vc = [[HomePageItemViewController alloc] init];
     vc.bangumis = [self bangumiCollectionWithIndex:index].collection;
-    
+    @weakify(vc)
     @weakify(self)
-    vc.handleBannerCallBack = ^(BOOL isShow) {
+    vc.handleBannerCallBack = ^() {
         @strongify(self)
         if (!self) return;
         
-        if (isShow) {
-            if (CGAffineTransformEqualToTransform(self.pageViewController.view.transform, CGAffineTransformIdentity)) {
-                [self.headView reloadData];
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.pageViewController.view.transform = CGAffineTransformMakeTranslation(0, HEAD_VIEW_HEIGHT);
-                    self.headView.height = HEAD_VIEW_HEIGHT;
-                } completion:^(BOOL finished) {
-                    self.timer.fireDate = [NSDate distantPast];
-                }];
-            }
-        }
-        else {
-            if ((CGAffineTransformEqualToTransform(self.pageViewController.view.transform, CGAffineTransformIdentity)) == NO) {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.pageViewController.view.transform = CGAffineTransformIdentity;
-                    self.headView.height = 0;
-                    [self.headView layoutIfNeeded];
-                } completion:^(BOOL finished) {
-                    self.timer.fireDate = [NSDate distantFuture];
-                }];
-            }
-        }
+        [self requestHomePageWithAnimate:NO completion:^{
+            [weak_vc endRefresh];
+        }];
+    };
+    
+    vc.endRefreshCallBack = ^{
+        @strongify(self)
+        if (!self) return;
+        
+        [self.pageViewController reloadData];
     };
     
     return vc;
@@ -106,42 +101,25 @@
     return CGRectMake(0, menuViewHeight, self.view.width, self.view.height - menuViewHeight);
 }
 
-#pragma mark - iCarouselDelegate
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
-    if (option == iCarouselOptionWrap) {
-        return YES;
-    }
-    if (option == iCarouselOptionOffsetMultiplier) {
-        return carousel.numberOfItems > 1 ? value : 0;
-    }
-    return value;
+#pragma mark - DZNEmptyDataSetSource
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无数据" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
 }
 
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
-    
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击重试" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    return str;
 }
 
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    JHBannerPage *model = self.model.bannerPages[index];
-    [[UIApplication sharedApplication] openURL:model.link];
+#pragma mark - DZNEmptyDataSetDelegate
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self requestHomePageWithAnimate:YES completion:^{
+        [self.pageViewController reloadData];
+    }];
 }
 
-#pragma mark - iCarouselDataSource
-- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return self.model.bannerPages.count;
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable __kindof UIView *)view {
-    HomePageBannerView *bannerView = view;
-    if (bannerView == nil) {
-        bannerView = [[HomePageBannerView alloc] initWithFrame:carousel.bounds];
-    }
-    
-    bannerView.model = self.model.bannerPages[index];
-    return bannerView;
-}
-
-#pragma mark - 懒加载
+#pragma mark - 私有方法
 - (JHBangumiCollection *)bangumiCollectionWithIndex:(NSInteger)index {
     NSInteger week = [NSDate currentWeekDay];
     if (week < 0 || week > 7) {
@@ -151,6 +129,55 @@
     return self.model.bangumis[index];
 }
 
+- (void)requestHomePageWithAnimate:(BOOL)animate
+                        completion:(dispatch_block_t)completion {
+    if (animate) {
+        [MBProgressHUD showLoadingInView:self.view text:nil];
+    }
+    
+    [RecommedNetManager recommedInfoWithCompletionHandler:^(JHHomePage *responseObject, NSError *error) {
+        if (animate) {
+            [MBProgressHUD hideLoading];
+        }
+        
+        if (error) {
+            [MBProgressHUD showWithError:error atView:self.view];
+            ((void (*)(id, SEL))(void *) objc_msgSend)((id)self.pageViewController, NSSelectorFromString(@"wm_addScrollView"));
+            UIScrollView *view = self.pageViewController.scrollView;
+            view.emptyDataSetSource = self;
+            view.emptyDataSetDelegate = self;
+            view.frame = self.view.bounds;
+            [view reloadEmptyDataSet];
+        }
+        else {
+            self.model = responseObject;
+        }
+        
+        if (completion) {
+            completion();
+        }
+    }];
+}
+
+- (void)configRightItem {
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
+    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    
+    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    spaceBar.width = -2;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItems = @[spaceBar, item];
+}
+
+- (void)touchRightItem:(UIButton *)button {
+    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - 懒加载
 - (JHDefaultPageViewController *)pageViewController {
     if (_pageViewController == nil) {
@@ -158,38 +185,8 @@
         _pageViewController.delegate = self;
         _pageViewController.dataSource = self;
         [self addChildViewController:_pageViewController];
-        [self.view addSubview:_pageViewController.view];
     }
     return _pageViewController;
-}
-
-- (iCarousel *)headView {
-    if (_headView == nil) {
-        _headView = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 0)];
-        _headView.clipsToBounds = YES;
-        _headView.backgroundColor = [UIColor whiteColor];
-        _headView.dataSource = self;
-        _headView.delegate = self;
-        _headView.pagingEnabled = YES;
-        _headView.type = iCarouselTypeRotary;
-        [self.view addSubview:_headView];
-    }
-    return _headView;
-}
-
-- (NSTimer *)timer {
-    if (_timer == nil) {
-        @weakify(self)
-        _timer = [NSTimer timerWithTimeInterval:5 block:^(NSTimer * _Nonnull timer) {
-            @strongify(self)
-            if (!self) return;
-            
-            [self.headView scrollToItemAtIndex:self.headView.currentItemIndex + 1 duration:1];
-        } repeats:YES];
-        _timer.fireDate = [NSDate distantFuture];
-        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
-    }
-    return _timer;
 }
 
 @end

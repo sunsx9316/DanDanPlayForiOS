@@ -101,20 +101,12 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 #pragma mark -
 - (void)setUser:(JHUser *)user {
-    [self.cache setObject:user forKey:userSaveKey withBlock:nil];
+    [self.cache setObject:user forKey:userSaveKey];
 }
 
 - (JHUser *)user {
     return (JHUser *)[self.cache objectForKey:userSaveKey];
 }
-
-#pragma mark -
-//- (JHFile *)rootFile {
-//    if (_rootFile == nil) {
-//        _rootFile = [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
-//    }
-//    return _rootFile;
-//}
 
 #pragma mark - 
 - (DownloadStatusView *)downloadView {

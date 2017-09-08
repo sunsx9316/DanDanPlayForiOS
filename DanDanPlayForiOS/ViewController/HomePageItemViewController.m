@@ -8,10 +8,12 @@
 
 #import "HomePageItemViewController.h"
 #import "WebViewController.h"
+#import "HomePageSearchViewController.h"
 
 #import "BaseTableView.h"
 #import "HomePageItemTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "NSString+Tools.h"
 
 @interface HomePageItemViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -24,6 +26,16 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAttention:) name:ATTENTION_SUCCESS_NOTICE object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)endRefresh {
+    [self.tableView endRefreshing];
 }
 
 - (void)setBangumis:(NSArray<JHBangumi *> *)bangumis {
@@ -46,14 +58,32 @@
         @strongify(self)
         if (!self) return;
         
-        NSLog(@"%d", model.isFavorite);
+        JHUser *user = [CacheManager shareCacheManager].user;
+        [MBProgressHUD showLoadingInView:self.view text:@"请求中..."];
+        [FavoriteNetManager favoriteLikeWithUser:user animeId:model.identity like:!model.isFavorite completionHandler:^(NSError *error) {
+            [MBProgressHUD hideLoading];
+            
+            if (error) {
+                [MBProgressHUD showWithError:error atView:self.view];
+            }
+            else {
+                model.isFavorite = !model.isFavorite;
+                [self.tableView reloadData];
+            }
+        }];
     };
     
     cell.selectedItemCallBack = ^(JHBangumiGroup *model) {
         @strongify(self)
         if (!self) return;
         
-        WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:model.link]];
+        JHDMHYParse *parseModel = [model.link parseModel];
+        
+        HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+        JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+        config.keyword = parseModel.keyword;
+        config.subGroupId = parseModel.identity;
+        vc.config = config;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     };
@@ -65,20 +95,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JHBangumi *model = self.bangumis[indexPath.row];
     
-    WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [model.keyword stringByURLEncode]]]];
+    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+    JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+    config.keyword = model.keyword;
+    vc.config = config;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    CGPoint point = [scrollView.panGestureRecognizer velocityInView:scrollView];
-    if (point.y < 0) {
-        if (self.handleBannerCallBack) {
-            self.handleBannerCallBack(NO);
+#pragma mark - 私有方法
+- (void)cancelAttention:(NSNotification *)aSender {
+    NSInteger animateId = [aSender.object integerValue];
+    BOOL attention = [aSender.userInfo[ATTENTION_SUCCESS_NOTICE] boolValue];
+    [self.bangumis enumerateObjectsUsingBlock:^(JHBangumi * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.identity == animateId) {
+            obj.isFavorite = attention;
+            [self.tableView reloadData];
+            *stop = YES;
         }
-    }
-    NSLog(@"%@", NSStringFromCGPoint(point));
+    }];
 }
 
 
@@ -88,21 +123,10 @@
         _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 90;
+        _tableView.rowHeight = 100;
         [_tableView registerClass:[HomePageItemTableViewCell class] forCellReuseIdentifier:@"HomePageItemTableViewCell"];
-        @weakify(self)
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{
-            @strongify(self)
-            if (!self) return;
-            
-            if (self.handleBannerCallBack) {
-                self.handleBannerCallBack(YES);
-            }
-            
-            [self.tableView.mj_header endRefreshing];
-        }];
-        [header setTitle:@"显示会滚动的咨询" forState:MJRefreshStateIdle];
-        [header setTitle:@"好想看" forState:MJRefreshStatePulling];
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:self.handleBannerCallBack];
+        header.endRefreshingCompletionBlock = self.endRefreshCallBack;
         _tableView.mj_header = header;
         
         [self.view addSubview:_tableView];

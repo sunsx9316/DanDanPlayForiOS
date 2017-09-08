@@ -70,6 +70,7 @@
         
         NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:model];
         model.matchName = dic[videoNameKey];
+        model.identity = [dic[videoEpisodeIdKey] integerValue];
         
         progressAction(1.0f);
         completionAction(collection, nil);
@@ -80,8 +81,10 @@
     progressAction(0.1f);
     
     return [self matchVideoModel:model completionHandler:^(JHMatcheCollection *responseObject, NSError *error) {
+        //精确匹配
         if (responseObject.collection.count == 1) {
             JHMatche *matchModel = responseObject.collection.firstObject;
+            //获取弹幕
             [CommentNetManager danmakusWithEpisodeId:matchModel.identity progressHandler:progressHandler completionHandler:completionHandler];
         }
         else {

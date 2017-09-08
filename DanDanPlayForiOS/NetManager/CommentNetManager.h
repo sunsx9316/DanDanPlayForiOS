@@ -10,7 +10,7 @@
 #import "JHDanmakuCollection.h"
 
 
-CG_INLINE NSString *danmakusProgressToString(float progress) {
+CG_INLINE NSString *jh_danmakusProgressToString(float progress) {
     if (progress == 0.1f) {
         return @"快速匹配...";
     }

@@ -104,6 +104,10 @@
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    JHFile *file = _file.subFiles[indexPath.row];
+    if (file.type == JHFileTypeFolder) {
+        return 80 + 40 * jh_isPad();
+    }
     return 100 + 40 * jh_isPad();
 }
 
@@ -317,7 +321,7 @@
             MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
             [MatchNetManager fastMatchVideoModel:model progressHandler:^(float progress) {
                 aHUD.progress = progress;
-                aHUD.label.text = danmakusProgressToString(progress);
+                aHUD.label.text = jh_danmakusProgressToString(progress);
             } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
                 model.danmakus = responseObject;
                 [aHUD hideAnimated:NO];

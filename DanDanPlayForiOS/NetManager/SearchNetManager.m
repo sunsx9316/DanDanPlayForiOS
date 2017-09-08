@@ -77,4 +77,31 @@
     }];
 }
 
++ (NSURLSessionDataTask *)searchDMHYWithConfig:(JHDMHYSearchConfig *)config
+                             completionHandler:(void(^)(JHDMHYSearchCollection *responseObject, NSError *error))completionHandler {
+    if (completionHandler == nil) return nil;
+    
+    if (config == nil) {
+        completionHandler(nil, parameterNoCompletionError());
+        return nil;
+    }
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (config.keyword.length) {
+        dic[@"keyword"] = config.keyword;
+    }
+    
+    if (config.episodeType != 0) {
+        dic[@"type"] = @(config.episodeType);
+    }
+    
+    if (config.subGroupId != 0) {
+        dic[@"subgroup"] = @(config.subGroupId);
+    }
+    
+    return [self GETWithPath:[NSString stringWithFormat:@"%@/list", API_DMHY_DOMAIN] parameters:dic completionHandler:^(JHResponse *model) {
+        completionHandler([JHDMHYSearchCollection yy_modelWithDictionary:model.responseObject], model.error);
+    }];
+}
+
 @end

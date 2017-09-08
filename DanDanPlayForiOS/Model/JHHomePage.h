@@ -51,6 +51,7 @@
 
 @interface JHBangumi : JHBaseCollection
 /**
+    identity -> AnimeId
  *  name 名称
  *  @"collection" : [JHBangumiGroup class]
  */

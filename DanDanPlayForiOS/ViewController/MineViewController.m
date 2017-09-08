@@ -10,6 +10,7 @@
 #import "SettingViewController.h"
 #import "AboutUsViewController.h"
 #import "DownloadViewController.h"
+#import "AttentionListViewController.h"
 
 #import "UIApplication+Tools.h"
 #import "SettingTitleTableViewCell.h"
@@ -23,20 +24,22 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary *>*dataSourceArr;
 @property (strong, nonatomic) UIView *headView;
-@property (strong, nonatomic) UIImageView *iconBGImgView;
+@property (strong, nonatomic) UIView *nameIconHoldView;
 @property (strong, nonatomic) UIImageView *iconImgView;
+@property (strong, nonatomic) UILabel *nameLabel;
+@property (strong, nonatomic) UIVisualEffectView *blurView;
 @end
 
 @implementation MineViewController
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.iconImgView addMotionEffectWithMaxOffset:30];
+    [self.nameIconHoldView addMotionEffectWithMaxOffset:30];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.iconImgView removeMotionEffect];
+    [self.nameIconHoldView removeMotionEffect];
 }
 
 - (void)viewDidLoad {
@@ -90,16 +93,14 @@
     
     if ([dic[TITLE_KEY] isEqualToString:@"设置"]) {
         SettingViewController *vc = [[SettingViewController alloc] init];
-        vc.title = dic.allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
-//    else if (indexPath.row == 1) {
-//        SettingViewController *vc = [[SettingViewController alloc] init];
-//        vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
-//        vc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }
+    else if ([dic[TITLE_KEY] isEqualToString:@"我的关注"]) {
+        AttentionListViewController *vc = [[AttentionListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     else if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
         DownloadViewController *vc = [[DownloadViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
@@ -107,7 +108,6 @@
     }
     else {
         AboutUsViewController *vc = [[AboutUsViewController alloc] init];
-        vc.title = self.dataSourceArr[indexPath.row].allValues.firstObject;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -128,8 +128,18 @@
 }
 
 - (void)reloadUserInfo {
-    [self.iconBGImgView jh_setImageWithURL:[CacheManager shareCacheManager].user.icoImgURL placeholder:[UIImage imageNamed:@"icon"]];
-    [self.iconImgView jh_setImageWithURL:[CacheManager shareCacheManager].user.icoImgURL  placeholder:[UIImage imageNamed:@"icon"]];
+    JHUser *user = [CacheManager shareCacheManager].user;
+    [self.blurView.layer jh_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"icon"]];
+    [self.iconImgView jh_setImageWithURL:user.icoImgURL  placeholder:[UIImage imageNamed:@"icon"]];
+    if (user) {
+        self.nameLabel.text = user.name;
+    }
+    else {
+        self.nameLabel.text = @"点击登录";
+    }
+    
+    self.dataSourceArr = nil;
+    [self.tableView reloadData];
 }
 
 #pragma mark - 懒加载
@@ -139,83 +149,82 @@
         _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * 0.4)];
         _headView.clipsToBounds = YES;
         
-        UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-        [_headView addSubview:self.iconBGImgView];
-        [_headView addSubview:blurView];
-        [_headView addSubview:self.iconImgView];
+        [_headView addSubview:self.blurView];
+        [_headView addSubview:self.nameIconHoldView];
         
-        [self.iconBGImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
         
-        [blurView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
-        }];
-        
-        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.nameIconHoldView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
-            make.width.height.mas_equalTo(90 + jh_isPad() * 40);
         }];
         
-//        @weakify(self)
-//        [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
-//            @strongify(self)
-//            if (!self) return;
-//            
-//            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
-//                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
-//
-//                    UMSocialUserInfoResponse *resp = result;
-//                    
-//                    [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ?JHLoginSourceWeibo : JHLoginSourceQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHSearchCollection *responseObject, NSError *error) {
-//                        
-//                    }];
-//                    
-//                    // 第三方登录数据(为空表示平台未提供)
-//                    // 授权数据
-//                    NSLog(@" uid: %@", resp.uid);
-//                    NSLog(@" openid: %@", resp.openid);
-//                    NSLog(@" accessToken: %@", resp.accessToken);
-//                    NSLog(@" refreshToken: %@", resp.refreshToken);
-//                    NSLog(@" expiration: %@", resp.expiration);
-//                    
-//                    // 用户数据
-//                    NSLog(@" name: %@", resp.name);
-//                    NSLog(@" iconurl: %@", resp.iconurl);
-//                    NSLog(@" gender: %@", resp.unionGender);
-//                    
-//                    // 第三方平台SDK原始数据
-//                    NSLog(@" originalResponse: %@", resp.originalResponse);
-//                }];
-//            };
-//            
-//            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"请选择登录平台" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//            [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                loginWithTypeAction(UMSocialPlatformType_QQ);
-//            }]];
-//            
-//            [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                loginWithTypeAction(UMSocialPlatformType_Sina);
-//            }]];
-//            
-//            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-//            
-//            [self presentViewController:vc animated:YES completion:nil];
-//        }]];
+        @weakify(self)
+        [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
+            @strongify(self)
+            if (!self) return;
+            
+            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
+                [MBProgressHUD showLoadingInView:self.view text:nil];
+                
+                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
+                    [MBProgressHUD hideLoading];
+                    
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                    }
+                    else {
+                        UMSocialUserInfoResponse *resp = result;
+                        [MBProgressHUD showLoadingInView:self.view text:@"登录中..."];
+                        
+                        [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ? JHUserTypeWeibo : JHUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHUser *responseObject, NSError *error1) {
+                            [MBProgressHUD hideLoading];
+                            if (error1) {
+                                [MBProgressHUD showWithError:error1 atView:self.view];
+                            }
+                            else {
+                                [CacheManager shareCacheManager].user = responseObject;
+                                [self reloadUserInfo];
+                            }
+                        }];
+                    }
+                }];
+            };
+            
+            if ([CacheManager shareCacheManager].user == nil) {
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"请选择登录平台" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    loginWithTypeAction(UMSocialPlatformType_QQ);
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    loginWithTypeAction(UMSocialPlatformType_Sina);
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+            else {
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"退出登录吗？" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    [CacheManager shareCacheManager].user = nil;
+                    [self reloadUserInfo];
+                    [self.tableView reloadData];
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+        }]];
         
         [self reloadUserInfo];
     }
     return _headView;
 }
-
-- (UIImageView *)iconBGImgView {
-    if (_iconBGImgView == nil) {
-        _iconBGImgView = [[UIImageView alloc] init];
-        _iconBGImgView.contentMode = UIViewContentModeScaleAspectFill;
-    }
-    return _iconBGImgView;
-}
-
 
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
@@ -229,6 +238,44 @@
     return _iconImgView;
 }
 
+- (UILabel *)nameLabel {
+    if (_nameLabel == nil) {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = NORMAL_SIZE_FONT;
+        _nameLabel.textColor = [UIColor whiteColor];
+    }
+    return _nameLabel;
+}
+
+- (UIView *)nameIconHoldView {
+    if (_nameIconHoldView == nil) {
+        _nameIconHoldView = [[UIView alloc] init];
+        _nameIconHoldView.clipsToBounds = NO;
+        [_nameIconHoldView addSubview:self.iconImgView];
+        [_nameIconHoldView addSubview:self.nameLabel];
+        
+        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.centerX.mas_equalTo(0);
+            make.width.height.mas_equalTo(90 + jh_isPad() * 40);
+        }];
+        
+        [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.iconImgView.mas_bottom).mas_offset(10);
+            make.bottom.mas_offset(-10);
+            make.centerX.mas_equalTo(0);
+        }];
+        
+    }
+    return _nameIconHoldView;
+}
+
+- (UIVisualEffectView *)blurView {
+    if (_blurView == nil) {
+        _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    }
+    return _blurView;
+}
+
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -236,7 +283,6 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-//        _tableView.rowHeight = 44;
         [_tableView registerClass:[SettingTitleTableViewCell class] forCellReuseIdentifier:@"SettingTitleTableViewCell"];
         [_tableView registerClass:[SettingDownloadTableViewCell class] forCellReuseIdentifier:@"SettingDownloadTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
@@ -247,11 +293,14 @@
 
 - (NSArray<NSDictionary *> *)dataSourceArr {
     if (_dataSourceArr == nil) {
-        _dataSourceArr = @[@{TITLE_KEY: @"设置"},
-//                           @{@"titleLabel.text": @"其他设置"},
-                           @{TITLE_KEY: @"下载任务"},
-                           @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}];
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@{TITLE_KEY: @"设置"},
+                                                               @{TITLE_KEY: @"下载任务"},
+                                                               @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}]];
+        if ([CacheManager shareCacheManager].user) {
+            [arr insertObject:@{TITLE_KEY: @"我的关注"} atIndex:0];
+        }
         
+        _dataSourceArr = arr;
     }
     return _dataSourceArr;
 }

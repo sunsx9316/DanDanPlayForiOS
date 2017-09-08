@@ -43,6 +43,8 @@
  */
 + (void)showWithError:(NSError *)error;
 
++ (void)showWithError:(NSError *)error atView:(UIView *)view;
+
 /**
  *  显示一个一直显示的hud面板
  *

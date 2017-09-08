@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, JHDanmakuMode) {
 
 /*
  
- CId -> identity 弹幕编号，此编号在同一个弹幕库中唯一，且新弹幕永远比旧弹幕编号要大。
+ identity -> CId 弹幕编号，此编号在同一个弹幕库中唯一，且新弹幕永远比旧弹幕编号要大。
  
  */
 

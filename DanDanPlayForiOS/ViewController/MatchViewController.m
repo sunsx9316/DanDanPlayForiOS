@@ -85,7 +85,7 @@
 
         [CommentNetManager danmakusWithEpisodeId:item.identity progressHandler:^(float progress) {
             aHUD.progress = progress;
-            aHUD.label.text = danmakusProgressToString(progress);
+            aHUD.label.text = jh_danmakusProgressToString(progress);
         } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
             [aHUD hideAnimated:NO];
             self.model.danmakus = responseObject;
@@ -237,7 +237,7 @@
             
             [MatchNetManager matchVideoModel:self.model completionHandler:^(JHMatcheCollection *responseObject, NSError *error) {
                 if (error) {
-                    [MBProgressHUD showWithError:error];
+                    [MBProgressHUD showWithError:error atView:self.view];
                 }
                 else {
                     [self classifyWithColletion:responseObject];

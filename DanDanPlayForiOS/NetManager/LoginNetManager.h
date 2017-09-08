@@ -7,18 +7,14 @@
 //
 
 #import "BaseNetManager.h"
-
-typedef NS_ENUM(NSUInteger, JHLoginSource) {
-    JHLoginSourceWeibo,
-    JHLoginSourceQQ
-};
+#import "JHUser.h"
 
 @interface LoginNetManager : BaseNetManager
 
-+ (NSURLSessionDataTask *)loginWithSource:(JHLoginSource)source
++ (NSURLSessionDataTask *)loginWithSource:(JHUserType)source
                                    userId:(NSString *)userId
                                     token:(NSString *)token
-                        completionHandler:(void(^)(JHSearchCollection *responseObject, NSError *error))completionHandler;
+                        completionHandler:(void(^)(JHUser *responseObject, NSError *error))completionHandler;
 
 
 @end
