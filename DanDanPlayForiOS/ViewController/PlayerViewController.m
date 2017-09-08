@@ -772,7 +772,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (void)panScreen:(UIPanGestureRecognizer *)panGesture {
-    if (panGesture.state == UIGestureRecognizerStateEnded) {
+    UIGestureRecognizerState state = panGesture.state;
+    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled || state == UIGestureRecognizerStateFailed) {
         if (_panType == InterfaceViewPanTypeProgress) {
             [self touchSliderUp:self.interfaceView.progressSlider];
         }
