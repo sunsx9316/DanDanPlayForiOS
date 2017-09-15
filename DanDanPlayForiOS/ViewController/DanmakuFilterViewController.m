@@ -19,6 +19,9 @@
 @end
 
 @implementation DanmakuFilterViewController
+{
+    BOOL _isUpdateFilter;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +45,12 @@
     }
 }
 
+- (void)dealloc {
+    if (_isUpdateFilter && self.updateFilterCallBack) {
+        self.updateFilterCallBack();
+    }
+}
+
 #pragma mark - 私有方法
 - (void)configRightItem {
     JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
@@ -60,6 +69,7 @@
         @strongify(self)
         if (!self) return;
         
+        self->_isUpdateFilter = YES;
         [[CacheManager shareCacheManager] updateFilter:model];
         [self.tableView reloadData];
     };
@@ -79,6 +89,7 @@
         @strongify(self)
         if (!self) return;
         
+        self->_isUpdateFilter = YES;
         [[CacheManager shareCacheManager] updateFilter:aModel];
     };
     
@@ -86,6 +97,7 @@
         @strongify(self)
         if (!self) return;
         
+        self->_isUpdateFilter = YES;
         [[CacheManager shareCacheManager] updateFilter:aModel];
     };
     
@@ -95,6 +107,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"确定删除吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self->_isUpdateFilter = YES;
         JHFilter *model = [CacheManager shareCacheManager].danmakuFilters[indexPath.row];
         [[CacheManager shareCacheManager] removeFilter:model];
         [self.tableView reloadData];
@@ -121,6 +134,7 @@
         @strongify(self)
         if (!self) return;
         
+        self->_isUpdateFilter = YES;
         [[CacheManager shareCacheManager] updateFilter:model];
         [self.tableView reloadData];
     };

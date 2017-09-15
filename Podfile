@@ -15,7 +15,7 @@ target 'DanDanPlayForiOS' do
     #pod 'UMengUShare/Social/WeChat'
 
     pod 'Bugly'
-    pod 'MobileVLCKit-unstable', '~> 3.0.0a33'
+    pod 'MobileVLCKit-unstable', '3.0.0a32'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'

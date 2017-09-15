@@ -28,9 +28,11 @@
 @implementation FileManagerViewController
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
     
-    if (jh_isRootFile(self.file.fileURL)) {
+    if (jh_isRootFile(self.file)) {
         [self setNavigationBarWithColor:[UIColor clearColor]];
         [[CacheManager shareCacheManager] addObserver:self];
     }
@@ -57,8 +59,8 @@
     
     [self.tableView addGestureRecognizer:self.longPressGestureRecognizer];
     
-    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
-    if (jh_isRootFile(self.file.fileURL)) {
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    if (jh_isRootFile(self.file)) {
         self.automaticallyAdjustsScrollViewInsets = NO;
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();
@@ -72,6 +74,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[CacheManager shareCacheManager] removeObserver:self];
 }
 
 #pragma mark - UITableViewDataSource
@@ -87,7 +90,7 @@
         FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
         cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
-        cell.rightSwipeSettings.transition = MGSwipeTransition3D;
+        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
         cell.delegate = self;
         return cell;
     }
@@ -97,7 +100,7 @@
     cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
     cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
     cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
-    cell.rightSwipeSettings.transition = MGSwipeTransition3D;
+    cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
     cell.delegate = self;
     return cell;
 }
@@ -159,7 +162,7 @@
 
 #pragma mark - 私有方法
 - (void)configLeftItem {
-    if (jh_isRootFile(self.file.fileURL) == NO) {
+    if (jh_isRootFile(self.file) == NO) {
         JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
         backButton.inset = CGSizeMake(10, 10);
         [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
@@ -288,7 +291,7 @@
 }
 
 - (void)deleteFileSuccess:(NSNotification *)aSender {
-    if (jh_isRootFile(self.file.fileURL)) {
+    if (jh_isRootFile(self.file)) {
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();
         }
@@ -300,7 +303,7 @@
 }
 
 - (void)moveFileSuccess:(NSNotification *)aSender {
-    if (jh_isRootFile(self.file.fileURL)) {
+    if (jh_isRootFile(self.file)) {
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();
         }
@@ -372,7 +375,6 @@
                 [self.tableView endRefreshing];
             }];
         }];
-        
         
         [self.view addSubview:_tableView];
     }

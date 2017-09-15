@@ -14,6 +14,7 @@
 #import "JHFile.h"
 #import "JHSMBFile.h"
 #import "JHSMBInfo.h"
+#import "JHLinkFile.h"
 
 UIKIT_EXTERN DanDanPlayDanmakuType jh_danmakuStringToType(NSString *string);
 UIKIT_EXTERN NSString *jh_danmakuTypeToString(DanDanPlayDanmakuType type);
@@ -51,16 +52,25 @@ UIKIT_EXTERN JHFile *jh_getANewRootFile();
 
 
 /**
+ 生成一个PC的根目录对象
+
+ @return 根目录
+ */
+UIKIT_EXTERN JHLinkFile *jh_getANewLinkRootFile();
+
+
+/**
  判断路径是不是根目录
 
  @param url 路径
  @return    是不是根目录
  */
-UIKIT_EXTERN BOOL jh_isRootFile(NSURL *url);
+UIKIT_EXTERN BOOL jh_isRootFile(JHFile *file);
 
 typedef void(^GetSnapshotAction)(UIImage *image);
 typedef void(^GetFilesAction)(JHFile *file);
 typedef void(^GetSMBFilesAction)(JHSMBFile *file, NSError *error);
+typedef void(^GetLinkFilesAction)(JHLinkFile *file, NSError *error);
 
 typedef NS_ENUM(NSUInteger, PickerFileType) {
     PickerFileTypeVideo = 1 << 0,
@@ -129,7 +139,7 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  @param parentFile 路径
  @param completion 回调
  */
-- (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
+- (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
                                       completion:(GetSMBFilesAction)completion;
 
 /**
@@ -139,7 +149,7 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  @param fileType 文件类型
  @param completion 回调
  */
-- (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
+- (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
                                         fileType:(PickerFileType)fileType
                                       completion:(GetSMBFilesAction)completion;
 
@@ -175,4 +185,15 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion;
 
 @property (strong, nonatomic) TOSMBSession *SMBSession;
+
+#pragma mark - PC端
+
+/**
+ 获取PC文件
+
+ @param parentFile 父文件
+ @param completion 完成回掉
+ */
+- (void)startDiscovererFileWithLinkParentFile:(JHLinkFile *)parentFile
+                                      completion:(GetLinkFilesAction)completion;
 @end

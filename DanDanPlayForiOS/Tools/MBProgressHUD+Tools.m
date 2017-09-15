@@ -12,16 +12,16 @@ static MBProgressHUD *progressHUD = nil;
 
 @implementation MBProgressHUD (Tools)
 + (void)showWithText:(NSString *)text {
-    [self showWithText:text atView:nil afterDelay:1];
+    [self showWithText:text atView:nil hideAfterDelay:1];
 }
 
 + (void)showWithText:(NSString *)text atView:(UIView *)view {
-    [self showWithText:text atView:view afterDelay:1];
+    [self showWithText:text atView:view hideAfterDelay:1];
 }
 
 + (void)showWithText:(NSString *)text
               atView:(UIView *)view
-          afterDelay:(NSTimeInterval)afterDelay {
+          hideAfterDelay:(NSTimeInterval)afterDelay {
     [MBProgressHUD hideHUDForView:view animated:YES];
     
     MBProgressHUD *hud = [self defaultTypeHUDWithMode:MBProgressHUDModeText InView:view];
@@ -70,9 +70,14 @@ static MBProgressHUD *progressHUD = nil;
 }
 
 + (void)hideLoading {
+    [self hideLoadingAfterDelay:0];
+}
+
++ (void)hideLoadingAfterDelay:(NSTimeInterval)afterDelay {
     if (progressHUD) {
-        [progressHUD hideAnimated:YES];
+        [progressHUD hideAnimated:YES afterDelay:afterDelay];
         progressHUD = nil;
     }
 }
+
 @end

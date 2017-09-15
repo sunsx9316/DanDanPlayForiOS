@@ -19,8 +19,6 @@
 #import "JHEdgeButton.h"
 #import "SMBFileOprationView.h"
 
-#import "DownloadStatusView.h"
-
 @interface SMBFileViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) SMBFileOprationView *oprationView;
@@ -281,7 +279,7 @@
         if (file.type == JHFileTypeFolder) {
             dispatch_group_async(_group, _queue, ^{
                 dispatch_group_enter(_group);
-                [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:file completion:^(JHSMBFile *file1, NSError *error1) {
+                [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:file completion:^(JHSMBFile *file1, NSError *error1) {
                     [file1.subFiles enumerateObjectsUsingBlock:^(__kindof JHSMBFile * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
                         if (obj1.type == JHFileTypeDocument) {
                             //下载文件夹设置下载路径
@@ -319,13 +317,7 @@
         [[CacheManager shareCacheManager] addSMBSessionDownloadTasks:taskArr];
         [aHUD hideAnimated:YES];
         
-        if ([CacheManager shareCacheManager].downloadView.isShow) {
-            [[CacheManager shareCacheManager].downloadView showAnimate];
-        }
-        else {
-            [CacheManager shareCacheManager].downloadView = nil;
-            [[CacheManager shareCacheManager].downloadView show];
-        }
+        [MBProgressHUD showWithText:@"添加成功！"];
     });
 
     [self touchRightItem:self.navigationItem.rightBarButtonItem.customView];
@@ -343,7 +335,7 @@
             @strongify(self)
             if (!self) return;
             
-            [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:self.file completion:^(JHSMBFile *file, NSError *error) {
+            [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:self.file completion:^(JHSMBFile *file, NSError *error) {
                 if (error) {
                     [MBProgressHUD showWithText:@"网络错误"];
                 }

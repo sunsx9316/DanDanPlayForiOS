@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "JHBaseDanmaku.h"
 #import "JHSMBInfo.h"
-#import "DownloadStatusView.h"
 
 /**
  视频播放模式
@@ -37,12 +36,11 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 //缓存所有弹幕的标识
 #define CACHE_ALL_DANMAKU_FLAG 9999
 
-@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask;
+@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask, JHMediaPlayer;
 
 @protocol CacheManagerDelagate <NSObject>
 @optional
 - (void)SMBDownloadTasksDidChange:(NSArray <TOSMBSessionDownloadTask *>*)tasks type:(SMBDownloadTasksDidChangeType)type;
-
 - (void)SMBDownloadTasksDidDownloadCompletion;
 @end
 
@@ -50,9 +48,11 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 @property (strong, nonatomic) JHUser *user;
 
-//@property (strong, nonatomic) JHFile *rootFile;
-
-@property (strong, nonatomic) DownloadStatusView *downloadView;
+@property (weak, nonatomic) JHMediaPlayer *mediaPlayer;
+/**
+ 连接信息
+ */
+@property (strong, nonatomic) JHLinkInfo *linkInfo;
 
 /**
  弹幕字体
@@ -126,6 +126,12 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
  选择的弹幕类型
  */
 @property (assign, nonatomic) JHDanmakuMode sendDanmakuMode;
+
+
+/**
+ 播放页默认旋屏位置
+ */
+@property (assign, nonatomic) UIInterfaceOrientation playInterfaceOrientation;
 
 /**
  存储文件夹名称和文件hash
@@ -210,6 +216,12 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 @property (assign, nonatomic) NSUInteger totoalExpectedToReceive;
 @property (assign, nonatomic) NSUInteger totoalToReceive;
+
+//@property (assign, nonatomic) NSUInteger linkTotoalExpectedToReceive;
+//@property (assign, nonatomic) NSUInteger linkTotoalToReceive;
+@property (assign, nonatomic) NSUInteger linkDownloadingTaskCount;
+- (void)addLinkDownload;
+- (void)updateLinkDownloadInfo;
 
 + (instancetype)shareCacheManager;
 @end

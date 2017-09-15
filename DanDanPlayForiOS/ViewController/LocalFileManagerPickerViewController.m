@@ -28,7 +28,7 @@
         make.edges.mas_equalTo(0);
     }];
     
-    if (jh_isRootFile(self.file.fileURL)) {
+    if (jh_isRootFile(self.file)) {
         self.navigationItem.title = @"根目录";
     }
     else {

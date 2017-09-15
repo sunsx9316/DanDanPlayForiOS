@@ -17,7 +17,7 @@
     if (completionHandler == nil) return nil;
     
     if (userId.length == 0 || token.length == 0){
-        completionHandler(nil, parameterNoCompletionError());
+        completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     

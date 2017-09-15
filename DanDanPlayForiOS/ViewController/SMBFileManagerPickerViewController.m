@@ -168,7 +168,7 @@
             @strongify(self)
             if (!self) return;
             
-            [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:self.file fileType:self.fileType completion:^(JHSMBFile *file, NSError *error) {
+            [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:self.file fileType:self.fileType completion:^(JHSMBFile *file, NSError *error) {
                 if (error) {
                     [MBProgressHUD showWithError:error atView:self.view];
                 }

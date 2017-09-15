@@ -20,4 +20,9 @@
  手动匹配视频
  */
 @property (copy, nonatomic) void(^touchMatchVideoCellCallBack)();
+
+/**
+ 点击筛选弹幕功能
+ */
+@property (copy, nonatomic) void(^touchFilterDanmakuCellCallBack)();
 @end

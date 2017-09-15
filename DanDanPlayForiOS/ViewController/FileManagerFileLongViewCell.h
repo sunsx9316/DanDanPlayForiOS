@@ -9,5 +9,7 @@
 #import "FileManagerBaseViewCell.h"
 
 @interface FileManagerFileLongViewCell : FileManagerBaseViewCell
-@property (strong, nonatomic) VideoModel *model;
+@property (strong, nonatomic) UILabel *nameLabel;
+@property (strong, nonatomic) UIImageView *bgImgView;
+@property (strong, nonatomic) id model;
 @end

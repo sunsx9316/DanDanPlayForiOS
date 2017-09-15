@@ -8,6 +8,7 @@
 
 #import "MatchNetManager.h"
 #import "DanmakuManager.h"
+#import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
 
 @implementation MatchNetManager
 
@@ -19,7 +20,7 @@
     
     if (!hash.length) {
         if (completionHandler) {
-            completionHandler(nil, parameterNoCompletionError());
+            completionHandler(nil, jh_parameterNoCompletionError());
         }
         return nil;
     }
@@ -41,6 +42,23 @@
         if (completionHandler) {
             completionHandler(collection, response.error);
         }
+    }];
+}
+
++ (NSURLSessionDataTask *)matchEditMatchVideoModel:(VideoModel *)model
+                                              user:(JHUser *)user
+                                 completionHandler:(void(^)(NSError *error))completionHandler {
+    if (completionHandler == nil) return nil;
+    
+    if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.md5.length == 0 || model.identity == 0) {
+        completionHandler(jh_parameterNoCompletionError());
+        return nil;
+    }
+    
+    NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.md5, @"EpisodeId" : @(model.identity)};
+    
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+        completionHandler(model.error);
     }];
 }
 

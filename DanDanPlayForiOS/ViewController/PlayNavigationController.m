@@ -22,6 +22,7 @@
     
     if (self = [super initWithNavigationBarClass:[FileManagerNavigationBar class] toolbarClass:nil]) {
         [self setViewControllers:@[vc]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     }
     
     return self;
@@ -43,7 +44,21 @@
 
 //设置presentation方式展示的屏幕方向
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationLandscapeLeft;
+    return [CacheManager shareCacheManager].playInterfaceOrientation;
+}
+
+- (void)handleDeviceOrientationDidChange:(NSNotification *)aNotification {
+    UIDeviceOrientation orientation = [aNotification.userInfo[UIApplicationStatusBarOrientationUserInfoKey] integerValue];
+    
+    switch (orientation) {
+        case UIDeviceOrientationLandscapeLeft:
+        case UIDeviceOrientationLandscapeRight:
+            [CacheManager shareCacheManager].playInterfaceOrientation = (UIInterfaceOrientation)orientation;
+            break;
+        default:
+            break;
+    }
+    
 }
 
 @end

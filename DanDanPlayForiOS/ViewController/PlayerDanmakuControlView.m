@@ -46,7 +46,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 7;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -109,10 +109,16 @@
     else if (indexPath.section == 5) {
         FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
         cell.titleLabel.textAlignment = NSTextAlignmentCenter;
-        cell.titleLabel.text = @"手动加载弹幕...";
+        cell.titleLabel.text = @"屏蔽弹幕";
         return cell;
     }
     else if (indexPath.section == 6) {
+        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
+        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+        cell.titleLabel.text = @"手动加载弹幕...";
+        return cell;
+    }
+    else if (indexPath.section == 7) {
         FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
         cell.titleLabel.textAlignment = NSTextAlignmentCenter;
         cell.titleLabel.text = @"手动匹配视频";
@@ -124,10 +130,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 5 && self.touchSelectedDanmakuCellCallBack) {
+    if (indexPath.section == 5 && self.touchFilterDanmakuCellCallBack) {
+        self.touchFilterDanmakuCellCallBack();
+    }
+    else if (indexPath.section == 6 && self.touchSelectedDanmakuCellCallBack) {
         self.touchSelectedDanmakuCellCallBack();
     }
-    else if (indexPath.section == 6 && self.touchMatchVideoCellCallBack) {
+    else if (indexPath.section == 7 && self.touchMatchVideoCellCallBack) {
         self.touchMatchVideoCellCallBack();
     }
 }

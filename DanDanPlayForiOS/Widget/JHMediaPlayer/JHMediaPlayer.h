@@ -58,12 +58,14 @@ CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
 - (void)mediaPlayer:(JHMediaPlayer *)player statusChange:(JHMediaPlayerStatus)status;
 
 - (void)mediaPlayer:(JHMediaPlayer *)player rateChange:(float)rate;
+
+- (void)mediaPlayer:(JHMediaPlayer *)player userJumpWithTime:(NSTimeInterval)time;
 @end
 
 
 @interface JHMediaPlayer : NSObject
 
-+ (instancetype)sharePlayer;
+//+ (instancetype)sharePlayer;
 
 @property (strong, nonatomic) UIView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;

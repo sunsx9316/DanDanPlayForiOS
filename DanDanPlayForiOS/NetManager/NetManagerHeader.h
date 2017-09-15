@@ -18,5 +18,6 @@
 #import "LoginNetManager.h"
 #import "FavoriteNetManager.h"
 #import "ParseNetManager.h"
+#import "LinkNetManager.h"
 
 #endif /* NetManagerHeader_h */

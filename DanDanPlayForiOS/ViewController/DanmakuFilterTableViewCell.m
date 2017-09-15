@@ -10,6 +10,7 @@
 #import "JHEdgeButton.h"
 
 @interface DanmakuFilterTableViewCell ()
+@property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIButton *regexButton;
 @property (strong, nonatomic) UIButton *enableButton;
@@ -21,20 +22,26 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.mas_offset(10);
-            make.bottom.mas_offset(-10);
         }];
         
         [self.regexButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(self.titleLabel);
-            make.left.equalTo(self.titleLabel.mas_right).mas_offset(0);
+            make.centerY.mas_equalTo(0);
+            make.left.equalTo(self.nameLabel.mas_right).mas_offset(0);
         }];
         
         [self.enableButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(self.titleLabel);
-            make.left.equalTo(self.regexButton.mas_right).mas_offset(10);
+            make.centerY.mas_equalTo(self.regexButton);
+            make.left.equalTo(self.regexButton.mas_right);
             make.right.mas_offset(0);
+        }];
+        
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.nameLabel.mas_bottom).mas_offset(10);
+            make.left.equalTo(self.nameLabel);
+            make.bottom.mas_offset(-10);
+            make.right.equalTo(self.regexButton.mas_left);
         }];
     }
     return self;
@@ -42,6 +49,7 @@
 
 - (void)setModel:(JHFilter *)model {
     _model = model;
+    self.nameLabel.text = _model.name.length ? _model.name : @"未命名规则";
     self.titleLabel.text = _model.content;
     self.regexButton.selected = _model.isRegex;
     self.enableButton.selected = _model.enable;
@@ -65,11 +73,23 @@
 }
 
 #pragma mark - 懒加载
+- (UILabel *)nameLabel {
+    if (_nameLabel == nil) {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = NORMAL_SIZE_FONT;
+        [_nameLabel setContentCompressionResistancePriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
+        [_nameLabel setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
+        [self.contentView addSubview:_nameLabel];
+    }
+    return _nameLabel;
+}
+
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.numberOfLines = 2;
+        _titleLabel.textColor = [UIColor grayColor];
         [_titleLabel setContentCompressionResistancePriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
         [_titleLabel setContentHuggingPriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
         [self.contentView addSubview:_titleLabel];
@@ -80,7 +100,7 @@
 - (UIButton *)regexButton {
     if (_regexButton == nil) {
         JHEdgeButton *aButton = [[JHEdgeButton alloc] init];
-        aButton.inset = CGSizeMake(20, 10);
+        aButton.inset = CGSizeMake(15, 10);
         _regexButton = aButton;
         _regexButton.titleLabel.font = SMALL_SIZE_FONT;
         [_regexButton setTitle:@"正" forState:UIControlStateNormal];
@@ -95,7 +115,7 @@
 - (UIButton *)enableButton {
     if (_enableButton == nil) {
         JHEdgeButton *aButton = [[JHEdgeButton alloc] init];
-        aButton.inset = CGSizeMake(20, 10);
+        aButton.inset = CGSizeMake(30, 10);
         _enableButton = aButton;
         [_enableButton setImage:[UIImage imageNamed:@"cheak_mark_noselected"] forState:UIControlStateNormal];
         [_enableButton setImage:[UIImage imageNamed:@"cheak_mark_selected"] forState:UIControlStateSelected];

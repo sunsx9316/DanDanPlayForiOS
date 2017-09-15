@@ -90,7 +90,8 @@
             [aHUD hideAnimated:NO];
             self.model.danmakus = responseObject;
             self.model.matchName = item.name;
-            [self jumpToOtherVC];
+            self.model.identity = item.identity;
+            [self jumpToPlayVC];
         }];
     }
 }
@@ -158,7 +159,7 @@
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
-    [self jumpToOtherVC];
+    [self jumpToPlayVC];
 }
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
@@ -182,13 +183,18 @@
     }];
 }
 
-- (void)jumpToOtherVC {
+- (void)jumpToPlayVC {
     __block PlayerViewController *vc = nil;
     [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[PlayerViewController class]]) {
             vc = obj;
             *stop = YES;
         }
+    }];
+    
+    //更改匹配信息
+    [MatchNetManager matchEditMatchVideoModel:self.model user:[CacheManager shareCacheManager].user completionHandler:^(NSError *error) {
+        NSLog(@"%@", error);
     }];
     
     if (vc) {
@@ -214,7 +220,7 @@
 }
 
 - (void)touchRightItem:(UIButton *)button {
-    [self jumpToOtherVC];
+    [self jumpToPlayVC];
 }
 
 #pragma mark - 懒加载

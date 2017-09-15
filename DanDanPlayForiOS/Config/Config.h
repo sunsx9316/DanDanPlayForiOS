@@ -6,6 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
+#import "MacroDefinition.h"
+
 #ifndef Config_h
 #define Config_h
 
@@ -103,6 +105,12 @@ CG_INLINE NSString *jh_danmakuDownloadPath() {
         [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return path;
+}
+
+CG_INLINE NSURL *jh_linkImageURL(NSString *ip, NSString *hash) {
+    if (hash.length == 0) return nil;
+    
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/image/%@", ip, LINK_API_INDEX, hash]];
 }
 
 #endif /* Config_h */

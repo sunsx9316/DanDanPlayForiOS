@@ -11,8 +11,10 @@
 #import <IQKeyboardManager.h>
 #import <YYKeyboardManager.h>
 #import "JHEdgeButton.h"
+#import "JHEdgeTextField.h"
 
-@interface DanmakuFilterDetailViewController ()<YYKeyboardObserver, UITextViewDelegate>
+@interface DanmakuFilterDetailViewController ()<YYKeyboardObserver, UITextViewDelegate, UITextFieldDelegate>
+@property (strong, nonatomic) JHEdgeTextField *nameTextField;
 @property (strong, nonatomic) UITextView *textView;
 @end
 
@@ -42,10 +44,6 @@
     [self configRightItem];
     [[YYKeyboardManager defaultManager] addObserver:self];
     
-    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
-    }];
-    
     if (self.model == nil) {
         self.model = [[JHFilter alloc] init];
         self.model.enable = YES;
@@ -55,6 +53,17 @@
     else {
         self.navigationItem.title = @"编辑屏蔽规则";
     }
+    
+    [self.nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.mas_equalTo(10);
+        make.right.mas_offset(-10);
+    }];
+    
+    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameTextField.mas_bottom).mas_offset(10);
+        make.left.mas_equalTo(self.nameTextField);
+        make.bottom.right.mas_offset(-10);
+    }];
 }
 
 #pragma mark - YYKeyboardObserver
@@ -77,20 +86,14 @@
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
-        if (self.textView.text.length == 0) {
-            [MBProgressHUD showWithText:@"请输入屏蔽内容！"];
-            return NO;
-        }
-        
-        self.model.content = self.textView.text;
-        if (self.addFilterCallback) {
-            self.addFilterCallback(self.model);
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-        
-        return NO;
+        return [self saveFilter];
     }
     return YES;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return [self saveFilter];
 }
 
 #pragma mark - 私有方法
@@ -119,7 +122,50 @@
     self.navigationItem.rightBarButtonItem = regexItem;
 }
 
+- (BOOL)saveFilter {
+    if (self.textView.text.length == 0) {
+        [MBProgressHUD showWithText:@"请输入屏蔽内容！"];
+        return NO;
+    }
+    
+    self.model.content = self.textView.text;
+    self.model.name = self.nameTextField.text.length ? self.nameTextField.text : FILTER_DEFAULT_NAME;
+    if (self.addFilterCallback) {
+        self.addFilterCallback(self.model);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    return YES;
+}
+
 #pragma mark - 懒加载
+- (JHEdgeTextField *)nameTextField {
+    if (_nameTextField == nil) {
+        _nameTextField = [[JHEdgeTextField alloc] init];
+        _nameTextField.font = NORMAL_SIZE_FONT;
+        _nameTextField.placeholder = @"请输入规则名称~";
+        _nameTextField.borderInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+        _nameTextField.inset = CGSizeMake(0, 16);
+        _nameTextField.backgroundColor = RGBCOLOR(240, 240, 240);
+        _nameTextField.text = _model.name.length ? _model.name : FILTER_DEFAULT_NAME;
+        if (_model.identity > 0) {
+            //自己创建的才允许改名字
+            _nameTextField.userInteractionEnabled = YES;
+            _nameTextField.textColor = [UIColor blackColor];
+        }
+        else {
+            _nameTextField.userInteractionEnabled = NO;
+            _nameTextField.textColor = [UIColor lightGrayColor];
+        }
+        
+        _nameTextField.returnKeyType = UIReturnKeyDone;
+        _nameTextField.delegate = self;
+        
+        [self.view addSubview:_nameTextField];
+    }
+    return _nameTextField;
+}
+
 - (UITextView *)textView {
     if (_textView == nil) {
         _textView = [[UITextView alloc] init];
@@ -129,7 +175,8 @@
         _textView.text = self.model.content;
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.delegate = self;
-        _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+        _textView.alwaysBounceVertical = YES;
+        _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [self.view addSubview:_textView];
     }
     return _textView;

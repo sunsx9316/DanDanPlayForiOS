@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, JHDanmakuMode) {
 /**
  *  Color: 32位整形数的弹幕颜色，算法为 R*256*256 + G*256 + B。
  */
-@property (nonatomic, assign) int color;
+@property (nonatomic, assign) uint32_t color;
 
 /**
  弹幕发送时间戳，单位为毫秒。可以理解为Unix时间戳，但起始点为1970年1月1日7:00:00。

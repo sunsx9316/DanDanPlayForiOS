@@ -31,7 +31,6 @@
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUMShare];
-    [self configOther];
     
     MainViewController *vc = [[MainViewController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -48,15 +47,16 @@
 
 //进入后台
 - (void)applicationWillResignActive:(UIApplication *)application {
+    //设置锁屏界面
+    JHMediaPlayer *player = [CacheManager shareCacheManager].mediaPlayer;
+    if (!player) return;
+    
+    VideoModel *model = [CacheManager shareCacheManager].currentPlayVideoModel;
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:YES error:nil];
     [session setCategory:AVAudioSessionCategoryPlayback error:nil];
     _bgTaskId = [AppDelegate backgroundPlayerID:_bgTaskId];
-    
-    
-    //设置锁屏界面
-    VideoModel *model = [CacheManager shareCacheManager].currentPlayVideoModel;
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     if (model.name.length) {
         dict[MPMediaItemPropertyTitle] = model.name;
@@ -67,9 +67,9 @@
         dict[MPMediaItemPropertyArtwork] = [[MPMediaItemArtwork alloc] initWithImage:img];
     }
     //设置歌曲时长
-    dict[MPMediaItemPropertyPlaybackDuration] = @([JHMediaPlayer sharePlayer].length);
+    dict[MPMediaItemPropertyPlaybackDuration] = @(player.length);
     //设置已经播放时长
-    dict[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @([JHMediaPlayer sharePlayer].currentTime);
+    dict[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(player.currentTime);
     
     [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
 }
@@ -132,12 +132,6 @@
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
 }
 
-
-- (void)configOther {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-}
-
-
 + (UIBackgroundTaskIdentifier)backgroundPlayerID:(UIBackgroundTaskIdentifier)backTaskId {
     //设置并激活音频会话类别
     AVAudioSession *session = [AVAudioSession sharedInstance];
@@ -154,25 +148,8 @@
     return newTaskId;
 }
 
-- (void)handleInterreption:(NSNotification *)aNotification {
-    BOOL interruption = [aNotification.userInfo[AVAudioSessionInterruptionTypeKey] boolValue];
-    
-    //中断
-    if (interruption) {
-        if ([JHMediaPlayer sharePlayer].isPlaying) {
-            [[JHMediaPlayer sharePlayer] pause];
-        }
-    }
-    //恢复
-    else {
-        if ([JHMediaPlayer sharePlayer].isPlaying == NO) {
-            [[JHMediaPlayer sharePlayer] play];
-        }
-    }
-}
-
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
-    JHMediaPlayer *player = [JHMediaPlayer sharePlayer];
+    JHMediaPlayer *player = [CacheManager shareCacheManager].mediaPlayer;
     switch (event.subtype) {
         case UIEventSubtypeRemoteControlPlay:
         {

@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface DownloadTableViewCell : UITableViewCell
-@property (strong, nonatomic, readonly) TOSMBSessionDownloadTask *task;
-- (void)setTask:(TOSMBSessionDownloadTask *)task animate:(BOOL)animate;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *progressLabel;
+@property (strong, nonatomic) UIView *progressView;
+
+@property (strong, nonatomic) UILabel *titleBGLabel;
+@property (strong, nonatomic) UILabel *progressBGLabel;
+
+@property (strong, nonatomic) CALayer *progressLayer;
+
+@property (strong, nonatomic, readonly) id task;
+- (void)setTask:(id)task animate:(BOOL)animate;
 - (void)updateDataSourceWithAnimate:(BOOL)flag;
 @end

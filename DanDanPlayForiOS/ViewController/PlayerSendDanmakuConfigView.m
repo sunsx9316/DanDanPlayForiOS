@@ -12,7 +12,10 @@
 
 @interface PlayerSendDanmakuConfigView ()
 @property (strong, nonatomic) NKOColorPickerView *colorPickerView;
-@property (strong, nonatomic) UISegmentedControl *segmentedControl;
+
+@property (strong, nonatomic) UIButton *normalButton;
+@property (strong, nonatomic) UIButton *topButton;
+@property (strong, nonatomic) UIButton *bottomButton;
 @property (strong, nonatomic) JHBlurView *contentView;
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) UILabel *titleLabel;
@@ -20,6 +23,9 @@
 @end
 
 @implementation PlayerSendDanmakuConfigView
+{
+    UIButton *_selectedButton;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -33,7 +39,6 @@
             make.top.mas_offset(10);
             make.bottom.mas_offset(-10);
             make.centerX.mas_equalTo(0);
-            make.width.mas_equalTo(self).multipliedBy(0.5);
         }];
         
         [self.resetButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -41,6 +46,21 @@
             make.right.mas_offset(0);
             make.centerY.mas_equalTo(0);
         }];
+        
+        JHDanmakuMode mode = [CacheManager shareCacheManager].sendDanmakuMode;
+        if (mode == JHDanmakuModeBottom) {
+            self.bottomButton.selected = YES;
+            _selectedButton = self.bottomButton;
+        }
+        else if (mode == JHDanmakuModeTop) {
+            self.topButton.selected = YES;
+            _selectedButton = self.topButton;
+        }
+        else {
+            self.normalButton.selected = YES;
+            _selectedButton = self.normalButton;
+        }
+        
     }
     return self;
 }
@@ -71,24 +91,7 @@
     }];
 }
 
-#pragma mark - 懒加载
-- (void)touchSegmentedControl:(UISegmentedControl *)sender {
-    JHDanmakuMode _danmakuMode;
-    if (sender.selectedSegmentIndex == 1) {
-        _danmakuMode = JHDanmakuModeTop;
-    }
-    else if (sender.selectedSegmentIndex == 2) {
-        _danmakuMode = JHDanmakuModeBottom;
-    }
-    else {
-        _danmakuMode = JHDanmakuModeNormal;
-    }
-    [CacheManager shareCacheManager].sendDanmakuMode = _danmakuMode;
-    
-    if (self.selectedCallback) {
-        self.selectedCallback([CacheManager shareCacheManager].sendDanmakuColor, _danmakuMode);
-    }
-}
+#pragma mark - 私有方法
 
 - (void)touchResetButton:(UIButton *)sender {
     [CacheManager shareCacheManager].sendDanmakuColor = [UIColor whiteColor];
@@ -96,7 +99,63 @@
     
     self.colorPickerView.color = [UIColor whiteColor];
     self.titleLabel.textColor = [UIColor whiteColor];
-    self.segmentedControl.selectedSegmentIndex = 0;
+    _selectedButton.selected = NO;
+    self.normalButton.selected = YES;
+    _selectedButton = self.normalButton;
+}
+
+- (UIImage *)buttonBgImgWithFlag:(BOOL)isSelected index:(NSInteger)index {
+    if (isSelected) {
+        UIImage *img = [UIImage imageWithColor:MAIN_COLOR size:CGSizeMake(10, 10)];
+        if (index == 0) {
+            img = [img yy_imageByRoundCornerRadius:4 corners:UIRectCornerTopLeft | UIRectCornerTopRight borderWidth:0 borderColor:nil borderLineJoin:kCGLineJoinMiter];
+            return [img resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+        }
+        else if (index == 1) {
+            return img;
+        }
+        else {
+            img = [img yy_imageByRoundCornerRadius:4 corners:UIRectCornerBottomLeft | UIRectCornerBottomRight borderWidth:0 borderColor:nil borderLineJoin:kCGLineJoinMiter];
+            return [img resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+        }
+    }
+    
+    UIImage *img = [UIImage imageWithColor:[UIColor clearColor] size:CGSizeMake(10, 10)];
+    if (index == 0) {
+        img = [img yy_imageByRoundCornerRadius:4 corners:UIRectCornerTopLeft | UIRectCornerTopRight borderWidth:1 borderColor:MAIN_COLOR borderLineJoin:kCGLineJoinMiter];
+        return [img resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+    }
+    else if (index == 1) {
+        img = [img yy_imageByRoundCornerRadius:0 corners:kNilOptions borderWidth:1 borderColor:MAIN_COLOR borderLineJoin:kCGLineJoinMiter];
+        return [img resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+    }
+    else {
+        img = [img yy_imageByRoundCornerRadius:4 corners:UIRectCornerBottomLeft | UIRectCornerBottomRight borderWidth:1 borderColor:MAIN_COLOR borderLineJoin:kCGLineJoinMiter];
+        return [img resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+    }
+}
+
+- (void)touchButton:(UIButton *)sender {
+    _selectedButton.selected = NO;
+    _selectedButton = sender;
+    _selectedButton.selected = YES;
+    
+    JHDanmakuMode _danmakuMode;
+    if (sender == self.topButton) {
+        _danmakuMode = JHDanmakuModeTop;
+    }
+    else if (sender == self.bottomButton) {
+        _danmakuMode = JHDanmakuModeBottom;
+    }
+    else {
+        _danmakuMode = JHDanmakuModeNormal;
+    }
+    
+    [CacheManager shareCacheManager].sendDanmakuMode = _danmakuMode;
+    
+    if (self.selectedCallback) {
+        self.selectedCallback([CacheManager shareCacheManager].sendDanmakuColor, _danmakuMode);
+    }
 }
 
 
@@ -109,50 +168,46 @@
         _contentView.layer.cornerRadius = 5;
         _contentView.blurView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         
-        [_contentView addSubview:self.segmentedControl];
+        [_contentView addSubview:self.normalButton];
+        [_contentView addSubview:self.topButton];
+        [_contentView addSubview:self.bottomButton];
         [_contentView addSubview:self.colorPickerView];
         [_contentView addSubview:self.titleLabel];
         
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(0);
-            make.top.mas_equalTo(10);
+        [self.normalButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.mas_offset(10);
+            make.width.mas_equalTo(40);
         }];
         
-        [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(10);
-            make.left.mas_offset(10);
+        [self.topButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.normalButton);
+            make.top.equalTo(self.normalButton.mas_bottom).mas_offset(-2);
+            make.size.equalTo(self.normalButton);
+        }];
+        
+        [self.bottomButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.normalButton);
+            make.top.equalTo(self.topButton.mas_bottom).mas_offset(-2);
+            make.bottom.mas_offset(-10);
+            make.size.equalTo(self.topButton);
+        }];
+        
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.normalButton.mas_right).mas_equalTo(10);
+            make.top.mas_equalTo(10);
             make.right.mas_offset(-10);
         }];
         
         [self.colorPickerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.segmentedControl.mas_bottom).mas_offset(10);
+            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(0);
             make.right.bottom.mas_offset(-10);
-            make.left.mas_equalTo(10);
+            make.left.equalTo(self.bottomButton.mas_right).mas_equalTo(10);
+            make.width.mas_equalTo(self.width * 0.5);
         }];
         
         [self addSubview:_contentView];
     }
     return _contentView;
-}
-
-- (UISegmentedControl *)segmentedControl {
-    if (_segmentedControl == nil) {
-        _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"普通", @"顶部", @"底部"]];
-        [_segmentedControl addTarget:self action:@selector(touchSegmentedControl:) forControlEvents:UIControlEventValueChanged];
-        _segmentedControl.tintColor = MAIN_COLOR;
-        JHDanmakuMode mode = [CacheManager shareCacheManager].sendDanmakuMode;
-        if (mode == JHDanmakuModeBottom) {
-            _segmentedControl.selectedSegmentIndex = 2;
-        }
-        else if (mode == JHDanmakuModeTop) {
-            _segmentedControl.selectedSegmentIndex = 1;
-        }
-        else {
-            _segmentedControl.selectedSegmentIndex = 0;
-        }
-        _segmentedControl.tintColor = MAIN_COLOR;
-    }
-    return _segmentedControl;
 }
 
 - (NKOColorPickerView *)colorPickerView {
@@ -165,6 +220,15 @@
             @strongify(self)
             if (!self) return;
             
+            //将浮点的rgb规整
+            CGFloat r,g,b = 0;
+            [color getRed:&r green:&g blue:&b alpha:nil];
+            r = (int)(r * 255) / 255.0;
+            g = (int)(g * 255) / 255.0;
+            b = (int)(b * 255) / 255.0;
+            
+            color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+            
             [CacheManager shareCacheManager].sendDanmakuColor = color;
             self.titleLabel.textColor = color;
             
@@ -174,8 +238,8 @@
         }];
         
         UIView *aView = [_colorPickerView valueForKey:@"crossHairs"];
-        aView.size = CGSizeMake(30, 30);
-        aView.layer.cornerRadius = 15;
+        aView.size = CGSizeMake(26, 26);
+        aView.layer.cornerRadius = 13;
     }
     return _colorPickerView;
 }
@@ -201,7 +265,10 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.text = @"_(:3」∠)_ 测试弹幕";
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.textColor = [CacheManager shareCacheManager].sendDanmakuColor;
+        [_titleLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_titleLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }
     return _titleLabel;
 }
@@ -214,6 +281,54 @@
         [self addSubview:_resetButton];
     }
     return _resetButton;
+}
+
+- (UIButton *)normalButton {
+    if (_normalButton == nil) {
+        _normalButton = [[UIButton alloc] init];
+        _normalButton.adjustsImageWhenHighlighted = NO;
+        _normalButton.titleLabel.font = NORMAL_SIZE_FONT;
+        _normalButton.titleLabel.numberOfLines = 0;
+        [_normalButton setBackgroundImage:[self buttonBgImgWithFlag:YES index:0] forState:UIControlStateSelected];
+        [_normalButton setBackgroundImage:[self buttonBgImgWithFlag:NO index:0] forState:UIControlStateNormal];
+        [_normalButton setTitle:@"滚\n动" forState:UIControlStateNormal];
+        [_normalButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
+        [_normalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [_normalButton addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _normalButton;
+}
+
+- (UIButton *)topButton {
+    if (_topButton == nil) {
+        _topButton = [[UIButton alloc] init];
+        _topButton.titleLabel.font = NORMAL_SIZE_FONT;
+        _topButton.titleLabel.numberOfLines = 0;
+        _topButton.adjustsImageWhenHighlighted = NO;
+        [_topButton setBackgroundImage:[self buttonBgImgWithFlag:YES index:1] forState:UIControlStateSelected];
+        [_topButton setBackgroundImage:[self buttonBgImgWithFlag:NO index:1] forState:UIControlStateNormal];
+        [_topButton setTitle:@"顶\n部" forState:UIControlStateNormal];
+        [_topButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
+        [_topButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [_topButton addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _topButton;
+}
+
+- (UIButton *)bottomButton {
+    if (_bottomButton == nil) {
+        _bottomButton = [[UIButton alloc] init];
+        _bottomButton.adjustsImageWhenHighlighted = NO;
+        _bottomButton.titleLabel.font = NORMAL_SIZE_FONT;
+        _bottomButton.titleLabel.numberOfLines = 0;
+        [_bottomButton setBackgroundImage:[self buttonBgImgWithFlag:YES index:2] forState:UIControlStateSelected];
+        [_bottomButton setBackgroundImage:[self buttonBgImgWithFlag:NO index:2] forState:UIControlStateNormal];
+        [_bottomButton setTitle:@"底\n部" forState:UIControlStateNormal];
+        [_bottomButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
+        [_bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [_bottomButton addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _bottomButton;
 }
 
 @end

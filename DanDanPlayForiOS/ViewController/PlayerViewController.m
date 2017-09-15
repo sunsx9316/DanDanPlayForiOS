@@ -11,6 +11,7 @@
 #import "LocalFileManagerPickerViewController.h"
 #import "SMBFileManagerPickerViewController.h"
 #import "PlayerSelectedColorViewController.h"
+#import "DanmakuFilterViewController.h"
 
 #import "PlayerInterfaceView.h"
 #import "JHMediaPlayer.h"
@@ -42,7 +43,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     InterfaceViewPanTypeLight,
 };
 
-@interface PlayerViewController ()<JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, PlayerInterfaceViewDelegate>
+@interface PlayerViewController ()<JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, PlayerInterfaceViewDelegate, CacheManagerDelagate>
 @property (strong, nonatomic) PlayerInterfaceView *interfaceView;
 @property (strong, nonatomic) JHMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
@@ -57,9 +58,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //滑动速率
     float _sliderRate;
     InterfaceViewPanType _panType;
-//    NSBlockOperation *_operation;
     NSOperationQueue *_queue;
     NSLock *_lock;
+    NSInteger _danmakuParseFlag;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,6 +92,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     _lock = [[NSLock alloc] init];
     _queue = [[NSOperationQueue alloc] init];
     _currentTime = -1;
+    _danmakuParseFlag = [NSDate date].hash;
+    
     self.view.backgroundColor = [UIColor blackColor];
     
     NSArray *keyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity"];
@@ -243,6 +246,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     self.danmakuEngine.systemSpeed = rate;
 }
 
+- (void)mediaPlayer:(JHMediaPlayer *)player userJumpWithTime:(NSTimeInterval)time {
+    [self.danmakuEngine setCurrentTime:time];
+}
+
 #pragma mark - JHDanmakuEngineDelegate
 - (NSArray <__kindof JHBaseDanmaku*>*)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time {
     if (_currentTime == time) return nil;
@@ -255,7 +262,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:danmaku.attributedString];
-        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : MAIN_COLOR} range:NSMakeRange(0, str.length)];
+        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
         danmaku.attributedString = str;
         return YES;
     }
@@ -343,6 +350,20 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)playerConfigPanelViewDidTouchFilterCell {
+    DanmakuFilterViewController *vc = [[DanmakuFilterViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    @weakify(self)
+    vc.updateFilterCallBack = ^{
+        @strongify(self)
+        if (!self) return;
+        
+        self->_danmakuParseFlag = [NSDate date].hash;
+        [self asynFilterDanmakuWithTime:self.player.currentTime];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - PlayerInterfaceViewDelegate
 - (void)interfaceViewDidTouchSendDanmakuButton {
     
@@ -353,7 +374,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         if (!self) return;
         
         if (text.length) {
-            NSUInteger episodeId = self.model.danmakus.identity;
+            NSUInteger episodeId = self.model.identity;
             if (episodeId == 0) {
                 NSDictionary *dic = [[CacheManager shareCacheManager] episodeInfoWithVideoModel:self.model];
                 episodeId = [dic[videoEpisodeIdKey] integerValue];
@@ -363,7 +384,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             JHUser *user = [CacheManager shareCacheManager].user;
             
             JHDanmaku *danmaku = [[JHDanmaku alloc] init];
-            danmaku.color = color.red * 256 * 256 * 255 + color.green * 256 * 255 + color.blue * 255;
+            
+            CGFloat r, g, b = 0;
+            [color getRed:&r green:&g blue:&b alpha:nil];
+            
+            danmaku.color = r * 256 * 256 * 255 + g * 256 * 255 + b * 255;
             danmaku.time = self.player.currentTime;
             danmaku.mode = mode;
             danmaku.token = user.token;
@@ -421,9 +446,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             @strongify(self)
             if (!self) return;
             
-            [self.player jump:(int)lastPlayTime completionHandler:^(NSTimeInterval time) {
-                [self.danmakuEngine setCurrentTime:time];
-            }];
+            [self.player jump:(int)lastPlayTime completionHandler:nil];
         }];
         [self.interfaceView.lastTimeNoticeView show];
     }
@@ -644,9 +667,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (void)asynFilterDanmakuWithTime:(NSInteger)time {
     //获取弹幕最大时间
-    NSInteger maxTime = [_danmakuDic.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSNumber * _Nonnull obj1, NSNumber * _Nonnull obj2) {
-        return obj1.integerValue - obj2.integerValue;
-    }].lastObject.integerValue;
+    NSInteger maxTime = [[_danmakuDic.allKeys valueForKeyPath:@"@max.integerValue"] integerValue];
     
     NSArray <JHFilter *>*danmakuFilters = [CacheManager shareCacheManager].danmakuFilters;
     
@@ -654,12 +675,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
         NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
         //已经分析过
-        if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
+        if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == _danmakuParseFlag) continue;
         
         [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [self setDanmakuFilter:obj filter:[DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
         }];
-        [arr setAssociateValue:@(YES) withKey:_cmd];
+        [arr setAssociateValue:@(_danmakuParseFlag) withKey:_cmd];
     }
     
     //子线程继续分析
@@ -668,12 +689,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         for (NSInteger i = time + PARSE_TIME; i < maxTime; ++i) {
             NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
             //已经分析过
-            if (arr == nil || [arr getAssociatedValueForKey:_cmd]) continue;
+            if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == _danmakuParseFlag) continue;
             
             [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 [self setDanmakuFilter:obj filter:[DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
             }];
-            [arr setAssociateValue:@(YES) withKey:_cmd];
+            [arr setAssociateValue:@(_danmakuParseFlag) withKey:_cmd];
         }
     }];
     
@@ -710,7 +731,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         @strongify(self)
         if (!self) return;
         
-        [self.danmakuEngine setCurrentTime:time];
         self->_isSliderNoActionNotice = NO;
         [self asynFilterDanmakuWithTime:time];
         MBProgressHUD *aHUD = [self.view viewWithTag:HUD_TAG];
@@ -913,8 +933,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (JHMediaPlayer *)player {
     if (_player == nil) {
-        _player = [JHMediaPlayer sharePlayer];
+        _player = [[JHMediaPlayer alloc] init];
         _player.delegate = self;
+        [CacheManager shareCacheManager].mediaPlayer = _player;
         [self.view addSubview:_player.mediaView];
     }
     return _player;

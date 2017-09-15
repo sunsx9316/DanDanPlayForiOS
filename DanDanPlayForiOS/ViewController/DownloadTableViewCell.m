@@ -10,14 +10,7 @@
 #import "TOSMBSessionDownloadTask+Tools.h"
 
 @interface DownloadTableViewCell ()
-@property (strong, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UILabel *progressLabel;
-@property (strong, nonatomic) UIView *progressView;
-
-@property (strong, nonatomic) UILabel *titleBGLabel;
-@property (strong, nonatomic) UILabel *progressBGLabel;
-
-@property (strong, nonatomic) CALayer *progressLayer;
+@property (strong, nonatomic, readwrite) TOSMBSessionDownloadTask *task;
 @end
 
 @implementation DownloadTableViewCell

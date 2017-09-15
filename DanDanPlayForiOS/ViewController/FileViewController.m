@@ -13,6 +13,8 @@
 #import "HelpViewController.h"
 #import "FileManagerViewController.h"
 #import "FileManagerNavigationController.h"
+#import "LinkFileViewController.h"
+#import "QRScanerViewController.h"
 
 #import "JHEdgeButton.h"
 #import "FileManagerSearchView.h"
@@ -22,6 +24,7 @@
 @property (strong, nonatomic) NSArray <NSString *>*titleArr;
 @property (strong, nonatomic) UIButton *httpButton;
 @property (strong, nonatomic) UIButton *helpButton;
+@property (strong, nonatomic) UIButton *qrCodeButton;
 @property (strong, nonatomic) UISearchBar *searchBar;
 
 @property (strong, nonatomic) FileManagerSearchView *searchView;
@@ -35,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configRightItem];
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     UIView *searchBarHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
     [searchBarHolderView addSubview:self.searchBar];
@@ -45,10 +49,6 @@
     
     //监听滚动
     [self.pageController.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    
-    [RecommedNetManager recommedInfoWithCompletionHandler:^(JHHomePage *responseObject, NSError *error) {
-        
-    }];
 }
 
 - (void)dealloc {
@@ -59,9 +59,20 @@
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint offset = [change[NSKeyValueChangeNewKey] CGPointValue];
         float alpha = offset.x / self.view.width;
-        self.httpButton.alpha = 1 - alpha;
-        self.helpButton.alpha = alpha;
-        self.searchBar.alpha = 1 - alpha;
+        
+        if (alpha > 1) {
+            alpha = alpha - 1;
+            self.httpButton.alpha = 0;
+            self.helpButton.alpha = 1 - alpha;
+            self.qrCodeButton.alpha = alpha;
+            self.searchBar.alpha = 0;
+        }
+        else {
+            self.qrCodeButton.alpha = 0;
+            self.httpButton.alpha = 1 - alpha;
+            self.helpButton.alpha = alpha;
+            self.searchBar.alpha = 1 - alpha;
+        }
     }
 }
 
@@ -75,6 +86,7 @@
     UIView *holdView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     [holdView addSubview:self.httpButton];
     [holdView addSubview:self.helpButton];
+    [holdView addSubview:self.qrCodeButton];
     
     [self.httpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -84,7 +96,12 @@
         make.edges.mas_equalTo(0);
     }];
     
+    [self.qrCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
     self.helpButton.alpha = 0;
+    self.qrCodeButton.alpha = 0;
     
     UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     spaceBar.width = -10;
@@ -104,6 +121,12 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)touchQRCodeButton:(UIButton *)button {
+    QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
     return self.titleArr.count;
@@ -117,7 +140,11 @@
         FileManagerNavigationController *nav = [[FileManagerNavigationController alloc] initWithRootViewController:vc];
         return nav;
     }
-    return [[SMBViewController alloc] init];
+    else if (index == 1) {
+        return [[SMBViewController alloc] init];
+    }
+    
+    return [[LinkFileViewController alloc] init];
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
@@ -185,6 +212,15 @@
     return _helpButton;
 }
 
+- (UIButton *)qrCodeButton {
+    if (_qrCodeButton == nil) {
+        _qrCodeButton = [[JHEdgeButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [_qrCodeButton addTarget:self action:@selector(touchQRCodeButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_qrCodeButton setImage:[UIImage imageNamed:@"qr_code"] forState:UIControlStateNormal];
+    }
+    return _qrCodeButton;
+}
+
 - (FileManagerSearchView *)searchView {
     if (_searchView == nil) {
         _searchView = [[FileManagerSearchView alloc] init];
@@ -195,7 +231,7 @@
 
 - (NSArray<NSString *> *)titleArr {
     if (_titleArr == nil) {
-        _titleArr = @[@"本机文件", @"远程设备"];
+        _titleArr = @[@"本机文件", @"远程设备", @"电脑端"];
     }
     return _titleArr;
 }

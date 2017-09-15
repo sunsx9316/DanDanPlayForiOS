@@ -45,6 +45,8 @@
     }];
     
     [self setPickColorButtonShadowWithColor:[CacheManager shareCacheManager].sendDanmakuColor];
+    
+    [self.textView becomeFirstResponder];
 }
 
 - (void)dealloc {

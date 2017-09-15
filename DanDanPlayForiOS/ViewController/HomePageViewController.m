@@ -29,7 +29,6 @@
     
     self.navigationItem.title = @"新番列表";
     self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
-    
     [self configRightItem];
     
     [self.view addSubview:self.pageViewController.view];

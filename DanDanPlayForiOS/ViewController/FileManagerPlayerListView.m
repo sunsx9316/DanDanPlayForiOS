@@ -117,25 +117,13 @@
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if (indexPath.section == 0) {
         FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
-        //远程文件
-        if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
-            if ([self.currentFile.parentFile.fileURL.absoluteString isEqualToString:@"/"]) {
-                cell.titleLabel.text = @"返回根目录";
-            }
-            else {
-                cell.titleLabel.text = @"返回上一级...";
-            }
+        if (jh_isRootFile(self.currentFile.parentFile)) {
+            cell.titleLabel.text = @"返回根目录";
         }
         else {
-            if ([self.currentFile.parentFile.fileURL isEqual:[UIApplication sharedApplication].documentsURL]) {
-                cell.titleLabel.text = @"返回根目录";
-            }
-            else {
-                cell.titleLabel.text = @"返回上一级...";
-            }
+            cell.titleLabel.text = @"返回上一级...";
         }
         
         cell.titleLabel.textColor = [UIColor whiteColor];
@@ -178,7 +166,7 @@
         cell.detailLabel.text = nil;
     }
     else {
-        cell.titleLabel.text = file.fileURL.lastPathComponent;
+        cell.titleLabel.text = file.name;
         cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
     }
     
@@ -247,7 +235,7 @@
         else if ([file isKindOfClass:[JHSMBFile class]]) {
             [MBProgressHUD showLoadingInView:self text:nil];
             
-            [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)file completion:^(JHSMBFile *file, NSError *error) {
+            [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:(JHSMBFile *)file completion:^(JHSMBFile *file, NSError *error) {
                 [MBProgressHUD hideLoading];
                 if (error) {
                     [MBProgressHUD showWithError:error];
@@ -285,26 +273,60 @@
         [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
         
-        @weakify(self)
-        _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
-            @strongify(self)
-            if (!self) return;
-            
-            if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
-                [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)self.currentFile fileType:PickerFileTypeAll completion:^(JHSMBFile *file, NSError *error) {
-                    self.currentFile = file;
-                    [self.tableView reloadData];
+        if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+            @weakify(self)
+            _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
+                @strongify(self)
+                if (!self) return;
+                
+                [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:(JHSMBFile *)self.currentFile fileType:PickerFileTypeAll completion:^(JHSMBFile *file, NSError *error) {
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                    }
+                    else {
+                        self.currentFile = file;
+                        [self.tableView reloadData];
+                    }
+                    
                     [self.tableView endRefreshing];
                 }];
-            }
-            else {
-                [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:self.currentFile type:PickerFileTypeVideo completion:^(JHFile *file) {
-                    self.currentFile = file;
-                    [self.tableView reloadData];
-                    [self.tableView endRefreshing];
-                }];
-            }
-        }];
+                
+//                if ([self.currentFile isKindOfClass:[JHSMBFile class]]) {
+//                    [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:(JHSMBFile *)self.currentFile fileType:PickerFileTypeAll completion:^(JHSMBFile *file, NSError *error) {
+//                        if (error) {
+//                            [MBProgressHUD showWithError:error];
+//                        }
+//                        else {
+//                            self.currentFile = file;
+//                            [self.tableView reloadData];
+//                        }
+//                        
+//                        [self.tableView endRefreshing];
+//                    }];
+//                }
+//                else if ([self.currentFile isKindOfClass:[JHLinkFile class]]) {
+//                    [[ToolsManager shareToolsManager] startDiscovererFileWithLinkParentFile:(JHLinkFile *)self.currentFile completion:^(JHLinkFile *file, NSError *error) {
+//                        if (error) {
+//                            [MBProgressHUD showWithError:error];
+//                        }
+//                        else {
+//                            self.currentFile = file;
+//                            [self.tableView reloadData];
+//                        }
+//                        
+//                        [self.tableView endRefreshing];
+//                    }];
+//                }
+//                else {
+//                    [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:self.currentFile type:PickerFileTypeVideo completion:^(JHFile *file) {
+//                        self.currentFile = file;
+//                        [self.tableView reloadData];
+//                        [self.tableView endRefreshing];
+//                    }];
+//                }
+            }];
+        }
+        
         
         [self addSubview:_tableView];
     }

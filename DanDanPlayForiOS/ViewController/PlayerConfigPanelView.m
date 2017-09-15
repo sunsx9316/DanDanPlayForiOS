@@ -182,6 +182,8 @@
         @weakify(self)
         [_danmakuControlView setTouchStepperCallBack:^(CGFloat value) {
             @strongify(self)
+            if (!self) return;
+            
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelView:didTouchStepper:)]) {
                 [self.delegate playerConfigPanelView:self didTouchStepper:value];
             }
@@ -189,6 +191,8 @@
         
         [_danmakuControlView setTouchSelectedDanmakuCellCallBack:^{
             @strongify(self)
+            if (!self) return;
+            
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchSelectedDanmakuCell)]) {
                 [self.delegate playerConfigPanelViewDidTouchSelectedDanmakuCell];
             }
@@ -196,10 +200,21 @@
         
         [_danmakuControlView setTouchMatchVideoCellCallBack:^{
             @strongify(self)
+            if (!self) return;
+            
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchMatchCell)]) {
                 [self.delegate playerConfigPanelViewDidTouchMatchCell];
             }
         }];
+        
+        _danmakuControlView.touchFilterDanmakuCellCallBack = ^{
+            @strongify(self)
+            if (!self) return;
+            
+            if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchFilterCell)]) {
+                [self.delegate playerConfigPanelViewDidTouchFilterCell];
+            }
+        };
     }
     return _danmakuControlView;
 }

@@ -66,7 +66,8 @@
             @strongify(self)
             if (!self) return;
             
-            [JHMediaPlayer sharePlayer].speed = aCell.slider.value;
+#warning 待完善
+//            [JHMediaPlayer sharePlayer].speed = aCell.slider.value;
         };
         
         return cell;

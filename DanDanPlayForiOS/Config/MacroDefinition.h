@@ -16,9 +16,13 @@
 #endif
 
 
-#define API_DOMAIN @"https://api.acplay.net/api/"
-#define API_VERSION @"v1"
-#define API_PATH [NSString stringWithFormat:@"%@%@", API_DOMAIN, API_VERSION]
+#define API_DOMAIN @"https://api.acplay.net"
+#define API_INDEX @"api/v1"
+#define API_PATH [NSString stringWithFormat:@"%@/%@", API_DOMAIN, API_INDEX]
+
+//连接PC的api路径
+#define LINK_API_INDEX API_INDEX
+
 //动漫花园解析url
 #define API_DMHY_DOMAIN @"https://res.chinacloudsites.cn"
 
@@ -63,6 +67,8 @@
 #define APP_LINK @"itms-apps://itunes.apple.com/app/id1189757764"
 
 #define CLIENT_ID @"ddplayios"
+//windows最小连接的版本
+#define WIN_MINI_LINK_VERSION @"6.8.2"
 
 
 //bugly appkey

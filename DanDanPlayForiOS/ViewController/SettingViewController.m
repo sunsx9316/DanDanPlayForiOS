@@ -141,10 +141,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    if (section == 0) {
-//        return 5;
-//    }
-//    return 2;
     return self.dataSources[section].items.count;
 }
 
@@ -275,18 +271,6 @@
         }];
         [danmakuSetting.items addObject:requestThreePartyDamakuItem];
         
-//        JHSettingItem *priorityLoadLocalDanmakuItem = [[JHSettingItem alloc] init];
-//        priorityLoadLocalDanmakuItem.title = @"优先加载本地与视频同名的弹幕";
-//        priorityLoadLocalDanmakuItem.detail = @"会替换掉网络弹幕";
-//        priorityLoadLocalDanmakuItem.type = JHSettingItemTypeSwitch;
-//        [priorityLoadLocalDanmakuItem setSwitchStatusCallBack:^{
-//            return [CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-//        }];
-//        [priorityLoadLocalDanmakuItem setSwitchStatusChangeCallBack:^{
-//            [CacheManager shareCacheManager].priorityLoadLocalDanmaku = ![CacheManager shareCacheManager].priorityLoadLocalDanmaku;
-//        }];
-//        [danmakuSetting.items addObject:priorityLoadLocalDanmakuItem];
-        
         JHSettingItem *danmakuCacheTimeItem = [[JHSettingItem alloc] init];
         danmakuCacheTimeItem.title = @"弹幕缓存时间";
         danmakuCacheTimeItem.type = JHSettingItemTypeLeftRight;
@@ -335,19 +319,6 @@
             [CacheManager shareCacheManager].openAutoDownloadSubtitle = ![CacheManager shareCacheManager].openAutoDownloadSubtitle;
         }];
         [otherSetting.items addObject:openAutoDownloadSubtitleItem];
-        
-        JHSettingItem *showDownloadStatusViewItem = [[JHSettingItem alloc] init];
-        showDownloadStatusViewItem.title = @"下载时显示状态图标";
-        showDownloadStatusViewItem.detail = @"强迫症可以关掉";
-        showDownloadStatusViewItem.type = JHSettingItemTypeSwitch;
-        [showDownloadStatusViewItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].showDownloadStatusView;
-        }];
-        [showDownloadStatusViewItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].showDownloadStatusView = ![CacheManager shareCacheManager].showDownloadStatusView;
-        }];
-        [otherSetting.items addObject:showDownloadStatusViewItem];
-        
         
         JHSettingItem *clearCacheItem = [[JHSettingItem alloc] init];
         clearCacheItem.title = @"清理缓存";

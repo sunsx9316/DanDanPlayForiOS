@@ -9,11 +9,14 @@
 #import "DownloadViewController.h"
 #import "BaseTableView.h"
 #import "DownloadTableViewCell.h"
+#import "DownloadLinkTableViewCell.h"
 #import "JHEdgeButton.h"
+#import "SMBLoginHeaderView.h"
 
 @interface DownloadViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, CacheManagerDelagate>
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) JHLinkDownloadTaskCollection *linkDownloadTaskCollection;
 @end
 
 @implementation DownloadViewController
@@ -27,11 +30,12 @@
         make.edges.mas_equalTo(0);
     }];
     
-    if ([ToolsManager shareToolsManager].SMBSession.downloadTasks.count) {
-        [self.timer fire];
+    if ([CacheManager shareCacheManager].downloadTasks.count || [CacheManager shareCacheManager].linkInfo) {
+        self.timer.fireDate = [NSDate distantPast];
     }
     
     [[CacheManager shareCacheManager] addObserver:self];
+    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkDownloadingTaskCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     
     [self configRightItem];
 }
@@ -39,6 +43,17 @@
 - (void)dealloc {
     [_timer invalidate];
     [[CacheManager shareCacheManager] removeObserver:self];
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkDownloadingTaskCount"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"linkDownloadingTaskCount"]) {
+        NSNumber *aOldValue = change[NSKeyValueChangeOldKey];
+        NSNumber *aNewValue = change[NSKeyValueChangeNewKey];
+        if ([aOldValue isEqual:aNewValue] == NO) {
+            [self.tableView reloadData];
+        }
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -53,25 +68,91 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    TOSMBSessionDownloadTask *task = [CacheManager shareCacheManager].downloadTasks[indexPath.row];
-    if (task.state == TOSMBSessionDownloadTaskStateSuspended) {
-        [task resume];
-        DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        [cell updateDataSourceWithAnimate:YES];
+    if (indexPath.section == 0) {
+        JHLinkDownloadTask *task = self.linkDownloadTaskCollection.collection[indexPath.row];
+        [MBProgressHUD showLoadingInView:self.view text:nil];
+        JHControlLinkTaskMethod method = nil;
+        //开始
+        if (task.state == JHLinkDownloadTaskStatePause || task.state == JHLinkDownloadTaskStateStop || task.state == JHLinkDownloadTaskStateError) {
+            method = JHControlLinkTaskMethodStart;
+        }
+        //暂停
+        else if (task.state == JHLinkDownloadTaskStateDownloading) {
+            method = JHControlLinkTaskMethodPause;
+        }
+        
+        if (method.length) {
+            [LinkNetManager linkControlDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress taskId:task.taskId method:method forceDelete:NO completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+                [MBProgressHUD hideLoadingAfterDelay:1];
+                
+                if (error) {
+                    [MBProgressHUD showWithError:error];
+                }
+                else {
+                    responseObject.state = [method isEqualToString:JHControlLinkTaskMethodPause] ? JHLinkDownloadTaskStatePause : JHLinkDownloadTaskStateDownloading;
+                    [self.linkDownloadTaskCollection.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(JHLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        if ([obj.taskId isEqualToString:responseObject.taskId]) {
+                            self.linkDownloadTaskCollection.collection[idx] = responseObject;
+                        }
+                    }];
+                    
+                    DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                    [cell setTask:responseObject animate:YES];
+                }
+            }];
+        }
     }
-    else if (task.state == TOSMBSessionDownloadTaskStateRunning) {
-        [task suspend];
-        DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        [cell updateDataSourceWithAnimate:YES];
+    else {
+        TOSMBSessionDownloadTask *task = [CacheManager shareCacheManager].downloadTasks[indexPath.row];
+        if (task.state == TOSMBSessionDownloadTaskStateSuspended) {
+            [task resume];
+            DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell updateDataSourceWithAnimate:YES];
+        }
+        else if (task.state == TOSMBSessionDownloadTaskStateRunning) {
+            [task suspend];
+            DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell updateDataSourceWithAnimate:YES];
+        }
     }
 }
 
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    SMBLoginHeaderView *headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
+    headView.addButton.hidden = YES;
+    if (section == 0) {
+        headView.titleLabel.text = @"电脑端任务";
+    }
+    else {
+        headView.titleLabel.text = @"远程设备任务";
+    }
+    return headView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40;
+}
+
 #pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return self.linkDownloadTaskCollection.collection.count;
+    }
     return [CacheManager shareCacheManager].downloadTasks.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        DownloadLinkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DownloadLinkTableViewCell" forIndexPath:indexPath];
+        JHLinkDownloadTask *task = self.linkDownloadTaskCollection.collection[indexPath.row];
+        [cell setTask:task animate:NO];
+        return cell;
+    }
+    
     TOSMBSessionDownloadTask *task = [CacheManager shareCacheManager].downloadTasks[indexPath.row];
     DownloadTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DownloadTableViewCell" forIndexPath:indexPath];
     [cell setTask:task animate:NO];
@@ -79,20 +160,54 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"确认移除这个下载吗？" message:@"删了就没了" preferredStyle:UIAlertControllerStyleAlert];
-    [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-
-        NSArray *arr = [CacheManager shareCacheManager].downloadTasks;
-        if (indexPath.row < arr.count) {
-            TOSMBSessionDownloadTask *task = arr[indexPath.row];
-            [task cancel];
-            [[CacheManager shareCacheManager] removeSMBSessionDownloadTask:task];
-        }
-    }]];
+    if (indexPath.section == 0) {
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"确认移除这个下载吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        JHLinkDownloadTask *task = self.linkDownloadTaskCollection.collection[indexPath.row];
+        void(^deleteAction)(BOOL) = ^(BOOL flag) {
+            [MBProgressHUD showLoadingInView:self.view text:nil];
+            [LinkNetManager linkControlDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress taskId:task.taskId method:JHControlLinkTaskMethodDelete forceDelete:flag completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+                [MBProgressHUD hideLoading];
+                
+                if (error) {
+                    [MBProgressHUD showWithError:error];
+                }
+                else {
+                    [self.linkDownloadTaskCollection.collection removeObject:task];
+                    [self.tableView reloadData];                    
+                }
+            }];
+        };
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"删除任务" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            deleteAction(NO);
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"删除任务和源文件" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            deleteAction(YES);
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"确认移除这个下载吗？" message:@"删了就没了" preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSArray *arr = [CacheManager shareCacheManager].downloadTasks;
+            if (indexPath.row < arr.count) {
+                TOSMBSessionDownloadTask *task = arr[indexPath.row];
+                [task cancel];
+                [[CacheManager shareCacheManager] removeSMBSessionDownloadTask:task];
+            }
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     
-    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - DZNEmptyDataSetSource
@@ -154,6 +269,8 @@
         _tableView.showEmptyView = YES;
         _tableView.emptyDataSetSource = self;
         [_tableView registerClass:[DownloadTableViewCell class] forCellReuseIdentifier:@"DownloadTableViewCell"];
+        [_tableView registerClass:[DownloadLinkTableViewCell class] forCellReuseIdentifier:@"DownloadLinkTableViewCell"];
+        [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
         _tableView.tableFooterView = [[UIView alloc] init];
         @weakify(self)
         _tableView.mj_header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{
@@ -171,16 +288,49 @@
 - (NSTimer *)timer {
     if (_timer == nil) {
         @weakify(self)
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 block:^(NSTimer * _Nonnull timer) {
+        _timer = [NSTimer timerWithTimeInterval:1.0 block:^(NSTimer * _Nonnull timer) {
             @strongify(self)
             if (!self) return;
             
-            NSArray <DownloadTableViewCell *>*cells = [self.tableView visibleCells];
-            [cells enumerateObjectsUsingBlock:^(DownloadTableViewCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [obj updateDataSourceWithAnimate:YES];
+            JHLinkInfo *info = [CacheManager shareCacheManager].linkInfo;
+            if (info) {
+                [LinkNetManager linkDownloadListWithIpAdress:info.selectedIpAdress completionHandler:^(JHLinkDownloadTaskCollection *responseObject, NSError *error) {
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                    }
+                    else {
+                        NSInteger oldCount = self.linkDownloadTaskCollection.collection.count;
+                        NSInteger aNewCount = responseObject.collection.count;
+                        
+                        self.linkDownloadTaskCollection = responseObject;
+                        if (oldCount != aNewCount) {
+                            [self.tableView reloadData];
+                            [self.tableView reloadEmptyDataSet];
+                        }
+                        
+                        NSArray <NSIndexPath *>*indexPaths = [self.tableView indexPathsForVisibleRows];
+                        [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            DownloadLinkTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
+                            if (obj.section == 0) {
+//                                [cell updateDataSourceWithAnimate:YES];
+                                [cell setTask:self.linkDownloadTaskCollection.collection[obj.row] animate:YES];
+                            }
+                        }];
+                    }
+                }];
+            }
+            
+            NSArray <NSIndexPath *>*indexPaths = [self.tableView indexPathsForVisibleRows];
+            [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                DownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
+                if (obj.section != 0) {
+                    [cell updateDataSourceWithAnimate:YES];
+                }
             }];
             
         } repeats:YES];
+        _timer.fireDate = [NSDate distantFuture];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
 }

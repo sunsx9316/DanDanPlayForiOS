@@ -7,6 +7,8 @@
 //
 
 #import "AttentionDetailViewController.h"
+#import "HomePageSearchViewController.h"
+
 #import "BaseTableView.h"
 #import "AttentionDetailTableViewCell.h"
 #import "AttentionDetailHistoryTableViewCell.h"
@@ -84,7 +86,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    if (indexPath.section == 0) {
+        HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+        JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+        vc.config = config;
+        config.keyword = self.model.name;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

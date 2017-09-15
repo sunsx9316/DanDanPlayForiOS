@@ -9,12 +9,14 @@
 #import "FileManagerFileLongViewCell.h"
 
 @interface FileManagerFileLongViewCell ()
-@property (strong, nonatomic) UILabel *nameLabel;
-@property (strong, nonatomic) UIImageView *bgImgView;
+
 @property (strong, nonatomic) UIView *grayView;
 @end
 
 @implementation FileManagerFileLongViewCell
+{
+    VideoModel *_model;
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {

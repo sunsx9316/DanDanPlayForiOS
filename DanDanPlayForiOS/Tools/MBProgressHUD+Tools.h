@@ -34,7 +34,7 @@
  */
 + (void)showWithText:(NSString *)text
               atView:(UIView *)view
-          afterDelay:(NSTimeInterval)afterDelay;
+          hideAfterDelay:(NSTimeInterval)hideAfterDelay;
 
 /**
  *  显示错误信息
@@ -66,4 +66,6 @@
  *  隐藏一直显示的hud面板
  */
 + (void)hideLoading;
+
++ (void)hideLoadingAfterDelay:(NSTimeInterval)afterDelay;
 @end

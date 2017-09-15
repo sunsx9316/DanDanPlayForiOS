@@ -7,6 +7,8 @@
 //
 
 #import "HomePageSearchViewController.h"
+#import "QRScanerViewController.h"
+
 #import "BaseTableView.h"
 #import "HomePageSearchTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
@@ -109,6 +111,41 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    void(^downloadAction)(JHDMHYSearch *) = ^(JHDMHYSearch *model){
+        [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:model.magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+            if (error) {
+                [MBProgressHUD showWithError:error];
+            }
+            else {
+                [[CacheManager shareCacheManager] addLinkDownload];
+                [MBProgressHUD showWithText:@"添加成功！"];
+            }
+        }];
+    };
+    
+    if ([CacheManager shareCacheManager].linkInfo == nil) {
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要连接到电脑版才能下载~" message:@"请打开电脑版的\"远程访问\"" preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+            @weakify(self)
+            vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                @strongify(self)
+                if (!self) return;
+                
+                downloadAction(_dataSource[indexPath.row]);
+            };
+            [self.navigationController pushViewController:vc animated:YES];
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        downloadAction(_dataSource[indexPath.row]);
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

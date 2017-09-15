@@ -31,6 +31,7 @@ static NSString *const priorityLoadLocalDanmakuKey = @"priority_load_local_danma
 static NSString *const showDownloadStatusViewKey = @"show_down_load_status_view";
 static NSString *const sendDanmakuColorKey = @"send_danmaku_color";
 static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
+static NSString *const playInterfaceOrientationKey = @"play_interface_orientation";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -43,6 +44,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 @property (strong, nonatomic) YYCache *smbFileHashCache;
 @property (strong, nonatomic) NSMutableArray <TOSMBSessionDownloadTask *>*aDownloadTasks;
 @property (strong, nonatomic) NSMutableArray <JHFilter *>*aFilterCollection;
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation CacheManager
@@ -109,14 +111,14 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark - 
-- (DownloadStatusView *)downloadView {
-    if (_downloadView == nil) {
-        _downloadView = [[DownloadStatusView alloc] init];
-        _downloadView.hidden = !self.showDownloadStatusView;
-        [self addObserver:(DownloadStatusView <CacheManagerDelagate>*)_downloadView];
-    }
-    return _downloadView;
-}
+//- (DownloadStatusView *)downloadView {
+//    if (_downloadView == nil) {
+//        _downloadView = [[DownloadStatusView alloc] init];
+//        _downloadView.hidden = !self.showDownloadStatusView;
+//        [self addObserver:(DownloadStatusView <CacheManagerDelagate>*)_downloadView];
+//    }
+//    return _downloadView;
+//}
 
 #pragma mark - 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
@@ -239,20 +241,20 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     return num.boolValue;
 }
 
-#pragma mark -
-- (void)setShowDownloadStatusView:(BOOL)showDownloadStatusView {
-    self.downloadView.hidden = !showDownloadStatusView;
-    [self.cache setObject:@(showDownloadStatusView) forKey:showDownloadStatusViewKey withBlock:nil];
-}
-
-- (BOOL)showDownloadStatusView {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:showDownloadStatusViewKey];
-    if (num == nil) {
-        num = @(YES);
-        self.showDownloadStatusView = YES;
-    }
-    return num.boolValue;
-}
+//#pragma mark -
+//- (void)setShowDownloadStatusView:(BOOL)showDownloadStatusView {
+//    self.downloadView.hidden = !showDownloadStatusView;
+//    [self.cache setObject:@(showDownloadStatusView) forKey:showDownloadStatusViewKey withBlock:nil];
+//}
+//
+//- (BOOL)showDownloadStatusView {
+//    NSNumber * num = (NSNumber *)[self.cache objectForKey:showDownloadStatusViewKey];
+//    if (num == nil) {
+//        num = @(YES);
+//        self.showDownloadStatusView = YES;
+//    }
+//    return num.boolValue;
+//}
 
 #pragma mark -
 - (NSDictionary *)episodeInfoWithVideoModel:(VideoModel *)model {
@@ -347,6 +349,21 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 - (void)setSendDanmakuMode:(JHDanmakuMode)sendDanmakuMode {
     [self.cache setObject:@(sendDanmakuMode) forKey:sendDanmakuModeKey];
+}
+
+#pragma mark -
+- (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {
+    [self.cache setObject:@(playInterfaceOrientation) forKey:playInterfaceOrientationKey];
+}
+
+- (UIInterfaceOrientation)playInterfaceOrientation {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:playInterfaceOrientationKey];
+    if (num == nil) {
+        num = @(UIInterfaceOrientationLandscapeLeft);
+        self.playInterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+    }
+    
+    return num.integerValue;
 }
 
 #pragma mark -
@@ -615,6 +632,55 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     }
     //刷新本地列表
     [[NSNotificationCenter defaultCenter] postNotificationName:COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE object:nil];
+}
+
+#pragma mark -
+- (void)addLinkDownload {
+    //开启计时器 更新任务数量
+    if (_timer == nil) {
+        self.timer.fireDate = [NSDate distantPast];
+    }
+}
+
+- (void)updateLinkDownloadInfo {
+    if ([CacheManager shareCacheManager].linkInfo == nil) return;
+    
+    [LinkNetManager linkDownloadListWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress completionHandler:^(JHLinkDownloadTaskCollection *responseObject, NSError *error) {
+        __block NSUInteger linkTotoalExpectedToReceive = 0;
+        __block NSUInteger linkTotoalToReceive = 0;
+        __block NSUInteger linkDownloadingTaskCount = 0;
+        
+        [responseObject.collection enumerateObjectsUsingBlock:^(JHLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            linkTotoalExpectedToReceive += obj.totalBytes;
+            linkTotoalToReceive += obj.downloadedBytes;
+            if (obj.state != JHLinkDownloadTaskStateMaskTorrent) {
+                linkDownloadingTaskCount++;
+            }
+        }];
+        
+        self.linkDownloadingTaskCount = linkDownloadingTaskCount;
+        
+        if (linkTotoalToReceive >= linkTotoalExpectedToReceive) {
+            self.linkDownloadingTaskCount = 0;
+            [self.timer invalidate];
+            self.timer = nil;
+        }
+    }];
+}
+
+- (NSTimer *)timer {
+    if (_timer == nil) {
+        @weakify(self)
+        _timer = [NSTimer timerWithTimeInterval:1 block:^(NSTimer * _Nonnull timer) {
+            @strongify(self)
+            if (!self) return;
+            
+            [self updateLinkDownloadInfo];
+        } repeats:YES];
+        _timer.fireDate = [NSDate distantFuture];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    }
+    return _timer;
 }
 
 @end

@@ -29,6 +29,13 @@ UIKIT_EXTERN JHFile *jh_getANewRootFile() {
     return [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:JHFileTypeFolder];
 }
 
+UIKIT_EXTERN JHLinkFile *jh_getANewLinkRootFile() {
+    JHLibrary *lib = [[JHLibrary alloc] init];
+    lib.path = @"/";
+    lib.fileType = JHFileTypeFolder;
+    return [[JHLinkFile alloc] initWithLibraryFile:lib];
+}
+
 UIKIT_EXTERN DanDanPlayDanmakuType jh_danmakuStringToType(NSString *string) {
     if ([string isEqualToString: @"acfun"]) {
         return DanDanPlayDanmakuTypeAcfun;
@@ -104,8 +111,12 @@ UIKIT_EXTERN BOOL jh_isDanmakuFile(NSString *aURL) {
     return flag;
 };
 
-UIKIT_EXTERN BOOL jh_isRootFile(NSURL *url) {
-    return [url relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
+UIKIT_EXTERN BOOL jh_isRootFile(JHFile *file) {
+    if ([file isKindOfClass:[JHLinkFile class]] || [file isKindOfClass:[JHSMBFile class]]) {
+        return [file.fileURL.absoluteString isEqualToString:@"/"];
+    }
+
+    return [file.fileURL relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
 };
 
 static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
@@ -246,7 +257,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         return obj2.type - obj1.type;
     }];
     
-    if (jh_isRootFile(file.fileURL)) {
+    if (jh_isRootFile(file)) {
         if (completion) {
             completion(rootFile);
         }
@@ -395,12 +406,12 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 
 #pragma mark - SMB
 
-- (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
+- (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
                                       completion:(GetSMBFilesAction)completion {
-    [self startDiscovererFileWithSMBWithParentFile:parentFile fileType:PickerFileTypeAll completion:completion];
+    [self startDiscovererSMBFileWithParentFile:parentFile fileType:PickerFileTypeAll completion:completion];
 }
 
-- (void)startDiscovererFileWithSMBWithParentFile:(JHSMBFile *)parentFile
+- (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
                                         fileType:(PickerFileType)fileType
                                       completion:(GetSMBFilesAction)completion {
     TOSMBSession *session = self.SMBSession;
@@ -499,7 +510,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 }
 
 
-#pragma mark - TOSMBSessionDownloadTaskDelegate
+#pragma mark TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
        didWriteBytes:(uint64_t)bytesWritten
   totalBytesReceived:(uint64_t)totalBytesReceived
@@ -547,6 +558,63 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 - (void)removeAssociatedObjectWithTask:(TOSMBSessionDownloadTask *)task {
     objc_setAssociatedObject(task, &smbCompletionBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(task, &smbProgressBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+#pragma mark - PC端
+- (void)startDiscovererFileWithLinkParentFile:(JHLinkFile *)parentFile
+                                   completion:(GetLinkFilesAction)completion {
+    if (completion == nil) return;
+    
+    [LinkNetManager linkLibraryWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress completionHandler:^(JHLibraryCollection *responseObject, NSError *error) {
+        
+        NSMutableDictionary <NSString *, NSMutableArray *>*dic = [NSMutableDictionary dictionary];
+        
+        [responseObject.collection enumerateObjectsUsingBlock:^(JHLibrary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *key = obj.animeTitle;
+            if (key.length == 0) {
+                key = @"未分类";
+            }
+            
+            if (dic[key] == nil) {
+                dic[key] = [NSMutableArray array];
+            }
+            
+            obj.fileType = JHFileTypeDocument;
+            [dic[key] addObject:[[JHLinkFile alloc] initWithLibraryFile:obj]];
+        }];
+        
+        JHLinkFile *rootFile = jh_getANewLinkRootFile();
+        [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray <JHLinkFile *>* _Nonnull obj, BOOL * _Nonnull stop) {
+            JHLibrary *aLibFile = [[JHLibrary alloc] init];
+            aLibFile.fileType = JHFileTypeFolder;
+            aLibFile.name = key;
+            JHLinkFile *aFile = [[JHLinkFile alloc] initWithLibraryFile:aLibFile];
+            [obj enumerateObjectsUsingBlock:^(JHLinkFile * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+                obj1.parentFile = aFile;
+            }];
+            
+            [aFile.subFiles addObjectsFromArray:obj];
+            aFile.parentFile = rootFile;
+            [rootFile.subFiles addObject:aFile];
+        }];
+        
+        __block JHLinkFile *flagFile = nil;
+        
+        [rootFile.subFiles enumerateObjectsUsingBlock:^(JHLinkFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.fileURL.absoluteString isEqualToString:parentFile.fileURL.absoluteString]) {
+                flagFile = obj;
+                completion(obj, error);
+                *stop = YES;
+            }
+        }];
+        
+        if (flagFile == nil) {
+            completion(rootFile, error);
+        }
+        else {
+            completion(flagFile, error);
+        }
+    }];
 }
 
 #pragma mark - HTTPServer

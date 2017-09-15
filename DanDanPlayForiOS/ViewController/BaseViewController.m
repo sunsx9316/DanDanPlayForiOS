@@ -14,7 +14,6 @@
 @end
 
 @implementation BaseViewController
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarWithColor:MAIN_COLOR];

@@ -9,6 +9,7 @@
 #import "BaseNetManager.h"
 #import "VideoModel.h"
 #import "JHMatcheCollection.h"
+#import "JHUser.h"
 
 @interface MatchNetManager : BaseNetManager
 
@@ -24,7 +25,20 @@
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)matchVideoModel:(VideoModel *)model completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *error))completionHandler;
++ (NSURLSessionDataTask *)matchVideoModel:(VideoModel *)model
+                        completionHandler:(void(^)(JHMatcheCollection *responseObject, NSError *error))completionHandler;
+
+/**
+ 更改匹配模型
+
+ @param model 视频模型
+ @param user 用户
+ @param completionHandler 回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)matchEditMatchVideoModel:(VideoModel *)model
+                                                  user:(JHUser *)user
+                        completionHandler:(void(^)(NSError *error))completionHandler;
 
 /**
  快速适配视频 返回弹幕数组

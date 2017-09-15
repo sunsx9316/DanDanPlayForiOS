@@ -16,6 +16,7 @@
 - (void)playerConfigPanelView:(PlayerConfigPanelView *)view didTouchStepper:(CGFloat)value;
 - (void)playerConfigPanelViewDidTouchSelectedDanmakuCell;
 - (void)playerConfigPanelViewDidTouchMatchCell;
+- (void)playerConfigPanelViewDidTouchFilterCell;
 @end
 
 @interface PlayerConfigPanelView : JHBlurView

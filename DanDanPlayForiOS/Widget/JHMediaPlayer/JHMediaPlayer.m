@@ -26,30 +26,26 @@
     JHMediaPlayerStatus _status;
 }
 
-+ (instancetype)sharePlayer {
-    static dispatch_once_t onceToken;
-    static JHMediaPlayer *_player = nil;
-    dispatch_once(&onceToken, ^{
-        _player = [[JHMediaPlayer alloc] init];
-    });
-    return _player;
+- (instancetype)initWithMediaURL:(NSURL *)mediaURL {
+    if (self = [self init]) {
+        [self setMediaURL:mediaURL];
+    }
+    return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"state"] && [change[NSKeyValueChangeNewKey] isEqual:change[NSKeyValueChangeOldKey]] == NO) {
-        NSLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
-        
-        if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
-            JHMediaPlayerStatus status = [self status];
-            [self.delegate mediaPlayer:self statusChange:status];
-        }
+- (instancetype)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     }
+    return self;
 }
 
 - (void)dealloc {
     [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_localMediaPlayer removeObserver:self forKeyPath:@"state"];
+    _localMediaPlayer.drawable = nil;
+    _localMediaPlayer = nil;
+    self.mediaView = nil;
 }
 
 
@@ -114,7 +110,12 @@
     if (position > 1) position = 1;
     
     _localMediaPlayer.position = position;
-    if (completionHandler) completionHandler([self length] * position);
+    NSTimeInterval jumpTime = [self length] * position;
+    
+    if (completionHandler) completionHandler(jumpTime);
+    if ([self.delegate respondsToSelector:@selector(mediaPlayer:userJumpWithTime:)]) {
+        [self.delegate mediaPlayer:self userJumpWithTime:jumpTime];
+    }
 }
 
 - (CGFloat)position {
@@ -214,25 +215,17 @@
 }
 
 - (void)setMediaURL:(NSURL *)mediaURL {
-    //    [self stop];
     if (!mediaURL) return;
+    
     _mediaURL = mediaURL;
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
         VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
-        [media addOptions:@{@"freetype-font" : @"Helvetica Neue"}];
+//        [media addOptions:@{@"freetype-font" : @"Helvetica Neue"}];
         self.localMediaPlayer.media = media;
     }
     
-    self.localMediaPlayer.delegate = self;
     _length = -1;
-}
-
-- (instancetype)initWithMediaURL:(NSURL *)mediaURL {
-    if (self = [super init]) {
-        [self setMediaURL:mediaURL];
-    }
-    return self;
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -252,6 +245,15 @@
 - (void)mediaPlayerSnapshot:(NSNotification *)aNotification {
     UIImage *tempImage = self.localMediaPlayer.lastSnapshot;
     [self saveImage:tempImage];
+}
+
+- (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
+    NSLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+    
+    if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
+        JHMediaPlayerStatus status = [self status];
+        [self.delegate mediaPlayer:self statusChange:status];
+    }
 }
 
 #pragma mark - 私有方法
@@ -279,6 +281,22 @@
     }];
 }
 
+- (void)handleInterreption:(NSNotification *)aNotification {
+    BOOL interruption = [aNotification.userInfo[AVAudioSessionInterruptionTypeKey] boolValue];
+    //中断
+    if (interruption) {
+        if (self.isPlaying) {
+            [self pause];
+        }
+    }
+    //恢复
+    else {
+        if (self.isPlaying == NO) {
+            [self play];
+        }
+    }
+}
+
 #pragma mark 播放结束
 - (void)playEnd:(NSNotification *)sender {
     if (self.mediaType == JHMediaTypeNetMedia) {
@@ -295,7 +313,6 @@
         _localMediaPlayer = [[VLCMediaPlayer alloc] init];
         _localMediaPlayer.drawable = self.mediaView;
         _localMediaPlayer.delegate = self;
-        [_localMediaPlayer addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     }
     return _localMediaPlayer;
 }

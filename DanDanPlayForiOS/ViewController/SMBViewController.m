@@ -151,7 +151,7 @@
 - (void)loginWithModel:(JHSMBInfo *)model {
     [ToolsManager shareToolsManager].smbInfo = model;
     [MBProgressHUD showLoadingInView:self.view text:@"连接中..."];
-    [[ToolsManager shareToolsManager] startDiscovererFileWithSMBWithParentFile:nil completion:^(JHSMBFile *file, NSError *error) {
+    [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:nil completion:^(JHSMBFile *file, NSError *error) {
         [MBProgressHUD hideLoading];
         
         if (error) {

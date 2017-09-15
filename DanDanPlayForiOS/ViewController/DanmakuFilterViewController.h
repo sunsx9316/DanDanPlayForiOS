@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface DanmakuFilterViewController : BaseViewController
-
+@property (copy, nonatomic) void(^updateFilterCallBack)();
 @end

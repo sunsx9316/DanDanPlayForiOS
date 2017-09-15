@@ -20,7 +20,9 @@
 
 #define TITLE_KEY @"titleLabel.text"
 
-@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, CacheManagerDelagate>
+#define TITLE_VIEW_RATE 0.4
+
+@interface MineViewController ()<UITableViewDelegate, UITableViewDataSource, CacheManagerDelagate, UIScrollViewDelegate>
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary *>*dataSourceArr;
 @property (strong, nonatomic) UIView *headView;
@@ -45,16 +47,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"我的";
+    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    
+    [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(self.view.height * TITLE_VIEW_RATE);
+    }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
     
     [[CacheManager shareCacheManager] addObserver:self];
+    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkDownloadingTaskCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)dealloc {
     [[CacheManager shareCacheManager] removeObserver:self];
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkDownloadingTaskCount"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"linkDownloadingTaskCount"]) {
+        NSNumber *aNewCount = change[NSKeyValueChangeNewKey];
+        NSNumber *aOldCount = change[NSKeyValueChangeOldKey];
+        if ([aNewCount isEqual:aOldCount] == NO) {
+            [self.tableView reloadData];
+        }
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -70,13 +90,14 @@
     
     if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
         SettingDownloadTableViewCell *aCell = [tableView dequeueReusableCellWithIdentifier:@"SettingDownloadTableViewCell" forIndexPath:indexPath];
-        aCell.downLoadCount = [CacheManager shareCacheManager].downloadTasks.count;
+        aCell.downLoadCount = [CacheManager shareCacheManager].downloadTasks.count + [CacheManager shareCacheManager].linkDownloadingTaskCount;
         cell = aCell;
     }
     else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SettingTitleTableViewCell" forIndexPath:indexPath];
     }
     
+    cell.backgroundColor = [UIColor whiteColor];
     cell.titleLabel.textColor = [UIColor blackColor];
     [self.dataSourceArr[indexPath.row] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         [cell setValue:obj forKeyPath:key];
@@ -117,6 +138,15 @@
     return 44 + jh_isPad() * 10;
 }
 
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    float y = -scrollView.contentOffset.y / self.view.height * 4 + 1;
+    if (y <= 1) y = 1;
+
+    self.blurView.transform = CGAffineTransformMakeScale(y, y);
+//    NSLog(@"%f", y + 1);
+}
+
 #pragma mark - CacheManagerDelagate
 - (void)SMBDownloadTasksDidChange:(NSArray <TOSMBSessionDownloadTask *>*)tasks type:(SMBDownloadTasksDidChangeType)type {
     [self.tableView reloadData];
@@ -130,7 +160,7 @@
 - (void)reloadUserInfo {
     JHUser *user = [CacheManager shareCacheManager].user;
     [self.blurView.layer jh_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"icon"]];
-    [self.iconImgView jh_setImageWithURL:user.icoImgURL  placeholder:[UIImage imageNamed:@"icon"]];
+    [self.iconImgView jh_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"icon"]];
     if (user) {
         self.nameLabel.text = user.name;
     }
@@ -146,16 +176,10 @@
 
 - (UIView *)headView {
     if (_headView == nil) {
-        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * 0.4)];
+        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * TITLE_VIEW_RATE)];
         _headView.clipsToBounds = YES;
         
-        [_headView addSubview:self.blurView];
         [_headView addSubview:self.nameIconHoldView];
-        
-        
-        [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
-        }];
         
         [self.nameIconHoldView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(0);
@@ -272,6 +296,9 @@
 - (UIVisualEffectView *)blurView {
     if (_blurView == nil) {
         _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        _blurView.layer.contentMode = UIViewContentModeScaleAspectFill;
+        _blurView.layer.masksToBounds = YES;
+        [self.view addSubview:_blurView];
     }
     return _blurView;
 }
@@ -280,6 +307,7 @@
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         _tableView.tableHeaderView = self.headView;
+        _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;

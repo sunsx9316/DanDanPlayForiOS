@@ -14,7 +14,7 @@
     if (completionHandler == nil) return nil;
     
     if (!keyword.length){
-        completionHandler(nil, parameterNoCompletionError());
+        completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     
@@ -36,7 +36,7 @@
     if (completionHandler == nil) return nil;
     
     if (!keyword.length){
-        completionHandler(nil, parameterNoCompletionError());
+        completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     
@@ -50,7 +50,7 @@
     if (completionHandler == nil) return nil;
     
     if (seasonId == 0) {
-        completionHandler(nil, parameterNoCompletionError());
+        completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     
@@ -68,7 +68,7 @@
                 completionHandler([JHBiliBiliBangumiCollection yy_modelWithDictionary: dic[@"result"]], err);
             }
             else {
-                completionHandler(nil, parameterNoCompletionError());
+                completionHandler(nil, jh_parameterNoCompletionError());
             }
         }
         else {
@@ -82,7 +82,7 @@
     if (completionHandler == nil) return nil;
     
     if (config == nil) {
-        completionHandler(nil, parameterNoCompletionError());
+        completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     

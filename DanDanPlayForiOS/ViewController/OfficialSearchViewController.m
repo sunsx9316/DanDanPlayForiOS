@@ -86,6 +86,7 @@
             [aHUD hideAnimated:YES];
             self.model.danmakus = responseObject;
             self.model.matchName = item.name;
+            self.model.identity = item.identity;
             
             __block PlayerViewController *vc = nil;
             [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -93,6 +94,11 @@
                     vc = obj;
                     *stop = YES;
                 }
+            }];
+            
+            //更改匹配信息
+            [MatchNetManager matchEditMatchVideoModel:self.model user:[CacheManager shareCacheManager].user completionHandler:^(NSError *error) {
+                NSLog(@"%@", error);
             }];
             
             if (vc) {

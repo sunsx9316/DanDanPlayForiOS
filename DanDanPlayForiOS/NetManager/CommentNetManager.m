@@ -31,7 +31,7 @@
     };
     
     if (episodeId == 0) {
-        completionAction(nil, parameterNoCompletionError());
+        completionAction(nil, jh_parameterNoCompletionError());
         return nil;
     }
     
@@ -104,11 +104,11 @@
                                completionHandler:(void(^)(NSError *))completionHandler{
     if (!model || episodeId == 0) {
         if (completionHandler == nil) {
-            completionHandler(parameterNoCompletionError());
+            completionHandler(jh_parameterNoCompletionError());
         }
         return nil;
     }
-    
+
     return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", API_PATH, (unsigned long)episodeId, CLIENT_ID] data:[[model yy_modelToJSONData] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
         if (completionHandler) {
             completionHandler(model.error);
@@ -121,7 +121,7 @@
     if (completionHandler == nil) return;
     
     if (relatedCollection.collection.count == 0) {
-        completionHandler(nil, @[parameterNoCompletionError()]);
+        completionHandler(nil, @[jh_parameterNoCompletionError()]);
         return;
     }
     
