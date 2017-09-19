@@ -39,6 +39,7 @@
     }
     else {
         [self.searchBar becomeFirstResponder];
+        [self.tableView endRefreshing];
     }
 }
 
@@ -125,8 +126,15 @@
     };
     
     if ([CacheManager shareCacheManager].linkInfo == nil) {
-        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要连接到电脑版才能下载~" message:@"请打开电脑版的\"远程访问\"" preferredStyle:UIAlertControllerStyleAlert];
-        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"复制磁力链" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            JHDMHYSearch *aModel = self.dataSource[indexPath.row];
+            [UIPasteboard generalPasteboard].string = aModel.magnet;
+            [MBProgressHUD showWithText:@"复制成功"];
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"使用电脑端下载" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             QRScanerViewController *vc = [[QRScanerViewController alloc] init];
             @weakify(self)
@@ -134,7 +142,7 @@
                 @strongify(self)
                 if (!self) return;
                 
-                downloadAction(_dataSource[indexPath.row]);
+                downloadAction(self.dataSource[indexPath.row]);
             };
             [self.navigationController pushViewController:vc animated:YES];
         }]];
@@ -213,13 +221,13 @@
                         self.dataSource = responseObject.collection;
                         [self.tableView reloadData];
                     }
-                    
                     [self.tableView endRefreshing];
                 }];
             }
             else {
                 [self.tableView.mj_header endRefreshing];
             }
+            
         }];
         
         [self.view addSubview:_tableView];
@@ -230,7 +238,7 @@
 - (UISearchBar *)searchBar {
     if (_searchBar == nil) {
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
-        _searchBar.placeholder = @"搜索文件名";
+        _searchBar.placeholder = @"搜索资源";
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = MAIN_COLOR;

@@ -47,7 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"我的";
-    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -60,11 +60,13 @@
     
     [[CacheManager shareCacheManager] addObserver:self];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkDownloadingTaskCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"user" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)dealloc {
     [[CacheManager shareCacheManager] removeObserver:self];
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkDownloadingTaskCount"];
+    [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"user"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -74,6 +76,9 @@
         if ([aNewCount isEqual:aOldCount] == NO) {
             [self.tableView reloadData];
         }
+    }
+    else if ([keyPath isEqualToString:@"user"]) {
+        [self reloadUserInfo];
     }
 }
 
@@ -144,7 +149,6 @@
     if (y <= 1) y = 1;
 
     self.blurView.transform = CGAffineTransformMakeScale(y, y);
-//    NSLog(@"%f", y + 1);
 }
 
 #pragma mark - CacheManagerDelagate
@@ -189,54 +193,17 @@
         [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
             @strongify(self)
             if (!self) return;
-            
-            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
-                [MBProgressHUD showLoadingInView:self.view text:nil];
-                
-                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
-                    [MBProgressHUD hideLoading];
-                    
-                    if (error) {
-                        [MBProgressHUD showWithError:error];
-                    }
-                    else {
-                        UMSocialUserInfoResponse *resp = result;
-                        [MBProgressHUD showLoadingInView:self.view text:@"登录中..."];
-                        
-                        [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ? JHUserTypeWeibo : JHUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHUser *responseObject, NSError *error1) {
-                            [MBProgressHUD hideLoading];
-                            if (error1) {
-                                [MBProgressHUD showWithError:error1 atView:self.view];
-                            }
-                            else {
-                                [CacheManager shareCacheManager].user = responseObject;
-                                [self reloadUserInfo];
-                            }
-                        }];
-                    }
-                }];
-            };
-            
+
             if ([CacheManager shareCacheManager].user == nil) {
-                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"请选择登录平台" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    loginWithTypeAction(UMSocialPlatformType_QQ);
-                }]];
-                
-                [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    loginWithTypeAction(UMSocialPlatformType_Sina);
-                }]];
-                
-                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-                
-                [self presentViewController:vc animated:YES completion:nil];
+                [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
+                    
+                }];
             }
             else {
-                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"退出登录吗？" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                [vc addAction:[UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                     [CacheManager shareCacheManager].user = nil;
                     [self reloadUserInfo];
-                    [self.tableView reloadData];
                 }]];
                 
                 [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];

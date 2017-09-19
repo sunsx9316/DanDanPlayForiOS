@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AttentionDetailTableViewCell : UITableViewCell
-@property (strong, nonatomic) JHFavorite *model;
+@property (strong, nonatomic) JHPlayHistory *model;
 @end

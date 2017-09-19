@@ -28,7 +28,7 @@
 @implementation FileManagerViewController
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
     

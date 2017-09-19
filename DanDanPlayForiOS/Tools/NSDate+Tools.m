@@ -11,6 +11,7 @@
 #define DEFAULT_TIME_SHORT_STYLE @"yyyy-MM-dd'T'HH:mm:ss.SS"
 #define YEAR_MONTH_HOUR_MINUTE_DAY_TIME_STYLE @"yyyy/M/d HH:mm"
 #define YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE @"yyyy/MM/dd HH:mm"
+#define HISTORY_YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE @"yyyy-MM-dd HH:mm:ss"
 
 @implementation NSDate (Tools)
 + (NSDateFormatter *)shareDateFormatter {
@@ -48,7 +49,7 @@
     if (date == nil) return nil;
     
     NSDateFormatter *dateFormatter = [self shareDateFormatter];
-    dateFormatter.dateFormat = YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;
+    dateFormatter.dateFormat = HISTORY_YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;
     return [dateFormatter stringFromDate:date];
 }
 

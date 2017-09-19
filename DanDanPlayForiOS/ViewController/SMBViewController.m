@@ -14,6 +14,7 @@
 
 #import <TOSMBClient.h>
 #import "BaseTableView.h"
+#import "NSString+Tools.h"
 
 @interface SMBViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -31,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"浏览电脑文件";
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -62,7 +65,7 @@
     }
     else {
         JHSMBInfo *model = [CacheManager shareCacheManager].SMBInfos[indexPath.row];
-        cell.titleLabel.text = model.hostName;
+        cell.titleLabel.text = model.hostName.length ? model.hostName : model.ipAddress;
     }
     
     return cell;
@@ -179,7 +182,13 @@
     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"登录SMB服务器" message:nil preferredStyle:UIAlertControllerStyleAlert];
     @weakify(vc)
     [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        model.hostName = weak_vc.textFields.firstObject.text;
+        NSString *firstText = weak_vc.textFields.firstObject.text;
+        if ([firstText isIpAdress]) {
+            model.ipAddress = firstText;
+        }
+        else {
+            model.hostName = firstText;
+        }
         model.userName = weak_vc.textFields[1].text;
         model.password = weak_vc.textFields[2].text;
         [self loginWithModel:model];
@@ -188,7 +197,7 @@
     [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     
     [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"服务器 例如:xiaoming 不区分大小写";
+        textField.placeholder = @"服务器或ip 不区分大小写";
         textField.text = model.hostName;
         textField.font = NORMAL_SIZE_FONT;
     }];
@@ -233,9 +242,12 @@
                 [self.nameServiceEntries addObject:entry];
                 [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
                 
+                NSLog(@"连接成功 %@", entry.name);
+                
             } removed:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries removeObject:entry];
                 [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+                NSLog(@"连接失败 %@", entry.name);
             }];
             
             [self.tableView.mj_header endRefreshing];

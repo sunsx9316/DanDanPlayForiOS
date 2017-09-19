@@ -9,6 +9,8 @@
 #import "BaseViewController.h"
 
 @interface AttentionDetailViewController : BaseViewController
-@property (strong, nonatomic) JHFavorite *model;
-@property (copy, nonatomic) void(^attentionCallBack)(JHFavorite *model);
+@property (assign, nonatomic) NSUInteger animateId;
+@property (assign, nonatomic) BOOL isOnAir;
+//@property (strong, nonatomic) JHFavorite *model;
+@property (copy, nonatomic) void(^attentionCallBack)(NSUInteger animateId);
 @end

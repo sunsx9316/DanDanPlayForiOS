@@ -295,10 +295,7 @@
             JHLinkInfo *info = [CacheManager shareCacheManager].linkInfo;
             if (info) {
                 [LinkNetManager linkDownloadListWithIpAdress:info.selectedIpAdress completionHandler:^(JHLinkDownloadTaskCollection *responseObject, NSError *error) {
-                    if (error) {
-                        [MBProgressHUD showWithError:error];
-                    }
-                    else {
+                    if (error == nil) {
                         NSInteger oldCount = self.linkDownloadTaskCollection.collection.count;
                         NSInteger aNewCount = responseObject.collection.count;
                         
@@ -312,7 +309,7 @@
                         [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                             DownloadLinkTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
                             if (obj.section == 0) {
-//                                [cell updateDataSourceWithAnimate:YES];
+                                //                                [cell updateDataSourceWithAnimate:YES];
                                 [cell setTask:self.linkDownloadTaskCollection.collection[obj.row] animate:YES];
                             }
                         }];

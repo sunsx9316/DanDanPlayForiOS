@@ -489,11 +489,15 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 - (void)saveSMBInfo:(JHSMBInfo *)info {
-    NSMutableArray *arr = (NSMutableArray *)[self.cache objectForKey:SMBLoginKey];
+    NSMutableArray *arr = (NSMutableArray *)self.SMBInfos;
     if ([arr containsObject:info] == NO) {
         [arr addObject:info];
-        self.SMBInfos = arr;        
     }
+    else {
+        NSInteger index = [arr indexOfObject:info];
+        arr[index] = info;
+    }
+    self.SMBInfos = arr;
 }
 
 - (void)removeSMBInfo:(JHSMBInfo *)info {

@@ -94,6 +94,9 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url;
 
+- (void)loginInViewController:(UIViewController *)viewController
+                   completion:(void(^)(JHUser *user, NSError *err))completion;
+
 #pragma mark - 本地文件
 /**
  扫描视频模型

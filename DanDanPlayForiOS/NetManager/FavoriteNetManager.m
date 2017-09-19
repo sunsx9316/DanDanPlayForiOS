@@ -57,12 +57,12 @@
                                        completionHandler:(void(^)(JHPlayHistory *responseObject, NSError *error))completionHandler {
     if (completionHandler == nil) return nil;
     
-    if (user.identity == 0 || user.token.length == 0 || animateId == 0){
+    if (animateId == 0){
         completionHandler(nil, jh_parameterNoCompletionError());
         return nil;
     }
     
-    NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.token};
+    NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.token.length ? user.token : @"0"};
     return [self GETWithPath:[NSString stringWithFormat:@"%@/playhistory/%ld", API_PATH, animateId] parameters:dic completionHandler:^(JHResponse *model) {
         completionHandler([JHPlayHistory yy_modelWithJSON:model.responseObject], model.error);
     }];

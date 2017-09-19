@@ -7,15 +7,14 @@
 //
 
 #import "AttentionDetailTableViewCell.h"
-#include "JHEdgeLabel.h"
 #import "NSDate+Tools.h"
+#import "JHEdgeLabel.h"
 
 @interface AttentionDetailTableViewCell ()
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) JHEdgeLabel *onAirLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *viewLabel;
-@property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UIVisualEffectView *blurView;
 @end
 
@@ -31,8 +30,8 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.width.mas_offset(90);
-            make.height.mas_offset(120);
+            make.width.mas_offset(80);
+            make.height.mas_offset(110);
             make.centerY.mas_equalTo(0);
         }];
         
@@ -52,26 +51,25 @@
             make.right.mas_offset(-10);
             make.centerY.mas_equalTo(0);
         }];
-        
-        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.viewLabel.mas_bottom).mas_offset(10);
-            make.left.equalTo(self.nameLabel);
-            make.right.mas_offset(-10);
-            make.bottom.mas_offset(-15);
-        }];
     }
     return self;
 }
 
-- (void)setModel:(JHFavorite *)model {
+- (void)setModel:(JHPlayHistory *)model {
     _model = model;
-    [self.iconImgView jh_setImageWithURL:_model.imageUrl];
+    [self.iconImgView jh_setImageWithURL:_model.imageUrl placeholder:nil];
     [self.blurView.layer jh_setImageWithURL:_model.imageUrl];
     self.onAirLabel.hidden = !_model.isOnAir;
     self.nameLabel.text = _model.name;
-    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集", _model.episodeWatched, _model.episodeTotal];
-    NSDate *date = [NSDate dateWithDefaultFormatString:_model.attentionTime];
-    self.timeLabel.text = [NSString stringWithFormat:@"关注于: %@", [NSDate attentionTimeStyleWithDate:date]];
+    
+    __block NSUInteger episodeWatched = 0;
+    [_model.collection enumerateObjectsUsingBlock:^(JHEpisode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.time.length) {
+            episodeWatched++;
+        }
+    }];
+    
+    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集", episodeWatched, _model.collection.count];
 }
 
 #pragma mark - 懒加载
@@ -121,19 +119,11 @@
     return _viewLabel;
 }
 
-- (UILabel *)timeLabel {
-    if (_timeLabel == nil) {
-        _timeLabel = [[UILabel alloc] init];
-        _timeLabel.font = SMALL_SIZE_FONT;
-        _timeLabel.textColor = [UIColor lightGrayColor];
-        [self.contentView addSubview:_timeLabel];
-    }
-    return _timeLabel;
-}
-
 - (UIVisualEffectView *)blurView {
     if (_blurView == nil) {
         _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        _blurView.layer.contentMode = UIViewContentModeScaleAspectFill;
+        _blurView.clipsToBounds = YES;
         [self.contentView addSubview:_blurView];
     }
     return _blurView;

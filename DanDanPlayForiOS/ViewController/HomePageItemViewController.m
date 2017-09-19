@@ -9,6 +9,7 @@
 #import "HomePageItemViewController.h"
 #import "WebViewController.h"
 #import "HomePageSearchViewController.h"
+#import "AttentionDetailViewController.h"
 
 #import "BaseTableView.h"
 #import "HomePageItemTableViewCell.h"
@@ -68,6 +69,7 @@
             }
             else {
                 model.isFavorite = !model.isFavorite;
+                [self resortBangumis];
                 [self.tableView reloadData];
             }
         }];
@@ -81,7 +83,7 @@
         
         HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
         JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
-        config.keyword = parseModel.keyword;
+        config.keyword = parseModel.name;
         config.subGroupId = parseModel.identity;
         vc.config = config;
         vc.hidesBottomBarWhenPushed = YES;
@@ -95,10 +97,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JHBangumi *model = self.bangumis[indexPath.row];
     
-    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
-    JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
-    config.keyword = model.keyword;
-    vc.config = config;
+    AttentionDetailViewController *vc = [[AttentionDetailViewController alloc] init];
+    vc.animateId = model.identity;
+    vc.isOnAir = YES;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -110,12 +111,18 @@
     [self.bangumis enumerateObjectsUsingBlock:^(JHBangumi * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.identity == animateId) {
             obj.isFavorite = attention;
+            [self resortBangumis];
             [self.tableView reloadData];
             *stop = YES;
         }
     }];
 }
 
+- (void)resortBangumis {
+    [(NSMutableArray *)self.bangumis sortUsingComparator:^NSComparisonResult(JHBangumi * _Nonnull obj1, JHBangumi * _Nonnull obj2) {
+        return obj2.isFavorite - obj1.isFavorite;
+    }];
+}
 
 #pragma mark - 懒加载
 - (BaseTableView *)tableView {

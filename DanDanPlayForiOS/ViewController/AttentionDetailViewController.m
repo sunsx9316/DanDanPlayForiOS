@@ -14,6 +14,7 @@
 #import "AttentionDetailHistoryTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "NSDate+Tools.h"
+#import "JHEdgeButton.h"
 
 @interface AttentionDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -25,17 +26,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = self.model.name;
+    [self configRightItem];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
     
     [self.tableView.mj_header beginRefreshing];
-}
-
-- (void)endRefresh {
-    [self.tableView endRefreshing];
 }
 
 #pragma mark - UITableViewDataSource
@@ -45,7 +42,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 1;
+        return !!self.historyModel;
     }
     return self.historyModel.collection.count;
 }
@@ -53,7 +50,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         AttentionDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AttentionDetailTableViewCell" forIndexPath:indexPath];
-        cell.model = self.model;
+        cell.model = self.historyModel;
         return cell;
     }
     
@@ -62,42 +59,11 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    JHEpisode *model = self.historyModel.collection[indexPath.row];
-    [MBProgressHUD showLoadingInView:self.view text:@"添加中..."];
-    [FavoriteNetManager favoriteAddHistoryWithUser:[CacheManager shareCacheManager].user episodeId:model.identity addToFavorite:YES completionHandler:^(NSError *error) {
-        [MBProgressHUD hideLoading];
-        
-        if (error) {
-            [MBProgressHUD showWithError:error];
-        }
-        else {
-            model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
-            self.model.episodeWatched++;
-            if (self.attentionCallBack) {
-                self.attentionCallBack(self.model);
-            }
-            [self.tableView reloadData];
-        }
-    }];
-}
-
 #pragma mark - UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (indexPath.section == 0) {
-        HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
-        JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
-        vc.config = config;
-        config.keyword = self.model.name;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 140;
+        return 130;
     }
     
     return [tableView fd_heightForCellWithIdentifier:@"AttentionDetailHistoryTableViewCell" cacheByIndexPath:indexPath configuration:^(AttentionDetailHistoryTableViewCell *cell) {
@@ -105,18 +71,68 @@
     }];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
-        JHEpisode *model = self.historyModel.collection[indexPath.row];
-        return model.time.length == 0 ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section != 0) {
+        //未登录
+        if ([CacheManager shareCacheManager].user == nil) {
+            [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
+                
+            }];
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            JHEpisode *model = self.historyModel.collection[indexPath.row];
+            //已观看
+            if (model.time.length != 0) return;
+            
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [MBProgressHUD showLoadingInView:self.view text:@"添加中..."];
+                [FavoriteNetManager favoriteAddHistoryWithUser:[CacheManager shareCacheManager].user episodeId:model.identity addToFavorite:YES completionHandler:^(NSError *error) {
+                    [MBProgressHUD hideLoading];
+                    
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                    }
+                    else {
+                        model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
+                        if (self.attentionCallBack) {
+                            self.attentionCallBack(self.animateId);
+                        }
+                        [self.tableView reloadData];
+                    }
+                }];
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+        });
     }
-    return UITableViewCellEditingStyleNone;
 }
 
-- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"已阅";
+#pragma mark - 私有方法
+- (void)configRightItem {
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
+    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    backButton.titleLabel.font = NORMAL_SIZE_FONT;
+    [backButton setTitle:@"搜索资源" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItem = item;
 }
 
+- (void)touchRightItem:(UIButton *)button {
+    if (self.historyModel.name.length == 0) return;
+    
+    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+    JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+    vc.config = config;
+    config.keyword = self.historyModel.name;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - 懒加载
 - (BaseTableView *)tableView {
@@ -133,12 +149,14 @@
             @strongify(self)
             if (!self) return;
             
-            [FavoriteNetManager favoriteHistoryAnimateWithUser:[CacheManager shareCacheManager].user animateId:self.model.identity completionHandler:^(JHPlayHistory *responseObject, NSError *error) {
+            [FavoriteNetManager favoriteHistoryAnimateWithUser:[CacheManager shareCacheManager].user animateId:self.animateId completionHandler:^(JHPlayHistory *responseObject, NSError *error) {
                 if (error) {
                     [MBProgressHUD showWithError:error];
                 }
                 else {
                     self.historyModel = responseObject;
+                    self.historyModel.isOnAir = self.isOnAir;
+                    self.navigationItem.title = self.historyModel.name;
                     [self.tableView reloadData];
                 }
                 

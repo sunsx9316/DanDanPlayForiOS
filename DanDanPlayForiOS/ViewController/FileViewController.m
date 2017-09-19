@@ -13,7 +13,8 @@
 #import "HelpViewController.h"
 #import "FileManagerViewController.h"
 #import "FileManagerNavigationController.h"
-#import "LinkFileViewController.h"
+#import "LinkFileManagerNavigationController.h"
+#import "LinkFileManagerViewController.h"
 #import "QRScanerViewController.h"
 
 #import "JHEdgeButton.h"
@@ -38,7 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configRightItem];
-//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+    
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
     UIView *searchBarHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
     [searchBarHolderView addSubview:self.searchBar];
@@ -46,6 +48,10 @@
         make.edges.mas_equalTo(0);
     }];
     self.navigationItem.titleView = searchBarHolderView;
+    
+    [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
     
     //监听滚动
     [self.pageController.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
@@ -144,7 +150,16 @@
         return [[SMBViewController alloc] init];
     }
     
-    return [[LinkFileViewController alloc] init];
+//    FileManagerViewController *vc = [[FileManagerViewController alloc] init];
+//    vc.file = jh_getANewRootFile();
+////    _fileManagerViewController = vc;
+//    FileManagerNavigationController *nav = [[FileManagerNavigationController alloc] initWithRootViewController:vc];
+//    return nav;
+    LinkFileManagerViewController *vc = [[LinkFileManagerViewController alloc] init];
+    vc.file = jh_getANewLinkRootFile();
+    LinkFileManagerNavigationController *nav = [[LinkFileManagerNavigationController alloc] initWithRootViewController:vc];
+    
+    return nav;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
@@ -152,7 +167,7 @@
 }
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForMenuView:(WMMenuView *)menuView {
-    return CGRectMake(0, 0, self.view.width, NORMAL_SIZE_FONT.lineHeight + 20);
+    return CGRectMake(0, self.navigationController.navigationBar.bottom, self.view.width, NORMAL_SIZE_FONT.lineHeight + 20);
 }
 
 - (CGRect)pageController:(WMPageController *)pageController preferredFrameForContentView:(WMScrollView *)contentView {

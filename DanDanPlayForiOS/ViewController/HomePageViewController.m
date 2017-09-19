@@ -11,10 +11,12 @@
 #import "JHDefaultPageViewController.h"
 #import "WebViewController.h"
 #import "HomePageSearchViewController.h"
+#import "AttentionListViewController.h"
 
 #import "MJRefreshHeader+Tools.h"
 #import "NSDate+Tools.h"
 #import "JHEdgeButton.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 #define HEAD_VIEW_HEIGHT (self.view.height * .4)
 
@@ -28,7 +30,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"新番列表";
-    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
+//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     [self configRightItem];
     
     [self.view addSubview:self.pageViewController.view];
@@ -53,6 +55,26 @@
 }
 
 - (void)configLeftItem {
+    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
+    backButton.inset = CGSizeMake(10, 10);
+    [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setImage:[UIImage imageNamed:@"attention"] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)touchLeftItem:(UIButton *)button {
+    if ([CacheManager shareCacheManager].user == nil) {
+        [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
+            
+        }];
+    }
+    else {
+        AttentionListViewController *vc = [[AttentionListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
 
@@ -149,6 +171,11 @@
             [view reloadEmptyDataSet];
         }
         else {
+            [responseObject.bangumis enumerateObjectsUsingBlock:^(JHBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [obj.collection sortUsingComparator:^NSComparisonResult(JHBangumi * _Nonnull obj1, JHBangumi * _Nonnull obj2) {
+                    return obj2.isFavorite - obj1.isFavorite;
+                }];
+            }];
             self.model = responseObject;
         }
         

@@ -134,6 +134,14 @@
 				<string>wb2376360757</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.dandanplay.player</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dandanplay</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2017091501</string>

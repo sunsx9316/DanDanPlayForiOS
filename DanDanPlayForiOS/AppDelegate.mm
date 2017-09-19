@@ -91,7 +91,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
     if (!result) {
@@ -101,7 +101,7 @@
     
     return result;
 }
-//#else
+#else
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
@@ -112,7 +112,7 @@
     return result;
 }
 
-//#endif
+#endif
 
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {

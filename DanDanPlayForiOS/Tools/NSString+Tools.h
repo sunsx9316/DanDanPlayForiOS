@@ -44,4 +44,6 @@
 - (BOOL)isDanmakuFileWithVideoPath:(NSString *)videoPath;
 
 - (JHDMHYParse *)parseModel;
+
+- (BOOL)isIpAdress;
 @end

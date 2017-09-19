@@ -15,6 +15,7 @@
 #import <TOSMBSession.h>
 #import <TOSMBSessionFile.h>
 #import "NSURL+Tools.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -174,6 +175,61 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         }
     }];
     return subTitleFiles;
+}
+
+- (void)loginInViewController:(UIViewController *)viewController
+                   completion:(void(^)(JHUser *user, NSError *err))completion {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([CacheManager shareCacheManager].user == nil) {
+            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
+                [MBProgressHUD showLoadingInView:viewController.view text:nil];
+                [MBProgressHUD hideLoading];
+                
+                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:viewController completion:^(id result, NSError *error) {
+                    [MBProgressHUD hideLoading];
+                    
+                    if (error) {
+                        [MBProgressHUD showWithError:error];
+                        if (completion) {
+                            completion(nil, error);
+                        }
+                    }
+                    else {
+                        UMSocialUserInfoResponse *resp = result;
+                        [MBProgressHUD showLoadingInView:viewController.view text:@"登录中..."];
+                        
+                        [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ? JHUserTypeWeibo : JHUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHUser *responseObject, NSError *error1) {
+                            [MBProgressHUD hideLoading];
+                            
+                            if (error1) {
+                                [MBProgressHUD showWithError:error1 atView:viewController.view];
+                            }
+                            else {
+                                [CacheManager shareCacheManager].user = responseObject;
+                            }
+                            
+                            if (completion) {
+                                completion(responseObject, error1);
+                            }
+                        }];
+                    }
+                }];
+            };
+            
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要登录才能继续操作" message:@"请选择登录平台" preferredStyle:UIAlertControllerStyleActionSheet];
+            [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                loginWithTypeAction(UMSocialPlatformType_QQ);
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                loginWithTypeAction(UMSocialPlatformType_Sina);
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [viewController presentViewController:vc animated:YES completion:nil];
+        }        
+    });
 }
 
 #pragma mark - 本地文件
@@ -471,6 +527,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     session.password = _smbInfo.password;
     session.userName = _smbInfo.userName;
     session.hostName = _smbInfo.hostName;
+    session.ipAddress = _smbInfo.ipAddress;
     //最大下载任务数
     session.maxDownloadOperationCount = 5;
     self.SMBSession = session;

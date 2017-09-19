@@ -86,6 +86,8 @@
 }
 
 - (void)reload {
+    _selectedTypeName = nil;
+    _selectedSubGroupName = nil;
     [self.typeButton setTitle:TYPE_DEFAULT_STRING forState:UIControlStateNormal];
     [self.subGroupButton setTitle:SUB_GROUP_DEFAULT_STRING forState:UIControlStateNormal];
     [self.tableView reloadData];

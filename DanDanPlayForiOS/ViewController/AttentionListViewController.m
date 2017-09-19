@@ -75,12 +75,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     JHFavorite *model = self.model.collection[indexPath.row];
     AttentionDetailViewController *vc = [[AttentionDetailViewController alloc] init];
-    vc.model = model;
+    vc.animateId = model.identity;
+    vc.isOnAir = model.isOnAir;
     @weakify(self)
-    vc.attentionCallBack = ^(JHFavorite *aModel) {
+    vc.attentionCallBack = ^(NSUInteger animateId) {
         @strongify(self)
         if (!self) return;
-        
+        model.episodeWatched++;
         [self.tableView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];

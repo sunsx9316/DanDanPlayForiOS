@@ -18,5 +18,6 @@
 @property (strong, nonatomic) NSURL *imageUrl;
 @property (assign, nonatomic) BOOL isFavorite;
 @property (copy, nonatomic) NSString *searchKeyword;
-
+#pragma mark - 自定义属性
+@property (assign, nonatomic) BOOL isOnAir;
 @end
