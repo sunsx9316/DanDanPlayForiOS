@@ -141,6 +141,8 @@
         }
         else {
             //PC端版本满足
+            UIPasteboard
+            
             if ([responseObject.version compare:WIN_MINI_LINK_VERSION] == NSOrderedAscending) {
                 UIAlertController *warningVC = [UIAlertController alertControllerWithTitle:@"当前电脑版版本过旧，请更新到最新版后使用" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [warningVC addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
