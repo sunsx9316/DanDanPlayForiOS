@@ -11,7 +11,7 @@
 
 @interface HomePageItemViewController : BaseViewController
 @property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;
-@property (copy, nonatomic) void(^handleBannerCallBack)();
-@property (copy, nonatomic) void(^endRefreshCallBack)();
+@property (copy, nonatomic) void(^handleBannerCallBack)(void);
+@property (copy, nonatomic) void(^endRefreshCallBack)(void);
 - (void)endRefresh;
 @end

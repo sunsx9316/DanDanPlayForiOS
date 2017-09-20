@@ -49,7 +49,7 @@
 #define HEIGHT [UIScreen mainScreen].bounds.size.height
 
 //其它
-#define SEARCH_BAR_HEIRHT 44
+#define SEARCH_BAR_HEIRHT 30
 
 
 //YYWebImage 默认加载方法

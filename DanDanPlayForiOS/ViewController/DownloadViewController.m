@@ -11,7 +11,7 @@
 #import "DownloadTableViewCell.h"
 #import "DownloadLinkTableViewCell.h"
 #import "JHEdgeButton.h"
-#import "SMBLoginHeaderView.h"
+#import "TextHeaderView.h"
 
 @interface DownloadViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, CacheManagerDelagate>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -118,8 +118,7 @@
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    SMBLoginHeaderView *headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
-    headView.addButton.hidden = YES;
+    TextHeaderView *headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"TextHeaderView"];
     if (section == 0) {
         headView.titleLabel.text = @"电脑端任务";
     }
@@ -212,12 +211,12 @@
 
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务 (电脑端任务下载完成在文件->电脑端查看)" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击重试" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击刷新" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 
@@ -228,15 +227,13 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    JHEdgeButton *button = [[JHEdgeButton alloc] init];
-    button.inset = CGSizeMake(10, 10);
-    [button addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"全部暂停" forState:UIControlStateNormal];
-    [button setTitle:@"全部恢复" forState:UIControlStateSelected];
-    button.titleLabel.font = NORMAL_SIZE_FONT;
-    [button sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:nil configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+        [aButton setTitle:@"全部暂停" forState:UIControlStateNormal];
+        [aButton setTitle:@"全部恢复" forState:UIControlStateSelected];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {
@@ -270,7 +267,7 @@
         _tableView.emptyDataSetSource = self;
         [_tableView registerClass:[DownloadTableViewCell class] forCellReuseIdentifier:@"DownloadTableViewCell"];
         [_tableView registerClass:[DownloadLinkTableViewCell class] forCellReuseIdentifier:@"DownloadLinkTableViewCell"];
-        [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
+        [_tableView registerClass:[TextHeaderView class] forHeaderFooterViewReuseIdentifier:@"TextHeaderView"];
         _tableView.tableFooterView = [[UIView alloc] init];
         @weakify(self)
         _tableView.mj_header = [MJRefreshNormalHeader jh_headerRefreshingCompletionHandler:^{

@@ -16,4 +16,6 @@
  显示顶部的进度条 默认YES
  */
 @property (assign, nonatomic) BOOL showProgressView;
+
+@property (copy, nonatomic) void(^clickMagnetCallBack)(NSString *);
 @end

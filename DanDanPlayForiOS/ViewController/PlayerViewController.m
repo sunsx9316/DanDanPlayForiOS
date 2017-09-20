@@ -557,7 +557,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
  @param model 视频模型
  */
 - (void)matchVideoWithModel:(VideoModel *)model {
-    void(^jumpToMatchVCAction)() = ^{
+    void(^jumpToMatchVCAction)(void) = ^{
         MatchViewController *vc = [[MatchViewController alloc] init];
         vc.model = model;
         vc.hidesBottomBarWhenPushed = YES;

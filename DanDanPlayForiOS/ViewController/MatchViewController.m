@@ -209,14 +209,11 @@
 }
 
 - (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    backButton.titleLabel.font = NORMAL_SIZE_FONT;
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setTitle:@"直接播放" forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"直接播放" configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {

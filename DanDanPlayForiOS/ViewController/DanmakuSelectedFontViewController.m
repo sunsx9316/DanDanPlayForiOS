@@ -10,7 +10,7 @@
 #import "BaseTableView.h"
 #import "FTPReceiceTableViewCell.h"
 #import "UIFont+Tools.h"
-#import "SMBLoginHeaderView.h"
+#import "TextHeaderView.h"
 
 @interface DanmakuSelectedFontViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -53,14 +53,13 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
+    TextHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"TextHeaderView"];
     if (section == 0) {
         view.titleLabel.text = @"系统字体";
     }
     else {
         view.titleLabel.text = self.fonts[section - 1].allKeys.firstObject;
     }
-    view.addButton.hidden = YES;
     return view;
 }
 
@@ -130,7 +129,7 @@
         _tableView.estimatedRowHeight = 44;
         
         [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
-        [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
+        [_tableView registerClass:[TextHeaderView class] forHeaderFooterViewReuseIdentifier:@"TextHeaderView"];
         
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         _tableView.tableFooterView = [[UIView alloc] init];

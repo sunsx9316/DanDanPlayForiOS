@@ -144,13 +144,11 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"back_to_top"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_to_top"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {

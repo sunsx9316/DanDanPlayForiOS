@@ -45,6 +45,10 @@
 
 + (void)showWithError:(NSError *)error atView:(UIView *)view;
 
++ (void)showWithError:(NSError *)error
+          userInfoKey:(NSString *)userInfoKey
+               atView:(UIView *)view;
+
 /**
  *  显示一个一直显示的hud面板
  *

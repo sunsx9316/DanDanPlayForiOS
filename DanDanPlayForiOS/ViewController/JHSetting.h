@@ -21,9 +21,9 @@ typedef NS_ENUM(NSUInteger, JHSettingItemType) {
 @property (copy, nonatomic) NSString *title;
 @property (copy, nonatomic) NSString *detail;
 
-@property (copy, nonatomic) BOOL(^switchStatusCallBack)();
-@property (copy, nonatomic) void(^switchStatusChangeCallBack)();
-@property (copy, nonatomic) NSString *(^detailTextCallBack)();
+@property (copy, nonatomic) BOOL(^switchStatusCallBack)(void);
+@property (copy, nonatomic) void(^switchStatusChangeCallBack)(void);
+@property (copy, nonatomic) NSString *(^detailTextCallBack)(void);
 @end
 
 @interface JHSetting : JHBase

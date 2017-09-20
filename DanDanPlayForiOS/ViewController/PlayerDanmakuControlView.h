@@ -14,15 +14,15 @@
 /**
  加载本地弹幕
  */
-@property (copy, nonatomic) void(^touchSelectedDanmakuCellCallBack)();
+@property (copy, nonatomic) void(^touchSelectedDanmakuCellCallBack)(void);
 
 /**
  手动匹配视频
  */
-@property (copy, nonatomic) void(^touchMatchVideoCellCallBack)();
+@property (copy, nonatomic) void(^touchMatchVideoCellCallBack)(void);
 
 /**
  点击筛选弹幕功能
  */
-@property (copy, nonatomic) void(^touchFilterDanmakuCellCallBack)();
+@property (copy, nonatomic) void(^touchFilterDanmakuCellCallBack)(void);
 @end

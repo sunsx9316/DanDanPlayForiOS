@@ -48,7 +48,7 @@ UIKIT_EXTERN BOOL jh_isDanmakuFile(NSString *aURL);
 
  @return 根目录
  */
-UIKIT_EXTERN JHFile *jh_getANewRootFile();
+UIKIT_EXTERN JHFile *jh_getANewRootFile(void);
 
 
 /**
@@ -56,7 +56,7 @@ UIKIT_EXTERN JHFile *jh_getANewRootFile();
 
  @return 根目录
  */
-UIKIT_EXTERN JHLinkFile *jh_getANewLinkRootFile();
+UIKIT_EXTERN JHLinkFile *jh_getANewLinkRootFile(void);
 
 
 /**
@@ -94,7 +94,17 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url;
 
+/**
+ 登录
+
+ @param viewController 控制器
+ @param touchRect ipad显示弹窗的位置
+ @param barButtonItem 左上角的item
+ @param completion 完成回掉
+ */
 - (void)loginInViewController:(UIViewController *)viewController
+                    touchRect:(CGRect)touchRect
+                barButtonItem:(UIBarButtonItem *)barButtonItem
                    completion:(void(^)(JHUser *user, NSError *err))completion;
 
 #pragma mark - 本地文件

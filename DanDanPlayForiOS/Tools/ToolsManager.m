@@ -178,6 +178,8 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 }
 
 - (void)loginInViewController:(UIViewController *)viewController
+                    touchRect:(CGRect)touchRect
+                barButtonItem:(UIBarButtonItem *)barButtonItem
                    completion:(void(^)(JHUser *user, NSError *err))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([CacheManager shareCacheManager].user == nil) {
@@ -189,7 +191,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
                     [MBProgressHUD hideLoading];
                     
                     if (error) {
-                        [MBProgressHUD showWithError:error];
+                        [MBProgressHUD showWithError:error userInfoKey:@"message" atView:viewController.view];
                         if (completion) {
                             completion(nil, error);
                         }
@@ -226,6 +228,16 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
             }]];
             
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            
+            if (jh_isPad()) {
+                if (barButtonItem) {
+                    vc.popoverPresentationController.barButtonItem = barButtonItem;
+                }
+                else {
+                    vc.popoverPresentationController.sourceView = viewController.view;
+                }
+                vc.popoverPresentationController.sourceRect = touchRect;
+            }
             
             [viewController presentViewController:vc animated:YES completion:nil];
         }        

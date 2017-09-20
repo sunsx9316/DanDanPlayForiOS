@@ -92,7 +92,7 @@
     
     if (file.type == JHFileTypeDocument) {
         VideoModel *model = file.videoModel;
-        void(^jumpToMatchVCAction)() = ^{
+        void(^jumpToMatchVCAction)(void) = ^{
             MatchViewController *vc = [[MatchViewController alloc] init];
             vc.model = model;
             vc.hidesBottomBarWhenPushed = YES;
@@ -142,7 +142,7 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
     if ([CacheManager shareCacheManager].linkInfo) {
-        NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击重试" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击刷新" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
         return str;
     }
     
@@ -173,13 +173,11 @@
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
-        JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-        backButton.inset = CGSizeMake(10, 10);
-        [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-        [backButton setImage:[[UIImage imageNamed:@"back_item"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
-        [backButton sizeToFit];
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-        self.navigationItem.leftBarButtonItem = item;
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_item"] configAction:^(UIButton *aButton) {
+            [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+        }];
+        
+        [self.navigationItem addLeftItemFixedSpace:item];
     }
 }
 

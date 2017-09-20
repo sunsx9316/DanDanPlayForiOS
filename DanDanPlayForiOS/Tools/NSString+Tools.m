@@ -103,39 +103,19 @@
     return NO;
 }
 
-- (JHDMHYParse *)parseModel {
-    NSURL *url = [NSURL URLWithString:self];
-    //url解码
-    NSString *query = [url.query stringByURLDecode];
-    NSArray <NSString *>*parameter = [query componentsSeparatedByString:@"&"];
-    //获取keyword
-    __block NSString *keyword = nil;
-    [parameter enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj rangeOfString:@"keyword"].location != NSNotFound) {
-            keyword = obj;
-            *stop = YES;
-        }
-    }];
-    
-    //获取team_id
-    NSString *value = [keyword componentsSeparatedByString:@"="].lastObject;
-    NSMutableArray <NSString *>*values = [value componentsSeparatedByString:@"+"].mutableCopy;
-    __block NSString *teamId = nil;
-    [values enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj rangeOfString:@"team_id"].location != NSNotFound) {
-            teamId = [obj componentsSeparatedByString:@":"].lastObject;
-            [values removeObject:obj];
-        }
-    }];
-    
-    JHDMHYParse *model = [[JHDMHYParse alloc] init];
-    model.keywords = values;
-    model.identity = teamId.integerValue;
-    return model;
-}
-
 - (BOOL)isIpAdress {
     return [self matchesRegex:@"((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)" options:NSRegularExpressionCaseInsensitive];
+}
+
+- (NSString *)pinYinIndex {
+    NSMutableString *pinyin = [self mutableCopy];
+    CFStringTransform((__bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformMandarinLatin, NO);
+    CFStringTransform((__bridge CFMutableStringRef)pinyin, NULL, kCFStringTransformStripCombiningMarks, NO);
+    NSString *tempStr = [pinyin uppercaseString];
+    if (tempStr.length) {
+        return [tempStr substringToIndex:1];
+    }
+    return @"#";
 }
 
 @end

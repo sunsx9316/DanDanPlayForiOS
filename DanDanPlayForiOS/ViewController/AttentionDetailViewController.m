@@ -75,9 +75,7 @@
     if (indexPath.section != 0) {
         //未登录
         if ([CacheManager shareCacheManager].user == nil) {
-            [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
-                
-            }];
+            [[ToolsManager shareToolsManager] loginInViewController:self touchRect:[self.view convertRect:[tableView rectForRowAtIndexPath:indexPath] fromView:tableView] barButtonItem:nil completion:nil];
             return;
         }
         
@@ -113,15 +111,11 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    backButton.titleLabel.font = NORMAL_SIZE_FONT;
-    [backButton setTitle:@"搜索资源" forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {

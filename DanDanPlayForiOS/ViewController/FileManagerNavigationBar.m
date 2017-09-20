@@ -12,7 +12,7 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *aView = [super hitTest:point withEvent:event];
-    if (aView == self) {
+    if (aView == self || [self.subviews containsObject:aView]) {
         return nil;
     }
     return aView;

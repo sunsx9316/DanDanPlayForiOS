@@ -19,4 +19,7 @@
  拼接的关键字
  */
 @property (copy, nonatomic) NSString *keyword;
+
+#pragma mark - 自定义属性
+@property (copy, nonatomic) NSString *link;
 @end

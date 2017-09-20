@@ -193,11 +193,9 @@
         [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
             @strongify(self)
             if (!self) return;
-
+            
             if ([CacheManager shareCacheManager].user == nil) {
-                [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
-                    
-                }];
+                [[ToolsManager shareToolsManager] loginInViewController:self touchRect:[self.view convertRect:self.nameLabel.frame fromView:self.nameIconHoldView] barButtonItem:nil completion:nil];
             }
             else {
                 UIAlertController *vc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];

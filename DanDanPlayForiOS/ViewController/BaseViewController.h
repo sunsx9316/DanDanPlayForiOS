@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UINavigationItem+Tools.h"
 /**
  *  基类
  */

@@ -97,12 +97,17 @@
     
     NSString *scheme = navigationAction.request.URL.scheme;
     if ([scheme isEqualToString:@"magnet"] || [scheme isEqualToString:@"ddplay"]) {
-        NSLog(@"给pc端发消息");
+        if (self.clickMagnetCallBack) {
+            self.clickMagnetCallBack(navigationAction.request.URL.absoluteString);
+        }
     }
-    
-    if (navigationAction.targetFrame == nil) {
-        WebViewController *vc = [[WebViewController alloc] initWithRequest:navigationAction.request];
-        [self.navigationController pushViewController:vc animated:YES];
+    else {
+        if (navigationAction.targetFrame == nil) {
+            WebViewController *vc = [[WebViewController alloc] initWithRequest:navigationAction.request];
+            vc.clickMagnetCallBack = self.clickMagnetCallBack;
+            vc.showProgressView = self.showProgressView;
+            [self.navigationController pushViewController:vc animated:YES];
+        }        
     }
     
     decisionHandler(WKNavigationActionPolicyAllow);
@@ -114,6 +119,9 @@
 		_webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
         _webView.UIDelegate = self;
         _webView.navigationDelegate = self;
+        if (@available(iOS 11.0, *)) {
+            _webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         [self.view addSubview:_webView];
 	}
 	return _webView;

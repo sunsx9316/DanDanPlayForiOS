@@ -24,4 +24,9 @@
  字幕组id
  */
 @property (assign, nonatomic) NSUInteger subGroupId;
+
+/**
+ 链接id
+ */
+@property (copy, nonatomic) NSString *link;
 @end

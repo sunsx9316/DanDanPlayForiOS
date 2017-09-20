@@ -13,14 +13,15 @@
 #import "OtherSettingSwitchTableViewCell.h"
 #import "OtherSettingTitleSubtitleTableViewCell.h"
 #import "SettingTitleTableViewCell.h"
-#import "SMBLoginHeaderView.h"
+#import "TextHeaderView.h"
 #import "DanmakuManager.h"
 
 #import "JHSetting.h"
 #import "UIFont+Tools.h"
+#import "BaseTableView.h"
 
 @interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) NSArray <JHSetting *>*dataSources;
 @end
 
@@ -129,9 +130,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     JHSetting *item = self.dataSources[section];
-    SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
+    TextHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"TextHeaderView"];
     view.titleLabel.text = item.title;
-    view.addButton.hidden = YES;
     return view;
 }
 
@@ -202,15 +202,15 @@
 }
 
 #pragma mark - 懒加载
-- (UITableView *)tableView {
+- (BaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[OtherSettingSwitchTableViewCell class] forCellReuseIdentifier:@"OtherSettingSwitchTableViewCell"];
         [_tableView registerClass:[OtherSettingTitleSubtitleTableViewCell class] forCellReuseIdentifier:@"OtherSettingTitleSubtitleTableViewCell"];
         [_tableView registerClass:[SettingTitleTableViewCell class] forCellReuseIdentifier:@"SettingTitleTableViewCell"];
-        [_tableView registerClass:[SMBLoginHeaderView class] forHeaderFooterViewReuseIdentifier:@"SMBLoginHeaderView"];
+        [_tableView registerClass:[TextHeaderView class] forHeaderFooterViewReuseIdentifier:@"TextHeaderView"];
         
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         _tableView.tableFooterView = [[UIView alloc] init];

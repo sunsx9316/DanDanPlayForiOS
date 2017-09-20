@@ -6,10 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TextHeaderView.h"
 
-@interface SMBLoginHeaderView : UITableViewHeaderFooterView
-@property (strong, nonatomic) UILabel *titleLabel;
+@interface SMBLoginHeaderView : TextHeaderView
 @property (strong, nonatomic) UIButton *addButton;
-@property (copy, nonatomic) void(^touchAddButtonCallback)();
+@property (copy, nonatomic) void(^touchAddButtonCallback)(void);
 @end

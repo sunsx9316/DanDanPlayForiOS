@@ -71,14 +71,12 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    JHEdgeButton *button = [[JHEdgeButton alloc] init];
-    button.inset = CGSizeMake(10, 10);
-    [button addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"评价一发" forState:UIControlStateNormal];
-    button.titleLabel.font = NORMAL_SIZE_FONT;
-    [button sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"评价一发" configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+        [aButton setTitle:@"评价一发" forState:UIControlStateNormal];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {

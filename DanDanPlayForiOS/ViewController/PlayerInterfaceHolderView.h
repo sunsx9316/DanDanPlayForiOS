@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PlayerInterfaceHolderView : UIView
-@property (copy, nonatomic) void(^touchViewCallBack)();
+@property (copy, nonatomic) void(^touchViewCallBack)(void);
 @end

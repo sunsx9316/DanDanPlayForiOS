@@ -53,38 +53,40 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomePageItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomePageItemTableViewCell" forIndexPath:indexPath];
-    cell.model = self.bangumis[indexPath.row];
+    JHBangumi *model = self.bangumis[indexPath.row];
+    cell.model = model;
     @weakify(self)
-    cell.touchLikeCallBack = ^(JHBangumi *model) {
+    cell.touchLikeCallBack = ^(JHBangumi *aModel) {
         @strongify(self)
         if (!self) return;
         
         JHUser *user = [CacheManager shareCacheManager].user;
         [MBProgressHUD showLoadingInView:self.view text:@"请求中..."];
-        [FavoriteNetManager favoriteLikeWithUser:user animeId:model.identity like:!model.isFavorite completionHandler:^(NSError *error) {
+        [FavoriteNetManager favoriteLikeWithUser:user animeId:aModel.identity like:!aModel.isFavorite completionHandler:^(NSError *error) {
             [MBProgressHUD hideLoading];
             
             if (error) {
                 [MBProgressHUD showWithError:error atView:self.view];
             }
             else {
-                model.isFavorite = !model.isFavorite;
+                aModel.isFavorite = !aModel.isFavorite;
                 [self resortBangumis];
                 [self.tableView reloadData];
             }
         }];
     };
     
-    cell.selectedItemCallBack = ^(JHBangumiGroup *model) {
+    cell.selectedItemCallBack = ^(JHBangumiGroup *aModel) {
         @strongify(self)
         if (!self) return;
         
-        JHDMHYParse *parseModel = [model.link parseModel];
+        JHDMHYParse *parseModel = [aModel parseModel];
         
         HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
         JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
-        config.keyword = parseModel.name;
+        config.keyword = model.name;
         config.subGroupId = parseModel.identity;
+        config.link = parseModel.link;
         vc.config = config;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];

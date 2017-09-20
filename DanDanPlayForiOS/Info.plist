@@ -89,7 +89,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>弹弹play</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -203,6 +203,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>请允许弹弹play访问您的相机</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>请允许弹弹play访问您的相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请允许弹弹play访问您的相册</string>
 	<key>UIBackgroundModes</key>

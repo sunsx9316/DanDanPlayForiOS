@@ -7,7 +7,6 @@
 //
 
 #import "BaseViewController.h"
-#import "JHEdgeButton.h"
 
 @interface BaseViewController ()
 
@@ -16,6 +15,7 @@
 @implementation BaseViewController
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self setNavigationBarWithColor:MAIN_COLOR];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName : NORMAL_SIZE_FONT};
 }
@@ -32,13 +32,10 @@
 
 #pragma mark - 私有方法
 - (void)configLeftItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"back_item"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.leftBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_item"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    [self.navigationItem addLeftItemFixedSpace:item];
 }
 
 - (void)touchLeftItem:(UIButton *)button {

@@ -38,7 +38,7 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
     
     NSLog(@"%@", str);
     
-    NSError *aError = [NSError errorWithDomain:@"网络错误" code:statusCode userInfo:nil];
+    NSError *aError = [NSError errorWithDomain:@"网络错误" code:statusCode userInfo:@{NSLocalizedDescriptionKey : @"网络错误"}];
     return aError;
 }
 

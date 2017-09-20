@@ -30,7 +30,6 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"新番列表";
-//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     [self configRightItem];
     
     [self.view addSubview:self.pageViewController.view];
@@ -52,30 +51,6 @@
 
 - (void)dealloc {
     [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"user"];
-}
-
-- (void)configLeftItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"attention"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.leftBarButtonItem = item;
-}
-
-- (void)touchLeftItem:(UIButton *)button {
-    if ([CacheManager shareCacheManager].user == nil) {
-        [[ToolsManager shareToolsManager] loginInViewController:self completion:^(JHUser *user, NSError *err) {
-            
-        }];
-    }
-    else {
-        AttentionListViewController *vc = [[AttentionListViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    
 }
 
 #pragma mark - WMPageControllerDataSource
@@ -129,7 +104,7 @@
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击重试" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击刷新" attributes:@{NSFontAttributeName : SMALL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 
@@ -186,22 +161,36 @@
 }
 
 - (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
-    [backButton sizeToFit];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
     
-    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spaceBar.width = -2;
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    self.navigationItem.rightBarButtonItems = @[spaceBar, item];
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)button {
     HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)configLeftItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"attention"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addLeftItemFixedSpace:item];
+}
+
+- (void)touchLeftItem:(UIButton *)button {
+    if ([CacheManager shareCacheManager].user == nil) {
+        [[ToolsManager shareToolsManager] loginInViewController:self touchRect:CGRectZero barButtonItem:self.navigationItem.leftBarButtonItem completion:nil];
+    }
+    else {
+        AttentionListViewController *vc = [[AttentionListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - 懒加载

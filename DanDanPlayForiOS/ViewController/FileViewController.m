@@ -19,6 +19,7 @@
 
 #import "JHEdgeButton.h"
 #import "FileManagerSearchView.h"
+#import "JHExpandView.h"
 
 @interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate, UISearchBarDelegate, FileManagerSearchViewDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
@@ -39,15 +40,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configRightItem];
-    
+    [self configTitleView];
     self.extendedLayoutIncludesOpaqueBars = YES;
-    
-    UIView *searchBarHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
-    [searchBarHolderView addSubview:self.searchBar];
-    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(0);
-    }];
-    self.navigationItem.titleView = searchBarHolderView;
     
     [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -82,8 +76,7 @@
     }
 }
 
-#pragma mark - 懒加载
-
+#pragma mark - 私有方法
 - (void)configLeftItem {
     
 }
@@ -109,12 +102,22 @@
     self.helpButton.alpha = 0;
     self.qrCodeButton.alpha = 0;
     
-    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spaceBar.width = -10;
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:holdView];
-    self.navigationItem.rightBarButtonItems = @[spaceBar, item];
+    self.navigationItem.rightBarButtonItem = item;
 }
 
+- (void)configTitleView {
+    JHExpandView *searchBarHolderView = [[JHExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+    [searchBarHolderView addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_offset(10);
+        make.trailing.mas_offset(-10);
+        make.top.bottom.mas_equalTo(0);
+    }];
+    self.navigationItem.titleView = searchBarHolderView;
+}
+
+#pragma mark - 懒加载
 - (void)touchHttpButton:(UIButton *)button {
     HTTPServerViewController *vc = [[HTTPServerViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;

@@ -12,5 +12,5 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @property (strong, nonatomic) UISwitch *aSwitch;
-@property (copy, nonatomic) void(^touchSwitchCallBack)();
+@property (copy, nonatomic) void(^touchSwitchCallBack)(void);
 @end

@@ -182,7 +182,7 @@
     SMBVideoModel *model = [[SMBVideoModel alloc] initWithFileURL:_selectedFile.sessionFile.fullURL hash:hash length:_selectedFile.sessionFile.fileSize];
     model.file = _selectedFile;
     
-    void(^jumpToMatchVCAction)() = ^{
+    void(^jumpToMatchVCAction)(void) = ^{
         MatchViewController *vc = [[MatchViewController alloc] init];
         vc.model = model;
         vc.hidesBottomBarWhenPushed = YES;
@@ -213,15 +213,13 @@
 }
 
 - (void)configRightItem {
-    JHEdgeButton *selectedButton = [[JHEdgeButton alloc] init];
-    selectedButton.inset = CGSizeMake(10, 10);
-    [selectedButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [selectedButton setTitle:@"下载" forState:UIControlStateNormal];
-    [selectedButton setTitle:@"取消" forState:UIControlStateSelected];
-    selectedButton.titleLabel.font = NORMAL_SIZE_FONT;
-    [selectedButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:selectedButton];
-    self.navigationItem.rightBarButtonItem = item;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:nil configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+        [aButton setTitle:@"下载" forState:UIControlStateNormal];
+        [aButton setTitle:@"取消" forState:UIControlStateSelected];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)sender {

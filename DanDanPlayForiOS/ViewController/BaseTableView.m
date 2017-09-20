@@ -32,6 +32,12 @@
         self.emptyDataSetSource = self;
         self.emptyDataSetDelegate = self;
         self.backgroundColor = BACK_GROUND_COLOR;
+        self.estimatedRowHeight = 0;
+        self.estimatedSectionHeaderHeight = 0;
+        self.estimatedSectionFooterHeight = 0;
+        if (@available(iOS 11.0, *)) {
+            self.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
     }
     return self;
 }

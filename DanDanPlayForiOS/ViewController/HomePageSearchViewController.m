@@ -8,12 +8,15 @@
 
 #import "HomePageSearchViewController.h"
 #import "QRScanerViewController.h"
+#import "WebViewController.h"
+#import "DownloadViewController.h"
 
 #import "BaseTableView.h"
 #import "HomePageSearchTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "HomePageSearchFilterView.h"
 #import "JHEdgeButton.h"
+#import "JHExpandView.h"
 
 @interface HomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UISearchBar *searchBar;
@@ -27,8 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.titleView = self.searchBar;
-//    [self configRightItem];
+    [self configRightItem];
+    [self configTitleView];
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -41,41 +45,6 @@
         [self.searchBar becomeFirstResponder];
         [self.tableView endRefreshing];
     }
-}
-
-- (void)configLeftItem {
-    [super configLeftItem];
-    UIBarButtonItem *item = self.navigationItem.leftBarButtonItem;
-    self.navigationItem.leftBarButtonItem = nil;
-    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spaceBar.width = 15;
-    self.navigationItem.leftBarButtonItems = @[item, spaceBar];
-}
-
-- (void)configRightItem {
-    JHEdgeButton *backButton = [[JHEdgeButton alloc] init];
-    backButton.inset = CGSizeMake(10, 10);
-    [backButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setTitle:@"下载" forState:UIControlStateNormal];
-    [backButton sizeToFit];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
-    UIBarButtonItem *rightSpaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    rightSpaceBar.width = -5;
-    
-    UIBarButtonItem *leftSpaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    leftSpaceBar.width = 10;
-    
-    self.navigationItem.rightBarButtonItems = @[rightSpaceBar, item, leftSpaceBar];
-}
-
-- (void)touchRightItem:(UIButton *)sender {
-    
-}
-
-- (void)touchLeftItem:(UIButton *)button {
-    [self.searchBar resignFirstResponder];
-    [super touchLeftItem:button];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -113,14 +82,37 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    void(^downloadAction)(JHDMHYSearch *) = ^(JHDMHYSearch *model){
-        [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:model.magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+    [self downloadVideoWithMagnet:self.dataSource[indexPath.row].magnet];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [tableView fd_heightForCellWithIdentifier:@"HomePageSearchTableViewCell" cacheByIndexPath:indexPath configuration:^(HomePageSearchTableViewCell *cell) {
+        cell.model = self.dataSource[indexPath.row];
+    }];
+}
+
+#pragma mark - 私有方法
+- (void)downloadVideoWithMagnet:(NSString *)magnet {
+    if (magnet.length == 0) return;
+    
+    void(^downloadAction)(NSString *magnet) = ^(NSString *magnet){
+        [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
             if (error) {
                 [MBProgressHUD showWithError:error];
             }
             else {
                 [[CacheManager shareCacheManager] addLinkDownload];
-                [MBProgressHUD showWithText:@"添加成功！"];
+                
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                [vc addAction:[UIAlertAction actionWithTitle:@"查看下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    DownloadViewController *vc = [[DownloadViewController alloc] init];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [self presentViewController:vc animated:YES completion:nil];
+                
             }
         }];
     };
@@ -129,8 +121,7 @@
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
         
         [vc addAction:[UIAlertAction actionWithTitle:@"复制磁力链" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            JHDMHYSearch *aModel = self.dataSource[indexPath.row];
-            [UIPasteboard generalPasteboard].string = aModel.magnet;
+            [UIPasteboard generalPasteboard].string = magnet;
             [MBProgressHUD showWithText:@"复制成功"];
         }]];
         
@@ -142,7 +133,7 @@
                 @strongify(self)
                 if (!self) return;
                 
-                downloadAction(self.dataSource[indexPath.row]);
+                downloadAction(magnet);
             };
             [self.navigationController pushViewController:vc animated:YES];
         }]];
@@ -152,14 +143,60 @@
         [self presentViewController:vc animated:YES completion:nil];
     }
     else {
-        downloadAction(_dataSource[indexPath.row]);
+        downloadAction(magnet);
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [tableView fd_heightForCellWithIdentifier:@"HomePageSearchTableViewCell" cacheByIndexPath:indexPath configuration:^(HomePageSearchTableViewCell *cell) {
-        cell.model = self.dataSource[indexPath.row];
+//- (void)configLeftItem {
+//    [super configLeftItem];
+//    UIBarButtonItem *item = self.navigationItem.leftBarButtonItem;
+//    self.navigationItem.leftBarButtonItem = nil;
+//    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//    spaceBar.width = 15;
+//    self.navigationItem.leftBarButtonItems = @[item, spaceBar];
+//}
+
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"browser"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
     }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchRightItem:(UIButton *)sender {
+    if (self.config == nil) return;
+    
+    NSString *link = self.config.link;
+    if (link.length == 0) {
+        link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.config.keyword stringByURLEncode]];
+    }
+    
+    WebViewController *vc = [[WebViewController alloc] initWithURL:[NSURL URLWithString:link]];
+    @weakify(self)
+    vc.clickMagnetCallBack = ^(NSString *url) {
+        @strongify(self)
+        if (!self) return;
+
+        [self downloadVideoWithMagnet:url];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchLeftItem:(UIButton *)button {
+    [self.searchBar resignFirstResponder];
+    [super touchLeftItem:button];
+}
+
+- (void)configTitleView {
+    JHExpandView *searchBarHolderView = [[JHExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+    [searchBarHolderView addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_offset(0);
+        make.trailing.mas_offset(0);
+        make.top.bottom.mas_equalTo(0);
+    }];
+    self.navigationItem.titleView = searchBarHolderView;
 }
 
 
@@ -237,7 +274,7 @@
 
 - (UISearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 30)];
+        _searchBar = [[UISearchBar alloc] init];
         _searchBar.placeholder = @"搜索资源";
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];

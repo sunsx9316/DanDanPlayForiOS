@@ -98,28 +98,25 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    JHEdgeButton *regexButton = [[JHEdgeButton alloc] init];
-    regexButton.inset = CGSizeMake(10, 10);
-    @weakify(self)
-    [regexButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(UIButton * _Nonnull sender) {
-        @strongify(self)
-        if (!self) return;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"正则" configAction:^(UIButton *aButton) {
+        @weakify(self)
+        [aButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(UIButton * _Nonnull sender) {
+            @strongify(self)
+            if (!self) return;
+            
+            self.model.isRegex = !self.model.isRegex;
+            sender.selected = self.model.isRegex;
+            if (self.addFilterCallback && self.textView.text.length) {
+                self.addFilterCallback(self.model);
+            }
+        }];
         
-        self.model.isRegex = !self.model.isRegex;
-        sender.selected = self.model.isRegex;
-        if (self.addFilterCallback && self.textView.text.length) {
-            self.addFilterCallback(self.model);
-        }
+        [aButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [aButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        aButton.selected = self.model.isRegex;
     }];
-    [regexButton setTitle:@"正则" forState:UIControlStateNormal];
-    regexButton.titleLabel.font = NORMAL_SIZE_FONT;
-    [regexButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [regexButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [regexButton sizeToFit];
-    regexButton.selected = self.model.isRegex;
-    UIBarButtonItem *regexItem = [[UIBarButtonItem alloc] initWithCustomView:regexButton];
     
-    self.navigationItem.rightBarButtonItem = regexItem;
+    [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (BOOL)saveFilter {

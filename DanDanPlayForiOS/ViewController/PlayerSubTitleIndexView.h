@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSArray *videoSubTitlesNames;
 @property (nonatomic, strong) NSArray *videoSubTitlesIndexes;
 @property (copy, nonatomic) void(^selectedIndexCallBack)(int);
-@property (copy, nonatomic) void(^didTapEmptyViewCallBack)();
+@property (copy, nonatomic) void(^didTapEmptyViewCallBack)(void);
 - (void)show;
 - (void)dismiss;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "JHBaseCollection.h"
+#import "JHDMHYParse.h"
 
 @class JHBannerPage;
 /**
@@ -65,6 +66,7 @@
  *  name 名称
  */
 @property (strong, nonatomic) NSString *link;
+- (JHDMHYParse *)parseModel;
 @end
 
 
