@@ -206,6 +206,11 @@
                 
                 [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
                 
+                if (jh_isPad()) {
+                    vc.popoverPresentationController.sourceView = self.view;
+                    vc.popoverPresentationController.sourceRect = [self.view convertRect:self.nameLabel.frame fromView:self.nameIconHoldView];
+                }
+                
                 [self presentViewController:vc animated:YES completion:nil];
             }
         }]];
