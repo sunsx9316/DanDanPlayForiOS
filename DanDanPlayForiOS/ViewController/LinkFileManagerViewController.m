@@ -72,7 +72,7 @@
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
-    cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
+    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     return cell;
 }
 
@@ -173,7 +173,7 @@
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
             [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
         }];
         

@@ -64,7 +64,7 @@
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = [NSString stringWithFormat:@"%ld个%@文件", file.subFiles.count, self.fileType == PickerFileTypeSubtitle ? @"字幕" : @"弹幕"];
-    cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
+    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     return cell;
 }
 

@@ -25,8 +25,8 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.width.mas_offset(60);
-            make.height.mas_offset(80);
+            make.width.mas_offset(60 + jh_isPad() * 30);
+            make.height.mas_offset(ITEM_CELL_HEIGHT);
             make.centerY.mas_equalTo(0);
         }];
         
@@ -132,8 +132,8 @@
     if (_likeButton == nil) {
         _likeButton = [[JHEdgeButton alloc] init];
         _likeButton.inset = CGSizeMake(20, 20);
-        [_likeButton setImage:[UIImage imageNamed:@"like"] forState:UIControlStateSelected];
-        [_likeButton setImage:[UIImage imageNamed:@"unlike"] forState:UIControlStateNormal];
+        [_likeButton setImage:[UIImage imageNamed:@"home_like"] forState:UIControlStateSelected];
+        [_likeButton setImage:[UIImage imageNamed:@"home_unlike"] forState:UIControlStateNormal];
         [_likeButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_likeButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_likeButton addTarget:self action:@selector(touchLikeButton:) forControlEvents:UIControlEventTouchUpInside];

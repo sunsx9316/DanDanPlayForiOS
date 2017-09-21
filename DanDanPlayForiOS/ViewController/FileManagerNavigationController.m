@@ -14,9 +14,9 @@
 @end
 
 @implementation FileManagerNavigationController
-{
-    CGRect _rect;
-}
+//{
+//    CGRect _rect;
+//}
 
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithNavigationBarClass:[FileManagerNavigationBar class] toolbarClass:nil]) {
@@ -25,15 +25,15 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    CGFloat value = NORMAL_SIZE_FONT.lineHeight + 20;
-    _rect = CGRectMake(0, 0, self.view.width, kScreenHeight - value - CGRectGetMaxY(self.navigationController.navigationBar.frame));
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.view.frame = _rect;
-}
+//- (void)viewDidLoad {
+//    [super viewDidLoad];
+//    CGFloat value = NORMAL_SIZE_FONT.lineHeight + 20;
+//    _rect = CGRectMake(0, 0, self.view.width, kScreenHeight - value - CGRectGetMaxY(self.navigationController.navigationBar.frame));
+//}
+//
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    self.view.frame = _rect;
+//}
 
 @end

@@ -28,7 +28,7 @@
         _button = aButton;
         _button.userInteractionEnabled = NO;
         _button.titleLabel.font = NORMAL_SIZE_FONT;
-        [_button setBackgroundImage:[UIImage imageNamed:@"bangumi_group_bg"] forState:UIControlStateNormal];
+        [_button setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.contentView addSubview:_button];
     }

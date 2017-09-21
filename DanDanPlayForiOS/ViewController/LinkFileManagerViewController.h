@@ -6,9 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "JHBaseViewController.h"
 
-@interface LinkFileManagerViewController : BaseViewController
+@interface LinkFileManagerViewController : JHBaseViewController
 @property (strong, nonatomic) JHLinkFile *file;
 - (void)refresh;
 @end

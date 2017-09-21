@@ -6,8 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //  SMB文件
 
-#import "BaseViewController.h"
+#import "JHBaseViewController.h"
 
-@interface SMBFileViewController : BaseViewController
+@interface SMBFileViewController : JHBaseViewController
 @property (strong, nonatomic) JHSMBFile *file;
 @end

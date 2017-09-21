@@ -6,11 +6,11 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "JHBaseViewController.h"
 
 typedef void(^SelectedFileAction)(__kindof JHFile *);
 
-@interface LocalFileManagerPickerViewController : BaseViewController
+@interface LocalFileManagerPickerViewController : JHBaseViewController
 @property (assign, nonatomic) PickerFileType fileType;
 @property (strong, nonatomic) JHFile *file;
 @property (copy, nonatomic) SelectedFileAction selectedFileCallBack;

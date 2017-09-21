@@ -22,10 +22,10 @@
 @implementation AppDelegate
 {
     UIBackgroundTaskIdentifier _bgTaskId;
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
 //    [CacheManager shareCacheManager].folderCache = nil;
     [self configIQKeyboardManager];

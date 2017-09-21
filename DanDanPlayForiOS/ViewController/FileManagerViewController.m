@@ -58,7 +58,6 @@
     
     [self.tableView addGestureRecognizer:self.longPressGestureRecognizer];
     
-//    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     if (jh_isRootFile(self.file)) {
         self.automaticallyAdjustsScrollViewInsets = NO;
         if (self.tableView.mj_header.refreshingBlock) {
@@ -88,6 +87,19 @@
     if (file.type == JHFileTypeDocument) {
         FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
+        @weakify(self)
+        cell.firstCacheCallBack = ^(VideoModel *aModel) {
+            @strongify(self)
+            if (!self) return;
+            
+            [self.file.subFiles enumerateObjectsUsingBlock:^(__kindof JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.fileURL isEqual:aModel.fileURL]) {
+                    [self.tableView reloadRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] withRowAnimation:UITableViewRowAnimationFade];
+                    *stop = YES;
+                }
+            }];
+            
+        };
         cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
         cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
         cell.delegate = self;
@@ -97,7 +109,7 @@
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.fileURL.lastPathComponent;
     cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
-    cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
+    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
     cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
     cell.delegate = self;
@@ -162,7 +174,7 @@
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
              [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
         }];
         

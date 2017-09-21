@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define ITEM_CELL_HEIGHT (80 + jh_isPad() * 30)
+
 @interface HomePageItemTableViewCell : UITableViewCell
 @property (strong, nonatomic) JHBangumi *model;
 @property (copy, nonatomic) void(^selectedItemCallBack)(JHBangumiGroup *model);

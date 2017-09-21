@@ -16,7 +16,6 @@
 
 @implementation LinkFileManagerNavigationController
 {
-    CGRect _rect;
     LinkFileManagerViewController *_vc;
 }
 

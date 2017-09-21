@@ -116,7 +116,7 @@
         _subTitleButton = [[JHEdgeButton alloc] init];
         _subTitleButton.inset = CGSizeMake(10, 10);
         _subTitleButton.titleLabel.font = SMALL_SIZE_FONT;
-        [_subTitleButton setBackgroundImage:[UIImage imageNamed:@"bangumi_group_bg"] forState:UIControlStateNormal];
+        [_subTitleButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_subTitleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_subTitleButton addTarget:self action:@selector(touchSubTitleButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_subTitleButton];

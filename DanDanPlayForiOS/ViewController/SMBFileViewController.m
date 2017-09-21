@@ -91,7 +91,7 @@
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.detailLabel.textColor = [UIColor blackColor];
-    cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
+    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     return cell;
 }
 

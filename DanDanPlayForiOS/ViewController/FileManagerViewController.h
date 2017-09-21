@@ -6,10 +6,10 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "JHBaseViewController.h"
 #import "BaseTableView.h"
 
-@interface FileManagerViewController : BaseViewController
+@interface FileManagerViewController : JHBaseViewController
 @property (strong, nonatomic) JHFile *file;
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;

@@ -97,7 +97,7 @@
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.detailLabel.textColor = [UIColor blackColor];
-    cell.iconImgView.image = [UIImage imageNamed:@"local_file_folder"];
+    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     return cell;
 }
 
@@ -144,7 +144,7 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_to_top"] configAction:^(UIButton *aButton) {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comment_back_to_top"] configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
     }];
     

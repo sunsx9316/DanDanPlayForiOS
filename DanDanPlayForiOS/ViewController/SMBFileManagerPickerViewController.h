@@ -6,10 +6,10 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "JHBaseViewController.h"
 #import "LocalFileManagerPickerViewController.h"
 
-@interface SMBFileManagerPickerViewController : BaseViewController
+@interface SMBFileManagerPickerViewController : JHBaseViewController
 @property (assign, nonatomic) PickerFileType fileType;
 @property (strong, nonatomic) JHSMBFile *file;
 @property (copy, nonatomic) SelectedFileAction selectedFileCallBack;
