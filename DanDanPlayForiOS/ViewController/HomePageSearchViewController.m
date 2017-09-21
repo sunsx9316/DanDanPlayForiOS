@@ -42,8 +42,14 @@
         [self.tableView.mj_header beginRefreshing];
     }
     else {
-        [self.searchBar becomeFirstResponder];
         [self.tableView endRefreshing];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.config == nil) {
+        [self.searchBar becomeFirstResponder];
     }
 }
 
@@ -146,15 +152,6 @@
         downloadAction(magnet);
     }
 }
-
-//- (void)configLeftItem {
-//    [super configLeftItem];
-//    UIBarButtonItem *item = self.navigationItem.leftBarButtonItem;
-//    self.navigationItem.leftBarButtonItem = nil;
-//    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-//    spaceBar.width = 15;
-//    self.navigationItem.leftBarButtonItems = @[item, spaceBar];
-//}
 
 - (void)configRightItem {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"browser"] configAction:^(UIButton *aButton) {

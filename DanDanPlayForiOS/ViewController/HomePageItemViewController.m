@@ -102,6 +102,15 @@
     AttentionDetailViewController *vc = [[AttentionDetailViewController alloc] init];
     vc.animateId = model.identity;
     vc.isOnAir = YES;
+    @weakify(self)
+    vc.attentionCallBack = ^(NSUInteger animateId) {
+        @strongify(self)
+        if (!self) return;
+        
+        model.isFavorite = YES;
+        [self resortBangumis];
+        [self.tableView reloadData];
+    };
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

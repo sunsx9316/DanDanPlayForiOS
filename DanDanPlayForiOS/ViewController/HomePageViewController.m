@@ -176,7 +176,7 @@
 
 - (void)configLeftItem {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"attention"] configAction:^(UIButton *aButton) {
-        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+        [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
     [self.navigationItem addLeftItemFixedSpace:item];

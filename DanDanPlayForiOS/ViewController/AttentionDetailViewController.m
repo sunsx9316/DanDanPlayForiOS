@@ -84,7 +84,7 @@
             //已观看
             if (model.time.length != 0) return;
             
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [MBProgressHUD showLoadingInView:self.view text:@"添加中..."];
                 [FavoriteNetManager favoriteAddHistoryWithUser:[CacheManager shareCacheManager].user episodeId:model.identity addToFavorite:YES completionHandler:^(NSError *error) {
