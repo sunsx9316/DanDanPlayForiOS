@@ -74,8 +74,15 @@
             _status = JHMediaPlayerStatusPause;
             break;
         case VLCMediaPlayerStatePlaying:
-        case VLCMediaPlayerStateBuffering:
             _status = JHMediaPlayerStatusPlaying;
+            break;
+        case VLCMediaPlayerStateBuffering:
+            if (self.localMediaPlayer.media.length.intValue > 0) {
+                _status = JHMediaPlayerStatusPlaying;
+            }
+            else {
+                _status = JHMediaPlayerStatusBuffering;
+            }
             break;
         default:
             _status = JHMediaPlayerStatusPause;

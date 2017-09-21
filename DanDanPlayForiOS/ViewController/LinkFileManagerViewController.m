@@ -173,7 +173,7 @@
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_item"] configAction:^(UIButton *aButton) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
             [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
         }];
         
