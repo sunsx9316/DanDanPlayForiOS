@@ -16,7 +16,7 @@
 #import "BaseTableView.h"
 #import "NSString+Tools.h"
 
-@interface SMBViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface SMBViewController ()<UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) NSMutableArray <TONetBIOSNameServiceEntry *>*nameServiceEntries;
 @property (strong, nonatomic) TONetBIOSNameService *netbiosService;
@@ -57,7 +57,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
-    cell.titleLabel.textColor = [UIColor blackColor];
+    if (cell.isFromCache == NO) {
+        cell.titleLabel.textColor = [UIColor blackColor];
+        cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
+        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
+        cell.delegate = self;
+        cell.fromCache = YES;
+    }
     
     if (indexPath.section == 0) {
         TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
@@ -69,14 +75,6 @@
     }
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
-        JHSMBInfo *model = [CacheManager shareCacheManager].SMBInfos[indexPath.row];
-        [[CacheManager shareCacheManager] removeSMBInfo:model];
-        [tableView reloadData];
-    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -114,17 +112,6 @@
     }
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
-        return UITableViewCellEditingStyleDelete;
-    }
-    return UITableViewCellEditingStyleNone;
-}
-
-- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
@@ -148,6 +135,22 @@
     }
     
     return nil;
+}
+
+#pragma mark - MGSwipeTableCellDelegate
+- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell canSwipe:(MGSwipeDirection) direction {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    return indexPath.section == 1;
+}
+
+- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (indexPath.section == 1) {
+        JHSMBInfo *model = [CacheManager shareCacheManager].SMBInfos[indexPath.row];
+        [[CacheManager shareCacheManager] removeSMBInfo:model];
+        [self.tableView reloadData];
+    }
+    return YES;
 }
 
 #pragma mark - 私有方法

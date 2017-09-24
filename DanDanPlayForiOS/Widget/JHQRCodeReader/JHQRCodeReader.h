@@ -69,6 +69,8 @@
  */
 + (BOOL)isAvailable;
 
++ (BOOL)isAuthorization;
+
 /**
  * @abstract Checks and return whether the given metadata object types are
  * supported by the current device.

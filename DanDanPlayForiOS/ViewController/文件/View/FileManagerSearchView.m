@@ -8,11 +8,12 @@
 
 #import "FileManagerSearchView.h"
 #import "FileManagerFileLongViewCell.h"
+#import "JHSearchBar.h"
 
 @interface FileManagerSearchView ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) JHFile *file;
 @end
 
@@ -164,15 +165,16 @@
     return _tableView;
 }
 
-- (UISearchBar *)searchBar {
+- (JHSearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] init];
+        _searchBar = [[JHSearchBar alloc] init];
         _searchBar.placeholder = @"搜索文件名";
         _searchBar.delegate = self;
         _searchBar.showsCancelButton = YES;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.barTintColor = [UIColor whiteColor];
         _searchBar.tintColor = MAIN_COLOR;
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
         [self addSubview:_searchBar];
     }
     return _searchBar;

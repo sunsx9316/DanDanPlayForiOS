@@ -17,9 +17,10 @@
 #import "HomePageSearchFilterView.h"
 #import "JHEdgeButton.h"
 #import "JHExpandView.h"
+#import "JHSearchBar.h"
 
 @interface HomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) JHDMHYSearchCollection *collection;
 @property (strong, nonatomic) HomePageSearchFilterView *filterView;
@@ -169,6 +170,8 @@
         link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.config.keyword stringByURLEncode]];
     }
     
+    [self.searchBar resignFirstResponder];
+    
     JHBaseWebViewController *vc = [[JHBaseWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
     @weakify(self)
     vc.clickMagnetCallBack = ^(NSString *url) {
@@ -269,13 +272,14 @@
     return _tableView;
 }
 
-- (UISearchBar *)searchBar {
+- (JHSearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] init];
+        _searchBar = [[JHSearchBar alloc] init];
         _searchBar.placeholder = @"搜索资源";
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = MAIN_COLOR;
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
     }
     return _searchBar;
 }

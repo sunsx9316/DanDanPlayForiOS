@@ -32,6 +32,7 @@
     return UIStatusBarStyleLightContent;
 }
 
+
 //设置是否允许自动旋转
 //- (BOOL)shouldAutorotate {
 //    return NO;

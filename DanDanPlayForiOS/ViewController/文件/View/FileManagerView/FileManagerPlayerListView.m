@@ -13,6 +13,7 @@
 #import "FileManagerVideoTableViewCell.h"
 #import "FileManagerFolderLongViewCell.h"
 #import "FileManagerFileLongViewCell.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @interface FileManagerPlayerListView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -211,7 +212,17 @@
     
     JHFile *file = _dataSourceFile.subFiles[indexPath.row];
     if (file.type == JHFileTypeDocument) {
-        return 60 + 30 * jh_isPad();
+//        return 60 + 30 * jh_isPad();
+        if ([file isKindOfClass:[JHSMBFile class]]) {
+            return [tableView fd_heightForCellWithIdentifier:@"FileManagerVideoTableViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerVideoTableViewCell *cell) {
+                cell.model = (JHSMBFile *)file;
+            }];
+        }
+        else {
+            return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
+                cell.model = file.videoModel;
+            }];
+        }
     }
     return 70 + 30 * jh_isPad();
 }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <UIScrollView+EmptyDataSet.h>
 #import "UIScrollView+Base.h"
+#import "UITableViewCell+Tools.h"
 
 @interface BaseTableView : UITableView
 - (void)endRefreshing;

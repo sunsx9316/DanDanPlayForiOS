@@ -9,6 +9,7 @@
 #import "QRScanerViewController.h"
 #import "JHQRCodeReader.h"
 #import "JHEdgeButton.h"
+#import "UIApplication+Tools.h"
 
 #define SCANNER_SIZE (self.view.width * 0.7)
 
@@ -42,11 +43,25 @@
         make.centerX.mas_equalTo(0);
     }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.QRCodeReader startScanning];
+    if ([JHQRCodeReader isAuthorization] == NO) {
+        NSString *appName = [UIApplication sharedApplication].appDisplayName;
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"请在设置-%@中允许%@访问您的相机~", appName, appName] message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }]];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.QRCodeReader startScanning];
+            });
         });
-    });
+    }
 }
 
 - (void)viewDidLayoutSubviews {

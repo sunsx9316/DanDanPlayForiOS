@@ -1,5 +1,5 @@
 //
-//  PlayerSelectedColorViewController.h
+//  PlayerSendDanmakuViewController.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/8/27.
@@ -8,6 +8,6 @@
 
 #import "JHBaseViewController.h"
 
-@interface PlayerSelectedColorViewController : JHBaseViewController
+@interface PlayerSendDanmakuViewController : JHBaseViewController
 @property (copy, nonatomic) void(^sendDanmakuCallBack)(UIColor *color, JHDanmakuMode mode, NSString *text);
 @end

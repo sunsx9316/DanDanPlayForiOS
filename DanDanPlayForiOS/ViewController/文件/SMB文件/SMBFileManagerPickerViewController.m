@@ -54,12 +54,12 @@
     
     //文件
     if (file.type == JHFileTypeDocument) {
-        FileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerVideoTableViewCell"];
-        if (cell == nil) {
-            cell = [[FileManagerVideoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FileManagerVideoTableViewCell"];
+        FileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerVideoTableViewCell" forIndexPath:indexPath];
+        if (cell.isFromCache == NO) {
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.selectedBackgroundView = [[UIView alloc] init];
             cell.tintColor = MAIN_COLOR;
+            cell.fromCache = YES;
         }
         
         cell.titleLabel.text = file.name;
@@ -87,12 +87,13 @@
     
     //文件夹
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell"];
-    if (cell == nil) {
-        cell = [[FileManagerFolderLongViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FileManagerFolderLongViewCell"];
+    if (cell.isFromCache == NO) {
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.selectedBackgroundView = [[UIView alloc] init];
         cell.tintColor = MAIN_COLOR;
+        cell.fromCache = YES;
     }
+    
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
@@ -161,6 +162,9 @@
         _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
+        [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
+        
         @weakify(self)
         _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
             @strongify(self)

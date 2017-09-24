@@ -33,6 +33,9 @@
         self.jh_tableView.emptyDataSetDelegate = self;
         self.jh_tableView.tableFooterView = [[UIView alloc] init];
         self.backgroundColor = BACK_GROUND_COLOR;
+        if (@available(iOS 11.0, *)) {
+            self.jh_tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
     }
     return self;
 }

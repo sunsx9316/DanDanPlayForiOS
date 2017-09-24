@@ -22,8 +22,8 @@
     UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
     [aButton setTitle:title forState:UIControlStateNormal];
-    if (configAction) configAction(aButton);
     [aButton sizeToFit];
+    if (configAction) configAction(aButton);
     
     return [self initWithCustomView:aButton];
 }

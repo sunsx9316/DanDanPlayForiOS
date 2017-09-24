@@ -520,6 +520,10 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
             }
         }];
         
+        [aFiles sortUsingComparator:^NSComparisonResult(JHSMBFile * _Nonnull obj1, JHSMBFile * _Nonnull obj2) {
+            return [obj2.name.pathExtension compare:obj1.name.pathExtension];
+        }];
+        
         [aFolders addObjectsFromArray:aFiles];
         parentFile.subFiles = aFolders;
         if (completion) {

@@ -17,10 +17,12 @@
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "BaseTreeView.h"
 #import "JHEdgeButton.h"
+#import "JHSearchBar.h"
+#import "JHExpandView.h"
 
 @interface MatchViewController ()<RATreeViewDelegate, RATreeViewDataSource, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) BaseTreeView *treeView;
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray <JHMatche *>*>*classifyDic;
 @end
 
@@ -34,15 +36,10 @@
     
     self.title = @"快速匹配";
     [self configRightItem];
-    
-    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(SEARCH_BAR_HEIRHT);
-    }];
+    [self configTitleView];
     
     [self.treeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(0);
-        make.top.equalTo(self.searchBar.mas_bottom);
+        make.edges.mas_equalTo(0);
     }];
     
     [self.treeView.jh_tableView.mj_header beginRefreshing];
@@ -134,7 +131,8 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {
-        [self.view endEditing:YES];
+        [searchBar resignFirstResponder];
+        
         SearchViewController *vc = [[SearchViewController alloc] init];
         vc.model = self.model;
         vc.keyword = searchBar.text;
@@ -209,7 +207,7 @@
 }
 
 - (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"直接播放" configAction:^(UIButton *aButton) {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_match_play"] configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
@@ -218,6 +216,15 @@
 
 - (void)touchRightItem:(UIButton *)button {
     [self jumpToPlayVC];
+}
+
+- (void)configTitleView {
+    JHExpandView *view = [[JHExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
+    [view addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    self.navigationItem.titleView = view;
 }
 
 #pragma mark - 懒加载
@@ -255,12 +262,13 @@
     return _treeView;
 }
 
-- (UISearchBar *)searchBar {
+- (JHSearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+        _searchBar = [[JHSearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
         _searchBar.delegate = self;
-        _searchBar.placeholder = @"找不到？试试手动♂搜索";
+        _searchBar.placeholder = @"试试手动♂搜索";
         _searchBar.returnKeyType = UIReturnKeySearch;
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
         [self.view addSubview:_searchBar];
     }
     return _searchBar;

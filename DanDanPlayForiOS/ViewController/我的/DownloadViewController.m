@@ -229,8 +229,8 @@
 - (void)configRightItem {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:nil configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-        [aButton setTitle:@"全部暂停" forState:UIControlStateNormal];
-        [aButton setTitle:@"全部恢复" forState:UIControlStateSelected];
+        [aButton setImage:[UIImage imageNamed:@"file_match_play"] forState:UIControlStateSelected];
+        [aButton setImage:[UIImage imageNamed:@"mine_download_pause"] forState:UIControlStateNormal];
     }];
     
     [self.navigationItem addRightItemFixedSpace:item];

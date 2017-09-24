@@ -73,10 +73,10 @@
         return cell;
     }
     
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell"];
-    if (cell == nil) {
-        cell = [[FTPReceiceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FTPReceiceTableViewCell"];
+    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
+    if (cell.isFromCache == NO) {
         cell.titleLabel.textColor = [UIColor whiteColor];
+        cell.fromCache = YES;
     }
     
     if (indexPath.row == [CacheManager shareCacheManager].playMode) {
@@ -140,6 +140,7 @@
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
+        [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
         [_tableView registerClass:[PlayerSliderTableViewCell class] forCellReuseIdentifier:@"PlayerSliderTableViewCell"];
         [_tableView registerClass:[PlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"PlayerControlHeaderView"];
         [self addSubview:_tableView];

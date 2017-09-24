@@ -9,9 +9,11 @@
 #import "SearchViewController.h"
 #import "JHDefaultPageViewController.h"
 #import "OfficialSearchViewController.h"
+#import "JHExpandView.h"
+#import "JHSearchBar.h"
 
 @interface SearchViewController ()<UISearchBarDelegate, WMPageControllerDataSource>
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <NSString *>*titleArr;
 @end
@@ -20,17 +22,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.titleView = self.searchBar;
-    [self.view addSubview:self.pageController.view];
-}
-
-- (void)configLeftItem {
-    [super configLeftItem];
-    UIBarButtonItem *item = self.navigationItem.leftBarButtonItem;
-    self.navigationItem.leftBarButtonItem = nil;
-    UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    spaceBar.width = 15;
-    self.navigationItem.leftBarButtonItems = @[item, spaceBar];
+    [self configTitleView];
+    [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
 }
 
 
@@ -63,13 +58,26 @@
     return CGRectMake(0, 0, self.view.width, NORMAL_SIZE_FONT.lineHeight + 20);
 }
 
+#pragma mark - 私有方法
+- (void)configTitleView {
+    JHExpandView *view = [[JHExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
+    [view addSubview:self.searchBar];
+    
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
+    self.navigationItem.titleView = view;
+}
+
 #pragma mark - 懒加载
-- (UISearchBar *)searchBar {
+- (JHSearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
+        _searchBar = [[JHSearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
         _searchBar.delegate = self;
-        _searchBar.placeholder = @"找不到？试试手动♂搜索";
+        _searchBar.placeholder = @"试试手动♂搜索";
         _searchBar.returnKeyType = UIReturnKeySearch;
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
     }
     return _searchBar;
 }
@@ -79,6 +87,7 @@
         _pageController = [[JHDefaultPageViewController alloc] init];
         _pageController.dataSource = self;
         [self addChildViewController:_pageController];
+        [self.view addSubview:_pageController.view];
     }
     return _pageController;
 }

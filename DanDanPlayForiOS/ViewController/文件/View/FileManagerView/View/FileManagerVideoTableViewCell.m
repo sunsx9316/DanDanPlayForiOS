@@ -29,9 +29,10 @@
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.imgView.mas_right).mas_offset(10);
-//            make.bottom.mas_offset(-5);
+            make.bottom.mas_offset(-5);
+            make.top.mas_offset(5);
             make.right.mas_offset(-10);
-            make.centerY.equalTo(self.imgView);
+//            make.centerY.equalTo(self.imgView);
         }];
     }
     return self;
@@ -78,7 +79,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.textColor = [UIColor blackColor];
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 0;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView addSubview:_titleLabel];
     }

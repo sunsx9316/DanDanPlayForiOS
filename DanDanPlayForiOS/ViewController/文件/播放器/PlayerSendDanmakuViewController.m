@@ -1,23 +1,23 @@
 //
-//  PlayerSelectedColorViewController.m
+//  PlayerSendDanmakuViewController.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/8/27.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "PlayerSelectedColorViewController.h"
+#import "PlayerSendDanmakuViewController.h"
 #import <UITextView+Placeholder.h>
 #import "PlayerSendDanmakuConfigView.h"
 #import <YYKeyboardManager.h>
 #import <IQKeyboardManager.h>
 
-@interface PlayerSelectedColorViewController ()<YYKeyboardObserver, UITextViewDelegate>
+@interface PlayerSendDanmakuViewController ()<YYKeyboardObserver, UITextViewDelegate>
 @property (strong, nonatomic) UIButton *pickColorButton;
 @property (strong, nonatomic) UITextView *textView;
 @end
 
-@implementation PlayerSelectedColorViewController
+@implementation PlayerSendDanmakuViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

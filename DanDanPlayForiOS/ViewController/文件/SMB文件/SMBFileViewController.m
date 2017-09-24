@@ -18,6 +18,8 @@
 #import "FileManagerVideoTableViewCell.h"
 #import "JHEdgeButton.h"
 #import "SMBFileOprationView.h"
+#import <UITableView+FDTemplateLayoutCell.h>
+#import "UITableViewCell+Tools.h"
 
 @interface SMBFileViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -68,25 +70,26 @@
     
     //文件
     if (file.type == JHFileTypeDocument) {
-        FileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerVideoTableViewCell"];
-        if (cell == nil) {
-            cell = [[FileManagerVideoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FileManagerVideoTableViewCell"];
+        FileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerVideoTableViewCell" forIndexPath:indexPath];
+        if (cell.isFromCache == NO) {
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.selectedBackgroundView = [[UIView alloc] init];
             cell.tintColor = MAIN_COLOR;
+            cell.fromCache = YES;
         }
         cell.model = file;
         return cell;
     }
     
     //文件夹
-    FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell"];
-    if (cell == nil) {
-        cell = [[FileManagerFolderLongViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FileManagerFolderLongViewCell"];
+    FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
+    if (cell.isFromCache == NO) {
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.selectedBackgroundView = [[UIView alloc] init];
         cell.tintColor = MAIN_COLOR;
+        cell.fromCache = YES;
     }
+    
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
@@ -106,9 +109,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    JHFile *file = _file.subFiles[indexPath.row];
+    JHSMBFile *file = _file.subFiles[indexPath.row];
     if (file.type == JHFileTypeDocument) {
-        return 60 + 30 * jh_isPad();
+        return [tableView fd_heightForCellWithIdentifier:@"FileManagerVideoTableViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerVideoTableViewCell *cell) {
+            cell.model = file;
+        }];
+//        return 60 + 30 * jh_isPad();
     }
     return 70 + 30 * jh_isPad();
 }
@@ -328,6 +334,9 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowsMultipleSelectionDuringEditing = YES;
+        [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
+        [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
+        
         @weakify(self)
         _tableView.mj_header = [MJRefreshHeader jh_headerRefreshingCompletionHandler:^{
             @strongify(self)

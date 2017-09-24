@@ -7,6 +7,7 @@
 //
 
 #import "HomePageSearchFilterView.h"
+#import "BaseTableView.h"
 
 #define CELL_HEIGHT 44
 
@@ -16,7 +17,7 @@
 @interface HomePageSearchFilterView ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UIButton *typeButton;
 @property (strong, nonatomic) UIButton *subGroupButton;
-@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) BaseTableView *tableView;
 @property (strong, nonatomic) UIView *bgView;
 @end
 
@@ -115,10 +116,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    if (cell.isFromCache == NO) {
         cell.textLabel.font = NORMAL_SIZE_FONT;
+        cell.fromCache = YES;
     }
     
     if (indexPath.section == 0) {
@@ -228,11 +229,12 @@
 }
 
 #pragma mark - 懒加载
-- (UITableView *)tableView {
+- (BaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.rowHeight = CELL_HEIGHT;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -9,6 +9,7 @@
 #import "AttentionDetailTableViewCell.h"
 #import "NSDate+Tools.h"
 #import "JHEdgeLabel.h"
+#import "YYPhotoBrowseView.h"
 
 @interface AttentionDetailTableViewCell ()
 @property (strong, nonatomic) UIImageView *iconImgView;
@@ -78,6 +79,17 @@
         _iconImgView = [[UIImageView alloc] init];
         _iconImgView.contentMode = UIViewContentModeScaleAspectFill;
         _iconImgView.clipsToBounds = YES;
+        _iconImgView.userInteractionEnabled = YES;
+        @weakify(self)
+        [_iconImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer * _Nonnull sender) {
+            @strongify(self)
+            if (!self) return;
+            
+            YYPhotoGroupItem *item = [[YYPhotoGroupItem alloc] init];
+            item.largeImageURL = _model.imageUrl;
+            YYPhotoBrowseView *view = [[YYPhotoBrowseView alloc] initWithGroupItems:@[item]];
+            [view presentFromImageView:self.iconImgView toContainer:[UIApplication sharedApplication].keyWindow animated:YES completion:nil];
+        }]];
         [self.contentView addSubview:_iconImgView];
     }
     return _iconImgView;

@@ -20,6 +20,7 @@
 #import "JHEdgeButton.h"
 #import "FileManagerSearchView.h"
 #import "JHExpandView.h"
+#import "JHSearchBar.h"
 
 @interface FileViewController ()<WMPageControllerDataSource, WMPageControllerDelegate, UISearchBarDelegate, FileManagerSearchViewDelegate>
 @property (strong, nonatomic) JHDefaultPageViewController *pageController;
@@ -27,7 +28,7 @@
 @property (strong, nonatomic) UIButton *httpButton;
 @property (strong, nonatomic) UIButton *helpButton;
 @property (strong, nonatomic) UIButton *qrCodeButton;
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 
 @property (strong, nonatomic) FileManagerSearchView *searchView;
 @end
@@ -196,13 +197,14 @@
     return _pageController;
 }
 
-- (UISearchBar *)searchBar {
+- (JHSearchBar *)searchBar {
     if (_searchBar == nil) {
-        _searchBar = [[UISearchBar alloc] init];
+        _searchBar = [[JHSearchBar alloc] init];
         _searchBar.placeholder = @"搜索文件名";
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = [UIColor whiteColor];
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
     }
     return _searchBar;
 }

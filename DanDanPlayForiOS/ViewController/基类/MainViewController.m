@@ -10,6 +10,7 @@
 #import "FileViewController.h"
 #import "MineViewController.h"
 #import "HomePageViewController.h"
+#import "JHBaseNavigationController.h"
 
 @interface MainViewController ()
 @end
@@ -49,7 +50,7 @@
 #pragma mark - 私有方法
 - (UINavigationController *)navigationControllerWithNormalImg:(UIImage *)normalImg selectImg:(UIImage *)selectImg rootVC:(UIViewController *)rootVC title:(NSString *)title {
     UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:title image:normalImg selectedImage:[[selectImg imageByTintColor:MAIN_COLOR] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    UINavigationController *navVC = [[JHBaseNavigationController alloc] initWithRootViewController:rootVC];
     navVC.tabBarItem = item;
     if (jh_isPad() == NO) {
         item.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);

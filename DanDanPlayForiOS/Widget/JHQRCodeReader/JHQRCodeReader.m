@@ -206,6 +206,15 @@
   }
 }
 
++ (BOOL)isAuthorization {
+    NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
+        return NO;
+    }
+    return YES;
+}
+
 + (BOOL)supportsMetadataObjectTypes:(NSArray *)metadataObjectTypes
 {
   if (![self isAvailable]) {

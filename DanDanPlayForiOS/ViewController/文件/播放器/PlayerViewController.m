@@ -10,7 +10,7 @@
 #import "MatchViewController.h"
 #import "LocalFileManagerPickerViewController.h"
 #import "SMBFileManagerPickerViewController.h"
-#import "PlayerSelectedColorViewController.h"
+#import "PlayerSendDanmakuViewController.h"
 #import "DanmakuFilterViewController.h"
 
 #import "PlayerInterfaceView.h"
@@ -78,6 +78,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
     if (self.player.isPlaying) {
         [self.player pause];
     }
@@ -85,6 +86,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (BOOL)prefersStatusBarHidden {
     return !_interfaceView.isShow;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidLoad {
@@ -368,7 +373,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 #pragma mark - PlayerInterfaceViewDelegate
 - (void)interfaceViewDidTouchSendDanmakuButton {
     
-    PlayerSelectedColorViewController *vc = [[PlayerSelectedColorViewController alloc] init];
+    PlayerSendDanmakuViewController *vc = [[PlayerSendDanmakuViewController alloc] init];
     @weakify(self)
     vc.sendDanmakuCallBack = ^(UIColor *color, JHDanmakuMode mode, NSString *text) {
         @strongify(self)
