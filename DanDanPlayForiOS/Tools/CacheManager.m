@@ -639,6 +639,10 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
+- (BOOL)timerIsStart {
+    return _timer != nil;
+}
+
 - (void)addLinkDownload {
     //开启计时器 更新任务数量
     if (_timer == nil) {

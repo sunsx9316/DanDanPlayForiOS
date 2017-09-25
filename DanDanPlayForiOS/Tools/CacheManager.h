@@ -220,6 +220,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 //@property (assign, nonatomic) NSUInteger linkTotoalExpectedToReceive;
 //@property (assign, nonatomic) NSUInteger linkTotoalToReceive;
 @property (assign, nonatomic) NSUInteger linkDownloadingTaskCount;
+- (BOOL)timerIsStart;
 - (void)addLinkDownload;
 - (void)updateLinkDownloadInfo;
 

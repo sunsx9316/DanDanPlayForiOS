@@ -211,7 +211,7 @@
 
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务 (电脑端任务下载完成在文件->电脑端查看)" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务 (电脑端任务下载完成在文件-电脑端查看)" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 
@@ -293,6 +293,10 @@
             if (info) {
                 [LinkNetManager linkDownloadListWithIpAdress:info.selectedIpAdress completionHandler:^(JHLinkDownloadTaskCollection *responseObject, NSError *error) {
                     if (error == nil) {
+                        if (responseObject.collection.count > 0 && [CacheManager shareCacheManager].timerIsStart == NO) {
+                            [[CacheManager shareCacheManager] addLinkDownload];
+                        }
+                        
                         NSInteger oldCount = self.linkDownloadTaskCollection.collection.count;
                         NSInteger aNewCount = responseObject.collection.count;
                         

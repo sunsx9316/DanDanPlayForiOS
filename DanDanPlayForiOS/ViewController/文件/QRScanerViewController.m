@@ -17,6 +17,7 @@
 @property (strong, nonatomic) JHQRCodeReader *QRCodeReader;
 @property (strong, nonatomic) UIView *maskView;
 @property (strong, nonatomic) JHEdgeButton *button;
+@property (strong, nonatomic) UILabel *noticeLabel;
 @end
 
 @implementation QRScanerViewController
@@ -36,6 +37,11 @@
     
     [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
+    }];
+    
+    [self.noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_offset(self.navigationController.navigationBar.bottom + 20);
+        make.centerX.mas_equalTo(0);
     }];
     
     [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,5 +249,17 @@
     }
     return _button;
 }
+
+- (UILabel *)noticeLabel {
+    if (_noticeLabel == nil) {
+        _noticeLabel = [[UILabel alloc] init];
+        _noticeLabel.font = NORMAL_SIZE_FONT;
+        _noticeLabel.textColor = RGBCOLOR(180, 180, 180);
+        _noticeLabel.text = @"在电脑版的首页-远程访问查看二维码~";
+        [self.view addSubview:_noticeLabel];
+    }
+    return _noticeLabel;
+}
+
 
 @end
