@@ -10,4 +10,5 @@
 
 @interface JHEdgeButton : UIButton
 @property (assign, nonatomic) CGSize inset;
+
 @end

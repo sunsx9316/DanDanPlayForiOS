@@ -19,6 +19,7 @@
 #import "SMBVideoModel.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "NSURL+Tools.h"
+#import "NSString+Tools.h"
 
 @interface FileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, MGSwipeTableCellDelegate, CacheManagerDelagate>
 
@@ -63,6 +64,8 @@
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();
         }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
     }
     else {
         self.automaticallyAdjustsScrollViewInsets = YES;
@@ -87,19 +90,6 @@
     if (file.type == JHFileTypeDocument) {
         FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
-        @weakify(self)
-        cell.firstCacheCallBack = ^(VideoModel *aModel) {
-            @strongify(self)
-            if (!self) return;
-            
-            [self.file.subFiles enumerateObjectsUsingBlock:^(__kindof JHFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([obj.fileURL isEqual:aModel.fileURL]) {
-                    [self.tableView reloadRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] withRowAnimation:UITableViewRowAnimationFade];
-                    *stop = YES;
-                }
-            }];
-            
-        };
         cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
         cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
         cell.delegate = self;
@@ -108,7 +98,8 @@
     
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.fileURL.lastPathComponent;
-    cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
+    
+    cell.detailLabel.text = [NSString stringWithFormat:@"%@个视频", [NSString numberFormatterWithUpper:0 number:file.subFiles.count]];
     cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
     cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
@@ -120,7 +111,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     JHFile *file = _file.subFiles[indexPath.row];
     if (file.type == JHFileTypeFolder) {
-        return 80 + 40 * jh_isPad();
+//        return 80 + 40 * jh_isPad();
+        return UITableViewAutomaticDimension;
     }
     return 100 + 40 * jh_isPad();
 }
@@ -359,6 +351,16 @@
     }
 }
 
+- (void)refresh:(NSNotification *)aSender {
+    if (self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+    
+    if (self.tableView.mj_header.refreshingBlock) {
+        self.tableView.mj_header.refreshingBlock();
+    }
+}
+
 #pragma mark - 懒加载
 - (BaseTableView *)tableView {
     if (_tableView == nil) {
@@ -367,6 +369,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.emptyDataSetSource = self;
+        _tableView.estimatedRowHeight = 80;
         _tableView.allowsMultipleSelection = YES;
         _tableView.allowsMultipleSelectionDuringEditing = YES;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

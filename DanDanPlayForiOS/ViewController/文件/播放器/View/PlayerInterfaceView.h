@@ -11,6 +11,7 @@
 #import "PlayerSubTitleIndexView.h"
 #import "PlayerSendDanmakuConfigView.h"
 #import "PlayerNoticeView.h"
+#import "JHControlView.h"
 
 @class PlayerInterfaceView;
 @protocol PlayerInterfaceViewDelegate <NSObject>
@@ -43,6 +44,8 @@
 @property (strong, nonatomic) PlayerSubTitleIndexView *subTitleIndexView;
 @property (strong, nonatomic) PlayerNoticeView *matchNoticeView;
 @property (strong, nonatomic) PlayerNoticeView *lastTimeNoticeView;
+@property (strong, nonatomic) JHControlView *volumeControlView;
+@property (strong, nonatomic) JHControlView *brightnessControlView;
 @property (assign, nonatomic, readonly, getter=isShow) BOOL show;
 
 

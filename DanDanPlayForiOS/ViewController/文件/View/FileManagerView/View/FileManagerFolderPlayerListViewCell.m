@@ -41,7 +41,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 0;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView addSubview:_titleLabel];
     }

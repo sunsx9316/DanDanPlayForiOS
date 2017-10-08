@@ -12,5 +12,4 @@
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIImageView *bgImgView;
 @property (strong, nonatomic) id model;
-@property (copy, nonatomic) void(^firstCacheCallBack)(id model);
 @end

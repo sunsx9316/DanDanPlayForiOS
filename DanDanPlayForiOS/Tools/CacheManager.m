@@ -9,7 +9,7 @@
 #import "CacheManager.h"
 #import "UIFont+Tools.h"
 #import <TOSMBSessionFile.h>
-//#import <TOSMBSessionDownloadTaskPrivate.h>
+#import <TOSMBSessionDownloadTaskPrivate.h>
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -32,6 +32,7 @@ static NSString *const showDownloadStatusViewKey = @"show_down_load_status_view"
 static NSString *const sendDanmakuColorKey = @"send_danmaku_color";
 static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
 static NSString *const playInterfaceOrientationKey = @"play_interface_orientation";
+static NSString *const danmakuLimitCountKey = @"danmaku_limit_count";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -352,6 +353,21 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
+- (NSUInteger)danmakuLimitCount {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuLimitCountKey];
+    if (num == nil) {
+        num = @(14);
+        self.danmakuLimitCount = 14;
+    }
+    
+    return num.integerValue;
+}
+
+- (void)setDanmakuLimitCount:(NSUInteger)danmakuLimitCount {
+    [self.cache setObject:@(danmakuLimitCount) forKey:danmakuLimitCountKey];
+}
+
+#pragma mark -
 - (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {
     [self.cache setObject:@(playInterfaceOrientation) forKey:playInterfaceOrientationKey];
 }
@@ -359,8 +375,8 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 - (UIInterfaceOrientation)playInterfaceOrientation {
     NSNumber *num = (NSNumber *)[self.cache objectForKey:playInterfaceOrientationKey];
     if (num == nil) {
-        num = @(UIInterfaceOrientationLandscapeLeft);
-        self.playInterfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+        num = @(UIInterfaceOrientationLandscapeRight);
+        self.playInterfaceOrientation = UIInterfaceOrientationLandscapeRight;
     }
     
     return num.integerValue;
@@ -501,8 +517,11 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 - (void)removeSMBInfo:(JHSMBInfo *)info {
-    NSMutableArray *arr = (NSMutableArray *)[self.cache objectForKey:SMBLoginKey];
-    [arr removeObject:info];
+    NSMutableArray *arr = (NSMutableArray *)self.SMBInfos;
+    NSInteger index = [arr indexOfObject:info];
+    if (index != NSNotFound) {
+        [arr removeObjectAtIndex:index];
+    }
     self.SMBInfos = arr;
 }
 
@@ -554,7 +573,8 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
     if (tasks.count == 0) return;
     
     [tasks enumerateObjectsUsingBlock:^(TOSMBSessionDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj setValue:self forKey:@"delegate"];
+//        [obj setValue:self forKey:@"delegate"];
+        obj.delegate = self;
         _totoalExpectedToReceive += obj.countOfBytesExpectedToReceive;
     }];
     

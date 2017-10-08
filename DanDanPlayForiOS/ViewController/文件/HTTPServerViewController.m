@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"WiFi传视频";
+    self.navigationItem.title = @"WiFi传视频";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(writeFileSuccess:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
     

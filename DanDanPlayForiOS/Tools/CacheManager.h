@@ -129,6 +129,12 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 
 /**
+ 同屏弹幕数量 默认14
+ */
+@property (assign, nonatomic) NSUInteger danmakuLimitCount;
+
+
+/**
  播放页默认旋屏位置
  */
 @property (assign, nonatomic) UIInterfaceOrientation playInterfaceOrientation;

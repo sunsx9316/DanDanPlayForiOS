@@ -17,6 +17,7 @@
     [super viewWillAppear:animated];
     
     [self setNavigationBarWithColor:MAIN_COLOR];
+    
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName : NORMAL_SIZE_FONT};
 }
 

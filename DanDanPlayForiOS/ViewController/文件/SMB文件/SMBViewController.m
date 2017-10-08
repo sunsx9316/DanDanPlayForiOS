@@ -62,6 +62,10 @@
         cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
         cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
         cell.delegate = self;
+        [cell.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_offset(15);
+            make.bottom.mas_offset(-15);
+        }];
         cell.fromCache = YES;
     }
     
@@ -155,26 +159,43 @@
 
 #pragma mark - 私有方法
 - (void)loginWithModel:(JHSMBInfo *)model {
-    [ToolsManager shareToolsManager].smbInfo = model;
+    
     [MBProgressHUD showLoadingInView:self.view text:@"连接中..."];
-    [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:nil completion:^(JHSMBFile *file, NSError *error) {
-        [MBProgressHUD hideLoading];
-        
-        if (error) {
-            [MBProgressHUD showWithError:error atView:self.view];
-            [ToolsManager shareToolsManager].smbInfo = nil;
-        }
-        else {
-            [[CacheManager shareCacheManager] saveSMBInfo:model];
-            [self.tableView reloadData];
+    
+    void(^loginAction)(JHSMBInfo *) = ^(JHSMBInfo *aModel) {
+        [ToolsManager shareToolsManager].smbInfo = aModel;
+        [[ToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:nil completion:^(JHSMBFile *file, NSError *error) {
+            [MBProgressHUD hideLoading];
             
-            SMBFileViewController *vc = [[SMBFileViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            vc.file = file;
-            vc.title = model.hostName;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }];
+            if (error) {
+                [MBProgressHUD showWithError:error atView:self.view];
+                [ToolsManager shareToolsManager].smbInfo = nil;
+            }
+            else {
+                [[CacheManager shareCacheManager] saveSMBInfo:aModel];
+                [self.tableView reloadData];
+                
+                SMBFileViewController *vc = [[SMBFileViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                vc.file = file;
+                vc.title = aModel.hostName;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
+    };
+    
+    if (model.ipAddress.length && model.hostName.length == 0) {
+        [self.netbiosService lookupNetworkNameForIPAddress:model.ipAddress success:^(NSString *name) {
+            model.hostName = name;
+            loginAction(model);
+        } failure:^{
+            [MBProgressHUD hideLoading];
+            [MBProgressHUD showWithError:errorForErrorCode(TOSMBSessionErrorCodeUnableToResolveAddress)];
+        }];
+    }
+    else {
+        loginAction(model);
+    }
 }
 
 - (void)showAlertViewControllerWithModel:(JHSMBInfo *)model {

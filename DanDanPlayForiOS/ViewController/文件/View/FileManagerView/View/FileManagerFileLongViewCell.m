@@ -50,10 +50,7 @@
             @strongify(self)
             if (!self) return;
             
-            if (self.firstCacheCallBack) {
-                self.firstCacheCallBack(self.model);
-            }
-//            [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
+            [self.bgImgView jh_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
         }];
     }
 }

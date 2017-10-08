@@ -449,4 +449,18 @@
     return _lastTimeNoticeView;
 }
 
+- (JHControlView *)volumeControlView {
+    if (_volumeControlView == nil) {
+        _volumeControlView = [[JHControlView alloc] initWithImage:[UIImage imageNamed:@"player_volume"]];
+    }
+    return _volumeControlView;
+}
+
+- (JHControlView *)brightnessControlView {
+    if (_brightnessControlView == nil) {
+        _brightnessControlView = [[JHControlView alloc] initWithImage:[UIImage imageNamed:@"player_brightness"]];
+    }
+    return _brightnessControlView;
+}
+
 @end

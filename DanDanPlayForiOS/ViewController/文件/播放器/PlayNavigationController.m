@@ -34,13 +34,13 @@
 
 
 //设置是否允许自动旋转
-//- (BOOL)shouldAutorotate {
-//    return NO;
-//}
-//
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
 //设置支持的屏幕旋转方向
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft;
 }
 
 //设置presentation方式展示的屏幕方向
@@ -59,7 +59,6 @@
         default:
             break;
     }
-    
 }
 
 @end

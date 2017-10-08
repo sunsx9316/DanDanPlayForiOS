@@ -12,10 +12,11 @@
 #import <YYCache.h>
 #import <MobileVLCKit/MobileVLCKit.h>
 #import <HTTPServer.h>
-#import <TOSMBSession.h>
-#import <TOSMBSessionFile.h>
+#import <TOSMBClient.h>
 #import "NSURL+Tools.h"
 #import <UMSocialCore/UMSocialCore.h>
+#import <Bugly/Bugly.h>
+#import "JHMediaThumbnailer.h"
 
 CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -120,20 +121,50 @@ UIKIT_EXTERN BOOL jh_isRootFile(JHFile *file) {
     return [file.fileURL relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
 };
 
-static NSString *const thumbnailerBlockKey = @"thumbnailer_block";
+CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
+    switch (error.code) {
+        case UMSocialPlatformErrorType_NotSupport:
+            return @"客户端不支持该操作";
+        case UMSocialPlatformErrorType_AuthorizeFailed:
+            return @"授权失败";
+        case UMSocialPlatformErrorType_ShareFailed:
+            return @"分享失败";
+        case UMSocialPlatformErrorType_RequestForUserProfileFailed:
+            return @"请求用户信息失败";
+        case UMSocialPlatformErrorType_ShareDataNil:
+            return @"分享内容为空";
+        case UMSocialPlatformErrorType_ShareDataTypeIllegal:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_CheckUrlSchemaFail:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_NotInstall:
+            return @"应用未安装";
+        case UMSocialPlatformErrorType_Cancel:
+            return @"用户取消操作";
+        case UMSocialPlatformErrorType_NotUsingHttps:
+        case UMSocialPlatformErrorType_NotNetWork:
+            return @"网络异常";
+        case UMSocialPlatformErrorType_SourceError:
+            return @"第三方错误";
+        default:
+            return @"未知错误";
+            break;
+    }
+};
+
 static NSString *const tempImageKey = @"temp_image";
 static NSString *const smbProgressBlockKey = @"smb_progress_block";
 static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 
-@interface ToolsManager ()<VLCMediaThumbnailerDelegate, TOSMBSessionDownloadTaskDelegate>
-//@property (strong, nonatomic) NSMutableArray <JHFile *>*videoArray;
-@property (strong, nonatomic) VLCMediaThumbnailer *thumbnailer;
-@property (strong, nonatomic) NSMutableSet <VideoModel *>*parseVideo;
+@interface ToolsManager ()<TOSMBSessionDownloadTaskDelegate>
+
 @end
 
 @implementation ToolsManager
 {
-    VideoModel *_currentParseVideoModel;
+    dispatch_group_t _parseVideoGroup;
+    dispatch_semaphore_t _semaphore;
+    dispatch_queue_t _queue;
 }
 
 + (instancetype)shareToolsManager {
@@ -145,23 +176,45 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     return manager;
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _parseVideoGroup = dispatch_group_create();
+        _semaphore = dispatch_semaphore_create(2);
+        _queue = dispatch_queue_create("com.dandanplay.parseVideo", nil);
+    }
+    return self;
+}
+
+- (void)dealloc {
+    _parseVideoGroup = nil;
+    _semaphore = nil;
+    _queue = nil;
+}
+
 - (void)videoSnapShotWithModel:(VideoModel *)model completion:(GetSnapshotAction)completion {
+    
     //防止重复获取缩略图
-    if (model == nil || completion == nil || [self.parseVideo containsObject:model]) return;
+    if (model == nil || completion == nil || objc_getAssociatedObject(model, &tempImageKey)) return;
     
-    objc_setAssociatedObject(model, &thumbnailerBlockKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(model, &tempImageKey, model.quickHash, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(model, &tempImageKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [self.parseVideo addObject:model];
-    
-    if (_thumbnailer == nil) {
-        _thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-    }
-    
-    if (_currentParseVideoModel == nil) {
-        _currentParseVideoModel = model;
-        [self.thumbnailer fetchThumbnail];
-    }
+    dispatch_group_async(_parseVideoGroup, _queue, ^{
+        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+        JHMediaThumbnailer *thumbnailer = [[JHMediaThumbnailer alloc] initWithMedia:model.media block:^(UIImage *image) {
+            [[YYWebImageManager sharedManager].cache setImage:image forKey:model.quickHash];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completion) {
+                    completion(image);
+                }
+                
+                objc_setAssociatedObject(model, &tempImageKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                dispatch_semaphore_signal(_semaphore);
+            });
+        }];
+        
+        [thumbnailer fetchThumbnail];
+    });
 }
 
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url {
@@ -191,7 +244,9 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
                     [MBProgressHUD hideLoading];
                     
                     if (error) {
-                        [MBProgressHUD showWithError:error userInfoKey:@"message" atView:viewController.view];
+                        [MBProgressHUD showWithText:UMErrorStringWithError(error) atView:viewController.view];
+                        //上传错误
+                        [Bugly reportError:error];
                         if (completion) {
                             completion(nil, error);
                         }
@@ -243,6 +298,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         }        
     });
 }
+
 
 #pragma mark - 本地文件
 - (void)startDiscovererVideoWithFile:(JHFile *)file
@@ -322,7 +378,16 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     
     //把文件夹排在前面
     [rootFile.subFiles sortUsingComparator:^NSComparisonResult(JHFile * _Nonnull obj1, JHFile * _Nonnull obj2) {
-        return obj2.type - obj1.type;
+        
+        if (obj1.type == JHFileTypeFolder) {
+            return NSOrderedAscending;
+        }
+        
+        if (obj2.type == JHFileTypeFolder) {
+            return NSOrderedDescending;
+        }
+        
+        return [obj1.name compare:obj2.name];
     }];
     
     if (jh_isRootFile(file)) {
@@ -473,7 +538,6 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 }
 
 #pragma mark - SMB
-
 - (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
                                       completion:(GetSMBFilesAction)completion {
     [self startDiscovererSMBFileWithParentFile:parentFile fileType:PickerFileTypeAll completion:completion];
@@ -545,7 +609,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     session.hostName = _smbInfo.hostName;
     session.ipAddress = _smbInfo.ipAddress;
     //最大下载任务数
-    session.maxDownloadOperationCount = 5;
+    session.maxTaskOperationCount = 5;
     self.SMBSession = session;
 }
 
@@ -570,7 +634,7 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
         @strongify(self)
         if (!self) return;
         
-        if (newVal.integerValue == TOSMBSessionDownloadTaskStateCancelled) {
+        if (newVal.integerValue == TOSMBSessionTaskStateCancelled) {
             if (cancel) {
                 cancel([obj valueForKey:@"tempFilePath"]);
                 [obj removeObserverBlocks];
@@ -581,7 +645,6 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     
     [task resume];
 }
-
 
 #pragma mark TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
@@ -617,7 +680,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
  @param task 任务
  @param error 错误
  */
-- (void)downloadTask:(TOSMBSessionDownloadTask *)task didCompleteWithError:(NSError *)error {
+- (void)task:(TOSMBSessionDownloadTask *)task didCompleteWithError:(NSError *)error; {
     if (error) {
         void(^completionAction)(NSString *destinationFilePath, NSError *error) = objc_getAssociatedObject(task, &smbCompletionBlockKey);
         if (completionAction) {
@@ -713,75 +776,5 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     [httpServer setPort:23333];
 }
 
-#pragma mark - VLCMediaThumbnailerDelegate
-- (void)mediaThumbnailerDidTimeOut:(VLCMediaThumbnailer *)mediaThumbnailer {
-    NSLog(@"超时......");
-    GetSnapshotAction action = objc_getAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey);
-    if (action) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            action(nil);
-        });
-        objc_setAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        objc_setAssociatedObject(_currentParseVideoModel, &tempImageKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    
-    [self.parseVideo removeObject:_currentParseVideoModel];
-    
-    if (self.parseVideo.count) {
-        VideoModel *model = self.parseVideo.anyObject;
-        _currentParseVideoModel = model;
-        self.thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-        [self.thumbnailer fetchThumbnail];
-    }
-    else {
-        _currentParseVideoModel = nil;
-    }
-}
-
-- (void)mediaThumbnailer:(VLCMediaThumbnailer *)mediaThumbnailer didFinishThumbnail:(CGImageRef)thumbnail {
-    NSLog(@"成功......");
-    GetSnapshotAction action = objc_getAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey);
-    NSString *key = objc_getAssociatedObject(_currentParseVideoModel, &tempImageKey);
-    UIImage *image = [UIImage imageWithCGImage:thumbnail];
-    
-    if (image) {
-        [[YYWebImageManager sharedManager].cache setImage:image forKey:key];
-    }
-    
-    if (action) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            action(image);
-        });
-        objc_setAssociatedObject(_currentParseVideoModel, &thumbnailerBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        objc_setAssociatedObject(_currentParseVideoModel, &tempImageKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    
-    [self.parseVideo removeObject:_currentParseVideoModel];
-    
-    if (self.parseVideo.count) {
-        VideoModel *model = self.parseVideo.anyObject;
-        _currentParseVideoModel = model;
-        self.thumbnailer = [VLCMediaThumbnailer thumbnailerWithMedia:model.media andDelegate:self];
-        [self.thumbnailer fetchThumbnail];
-    }
-    else {
-        _currentParseVideoModel = nil;
-    }
-}
-
-#pragma mark - 懒加载
-- (NSMutableSet<VideoModel *> *)parseVideo {
-    if (_parseVideo == nil) {
-        _parseVideo = [NSMutableSet set];
-    }
-    return _parseVideo;
-}
-
-//- (NSMutableArray<JHFile *> *)videoArray {
-//    if (_videoArray == nil) {
-//        _videoArray = [NSMutableArray array];
-//    }
-//    return _videoArray;
-//}
 
 @end

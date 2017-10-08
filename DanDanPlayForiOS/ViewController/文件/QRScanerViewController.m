@@ -123,7 +123,7 @@
 }
 
 - (void)touchButton:(UIButton *)button {
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"手动输入ip" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"手动输入ip或域名" message:nil preferredStyle:UIAlertControllerStyleAlert];
     @weakify(vc)
     [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.font = NORMAL_SIZE_FONT;
@@ -139,7 +139,11 @@
             return;
         }
         
-        [self selectedIp:[NSString stringWithFormat:@"http://%@", text] info:[[JHLinkInfo alloc] init]];
+        if ([text hasPrefix:@"http://"] == NO && [text hasPrefix:@"https://"] == NO) {
+            text = [NSString stringWithFormat:@"http://%@", text];
+        }
+        
+        [self selectedIp:text info:[[JHLinkInfo alloc] init]];
     }]];
     
     [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];

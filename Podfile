@@ -34,7 +34,7 @@ target 'DanDanPlayForiOS' do
     pod 'NKOColorPickerView'
     pod 'CocoaHTTPServer'
     pod 'YYKeyboardManager'
-    pod 'TOSMBClient', '<= 1.0.5'
+    pod 'TOSMBClient', '~> 1.0.5'
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
     pod 'iCarousel'

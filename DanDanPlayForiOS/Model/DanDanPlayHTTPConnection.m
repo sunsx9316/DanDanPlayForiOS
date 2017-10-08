@@ -175,7 +175,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 - (void)processEndOfPartWithHeader:(MultipartMessageHeader*)header {
 	// as the file part is over, we close the file.
 	[storeFile closeFile];
-    [[NSNotificationCenter defaultCenter] postNotificationName:WRITE_FILE_SUCCESS_NOTICE object:_writePath];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:WRITE_FILE_SUCCESS_NOTICE object:_writePath]; 
+    });
 	storeFile = nil;
     _writePath = nil;
     

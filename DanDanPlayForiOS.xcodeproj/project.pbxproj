@@ -71,6 +71,7 @@
 		898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */; };
 		898AD2421F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m */; };
 		898E74DB1EC6F5B3005137B4 /* JHBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* JHBaseNavigationController.m */; };
+		8990E7E91F85E386001117AD /* JHMediaThumbnailer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8990E7E81F85E386001117AD /* JHMediaThumbnailer.m */; };
 		899551101EAC9F8000AE04BC /* PlayerConfigPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */; };
 		899551131EACA62800AE04BC /* JHBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* JHBaseDanmaku+Tools.m */; };
 		8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996B9F91EAA28450018E8B0 /* PlayerViewController.m */; };
@@ -81,9 +82,13 @@
 		89988D2A1F5AB975001413BE /* LoginNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D291F5AB975001413BE /* LoginNetManager.m */; };
 		89988D2D1F5AC0E0001413BE /* FavoriteNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D2C1F5AC0E0001413BE /* FavoriteNetManager.m */; };
 		89993F641F71422D009F5364 /* TextHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89993F631F71422D009F5364 /* TextHeaderView.m */; };
+		899E8D951F833C7100C2933E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 899E8D971F833C7100C2933E /* Localizable.strings */; };
 		899F5F9D1F22F3100068A1DB /* JHSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5F9C1F22F3100068A1DB /* JHSMBFile.m */; };
 		899F5FA31F2349F20068A1DB /* SMBLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5FA21F2349F20068A1DB /* SMBLoginHeaderView.m */; };
+		89A15BAA1F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A15BA91F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m */; };
 		89A1C0191EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */; };
+		89A2A07C1F81DE5900D53619 /* JHControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07B1F81DE5900D53619 /* JHControlView.m */; };
+		89A2A07F1F81F60900D53619 /* JHVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07E1F81F60900D53619 /* JHVolumeView.m */; };
 		89A42E991EA5B0BA00FA0DF3 /* JHBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E961EA5B0BA00FA0DF3 /* JHBase.m */; };
 		89A42E9A1EA5B0BA00FA0DF3 /* JHBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E981EA5B0BA00FA0DF3 /* JHBaseCollection.m */; };
 		89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9C1EA5B12700FA0DF3 /* JHFilter.m */; };
@@ -297,6 +302,7 @@
 		894CBAAA1E6C073A0021253F /* HTTPServerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServerViewController.m; sourceTree = "<group>"; };
 		894CBAAD1E6C12A80021253F /* FileManagerFileLongViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerFileLongViewCell.h; sourceTree = "<group>"; };
 		894CBAAE1E6C12A80021253F /* FileManagerFileLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFileLongViewCell.m; sourceTree = "<group>"; };
+		8950540E1F89B4CB0027012F /* APPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPKey.h; sourceTree = "<group>"; };
 		895F322E1ECE9C8900368333 /* PlayerNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerNoticeView.h; sourceTree = "<group>"; };
 		895F322F1ECE9C8900368333 /* PlayerNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerNoticeView.m; sourceTree = "<group>"; };
 		89657F261F7237930003AF96 /* JHExpandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHExpandView.h; sourceTree = "<group>"; };
@@ -335,6 +341,8 @@
 		898AD2411F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuFilterDetailViewController.m; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* JHBaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseNavigationController.h; sourceTree = "<group>"; };
 		898E74DA1EC6F5B3005137B4 /* JHBaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBaseNavigationController.m; sourceTree = "<group>"; };
+		8990E7E71F85E386001117AD /* JHMediaThumbnailer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHMediaThumbnailer.h; sourceTree = "<group>"; };
+		8990E7E81F85E386001117AD /* JHMediaThumbnailer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHMediaThumbnailer.m; sourceTree = "<group>"; };
 		8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConfigPanelView.h; sourceTree = "<group>"; };
 		8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerConfigPanelView.m; sourceTree = "<group>"; };
 		899551111EACA62800AE04BC /* JHBaseDanmaku+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JHBaseDanmaku+Tools.h"; sourceTree = "<group>"; };
@@ -355,12 +363,20 @@
 		89988D2C1F5AC0E0001413BE /* FavoriteNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteNetManager.m; sourceTree = "<group>"; };
 		89993F621F71422D009F5364 /* TextHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextHeaderView.h; sourceTree = "<group>"; };
 		89993F631F71422D009F5364 /* TextHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextHeaderView.m; sourceTree = "<group>"; };
+		899E8D961F833C7100C2933E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		899E8D981F833C7300C2933E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		899F5F9B1F22F3100068A1DB /* JHSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSMBFile.h; sourceTree = "<group>"; };
 		899F5F9C1F22F3100068A1DB /* JHSMBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSMBFile.m; sourceTree = "<group>"; };
 		899F5FA11F2349F20068A1DB /* SMBLoginHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBLoginHeaderView.h; sourceTree = "<group>"; };
 		899F5FA21F2349F20068A1DB /* SMBLoginHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBLoginHeaderView.m; sourceTree = "<group>"; };
+		89A15BA81F873B9A00FDE80B /* JHPlayerDanmakuControlModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHPlayerDanmakuControlModel.h; sourceTree = "<group>"; };
+		89A15BA91F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHPlayerDanmakuControlModel.m; sourceTree = "<group>"; };
 		89A1C0171EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPReceiceTableViewCell.h; sourceTree = "<group>"; };
 		89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPReceiceTableViewCell.m; sourceTree = "<group>"; };
+		89A2A07A1F81DE5900D53619 /* JHControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHControlView.h; sourceTree = "<group>"; };
+		89A2A07B1F81DE5900D53619 /* JHControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHControlView.m; sourceTree = "<group>"; };
+		89A2A07D1F81F60900D53619 /* JHVolumeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHVolumeView.h; sourceTree = "<group>"; };
+		89A2A07E1F81F60900D53619 /* JHVolumeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHVolumeView.m; sourceTree = "<group>"; };
 		89A42E911EA5AFAA00FA0DF3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		89A42E951EA5B0BA00FA0DF3 /* JHBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBase.h; sourceTree = "<group>"; };
 		89A42E961EA5B0BA00FA0DF3 /* JHBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBase.m; sourceTree = "<group>"; };
@@ -703,7 +719,7 @@
 		8931CDD31F73DF1700F05C1F /* 新番列表 */ = {
 			isa = PBXGroup;
 			children = (
-				89988D1D1F5A63AD001413BE /* view */,
+				89988D1D1F5A63AD001413BE /* View */,
 				89988D171F5A5D57001413BE /* HomePageViewController.h */,
 				89988D181F5A5D57001413BE /* HomePageViewController.m */,
 				89988D1A1F5A6162001413BE /* HomePageItemViewController.h */,
@@ -813,6 +829,7 @@
 		8931CDE21F73E08000F05C1F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				89A2A0791F81DE4400D53619 /* 控制 */,
 				8931CDE31F73E08D00F05C1F /* 设置 */,
 				89350B0E1EAB059000072DA5 /* PlayerInterfaceView.h */,
 				89350B0F1EAB059000072DA5 /* PlayerInterfaceView.m */,
@@ -831,6 +848,7 @@
 		8931CDE31F73E08D00F05C1F /* 设置 */ = {
 			isa = PBXGroup;
 			children = (
+				89A15BA71F873B8300FDE80B /* Model */,
 				8931CDE41F73E09C00F05C1F /* View */,
 				8995510E1EAC9F8000AE04BC /* PlayerConfigPanelView.h */,
 				8995510F1EAC9F8000AE04BC /* PlayerConfigPanelView.m */,
@@ -1041,7 +1059,7 @@
 			path = Widget;
 			sourceTree = "<group>";
 		};
-		89988D1D1F5A63AD001413BE /* view */ = {
+		89988D1D1F5A63AD001413BE /* View */ = {
 			isa = PBXGroup;
 			children = (
 				89DA37531F5D1FBD003D7D59 /* HomePageBannerView.h */,
@@ -1055,8 +1073,28 @@
 				89BF74D71F6159EA00D40F07 /* HomePageSearchFilterView.h */,
 				89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */,
 			);
-			name = view;
+			name = View;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		89A15BA71F873B8300FDE80B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				89A15BA81F873B9A00FDE80B /* JHPlayerDanmakuControlModel.h */,
+				89A15BA91F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		89A2A0791F81DE4400D53619 /* 控制 */ = {
+			isa = PBXGroup;
+			children = (
+				89A2A07A1F81DE5900D53619 /* JHControlView.h */,
+				89A2A07B1F81DE5900D53619 /* JHControlView.m */,
+				89A2A07D1F81F60900D53619 /* JHVolumeView.h */,
+				89A2A07E1F81F60900D53619 /* JHVolumeView.m */,
+			);
+			path = "控制";
 			sourceTree = "<group>";
 		};
 		89A5C2C51F4A8C750058EB43 /* FDFullscreenPopGesture */ = {
@@ -1138,6 +1176,7 @@
 				89E3F5CD1E5829BD007AB1BD /* Info.plist */,
 				89E3F5BD1E5829BD007AB1BD /* main.m */,
 				89BF74B61F60F9A800D40F07 /* InfoPlist.strings */,
+				899E8D971F833C7100C2933E /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1180,6 +1219,7 @@
 				89E3F60A1E5851DF007AB1BD /* PrefixHeader.pch */,
 				89E3F6211E5858E2007AB1BD /* Config.h */,
 				89A42EA11EA5B1BF00FA0DF3 /* MacroDefinition.h */,
+				8950540E1F89B4CB0027012F /* APPKey.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1216,6 +1256,8 @@
 				89B04F6E1E59C1C3007054CB /* 视频模型 */,
 				89F5C82E1EAF112200676361 /* DanDanPlayHTTPConnection.h */,
 				89F5C82F1EAF112200676361 /* DanDanPlayHTTPConnection.m */,
+				8990E7E71F85E386001117AD /* JHMediaThumbnailer.h */,
+				8990E7E81F85E386001117AD /* JHMediaThumbnailer.m */,
 				8939FB481EB334520063BBA1 /* JHFile.h */,
 				8939FB491EB334520063BBA1 /* JHFile.m */,
 				899F5F9B1F22F3100068A1DB /* JHSMBFile.h */,
@@ -1343,7 +1385,7 @@
 						DevelopmentTeam = B2C6Y83F26;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1356,6 +1398,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 89E3F5B01E5829BD007AB1BD;
 			productRefGroup = 89E3F5BA1E5829BD007AB1BD /* Products */;
@@ -1377,6 +1420,7 @@
 				89D0A33C1F740CEA00E01B99 /* icon@2x.png in Resources */,
 				89D0A33E1F740CEA00E01B99 /* icon@3x.png in Resources */,
 				89DDCFB11F2A3DB0007B83CA /* course in Resources */,
+				899E8D951F833C7100C2933E /* Localizable.strings in Resources */,
 				89DDCFAF1F2A3DA3007B83CA /* web in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
 				89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */,
@@ -1471,6 +1515,7 @@
 				89D8F81F1EB0B112009329AA /* PlayerVideoControlView.m in Sources */,
 				894CBAAB1E6C073A0021253F /* HTTPServerViewController.m in Sources */,
 				89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */,
+				89A2A07C1F81DE5900D53619 /* JHControlView.m in Sources */,
 				89B04F7E1E59C601007054CB /* GDataXMLElement+Tools.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
 				89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */,
@@ -1525,6 +1570,7 @@
 				89A42F011EA6023D00FA0DF3 /* JHBiliBiliBangumiCollection.m in Sources */,
 				89CD85B31F68FB3F00E7D841 /* QRScanerViewController.m in Sources */,
 				89E1E9FA1EADA82000419C78 /* PlayerDanmakuControlView.m in Sources */,
+				89A2A07F1F81F60900D53619 /* JHVolumeView.m in Sources */,
 				89988D201F5A63C1001413BE /* HomePageItemTableViewCell.m in Sources */,
 				8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */,
 				8916C7BF1EA8958D00A2233D /* BaseTreeView.m in Sources */,
@@ -1578,6 +1624,7 @@
 				898E74DB1EC6F5B3005137B4 /* JHBaseNavigationController.m in Sources */,
 				893E62141F70197300A33593 /* LinkFileManagerNavigationController.m in Sources */,
 				894CBAA21E6BCA760021253F /* MineViewController.m in Sources */,
+				89A15BAA1F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m in Sources */,
 				89DD051E1F6AC3AB00051A96 /* JHLibraryCollection.m in Sources */,
 				89AE37C91F6289EE008D06CF /* AttentionDetailHistoryTableViewCell.m in Sources */,
 				89E8C9991F3DDEF100CCF4BC /* JHSetting.m in Sources */,
@@ -1593,6 +1640,7 @@
 				89D8F8221EB0B196009329AA /* PlayerControlPlayModeTableViewCell.m in Sources */,
 				89E5AFAE1F56CB2300CD4334 /* DanmakuFilterViewController.m in Sources */,
 				8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */,
+				8990E7E91F85E386001117AD /* JHMediaThumbnailer.m in Sources */,
 				89B04F871E59CE9B007054CB /* ToolsManager.m in Sources */,
 				8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */,
 				89BF74D01F61341900D40F07 /* HomePageSearchViewController.m in Sources */,
@@ -1644,6 +1692,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		899E8D971F833C7100C2933E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				899E8D961F833C7100C2933E /* en */,
+				899E8D981F833C7300C2933E /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		89BF74B61F60F9A800D40F07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

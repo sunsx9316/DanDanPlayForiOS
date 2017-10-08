@@ -53,23 +53,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        @weakify(self)
         PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
         cell.type = PlayerSliderTableViewCellTypeRate;
-        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
-            @strongify(self)
-            if (!self) return;
-            
-            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", aCell.slider.value];
-        };
-        
-        cell.touchSliderUpCallback = ^(PlayerSliderTableViewCell *aCell) {
-            @strongify(self)
-            if (!self) return;
-            
-            [CacheManager shareCacheManager].mediaPlayer.speed = aCell.slider.value;
-        };
-        
         return cell;
     }
     

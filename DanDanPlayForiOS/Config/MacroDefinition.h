@@ -6,6 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
+#import "APPKey.h"
+
 #ifndef MacroDefinition_h
 #define MacroDefinition_h
 
@@ -70,15 +72,5 @@
 //windows最小连接的版本
 #define WIN_MINI_LINK_VERSION @"6.8.2"
 
-
-//bugly appkey
-#define BUGLY_KEY @"5a3d1ad706"
-//友盟分享key
-#define UM_SHARE_KEY @"5825c795f29d9872ed0002ab"
-
-#define QQ_APP_KEY @"100523131"
-#define WEIBO_APP_KEY @"2376360757"
-#define WEIBO_APP_SECRET @"aa483da3b5ad318ceb3a1d7e4070e186"
-#define WEIBO_REDIRECT_URL @"https://api.acplay.net/oauth/weiboios"
 
 #endif /* MacroDefinition_h */

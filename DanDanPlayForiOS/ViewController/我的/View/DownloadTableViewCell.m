@@ -60,7 +60,7 @@
     
     if (flag) {
         self.progressLayer.frame = CGRectMake(0, 0, progress * self.width, self.height);
-        if (_task.state == TOSMBSessionDownloadTaskStateRunning) {
+        if (_task.state == TOSMBSessionTaskStateRunning) {
             self.progressView.layer.backgroundColor = MAIN_COLOR.CGColor;
         }
         else {
@@ -71,7 +71,7 @@
         [CATransaction begin];
         [CATransaction setDisableActions:YES];
         self.progressLayer.frame = CGRectMake(0, 0, progress * self.width, self.height);
-        if (_task.state == TOSMBSessionDownloadTaskStateRunning) {
+        if (_task.state == TOSMBSessionTaskStateRunning) {
             self.progressView.backgroundColor = MAIN_COLOR;
         }
         else {

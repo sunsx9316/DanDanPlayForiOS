@@ -8,6 +8,7 @@
 
 #import "PlayerSliderTableViewCell.h"
 #import "UIFont+Tools.h"
+#import "JHMediaPlayer.h"
 
 @interface PlayerSliderTableViewCell ()
 
@@ -43,13 +44,79 @@
 }
 
 - (void)touchSlider:(UISlider *)sender {
-    sender.value = [[NSString stringWithFormat:@"%.1f", sender.value] floatValue];
+    //限制slider值
+    if (_type == PlayerSliderTableViewCellTypeDanmakuLimit || _type == PlayerSliderTableViewCellTypeFontSize) {
+        sender.value = (NSInteger)sender.value;
+    }
+    else {
+        sender.value = [[NSString stringWithFormat:@"%.1f", sender.value] floatValue];
+    }
+    
+    switch (_type) {
+        case PlayerSliderTableViewCellTypeFontSize:
+        {
+            NSInteger value = sender.value;
+            UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
+            UIFont *tempFont = [danmakuFont fontWithSize:value];
+            tempFont.isSystemFont = danmakuFont.isSystemFont;
+            [CacheManager shareCacheManager].danmakuFont = tempFont;
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", value];
+        }
+            break;
+        case PlayerSliderTableViewCellTypeDanmakuLimit:
+        {
+            NSInteger value = sender.value;
+            
+            if (value > 99) {
+                self.currentValueLabel.text = @"∞";
+            }
+            else {
+                self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", value];
+            }
+        }
+            break;
+        case PlayerSliderTableViewCellTypeSpeed:
+        {
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", sender.value];
+            self.currentValueLabel.textColor = sender.value == sender.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
+            [CacheManager shareCacheManager].danmakuSpeed = sender.value;
+        }
+            break;
+        case PlayerSliderTableViewCellTypeOpacity:
+        {
+            [CacheManager shareCacheManager].danmakuOpacity = sender.value;
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", sender.value];
+        }
+            break;
+        case PlayerSliderTableViewCellTypeRate:
+        {
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", sender.value];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
     if (self.touchSliderCallback) {
         self.touchSliderCallback(self);
     }
 }
 
 - (void)touchSliderUp:(UISlider *)sender {
+    if (_type == PlayerSliderTableViewCellTypeRate) {
+        [CacheManager shareCacheManager].mediaPlayer.speed = sender.value;
+    }
+    else if (_type == PlayerSliderTableViewCellTypeDanmakuLimit) {
+        NSInteger value = sender.value;
+        if (value > 99) {
+            [CacheManager shareCacheManager].danmakuLimitCount = 0;
+        }
+        else {
+            [CacheManager shareCacheManager].danmakuLimitCount = value;
+        }
+    }
+    
     if (self.touchSliderUpCallback) {
         self.touchSliderUpCallback(self);
     }
@@ -90,6 +157,14 @@
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];
         self.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.value];
     }
+    else if (_type == PlayerSliderTableViewCellTypeDanmakuLimit) {
+        self.currentValueLabel.textColor = [UIColor whiteColor];
+        self.slider.value = [CacheManager shareCacheManager].danmakuLimitCount;
+        self.slider.minimumValue = 1;
+        self.slider.maximumValue = 100;
+        self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.maximumValue];
+        self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+    }
 }
 
 #pragma mark - 懒加载
@@ -129,3 +204,4 @@
 }
 
 @end
+

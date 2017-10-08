@@ -27,6 +27,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSURL+Tools.h"
 #import "JHBaseDanmaku+Tools.h"
+#import "JHVolumeView.h"
 
 static const float slowRate = 0.05f;
 static const float normalRate = 0.2f;
@@ -43,10 +44,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     InterfaceViewPanTypeLight,
 };
 
-@interface PlayerViewController ()<JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, PlayerInterfaceViewDelegate, CacheManagerDelagate>
+@interface PlayerViewController ()<JHMediaPlayerDelegate, JHDanmakuEngineDelegate, PlayerConfigPanelViewDelegate, PlayerInterfaceViewDelegate, CacheManagerDelagate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) PlayerInterfaceView *interfaceView;
 @property (strong, nonatomic) JHMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
+@property (strong, nonatomic) JHVolumeView *mpVolumeView;
 @end
 
 @implementation PlayerViewController
@@ -62,11 +64,15 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     NSLock *_lock;
     //当前弹幕屏蔽标志 因为可以实时修改屏蔽的弹幕 所以需要设置唯一的标志
     NSInteger _danmakuParseFlag;
+    //记录滑动手势刚开始点击的位置
+    CGPoint _panGestureTouchPoint;
+    NSArray <NSString *>*_addKeyPaths;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarWithColor:[UIColor clearColor]];
+    [UIViewController attemptRotationToDeviceOrientation];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,6 +98,24 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return UIStatusBarStyleLightContent;
 }
 
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [CacheManager shareCacheManager].playInterfaceOrientation;
+}
+
+//- (void)loadView {
+//    [super loadView];
+//    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+//}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -99,11 +123,17 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     _queue = [[NSOperationQueue alloc] init];
     _currentTime = -1;
     _danmakuParseFlag = [NSDate date].hash;
+    _panGestureTouchPoint = CGPointZero;
+    //加入最底层
+    [self.view addSubview:self.mpVolumeView];
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    NSArray *keyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity"];
-    [keyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    _addKeyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity", @"danmakuLimitCount"];
+    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[CacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
     }];
     
@@ -128,6 +158,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self reload];
 }
 
+- (void)appWillResignActive:(NSNotification *)sender {
+    if (self.player.isPlaying) {
+        [self.player pause];
+    }
+}
+
 - (void)setModel:(VideoModel *)model {
     
     VideoModel *oldVideoModel = _model;
@@ -150,8 +186,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self.player stop];
     [self.danmakuEngine stop];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    NSArray *keyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity"];
-    [keyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[CacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
     }];
     
@@ -174,6 +209,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
     else if ([keyPath isEqualToString:@"danmakuOpacity"]) {
         self.danmakuEngine.canvas.alpha = [change[NSKeyValueChangeNewKey] floatValue];
+    }
+    else if ([keyPath isEqualToString:@"danmakuLimitCount"]) {
+        self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
     }
 }
 
@@ -254,6 +292,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (void)mediaPlayer:(JHMediaPlayer *)player userJumpWithTime:(NSTimeInterval)time {
     [self.danmakuEngine setCurrentTime:time];
+    if (player.isPlaying == NO) {
+        [self.danmakuEngine pause];
+    }
 }
 
 #pragma mark - JHDanmakuEngineDelegate
@@ -423,6 +464,13 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         }
     };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIPanGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    //记录滑动手势一开始点击的位置
+    _panGestureTouchPoint = [touch locationInView:self.view];
+    return YES;
 }
 
 #pragma mark - 私有方法
@@ -715,6 +763,25 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [_lock unlock];
 }
 
+- (void)volumeDidChange:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"] isEqualToString:@"ExplicitVolumeChange"] && self.interfaceView.volumeControlView.dragging == NO) {
+            NSLog(@"%@", userInfo);
+            float value = [userInfo[@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+            if (self.interfaceView.volumeControlView.isShowing == NO) {
+                [self.interfaceView.volumeControlView showFromView:self.view];
+            }
+            else {
+                [self.interfaceView.volumeControlView resetTimer];
+            }
+            
+            self.interfaceView.volumeControlView.progress = value;
+            [self.interfaceView.volumeControlView dismissAfter:1];
+        }        
+    });
+}
+
 #pragma mark UI
 
 - (void)touchBackButton:(UIButton *)sender {
@@ -808,30 +875,33 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         }
         
         _panType = InterfaceViewPanTypeInactive;
+        self.interfaceView.volumeControlView.dragging = NO;
+        [self.interfaceView.brightnessControlView dismiss];
+        [self.interfaceView.volumeControlView dismiss];
     }
     else {
         if (_panType == InterfaceViewPanTypeInactive) {
-            CGPoint translation = [panGesture translationInView:nil];
             CGPoint point = [panGesture locationInView:nil];
-            CGPoint velocity = [panGesture velocityInView:nil];
             
-            if (fabs(velocity.x) > 25 && fabs(velocity.y) > 25) {
-                //横向移动
-                if (fabs(translation.y) < 5) {
-                    //让slider不响应进度更新
-                    [self touchSliderDown:self.interfaceView.progressSlider];
-                    _panType = InterfaceViewPanTypeProgress;
-                }
-                //亮度调节
-                else if (point.x < self.view.width / 2) {
-                    _panType = InterfaceViewPanTypeLight;
-                }
-                //音量调节
-                else {
-                    _panType = InterfaceViewPanTypeVolume;
-                }
+            CGPoint tempPoint = CGPointMake(point.x - _panGestureTouchPoint.x, point.y - _panGestureTouchPoint.y);
+            //横向移动
+            if (fabs(tempPoint.y) < 5) {
+                //让slider不响应进度更新
+                [self touchSliderDown:self.interfaceView.progressSlider];
+                _panType = InterfaceViewPanTypeProgress;
+            }
+            //亮度调节
+            else if (point.x < self.view.width / 2) {
+                _panType = InterfaceViewPanTypeLight;
+                [self.interfaceView.brightnessControlView showFromView:self.view];
+            }
+            //音量调节
+            else {
+                _panType = InterfaceViewPanTypeVolume;
+                [self.interfaceView.volumeControlView showFromView:self.view];
             }
         }
+        //进度调节
         else if (_panType == InterfaceViewPanTypeProgress) {
             float y = [panGesture locationInView:self.view].y;
             if (y >= 0 && y <= self.view.height / 3) {
@@ -848,22 +918,23 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             self.interfaceView.progressSlider.value = x;
             [self touchSlider:self.interfaceView.progressSlider];
         }
+        //亮度和音量调节
         else {
             float rate = -[panGesture translationInView:nil].y;
             [panGesture setTranslation:CGPointZero inView:nil];
             rate /= self.view.height;
             
+            //改变系统音量
             if (_panType == InterfaceViewPanTypeVolume) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                float volume = [MPMusicPlayerController applicationMusicPlayer].volume;
-                volume += rate;
-                [[MPMusicPlayerController applicationMusicPlayer] setVolume:volume];
-#pragma clang diagnostic pop
+                self.interfaceView.volumeControlView.dragging = YES;
+                CGFloat value = self.mpVolumeView.volume + rate;
+                self.interfaceView.volumeControlView.progress = value;
+                self.mpVolumeView.volume = value;
             }
             else {
                 float brightness = [UIScreen mainScreen].brightness;
                 brightness += rate;
+                self.interfaceView.brightnessControlView.progress = brightness;
                 [[UIScreen mainScreen] setBrightness:brightness];
             }
         }
@@ -907,6 +978,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         [tapGesture requireGestureRecognizerToFail:pauseGesture];
         
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScreen:)];
+        panGesture.delegate = self;
         [_interfaceView.gestureView addGestureRecognizer:panGesture];
         
         //字幕视图
@@ -950,15 +1022,24 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return _player;
 }
 
+- (JHVolumeView *)mpVolumeView {
+    if (_mpVolumeView == nil) {
+        _mpVolumeView = [[JHVolumeView alloc] init];
+    }
+    return _mpVolumeView;
+}
+
 - (JHDanmakuEngine *)danmakuEngine {
     if (_danmakuEngine == nil) {
         _danmakuEngine = [[JHDanmakuEngine alloc] init];
         _danmakuEngine.delegate = self;
         [_danmakuEngine setSpeed:[CacheManager shareCacheManager].danmakuSpeed];
         _danmakuEngine.canvas.alpha = [CacheManager shareCacheManager].danmakuOpacity;
+        _danmakuEngine.limitCount = [CacheManager shareCacheManager].danmakuLimitCount;
         [self.view insertSubview:_danmakuEngine.canvas aboveSubview:self.player.mediaView];
     }
     return _danmakuEngine;
 }
 
 @end
+

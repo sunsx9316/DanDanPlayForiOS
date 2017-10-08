@@ -118,4 +118,20 @@
     return @"#";
 }
 
++ (NSString *)numberFormatterWithUpper:(NSUInteger)upper
+                                number:(NSUInteger)number {
+    if (upper == 0) {
+        upper = 99;
+    }
+    
+    if (number > upper) {
+        return [NSString stringWithFormat:@"%ld+", upper];
+    }
+    return [NSString stringWithFormat:@"%ld", number];
+}
+
+- (BOOL)isMagnet {
+    return [self containsString:@"magnet:?xt=urn:btih:"];
+}
+
 @end

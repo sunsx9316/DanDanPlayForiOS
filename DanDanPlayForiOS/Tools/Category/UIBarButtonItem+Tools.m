@@ -7,6 +7,7 @@
 //
 
 #import "UIBarButtonItem+Tools.h"
+#import "JHEdgeButton.h"
 
 @implementation UIBarButtonItem (Tools)
 
@@ -14,6 +15,7 @@
     UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
     [aButton setImage:image forState:UIControlStateNormal];
+//    [aButton sizeToFit];
     if (configAction) configAction(aButton);
     return [self initWithCustomView:aButton];
 }

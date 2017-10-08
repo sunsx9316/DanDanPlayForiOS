@@ -9,7 +9,7 @@
 #import "MJRefreshFooter+Tools.h"
 
 @implementation MJRefreshFooter (Tools)
-+ (instancetype)jh_headerRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler {
++ (instancetype)jh_footRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler {
     MJRefreshAutoNormalFooter *foot = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:completionHandler];
     foot.automaticallyChangeAlpha = YES;
     foot.stateLabel.font = NORMAL_SIZE_FONT;

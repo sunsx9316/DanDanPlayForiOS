@@ -16,9 +16,11 @@
 #import "PlayerStepTableViewCell.h"
 #import "FileManagerFolderPlayerListViewCell.h"
 #import "UIFont+Tools.h"
+#import "JHPlayerDanmakuControlModel.h"
 
 @interface PlayerDanmakuControlView ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) NSArray <JHPlayerDanmakuControlModel *>*dataSource;
 @end
 
 @implementation PlayerDanmakuControlView
@@ -46,115 +48,36 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 8;
+    return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    @weakify(self)
-    if (indexPath.section == 0) {
-        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
-        cell.type = PlayerSliderTableViewCellTypeFontSize;
-        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
-            @strongify(self)
-            if (!self) return;
-            
-            NSInteger value = aCell.slider.value;
-            UIFont *danmakuFont = [CacheManager shareCacheManager].danmakuFont;
-            UIFont *tempFont = [danmakuFont fontWithSize:value];
-            tempFont.isSystemFont = danmakuFont.isSystemFont;
-            [CacheManager shareCacheManager].danmakuFont = tempFont;
-            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)value];
-        };
-        return cell;
-    }
-    else if (indexPath.section == 1) {
-        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
-        cell.type = PlayerSliderTableViewCellTypeSpeed;
-        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
-            @strongify(self)
-            if (!self) return;
-            
-            UISlider *slider = aCell.slider;
-            
-            [CacheManager shareCacheManager].danmakuSpeed = slider.value;
-            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", slider.value];
-            aCell.currentValueLabel.textColor = slider.value == slider.maximumValue ? [UIColor redColor] : [UIColor whiteColor];
-        };
-        return cell;
-    }
-    else if (indexPath.section == 2) {
-        PlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerSliderTableViewCell" forIndexPath:indexPath];
-        cell.type = PlayerSliderTableViewCellTypeOpacity;
-        cell.touchSliderCallback = ^(PlayerSliderTableViewCell *aCell) {
-            @strongify(self)
-            if (!self) return;
-            
-            UISlider *slider = aCell.slider;
-            
-            [CacheManager shareCacheManager].danmakuOpacity = slider.value;
-            aCell.currentValueLabel.text = [NSString stringWithFormat:@"%.1f", slider.value];
-        };
-        
-        return cell;
-    }
-    else if (indexPath.section == 3) {
-        PlayerShadowStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerShadowStyleTableViewCell" forIndexPath:indexPath];
-        return cell;
-    }
-    else if (indexPath.section == 4) {
-        PlayerStepTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlayerStepTableViewCell" forIndexPath:indexPath];
-        [cell setTouchStepperCallBack:self.touchStepperCallBack];
-        return cell;
-    }
-    else if (indexPath.section == 5) {
-        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
-        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
-        cell.titleLabel.text = @"屏蔽弹幕";
-        return cell;
-    }
-    else if (indexPath.section == 6) {
-        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
-        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
-        cell.titleLabel.text = @"手动加载弹幕...";
-        return cell;
-    }
-    else if (indexPath.section == 7) {
-        FileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
-        cell.titleLabel.textAlignment = NSTextAlignmentCenter;
-        cell.titleLabel.text = @"手动匹配视频";
-        return cell;
-    }
-
-    return nil;
+    
+    JHPlayerDanmakuControlModel *model = self.dataSource[indexPath.section];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.initializeClass forIndexPath:indexPath];
+    [model.cellDic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [cell setValue:obj forKeyPath:key];
+    }];
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 5 && self.touchFilterDanmakuCellCallBack) {
-        self.touchFilterDanmakuCellCallBack();
-    }
-    else if (indexPath.section == 6 && self.touchSelectedDanmakuCellCallBack) {
-        self.touchSelectedDanmakuCellCallBack();
-    }
-    else if (indexPath.section == 7 && self.touchMatchVideoCellCallBack) {
-        self.touchMatchVideoCellCallBack();
+    JHPlayerDanmakuControlModel *model = self.dataSource[indexPath.section];
+    if (model.didSelectedRowCallBack) {
+        model.didSelectedRowCallBack();
     }
 }
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section < 5) {
-        return 44 + jh_isPad() * 20;
-    }
-    
-    return 64 + jh_isPad() * 20;
+    JHPlayerDanmakuControlModel *model = self.dataSource[indexPath.section];
+    return model.cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section < 5) {
-        return 30;
-    }
-    return 0.1;
+    JHPlayerDanmakuControlModel *model = self.dataSource[section];
+    return model.headerHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -162,26 +85,14 @@
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section < 5) {
+    JHPlayerDanmakuControlModel *model = self.dataSource[section];
+    if (model.headerHeight > 0.1) {
         PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
-        if (section == 0) {
-            view.titleLabel.text = @"弹幕字体大小";
-        }
-        else if (section == 1) {
-            view.titleLabel.text = @"弹幕速度";
-        }
-        else if (section == 2) {
-            view.titleLabel.text = @"弹幕透明度";
-        }
-        else if (section == 3) {
-            view.titleLabel.text = @"弹幕特效";
-        }
-        else if (section == 4) {
-            view.titleLabel.text = @"弹幕时间偏移";
-        }
+        [model.headerDic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [view setValue:obj forKeyPath:key];
+        }];
         return view;
     }
-    
     return nil;
 }
 
@@ -201,6 +112,135 @@
         [self addSubview:_tableView];
     }
     return _tableView;
+}
+
+- (NSArray<JHPlayerDanmakuControlModel *> *)dataSource {
+    if (_dataSource == nil) {
+        NSMutableArray *arr = [NSMutableArray array];
+
+        CGFloat rowHeight1 = 44 + jh_isPad() * 20;
+        CGFloat rowHeight2 = 64 + jh_isPad() * 20;
+        CGFloat heightHeight1 = 30;
+        CGFloat heightHeight2 = 0.1;
+        
+        //弹幕大小
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerSliderTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            cell.cellDic = @{@"type" : @(PlayerSliderTableViewCellTypeFontSize)};
+            
+            cell.headerDic = @{@"titleLabel.text" : @"弹幕字体大小"};
+            
+            [arr addObject:cell];
+        }
+        
+        //弹幕速度
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerSliderTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            cell.cellDic = @{@"type" : @(PlayerSliderTableViewCellTypeSpeed)};
+            
+            cell.headerDic = @{@"titleLabel.text" : @"弹幕速度"};
+            
+            [arr addObject:cell];
+        }
+        
+        //弹幕透明度
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerSliderTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            cell.cellDic = @{@"type" : @(PlayerSliderTableViewCellTypeOpacity)};
+            
+            cell.headerDic = @{@"titleLabel.text" : @"弹幕透明度"};
+            
+            [arr addObject:cell];
+        }
+        
+        //同屏弹幕数量
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerSliderTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            cell.cellDic = @{@"type" : @(PlayerSliderTableViewCellTypeDanmakuLimit)};
+            
+            cell.headerDic = @{@"titleLabel.text" : @"同屏弹幕数量"};
+            
+            [arr addObject:cell];
+        }
+        
+        
+        //弹幕边缘风格
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerShadowStyleTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            
+            cell.headerDic = @{@"titleLabel.text" : @"弹幕特效"};
+            
+            [arr addObject:cell];
+        }
+        
+        //弹幕快进快退
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"PlayerStepTableViewCell";
+            cell.cellHeight = rowHeight1;
+            cell.headerHeight = heightHeight1;
+            cell.cellDic = @{@"touchStepperCallBack" : ^(CGFloat value){
+                if (self.touchStepperCallBack) {
+                    self.touchStepperCallBack(value);
+                }
+            }};
+            
+            cell.headerDic = @{@"titleLabel.text" : @"弹幕时间偏移"};
+            
+            [arr addObject:cell];
+        }
+        
+        //屏蔽弹幕
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"FileManagerFolderPlayerListViewCell";
+            cell.cellHeight = rowHeight2;
+            cell.headerHeight = heightHeight2;
+            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"屏蔽弹幕"};
+            cell.didSelectedRowCallBack = self.touchFilterDanmakuCellCallBack;
+            [arr addObject:cell];
+        }
+        
+        //手动加载弹幕
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"FileManagerFolderPlayerListViewCell";
+            cell.cellHeight = rowHeight2;
+            cell.headerHeight = heightHeight2;
+            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"手动加载弹幕..."};
+            cell.didSelectedRowCallBack = self.touchSelectedDanmakuCellCallBack;
+            [arr addObject:cell];
+        }
+        
+        //手动匹配视频
+        {
+            JHPlayerDanmakuControlModel *cell = [[JHPlayerDanmakuControlModel alloc] init];
+            cell.initializeClass = @"FileManagerFolderPlayerListViewCell";
+            cell.cellHeight = rowHeight2;
+            cell.headerHeight = heightHeight2;
+            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"手动匹配视频"};
+            cell.didSelectedRowCallBack = self.touchMatchVideoCellCallBack;
+            [arr addObject:cell];
+        }
+        
+        _dataSource = arr;
+    }
+    return _dataSource;
 }
 
 @end

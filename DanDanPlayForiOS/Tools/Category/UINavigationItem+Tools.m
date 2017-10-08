@@ -7,12 +7,14 @@
 //
 
 #import "UINavigationItem+Tools.h"
+#import "JHEdgeButton.h"
 
 @implementation UINavigationItem (Tools)
 - (void)addLeftItemFixedSpace:(UIBarButtonItem *)item {
     if (item == nil) return;
     
     UIButton *button = item.customView;
+    
     if ([button isKindOfClass:[UIControl class]]) {
         [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     }
@@ -22,6 +24,7 @@
 
 - (void)addRightItemFixedSpace:(UIBarButtonItem *)item {
     if (item == nil) return;
+    
     UIButton *button = item.customView;
     if ([button isKindOfClass:[UIControl class]]) {
         [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];

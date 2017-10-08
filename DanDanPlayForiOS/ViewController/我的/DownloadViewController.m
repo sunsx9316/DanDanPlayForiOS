@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"下载任务";
+    self.navigationItem.title = @"下载任务";
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -104,12 +104,12 @@
     }
     else {
         TOSMBSessionDownloadTask *task = [CacheManager shareCacheManager].downloadTasks[indexPath.row];
-        if (task.state == TOSMBSessionDownloadTaskStateSuspended) {
+        if (task.state == TOSMBSessionTaskStateSuspended) {
             [task resume];
             DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             [cell updateDataSourceWithAnimate:YES];
         }
-        else if (task.state == TOSMBSessionDownloadTaskStateRunning) {
+        else if (task.state == TOSMBSessionTaskStateRunning) {
             [task suspend];
             DownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             [cell updateDataSourceWithAnimate:YES];
@@ -129,7 +129,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40;
+    if (section == 0) {
+        return (self.linkDownloadTaskCollection.collection.count > 0) * 40;
+    }
+    return ([CacheManager shareCacheManager].downloadTasks.count > 0) * 40;
 }
 
 #pragma mark - UITableViewDataSource

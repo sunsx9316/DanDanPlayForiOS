@@ -7,6 +7,7 @@
 //
 
 #import "MBProgressHUD+Tools.h"
+#import <UIKit/UIKit.h>
 
 static MBProgressHUD *progressHUD = nil;
 
@@ -41,7 +42,7 @@ static MBProgressHUD *progressHUD = nil;
 + (void)showWithError:(NSError *)error
           userInfoKey:(NSString *)userInfoKey
                atView:(UIView *)view {
-    NSString *errStr = error.userInfo[userInfoKey];
+    NSString *errStr = [NSString stringWithFormat:@"%@", error.userInfo[userInfoKey]];
     if (errStr.length == 0) {
         errStr = error.domain;
     }

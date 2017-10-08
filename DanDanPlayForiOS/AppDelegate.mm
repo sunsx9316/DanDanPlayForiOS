@@ -14,16 +14,16 @@
 #import <AVFoundation/AVFoundation.h>
 #import "JHMediaPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "NSString+Tools.h"
+#import "CacheManager.h"
+#import "DownloadViewController.h"
+#import "QRScanerViewController.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-{
-    UIBackgroundTaskIdentifier _bgTaskId;
-    
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
@@ -45,33 +45,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-//进入后台
 - (void)applicationWillResignActive:(UIApplication *)application {
-    //设置锁屏界面
-    JHMediaPlayer *player = [CacheManager shareCacheManager].mediaPlayer;
-    if (!player) return;
-    
-    VideoModel *model = [CacheManager shareCacheManager].currentPlayVideoModel;
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setActive:YES error:nil];
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    _bgTaskId = [AppDelegate backgroundPlayerID:_bgTaskId];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    if (model.name.length) {
-        dict[MPMediaItemPropertyTitle] = model.name;
-    }
-    
-    UIImage *img = [[YYWebImageManager sharedManager].cache getImageForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:model.quickHash]]];
-    if (img) {
-        dict[MPMediaItemPropertyArtwork] = [[MPMediaItemArtwork alloc] initWithImage:img];
-    }
-    //设置歌曲时长
-    dict[MPMediaItemPropertyPlaybackDuration] = @(player.length);
-    //设置已经播放时长
-    dict[MPNowPlayingInfoPropertyElapsedPlaybackTime] = @(player.currentTime);
-    
-    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
+ 
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -83,8 +58,72 @@
 
 }
 
+//唤醒
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSString *content = [UIPasteboard generalPasteboard].string;
+    
+    //系统剪贴板有磁力链并且第一次打开
+    if ([content isMagnet]) {
+        //防止重复弹出
+        [UIPasteboard generalPasteboard].string = @"";
+        
+        UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+        UINavigationController *nav = (UINavigationController *)tabBarController.selectedViewController;
+        
+        void(^downloadAction)(NSString *) = ^(NSString *magnet){
+            
+            [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+                if (error) {
+                    [MBProgressHUD showWithError:error];
+                }
+                else {
+                    [[CacheManager shareCacheManager] addLinkDownload];
+                    
+                    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        DownloadViewController *vc = [[DownloadViewController alloc] init];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [nav pushViewController:vc animated:YES];
+                    }]];
+                    
+                    [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
+                    
+                    [nav presentViewController:vc animated:YES completion:nil];
+                }
+            }];
+        };
+        
+        if ([CacheManager shareCacheManager].linkInfo == nil) {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"检测到磁力链" message:@"需要连接到电脑端才能下载~" preferredStyle:UIAlertControllerStyleAlert];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"扫码链接" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                @weakify(self)
+                vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    downloadAction(content);
+                };
+                [nav pushViewController:vc animated:YES];
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [nav presentViewController:vc animated:YES completion:nil];
+        }
+        else {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"检测到磁力链" message:@"是否下载" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                downloadAction(content);
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [nav presentViewController:vc animated:YES completion:nil];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -130,22 +169,6 @@
     [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
-}
-
-+ (UIBackgroundTaskIdentifier)backgroundPlayerID:(UIBackgroundTaskIdentifier)backTaskId {
-    //设置并激活音频会话类别
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [session setActive:YES error:nil];
-    //允许应用程序接收远程控制
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    //设置后台任务ID
-    UIBackgroundTaskIdentifier newTaskId = UIBackgroundTaskInvalid;
-    newTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-    if(newTaskId != UIBackgroundTaskInvalid && backTaskId != UIBackgroundTaskInvalid) {
-        [[UIApplication sharedApplication] endBackgroundTask:backTaskId];
-    }
-    return newTaskId;
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {

@@ -205,26 +205,28 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
     //返回上一级
-    if (indexPath.section == 0) {
-        return 53 + 20 * jh_isPad();
-    }
-    
-    JHFile *file = _dataSourceFile.subFiles[indexPath.row];
-    if (file.type == JHFileTypeDocument) {
+//    if (indexPath.section == 0) {
+//        return 53 + 20 * jh_isPad();
+//    }
+//
+//    JHFile *file = _dataSourceFile.subFiles[indexPath.row];
+//    if (file.type == JHFileTypeDocument) {
 //        return 60 + 30 * jh_isPad();
-        if ([file isKindOfClass:[JHSMBFile class]]) {
-            return [tableView fd_heightForCellWithIdentifier:@"FileManagerVideoTableViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerVideoTableViewCell *cell) {
-                cell.model = (JHSMBFile *)file;
-            }];
-        }
-        else {
-            return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
-                cell.model = file.videoModel;
-            }];
-        }
-    }
-    return 70 + 30 * jh_isPad();
+//        return UITableViewAutomaticDimension;
+//        if ([file isKindOfClass:[JHSMBFile class]]) {
+//            return [tableView fd_heightForCellWithIdentifier:@"FileManagerVideoTableViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerVideoTableViewCell *cell) {
+//                cell.model = (JHSMBFile *)file;
+//            }];
+//        }
+//        else {
+//            return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
+//                cell.model = file.videoModel;
+//            }];
+//        }
+//    }
+//    return 70 + 30 * jh_isPad();
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

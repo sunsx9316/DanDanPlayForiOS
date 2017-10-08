@@ -10,6 +10,7 @@
 //#import "FileManagerView.h"
 #import "PlayNavigationController.h"
 #import "MatchViewController.h"
+#import "DownloadViewController.h"
 
 #import "SMBVideoModel.h"
 #import "BaseTableView.h"
@@ -116,7 +117,8 @@
         }];
 //        return 60 + 30 * jh_isPad();
     }
-    return 70 + 30 * jh_isPad();
+//    return 70 + 30 * jh_isPad();
+    return UITableViewAutomaticDimension;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -321,7 +323,16 @@
         [[CacheManager shareCacheManager] addSMBSessionDownloadTasks:taskArr];
         [aHUD hideAnimated:YES];
         
-        [MBProgressHUD showWithText:@"添加成功！"];
+//        [MBProgressHUD showWithText:@"添加成功！"];
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            DownloadViewController *vc = [[DownloadViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
     });
 
     [self touchRightItem:self.navigationItem.rightBarButtonItem.customView];
@@ -334,6 +345,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowsMultipleSelectionDuringEditing = YES;
+        _tableView.estimatedRowHeight = 60;
         [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
         [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
         

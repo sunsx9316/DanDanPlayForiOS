@@ -15,7 +15,7 @@
 @implementation BaseCollectionView
 
 - (void)endRefreshing {
-    if (self.mj_footer.isRefreshing) {
+    if (self.mj_header.isRefreshing) {
         [self.mj_header endRefreshing];
     }
     

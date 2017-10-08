@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PlayerViewController.h"
 
 @interface PlayNavigationController : UINavigationController
 - (instancetype)initWithModel:(VideoModel *)model;

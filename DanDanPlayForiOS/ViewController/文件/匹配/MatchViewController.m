@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"快速匹配";
+    self.navigationItem.title = @"快速匹配";
     [self configRightItem];
     [self configTitleView];
     

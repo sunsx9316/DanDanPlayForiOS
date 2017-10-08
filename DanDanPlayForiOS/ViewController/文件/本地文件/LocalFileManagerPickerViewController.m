@@ -14,6 +14,7 @@
 
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "NSURL+Tools.h"
+#import "NSString+Tools.h"
 
 @interface LocalFileManagerPickerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) BaseTableView *tableView;
@@ -59,22 +60,22 @@
     //文件夹
     FileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.name;
-    cell.detailLabel.text = [NSString stringWithFormat:@"%ld个%@文件", file.subFiles.count, self.fileType == PickerFileTypeSubtitle ? @"字幕" : @"弹幕"];
+    cell.detailLabel.text = [NSString stringWithFormat:@"%@个%@文件", [NSString numberFormatterWithUpper:0 number:file.subFiles.count], self.fileType == PickerFileTypeSubtitle ? @"字幕" : @"弹幕"];
     cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JHFile *file = self.file.subFiles[indexPath.row];
-    if (file.type == JHFileTypeDocument) {
-        return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
-            cell.titleLabel.text = file.name;
-        }];
-    }
-    return 70 + 30 * jh_isPad();
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    JHFile *file = self.file.subFiles[indexPath.row];
+//    if (file.type == JHFileTypeDocument) {
+//        return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
+//            cell.titleLabel.text = file.name;
+//        }];
+//    }
+//    return 70 + 30 * jh_isPad();
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JHFile *file = self.file.subFiles[indexPath.row];
@@ -101,6 +102,8 @@
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.estimatedRowHeight = 80;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[FileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"FileManagerFolderPlayerListViewCell"];
         [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];

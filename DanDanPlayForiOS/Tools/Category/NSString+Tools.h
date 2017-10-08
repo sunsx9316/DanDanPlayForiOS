@@ -43,7 +43,34 @@
  */
 - (BOOL)isDanmakuFileWithVideoPath:(NSString *)videoPath;
 
+/**
+ 字符串是否为ip
+
+ @return 是否为ip
+ */
 - (BOOL)isIpAdress;
 
+/**
+ 汉字转拼音首字母
+
+ @return 拼音首字母
+ */
 - (NSString *)pinYinIndex;
+
+/**
+ 格式化数字
+
+ @param upper 上界
+ @param number 数字
+ @return 格式化数字
+ */
++ (NSString *)numberFormatterWithUpper:(NSUInteger)upper
+                                number:(NSUInteger)number;
+
+/**
+ 字符串是否为磁力链
+
+ @return 是否为磁力链
+ */
+- (BOOL)isMagnet;
 @end

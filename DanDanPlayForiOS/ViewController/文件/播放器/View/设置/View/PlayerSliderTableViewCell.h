@@ -8,10 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+
+/**
+ 滚动条类型
+
+ - PlayerSliderTableViewCellTypeFontSize: 文字大小
+ - PlayerSliderTableViewCellTypeSpeed: 速度
+ - PlayerSliderTableViewCellTypeOpacity: 透明度
+ - PlayerSliderTableViewCellTypeDanmakuLimit: 同屏弹幕数量
+ - PlayerSliderTableViewCellTypeRate: 播放速率
+ */
 typedef NS_ENUM(NSUInteger, PlayerSliderTableViewCellType) {
     PlayerSliderTableViewCellTypeFontSize,
     PlayerSliderTableViewCellTypeSpeed,
     PlayerSliderTableViewCellTypeOpacity,
+    PlayerSliderTableViewCellTypeDanmakuLimit,
     PlayerSliderTableViewCellTypeRate,
 };
 

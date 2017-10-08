@@ -111,7 +111,7 @@
                 [[CacheManager shareCacheManager] addLinkDownload];
                 
                 UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                [vc addAction:[UIAlertAction actionWithTitle:@"查看下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     DownloadViewController *vc = [[DownloadViewController alloc] init];
                     [self.navigationController pushViewController:vc animated:YES];
                 }]];

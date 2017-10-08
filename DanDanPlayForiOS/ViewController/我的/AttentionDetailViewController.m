@@ -28,6 +28,8 @@
     
     [self configRightItem];
     
+    self.navigationItem.title = @"番剧详情";
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -150,7 +152,6 @@
                 else {
                     self.historyModel = responseObject;
                     self.historyModel.isOnAir = self.isOnAir;
-                    self.navigationItem.title = self.historyModel.name;
                     [self.tableView reloadData];
                 }
                 

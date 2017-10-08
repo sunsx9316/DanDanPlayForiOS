@@ -111,13 +111,13 @@
     return 0.1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JHFile *file = _file.subFiles[indexPath.row];
-    if (file.type == JHFileTypeDocument) {
-        return 60 + 30 * jh_isPad();
-    }
-    return 70 + 30 * jh_isPad();
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    JHFile *file = _file.subFiles[indexPath.row];
+//    if (file.type == JHFileTypeDocument) {
+//        return 60 + 30 * jh_isPad();
+//    }
+//    return 70 + 30 * jh_isPad();
+//}
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
@@ -162,6 +162,8 @@
         _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.estimatedRowHeight = 80;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
         [_tableView registerClass:[FileManagerVideoTableViewCell class] forCellReuseIdentifier:@"FileManagerVideoTableViewCell"];
         [_tableView registerClass:[FileManagerFolderLongViewCell class] forCellReuseIdentifier:@"FileManagerFolderLongViewCell"];
         

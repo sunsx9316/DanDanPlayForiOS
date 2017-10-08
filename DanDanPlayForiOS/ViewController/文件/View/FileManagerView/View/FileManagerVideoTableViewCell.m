@@ -29,8 +29,8 @@
         
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.imgView.mas_right).mas_offset(10);
-            make.bottom.mas_offset(-5);
-            make.top.mas_offset(5);
+            make.bottom.mas_offset(-10);
+            make.top.mas_offset(10);
             make.right.mas_offset(-10);
 //            make.centerY.equalTo(self.imgView);
         }];
