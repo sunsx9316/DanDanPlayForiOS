@@ -11,4 +11,14 @@
 @interface UIView (Tools)
 - (void)addMotionEffectWithMaxOffset:(CGFloat)offset;
 - (void)removeMotionEffect;
+
+/**
+ 设置竖直方向必须的约束
+ */
+- (void)setRequiredContentVerticalResistancePriority;
+
+/**
+ 设置水平方向必须的约束
+ */
+- (void)setRequiredContentHorizontalResistancePriority;
 @end

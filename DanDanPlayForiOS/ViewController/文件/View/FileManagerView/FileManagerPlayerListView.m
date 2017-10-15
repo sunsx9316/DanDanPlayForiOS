@@ -7,7 +7,7 @@
 //
 
 #import "FileManagerPlayerListView.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 #import "FileManagerFolderPlayerListViewCell.h"
 #import "FileManagerVideoTableViewCell.h"
@@ -16,7 +16,7 @@
 #import <UITableView+FDTemplateLayoutCell.h>
 
 @interface FileManagerPlayerListView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation FileManagerPlayerListView
@@ -271,9 +271,9 @@
 
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;

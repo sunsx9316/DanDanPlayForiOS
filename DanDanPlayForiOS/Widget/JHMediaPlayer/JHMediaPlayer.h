@@ -36,11 +36,11 @@ typedef void(^SnapshotCompleteBlock)(UIImage *image, NSError *error);
  @param totalSeconds 秒数
  @return 指定格式
  */
-CG_INLINE NSString *jh_mediaFormatterTime(int totalSeconds) {
-    int seconds = totalSeconds % 60;
-    int minutes = (totalSeconds - seconds) / 60;
+CG_INLINE NSString *jh_mediaFormatterTime(NSInteger totalSeconds) {
+    NSInteger seconds = totalSeconds % 60;
+    NSInteger minutes = (totalSeconds - seconds) / 60;
     
-    return [NSString stringWithFormat:@"%.2d:%.2d", minutes, seconds];
+    return [NSString stringWithFormat:@"%.2ld:%.2ld", (long)minutes, seconds];
 }
 
 @class JHMediaPlayer;

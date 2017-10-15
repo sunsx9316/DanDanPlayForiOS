@@ -13,11 +13,11 @@
 #import "SMBLoginHeaderView.h"
 
 #import <TOSMBClient.h>
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "NSString+Tools.h"
 
 @interface SMBViewController ()<UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) NSMutableArray <TONetBIOSNameServiceEntry *>*nameServiceEntries;
 @property (strong, nonatomic) TONetBIOSNameService *netbiosService;
 @end
@@ -241,9 +241,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 50;

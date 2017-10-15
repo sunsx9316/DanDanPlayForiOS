@@ -110,12 +110,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return [CacheManager shareCacheManager].playInterfaceOrientation;
 }
 
-//- (void)loadView {
-//    [super loadView];
-//    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
-//}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     

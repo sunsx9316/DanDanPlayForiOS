@@ -1,18 +1,18 @@
 //
-//  BaseCollectionView.m
+//  JHBaseCollectionView.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/29.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseCollectionView.h"
+#import "JHBaseCollectionView.h"
 
-@interface BaseCollectionView ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface JHBaseCollectionView ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @end
 
-@implementation BaseCollectionView
+@implementation JHBaseCollectionView
 
 - (void)endRefreshing {
     if (self.mj_header.isRefreshing) {
@@ -33,6 +33,9 @@
         self.emptyDataSetSource = self;
         self.emptyDataSetDelegate = self;
         self.backgroundColor = BACK_GROUND_COLOR;
+        if (@available(iOS 11.0, *)) {
+            self.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
     }
     return self;
 }

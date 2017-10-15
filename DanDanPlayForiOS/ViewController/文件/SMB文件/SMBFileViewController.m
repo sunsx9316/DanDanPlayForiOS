@@ -13,7 +13,7 @@
 #import "DownloadViewController.h"
 
 #import "SMBVideoModel.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 #import "FileManagerFolderLongViewCell.h"
 #import "FileManagerVideoTableViewCell.h"
@@ -23,7 +23,7 @@
 #import "UITableViewCell+Tools.h"
 
 @interface SMBFileViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) SMBFileOprationView *oprationView;
 @end
 
@@ -339,9 +339,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowsMultipleSelectionDuringEditing = YES;

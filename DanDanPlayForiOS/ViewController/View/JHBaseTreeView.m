@@ -1,18 +1,18 @@
 //
-//  BaseTreeView.m
+//  JHBaseTreeView.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/20.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "BaseTreeView.h"
+#import "JHBaseTreeView.h"
 
-@interface BaseTreeView ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface JHBaseTreeView ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @end
 
-@implementation BaseTreeView
+@implementation JHBaseTreeView
 
 - (void)endRefreshing {
     if (self.jh_tableView.mj_header.isRefreshing) {

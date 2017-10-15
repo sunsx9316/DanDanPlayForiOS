@@ -14,17 +14,16 @@
     return @{@"name" : @"ScreenName",
              @"token" : @"Token",
              @"identity" : @"UserId",
-             @"icoImgURL" : @"ProfileImage"};
+             @"icoImgURL" : @"ProfileImage",
+             @"registerRequired" : @"RegisterRequired",
+             @"needLogin" : @"NeedLogin",
+             @"userType" : @"UserType"
+             };
 }
 
 - (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic {
     NSMutableDictionary *aDic = [dic mutableCopy];
-    if ([aDic[@"UserType"] isEqualToString:@"weibo"]) {
-        aDic[@"UserType"] = @(JHUserTypeWeibo);
-    }
-    else if ([aDic[@"UserType"] isEqualToString:@"qq"]) {
-        aDic[@"UserType"] = @(JHUserTypeQQ);
-    }
+    aDic[@"UserType"] = @(jh_userTypeStringToEnum(aDic[@"UserType"]));
     return aDic;
 }
 

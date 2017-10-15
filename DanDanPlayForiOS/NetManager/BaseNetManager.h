@@ -74,6 +74,10 @@ typedef void(^progressAction)(float progress);
                            data:(NSData *)data
                     completionHandler:(void(^)(JHResponse *model))completionHandler;
 
++ (NSURLSessionDataTask *)POSTWithPath:(NSString *)path
+                                      parameters:(id)parameters
+                         completionHandler:(void(^)(JHResponse *model))completionHandler;
+
 + (NSURLSessionDataTask *)POSTDataWithPath:(NSString *)path
                                      data:(NSData *)data
                         completionHandler:(void(^)(JHResponse *model))completionHandler;

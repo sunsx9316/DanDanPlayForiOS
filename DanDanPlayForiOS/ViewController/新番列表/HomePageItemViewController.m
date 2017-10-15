@@ -11,13 +11,13 @@
 #import "HomePageSearchViewController.h"
 #import "AttentionDetailViewController.h"
 
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "HomePageItemTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "NSString+Tools.h"
 
 @interface HomePageItemViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation HomePageItemViewController
@@ -136,9 +136,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = ITEM_CELL_HEIGHT + 20;

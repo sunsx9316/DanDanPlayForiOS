@@ -1,5 +1,5 @@
 //
-//  BaseTableView.h
+//  JHBaseTableView.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 17/3/5.
@@ -11,6 +11,6 @@
 #import "UIScrollView+Base.h"
 #import "UITableViewCell+Tools.h"
 
-@interface BaseTableView : UITableView
+@interface JHBaseTableView : UITableView
 - (void)endRefreshing;
 @end

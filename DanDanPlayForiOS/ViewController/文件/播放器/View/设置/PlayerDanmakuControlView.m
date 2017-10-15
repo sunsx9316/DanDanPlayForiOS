@@ -9,7 +9,7 @@
 #import "PlayerDanmakuControlView.h"
 //#import "PickerFileViewController.h"
 
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "PlayerSliderTableViewCell.h"
 #import "PlayerControlHeaderView.h"
 #import "PlayerShadowStyleTableViewCell.h"
@@ -19,7 +19,7 @@
 #import "JHPlayerDanmakuControlModel.h"
 
 @interface PlayerDanmakuControlView ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) NSArray <JHPlayerDanmakuControlModel *>*dataSource;
 @end
 
@@ -97,9 +97,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

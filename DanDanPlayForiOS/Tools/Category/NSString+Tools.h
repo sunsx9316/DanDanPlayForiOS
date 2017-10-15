@@ -67,6 +67,11 @@
 + (NSString *)numberFormatterWithUpper:(NSUInteger)upper
                                 number:(NSUInteger)number;
 
+- (BOOL)isRightAccount;
+- (BOOL)isRightPassword;
+- (BOOL)isRightEmail;
+- (BOOL)isRightNickName;
+
 /**
  字符串是否为磁力链
 

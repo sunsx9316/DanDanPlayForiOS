@@ -9,15 +9,15 @@
 #import "AttentionDetailViewController.h"
 #import "HomePageSearchViewController.h"
 
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "AttentionDetailTableViewCell.h"
 #import "AttentionDetailHistoryTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "NSDate+Tools.h"
 #import "JHEdgeButton.h"
 
-@interface AttentionDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@interface AttentionDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) JHPlayHistory *historyModel;
 @end
 
@@ -77,7 +77,7 @@
     if (indexPath.section != 0) {
         //未登录
         if ([CacheManager shareCacheManager].user == nil) {
-            [[ToolsManager shareToolsManager] loginInViewController:self touchRect:[self.view convertRect:[tableView rectForRowAtIndexPath:indexPath] fromView:tableView] barButtonItem:nil completion:nil];
+            [[ToolsManager shareToolsManager] popLoginAlertViewInViewController:self];
             return;
         }
         
@@ -111,6 +111,16 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offset = scrollView.contentOffset.y;
+    if (offset > DETAIL_CELL_HEIGHT + 40) {
+        self.navigationItem.title = self.historyModel.name;
+    }
+    else {
+        self.navigationItem.title = @"番剧详情";
+    }
+}
+
 #pragma mark - 私有方法
 - (void)configRightItem {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_search"] configAction:^(UIButton *aButton) {
@@ -131,9 +141,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[AttentionDetailTableViewCell class] forCellReuseIdentifier:@"AttentionDetailTableViewCell"];

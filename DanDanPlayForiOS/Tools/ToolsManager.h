@@ -90,7 +90,8 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  @param model 视频模型
  @param completion 回调
  */
-- (void)videoSnapShotWithModel:(VideoModel *)model completion:(GetSnapshotAction)completion;
+- (void)videoSnapShotWithModel:(VideoModel *)model
+                    completion:(GetSnapshotAction)completion;
 
 /**
  扫描路径下的字幕
@@ -104,14 +105,9 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  登录
 
  @param viewController 控制器
- @param touchRect ipad显示弹窗的位置
- @param barButtonItem 左上角的item
  @param completion 完成回调
  */
-- (void)loginInViewController:(UIViewController *)viewController
-                    touchRect:(CGRect)touchRect
-                barButtonItem:(UIBarButtonItem *)barButtonItem
-                   completion:(void(^)(JHUser *user, NSError *err))completion;
+- (void)popLoginAlertViewInViewController:(UIViewController *)viewController;
 
 #pragma mark - 本地文件
 /**

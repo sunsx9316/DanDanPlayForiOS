@@ -130,6 +130,22 @@
     return [NSString stringWithFormat:@"%ld", number];
 }
 
+- (BOOL)isRightAccount {
+    return [self matchesRegex:[NSString stringWithFormat:@"^[a-zA-Z0-9_]{%d,%d}$", USER_ACCOUNT_MIN_COUNT, USER_ACCOUNT_MAX_COUNT] options:NSRegularExpressionCaseInsensitive];
+}
+
+- (BOOL)isRightPassword {
+    return self.length >= USER_PASSWORD_MIN_COUNT && self.length <= USER_PASSWORD_MAX_COUNT;
+}
+
+- (BOOL)isRightEmail {
+    return [self matchesRegex:@"^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$" options:NSRegularExpressionCaseInsensitive];
+}
+
+- (BOOL)isRightNickName {
+    return self.length > 0 && self.length <= USER_NAME_MAX_COUNT;
+}
+
 - (BOOL)isMagnet {
     return [self containsString:@"magnet:?xt=urn:btih:"];
 }

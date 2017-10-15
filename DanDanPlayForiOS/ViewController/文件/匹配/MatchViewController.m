@@ -15,13 +15,13 @@
 #import "MatchTitleTableViewCell.h"
 
 #import <UITableView+FDTemplateLayoutCell.h>
-#import "BaseTreeView.h"
+#import "JHBaseTreeView.h"
 #import "JHEdgeButton.h"
 #import "JHSearchBar.h"
 #import "JHExpandView.h"
 
 @interface MatchViewController ()<RATreeViewDelegate, RATreeViewDataSource, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-@property (strong, nonatomic) BaseTreeView *treeView;
+@property (strong, nonatomic) JHBaseTreeView *treeView;
 @property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray <JHMatche *>*>*classifyDic;
 @end
@@ -228,9 +228,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTreeView *)treeView {
+- (JHBaseTreeView *)treeView {
     if (_treeView == nil) {
-        _treeView = [[BaseTreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
+        _treeView = [[JHBaseTreeView alloc] initWithFrame:CGRectZero style:RATreeViewStylePlain];
         _treeView.delegate = self;
         _treeView.dataSource = self;
         _treeView.separatorStyle = RATreeViewCellSeparatorStyleNone;

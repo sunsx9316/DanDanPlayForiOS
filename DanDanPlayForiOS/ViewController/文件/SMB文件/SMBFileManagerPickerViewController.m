@@ -7,14 +7,14 @@
 //
 
 #import "SMBFileManagerPickerViewController.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 #import "FileManagerVideoTableViewCell.h"
 #import "FileManagerFolderLongViewCell.h"
 #import "JHEdgeButton.h"
 
 @interface SMBFileManagerPickerViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation SMBFileManagerPickerViewController
@@ -157,9 +157,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 80;

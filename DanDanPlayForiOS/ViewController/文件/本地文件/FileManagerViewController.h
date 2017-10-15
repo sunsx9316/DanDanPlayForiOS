@@ -7,11 +7,11 @@
 //
 
 #import "JHBaseViewController.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 @interface FileManagerViewController : JHBaseViewController
 @property (strong, nonatomic) JHFile *file;
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
 - (void)matchFile:(JHFile *)file;
 @end

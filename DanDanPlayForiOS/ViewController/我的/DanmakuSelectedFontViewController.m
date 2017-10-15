@@ -7,13 +7,13 @@
 //
 
 #import "DanmakuSelectedFontViewController.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "FTPReceiceTableViewCell.h"
 #import "UIFont+Tools.h"
 #import "TextHeaderView.h"
 
 @interface DanmakuSelectedFontViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary <NSString *, NSArray *>*>*fonts;
 @end
 
@@ -119,9 +119,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.allowScroll = YES;

@@ -18,10 +18,10 @@
 
 #import "JHSetting.h"
 #import "UIFont+Tools.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 @interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) NSArray <JHSetting *>*dataSources;
 @end
 
@@ -202,9 +202,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[OtherSettingSwitchTableViewCell class] forCellReuseIdentifier:@"OtherSettingSwitchTableViewCell"];

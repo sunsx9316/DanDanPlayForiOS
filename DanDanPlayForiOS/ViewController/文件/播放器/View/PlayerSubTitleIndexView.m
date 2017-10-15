@@ -8,13 +8,13 @@
 
 #import "PlayerSubTitleIndexView.h"
 #import "JHBlurView.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "FTPReceiceTableViewCell.h"
 
 @interface PlayerSubTitleIndexView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) JHBlurView *contentView;
 @property (strong, nonatomic) UIView *bgView;
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation PlayerSubTitleIndexView
@@ -167,9 +167,9 @@
     return _contentView;
 }
 
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _tableView.showEmptyView = YES;
         _tableView.emptyDataSetSource = self;
         _tableView.emptyDataSetDelegate = self;

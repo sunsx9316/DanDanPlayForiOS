@@ -472,6 +472,12 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 - (void)saveLastPlayTime:(NSInteger)time videoModel:(VideoModel *)model {
     if (model == nil) return;
     
+    for (id<CacheManagerDelagate> observer in _observers.copy) {
+        if ([observer respondsToSelector:@selector(lastPlayTimeWithVideoModel:time:)]) {
+            [observer lastPlayTimeWithVideoModel:model time:time];
+        }
+    }
+    
     [self.lastPlayTimeCache setObject:@(time) forKey:model.quickHash];
 }
 

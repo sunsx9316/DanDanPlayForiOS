@@ -13,11 +13,11 @@ static MBProgressHUD *progressHUD = nil;
 
 @implementation MBProgressHUD (Tools)
 + (void)showWithText:(NSString *)text {
-    [self showWithText:text atView:nil hideAfterDelay:1];
+    [self showWithText:text atView:nil hideAfterDelay:1.3];
 }
 
 + (void)showWithText:(NSString *)text atView:(UIView *)view {
-    [self showWithText:text atView:view hideAfterDelay:1];
+    [self showWithText:text atView:view hideAfterDelay:1.3];
 }
 
 + (void)showWithText:(NSString *)text

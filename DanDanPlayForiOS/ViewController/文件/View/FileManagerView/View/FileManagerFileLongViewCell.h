@@ -10,6 +10,7 @@
 
 @interface FileManagerFileLongViewCell : FileManagerBaseViewCell
 @property (strong, nonatomic) UILabel *nameLabel;
+@property (strong, nonatomic) UIButton *lastPlayTimeButton;
 @property (strong, nonatomic) UIImageView *bgImgView;
 @property (strong, nonatomic) id model;
 @end

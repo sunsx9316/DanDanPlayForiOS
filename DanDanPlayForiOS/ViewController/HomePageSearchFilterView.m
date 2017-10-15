@@ -7,7 +7,7 @@
 //
 
 #import "HomePageSearchFilterView.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 #define CELL_HEIGHT 44
 
@@ -17,7 +17,7 @@
 @interface HomePageSearchFilterView ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UIButton *typeButton;
 @property (strong, nonatomic) UIButton *subGroupButton;
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) UIView *bgView;
 @end
 
@@ -148,7 +148,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_currentArr == self.types) {
         if (self.selectedTypeCallBack) {
             if (indexPath.section == 0) {
@@ -229,9 +229,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];

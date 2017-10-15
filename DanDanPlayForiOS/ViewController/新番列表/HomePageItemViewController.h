@@ -7,7 +7,7 @@
 //
 
 #import "JHBaseViewController.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 @interface HomePageItemViewController : JHBaseViewController
 @property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;

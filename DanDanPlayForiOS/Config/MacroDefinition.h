@@ -53,6 +53,11 @@
 //其它
 #define SEARCH_BAR_HEIRHT 30
 
+#define USER_ACCOUNT_MIN_COUNT 5
+#define USER_ACCOUNT_MAX_COUNT 20
+#define USER_PASSWORD_MIN_COUNT 5
+#define USER_PASSWORD_MAX_COUNT 20
+#define USER_NAME_MAX_COUNT 50
 
 //YYWebImage 默认加载方法
 #define YY_WEB_IMAGE_DEFAULT_OPTION YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation

@@ -14,10 +14,10 @@
 #import "PlayerSliderTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "JHMediaPlayer.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 
 @interface PlayerVideoControlView ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation PlayerVideoControlView
@@ -118,9 +118,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -42,6 +42,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 @optional
 - (void)SMBDownloadTasksDidChange:(NSArray <TOSMBSessionDownloadTask *>*)tasks type:(SMBDownloadTasksDidChangeType)type;
 - (void)SMBDownloadTasksDidDownloadCompletion;
+- (void)lastPlayTimeWithVideoModel:(VideoModel *)videoModel time:(NSInteger)time;
 @end
 
 @interface CacheManager : NSObject

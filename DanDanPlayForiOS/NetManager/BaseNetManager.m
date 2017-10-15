@@ -42,6 +42,21 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
     return aError;
 }
 
+CG_INLINE NSString *jh_jsonString(id obj) {
+    if ([obj isKindOfClass:[NSData class]]) {
+        return [NSJSONSerialization JSONObjectWithData:obj options:kNilOptions error:nil];
+    }
+    else if ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[NSArray class]]) {
+        if ([NSJSONSerialization isValidJSONObject:obj]) {
+            NSError *error;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj options:NSJSONWritingPrettyPrinted error:&error];
+            NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            return json;
+        }
+    }
+    return nil;
+};
+
 
 @implementation BaseNetManager
 + (AFHTTPSessionManager *)sharedHTTPSessionManager {
@@ -78,8 +93,7 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
 //    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     return [[self sharedHTTPSessionManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        
-        NSLog(@"GET 请求成功：%@ \n\n%@", task.originalRequest.URL, [responseObject jsonStringEncoded]);
+        NSLog(@"GET 请求成功：%@ \n\n%@", task.originalRequest.URL, jh_jsonString(responseObject));
 //        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:nil]);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -109,7 +123,8 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
     }];
     
     return [[self sharedHTTPSessionDataManager] GET:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"GETDATA 请求成功：%@ \n\n%@", task.originalRequest.URL, [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        
+        NSLog(@"GETDATA 请求成功：%@ \n\n%@", task.originalRequest.URL, jh_jsonString(responseObject));
         [headerField enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             [[self sharedHTTPSessionDataManager].requestSerializer setValue:nil forHTTPHeaderField:key];
         }];
@@ -135,7 +150,7 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
                            parameters:(id)parameters
                     completionHandler:(void(^)(JHResponse *model))completionHandler {
     return [[self sharedHTTPSessionManager] PUT:path parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"PUT 请求成功：%@", path);
+        NSLog(@"PUT 请求成功：%@\n\n%@", path, jh_jsonString(responseObject));
         
         if (completionHandler) {
             completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:nil]);
@@ -162,14 +177,32 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
             NSLog(@"PUT 请求失败：%@ \n\n %@ \n\n %@", path, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], error);
         }
         else {
-            NSLog(@"PUT 请求成功：%@", path);
+            NSLog(@"PUT 请求成功：%@\n\n%@", path, jh_jsonString(responseObject));
         }
 
         NSError *temErr = jh_humanReadableError(error);
-        completionHandler([[JHResponse alloc] initWithResponseObject:response error:temErr]);
+        completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:temErr]);
     }];
     [task resume];
     return task;
+}
+
++ (NSURLSessionDataTask *)POSTWithPath:(NSString *)path
+                            parameters:(id)parameters
+                     completionHandler:(void(^)(JHResponse *model))completionHandler {
+    return [[self sharedHTTPSessionManager] POST:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"POST 请求成功：%@\n\n%@", path, jh_jsonString(responseObject));
+        
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:nil]);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"POST 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
+        
+        if (completionHandler) {
+            completionHandler([[JHResponse alloc] initWithResponseObject:nil error:jh_humanReadableError(error)]);
+        }
+    }];
 }
 
 + (NSURLSessionDataTask *)POSTDataWithPath:(NSString *)path
@@ -182,14 +215,14 @@ CG_INLINE NSError *jh_humanReadableError(NSError *error) {
     
     NSURLSessionDataTask *task = [[self sharedHTTPSessionManager] dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"POST 请求失败：%@ \n\n %@ \n\n %@", path, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding], error);
+            NSLog(@"POST 请求失败：%@ \n\n %@ \n\n %@", path, jh_jsonString(responseObject), error);
         }
         else {
-            NSLog(@"POST 请求成功：%@", path);
+            NSLog(@"POST 请求成功：%@\n\n%@", path,  jh_jsonString(responseObject));
         }
         
         NSError *temErr = jh_humanReadableError(error);
-        completionHandler([[JHResponse alloc] initWithResponseObject:response error:temErr]);
+        completionHandler([[JHResponse alloc] initWithResponseObject:responseObject error:temErr]);
     }];
     [task resume];
     return task;

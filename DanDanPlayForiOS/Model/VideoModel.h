@@ -11,7 +11,9 @@
 //匹配的长度 16M
 #define MEDIA_MATCH_LENGTH 16777216
 
+
 @class VLCMedia, JHBaseDanmaku, JHFile;
+
 @interface VideoModel : JHBase
 
 /*

@@ -1,5 +1,5 @@
 //
-//  BaseCollectionView.h
+//  JHBaseCollectionView.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/29.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIScrollView+Base.h"
 
-@interface BaseCollectionView : UICollectionView
+@interface JHBaseCollectionView : UICollectionView
 
 @end

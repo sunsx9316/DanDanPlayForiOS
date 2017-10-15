@@ -7,16 +7,28 @@
 //
 
 #import "LinkFileTableViewCell.h"
+#import "JHMediaPlayer.h"
 
 @implementation LinkFileTableViewCell
 {
-    JHLibrary *_model;
+    JHLinkFile *_model;
 }
 
-- (void)setModel:(JHLibrary *)model {
+- (void)setModel:(JHLinkFile *)model {
     _model = model;
-    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", _model.animeTitle.length ? _model.animeTitle : @"", _model.episodeTitle.length ? _model.episodeTitle : @""];
-    [self.bgImgView jh_setImageWithURL:jh_linkImageURL([CacheManager shareCacheManager].linkInfo.selectedIpAdress, _model.md5)];
+    
+    JHLibrary *library = _model.library;
+    
+    self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", library.animeTitle.length ? library.animeTitle : @"", library.episodeTitle.length ? library.episodeTitle : @""];
+    [self.bgImgView jh_setImageWithURL:jh_linkImageURL([CacheManager shareCacheManager].linkInfo.selectedIpAdress, library.md5)];
+    NSInteger time = [[CacheManager shareCacheManager] lastPlayTimeWithVideoModel:_model.videoModel];
+    if (time >= 0) {
+        self.lastPlayTimeButton.hidden = NO;
+        [self.lastPlayTimeButton setTitle:[NSString stringWithFormat:@"• %@", jh_mediaFormatterTime(time)] forState:UIControlStateNormal];
+    }
+    else {
+        self.lastPlayTimeButton.hidden = YES;
+    }
 }
 
 @end

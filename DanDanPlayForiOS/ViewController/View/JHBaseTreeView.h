@@ -1,5 +1,5 @@
 //
-//  BaseTreeView.h
+//  JHBaseTreeView.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/20.
@@ -9,7 +9,7 @@
 #import <RATreeView/RATreeView.h>
 #import "UIScrollView+Base.h"
 
-@interface BaseTreeView : RATreeView
+@interface JHBaseTreeView : RATreeView
 - (void)endRefreshing;
 @end
 

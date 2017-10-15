@@ -11,7 +11,7 @@
 #import "JHBaseWebViewController.h"
 #import "DownloadViewController.h"
 
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "HomePageSearchTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "HomePageSearchFilterView.h"
@@ -21,7 +21,7 @@
 
 @interface HomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) JHSearchBar *searchBar;
-@property (strong, nonatomic) BaseTableView *tableView;
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) JHDMHYSearchCollection *collection;
 @property (strong, nonatomic) HomePageSearchFilterView *filterView;
 @property (strong, nonatomic) NSArray <JHDMHYSearch *>*dataSource;
@@ -201,9 +201,9 @@
 
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;

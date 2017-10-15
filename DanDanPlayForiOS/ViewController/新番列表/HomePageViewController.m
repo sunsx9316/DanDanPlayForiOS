@@ -184,7 +184,7 @@
 
 - (void)touchLeftItem:(UIButton *)button {
     if ([CacheManager shareCacheManager].user == nil) {
-        [[ToolsManager shareToolsManager] loginInViewController:self touchRect:CGRectZero barButtonItem:self.navigationItem.leftBarButtonItem completion:nil];
+        [[ToolsManager shareToolsManager] popLoginAlertViewInViewController:self];
     }
     else {
         AttentionListViewController *vc = [[AttentionListViewController alloc] init];

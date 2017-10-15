@@ -163,6 +163,10 @@
     }
 }
 
+- (void)lastPlayTimeWithVideoModel:(VideoModel *)videoModel time:(NSInteger)time {
+    [self.tableView reloadData];
+}
+
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
@@ -362,9 +366,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;

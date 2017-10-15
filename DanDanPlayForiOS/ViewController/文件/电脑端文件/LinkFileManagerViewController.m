@@ -14,11 +14,11 @@
 
 #import "LinkFileTableViewCell.h"
 #import "FileManagerFolderLongViewCell.h"
-#import "BaseTableView.h"
+#import "JHBaseTableView.h"
 #import "JHEdgeButton.h"
 
-@interface LinkFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-@property (strong, nonatomic) BaseTableView *tableView;
+@interface LinkFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, CacheManagerDelagate>
+@property (strong, nonatomic) JHBaseTableView *tableView;
 @end
 
 @implementation LinkFileManagerViewController
@@ -40,6 +40,8 @@
         make.edges.mas_equalTo(0);
     }];
     
+    [[CacheManager shareCacheManager] addObserver:self];
+    
     if (jh_isRootFile(self.file)) {
         self.automaticallyAdjustsScrollViewInsets = NO;
         [self refresh];
@@ -52,6 +54,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[CacheManager shareCacheManager] removeObserver:self];
 }
 
 #pragma mark - UITableViewDataSource
@@ -65,7 +68,7 @@
     
     if (file.type == JHFileTypeDocument) {
         LinkFileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LinkFileTableViewCell" forIndexPath:indexPath];
-        cell.model = file.library;
+        cell.model = file;
         return cell;
     }
     
@@ -170,6 +173,11 @@
     return self.tableView.allowScroll;
 }
 
+#pragma mark - CacheManagerDelagate
+- (void)lastPlayTimeWithVideoModel:(VideoModel *)videoModel time:(NSInteger)time {
+    [self.tableView reloadData];
+}
+
 #pragma mark - 私有方法
 - (void)configLeftItem {
     if (jh_isRootFile(self.file) == NO) {
@@ -193,9 +201,9 @@
 }
 
 #pragma mark - 懒加载
-- (BaseTableView *)tableView {
+- (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;

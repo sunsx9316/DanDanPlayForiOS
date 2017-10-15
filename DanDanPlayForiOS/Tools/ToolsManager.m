@@ -14,9 +14,9 @@
 #import <HTTPServer.h>
 #import <TOSMBClient.h>
 #import "NSURL+Tools.h"
-#import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
 #import "JHMediaThumbnailer.h"
+#import "JHLoginViewController.h"
 
 CG_INLINE NSArray <NSString *>*jh_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -121,40 +121,10 @@ UIKIT_EXTERN BOOL jh_isRootFile(JHFile *file) {
     return [file.fileURL relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
 };
 
-CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
-    switch (error.code) {
-        case UMSocialPlatformErrorType_NotSupport:
-            return @"客户端不支持该操作";
-        case UMSocialPlatformErrorType_AuthorizeFailed:
-            return @"授权失败";
-        case UMSocialPlatformErrorType_ShareFailed:
-            return @"分享失败";
-        case UMSocialPlatformErrorType_RequestForUserProfileFailed:
-            return @"请求用户信息失败";
-        case UMSocialPlatformErrorType_ShareDataNil:
-            return @"分享内容为空";
-        case UMSocialPlatformErrorType_ShareDataTypeIllegal:
-            return @"不支持该分享内容";
-        case UMSocialPlatformErrorType_CheckUrlSchemaFail:
-            return @"不支持该分享内容";
-        case UMSocialPlatformErrorType_NotInstall:
-            return @"应用未安装";
-        case UMSocialPlatformErrorType_Cancel:
-            return @"用户取消操作";
-        case UMSocialPlatformErrorType_NotUsingHttps:
-        case UMSocialPlatformErrorType_NotNetWork:
-            return @"网络异常";
-        case UMSocialPlatformErrorType_SourceError:
-            return @"第三方错误";
-        default:
-            return @"未知错误";
-            break;
-    }
-};
-
 static NSString *const tempImageKey = @"temp_image";
 static NSString *const smbProgressBlockKey = @"smb_progress_block";
 static NSString *const smbCompletionBlockKey = @"smb_completion_block";
+static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_block";
 
 @interface ToolsManager ()<TOSMBSessionDownloadTaskDelegate>
 
@@ -230,72 +200,19 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
     return subTitleFiles;
 }
 
-- (void)loginInViewController:(UIViewController *)viewController
-                    touchRect:(CGRect)touchRect
-                barButtonItem:(UIBarButtonItem *)barButtonItem
-                   completion:(void(^)(JHUser *user, NSError *err))completion {
+- (void)popLoginAlertViewInViewController:(UIViewController *)viewController {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([CacheManager shareCacheManager].user == nil) {
-            void(^loginWithTypeAction)(UMSocialPlatformType) = ^(UMSocialPlatformType platformType) {
-                [MBProgressHUD showLoadingInView:viewController.view text:nil];
-                [MBProgressHUD hideLoading];
-                
-                [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:viewController completion:^(id result, NSError *error) {
-                    [MBProgressHUD hideLoading];
-                    
-                    if (error) {
-                        [MBProgressHUD showWithText:UMErrorStringWithError(error) atView:viewController.view];
-                        //上传错误
-                        [Bugly reportError:error];
-                        if (completion) {
-                            completion(nil, error);
-                        }
-                    }
-                    else {
-                        UMSocialUserInfoResponse *resp = result;
-                        [MBProgressHUD showLoadingInView:viewController.view text:@"登录中..."];
-                        
-                        [LoginNetManager loginWithSource:platformType == UMSocialPlatformType_Sina ? JHUserTypeWeibo : JHUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(JHUser *responseObject, NSError *error1) {
-                            [MBProgressHUD hideLoading];
-                            
-                            if (error1) {
-                                [MBProgressHUD showWithError:error1 atView:viewController.view];
-                            }
-                            else {
-                                [CacheManager shareCacheManager].user = responseObject;
-                            }
-                            
-                            if (completion) {
-                                completion(responseObject, error1);
-                            }
-                        }];
-                    }
-                }];
-            };
-            
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要登录才能继续操作" message:@"请选择登录平台" preferredStyle:UIAlertControllerStyleActionSheet];
-            [vc addAction:[UIAlertAction actionWithTitle:@"QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                loginWithTypeAction(UMSocialPlatformType_QQ);
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要登录才能继续操作" message:@"跳转到登录页吗？" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                JHLoginViewController *vc = [[JHLoginViewController alloc] init];
+                [viewController.navigationController pushViewController:vc animated:YES];
             }]];
-            
-            [vc addAction:[UIAlertAction actionWithTitle:@"微博" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                loginWithTypeAction(UMSocialPlatformType_Sina);
-            }]];
-            
+
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            
-            if (jh_isPad()) {
-                if (barButtonItem) {
-                    vc.popoverPresentationController.barButtonItem = barButtonItem;
-                }
-                else {
-                    vc.popoverPresentationController.sourceView = viewController.view;
-                }
-                vc.popoverPresentationController.sourceRect = touchRect;
-            }
-            
+
             [viewController presentViewController:vc animated:YES completion:nil];
-        }        
+        }
     });
 }
 
