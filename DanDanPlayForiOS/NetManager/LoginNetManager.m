@@ -8,6 +8,7 @@
 
 #import "LoginNetManager.h"
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
+#import "JHPofileResponse.h"
 
 @implementation LoginNetManager
 
@@ -138,7 +139,18 @@
     }
     
     return [self POSTWithPath:[NSString stringWithFormat:@"%@/user/profile", API_PATH] parameters:@{@"UserId" : @(userId), @"Token" : token, @"ScreenName" : userName} completionHandler:^(JHResponse *model) {
-        completionHandler(model.error);
+        JHPofileResponse *response = [JHPofileResponse yy_modelWithJSON:model.responseObject];
+        if (model.error) {
+            completionHandler(model.error);
+        }
+        else if (response.updateScreenNameSuccess == NO) {
+            NSError *err = [NSError errorWithDomain:@"修改用户名错误" code:DANDANPLAY_UPDATE_USER_NAME_FAILE userInfo:@{NSLocalizedDescriptionKey : @"修改用户名失败"}];
+            
+            completionHandler(err);
+        }
+        else {
+            completionHandler(nil);
+        }
     }];
 }
 
@@ -155,7 +167,18 @@
     }
     
     return [self POSTWithPath:[NSString stringWithFormat:@"%@/user/profile", API_PATH] parameters:@{@"UserId" : @(userId), @"Token" : token, @"OldPassword" : oldPassword, @"NewPassword" : aNewPassword} completionHandler:^(JHResponse *model) {
-        completionHandler(model.error);
+        JHPofileResponse *response = [JHPofileResponse yy_modelWithJSON:model.responseObject];
+        if (model.error) {
+            completionHandler(model.error);
+        }
+        else if (response.updatePasswordSuccess == NO) {
+            NSError *err = [NSError errorWithDomain:@"修改密码错误" code:DANDANPLAY_UPDATE_USER_NAME_FAILE userInfo:@{NSLocalizedDescriptionKey : @"修改密码失败 原密码错误或新密码不合要求"}];
+            
+            completionHandler(err);
+        }
+        else {
+            completionHandler(nil);
+        }
     }];
 }
 

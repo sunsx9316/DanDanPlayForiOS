@@ -22,6 +22,8 @@ CG_INLINE NSError *jh_creatDownloadTaskFailError() {
 
 #define DANDANPLAY_BINDING_FAILE 10004
 
+#define DANDANPLAY_UPDATE_USER_NAME_FAILE 10005
+
 
 @interface JHResponse : JHBase
 @property (strong, nonatomic) id responseObject;

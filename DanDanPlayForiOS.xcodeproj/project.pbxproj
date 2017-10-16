@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
+		8903725E1F94EB7C0029C47B /* JHPofileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8903725D1F94EB7C0029C47B /* JHPofileResponse.m */; };
 		8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */; };
 		890DE4861F690CC7002B45EB /* JHLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */; };
@@ -218,6 +219,8 @@
 
 /* Begin PBXFileReference section */
 		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8903725C1F94EB7C0029C47B /* JHPofileResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHPofileResponse.h; sourceTree = "<group>"; };
+		8903725D1F94EB7C0029C47B /* JHPofileResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHPofileResponse.m; sourceTree = "<group>"; };
 		8905BD9F1F32C7EA0055BC84 /* SMBFileOprationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMBFileOprationView.h; sourceTree = "<group>"; };
 		8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBFileOprationView.m; sourceTree = "<group>"; };
 		8905BDA21F32CEBA0055BC84 /* DownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
@@ -1376,6 +1379,8 @@
 				89EF59CC1F923765002BDC15 /* JHRegisterRequest.m */,
 				89EF59CE1F92378D002BDC15 /* JHRegisterResponse.h */,
 				89EF59CF1F92378D002BDC15 /* JHRegisterResponse.m */,
+				8903725C1F94EB7C0029C47B /* JHPofileResponse.h */,
+				8903725D1F94EB7C0029C47B /* JHPofileResponse.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1599,6 +1604,7 @@
 				89AE37B41F6262BD008D06CF /* AttentionListViewController.m in Sources */,
 				89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */,
 				89A467941F162C31001840C7 /* FileViewController.m in Sources */,
+				8903725E1F94EB7C0029C47B /* JHPofileResponse.m in Sources */,
 				89FBDED31F457C7800663865 /* FileManagerViewController.m in Sources */,
 				89A42EA41EA5B22A00FA0DF3 /* JHResponse.m in Sources */,
 				89B8E3691F8F690000DA9BEF /* JHRegisterViewController.m in Sources */,
