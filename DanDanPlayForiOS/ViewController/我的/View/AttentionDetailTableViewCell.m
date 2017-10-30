@@ -10,12 +10,14 @@
 #import "NSDate+Tools.h"
 #import "JHEdgeLabel.h"
 #import "YYPhotoBrowseView.h"
+#import "JHEdgeButton.h"
 
 @interface AttentionDetailTableViewCell ()
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) JHEdgeLabel *onAirLabel;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *viewLabel;
+@property (strong, nonatomic) JHEdgeButton *searchButton;
 @property (strong, nonatomic) UIVisualEffectView *blurView;
 @end
 
@@ -41,7 +43,7 @@
         }];
         
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(15);
+            make.top.equalTo(self.iconImgView);
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
             make.right.mas_offset(-10);
         }];
@@ -52,6 +54,11 @@
             make.right.mas_offset(-10);
             make.centerY.mas_equalTo(0);
         }];
+        
+        [self.searchButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel);
+            make.bottom.mas_equalTo(self.iconImgView);
+        }];
     }
     return self;
 }
@@ -60,7 +67,8 @@
     _model = model;
     [self.iconImgView jh_setImageWithURL:_model.imageUrl placeholder:nil];
     [self.blurView.layer jh_setImageWithURL:_model.imageUrl];
-    self.onAirLabel.hidden = !_model.isOnAir;
+    self.onAirLabel.text = self.model.playHistoryStatusString;
+//    self.onAirLabel.hidden = !_model.isOnAir;
     self.nameLabel.text = _model.name;
     
     __block NSUInteger episodeWatched = 0;
@@ -70,7 +78,13 @@
         }
     }];
     
-    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集", episodeWatched, _model.collection.count];
+    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集",  episodeWatched, _model.collection.count];
+}
+
+- (void)touchSearchButton:(UIButton *)sender {
+    if (self.touchSearchButtonCallBack) {
+        self.touchSearchButtonCallBack(self.model);
+    }
 }
 
 #pragma mark - 懒加载
@@ -129,6 +143,21 @@
         [self.contentView addSubview:_viewLabel];
     }
     return _viewLabel;
+}
+
+- (JHEdgeButton *)searchButton {
+    if (_searchButton == nil) {
+        _searchButton = [[JHEdgeButton alloc] init];
+        _searchButton.titleLabel.font = SMALL_SIZE_FONT;
+        [_searchButton setTitle:@"搜索资源" forState:UIControlStateNormal];
+        [_searchButton setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+        [_searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _searchButton.inset = CGSizeMake(10, 0);
+        _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        [_searchButton addTarget:self action:@selector(touchSearchButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_searchButton];
+    }
+    return _searchButton;
 }
 
 - (UIVisualEffectView *)blurView {

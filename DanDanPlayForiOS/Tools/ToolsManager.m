@@ -83,11 +83,11 @@ UIKIT_EXTERN BOOL jh_isSubTitleFile(NSString *aURL) {
     
     return flag;
     
-//        CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
-//        CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
-//        BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeText);
-//        CFRelease(fileUTI);
-//        return flag;
+    //        CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
+    //        CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
+    //        BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeText);
+    //        CFRelease(fileUTI);
+    //        return flag;
 };
 
 UIKIT_EXTERN BOOL jh_isVideoFile(NSString *aURL) {
@@ -117,7 +117,7 @@ UIKIT_EXTERN BOOL jh_isRootFile(JHFile *file) {
     if ([file isKindOfClass:[JHLinkFile class]] || [file isKindOfClass:[JHSMBFile class]]) {
         return [file.fileURL.absoluteString isEqualToString:@"/"];
     }
-
+    
     return [file.fileURL relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
 };
 
@@ -206,11 +206,12 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要登录才能继续操作" message:@"跳转到登录页吗？" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 JHLoginViewController *vc = [[JHLoginViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
                 [viewController.navigationController pushViewController:vc animated:YES];
             }]];
-
+            
             [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-
+            
             [viewController presentViewController:vc animated:YES completion:nil];
         }
     });
@@ -456,13 +457,13 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 
 #pragma mark - SMB
 - (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
-                                      completion:(GetSMBFilesAction)completion {
+                                  completion:(GetSMBFilesAction)completion {
     [self startDiscovererSMBFileWithParentFile:parentFile fileType:PickerFileTypeAll completion:completion];
 }
 
 - (void)startDiscovererSMBFileWithParentFile:(JHSMBFile *)parentFile
-                                        fileType:(PickerFileType)fileType
-                                      completion:(GetSMBFilesAction)completion {
+                                    fileType:(PickerFileType)fileType
+                                  completion:(GetSMBFilesAction)completion {
     TOSMBSession *session = self.SMBSession;
     
     //根目录
@@ -483,7 +484,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             if (obj.directory) {
                 [aFolders addObject:file];
             }
-            else {                
+            else {
                 if (fileType == PickerFileTypeAll) {
                     [aFiles addObject:file];
                 }
@@ -695,3 +696,4 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 
 
 @end
+

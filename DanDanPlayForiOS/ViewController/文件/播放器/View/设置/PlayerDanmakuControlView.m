@@ -81,12 +81,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return CGFLOAT_MIN;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     JHPlayerDanmakuControlModel *model = self.dataSource[section];
-    if (model.headerHeight > 0.1) {
+    if (model.headerHeight > CGFLOAT_MIN) {
         PlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"PlayerControlHeaderView"];
         [model.headerDic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             [view setValue:obj forKeyPath:key];
@@ -121,7 +121,7 @@
         CGFloat rowHeight1 = 44 + jh_isPad() * 20;
         CGFloat rowHeight2 = 64 + jh_isPad() * 20;
         CGFloat heightHeight1 = 30;
-        CGFloat heightHeight2 = 0.1;
+        CGFloat heightHeight2 = CGFLOAT_MIN;
         
         //弹幕大小
         {

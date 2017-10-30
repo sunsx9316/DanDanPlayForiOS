@@ -47,7 +47,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     }
 };
 
-@interface JHLoginViewController ()
+@interface JHLoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) JHTextField *userNameTextField;
 @property (strong, nonatomic) JHTextField *passwordTextField;
@@ -76,11 +76,17 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     }];
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self touchLoginButton];
+    return NO;
+}
+
 #pragma mark - 私有方法
 
 /**
  第三方登录
-
+ 
  @param sender 按钮
  */
 - (void)touchBotton:(UIButton *)sender {
@@ -115,6 +121,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
                     else {
                         [CacheManager shareCacheManager].user = responseObject;
                         [self.navigationController popViewControllerAnimated:YES];
+                        [MBProgressHUD showWithText:@"登录成功！"];
                     }
                 }
             }];
@@ -128,11 +135,11 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)touchLoginButton:(UIButton *)sender {
+- (void)touchLoginButton {
     [self.view endEditing:YES];
     
-    NSString *account = self.userNameTextField.text;
-    NSString *password = self.passwordTextField.text;
+    NSString *account = self.userNameTextField.textField.text;
+    NSString *password = self.passwordTextField.textField.text;
     
     if (account.length == 0) {
         [MBProgressHUD showWithText:@"请输入登录用户名！"];
@@ -154,6 +161,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         else {
             [CacheManager shareCacheManager].user = responseObject;
             [self.navigationController popToRootViewControllerAnimated:YES];
+            [MBProgressHUD showWithText:@"登录成功！"];
         }
     }];
 }
@@ -218,7 +226,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
 - (JHTextField *)userNameTextField {
     if (_userNameTextField == nil) {
         _userNameTextField = [[JHTextField alloc] initWithType:JHTextFieldTypeNormal];
-        _userNameTextField.placeholder = @"用户名";
+        _userNameTextField.textField.placeholder = @"用户名";
     }
     return _userNameTextField;
 }
@@ -226,7 +234,8 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
 - (JHTextField *)passwordTextField {
     if (_passwordTextField == nil) {
         _passwordTextField = [[JHTextField alloc] initWithType:JHTextFieldTypePassword];
-        _passwordTextField.placeholder = @"密码";
+        _passwordTextField.textField.placeholder = @"密码";
+        _passwordTextField.textField.delegate = self;
     }
     return _passwordTextField;
 }
@@ -302,7 +311,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
         _loginButton.layer.cornerRadius = 6;
         _loginButton.layer.masksToBounds = YES;
-        [_loginButton addTarget:self action:@selector(touchLoginButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_loginButton addTarget:self action:@selector(touchLoginButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
 }

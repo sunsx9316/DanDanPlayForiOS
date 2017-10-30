@@ -27,19 +27,19 @@
 @end
 
 @implementation FileManagerViewController
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
-    
-    if (jh_isRootFile(self.file)) {
-        [self setNavigationBarWithColor:[UIColor clearColor]];
-        [[CacheManager shareCacheManager] addObserver:self];
-    }
-    else {
-        [self setNavigationBarWithColor:[UIColor whiteColor]];
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
+//    
+//    if (jh_isRootFile(self.file)) {
+//        [self setNavigationBarWithColor:[UIColor clearColor]];
+//        [[CacheManager shareCacheManager] addObserver:self];
+//    }
+//    else {
+//        [self setNavigationBarWithColor:[UIColor whiteColor]];
+//    }
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,15 +60,18 @@
     [self.tableView addGestureRecognizer:self.longPressGestureRecognizer];
     
     if (jh_isRootFile(self.file)) {
-        self.automaticallyAdjustsScrollViewInsets = NO;
+//        self.automaticallyAdjustsScrollViewInsets = NO;
+        
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();
         }
         
+        self.navigationItem.title = @"根目录";
+        [[CacheManager shareCacheManager] addObserver:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
     }
     else {
-        self.automaticallyAdjustsScrollViewInsets = YES;
+//        self.automaticallyAdjustsScrollViewInsets = YES;
         self.navigationItem.title = _file.name;
     }
 }
@@ -168,15 +171,15 @@
 }
 
 #pragma mark - 私有方法
-- (void)configLeftItem {
-    if (jh_isRootFile(self.file) == NO) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
-             [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-        }];
-        
-        [self.navigationItem addLeftItemFixedSpace:item];
-    }
-}
+//- (void)configLeftItem {
+//    if (jh_isRootFile(self.file) == NO) {
+//        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
+//             [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+//        }];
+//
+//        [self.navigationItem addLeftItemFixedSpace:item];
+//    }
+//}
 
 - (void)touchSelectedAllButton:(UIButton *)button {
     button.selected = !button.isSelected;
@@ -223,8 +226,21 @@
                 //            [self.tableView reloadData];
                 [self touchCancelButton:nil];
                 
+                NSArray *VCArr = self.navigationController.viewControllers;
+                __block UIViewController *toVC = nil;
+                [VCArr enumerateObjectsUsingBlock:^(FileManagerViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([obj isKindOfClass:[FileManagerViewController class]] && jh_isRootFile(obj.file)) {
+                        toVC = obj;
+                        *stop = YES;
+                    }
+                }];
                 
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                if (toVC) {
+                    [self.navigationController popToViewController:toVC animated:YES];
+                }
+                else {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
                 //            [self refresh];
             });
         }]];

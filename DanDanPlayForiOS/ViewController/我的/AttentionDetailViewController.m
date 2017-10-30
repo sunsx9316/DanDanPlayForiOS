@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self configRightItem];
+//    [self configRightItem];
     
     self.navigationItem.title = @"番剧详情";
     
@@ -53,6 +53,17 @@
     if (indexPath.section == 0) {
         AttentionDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AttentionDetailTableViewCell" forIndexPath:indexPath];
         cell.model = self.historyModel;
+        @weakify(self)
+        cell.touchSearchButtonCallBack = ^(JHPlayHistory *aModel) {
+            @strongify(self)
+            if (!self) return;
+            
+            HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+            JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+            vc.config = config;
+            config.keyword = self.historyModel.name;
+            [self.navigationController pushViewController:vc animated:YES];
+        };
         return cell;
     }
     
@@ -122,23 +133,23 @@
 }
 
 #pragma mark - 私有方法
-- (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_search"] configAction:^(UIButton *aButton) {
-        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-    }];
-    
-    [self.navigationItem addRightItemFixedSpace:item];
-}
+//- (void)configRightItem {
+//    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_search"] configAction:^(UIButton *aButton) {
+//        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+//    }];
+//
+//    [self.navigationItem addRightItemFixedSpace:item];
+//}
 
-- (void)touchRightItem:(UIButton *)button {
-    if (self.historyModel.name.length == 0) return;
-    
-    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
-    JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
-    vc.config = config;
-    config.keyword = self.historyModel.name;
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (void)touchRightItem:(UIButton *)button {
+//    if (self.historyModel.name.length == 0) return;
+//
+//    HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
+//    JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
+//    vc.config = config;
+//    config.keyword = self.historyModel.name;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 
 #pragma mark - 懒加载
 - (JHBaseTableView *)tableView {

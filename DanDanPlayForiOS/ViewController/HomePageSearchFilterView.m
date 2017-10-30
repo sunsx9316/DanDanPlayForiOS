@@ -8,67 +8,35 @@
 
 #import "HomePageSearchFilterView.h"
 #import "JHBaseTableView.h"
+#import <WMMenuView.h>
 
 #define CELL_HEIGHT 44
 
-#define TYPE_DEFAULT_STRING @"全部分类"
-#define SUB_GROUP_DEFAULT_STRING @"全部字幕组"
+#define MENU_ITEM_IMG_TAG 1008
+#define MENU_ITEM_LINE_TAG 1009
 
-@interface HomePageSearchFilterView ()<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) UIButton *typeButton;
-@property (strong, nonatomic) UIButton *subGroupButton;
+@interface HomePageSearchFilterView ()<UITableViewDataSource, UITableViewDelegate, WMMenuViewDelegate, WMMenuViewDataSource>
+@property (strong, nonatomic) WMMenuView *menuView;
+
+@property (strong, nonatomic) UIView *popView;
 @property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) UIView *bgView;
+@property (strong, nonatomic) UIView *bottomLineView;
+@property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSNumber *>*selectedIndexDic;
 @end
 
 @implementation HomePageSearchFilterView
 {
-    NSArray <NSString *>*_currentArr;
-    NSString *_selectedTypeName;
-    NSString *_selectedSubGroupName;
+    NSInteger _selectedIndex;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        
-        [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
-        }];
-        
-        [self.typeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.mas_equalTo(0);
-            make.height.mas_equalTo(FILTER_VIEW_HEIGHT);
-        }];
-        
-        [self.subGroupButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.mas_equalTo(0);
-            make.left.equalTo(self.typeButton.mas_right);
-            make.size.equalTo(self.typeButton);
-        }];
-        
-        UIView *centerLine = [[UIView alloc] init];
-        centerLine.backgroundColor = RGBCOLOR(230, 230, 230);
-        [self addSubview:centerLine];
-        [centerLine mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(10);
-            make.bottom.equalTo(self.typeButton).mas_offset(-10);
-            make.width.mas_equalTo(1);
-            make.centerX.mas_equalTo(0);
-        }];
-        
-        UIView *bottomLine = [[UIView alloc] init];
-        bottomLine.backgroundColor = RGBCOLOR(230, 230, 230);
-        [self addSubview:bottomLine];
-        [bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.typeButton);
+        self.backgroundColor = [UIColor whiteColor];
+        self.clipsToBounds = NO;
+        [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(1);
-            make.left.right.mas_equalTo(0);
-        }];
-
-        
-        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.typeButton.mas_bottom);
-            make.left.right.height.mas_equalTo(0);
+            make.left.right.bottom.mas_equalTo(0);
         }];
     }
     return self;
@@ -78,41 +46,150 @@
     return [self initWithFrame:CGRectZero];
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    UIView *view = [super hitTest:point withEvent:event];
-    if (view == self) {
-        return nil;
+- (void)reloadData {
+    [self.selectedIndexDic removeAllObjects];
+    [self.menuView reload];
+}
+
+- (NSString *)titleInSection:(NSInteger)section {
+    return [_menuView itemAtIndex:section].text;
+}
+
+- (NSInteger)selectedItemIndexAtSection:(NSInteger)section {
+    NSNumber *number = self.selectedIndexDic[@(section)];
+    return number.integerValue;
+}
+
+- (void)selectedSubItemAtIndex:(NSInteger)index section:(NSInteger)section {
+    if (section > [self.dataSource numberOfItem] || index > [self.dataSource numberOfSubItemAtSection:section]) return;
+    
+    self.selectedIndexDic[@(section)] = @(index);
+    [_tableView reloadData];
+}
+
+#pragma mark - WMMenuViewDataSource
+- (NSInteger)numbersOfTitlesInMenuView:(WMMenuView *)menu {
+    if ([self.dataSource respondsToSelector:@selector(numberOfItem)]) {
+        return [self.dataSource numberOfItem];
     }
-    return view;
+    return 0;
 }
 
-- (void)reload {
-    _selectedTypeName = nil;
-    _selectedSubGroupName = nil;
-    [self.typeButton setTitle:TYPE_DEFAULT_STRING forState:UIControlStateNormal];
-    [self.subGroupButton setTitle:SUB_GROUP_DEFAULT_STRING forState:UIControlStateNormal];
-    [self.tableView reloadData];
+- (NSString *)menuView:(WMMenuView *)menu titleAtIndex:(NSInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(itemTitleAtSection:)]) {
+        return [self.dataSource itemTitleAtSection:index];
+    }
+    return nil;
 }
 
-- (NSString *)subGroupName {
-    return _selectedSubGroupName;
+
+- (WMMenuItem *)menuView:(WMMenuView *)menu initialMenuItem:(WMMenuItem *)initialMenuItem atIndex:(NSInteger)index {
+    NSInteger numberOfTitle = [self numbersOfTitlesInMenuView:menu];
+    UIView *lineView = [initialMenuItem viewWithTag:MENU_ITEM_LINE_TAG];
+    
+    
+    if (index != numberOfTitle - 1 && lineView == nil) {
+        lineView = [[UIView alloc] init];
+        lineView.backgroundColor = RGBCOLOR(230, 230, 230);
+        lineView.tag = MENU_ITEM_LINE_TAG;
+        [initialMenuItem addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_offset(10);
+            make.bottom.mas_offset(-10);
+            make.width.mas_equalTo(1);
+            make.right.mas_equalTo(0);
+        }];
+        
+    }
+    
+    UIImageView *imgView = [initialMenuItem viewWithTag:MENU_ITEM_IMG_TAG];
+    if (imgView == nil) {
+        imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"filter_arrow_down"]];
+        [initialMenuItem addSubview:imgView];
+        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(0);
+            make.left.mas_offset(20);
+        }];
+        imgView.tag = MENU_ITEM_IMG_TAG;
+    }
+    
+    return initialMenuItem;
 }
 
-- (NSString *)typeName {
-    return _selectedTypeName;
+#pragma mark - WMMenuViewDelegate
+- (CGFloat)menuView:(WMMenuView *)menu titleSizeForState:(WMMenuItemState)state atIndex:(NSInteger)index {
+    return NORMAL_SIZE_FONT.pointSize;
 }
 
+- (UIColor *)menuView:(WMMenuView *)menu titleColorForState:(WMMenuItemState)state atIndex:(NSInteger)index {
+    return MAIN_COLOR;
+}
+
+- (BOOL)menuView:(WMMenuView *)menu shouldSelesctedIndex:(NSInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(numberOfSubItemAtSection:)] && [self.dataSource respondsToSelector:@selector(subItemTitleAtIndex:section:)]) {
+        
+        if (_selectedIndex != index) {
+            //将原先选中的小箭头还原
+            UIImageView *originalImgView = [[menu itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
+            originalImgView.transform = CGAffineTransformIdentity;            
+        }
+        
+        _selectedIndex = index;
+        UIImageView *imgView = [[menu itemAtIndex:index] viewWithTag:MENU_ITEM_IMG_TAG];
+        
+        void(^layoutAction)(void) = ^{
+            NSInteger numberOfSubItem = [self.dataSource numberOfSubItemAtSection:index];
+            CGFloat cellHeight = CELL_HEIGHT;
+            if (numberOfSubItem > 4) {
+                cellHeight += 5;
+                numberOfSubItem = 4;
+            }
+            
+            self.tableView.frame = CGRectMake(0, 0, self.width, cellHeight * numberOfSubItem);
+            imgView.transform = CGAffineTransformMakeRotation(M_PI);
+        };
+        
+        if (self.popView.superview == nil) {
+            [self.superview addSubview:self.popView];
+            [self.popView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.mas_bottom);
+                make.right.left.bottom.mas_equalTo(0);
+            }];
+            
+            [UIView animateWithDuration:.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:20 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                layoutAction();
+                self.bgView.alpha = 1;
+            } completion:nil];
+        }
+        else {
+            [UIView animateWithDuration:.4 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:20 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                layoutAction();
+            } completion:nil];
+        }
+
+        [self.tableView reloadData];
+    }
+    
+    
+    return NO;
+}
+
+- (CGFloat)menuView:(WMMenuView *)menu widthForItemAtIndex:(NSInteger)index {
+    if ([self.dataSource respondsToSelector:@selector(numberOfItem)]) {
+        NSInteger items = [self.dataSource numberOfItem];
+        if (items <= 3 && items > 0) {
+            return kScreenWidth / items;
+        }
+    }
+    return 60;
+}
 
 #pragma mark - UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
+    if ([self.dataSource respondsToSelector:@selector(numberOfSubItemAtSection:)]) {
+        return [self.dataSource numberOfSubItemAtSection:_selectedIndex];
     }
-    return _currentArr.count;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,123 +199,50 @@
         cell.fromCache = YES;
     }
     
-    if (indexPath.section == 0) {
-        if (_currentArr == self.subGroups) {
-            cell.textLabel.text = SUB_GROUP_DEFAULT_STRING;
-            cell.accessoryType = _selectedSubGroupName == nil ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
-        else {
-            cell.textLabel.text = TYPE_DEFAULT_STRING;
-            cell.accessoryType = _selectedTypeName == nil ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
+    if ([self.dataSource respondsToSelector:@selector(subItemTitleAtIndex:section:)]) {
+        NSString *title = [self.dataSource subItemTitleAtIndex:indexPath.row section:_selectedIndex];
+        cell.textLabel.text = title;
+        cell.accessoryType = self.selectedIndexDic[@(_selectedIndex)].integerValue == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     }
-    else {
-        NSString *data = _currentArr[indexPath.row];
-        cell.textLabel.text = data;
-        if (_currentArr == self.subGroups) {
-            cell.accessoryType = [_selectedSubGroupName isEqual:data] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
-        else {
-            cell.accessoryType = [_selectedTypeName isEqual:data] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-        }
-    }
-    
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (_currentArr == self.types) {
-        if (self.selectedTypeCallBack) {
-            if (indexPath.section == 0) {
-                _selectedTypeName = nil;
-                self.selectedTypeCallBack(nil);
-            }
-            else {
-                _selectedTypeName = self.types[indexPath.row];
-                self.selectedTypeCallBack(_selectedTypeName);
-            }
-            
-            [self dismissWithOut:^{
-                [self.typeButton setTitle:_selectedTypeName ? _selectedTypeName : TYPE_DEFAULT_STRING forState:UIControlStateNormal];
-            }];
-        }
-    }
-    else {
-        if (self.selectedSubGroupsCallBack) {
-            if (indexPath.section == 0) {
-                _selectedSubGroupName = nil;
-                self.selectedSubGroupsCallBack(nil);
-            }
-            else {
-                _selectedSubGroupName = self.subGroups[indexPath.row];
-                self.selectedSubGroupsCallBack(_selectedSubGroupName);
-            }
-            
-            [self dismissWithOut:^{
-                [self.subGroupButton setTitle:_selectedSubGroupName ? _selectedSubGroupName : SUB_GROUP_DEFAULT_STRING forState:UIControlStateNormal];
-            }];
-        }
+    NSString *title = [self.dataSource subItemTitleAtIndex:indexPath.row section:_selectedIndex];
+    [self.menuView updateTitle:title atIndex:_selectedIndex andWidth:NO];
+    self.selectedIndexDic[@(_selectedIndex)] = @(indexPath.row);
+    
+    if ([self.delegate respondsToSelector:@selector(pageSearchFilterView:didSelectedSubItemAtIndex:section:title:)]) {
+        [self.delegate pageSearchFilterView:self didSelectedSubItemAtIndex:indexPath.row section:_selectedIndex title:title];
     }
     
-    
+    [self dismissPopView];
 }
 
 #pragma mark - 私有方法
-- (void)touchButton:(UIButton *)sender {
-    if (sender.tag == 1000) {
-        _currentArr = self.types;
-    }
-    else {
-        _currentArr = self.subGroups;
-    }
-    
-    [self.tableView reloadData];
-    
-    float cellHeight = CELL_HEIGHT;
-    NSInteger count = _currentArr.count + 1;
-    
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        if (count <= 4) {
-            make.height.mas_equalTo(cellHeight * count);
-        }
-        else {
-             make.height.mas_equalTo(cellHeight * 4);
-        }
-    }];
+- (void)dismissPopView {
+    UIImageView *imgView = [[self.menuView itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
     
     [UIView animateWithDuration:0.2 animations:^{
-        [self layoutIfNeeded];
-        self.bgView.alpha = 1;
-    }];
-}
-
-- (void)dismissWithOut:(dispatch_block_t)animate {
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(0);
-    }];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        [self layoutIfNeeded];
-        if (animate) {
-            [UIView performWithoutAnimation:animate];
-        }
         self.bgView.alpha = 0;
+        self.tableView.height = 0;
+        imgView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        [self.popView removeFromSuperview];
     }];
 }
 
 #pragma mark - 懒加载
 - (JHBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectMake(0, 0, self.width, 0) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.rowHeight = CELL_HEIGHT;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [self addSubview:_tableView];
     }
     return _tableView;
 }
@@ -246,46 +250,62 @@
 - (UIView *)bgView {
     if (_bgView == nil) {
         _bgView = [[UIView alloc] init];
-        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
         _bgView.alpha = 0;
+        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
         @weakify(self)
         [_bgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
             @strongify(self)
             if (!self) return;
             
-            [self dismissWithOut:nil];
+            [self dismissPopView];
         }]];
-        [self addSubview:_bgView];
     }
     return _bgView;
 }
 
-- (UIButton *)typeButton {
-    if (_typeButton == nil) {
-        _typeButton = [[UIButton alloc] init];
-        _typeButton.titleLabel.font = NORMAL_SIZE_FONT;
-        _typeButton.backgroundColor = BACK_GROUND_COLOR;
-        [_typeButton setTitle:TYPE_DEFAULT_STRING forState:UIControlStateNormal];
-        [_typeButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-        [_typeButton addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
-        _typeButton.tag = 1000;
-        [self addSubview:_typeButton];
+- (WMMenuView *)menuView {
+    if (_menuView == nil) {
+        _menuView = [[WMMenuView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, FILTER_VIEW_HEIGHT)];
+        _menuView.delegate = self;
+        _menuView.dataSource = self;
+        _menuView.backgroundColor = [UIColor whiteColor];
+        _menuView.style = WMMenuViewStyleDefault;
+        [self addSubview:_menuView];
+        [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.mas_equalTo(0);
+            make.bottom.equalTo(self.bottomLineView.mas_top);
+        }];
     }
-    return _typeButton;
+    return _menuView;
 }
 
-- (UIButton *)subGroupButton {
-    if (_subGroupButton == nil) {
-        _subGroupButton = [[UIButton alloc] init];
-        [_subGroupButton setTitle:SUB_GROUP_DEFAULT_STRING forState:UIControlStateNormal];
-        _subGroupButton.titleLabel.font = NORMAL_SIZE_FONT;
-        _subGroupButton.backgroundColor = BACK_GROUND_COLOR;
-        [_subGroupButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-        [_subGroupButton addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
-        _subGroupButton.tag = 1002;
-        [self addSubview:_subGroupButton];
+- (UIView *)popView {
+    if (_popView == nil) {
+        _popView = [[UIView alloc] init];
+        [_popView addSubview:self.bgView];
+        [_popView addSubview:self.tableView];
+        
+        [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
     }
-    return _subGroupButton;
+    return _popView;
+}
+
+- (UIView *)bottomLineView {
+    if (_bottomLineView == nil) {
+        _bottomLineView = [[UIView alloc] init];
+        _bottomLineView.backgroundColor = RGBCOLOR(230, 230, 230);
+        [self addSubview:_bottomLineView];
+    }
+    return _bottomLineView;
+}
+
+- (NSMutableDictionary<NSNumber *,NSNumber *> *)selectedIndexDic {
+    if (_selectedIndexDic == nil) {
+        _selectedIndexDic = [NSMutableDictionary dictionary];
+    }
+    return _selectedIndexDic;
 }
 
 @end

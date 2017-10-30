@@ -33,8 +33,8 @@
 - (void)touchLinkButton:(UIButton *)sender {
     [self.view endEditing:YES];
     
-    NSString *account = self.accountTextField.text;
-    NSString *password = self.passwordTextField.text;
+    NSString *account = self.accountTextField.textField.text;
+    NSString *password = self.passwordTextField.textField.text;
     
     if (account.length == 0) {
         [MBProgressHUD showWithText:@"请输入账号！"];
@@ -72,6 +72,7 @@
                 else {
                     [CacheManager shareCacheManager].user = responseObject1;
                     [self.navigationController popToRootViewControllerAnimated:YES];
+                    [MBProgressHUD showWithText:@"登录成功！"];
                 }
             }];
         }
@@ -115,8 +116,8 @@
 - (JHTextField *)accountTextField {
     if (_accountTextField == nil) {
         _accountTextField = [[JHTextField alloc] initWithType:JHTextFieldTypeNormal];
-        _accountTextField.placeholder = @"用户名（英文数字5-20位）";
-        _accountTextField.returnKeyType = UIReturnKeyDone;
+        _accountTextField.textField.placeholder = @"用户名";
+        _accountTextField.textField.returnKeyType = UIReturnKeyDone;
         _accountTextField.limit = 20;
     }
     return _accountTextField;
@@ -125,10 +126,10 @@
 - (JHTextField *)passwordTextField {
     if (_passwordTextField == nil) {
         _passwordTextField = [[JHTextField alloc] initWithType:JHTextFieldTypePassword];
-        _passwordTextField.placeholder = @"密码（5-20位）";
-        _passwordTextField.returnKeyType = UIReturnKeyDone;
+        _passwordTextField.textField.placeholder = @"密码";
+        _passwordTextField.textField.returnKeyType = UIReturnKeyDone;
         _passwordTextField.limit = 20;
-        [_passwordTextField touchSeeButton:_passwordTextField.rightButton];
+        //        [_passwordTextField touchSeeButton:_passwordTextField.rightButton];
     }
     return _passwordTextField;
 }
@@ -148,3 +149,4 @@
 }
 
 @end
+

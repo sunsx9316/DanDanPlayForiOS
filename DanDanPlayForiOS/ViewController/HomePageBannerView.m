@@ -7,11 +7,15 @@
 //
 
 #import "HomePageBannerView.h"
+#import "UIView+Tools.h"
 
 @interface HomePageBannerView ()
 @property (strong, nonatomic) UIView *gradualView;
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *contentLabel;
+
+@property (strong, nonatomic) UIView *buttonHolderView;
 @end
 
 @implementation HomePageBannerView
@@ -25,11 +29,19 @@
         }];
         
         [self.gradualView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.right.mas_equalTo(0);
+            make.left.bottom.right.mas_equalTo(self.imgView);
         }];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.gradualView).mas_equalTo(UIEdgeInsetsMake(5, 10, 5, 10));
+            make.top.equalTo(self.gradualView).mas_offset(10);
+            make.left.equalTo(self.gradualView).mas_offset(5);
+            make.right.equalTo(self.gradualView).mas_offset(-10);
+        }];
+        
+        [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(5);
+            make.left.right.equalTo(self.titleLabel);
+            make.bottom.equalTo(self.gradualView).mas_offset(-10);
         }];
     }
     return self;
@@ -37,7 +49,8 @@
 
 - (void)setModel:(JHBannerPage *)model {
     _model = model;
-    self.titleLabel.text = _model.desc;
+    self.titleLabel.text = _model.name;
+    self.contentLabel.text = _model.desc;
     [self.imgView jh_setImageWithURL:_model.imageURL];
 }
 
@@ -58,9 +71,21 @@
         _titleLabel.font = NORMAL_SIZE_FONT;
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.numberOfLines = 2;
+        [_titleLabel setRequiredContentVerticalResistancePriority];
         [self addSubview:_titleLabel];
     }
     return _titleLabel;
+}
+
+- (UILabel *)contentLabel {
+    if (_contentLabel == nil) {
+        _contentLabel = [[UILabel alloc] init];
+        _contentLabel.font = SMALL_SIZE_FONT;
+        _contentLabel.textColor = VERY_LIGHT_GRAY_COLOR;
+        _contentLabel.numberOfLines = 3;
+        [self addSubview:_contentLabel];
+    }
+    return _contentLabel;
 }
 
 - (UIView *)gradualView {
@@ -72,4 +97,6 @@
     return _gradualView;
 }
 
+
 @end
+

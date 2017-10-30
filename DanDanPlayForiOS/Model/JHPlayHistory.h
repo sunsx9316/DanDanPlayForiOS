@@ -7,6 +7,7 @@
 //
 
 #import "JHBase.h"
+#import "JHEpisode.h"
 
 @interface JHPlayHistory : JHBaseCollection
 /*
@@ -20,4 +21,5 @@
 @property (copy, nonatomic) NSString *searchKeyword;
 #pragma mark - 自定义属性
 @property (assign, nonatomic) BOOL isOnAir;
+@property (copy, nonatomic, readonly) NSString *playHistoryStatusString;
 @end

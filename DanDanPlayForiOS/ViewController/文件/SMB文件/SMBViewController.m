@@ -31,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"浏览电脑文件";
+    self.navigationItem.title = @"远程设备";
 //    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,11 +94,11 @@
     if (([CacheManager shareCacheManager].SMBInfos.count)) {
         return 40;
     }
-    return 0.1;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return CGFLOAT_MIN;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

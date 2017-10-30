@@ -7,9 +7,12 @@
 //
 
 #import "JHTextField.h"
+#import "JHEdgeButton.h"
+#import "UIView+Tools.h"
 
 @interface JHTextField ()<UITextFieldDelegate>
 @property (strong, nonatomic, readwrite) UIView *lineView;
+@property (strong, nonatomic) UILabel *previewPasswordLabel;
 @end
 
 @implementation JHTextField
@@ -21,37 +24,56 @@
     if (self = [super init]) {
         _type = type;
         
-        self.enablesReturnKeyAutomatically = YES;
+        if (_type == JHTextFieldTypePassword) {
+            self.textField.secureTextEntry = YES;
+            self.textField.clearsOnInsertion = YES;
+            self.textField.keyboardType = UIKeyboardTypeASCIICapable;
+            self.textField.returnKeyType = UIReturnKeyDone;
+            
+            JHEdgeButton *rightButton = [[JHEdgeButton alloc] init];
+            rightButton.inset = CGSizeMake(10, 10);
+            [rightButton setRequiredContentHorizontalResistancePriority];
+            [rightButton addTarget:self action:@selector(touchDownSeeButton:) forControlEvents:UIControlEventTouchDown];
+            [rightButton addTarget:self action:@selector(touchUpSeeButton:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchCancel];
+            [rightButton setImage:[[UIImage imageNamed:@"login_password_selected"] yy_imageByTintColor:MAIN_COLOR] forState:UIControlStateSelected];
+            [rightButton setImage:[[UIImage imageNamed:@"login_password_selected"] yy_imageByTintColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+            
+            _rightButton = rightButton;
+            [self addSubview:_rightButton];
+            
+            [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.left.mas_equalTo(0);
+            }];
+            
+            [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.mas_equalTo(0);
+                make.right.mas_offset(-10);
+                make.left.equalTo(self.textField.mas_right).mas_offset(10);
+            }];
+            
+            [self.previewPasswordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.mas_equalTo(self.textField);
+            }];
+        }
+        else {
+            [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.left.right.mas_equalTo(0);
+            }];
+        }
         
         [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.left.right.mas_equalTo(0);
             make.height.mas_equalTo(1);
+            make.top.equalTo(self.textField.mas_bottom);
         }];
-        
-        if (_type == JHTextFieldTypePassword) {
-            self.secureTextEntry = YES;
-            self.clearsOnInsertion = YES;
-            self.delegate = self;
-            
-            UIButton *rightButton = [[UIButton alloc] init];
-            [rightButton addTarget:self action:@selector(touchSeeButton:) forControlEvents:UIControlEventTouchUpInside];
-            [rightButton setImage:[[UIImage imageNamed:@"login_password_selected"] yy_imageByTintColor:MAIN_COLOR] forState:UIControlStateSelected];
-            [rightButton setImage:[[UIImage imageNamed:@"login_password_selected"] yy_imageByTintColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
-            
-            [rightButton sizeToFit];
-            rightButton.width += 10;
-            self.rightViewMode = UITextFieldViewModeAlways;
-            self.rightView = rightButton;
-            _rightButton = rightButton;
-        }
-        
-        [self addTarget:self action:@selector(inputText:) forControlEvents:UIControlEventEditingChanged];
     }
     return self;
 }
 
 #pragma mark - 私有方法
 - (void)inputText:(UITextField *)sender {
+    self.previewPasswordLabel.text = sender.text;
+    
     if (_limit == 0) return;
     
     NSString *text = sender.text;
@@ -60,20 +82,14 @@
     }
 }
 
-- (void)touchSeeButton:(UIButton *)sender {
-    sender.selected = !sender.isSelected;
-    NSString *text = self.text;
-    self.secureTextEntry = !sender.selected;
-    self.text = text;
+- (void)touchDownSeeButton:(UIButton *)sender {
+    self.previewPasswordLabel.hidden = NO;
+    self.textField.hidden = YES;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-    NSString *updatedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    
-    textField.text = updatedString;
-    
-    return NO;
+- (void)touchUpSeeButton:(UIButton *)sender {
+    self.previewPasswordLabel.hidden = YES;
+    self.textField.hidden = NO;
 }
 
 #pragma mark - 懒加载
@@ -86,4 +102,26 @@
     return _lineView;
 }
 
+- (UILabel *)previewPasswordLabel {
+    if (_previewPasswordLabel == nil) {
+        _previewPasswordLabel = [[UILabel alloc] init];
+        _previewPasswordLabel.font = NORMAL_SIZE_FONT;
+        _previewPasswordLabel.hidden = YES;
+        [self addSubview:_previewPasswordLabel];
+    }
+    return _previewPasswordLabel;
+}
+
+- (UITextField *)textField {
+    if (_textField == nil) {
+        _textField = [[UITextField alloc] init];
+        _textField.font = NORMAL_SIZE_FONT;
+        _textField.enablesReturnKeyAutomatically = YES;
+        [_textField addTarget:self action:@selector(inputText:) forControlEvents:UIControlEventEditingChanged];
+        [self addSubview:_textField];
+    }
+    return _textField;
+}
+
 @end
+

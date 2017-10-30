@@ -18,13 +18,15 @@
 #import "JHEdgeButton.h"
 #import "JHExpandView.h"
 #import "JHSearchBar.h"
+#import "HomePageSearchFilterModel.h"
 
-@interface HomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface HomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, HomePageSearchFilterViewDelegate, HomePageSearchFilterViewDataSource>
 @property (strong, nonatomic) JHSearchBar *searchBar;
 @property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) JHDMHYSearchCollection *collection;
 @property (strong, nonatomic) HomePageSearchFilterView *filterView;
 @property (strong, nonatomic) NSArray <JHDMHYSearch *>*dataSource;
+@property (strong, nonatomic) NSArray <HomePageSearchFilterModel *>*filterDataSource;
 @end
 
 @implementation HomePageSearchViewController
@@ -34,8 +36,14 @@
     [self configRightItem];
     [self configTitleView];
     
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
+    }];
+    
+    [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.mas_equalTo(0);
+        make.height.mas_equalTo(FILTER_VIEW_HEIGHT);
     }];
     
     if (self.config) {
@@ -96,6 +104,50 @@
     return [tableView fd_heightForCellWithIdentifier:@"HomePageSearchTableViewCell" cacheByIndexPath:indexPath configuration:^(HomePageSearchTableViewCell *cell) {
         cell.model = self.dataSource[indexPath.row];
     }];
+}
+
+#pragma mark - HomePageSearchFilterViewDataSource
+- (NSInteger)numberOfItem {
+    return self.filterDataSource.count;
+}
+
+- (NSString *)itemTitleAtSection:(NSInteger)index {
+    return self.filterDataSource[index].title;
+}
+
+- (NSInteger)numberOfSubItemAtSection:(NSInteger)index {
+    return self.filterDataSource[index].subItems.count;
+}
+
+- (NSString *)subItemTitleAtIndex:(NSInteger)index section:(NSInteger)section {
+    return self.filterDataSource[section].subItems[index];
+}
+
+#pragma mark - HomePageSearchFilterViewDelegate
+- (void)pageSearchFilterView:(HomePageSearchFilterView *)view didSelectedSubItemAtIndex:(NSInteger)index
+                     section:(NSInteger)section
+                       title:(NSString *)title {
+    self.filterDataSource[section].title = title;
+    
+    NSString *type = [view titleInSection:0];
+    NSString *subGroup = [view titleInSection:1];
+    NSInteger typeIndex = [view selectedItemIndexAtSection:0];
+    NSInteger subGroupIndex = [view selectedItemIndexAtSection:1];
+    
+    if (typeIndex == 0 && subGroupIndex == 0) {
+        self.dataSource = self.collection.collection;
+    }
+    else {
+        NSMutableArray *tempArr = [NSMutableArray array];
+        [self.collection.collection enumerateObjectsUsingBlock:^(JHDMHYSearch * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ((typeIndex == 0 || [obj.typeName isEqualToString:type]) && (subGroupIndex == 0 || [obj.subgroupName isEqualToString:subGroup])) {
+                [tempArr addObject:obj];
+            }
+        }];
+        self.dataSource = tempArr;
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - 私有方法
@@ -222,17 +274,13 @@
                     else {
                         self.collection = responseObject;
                         if (responseObject.collection.count) {
-                            [self.view addSubview:self.filterView];
-                            [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
-                                make.top.left.right.bottom.mas_equalTo(0);
-                            }];
-                            
                             [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
                                 make.top.mas_offset(FILTER_VIEW_HEIGHT);
                             }];
+                            self.filterView.hidden = NO;
                             
-                            NSMutableOrderedSet *typeSet = [NSMutableOrderedSet orderedSet];
-                            NSMutableOrderedSet *subgroupNameSet = [NSMutableOrderedSet orderedSet];
+                            NSMutableOrderedSet *typeSet = [NSMutableOrderedSet orderedSetWithObject:@"全部分类"];
+                            NSMutableOrderedSet *subgroupNameSet = [NSMutableOrderedSet orderedSetWithObject:@"全部字幕组"];
                             
                             [responseObject.collection enumerateObjectsUsingBlock:^(JHDMHYSearch * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                 if (obj.typeName.length) {
@@ -244,12 +292,20 @@
                                 }
                             }];
                             
-                            self.filterView.types = typeSet.array;
-                            self.filterView.subGroups = subgroupNameSet.array;
-                            [self.filterView reload];
+                            HomePageSearchFilterModel *type = [[HomePageSearchFilterModel alloc] init];
+                            type.title = typeSet.firstObject;
+                            type.subItems = typeSet.array;
+                            
+                            HomePageSearchFilterModel *subGroups = [[HomePageSearchFilterModel alloc] init];
+                            subGroups.title = subgroupNameSet.firstObject;
+                            subGroups.subItems = subgroupNameSet.array;
+                            
+                            self.filterDataSource = @[type, subGroups];
+                            
+                            [self.filterView reloadData];
                         }
                         else {
-                            [self.filterView removeFromSuperview];
+                            self.filterView.hidden = YES;
                             [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
                                 make.top.mas_offset(0);
                             }];
@@ -287,43 +343,26 @@
 - (HomePageSearchFilterView *)filterView {
     if (_filterView == nil) {
         _filterView = [[HomePageSearchFilterView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, FILTER_VIEW_HEIGHT)];
-        @weakify(self)
-        void(^filterAction)(NSString *, NSString *) = ^(NSString *type, NSString *subGroup){
-            @strongify(self)
-            if (!self) return;
-            
-            if (type == nil && subGroup == nil) {
-                self.dataSource = self.collection.collection;
-            }
-            else {
-                NSMutableArray *tempArr = [NSMutableArray array];
-                [self.collection.collection enumerateObjectsUsingBlock:^(JHDMHYSearch * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    if ((type == nil || [obj.typeName isEqualToString:type]) && (subGroup == nil || [obj.subgroupName isEqualToString:subGroup])) {
-                        [tempArr addObject:obj];
-                    }
-                }];
-                self.dataSource = tempArr;
-            }
-            
-            [self.tableView reloadData];
-        };
+        _filterView.delegate = self;
+        _filterView.dataSource = self;
+        _filterView.hidden = YES;
+        [self.view addSubview:_filterView];
         
         
-        _filterView.selectedTypeCallBack = ^(NSString *typeName) {
-            @strongify(self)
-            if (!self) return;
-            
-            filterAction(typeName, self.filterView.subGroupName);
-        };
-        
-        _filterView.selectedSubGroupsCallBack = ^(NSString *subGroupName) {
-            @strongify(self)
-            if (!self) return;
-            
-            filterAction(self.filterView.typeName, subGroupName);
-        };
+//        _filterView.selectedTypeCallBack = ^(NSString *typeName) {
+//            @strongify(self)
+//            if (!self) return;
+//
+//            filterAction(typeName, self.filterView.subGroupName);
+//        };
+//
+//        _filterView.selectedSubGroupsCallBack = ^(NSString *subGroupName) {
+//            @strongify(self)
+//            if (!self) return;
+//
+//            filterAction(self.filterView.typeName, subGroupName);
+//        };
     }
     return _filterView;
 }
-
 @end

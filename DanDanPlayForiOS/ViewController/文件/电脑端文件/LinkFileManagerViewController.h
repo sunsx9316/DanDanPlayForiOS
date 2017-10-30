@@ -10,5 +10,5 @@
 
 @interface LinkFileManagerViewController : JHBaseViewController
 @property (strong, nonatomic) JHLinkFile *file;
-- (void)refresh;
+//- (void)refresh;
 @end

@@ -164,7 +164,6 @@
 
 - (void)reloadUserInfo {
     JHUser *user = [CacheManager shareCacheManager].user;
-    self.nameButton.userInteractionEnabled = user != nil;
     
     [self.blurView.layer jh_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"comment_icon"]];
     [self.iconImgView jh_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"comment_icon"]];
@@ -179,7 +178,7 @@
     [self.tableView reloadData];
 }
 
-- (void)touchNameButton:(UIButton *)sender {
+- (void)editName {
     JHUser *user = [CacheManager shareCacheManager].user;
     
     if (user == nil) return;
@@ -221,6 +220,55 @@
     [self presentViewController:avc animated:YES completion:nil];
 }
 
+- (void)editPassword {
+    JHUser *user = [CacheManager shareCacheManager].user;
+    
+    UIAlertController *avc = [UIAlertController alertControllerWithTitle:@"修改密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    @weakify(avc)
+    [avc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSString *oldPassword = weak_avc.textFields.firstObject.text;
+        NSString *newPassword = weak_avc.textFields[1].text;
+        
+        if (oldPassword.length == 0) {
+            [MBProgressHUD showWithText:@"请输入原密码！"];
+            return;
+        }
+        
+        if (newPassword.length == 0) {
+            [MBProgressHUD showWithText:@"请输入新密码！"];
+            return;
+        }
+        
+        [MBProgressHUD showLoadingInView:self.view text:nil];
+        [LoginNetManager loginEditPasswordWithUserId:user.identity token:user.token oldPassword:oldPassword aNewPassword:newPassword completionHandler:^(NSError *error) {
+            [MBProgressHUD hideLoading];
+            if (error) {
+                [MBProgressHUD showWithError:error];
+            }
+            else {
+                [MBProgressHUD showWithText:@"修改成功！"];
+            }
+        }];
+    }]];
+    
+    [avc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.font = NORMAL_SIZE_FONT;
+        textField.placeholder = @"原密码";
+        textField.secureTextEntry = YES;
+    }];
+    
+    [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.font = NORMAL_SIZE_FONT;
+        textField.placeholder = @"新密码";
+        textField.secureTextEntry = YES;
+    }];
+    
+    [self presentViewController:avc animated:YES completion:nil];
+}
+
 #pragma mark - 懒加载
 
 - (UIView *)headView {
@@ -251,52 +299,11 @@
                 
                 if (user.userType == JHUserTypeDefault) {
                     [vc addAction:[UIAlertAction actionWithTitle:@"修改密码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        
-                        UIAlertController *avc = [UIAlertController alertControllerWithTitle:@"修改密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                        @weakify(avc)
-                        [avc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                            
-                            NSString *oldPassword = weak_avc.textFields.firstObject.text;
-                            NSString *newPassword = weak_avc.textFields[1].text;
-                            
-                            if (oldPassword.length == 0) {
-                                [MBProgressHUD showWithText:@"请输入原密码！"];
-                                return;
-                            }
-                            
-                            if (newPassword.length == 0) {
-                                [MBProgressHUD showWithText:@"请输入新密码！"];
-                                return;
-                            }
-                            
-                            [MBProgressHUD showLoadingInView:self.view text:nil];
-                            [LoginNetManager loginEditPasswordWithUserId:user.identity token:user.token oldPassword:oldPassword aNewPassword:newPassword completionHandler:^(NSError *error) {
-                                [MBProgressHUD hideLoading];
-                                if (error) {
-                                    [MBProgressHUD showWithError:error];
-                                }
-                                else {
-                                    [MBProgressHUD showWithText:@"修改成功！"];
-                                }
-                            }];
-                        }]];
-                        
-                        [avc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-                        
-                        [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-                            textField.font = NORMAL_SIZE_FONT;
-                            textField.placeholder = @"原密码";
-                            textField.secureTextEntry = YES;
-                        }];
-                        
-                        [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-                            textField.font = NORMAL_SIZE_FONT;
-                            textField.placeholder = @"新密码";
-                            textField.secureTextEntry = YES;
-                        }];
-                        
-                        [self presentViewController:avc animated:YES completion:nil];
-                        
+                        [self editPassword];
+                    }]];
+                    
+                    [vc addAction:[UIAlertAction actionWithTitle:@"修改昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [self editName];
                     }]];
                 }
                 
@@ -337,9 +344,9 @@
     if (_nameButton == nil) {
         _nameButton = [[JHEdgeButton alloc] init];
         _nameButton.inset = CGSizeMake(10, 0);
+        _nameButton.userInteractionEnabled = NO;
         _nameButton.titleLabel.font = NORMAL_SIZE_FONT;
         [_nameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_nameButton addTarget:self action:@selector(touchNameButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _nameButton;
 }

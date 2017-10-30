@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"扫码连接";
+    self.navigationItem.title = @"扫码连接电脑版";
     self.view.backgroundColor = [UIColor blackColor];
     
     [self.view.layer addSublayer:self.QRCodeReader.previewLayer];

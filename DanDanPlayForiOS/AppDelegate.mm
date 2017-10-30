@@ -134,7 +134,8 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
     if (!result) {
-        [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
+        NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
         return YES;
     }
     
@@ -145,7 +146,8 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
     if (!result) {
-        [[NSFileManager defaultManager] copyItemAtURL:url toURL:[[UIApplication sharedApplication] documentsURL] error:nil];
+        NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
         return YES;
     }
     return result;

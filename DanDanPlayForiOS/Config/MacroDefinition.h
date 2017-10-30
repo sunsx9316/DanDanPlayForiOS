@@ -45,6 +45,7 @@
 #define NORMAL_SIZE_FONT [UIFont systemFontOfSize:15 + 15 * (jh_isPad() * 0.5)]
 #define BIG_SIZE_FONT [UIFont systemFontOfSize:17 + 17 * (jh_isPad() * 0.5)]
 #define VERY_BIG_SIZE_FONT [UIFont systemFontOfSize:19 + 19 * (jh_isPad() * 0.5)]
+#define BLOD_LARGE_SIZE_FONT [UIFont boldSystemFontOfSize:21 + 21 * (jh_isPad() * 0.5)]
 
 //屏幕宽高
 #define WIDTH [UIScreen mainScreen].bounds.size.width

@@ -13,11 +13,13 @@ typedef NS_ENUM(NSUInteger, JHTextFieldType) {
     JHTextFieldTypePassword,
 };
 
-@interface JHTextField : UITextField
+@interface JHTextField : UIView
 @property (strong, nonatomic, readonly) UIButton *rightButton;
 @property (strong, nonatomic, readonly) UIView *lineView;
 @property (assign, nonatomic) NSUInteger limit;
+@property (strong, nonatomic) UITextField *textField;
 
 - (instancetype)initWithType:(JHTextFieldType)type;
-- (void)touchSeeButton:(UIButton *)sender;
+//- (void)touchSeeButton:(UIButton *)sender;
 @end
+

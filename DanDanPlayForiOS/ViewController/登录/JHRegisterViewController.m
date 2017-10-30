@@ -96,10 +96,10 @@
 - (void)touchRegisterButton:(UIButton *)sender {
     [self.view endEditing:YES];
     
-    NSString *account = self.accountTextField.text;
-    NSString *password = self.passwordTextField.text;
-    NSString *name = self.userNameTextField.text;
-    NSString *email = self.emailTextField.text;
+    NSString *account = self.accountTextField.textField.text;
+    NSString *password = self.passwordTextField.textField.text;
+    NSString *name = self.userNameTextField.textField.text;
+    NSString *email = self.emailTextField.textField.text;
     
     if (account.length == 0) {
         [MBProgressHUD showWithText:@"请输入账号！"];
@@ -172,6 +172,7 @@
                 else {
                     [CacheManager shareCacheManager].user = responseObject1;
                     [self.navigationController popToRootViewControllerAnimated:YES];
+                    [MBProgressHUD showWithText:@"登录成功！"];
                 }
             }];
         }
@@ -207,12 +208,27 @@
         
         CGFloat edge = 15;
         
-        [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(_scrollView).mas_offset(-50);
-            make.height.mas_equalTo(40);
-            make.centerX.mas_equalTo(0);
-            make.top.mas_offset(edge);
-        }];
+        if (self.user != nil) {
+            [self.linkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_offset(edge);
+                make.centerX.mas_equalTo(0);
+            }];
+            
+            [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(_scrollView).mas_offset(-50);
+                make.height.mas_equalTo(40);
+                make.centerX.mas_equalTo(0);
+                make.top.equalTo(self.linkButton.mas_bottom).mas_offset(edge);
+            }];
+        }
+        else {
+            [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(_scrollView).mas_offset(-50);
+                make.height.mas_equalTo(40);
+                make.centerX.mas_equalTo(0);
+                make.top.mas_offset(edge);
+            }];
+        }
         
         [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.centerX.mas_equalTo(self.accountTextField);
@@ -229,16 +245,16 @@
             make.top.equalTo(self.userNameTextField.mas_bottom).mas_offset(edge);
         }];
         
-        [self.linkButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.emailTextField);
-            make.top.mas_equalTo(self.emailTextField.mas_bottom).mas_equalTo(10);
-        }];
+        //        [self.linkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        //            make.right.equalTo(self.emailTextField);
+        //            make.top.mas_equalTo(self.emailTextField.mas_bottom).mas_equalTo(10);
+        //        }];
         
         [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(_scrollView).mas_offset(-30);
             make.centerX.mas_equalTo(0);
             make.height.mas_equalTo(44);
-            make.top.equalTo(self.linkButton.mas_bottom).mas_offset(10);
+            make.top.equalTo(self.emailTextField.mas_bottom).mas_offset(10);
         }];
         
         [self.emailListView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -257,7 +273,7 @@
 - (JHTextField *)accountTextField {
     if (_accountTextField == nil) {
         _accountTextField = [[JHTextField alloc] initWithType:JHTextFieldTypeNormal];
-        _accountTextField.placeholder = @"用户名（英文数字5-20位）";
+        _accountTextField.textField.placeholder = @"用户名";
         _accountTextField.limit = 20;
     }
     return _accountTextField;
@@ -266,8 +282,9 @@
 - (JHTextField *)userNameTextField {
     if (_userNameTextField == nil) {
         _userNameTextField = [[JHTextField alloc] initWithType:JHTextFieldTypeNormal];
-        _userNameTextField.placeholder = @"昵称（最长50个字符）";
+        _userNameTextField.textField.placeholder = @"昵称";
         _userNameTextField.limit = 50;
+        _userNameTextField.textField.text = self.user.name;
     }
     return _userNameTextField;
 }
@@ -275,9 +292,9 @@
 - (JHTextField *)passwordTextField {
     if (_passwordTextField == nil) {
         _passwordTextField = [[JHTextField alloc] initWithType:JHTextFieldTypePassword];
-        _passwordTextField.placeholder = @"密码（5-20位）";
+        _passwordTextField.textField.placeholder = @"密码";
         _passwordTextField.limit = 20;
-        [_passwordTextField touchSeeButton:_passwordTextField.rightButton];
+        //        [_passwordTextField touchSeeButton:_passwordTextField.rightButton];
     }
     return _passwordTextField;
 }
@@ -285,8 +302,9 @@
 - (JHTextField *)emailTextField {
     if (_emailTextField == nil) {
         _emailTextField = [[JHTextField alloc] initWithType:JHTextFieldTypeNormal];
-        _emailTextField.placeholder = @"邮箱（用于找回密码）";
-        _emailTextField.delegate = self;
+        _emailTextField.textField.placeholder = @"邮箱（用于找回密码）";
+        _emailTextField.textField.delegate = self;
+        _emailTextField.textField.keyboardType = UIKeyboardTypeEmailAddress;
     }
     return _emailTextField;
 }
@@ -297,7 +315,7 @@
         _registerButton.titleLabel.font = NORMAL_SIZE_FONT;
         [_registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _registerButton.backgroundColor = MAIN_COLOR;
-        [_registerButton setTitle:@"确定" forState:UIControlStateNormal];
+        [_registerButton setTitle:@"完成注册" forState:UIControlStateNormal];
         _registerButton.layer.cornerRadius = 6;
         _registerButton.layer.masksToBounds = YES;
         [_registerButton addTarget:self action:@selector(touchRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -314,7 +332,7 @@
             @strongify(self)
             if (!self) return;
             
-            self.emailTextField.text = email;
+            self.emailTextField.textField.text = email;
         };
     }
     return _emailListView;
@@ -324,11 +342,12 @@
     if (_linkButton == nil) {
         _linkButton = [[JHEdgeButton alloc] init];
         [_linkButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
-        _linkButton.titleLabel.font = SMALL_SIZE_FONT;
-        [_linkButton setTitle:[NSString stringWithFormat:@"已经有%@账号？", [UIApplication sharedApplication].appDisplayName] forState:UIControlStateNormal];
+        _linkButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_linkButton setTitle:[NSString stringWithFormat:@"已经有%@账号？登录并关联", [UIApplication sharedApplication].appDisplayName] forState:UIControlStateNormal];
         [_linkButton addTarget:self action:@selector(touchLinkButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _linkButton;
 }
 
 @end
+

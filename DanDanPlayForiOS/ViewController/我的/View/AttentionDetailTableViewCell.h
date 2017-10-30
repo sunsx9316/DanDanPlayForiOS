@@ -12,4 +12,5 @@
 
 @interface AttentionDetailTableViewCell : UITableViewCell
 @property (strong, nonatomic) JHPlayHistory *model;
+@property (copy, nonatomic) void(^touchSearchButtonCallBack)(JHPlayHistory *model);
 @end

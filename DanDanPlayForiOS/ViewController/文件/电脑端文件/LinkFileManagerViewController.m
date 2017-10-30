@@ -22,17 +22,17 @@
 @end
 
 @implementation LinkFileManagerViewController
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
-    
-    if (jh_isRootFile(self.file)) {
-        [self setNavigationBarWithColor:[UIColor clearColor]];
-    }
-    else {
-        [self setNavigationBarWithColor:[UIColor whiteColor]];
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
+//
+//    if (jh_isRootFile(self.file)) {
+//        [self setNavigationBarWithColor:[UIColor clearColor]];
+//    }
+//    else {
+//        [self setNavigationBarWithColor:[UIColor whiteColor]];
+//    }
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,11 +43,13 @@
     [[CacheManager shareCacheManager] addObserver:self];
     
     if (jh_isRootFile(self.file)) {
-        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.navigationItem.title = @"根目录";
+        [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkInfo" options:NSKeyValueObservingOptionNew context:nil];
+//        self.automaticallyAdjustsScrollViewInsets = NO;
         [self refresh];
     }
     else {
-        self.automaticallyAdjustsScrollViewInsets = YES;
+//        self.automaticallyAdjustsScrollViewInsets = YES;
         self.navigationItem.title = _file.name;
     }
 }
@@ -55,6 +57,17 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[CacheManager shareCacheManager] removeObserver:self];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([CacheManager shareCacheManager].linkInfo) {
+        if (self.tableView.mj_header.refreshingBlock) {
+            self.tableView.mj_header.refreshingBlock();
+        }
+    }
+    else {
+        [self.tableView endRefreshing];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -179,15 +192,15 @@
 }
 
 #pragma mark - 私有方法
-- (void)configLeftItem {
-    if (jh_isRootFile(self.file) == NO) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
-            [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
-        }];
-        
-        [self.navigationItem addLeftItemFixedSpace:item];
-    }
-}
+//- (void)configLeftItem {
+//    if (jh_isRootFile(self.file) == NO) {
+//        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"comment_back_item"] yy_imageByTintColor:MAIN_COLOR] configAction:^(UIButton *aButton) {
+//            [aButton addTarget:self action:@selector(touchLeftItem:) forControlEvents:UIControlEventTouchUpInside];
+//        }];
+//        
+//        [self.navigationItem addLeftItemFixedSpace:item];
+//    }
+//}
 
 - (void)refresh {
     if ([CacheManager shareCacheManager].linkInfo) {

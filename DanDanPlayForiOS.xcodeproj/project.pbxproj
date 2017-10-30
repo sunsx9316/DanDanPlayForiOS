@@ -11,6 +11,9 @@
 		8903725E1F94EB7C0029C47B /* JHPofileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8903725D1F94EB7C0029C47B /* JHPofileResponse.m */; };
 		8905BDA11F32C7EA0055BC84 /* SMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */; };
+		890BEEFE1FA3738900C7915D /* JHFileSectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEEFD1FA3738900C7915D /* JHFileSectionTableViewCell.m */; };
+		890BEF011FA3752400C7915D /* JHFileLargeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */; };
+		890BEF051FA37BC300C7915D /* JHFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* JHFileTreeNode.m */; };
 		890DE4861F690CC7002B45EB /* JHLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */; };
 		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
 		8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* MatchViewController.m */; };
@@ -45,7 +48,6 @@
 		8939FB4A1EB334520063BBA1 /* JHFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB491EB334520063BBA1 /* JHFile.m */; };
 		8939FB4D1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m */; };
 		8939FB541EB3A1590063BBA1 /* JHBaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* JHBaseCollectionView.m */; };
-		893E62141F70197300A33593 /* LinkFileManagerNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 893E62131F70197300A33593 /* LinkFileManagerNavigationController.m */; };
 		8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */; };
 		894C64921F691004003C7888 /* JHLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* JHLinkDownloadTaskCollection.m */; };
 		894C64951F6930EC003C7888 /* DownloadLinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64941F6930EC003C7888 /* DownloadLinkTableViewCell.m */; };
@@ -93,6 +95,7 @@
 		89A1C0191EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1C0181EAF7F4000DB9BE9 /* FTPReceiceTableViewCell.m */; };
 		89A2A07C1F81DE5900D53619 /* JHControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07B1F81DE5900D53619 /* JHControlView.m */; };
 		89A2A07F1F81F60900D53619 /* JHVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07E1F81F60900D53619 /* JHVolumeView.m */; };
+		89A39E6A1F9CB2DE00E621E0 /* HomePageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A39E691F9CB2DD00E621E0 /* HomePageHeaderView.m */; };
 		89A42E991EA5B0BA00FA0DF3 /* JHBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E961EA5B0BA00FA0DF3 /* JHBase.m */; };
 		89A42E9A1EA5B0BA00FA0DF3 /* JHBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E981EA5B0BA00FA0DF3 /* JHBaseCollection.m */; };
 		89A42E9D1EA5B12700FA0DF3 /* JHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9C1EA5B12700FA0DF3 /* JHFilter.m */; };
@@ -186,6 +189,7 @@
 		89E3F6201E58583F007AB1BD /* JHBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61F1E58583F007AB1BD /* JHBaseViewController.m */; };
 		89E3F6281E585C17007AB1BD /* JHDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* JHDanmaku.m */; };
 		89E3F6311E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */; };
+		89E4B61A1F9CCFF20003E610 /* HomePageSearchFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */; };
 		89E5AFAE1F56CB2300CD4334 /* DanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DanmakuFilterViewController.m */; };
 		89E8341F1F1E1AF700E781EB /* PlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* PlayerInterfaceHolderView.m */; };
 		89E834291F1E5A5400E781EB /* SMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* SMBVideoModel.m */; };
@@ -201,7 +205,6 @@
 		89F8CDB11EA7757F000D5F3F /* DanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DanmakuManager.m */; };
 		89F8CDBB1EA78A10000D5F3F /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDBA1EA78A10000D5F3F /* CacheManager.m */; };
 		89FBDED31F457C7800663865 /* FileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FBDED21F457C7800663865 /* FileManagerViewController.m */; };
-		89FBDED61F457C9200663865 /* FileManagerNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FBDED51F457C9200663865 /* FileManagerNavigationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -225,6 +228,12 @@
 		8905BDA01F32C7EA0055BC84 /* SMBFileOprationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMBFileOprationView.m; sourceTree = "<group>"; };
 		8905BDA21F32CEBA0055BC84 /* DownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewController.h; sourceTree = "<group>"; };
 		8905BDA31F32CEBA0055BC84 /* DownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewController.m; sourceTree = "<group>"; };
+		890BEEFC1FA3738900C7915D /* JHFileSectionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFileSectionTableViewCell.h; sourceTree = "<group>"; };
+		890BEEFD1FA3738900C7915D /* JHFileSectionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileSectionTableViewCell.m; sourceTree = "<group>"; };
+		890BEEFF1FA3752400C7915D /* JHFileLargeTitleTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFileLargeTitleTableViewCell.h; sourceTree = "<group>"; };
+		890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileLargeTitleTableViewCell.m; sourceTree = "<group>"; };
+		890BEF031FA37BC300C7915D /* JHFileTreeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFileTreeNode.h; sourceTree = "<group>"; };
+		890BEF041FA37BC300C7915D /* JHFileTreeNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileTreeNode.m; sourceTree = "<group>"; };
 		890DE4841F690CC7002B45EB /* JHLinkDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLinkDownloadTask.h; sourceTree = "<group>"; };
 		890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHLinkDownloadTask.m; sourceTree = "<group>"; };
 		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
@@ -295,8 +304,6 @@
 		8939FB4C1EB36CF00063BBA1 /* FileManagerFolderLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerFolderLongViewCell.m; sourceTree = "<group>"; };
 		8939FB521EB3A1590063BBA1 /* JHBaseCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseCollectionView.h; sourceTree = "<group>"; };
 		8939FB531EB3A1590063BBA1 /* JHBaseCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBaseCollectionView.m; sourceTree = "<group>"; };
-		893E62121F70197300A33593 /* LinkFileManagerNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkFileManagerNavigationController.h; sourceTree = "<group>"; };
-		893E62131F70197300A33593 /* LinkFileManagerNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkFileManagerNavigationController.m; sourceTree = "<group>"; };
 		8946D5291EB6D38800161833 /* FileManagerBaseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerBaseViewCell.h; sourceTree = "<group>"; };
 		8946D52A1EB6D38800161833 /* FileManagerBaseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerBaseViewCell.m; sourceTree = "<group>"; };
 		894C64901F691004003C7888 /* JHLinkDownloadTaskCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLinkDownloadTaskCollection.h; sourceTree = "<group>"; };
@@ -392,6 +399,8 @@
 		89A2A07B1F81DE5900D53619 /* JHControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHControlView.m; sourceTree = "<group>"; };
 		89A2A07D1F81F60900D53619 /* JHVolumeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHVolumeView.h; sourceTree = "<group>"; };
 		89A2A07E1F81F60900D53619 /* JHVolumeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHVolumeView.m; sourceTree = "<group>"; };
+		89A39E681F9CB2DD00E621E0 /* HomePageHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageHeaderView.h; sourceTree = "<group>"; };
+		89A39E691F9CB2DD00E621E0 /* HomePageHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageHeaderView.m; sourceTree = "<group>"; };
 		89A42E951EA5B0BA00FA0DF3 /* JHBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBase.h; sourceTree = "<group>"; };
 		89A42E961EA5B0BA00FA0DF3 /* JHBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBase.m; sourceTree = "<group>"; };
 		89A42E971EA5B0BA00FA0DF3 /* JHBaseCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseCollection.h; sourceTree = "<group>"; };
@@ -576,6 +585,8 @@
 		89E3F6271E585C17007AB1BD /* JHDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmaku.m; sourceTree = "<group>"; };
 		89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
 		89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPDataResponseSerializer.m; sourceTree = "<group>"; };
+		89E4B6181F9CCFF20003E610 /* HomePageSearchFilterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageSearchFilterModel.h; sourceTree = "<group>"; };
+		89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageSearchFilterModel.m; sourceTree = "<group>"; };
 		89E5AFAC1F56CB2300CD4334 /* DanmakuFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanmakuFilterViewController.h; sourceTree = "<group>"; };
 		89E5AFAD1F56CB2300CD4334 /* DanmakuFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanmakuFilterViewController.m; sourceTree = "<group>"; };
 		89E8341D1F1E1AF700E781EB /* PlayerInterfaceHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInterfaceHolderView.h; sourceTree = "<group>"; };
@@ -608,8 +619,6 @@
 		89F8CDBA1EA78A10000D5F3F /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		89FBDED11F457C7800663865 /* FileManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerViewController.h; sourceTree = "<group>"; };
 		89FBDED21F457C7800663865 /* FileManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerViewController.m; sourceTree = "<group>"; };
-		89FBDED41F457C9200663865 /* FileManagerNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerNavigationController.h; sourceTree = "<group>"; };
-		89FBDED51F457C9200663865 /* FileManagerNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerNavigationController.m; sourceTree = "<group>"; };
 		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
 		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -641,6 +650,15 @@
 				A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		890BEF021FA37BA800C7915D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				890BEF031FA37BC300C7915D /* JHFileTreeNode.h */,
+				890BEF041FA37BC300C7915D /* JHFileTreeNode.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		8931CDCD1F73DE2500F05C1F /* View */ = {
@@ -717,6 +735,7 @@
 		8931CDD21F73DF0200F05C1F /* 文件 */ = {
 			isa = PBXGroup;
 			children = (
+				890BEF021FA37BA800C7915D /* Model */,
 				8931CDD91F73DFD800F05C1F /* View */,
 				8931CDE11F73E07200F05C1F /* 播放器 */,
 				8931CDDF1F73E04300F05C1F /* 匹配 */,
@@ -776,6 +795,10 @@
 				89DD05201F6AC49500051A96 /* LinkFileTableViewCell.m */,
 				89993F621F71422D009F5364 /* TextHeaderView.h */,
 				89993F631F71422D009F5364 /* TextHeaderView.m */,
+				890BEEFC1FA3738900C7915D /* JHFileSectionTableViewCell.h */,
+				890BEEFD1FA3738900C7915D /* JHFileSectionTableViewCell.m */,
+				890BEEFF1FA3752400C7915D /* JHFileLargeTitleTableViewCell.h */,
+				890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1028,8 +1051,6 @@
 			children = (
 				89FBDED11F457C7800663865 /* FileManagerViewController.h */,
 				89FBDED21F457C7800663865 /* FileManagerViewController.m */,
-				89FBDED41F457C9200663865 /* FileManagerNavigationController.h */,
-				89FBDED51F457C9200663865 /* FileManagerNavigationController.m */,
 				891E69F01F480E6A00F69975 /* LocalFileManagerPickerViewController.h */,
 				891E69F11F480E6A00F69975 /* LocalFileManagerPickerViewController.m */,
 			);
@@ -1054,8 +1075,6 @@
 			children = (
 				897858EB1F6BD67B00010690 /* LinkFileManagerViewController.h */,
 				897858EC1F6BD67B00010690 /* LinkFileManagerViewController.m */,
-				893E62121F70197300A33593 /* LinkFileManagerNavigationController.h */,
-				893E62131F70197300A33593 /* LinkFileManagerNavigationController.m */,
 			);
 			path = "电脑端文件";
 			sourceTree = "<group>";
@@ -1107,6 +1126,9 @@
 		89988D1D1F5A63AD001413BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				89E4B6171F9CCFD70003E610 /* FilterView */,
+				89A39E681F9CB2DD00E621E0 /* HomePageHeaderView.h */,
+				89A39E691F9CB2DD00E621E0 /* HomePageHeaderView.m */,
 				89DA37531F5D1FBD003D7D59 /* HomePageBannerView.h */,
 				89DA37541F5D1FBD003D7D59 /* HomePageBannerView.m */,
 				89988D1E1F5A63C1001413BE /* HomePageItemTableViewCell.h */,
@@ -1385,6 +1407,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		89E4B6171F9CCFD70003E610 /* FilterView */ = {
+			isa = PBXGroup;
+			children = (
+				89E4B6181F9CCFF20003E610 /* HomePageSearchFilterModel.h */,
+				89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */,
+			);
+			path = FilterView;
+			sourceTree = "<group>";
+		};
 		89F5C8281EAF104100676361 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -1611,6 +1642,7 @@
 				89314B1D1F468D71002C1AEA /* FileManagerNavigationBar.m in Sources */,
 				89E3F6101E585320007AB1BD /* MJRefreshHeader+Tools.m in Sources */,
 				89753D4F1F8CB5930036C0AB /* JHTextField.m in Sources */,
+				890BEF011FA3752400C7915D /* JHFileLargeTitleTableViewCell.m in Sources */,
 				89350B081EAAFB9900072DA5 /* JHMediaPlayer.m in Sources */,
 				8916C7C21EA89A8A00A2233D /* MatchTitleTableViewCell.m in Sources */,
 				89BF74CA1F6132DE00D40F07 /* JHDMHYParse.m in Sources */,
@@ -1665,15 +1697,14 @@
 				89A42EEC1EA5F87500FA0DF3 /* JHUser.m in Sources */,
 				89657F281F7237930003AF96 /* JHExpandView.m in Sources */,
 				8996B9FA1EAA28450018E8B0 /* PlayerViewController.m in Sources */,
+				890BEEFE1FA3738900C7915D /* JHFileSectionTableViewCell.m in Sources */,
 				89988D1C1F5A6162001413BE /* HomePageItemViewController.m in Sources */,
 				89AE37B71F626531008D06CF /* JHFavorite.m in Sources */,
 				89CD85AD1F68F55B00E7D841 /* JHLinkInfo.m in Sources */,
 				89988D2D1F5AC0E0001413BE /* FavoriteNetManager.m in Sources */,
-				89FBDED61F457C9200663865 /* FileManagerNavigationController.m in Sources */,
 				894CBA9D1E6BC8D20021253F /* MainViewController.m in Sources */,
 				898AD2421F57BFA60040B7C4 /* DanmakuFilterDetailViewController.m in Sources */,
 				898E74DB1EC6F5B3005137B4 /* JHBaseNavigationController.m in Sources */,
-				893E62141F70197300A33593 /* LinkFileManagerNavigationController.m in Sources */,
 				894CBAA21E6BCA760021253F /* MineViewController.m in Sources */,
 				89A15BAA1F873B9A00FDE80B /* JHPlayerDanmakuControlModel.m in Sources */,
 				89DD051E1F6AC3AB00051A96 /* JHLibraryCollection.m in Sources */,
@@ -1724,6 +1755,7 @@
 				894C64921F691004003C7888 /* JHLinkDownloadTaskCollection.m in Sources */,
 				897858F31F6C136300010690 /* LinkVideoModel.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
+				89E4B61A1F9CCFF20003E610 /* HomePageSearchFilterModel.m in Sources */,
 				89EF59CD1F923765002BDC15 /* JHRegisterRequest.m in Sources */,
 				89E3F6011E585135007AB1BD /* SearchNetManager.m in Sources */,
 				89DA37551F5D1FBD003D7D59 /* HomePageBannerView.m in Sources */,
@@ -1731,11 +1763,13 @@
 				89A42EF81EA5FCA200FA0DF3 /* JHSearchCollection.m in Sources */,
 				89350B1C1EAB44CB00072DA5 /* PlayNavigationController.m in Sources */,
 				89681B361F08FAE400103CFF /* SMBViewController.m in Sources */,
+				89A39E6A1F9CB2DE00E621E0 /* HomePageHeaderView.m in Sources */,
 				8938E4FA1F7747F400F21E52 /* UITableViewCell+Tools.m in Sources */,
 				89AE37C01F6282B2008D06CF /* JHPlayHistory.m in Sources */,
 				89988D2A1F5AB975001413BE /* LoginNetManager.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
 				8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
+				890BEF051FA37BC300C7915D /* JHFileTreeNode.m in Sources */,
 				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,
 				8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */,
 				89F5C8301EAF112200676361 /* DanDanPlayHTTPConnection.m in Sources */,
