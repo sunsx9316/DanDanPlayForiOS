@@ -10,10 +10,9 @@
 
 @implementation JHFileLargeTitleTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
+
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_offset(0);
             make.left.mas_offset(10);
@@ -25,6 +24,12 @@
         }];
     }
     return self;
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (self.touchTitleCallBack) {
+        self.touchTitleCallBack(self);
+    }
 }
 
 #pragma mark - 懒加载

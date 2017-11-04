@@ -19,7 +19,7 @@
     if (completionHandler == nil) return nil;
     
     if (userId.length == 0 || token.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -34,7 +34,8 @@
             JHUser *user = [JHUser yy_modelWithJSON:model.responseObject];
             //登录失败
             if (user.needLogin == YES) {
-                completionHandler(user, [NSError errorWithDomain:@"登录失败" code:DANDANPLAY_LOGIN_FAILE userInfo:@{NSLocalizedDescriptionKey : @"登录失败 请检查用户名和密码是否正确"}]);
+                
+                completionHandler(user, jh_creatErrorWithCode(jh_errorCodeLoginFail));
             }
             else {
                 completionHandler(user, model.error);
@@ -48,7 +49,7 @@
     if (completionHandler == nil) return nil;
     
     if (request.name.length == 0 || request.password.length == 0 || request.email.length == 0 || request.account.length == 0){
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -61,7 +62,8 @@
         else {
             JHRegisterResponse *response = [JHRegisterResponse yy_modelWithJSON:model.responseObject];
             if (response.success == NO) {
-                NSError *err = [NSError errorWithDomain:@"注册错误" code:DANDANPLAY_REGISTER_FAILE userInfo:@{NSLocalizedDescriptionKey : response.errorMessage.length ? response.errorMessage : @"注册错误"}];
+                
+                NSError *err = jh_creatErrorWithCode(jh_errorRegisterFail);
                 completionHandler(response, err);
             }
             else {
@@ -76,7 +78,7 @@
     if (completionHandler == nil) return nil;
     
     if (request.name.length == 0 || request.password.length == 0 || request.email.length == 0 || request.account.length == 0 || request.userId.length == 0 || request.token == 0){
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
 
@@ -89,7 +91,7 @@
         else {
             JHRegisterResponse *response = [JHRegisterResponse yy_modelWithJSON:model.responseObject];
             if (response.success == NO) {
-                NSError *err = [NSError errorWithDomain:@"注册错误" code:DANDANPLAY_REGISTER_FAILE userInfo:@{NSLocalizedDescriptionKey : response.errorMessage.length ? response.errorMessage : @"注册错误"}];
+                NSError *err = jh_creatErrorWithCode(jh_errorRegisterFail);
                 completionHandler(response, err);
             }
             else {
@@ -104,7 +106,7 @@
     if (completionHandler == nil) return nil;
     
     if (request.userId.length == 0 || request.token.length == 0 || request.account.length == 0 || request.password.length == 0){
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -117,7 +119,7 @@
         else {
             JHRegisterResponse *response = [JHRegisterResponse yy_modelWithJSON:model.responseObject];
             if (response.success == NO) {
-                NSError *err = [NSError errorWithDomain:@"绑定错误" code:DANDANPLAY_BINDING_FAILE userInfo:@{NSLocalizedDescriptionKey : response.errorMessage.length ? response.errorMessage : @"绑定错误"}];
+                NSError *err = jh_creatErrorWithCode(jh_errorBindingFail);
                 completionHandler(response, err);
             }
             else {
@@ -134,7 +136,7 @@
     if (completionHandler == nil) return nil;
     
     if (userId == 0 || token.length == 0 || userName.length == 0){
-        completionHandler(jh_parameterNoCompletionError());
+        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -144,8 +146,7 @@
             completionHandler(model.error);
         }
         else if (response.updateScreenNameSuccess == NO) {
-            NSError *err = [NSError errorWithDomain:@"修改用户名错误" code:DANDANPLAY_UPDATE_USER_NAME_FAILE userInfo:@{NSLocalizedDescriptionKey : @"修改用户名失败"}];
-            
+            NSError *err = jh_creatErrorWithCode(jh_errorUpdateUserNameFail);
             completionHandler(err);
         }
         else {
@@ -162,7 +163,7 @@
     if (completionHandler == nil) return nil;
     
     if (userId == 0 || token.length == 0 || oldPassword.length == 0 || aNewPassword.length == 0){
-        completionHandler(jh_parameterNoCompletionError());
+        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -172,8 +173,7 @@
             completionHandler(model.error);
         }
         else if (response.updatePasswordSuccess == NO) {
-            NSError *err = [NSError errorWithDomain:@"修改密码错误" code:DANDANPLAY_UPDATE_USER_NAME_FAILE userInfo:@{NSLocalizedDescriptionKey : @"修改密码失败 原密码错误或新密码不合要求"}];
-            
+            NSError *err = jh_creatErrorWithCode(jh_errorUpdateUserPasswordFail);
             completionHandler(err);
         }
         else {

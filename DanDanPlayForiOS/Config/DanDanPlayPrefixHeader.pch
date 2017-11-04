@@ -1,13 +1,13 @@
 //
-//  PrefixHeader.pch
+//  DanDanPlayPrefixHeader.pch
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 17/2/18.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#ifndef PrefixHeader_pch
-#define PrefixHeader_pch
+#ifndef DanDanPlayPrefixHeader_pch
+#define DanDanPlayPrefixHeader_pch
 
 #import <YYCategories.h>
 #import <YYWebImage.h>
@@ -19,11 +19,11 @@
 #import "UIButton+Tools.h"
 #import "MBProgressHUD+Tools.h"
 
-#import "Config.h"
-#import "MacroDefinition.h"
+#import "DanDanPlayConfig.h"
+#import "DanDanPlayMacroDefinition.h"
 #import "NetManagerHeader.h"
 #import "CacheManager.h"
 #import "ToolsManager.h"
 #import "UIViewController+Tools.h"
 
-#endif /* PrefixHeader_pch */
+#endif /* DanDanPlayPrefixHeader_pch */

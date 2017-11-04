@@ -11,10 +11,9 @@
 #import "JHSearchBar.h"
 
 @interface FileManagerSearchView ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
-@property (strong, nonatomic) UIView *bgView;
+@property (strong, nonatomic) UIVisualEffectView *bgView;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) JHSearchBar *searchBar;
-@property (strong, nonatomic) JHFile *file;
 @end
 
 @implementation FileManagerSearchView
@@ -58,6 +57,7 @@
     
     FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
     cell.model = file.videoModel;
+    cell.nameLabel.textColor = [UIColor whiteColor];
     return cell;
 }
 
@@ -103,9 +103,9 @@
         self.alpha = 1;
     }];
     
-    [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:jh_getANewRootFile() type:PickerFileTypeVideo completion:^(JHFile *file) {
-        self.file = file;
-    }];
+//    [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:jh_getANewRootFile() type:PickerFileTypeVideo completion:^(JHFile *file) {
+//        self.file = file;
+//    }];
     
     _showing = YES;
 }
@@ -131,7 +131,7 @@
 
 #pragma mark - 懒加载
 
-- (UIView *)bgView {
+- (UIVisualEffectView *)bgView {
     if (_bgView == nil) {
         _bgView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
         [self addSubview:_bgView];

@@ -10,20 +10,24 @@
 #import "SMBFileViewController.h"
 #import "MatchViewController.h"
 #import "PlayNavigationController.h"
+#import "HTTPServerViewController.h"
 #import "JHEdgeButton.h"
 
 #import "FileManagerFileLongViewCell.h"
 #import "FileManagerFolderLongViewCell.h"
 #import "FileManagerEditView.h"
+#import "FileManagerSearchView.h"
 
 #import "SMBVideoModel.h"
+#import "JHCollectionCache.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "NSURL+Tools.h"
 #import "NSString+Tools.h"
 
-@interface FileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, MGSwipeTableCellDelegate, CacheManagerDelagate>
+@interface FileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, MGSwipeTableCellDelegate, CacheManagerDelagate, FileManagerSearchViewDelegate>
 
 @property (strong, nonatomic) FileManagerEditView *editView;
+@property (strong, nonatomic) FileManagerSearchView *searchView;
 @end
 
 @implementation FileManagerViewController
@@ -43,6 +47,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self configRightItem];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteFileSuccess:) name:DELETE_FILE_SUCCESS_NOTICE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moveFileSuccess:) name:MOVE_FILE_SUCCESS_NOTICE object:nil];
@@ -93,7 +99,15 @@
     if (file.type == JHFileTypeDocument) {
         FileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
-        cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
+        
+        NSMutableArray *buttons = [NSMutableArray array];
+        [buttons addObject:({
+            MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:RGBCOLOR(255, 48, 54)];
+            button.buttonWidth = 80;
+            button;
+        })];
+        
+        cell.rightButtons = buttons;
         cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
         cell.delegate = self;
         return cell;
@@ -104,7 +118,21 @@
     
     cell.detailLabel.text = [NSString stringWithFormat:@"%@个视频", [NSString numberFormatterWithUpper:0 number:file.subFiles.count]];
     cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
-    cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
+    
+    NSMutableArray *buttons = [NSMutableArray array];
+    [buttons addObject:({
+        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:RGBCOLOR(255, 48, 54)];
+        button.buttonWidth = 80;
+        button;
+    })];
+    
+    [buttons addObject:({
+        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"收藏" backgroundColor:RGBCOLOR(88, 85, 209)];
+        button.buttonWidth = 90;
+        button;
+    })];
+    
+    cell.rightButtons = buttons;
     cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
     cell.delegate = self;
     return cell;
@@ -146,14 +174,43 @@
 #pragma mark - MGSwipeTableCellDelegate
 - (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    if (indexPath) {
+    //删除
+    if (index == 0) {
+        if (indexPath) {
+            JHFile *file = self.file.subFiles[indexPath.row];
+            if (file.type == JHFileTypeFolder) {
+                [self deleteFiles:file.subFiles];
+            }
+            else {
+                [self deleteFiles:@[file]];
+            }
+        }
+    }
+    //收藏
+    else {
         JHFile *file = self.file.subFiles[indexPath.row];
-        if (file.type == JHFileTypeFolder) {
-            [self deleteFiles:file.subFiles];
-        }
-        else {
-            [self deleteFiles:@[file]];
-        }
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否添加此文件夹到收藏" message:file.videoModel.fileNameWithPathExtension preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            JHCollectionCache *cache = [[JHCollectionCache alloc] init];
+
+            NSString *relativePath = [file.fileURL relativePathWithBaseURL:[UIApplication sharedApplication].documentsURL];
+            if (relativePath.length) {
+                cache.fileURL = [NSURL URLWithString:relativePath];
+                cache.name = file.videoModel.fileNameWithPathExtension;
+                cache.cacheType = JHCollectionCacheTypeLocal;
+                NSError *error = [[CacheManager shareCacheManager] addCollectionCache:cache];
+                if (error) {
+                    [MBProgressHUD showWithText:[NSString stringWithFormat:@"添加失败！ %@", error.localizedDescription]];
+                }
+                else {
+                    [MBProgressHUD showWithText:@"添加成功！"];
+                }
+            }
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
     }
     
     return YES;
@@ -168,6 +225,11 @@
 
 - (void)lastPlayTimeWithVideoModel:(VideoModel *)videoModel time:(NSInteger)time {
     [self.tableView reloadData];
+}
+
+#pragma mark - FileManagerSearchViewDelegate
+- (void)searchView:(FileManagerSearchView *)searchView didSelectedFile:(JHFile *)file {
+    [self matchFile:file];
 }
 
 #pragma mark - 私有方法
@@ -381,6 +443,29 @@
     }
 }
 
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_search"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchSearchButton:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_add_file"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemsFixedSpace:@[addItem, item]];
+}
+
+- (void)touchSearchButton:(UIButton *)sender {
+    self.searchView.file = self.file;
+    [self.searchView show];
+}
+
+- (void)touchHttpButton:(UIButton *)button {
+    HTTPServerViewController *vc = [[HTTPServerViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - 懒加载
 - (JHBaseTableView *)tableView {
     if (_tableView == nil) {
@@ -461,6 +546,14 @@
         [self.view addSubview:_editView];
     }
     return _editView;
+}
+
+- (FileManagerSearchView *)searchView {
+    if (_searchView == nil) {
+        _searchView = [[FileManagerSearchView alloc] init];
+        _searchView.delegete = self;
+    }
+    return _searchView;
 }
 
 @end

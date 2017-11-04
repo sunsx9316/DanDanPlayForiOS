@@ -145,6 +145,8 @@
 		89BF74D31F61419400D40F07 /* HomePageSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D21F61419400D40F07 /* HomePageSearchTableViewCell.m */; };
 		89BF74D61F6144E300D40F07 /* JHDMHYSearchConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D51F6144E300D40F07 /* JHDMHYSearchConfig.m */; };
 		89BF74D91F6159EA00D40F07 /* HomePageSearchFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */; };
+		89C3623B1FA89FC00054A1F2 /* JHCollectionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623A1FA89FC00054A1F2 /* JHCollectionCache.m */; };
+		89C3623E1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623D1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.m */; };
 		89CD85AA1F68F4B500E7D841 /* LinkNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85A91F68F4B500E7D841 /* LinkNetManager.m */; };
 		89CD85AD1F68F55B00E7D841 /* JHLinkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AC1F68F55B00E7D841 /* JHLinkInfo.m */; };
 		89CD85B01F68F62900E7D841 /* JHLinkWelcome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AF1F68F62900E7D841 /* JHLinkWelcome.m */; };
@@ -409,7 +411,7 @@
 		89A42E9C1EA5B12700FA0DF3 /* JHFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHFilter.m; sourceTree = "<group>"; };
 		89A42E9E1EA5B14100FA0DF3 /* JHFilterCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHFilterCollection.h; sourceTree = "<group>"; };
 		89A42E9F1EA5B14100FA0DF3 /* JHFilterCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHFilterCollection.m; sourceTree = "<group>"; };
-		89A42EA11EA5B1BF00FA0DF3 /* MacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacroDefinition.h; sourceTree = "<group>"; };
+		89A42EA11EA5B1BF00FA0DF3 /* DanDanPlayMacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DanDanPlayMacroDefinition.h; sourceTree = "<group>"; };
 		89A42EA21EA5B22A00FA0DF3 /* JHResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHResponse.h; sourceTree = "<group>"; };
 		89A42EA31EA5B22A00FA0DF3 /* JHResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHResponse.m; sourceTree = "<group>"; };
 		89A42EA51EA5B34400FA0DF3 /* NetManagerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetManagerHeader.h; sourceTree = "<group>"; };
@@ -499,6 +501,10 @@
 		89BF74D51F6144E300D40F07 /* JHDMHYSearchConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDMHYSearchConfig.m; sourceTree = "<group>"; };
 		89BF74D71F6159EA00D40F07 /* HomePageSearchFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageSearchFilterView.h; sourceTree = "<group>"; };
 		89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageSearchFilterView.m; sourceTree = "<group>"; };
+		89C362391FA89FC00054A1F2 /* JHCollectionCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHCollectionCache.h; sourceTree = "<group>"; };
+		89C3623A1FA89FC00054A1F2 /* JHCollectionCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHCollectionCache.m; sourceTree = "<group>"; };
+		89C3623C1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFileCollectionTableViewCell.h; sourceTree = "<group>"; };
+		89C3623D1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileCollectionTableViewCell.m; sourceTree = "<group>"; };
 		89CD85A81F68F4B500E7D841 /* LinkNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkNetManager.h; sourceTree = "<group>"; };
 		89CD85A91F68F4B500E7D841 /* LinkNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkNetManager.m; sourceTree = "<group>"; };
 		89CD85AB1F68F55B00E7D841 /* JHLinkInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLinkInfo.h; sourceTree = "<group>"; };
@@ -567,7 +573,7 @@
 		89E3F5F51E585135007AB1BD /* RecommedNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommedNetManager.m; sourceTree = "<group>"; };
 		89E3F5F61E585135007AB1BD /* SearchNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNetManager.h; sourceTree = "<group>"; };
 		89E3F5F71E585135007AB1BD /* SearchNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNetManager.m; sourceTree = "<group>"; };
-		89E3F60A1E5851DF007AB1BD /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		89E3F60A1E5851DF007AB1BD /* DanDanPlayPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DanDanPlayPrefixHeader.pch; sourceTree = "<group>"; };
 		89E3F60E1E585320007AB1BD /* MJRefreshHeader+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MJRefreshHeader+Tools.h"; sourceTree = "<group>"; };
 		89E3F60F1E585320007AB1BD /* MJRefreshHeader+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MJRefreshHeader+Tools.m"; sourceTree = "<group>"; };
 		89E3F6111E58539D007AB1BD /* MJRefreshFooter+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MJRefreshFooter+Tools.h"; sourceTree = "<group>"; };
@@ -580,7 +586,7 @@
 		89E3F61B1E5855D2007AB1BD /* MBProgressHUD+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Tools.m"; sourceTree = "<group>"; };
 		89E3F61E1E58583F007AB1BD /* JHBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHBaseViewController.h; sourceTree = "<group>"; };
 		89E3F61F1E58583F007AB1BD /* JHBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHBaseViewController.m; sourceTree = "<group>"; };
-		89E3F6211E5858E2007AB1BD /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		89E3F6211E5858E2007AB1BD /* DanDanPlayConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DanDanPlayConfig.h; sourceTree = "<group>"; };
 		89E3F6261E585C17007AB1BD /* JHDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHDanmaku.h; sourceTree = "<group>"; };
 		89E3F6271E585C17007AB1BD /* JHDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHDanmaku.m; sourceTree = "<group>"; };
 		89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPDataResponseSerializer.h; sourceTree = "<group>"; };
@@ -657,6 +663,8 @@
 			children = (
 				890BEF031FA37BC300C7915D /* JHFileTreeNode.h */,
 				890BEF041FA37BC300C7915D /* JHFileTreeNode.m */,
+				89C362391FA89FC00054A1F2 /* JHCollectionCache.h */,
+				89C3623A1FA89FC00054A1F2 /* JHCollectionCache.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -735,8 +743,8 @@
 		8931CDD21F73DF0200F05C1F /* 文件 */ = {
 			isa = PBXGroup;
 			children = (
-				890BEF021FA37BA800C7915D /* Model */,
 				8931CDD91F73DFD800F05C1F /* View */,
+				890BEF021FA37BA800C7915D /* Model */,
 				8931CDE11F73E07200F05C1F /* 播放器 */,
 				8931CDDF1F73E04300F05C1F /* 匹配 */,
 				8931CDE51F73E0B400F05C1F /* 搜索 */,
@@ -799,6 +807,8 @@
 				890BEEFD1FA3738900C7915D /* JHFileSectionTableViewCell.m */,
 				890BEEFF1FA3752400C7915D /* JHFileLargeTitleTableViewCell.h */,
 				890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */,
+				89C3623C1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.h */,
+				89C3623D1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1098,6 +1108,15 @@
 			path = Widget;
 			sourceTree = "<group>";
 		};
+		895938C11FA9EFC300D65434 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				89A42EA21EA5B22A00FA0DF3 /* JHResponse.h */,
+				89A42EA31EA5B22A00FA0DF3 /* JHResponse.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		89753D481F8CB42E0036C0AB /* 登录 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1247,6 +1266,7 @@
 		89E3F5EB1E585135007AB1BD /* NetManager */ = {
 			isa = PBXGroup;
 			children = (
+				895938C11FA9EFC300D65434 /* Model */,
 				89E3F62F1E585EE9007AB1BD /* AFHTTPDataResponseSerializer.h */,
 				89E3F6301E585EE9007AB1BD /* AFHTTPDataResponseSerializer.m */,
 				89A42EA51EA5B34400FA0DF3 /* NetManagerHeader.h */,
@@ -1279,9 +1299,9 @@
 		89E3F6041E58519B007AB1BD /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				89E3F60A1E5851DF007AB1BD /* PrefixHeader.pch */,
-				89E3F6211E5858E2007AB1BD /* Config.h */,
-				89A42EA11EA5B1BF00FA0DF3 /* MacroDefinition.h */,
+				89E3F60A1E5851DF007AB1BD /* DanDanPlayPrefixHeader.pch */,
+				89E3F6211E5858E2007AB1BD /* DanDanPlayConfig.h */,
+				89A42EA11EA5B1BF00FA0DF3 /* DanDanPlayMacroDefinition.h */,
 				8950540E1F89B4CB0027012F /* APPKey.h */,
 			);
 			path = Config;
@@ -1333,8 +1353,6 @@
 				89A42E961EA5B0BA00FA0DF3 /* JHBase.m */,
 				89A42E971EA5B0BA00FA0DF3 /* JHBaseCollection.h */,
 				89A42E981EA5B0BA00FA0DF3 /* JHBaseCollection.m */,
-				89A42EA21EA5B22A00FA0DF3 /* JHResponse.h */,
-				89A42EA31EA5B22A00FA0DF3 /* JHResponse.m */,
 				89A42E9B1EA5B12700FA0DF3 /* JHFilter.h */,
 				89A42E9C1EA5B12700FA0DF3 /* JHFilter.m */,
 				89A42E9E1EA5B14100FA0DF3 /* JHFilterCollection.h */,
@@ -1614,6 +1632,7 @@
 				89CD85B01F68F62900E7D841 /* JHLinkWelcome.m in Sources */,
 				89F8CDBB1EA78A10000D5F3F /* CacheManager.m in Sources */,
 				894CBAAF1E6C12A80021253F /* FileManagerFileLongViewCell.m in Sources */,
+				89C3623B1FA89FC00054A1F2 /* JHCollectionCache.m in Sources */,
 				8916C7D01EA8DCFB00A2233D /* SearchEpisodeTableViewCell.m in Sources */,
 				89A42EB11EA5E7D000FA0DF3 /* JHMatche.m in Sources */,
 				89BF74D91F6159EA00D40F07 /* HomePageSearchFilterView.m in Sources */,
@@ -1744,6 +1763,7 @@
 				89E3F6131E58539D007AB1BD /* MJRefreshFooter+Tools.m in Sources */,
 				89BF74BE1F612DD300D40F07 /* JHDMHYSearch.m in Sources */,
 				89E3F5BE1E5829BD007AB1BD /* main.m in Sources */,
+				89C3623E1FA8B2F40054A1F2 /* JHFileCollectionTableViewCell.m in Sources */,
 				89DA37521F5D127F003D7D59 /* NSDate+Tools.m in Sources */,
 				890DE4861F690CC7002B45EB /* JHLinkDownloadTask.m in Sources */,
 				89A42EFE1EA5FF5200FA0DF3 /* JHBiliBiliSearch.m in Sources */,
@@ -1909,7 +1929,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DanDanPlayPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1996,7 +2016,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DanDanPlayPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -196,6 +196,12 @@
     [self.tableView scrollToRow:0 inSection:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
+- (CGFloat)menuView:(WMMenuView *)menu widthForItemAtIndex:(NSInteger)index {
+    JHBangumiCollection *collection = [self bangumiCollectionWithIndex:index];
+    NSString *string = collection.weekDayStringValue;
+    return [string sizeForFont:NORMAL_SIZE_FONT size:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) mode:NSLineBreakByWordWrapping].width + 20;
+}
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     _isTouchMenuItem = NO;

@@ -31,7 +31,7 @@
     };
     
     if (episodeId == 0) {
-        completionAction(nil, jh_parameterNoCompletionError());
+        completionAction(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -104,7 +104,7 @@
                                completionHandler:(void(^)(NSError *))completionHandler{
     if (!model || episodeId == 0) {
         if (completionHandler == nil) {
-            completionHandler(jh_parameterNoCompletionError());
+            completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         }
         return nil;
     }
@@ -121,7 +121,7 @@
     if (completionHandler == nil) return;
     
     if (relatedCollection.collection.count == 0) {
-        completionHandler(nil, @[jh_parameterNoCompletionError()]);
+        completionHandler(nil, @[jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion)]);
         return;
     }
     

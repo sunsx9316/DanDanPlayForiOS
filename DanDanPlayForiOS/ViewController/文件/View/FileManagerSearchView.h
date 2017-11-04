@@ -16,6 +16,7 @@
 @end
 
 @interface FileManagerSearchView : UIView
+@property (strong, nonatomic) JHFile *file;
 @property (weak, nonatomic) id<FileManagerSearchViewDelegate> delegete;
 @property (assign, nonatomic, getter=isShowing) BOOL showing;
 - (void)show;

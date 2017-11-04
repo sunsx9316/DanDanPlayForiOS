@@ -14,7 +14,7 @@
                                     completionHandler:(void(^)(JHRelatedCollection *responseObject, NSError *error))completionHandler {
     if (episodeId == 0) {
         if (completionHandler) {
-            completionHandler(nil, jh_parameterNoCompletionError());
+            completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         }
         return nil;
     }

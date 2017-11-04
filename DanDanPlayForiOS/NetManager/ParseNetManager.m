@@ -15,7 +15,7 @@
     if (completionHandler == nil) return nil;
     
     if (url.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     

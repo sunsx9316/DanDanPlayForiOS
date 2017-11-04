@@ -9,6 +9,6 @@
 #import "TextHeaderView.h"
 
 @interface SMBLoginHeaderView : TextHeaderView
-@property (strong, nonatomic) UIButton *addButton;
-@property (copy, nonatomic) void(^touchAddButtonCallback)(void);
+//@property (strong, nonatomic) UIButton *addButton;
+//@property (copy, nonatomic) void(^touchAddButtonCallback)(void);
 @end

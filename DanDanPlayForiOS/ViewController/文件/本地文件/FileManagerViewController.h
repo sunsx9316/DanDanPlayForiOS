@@ -13,5 +13,5 @@
 @property (strong, nonatomic) JHFile *file;
 @property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
-- (void)matchFile:(JHFile *)file;
+//- (void)matchFile:(JHFile *)file;
 @end

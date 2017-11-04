@@ -19,7 +19,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
     if (completionHandler == nil) return nil;
     
     if (ipAdress.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -47,7 +47,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
     magnet = str;
     
     if (ipAdress.length == 0 || magnet.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -56,7 +56,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
             completionHandler(nil, model.error);
         }
         else if (model.responseObject == nil) {
-            completionHandler(nil, jh_creatDownloadTaskFailError());
+            completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         }
         else {
             completionHandler([JHLinkDownloadTask yy_modelWithJSON:model.responseObject], model.error);
@@ -72,7 +72,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
     if (completionHandler == nil) return nil;
     
     if (ipAdress.length == 0 || taskId.length == 0 || method.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -81,7 +81,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
             completionHandler(nil, model.error);
         }
         else if (model.responseObject == nil) {
-            completionHandler(nil, jh_creatDownloadTaskFailError());
+            completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         }
         else {
             completionHandler([JHLinkDownloadTask yy_modelWithJSON:model.responseObject], model.error);
@@ -94,7 +94,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
     if (completionHandler == nil) return nil;
     
     if (ipAdress.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -110,7 +110,7 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
     if (completionHandler == nil) return nil;
     
     if (ipAdress.length == 0) {
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     

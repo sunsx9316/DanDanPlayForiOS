@@ -22,6 +22,9 @@
 @end
 
 @implementation LinkFileManagerViewController
+{
+    BOOL _observeLinkInfo;
+}
 //- (void)viewWillAppear:(BOOL)animated {
 //    [super viewWillAppear:animated];
 //    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
@@ -45,6 +48,7 @@
     if (jh_isRootFile(self.file)) {
         self.navigationItem.title = @"根目录";
         [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkInfo" options:NSKeyValueObservingOptionNew context:nil];
+        _observeLinkInfo = YES;
 //        self.automaticallyAdjustsScrollViewInsets = NO;
         [self refresh];
     }
@@ -57,6 +61,9 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[CacheManager shareCacheManager] removeObserver:self];
+    if (_observeLinkInfo) {
+        [[CacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkInfo"];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {

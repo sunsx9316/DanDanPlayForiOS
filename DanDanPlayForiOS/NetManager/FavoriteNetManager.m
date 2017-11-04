@@ -18,7 +18,7 @@
     if (completionHandler == nil) return nil;
     
     if (user.identity == 0 || animeId == 0 || user.token.length == 0){
-        completionHandler(jh_parameterNoCompletionError());
+        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -42,7 +42,7 @@
     if (completionHandler == nil) return nil;
     
     if (user.identity == 0 || user.token.length == 0){
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -58,7 +58,7 @@
     if (completionHandler == nil) return nil;
     
     if (animateId == 0){
-        completionHandler(nil, jh_parameterNoCompletionError());
+        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     
@@ -74,7 +74,7 @@
     if (completionHandler == nil) return nil;
     
     if (user.identity == 0 || user.token.length == 0 || episodeId == 0){
-        completionHandler(jh_parameterNoCompletionError());
+        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     

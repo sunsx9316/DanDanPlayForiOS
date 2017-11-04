@@ -33,6 +33,7 @@ static NSString *const sendDanmakuColorKey = @"send_danmaku_color";
 static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
 static NSString *const playInterfaceOrientationKey = @"play_interface_orientation";
 static NSString *const danmakuLimitCountKey = @"danmaku_limit_count";
+static NSString *const collectionCacheKey = @"collection_cache";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -539,6 +540,50 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 - (NSString *)SMBFileHash:(TOSMBSessionFile *)file {
     return (NSString *)[self.smbFileHashCache objectForKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
+}
+
+#pragma mark -
+- (NSMutableArray <JHCollectionCache *>*)collectionList {
+    NSMutableArray *arr = (NSMutableArray *)[self.cache objectForKey:collectionCacheKey];
+    if (arr == nil) {
+        arr = [NSMutableArray array];
+        [self.cache setObject:arr forKey:collectionCacheKey];
+    }
+    
+    if ([arr isKindOfClass:[NSMutableArray class]] == NO) {
+        arr = [arr mutableCopy];
+    }
+    
+    return arr;
+}
+
+- (NSError *)addCollectionCache:(JHCollectionCache *)cache {
+    if (cache == nil) return jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion);
+    
+    if ([self.collectionList containsObject:cache]) return jh_creatErrorWithCode(jh_errorObjectExist);
+    
+    [self.collectionList addObject:cache];
+    [self.cache setObject:self.collectionList forKey:collectionCacheKey];
+    for (id<CacheManagerDelagate> observer in _observers.copy) {
+        if ([observer respondsToSelector:@selector(collectionDidHandleCache:operation:)]) {
+            [observer collectionDidHandleCache:cache operation:CollectionCacheDidChangeTypeAdd];
+        }
+    }
+    
+    return nil;
+}
+
+- (NSError *)removeCollectionCache:(JHCollectionCache *)cache {
+    if (cache == nil) return jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion);
+    
+    [self.collectionList removeObject:cache];
+    [self.cache setObject:self.collectionList forKey:collectionCacheKey];
+    for (id<CacheManagerDelagate> observer in _observers.copy) {
+        if ([observer respondsToSelector:@selector(collectionDidHandleCache:operation:)]) {
+            [observer collectionDidHandleCache:cache operation:CollectionCacheDidChangeTypeRemove];
+        }
+    }
+    return nil;
 }
 
 #pragma mark - 

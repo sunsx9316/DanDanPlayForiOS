@@ -1,15 +1,15 @@
 //
-//  Config.h
+//  DanDanPlayConfig.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 17/2/18.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "MacroDefinition.h"
+#import "DanDanPlayMacroDefinition.h"
 
-#ifndef Config_h
-#define Config_h
+#ifndef DanDanPlayConfig_h
+#define DanDanPlayConfig_h
 
 /**
  弹幕类型
@@ -113,4 +113,39 @@ CG_INLINE NSURL *jh_linkImageURL(NSString *ip, NSString *hash) {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/image/%@", ip, LINK_API_INDEX, hash]];
 }
 
-#endif /* Config_h */
+
+typedef NS_ENUM(NSUInteger, jh_errorCode) {
+    jh_errorCodeParameterNoCompletion = 10000,
+    jh_errorCodeCreatDownloadTaskFail,
+    jh_errorCodeLoginFail,
+    jh_errorRegisterFail,
+    jh_errorUpdateUserNameFail,
+    jh_errorUpdateUserPasswordFail,
+    jh_errorBindingFail,
+    jh_errorObjectExist,
+};
+
+CG_INLINE NSError *jh_creatErrorWithCode(jh_errorCode code) {
+    switch (code) {
+        case jh_errorCodeParameterNoCompletion:
+            return [[NSError alloc] initWithDomain:@"参数不完整" code:10000 userInfo:@{NSLocalizedDescriptionKey : @"参数不完整"}];
+        case jh_errorCodeCreatDownloadTaskFail:
+            return [[NSError alloc] initWithDomain:@"任务创建失败" code:code userInfo:@{NSLocalizedDescriptionKey : @"任务创建失败"}];
+        case jh_errorCodeLoginFail:
+            return [[NSError alloc] initWithDomain:@"登录失败" code:code userInfo:@{NSLocalizedDescriptionKey : @"登录失败 请检查用户名和密码是否正确"}];
+        case jh_errorRegisterFail:
+            return [[NSError alloc] initWithDomain:@"注册失败" code:code userInfo:@{NSLocalizedDescriptionKey : @"注册失败"}];
+        case jh_errorUpdateUserNameFail:
+            return [[NSError alloc] initWithDomain:@"更新用户名称失败" code:code userInfo:@{NSLocalizedDescriptionKey : @"更新用户名称失败"}];
+        case jh_errorUpdateUserPasswordFail:
+            return [[NSError alloc] initWithDomain:@"修改密码错误" code:code userInfo:@{NSLocalizedDescriptionKey : @"修改密码失败 原密码错误或新密码格式错误"}];
+        case jh_errorBindingFail:
+            return [[NSError alloc] initWithDomain:@"绑定失败" code:code userInfo:@{NSLocalizedDescriptionKey : @"绑定失败"}];
+        case jh_errorObjectExist:
+            return [[NSError alloc] initWithDomain:@"对象已存在" code:code userInfo:@{NSLocalizedDescriptionKey : @"对象已存在"}];
+        default:
+            return nil;
+    }
+};
+
+#endif /* DanDanPlayConfig_h */

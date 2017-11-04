@@ -20,7 +20,7 @@
     
     if (!hash.length) {
         if (completionHandler) {
-            completionHandler(nil, jh_parameterNoCompletionError());
+            completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         }
         return nil;
     }
@@ -51,7 +51,7 @@
     if (completionHandler == nil) return nil;
     
     if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.md5.length == 0 || model.identity == 0) {
-        completionHandler(jh_parameterNoCompletionError());
+        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
         return nil;
     }
     

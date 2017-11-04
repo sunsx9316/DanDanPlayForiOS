@@ -1,5 +1,5 @@
 //
-//  MacroDefinition.h
+//  DanDanPlayMacroDefinition.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/18.
@@ -8,8 +8,8 @@
 
 #import "APPKey.h"
 
-#ifndef MacroDefinition_h
-#define MacroDefinition_h
+#ifndef DanDanPlayMacroDefinition_h
+#define DanDanPlayMacroDefinition_h
 
 #ifdef DEBUG
 #define NSLog(...) printf("%s\n", [[NSString stringWithFormat:__VA_ARGS__]UTF8String]);
@@ -79,4 +79,4 @@
 #define WIN_MINI_LINK_VERSION @"6.8.2"
 
 
-#endif /* MacroDefinition_h */
+#endif /* DanDanPlayMacroDefinition_h */

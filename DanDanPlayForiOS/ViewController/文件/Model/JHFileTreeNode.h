@@ -15,9 +15,9 @@ typedef NS_ENUM(NSUInteger, JHFileTreeNodeType) {
 };
 
 @interface JHFileTreeNode : JHBase
-@property (copy, nonatomic) NSString *icon;
-@property (copy, nonatomic) NSString *detail;
+@property (copy, nonatomic) UIImage *img;
 @property (assign, nonatomic) JHFileTreeNodeType type;
+@property (assign, nonatomic, getter=isExpand) BOOL expand;
 
 @property (strong, nonatomic) NSMutableArray <JHFileTreeNode *>*subItems;
 @end

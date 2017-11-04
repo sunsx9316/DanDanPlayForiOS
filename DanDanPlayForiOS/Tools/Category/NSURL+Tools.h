@@ -10,4 +10,5 @@
 
 @interface NSURL (Tools)
 - (NSURLRelationship)relationshipWithURL:(NSURL *)url;
+- (NSString *)relativePathWithBaseURL:(NSURL *)url;
 @end

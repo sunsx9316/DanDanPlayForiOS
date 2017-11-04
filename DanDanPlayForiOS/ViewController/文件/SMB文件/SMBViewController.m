@@ -32,11 +32,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"远程设备";
+    [self configRightItem];
 //    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
     if (self.tableView.mj_header.refreshingBlock) {
         self.tableView.mj_header.refreshingBlock();
     }
@@ -120,21 +122,12 @@
     if (section == 0) {
         SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
         view.titleLabel.text = @"本地服务器";
-        @weakify(self)
-        [view setTouchAddButtonCallback:^{
-            @strongify(self)
-            if (!self) return;
-            
-            [self showAlertViewControllerWithModel:nil];
-        }];
-        view.addButton.hidden = NO;
         return view;
     }
     
     if ([CacheManager shareCacheManager].SMBInfos.count) {
         SMBLoginHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SMBLoginHeaderView"];
         view.titleLabel.text = @"登录历史";
-        view.addButton.hidden = YES;
         return view;
     }
     
@@ -238,6 +231,18 @@
     }];
     
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_add_file"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchAddButton:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchAddButton:(UIButton *)sender {
+    [self showAlertViewControllerWithModel:nil];
 }
 
 #pragma mark - 懒加载

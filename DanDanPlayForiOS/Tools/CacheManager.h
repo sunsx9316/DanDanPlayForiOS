@@ -30,19 +30,25 @@ typedef NS_ENUM(NSUInteger, SMBDownloadTasksDidChangeType) {
     SMBDownloadTasksDidChangeTypeRemove,
 };
 
+typedef NS_ENUM(NSUInteger, CollectionCacheDidChangeType) {
+    CollectionCacheDidChangeTypeAdd,
+    CollectionCacheDidChangeTypeRemove,
+};
+
 FOUNDATION_EXPORT NSString *const videoNameKey;
 FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 //缓存所有弹幕的标识
 #define CACHE_ALL_DANMAKU_FLAG 9999
 
-@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask, JHMediaPlayer;
+@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask, JHMediaPlayer, JHCollectionCache;
 
 @protocol CacheManagerDelagate <NSObject>
 @optional
 - (void)SMBDownloadTasksDidChange:(NSArray <TOSMBSessionDownloadTask *>*)tasks type:(SMBDownloadTasksDidChangeType)type;
 - (void)SMBDownloadTasksDidDownloadCompletion;
 - (void)lastPlayTimeWithVideoModel:(VideoModel *)videoModel time:(NSInteger)time;
+- (void)collectionDidHandleCache:(JHCollectionCache *)cache operation:(CollectionCacheDidChangeType)operation;
 @end
 
 @interface CacheManager : NSObject
@@ -204,6 +210,9 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 //当前分析的视频模型
 @property (strong, nonatomic) VideoModel *currentPlayVideoModel;
 
+- (NSMutableArray <JHCollectionCache *>*)collectionList;
+- (NSError *)addCollectionCache:(JHCollectionCache *)cache;
+- (NSError *)removeCollectionCache:(JHCollectionCache *)cache;
 
 /**
  缓存大小

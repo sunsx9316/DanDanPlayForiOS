@@ -12,4 +12,5 @@
 @interface UINavigationItem (Tools)
 - (void)addLeftItemFixedSpace:(UIBarButtonItem *)item;
 - (void)addRightItemFixedSpace:(UIBarButtonItem *)item;
+- (void)addRightItemsFixedSpace:(NSArray <UIBarButtonItem *>*)items;
 @end
