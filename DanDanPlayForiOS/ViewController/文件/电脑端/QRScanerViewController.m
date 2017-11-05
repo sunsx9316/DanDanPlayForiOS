@@ -62,10 +62,8 @@
         [self presentViewController:vc animated:YES completion:nil];
     }
     else {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.QRCodeReader startScanning];
-            });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.QRCodeReader startScanning];
         });
     }
 }
@@ -179,7 +177,6 @@
                 if (self.linkSuccessCallBack) {
                     self.linkSuccessCallBack(info);
                 }
-                [self.navigationController popViewControllerAnimated:YES];
             }
         }
     }];
@@ -246,7 +243,7 @@
         _button = [[JHEdgeButton alloc] init];
         _button.titleLabel.font = NORMAL_SIZE_FONT;
         _button.inset = CGSizeMake(20, 20);
-        [_button setTitle:@"点我手动输入ip~(￣▽￣)" forState:UIControlStateNormal];
+        [_button setTitle:@"点我手动输入ip或域名~(￣▽￣)" forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
         [_button setTitleColor:RGBCOLOR(180, 180, 180) forState:UIControlStateNormal];
         [self.view addSubview:_button];

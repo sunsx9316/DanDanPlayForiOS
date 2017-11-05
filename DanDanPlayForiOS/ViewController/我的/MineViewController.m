@@ -35,20 +35,9 @@
 
 @implementation MineViewController
 
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    [self.nameIconHoldView addMotionEffectWithMaxOffset:30];
-//}
-//
-//- (void)viewDidDisappear:(BOOL)animated {
-//    [super viewDidDisappear:animated];
-//    [self.nameIconHoldView removeMotionEffect];
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"我的";
-    //    self.edgesForExtendedLayout = UIRectEdgeTop | UIRectEdgeLeft | UIRectEdgeRight;
     
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -62,6 +51,8 @@
     [[CacheManager shareCacheManager] addObserver:self];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"linkDownloadingTaskCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[CacheManager shareCacheManager] addObserver:self forKeyPath:@"user" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    
+    [self reloadUserInfo];
 }
 
 - (void)dealloc {
@@ -322,8 +313,6 @@
                 [self presentViewController:vc animated:YES completion:nil];
             }
         }]];
-        
-        [self reloadUserInfo];
     }
     return _headView;
 }

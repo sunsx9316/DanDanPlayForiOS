@@ -104,7 +104,7 @@
     
     UIImageView *imgView = [initialMenuItem viewWithTag:MENU_ITEM_IMG_TAG];
     if (imgView == nil) {
-        imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"filter_arrow_down"]];
+        imgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"filter_arrow_down"] yy_imageByTintColor:MAIN_COLOR]];
         [initialMenuItem addSubview:imgView];
         [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);

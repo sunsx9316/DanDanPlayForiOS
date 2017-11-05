@@ -61,7 +61,7 @@
             HomePageSearchViewController *vc = [[HomePageSearchViewController alloc] init];
             JHDMHYSearchConfig *config = [[JHDMHYSearchConfig alloc] init];
             vc.config = config;
-            config.keyword = self.historyModel.name;
+            config.keyword = self.historyModel.searchKeyword.length ? self.historyModel.searchKeyword : self.historyModel.name;
             [self.navigationController pushViewController:vc animated:YES];
         };
         return cell;

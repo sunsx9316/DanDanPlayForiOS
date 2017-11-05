@@ -28,6 +28,7 @@
 #import "NSURL+Tools.h"
 #import "JHBaseDanmaku+Tools.h"
 #import "JHVolumeView.h"
+#import <AVFoundation/AVFoundation.h>
 
 static const float slowRate = 0.05f;
 static const float normalRate = 0.2f;
@@ -123,7 +124,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+    //监听音量变化
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setActive:YES error:nil];
+    [audioSession addObserver:self forKeyPath:@"outputVolume" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     
     _addKeyPaths = @[@"danmakuFont", @"danmakuSpeed", @"danmakuShadowStyle", @"danmakuOpacity", @"danmakuLimitCount"];
@@ -184,6 +189,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         [[CacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
     }];
     
+    [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:@"outputVolume"];
+    
     _lock = nil;
 }
 
@@ -206,6 +213,23 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
     else if ([keyPath isEqualToString:@"danmakuLimitCount"]) {
         self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
+    }
+    else if ([keyPath isEqualToString:@"outputVolume"]) {
+        CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
+        self.interfaceView.volumeControlView.progress = volume;
+        
+        //通过物理按键控制音量
+        if (self.interfaceView.volumeControlView.dragging == NO) {
+            NSLog(@"========= 物理按键调节%f", volume)
+            if (self.interfaceView.volumeControlView.isShowing == NO) {
+                [self.interfaceView.volumeControlView showFromView:self.view];
+            }
+            else {
+                [self.interfaceView.volumeControlView resetTimer];
+            }
+            
+            [self.interfaceView.volumeControlView dismissAfter:1];
+        }
     }
 }
 
@@ -757,24 +781,25 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [_lock unlock];
 }
 
-- (void)volumeDidChange:(NSNotification *)aNotification {
-    NSDictionary *userInfo = aNotification.userInfo;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"] isEqualToString:@"ExplicitVolumeChange"] && self.interfaceView.volumeControlView.dragging == NO) {
-            NSLog(@"%@", userInfo);
-            float value = [userInfo[@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-            if (self.interfaceView.volumeControlView.isShowing == NO) {
-                [self.interfaceView.volumeControlView showFromView:self.view];
-            }
-            else {
-                [self.interfaceView.volumeControlView resetTimer];
-            }
-            
-            self.interfaceView.volumeControlView.progress = value;
-            [self.interfaceView.volumeControlView dismissAfter:1];
-        }        
-    });
-}
+//- (void)volumeDidChange:(NSNotification *)aNotification {
+//    NSDictionary *userInfo = aNotification.userInfo;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (self.interfaceView.volumeControlView.dragging == NO && [userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"] isEqualToString:@"ExplicitVolumeChange"]) {
+//            NSLog(@"%@", userInfo);
+//            float value = [userInfo[@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+//            self.interfaceView.volumeControlView.progress = value;
+//
+//            if (self.interfaceView.volumeControlView.isShowing == NO) {
+//                [self.interfaceView.volumeControlView showFromView:self.view];
+//            }
+//            else {
+//                [self.interfaceView.volumeControlView resetTimer];
+//            }
+//
+//            [self.interfaceView.volumeControlView dismissAfter:1];
+//        }
+//    });
+//}
 
 #pragma mark UI
 
@@ -892,6 +917,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             //音量调节
             else {
                 _panType = InterfaceViewPanTypeVolume;
+                self.interfaceView.volumeControlView.dragging = YES;
                 [self.interfaceView.volumeControlView showFromView:self.view];
             }
         }
@@ -920,9 +946,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             //改变系统音量
             if (_panType == InterfaceViewPanTypeVolume) {
-                self.interfaceView.volumeControlView.dragging = YES;
                 CGFloat value = self.mpVolumeView.volume + rate;
-                self.interfaceView.volumeControlView.progress = value;
+//                self.interfaceView.volumeControlView.progress = value;
                 self.mpVolumeView.volume = value;
             }
             else {

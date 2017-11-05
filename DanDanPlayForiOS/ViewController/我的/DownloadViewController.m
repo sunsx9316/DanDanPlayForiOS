@@ -70,7 +70,6 @@
     
     if (indexPath.section == 0) {
         JHLinkDownloadTask *task = self.linkDownloadTaskCollection.collection[indexPath.row];
-        [MBProgressHUD showLoadingInView:self.view text:nil];
         JHControlLinkTaskMethod method = nil;
         //开始
         if (task.state == JHLinkDownloadTaskStatePause || task.state == JHLinkDownloadTaskStateStop || task.state == JHLinkDownloadTaskStateError) {
@@ -82,6 +81,8 @@
         }
         
         if (method.length) {
+            [MBProgressHUD showLoadingInView:self.view text:nil];
+            
             [LinkNetManager linkControlDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress taskId:task.taskId method:method forceDelete:NO completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
                 [MBProgressHUD hideLoadingAfterDelay:1];
                 
@@ -214,7 +215,7 @@
 
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务 (电脑端任务下载完成在文件-电脑端查看)" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无下载任务" attributes:@{NSFontAttributeName : NORMAL_SIZE_FONT, NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 

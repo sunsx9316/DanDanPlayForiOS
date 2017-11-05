@@ -749,16 +749,14 @@
 				8931CDDF1F73E04300F05C1F /* 匹配 */,
 				8931CDE51F73E0B400F05C1F /* 搜索 */,
 				8938E4F21F77387E00F21E52 /* 本地文件 */,
-				8938E4F31F77389D00F21E52 /* SMB文件 */,
-				8938E4F41F7738AF00F21E52 /* 电脑端文件 */,
+				8938E4F31F77389D00F21E52 /* SMB */,
+				8938E4F41F7738AF00F21E52 /* 电脑端 */,
 				89A467921F162C31001840C7 /* FileViewController.h */,
 				89A467931F162C31001840C7 /* FileViewController.m */,
 				894CBAA91E6C073A0021253F /* HTTPServerViewController.h */,
 				894CBAAA1E6C073A0021253F /* HTTPServerViewController.m */,
 				89EC0E5A1F2D812A004D3C12 /* HelpViewController.h */,
 				89EC0E5B1F2D812A004D3C12 /* HelpViewController.m */,
-				89CD85B11F68FB3F00E7D841 /* QRScanerViewController.h */,
-				89CD85B21F68FB3F00E7D841 /* QRScanerViewController.m */,
 			);
 			path = "文件";
 			sourceTree = "<group>";
@@ -1067,7 +1065,7 @@
 			path = "本地文件";
 			sourceTree = "<group>";
 		};
-		8938E4F31F77389D00F21E52 /* SMB文件 */ = {
+		8938E4F31F77389D00F21E52 /* SMB */ = {
 			isa = PBXGroup;
 			children = (
 				89681B341F08FAE400103CFF /* SMBViewController.h */,
@@ -1077,16 +1075,18 @@
 				89347AED1F4BC7FE00914FB6 /* SMBFileManagerPickerViewController.h */,
 				89347AEE1F4BC7FE00914FB6 /* SMBFileManagerPickerViewController.m */,
 			);
-			path = "SMB文件";
+			path = SMB;
 			sourceTree = "<group>";
 		};
-		8938E4F41F7738AF00F21E52 /* 电脑端文件 */ = {
+		8938E4F41F7738AF00F21E52 /* 电脑端 */ = {
 			isa = PBXGroup;
 			children = (
+				89CD85B11F68FB3F00E7D841 /* QRScanerViewController.h */,
+				89CD85B21F68FB3F00E7D841 /* QRScanerViewController.m */,
 				897858EB1F6BD67B00010690 /* LinkFileManagerViewController.h */,
 				897858EC1F6BD67B00010690 /* LinkFileManagerViewController.m */,
 			);
-			path = "电脑端文件";
+			path = "电脑端";
 			sourceTree = "<group>";
 		};
 		8938E4FE1F775A0B00F21E52 /* YYPhotoBrowseView */ = {

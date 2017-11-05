@@ -43,6 +43,7 @@
         make.edges.mas_equalTo(0);
     }];
     
+    [self configRightItem];
     [[CacheManager shareCacheManager] addObserver:self];
     
     if (jh_isRootFile(self.file)) {
@@ -185,7 +186,7 @@
     else {
         QRScanerViewController *vc = [[QRScanerViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
-        [self.parentViewController.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -219,6 +220,37 @@
         [self.tableView endRefreshing];
     }
 }
+
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_qr_code"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchRightItem:(UIButton *)sender {
+    QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    @weakify(self)
+    vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+        @strongify(self)
+        if (!self) return;
+        
+        NSMutableArray *arr = [self.navigationController.viewControllers mutableCopy];
+        [arr removeLastObject];
+        
+        
+        //连接成功直接跳转到列表
+        LinkFileManagerViewController *avc = [[LinkFileManagerViewController alloc] init];
+        avc.file = jh_getANewLinkRootFile();
+        avc.hidesBottomBarWhenPushed = YES;
+        [arr addObject:avc];
+        [self.navigationController setViewControllers:arr animated:YES];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - 懒加载
 - (JHBaseTableView *)tableView {

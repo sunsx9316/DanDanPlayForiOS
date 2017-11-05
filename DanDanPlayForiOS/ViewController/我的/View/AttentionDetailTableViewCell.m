@@ -150,7 +150,7 @@
         _searchButton = [[JHEdgeButton alloc] init];
         _searchButton.titleLabel.font = SMALL_SIZE_FONT;
         [_searchButton setTitle:@"搜索资源" forState:UIControlStateNormal];
-        [_searchButton setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+        [_searchButton setImage:[[UIImage imageNamed:@"home_search"] yy_imageByResizeToSize:CGSizeMake(18, 18)] forState:UIControlStateNormal];
         [_searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _searchButton.inset = CGSizeMake(10, 0);
         _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);

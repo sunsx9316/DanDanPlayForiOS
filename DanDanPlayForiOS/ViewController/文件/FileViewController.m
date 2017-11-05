@@ -355,6 +355,22 @@
             else {
                 QRScanerViewController *vc = [[QRScanerViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
+                @weakify(self)
+                vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    NSMutableArray *arr = [self.navigationController.viewControllers mutableCopy];
+                    [arr removeLastObject];
+                    
+                    
+                    //连接成功直接跳转到列表
+                    LinkFileManagerViewController *avc = [[LinkFileManagerViewController alloc] init];
+                    avc.file = jh_getANewLinkRootFile();
+                    avc.hidesBottomBarWhenPushed = YES;
+                    [arr addObject:avc];
+                    [self.navigationController setViewControllers:arr animated:YES];
+                };
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }

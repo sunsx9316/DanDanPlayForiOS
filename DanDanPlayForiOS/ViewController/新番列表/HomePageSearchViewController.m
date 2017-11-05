@@ -58,7 +58,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (self.config == nil) {
-        [self.searchBar becomeFirstResponder];
+        [UIView performWithoutAnimation:^{
+            [self.searchBar becomeFirstResponder];
+        }];
     }
 }
 
@@ -154,8 +156,18 @@
 - (void)downloadVideoWithMagnet:(NSString *)magnet {
     if (magnet.length == 0) return;
     
+    @weakify(self)
     void(^downloadAction)(NSString *magnet) = ^(NSString *magnet){
+        @strongify(self)
+        if (!self) return;
+        
+        [MBProgressHUD showLoadingInView:self.view text:@"创建下载任务中..."];
         [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+            @strongify(self)
+            if (!self) return;
+            
+            [MBProgressHUD hideLoading];
+            
             if (error) {
                 [MBProgressHUD showWithError:error];
             }
@@ -171,39 +183,39 @@
                 [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
                 
                 [self presentViewController:vc animated:YES completion:nil];
-                
             }
         }];
     };
     
-    if ([CacheManager shareCacheManager].linkInfo == nil) {
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        
+    
         [vc addAction:[UIAlertAction actionWithTitle:@"复制磁力链" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [UIPasteboard generalPasteboard].string = magnet;
             [MBProgressHUD showWithText:@"复制成功"];
         }]];
-        
+    
         [vc addAction:[UIAlertAction actionWithTitle:@"使用电脑端下载" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            QRScanerViewController *vc = [[QRScanerViewController alloc] init];
-            @weakify(self)
-            vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
-                @strongify(self)
-                if (!self) return;
-                
+            if ([CacheManager shareCacheManager].linkInfo == nil) {
+                QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+                @weakify(self)
+                vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    downloadAction(magnet);
+                    [self.navigationController popViewControllerAnimated:YES];
+                };
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else {
                 downloadAction(magnet);
-            };
-            [self.navigationController pushViewController:vc animated:YES];
+            }
         }]];
-        
+    
         [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-        
+    
         [self presentViewController:vc animated:YES completion:nil];
-    }
-    else {
-        downloadAction(magnet);
-    }
 }
 
 - (void)configRightItem {
