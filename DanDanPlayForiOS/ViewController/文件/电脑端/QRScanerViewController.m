@@ -10,6 +10,7 @@
 #import "JHQRCodeReader.h"
 #import "JHEdgeButton.h"
 #import "UIApplication+Tools.h"
+#import "JHQRHelpViewController.h"
 
 #define SCANNER_SIZE (self.view.width * 0.7)
 
@@ -17,7 +18,7 @@
 @property (strong, nonatomic) JHQRCodeReader *QRCodeReader;
 @property (strong, nonatomic) UIView *maskView;
 @property (strong, nonatomic) JHEdgeButton *button;
-@property (strong, nonatomic) UILabel *noticeLabel;
+@property (strong, nonatomic) JHEdgeButton *noticeButton;
 @end
 
 @implementation QRScanerViewController
@@ -39,13 +40,13 @@
         make.edges.mas_equalTo(0);
     }];
     
-    [self.noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_offset(self.navigationController.navigationBar.bottom + 20);
+    [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_offset(-20);
         make.centerX.mas_equalTo(0);
     }];
     
-    [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_offset(-20);
+    [self.noticeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_offset(SCANNER_SIZE / 2 + 30);
         make.centerX.mas_equalTo(0);
     }];
     
@@ -182,6 +183,12 @@
     }];
 }
 
+- (void)touchHelpButton:(UIButton *)sender {
+    JHQRHelpViewController *vc = [[JHQRHelpViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - 懒加载
 
 - (JHQRCodeReader *)QRCodeReader {
@@ -251,15 +258,20 @@
     return _button;
 }
 
-- (UILabel *)noticeLabel {
-    if (_noticeLabel == nil) {
-        _noticeLabel = [[UILabel alloc] init];
-        _noticeLabel.font = NORMAL_SIZE_FONT;
-        _noticeLabel.textColor = RGBCOLOR(180, 180, 180);
-        _noticeLabel.text = @"在电脑版的首页-远程访问查看二维码~";
-        [self.view addSubview:_noticeLabel];
+- (JHEdgeButton *)noticeButton {
+    if (_noticeButton == nil) {
+        _noticeButton = [[JHEdgeButton alloc] init];
+        _noticeButton.inset = CGSizeMake(20, 0);
+        _noticeButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_noticeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_noticeButton setTitle:@"二维码在哪?" forState:UIControlStateNormal];
+        _noticeButton.backgroundColor = RGBACOLOR(180, 180, 180, 0.7);
+        _noticeButton.layer.cornerRadius = 10;
+        _noticeButton.layer.masksToBounds = YES;
+        [_noticeButton addTarget:self action:@selector(touchHelpButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_noticeButton];
     }
-    return _noticeLabel;
+    return _noticeButton;
 }
 
 

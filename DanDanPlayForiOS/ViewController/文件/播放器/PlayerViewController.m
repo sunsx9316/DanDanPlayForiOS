@@ -111,6 +111,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return [CacheManager shareCacheManager].playInterfaceOrientation;
 }
 
+//x自动隐藏底下的指示条
+- (BOOL)prefersHomeIndicatorAutoHidden {
+    return !self.interfaceView.isShow;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

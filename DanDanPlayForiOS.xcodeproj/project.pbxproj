@@ -174,6 +174,9 @@
 		89E1EA051EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA041EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m */; };
 		89E1EA091EAE0DCD00419C78 /* PlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* PlayerStepTableViewCell.m */; };
 		89E1EA0D1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA0C1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m */; };
+		89E2576D1FB8835800AC075A /* JHQRHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2576C1FB8835800AC075A /* JHQRHelpViewController.m */; };
+		89E257721FB88E7E00AC075A /* qr_help1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257711FB88E6F00AC075A /* qr_help1@2x.png */; };
+		89E257741FB8936C00AC075A /* qr_help2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257731FB8936200AC075A /* qr_help2@2x.png */; };
 		89E3F5BE1E5829BD007AB1BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
 		89E3F5C11E5829BD007AB1BD /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
 		89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
@@ -557,6 +560,10 @@
 		89E1EA071EAE0DCD00419C78 /* PlayerStepTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerStepTableViewCell.m; sourceTree = "<group>"; };
 		89E1EA0B1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSendDanmakuConfigView.h; sourceTree = "<group>"; };
 		89E1EA0C1EAE1B0500419C78 /* PlayerSendDanmakuConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSendDanmakuConfigView.m; sourceTree = "<group>"; };
+		89E2576B1FB8835800AC075A /* JHQRHelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHQRHelpViewController.h; sourceTree = "<group>"; };
+		89E2576C1FB8835800AC075A /* JHQRHelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHQRHelpViewController.m; sourceTree = "<group>"; };
+		89E257711FB88E6F00AC075A /* qr_help1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr_help1@2x.png"; sourceTree = "<group>"; };
+		89E257731FB8936200AC075A /* qr_help2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr_help2@2x.png"; sourceTree = "<group>"; };
 		89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3F5BD1E5829BD007AB1BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1083,6 +1090,8 @@
 			children = (
 				89CD85B11F68FB3F00E7D841 /* QRScanerViewController.h */,
 				89CD85B21F68FB3F00E7D841 /* QRScanerViewController.m */,
+				89E2576B1FB8835800AC075A /* JHQRHelpViewController.h */,
+				89E2576C1FB8835800AC075A /* JHQRHelpViewController.m */,
 				897858EB1F6BD67B00010690 /* LinkFileManagerViewController.h */,
 				897858EC1F6BD67B00010690 /* LinkFileManagerViewController.m */,
 			);
@@ -1212,6 +1221,15 @@
 				89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */,
 			);
 			path = Vender;
+			sourceTree = "<group>";
+		};
+		89E2576E1FB88B3400AC075A /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				89E257711FB88E6F00AC075A /* qr_help1@2x.png */,
+				89E257731FB8936200AC075A /* qr_help2@2x.png */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		89E3F5B01E5829BD007AB1BD = {
@@ -1437,6 +1455,7 @@
 		89F5C8281EAF104100676361 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				89E2576E1FB88B3400AC075A /* Image */,
 				89DDCFB01F2A3DB0007B83CA /* course */,
 				89DDCFAE1F2A3DA3007B83CA /* web */,
 			);
@@ -1512,6 +1531,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E257741FB8936C00AC075A /* qr_help2@2x.png in Resources */,
+				89E257721FB88E7E00AC075A /* qr_help1@2x.png in Resources */,
 				89DDCFB11F2A3DB0007B83CA /* course in Resources */,
 				89DDCFAF1F2A3DA3007B83CA /* web in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
@@ -1702,6 +1723,7 @@
 				89AE37BA1F626629008D06CF /* JHFavoriteCollection.m in Sources */,
 				89350B191EAB125700072DA5 /* JHEdgeLabel.m in Sources */,
 				891E69F51F480EAB00F69975 /* FileManagerSearchView.m in Sources */,
+				89E2576D1FB8835800AC075A /* JHQRHelpViewController.m in Sources */,
 				891C22F71F0A51E700B4661F /* TOSMBSessionFile+Tools.m in Sources */,
 				89D38E551F516591009780A8 /* JHActivityEdgeLabel.m in Sources */,
 				896F594F1EA710A8004F4313 /* JHBaseTableView.m in Sources */,

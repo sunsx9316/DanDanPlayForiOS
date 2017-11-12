@@ -86,6 +86,9 @@
             self.topView.transform = CGAffineTransformIdentity;
             self.bottomView.transform = CGAffineTransformIdentity;
             [self.viewController setNeedsStatusBarAppearanceUpdate];
+            if (@available(iOS 11.0, *)) {
+                [self.viewController setNeedsUpdateOfHomeIndicatorAutoHidden];
+            }
         };
         
         if (flag) {
@@ -108,6 +111,9 @@
             self.topView.transform = CGAffineTransformMakeTranslation(0, -30);
             self.bottomView.transform = CGAffineTransformMakeTranslation(0, 30);
             [self.viewController setNeedsStatusBarAppearanceUpdate];
+            if (@available(iOS 11.0, *)) {
+                [self.viewController setNeedsUpdateOfHomeIndicatorAutoHidden];
+            }
             [self layoutIfNeeded];
         };
         
