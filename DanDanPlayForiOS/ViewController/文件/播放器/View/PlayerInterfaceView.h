@@ -38,6 +38,7 @@
 @property (strong, nonatomic) UIButton *playButton;
 @property (strong, nonatomic) UIButton *subTitleIndexButton;
 @property (strong, nonatomic) UIButton *screenShotButton;
+@property (strong, nonatomic) UIActivityIndicatorView *screenShotIndicatorView;
 
 @property (strong, nonatomic) UIView *gestureView;
 @property (strong, nonatomic) PlayerConfigPanelView *configPanelView;

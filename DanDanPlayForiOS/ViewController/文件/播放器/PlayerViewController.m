@@ -881,7 +881,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (void)touchScreenShotButton:(UIButton *)sender {
+    sender.alpha = 0.2;
+    [self.interfaceView.screenShotIndicatorView startAnimating];
     [self.player saveVideoSnapshotwithSize:CGSizeZero completionHandler:^(UIImage *image, NSError *error) {
+        [self.interfaceView.screenShotIndicatorView stopAnimating];
+        sender.alpha = 1;
+        
         if (error) {
             [MBProgressHUD showWithText:@"截图失败"];
         }

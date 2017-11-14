@@ -12,7 +12,7 @@
 @implementation UIBarButtonItem (Tools)
 
 - (instancetype)initWithImage:(UIImage *)image configAction:(ItemConfigAction)configAction {
-    UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
+    UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 35)];
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
     [aButton setImage:image forState:UIControlStateNormal];
 //    [aButton sizeToFit];

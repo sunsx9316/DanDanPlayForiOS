@@ -9,11 +9,12 @@
 #import "HomePageSearchFilterView.h"
 #import "JHBaseTableView.h"
 #import <WMMenuView.h>
+#import "JHFilterMenuItem.h"
 
 #define CELL_HEIGHT 44
 
-#define MENU_ITEM_IMG_TAG 1008
-#define MENU_ITEM_LINE_TAG 1009
+//#define MENU_ITEM_IMG_TAG 1008
+//#define MENU_ITEM_LINE_TAG 1009
 
 @interface HomePageSearchFilterView ()<UITableViewDataSource, UITableViewDelegate, WMMenuViewDelegate, WMMenuViewDataSource>
 @property (strong, nonatomic) WMMenuView *menuView;
@@ -84,36 +85,43 @@
 
 
 - (WMMenuItem *)menuView:(WMMenuView *)menu initialMenuItem:(WMMenuItem *)initialMenuItem atIndex:(NSInteger)index {
+    
+    JHFilterMenuItem *item = [[JHFilterMenuItem alloc] initWithItem:initialMenuItem];
+    
     NSInteger numberOfTitle = [self numbersOfTitlesInMenuView:menu];
-    UIView *lineView = [initialMenuItem viewWithTag:MENU_ITEM_LINE_TAG];
-    
-    
-    if (index != numberOfTitle - 1 && lineView == nil) {
-        lineView = [[UIView alloc] init];
-        lineView.backgroundColor = RGBCOLOR(230, 230, 230);
-        lineView.tag = MENU_ITEM_LINE_TAG;
-        [initialMenuItem addSubview:lineView];
-        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(10);
-            make.bottom.mas_offset(-10);
-            make.width.mas_equalTo(1);
-            make.right.mas_equalTo(0);
-        }];
-        
-    }
-    
-    UIImageView *imgView = [initialMenuItem viewWithTag:MENU_ITEM_IMG_TAG];
-    if (imgView == nil) {
-        imgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"filter_arrow_down"] yy_imageByTintColor:MAIN_COLOR]];
-        [initialMenuItem addSubview:imgView];
-        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(0);
-            make.left.mas_offset(20);
-        }];
-        imgView.tag = MENU_ITEM_IMG_TAG;
-    }
-    
-    return initialMenuItem;
+    item.lineView.hidden = index == numberOfTitle - 1;
+    return item;
+//    UIView *lineView = [initialMenuItem viewWithTag:MENU_ITEM_LINE_TAG];
+//
+//
+//    if (index != numberOfTitle - 1) {
+//        lineView = [[UIView alloc] init];
+//        lineView.backgroundColor = RGBCOLOR(230, 230, 230);
+//        lineView.tag = MENU_ITEM_LINE_TAG;
+//        [initialMenuItem addSubview:lineView];
+//        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_offset(10);
+//            make.bottom.mas_offset(-10);
+//            make.width.mas_equalTo(1);
+//            make.right.mas_equalTo(0);
+//        }];
+//
+//    }
+//
+//    UIImageView *imgView = [initialMenuItem viewWithTag:MENU_ITEM_IMG_TAG];
+//    if (imgView == nil) {
+//        imgView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"filter_arrow_down"] yy_imageByTintColor:MAIN_COLOR]];
+//        [initialMenuItem addSubview:imgView];
+//        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.mas_equalTo(0);
+//            make.left.mas_offset(20);
+//        }];
+//        imgView.tag = MENU_ITEM_IMG_TAG;
+//    }
+//
+//    NSLog(@"%@", initialMenuItem.text);
+//
+//    return initialMenuItem;
 }
 
 #pragma mark - WMMenuViewDelegate
@@ -130,12 +138,13 @@
         
         if (_selectedIndex != index) {
             //将原先选中的小箭头还原
-            UIImageView *originalImgView = [[menu itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
-            originalImgView.transform = CGAffineTransformIdentity;            
+//            UIImageView *originalImgView = [[menu itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
+            JHFilterMenuItem *item = (JHFilterMenuItem *)[menu itemAtIndex:_selectedIndex];
+            item.button.imageView.transform = CGAffineTransformIdentity;
         }
         
         _selectedIndex = index;
-        UIImageView *imgView = [[menu itemAtIndex:index] viewWithTag:MENU_ITEM_IMG_TAG];
+        JHFilterMenuItem *item = (JHFilterMenuItem *)[menu itemAtIndex:index];
         
         void(^layoutAction)(void) = ^{
             NSInteger numberOfSubItem = [self.dataSource numberOfSubItemAtSection:index];
@@ -146,7 +155,7 @@
             }
             
             self.tableView.frame = CGRectMake(0, 0, self.width, cellHeight * numberOfSubItem);
-            imgView.transform = CGAffineTransformMakeRotation(M_PI);
+            item.button.imageView.transform = CGAffineTransformMakeRotation(M_PI);
         };
         
         if (self.popView.superview == nil) {
@@ -222,12 +231,15 @@
 
 #pragma mark - 私有方法
 - (void)dismissPopView {
-    UIImageView *imgView = [[self.menuView itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
+    JHFilterMenuItem *item = (JHFilterMenuItem *)[self.menuView itemAtIndex:_selectedIndex];
+    
+//    UIImageView *imgView = [[self.menuView itemAtIndex:_selectedIndex] viewWithTag:MENU_ITEM_IMG_TAG];
+    
+    item.button.imageView.transform = CGAffineTransformIdentity;
     
     [UIView animateWithDuration:0.2 animations:^{
         self.bgView.alpha = 0;
         self.tableView.height = 0;
-        imgView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         [self.popView removeFromSuperview];
     }];

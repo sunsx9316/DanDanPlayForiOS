@@ -59,11 +59,7 @@
     self.likeButton.selected = _model.isFavorite;
     self.likeButton.hidden = [CacheManager shareCacheManager].user == nil;
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-       dispatch_async(dispatch_get_main_queue(), ^{
-           [self.collectionView reloadData];
-       });
-    });
+    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource

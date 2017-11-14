@@ -219,6 +219,7 @@
         [_bottomView addSubview:self.danmakuHideSwitch];
         [_bottomView addSubview:self.subTitleIndexButton];
         [_bottomView addSubview:self.screenShotButton];
+        [_bottomView addSubview:self.screenShotIndicatorView];
         
         [self.currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
@@ -257,6 +258,10 @@
         [self.screenShotButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self.subTitleIndexButton);
             make.left.equalTo(self.subTitleIndexButton.mas_right).mas_offset(10);
+        }];
+        
+        [self.screenShotIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.screenShotButton);
         }];
         
     }
@@ -379,6 +384,13 @@
         [_screenShotButton setImage:[UIImage imageNamed:@"player_screen_shot"] forState:UIControlStateNormal];
     }
     return _screenShotButton;
+}
+
+- (UIActivityIndicatorView *)screenShotIndicatorView {
+    if (_screenShotIndicatorView == nil) {
+        _screenShotIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    }
+    return _screenShotIndicatorView;
 }
 
 - (PlayerConfigPanelView *)configPanelView {

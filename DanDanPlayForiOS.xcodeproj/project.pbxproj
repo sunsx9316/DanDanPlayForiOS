@@ -16,6 +16,8 @@
 		890BEF051FA37BC300C7915D /* JHFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* JHFileTreeNode.m */; };
 		890DE4861F690CC7002B45EB /* JHLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */; };
 		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
+		891643511FBB13D500096F09 /* UINavigation+SXFixSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */; };
+		891643541FBB16FE00096F09 /* JHFilterMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643531FBB16FE00096F09 /* JHFilterMenuItem.m */; };
 		8916C7B91EA85BC900A2233D /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* MatchViewController.m */; };
 		8916C7BC1EA85DB400A2233D /* MatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* MatchTableViewCell.m */; };
 		8916C7BF1EA8958D00A2233D /* JHBaseTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BE1EA8958D00A2233D /* JHBaseTreeView.m */; };
@@ -243,6 +245,10 @@
 		890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHLinkDownloadTask.m; sourceTree = "<group>"; };
 		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
 		8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSubTitleIndexView.m; sourceTree = "<group>"; };
+		8916434F1FBB13D400096F09 /* UINavigation+SXFixSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigation+SXFixSpace.h"; sourceTree = "<group>"; };
+		891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigation+SXFixSpace.m"; sourceTree = "<group>"; };
+		891643521FBB16FE00096F09 /* JHFilterMenuItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFilterMenuItem.h; sourceTree = "<group>"; };
+		891643531FBB16FE00096F09 /* JHFilterMenuItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFilterMenuItem.m; sourceTree = "<group>"; };
 		8916C7B71EA85BC900A2233D /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
 		8916C7B81EA85BC900A2233D /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
 		8916C7BA1EA85DB400A2233D /* MatchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchTableViewCell.h; sourceTree = "<group>"; };
@@ -997,6 +1003,8 @@
 		8931CDEA1F73E10C00F05C1F /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				8916434F1FBB13D400096F09 /* UINavigation+SXFixSpace.h */,
+				891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */,
 				89B04F7C1E59C601007054CB /* GDataXMLElement+Tools.h */,
 				89B04F7D1E59C601007054CB /* GDataXMLElement+Tools.m */,
 				89E3F61A1E5855D2007AB1BD /* MBProgressHUD+Tools.h */,
@@ -1165,8 +1173,6 @@
 				89988D221F5A6620001413BE /* HomePageItemCollectionViewCell.m */,
 				89BF74D11F61419400D40F07 /* HomePageSearchTableViewCell.h */,
 				89BF74D21F61419400D40F07 /* HomePageSearchTableViewCell.m */,
-				89BF74D71F6159EA00D40F07 /* HomePageSearchFilterView.h */,
-				89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */,
 			);
 			name = View;
 			path = ..;
@@ -1448,6 +1454,10 @@
 			children = (
 				89E4B6181F9CCFF20003E610 /* HomePageSearchFilterModel.h */,
 				89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */,
+				89BF74D71F6159EA00D40F07 /* HomePageSearchFilterView.h */,
+				89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */,
+				891643521FBB16FE00096F09 /* JHFilterMenuItem.h */,
+				891643531FBB16FE00096F09 /* JHFilterMenuItem.m */,
 			);
 			path = FilterView;
 			sourceTree = "<group>";
@@ -1634,6 +1644,7 @@
 				89A42EA81EA5BB9D00FA0DF3 /* CommentNetManager.m in Sources */,
 				89EC0E5C1F2D812A004D3C12 /* HelpViewController.m in Sources */,
 				8946D52B1EB6D38800161833 /* FileManagerBaseViewCell.m in Sources */,
+				891643541FBB16FE00096F09 /* JHFilterMenuItem.m in Sources */,
 				89347AEF1F4BC7FE00914FB6 /* SMBFileManagerPickerViewController.m in Sources */,
 				89D8F8001EB0588F009329AA /* SettingViewController.m in Sources */,
 				89AE37C31F628418008D06CF /* AttentionDetailViewController.m in Sources */,
@@ -1667,6 +1678,7 @@
 				89E1EA051EAE0A1900419C78 /* PlayerShadowStyleTableViewCell.m in Sources */,
 				89A42EFB1EA5FF4400FA0DF3 /* JHBiliBiliSearchCollection.m in Sources */,
 				891E69EE1F48085700F69975 /* NSURL+Tools.m in Sources */,
+				891643511FBB13D500096F09 /* UINavigation+SXFixSpace.m in Sources */,
 				89350B181EAB125700072DA5 /* JHEdgeButton.m in Sources */,
 				89988D191F5A5D57001413BE /* HomePageViewController.m in Sources */,
 				895824111F938105000CF6D5 /* JHLinkOriginalAccountViewController.m in Sources */,

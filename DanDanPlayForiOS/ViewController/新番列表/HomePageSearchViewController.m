@@ -150,6 +150,7 @@
     }
     
     [self.tableView reloadData];
+    [self.tableView reloadEmptyDataSet];
 }
 
 #pragma mark - 私有方法
