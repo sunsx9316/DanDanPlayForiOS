@@ -434,9 +434,6 @@
 }
 
 - (void)refresh:(NSNotification *)aSender {
-    if (self.navigationController.viewControllers.count > 1) {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }
     
     if (self.tableView.mj_header.refreshingBlock) {
         self.tableView.mj_header.refreshingBlock();
