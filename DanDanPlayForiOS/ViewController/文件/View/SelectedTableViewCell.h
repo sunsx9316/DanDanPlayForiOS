@@ -1,5 +1,5 @@
 //
-//  FTPReceiceTableViewCell.h
+//  SelectedTableViewCell.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/25.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FTPReceiceTableViewCell : UITableViewCell
+@interface SelectedTableViewCell : UITableViewCell
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIImageView *iconImgView;
 @end

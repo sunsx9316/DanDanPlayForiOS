@@ -10,8 +10,9 @@
 #import <HTTPServer.h>
 #import "JHEdgeButton.h"
 #import "JHActivityEdgeLabel.h"
-#import "FTPReceiceTableViewCell.h"
+#import "JHHttpReceiveTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "JHHttpReceive.h"
 
 @interface HTTPServerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UIImageView *wifiImgView;
@@ -21,7 +22,7 @@
 @property (strong, nonatomic) UILabel *wifiNoticeLabel;
 @property (strong, nonatomic) UIView *holdView;
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray <NSString *>*receiveFiles;
+@property (strong, nonatomic) NSMutableArray <JHHttpReceive *>*receiveFiles;
 @end
 
 @implementation HTTPServerViewController
@@ -43,7 +44,11 @@
     
     self.navigationItem.title = @"WiFi传视频";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startReceiveFile:) name:START_RECEIVE_FILE_NOTICE object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(writeFileSuccess:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFileProgress:) name:RECEIVE_FILE_PROGRESS_NOTICE object:nil];
     
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -100,8 +105,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
-    cell.titleLabel.text = self.receiveFiles[indexPath.row];
+    JHHttpReceiveTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JHHttpReceiveTableViewCell" forIndexPath:indexPath];
+    JHHttpReceive *receive = self.receiveFiles[indexPath.row];
+    [self updateModel:receive cell:cell];
     return cell;
 }
 
@@ -142,33 +148,7 @@
     return success;
 }
 
-- (void)writeFileSuccess:(NSNotification *)notice {
-    NSString *path = [notice.object lastPathComponent];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (path.length) {
-            
-            NSLog(@"%@", path);
-            
-            if (self.receiveFiles.count == 0) {
-                [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.bottom.mas_equalTo(0);
-                    make.top.equalTo(self.holdView.mas_bottom);
-                    make.height.mas_equalTo(self.view).multipliedBy(0.35);
-                }];
-                
-                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                    [self.view layoutIfNeeded];
-                } completion:nil];
-            }
-            
-            [self.receiveFiles addObject:path];
-            [self.tableView insertRow:self.receiveFiles.count - 1 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-        }
-    });
-}
-
-- (void)longPresswifiNoticeLabel:(UILongPressGestureRecognizer *)gesture {
+- (void)longPressWifiNoticeLabel:(UILongPressGestureRecognizer *)gesture {
     if (gesture.state == UIGestureRecognizerStateBegan) {
         [self.ipLabel becomeFirstResponder];
         
@@ -179,6 +159,57 @@
         [menuController setTargetRect:rect inView:self.ipLabel];
         [menuController setMenuVisible:YES animated:YES];
     }
+}
+
+- (void)updateModel:(JHHttpReceive *)model cell:(JHHttpReceiveTableViewCell *)cell {
+    cell.iconImgView.hidden = model.progress < 1;
+    cell.progressView.progress = model.progress;
+    cell.titleLabel.text = model.filePath.lastPathComponent;
+}
+
+#pragma mark 通知
+- (void)startReceiveFile:(NSNotification *)aNotification {
+    JHHttpReceive *receive = aNotification.object;
+    
+    if (self.receiveFiles.count == 0) {
+        [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.mas_equalTo(0);
+            make.top.equalTo(self.holdView.mas_bottom);
+            make.height.mas_equalTo(self.view).multipliedBy(0.35);
+        }];
+        
+        [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self.view layoutIfNeeded];
+        } completion:nil];
+    }
+    
+    [self.receiveFiles addObject:receive];
+    [self.tableView insertRow:self.receiveFiles.count - 1 inSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)writeFileSuccess:(NSNotification *)notice {
+    JHHttpReceive *receive = notice.object;
+    
+    [self.receiveFiles enumerateObjectsUsingBlock:^(JHHttpReceive * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.filePath isEqualToString:receive.filePath]) {
+            JHHttpReceiveTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+            obj.progress = 1;
+            [self updateModel:obj cell:cell];
+            *stop = YES;
+        }
+    }];
+}
+
+- (void)receiveFileProgress:(NSNotification *)aNotification {
+    JHHttpReceive *receive = aNotification.object;
+    [self.receiveFiles enumerateObjectsUsingBlock:^(JHHttpReceive * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.filePath isEqualToString:receive.filePath]) {
+            JHHttpReceiveTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+            obj.progress = receive.progress;
+            [self updateModel:obj cell:cell];
+            *stop = YES;
+        }
+    }];
 }
 
 #pragma mark - 懒加载
@@ -239,7 +270,7 @@
         _ipLabel.font = BIG_SIZE_FONT;
         _ipLabel.layer.cornerRadius = (_ipLabel.font.lineHeight + 10) / 2;
         _ipLabel.userInteractionEnabled = YES;
-        [_ipLabel addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPresswifiNoticeLabel:)]];
+        [_ipLabel addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressWifiNoticeLabel:)]];
     }
     return _ipLabel;
 }
@@ -277,7 +308,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        [_tableView registerClass:[JHHttpReceiveTableViewCell class] forCellReuseIdentifier:@"JHHttpReceiveTableViewCell"];
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
         [self.view addSubview:_tableView];
@@ -285,7 +316,7 @@
     return _tableView;
 }
 
-- (NSMutableArray<NSString *> *)receiveFiles {
+- (NSMutableArray<JHHttpReceive *> *)receiveFiles {
     if (_receiveFiles == nil) {
         _receiveFiles = [NSMutableArray array];
     }
@@ -293,3 +324,4 @@
 }
 
 @end
+

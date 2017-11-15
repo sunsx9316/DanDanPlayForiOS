@@ -8,7 +8,7 @@
 
 #import "DanmakuSelectedFontViewController.h"
 #import "JHBaseTableView.h"
-#import "FTPReceiceTableViewCell.h"
+#import "SelectedTableViewCell.h"
 #import "UIFont+Tools.h"
 #import "TextHeaderView.h"
 
@@ -87,7 +87,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
+    SelectedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SelectedTableViewCell" forIndexPath:indexPath];
     
     if (indexPath.section == 0) {
         cell.titleLabel.text = @"系统字体";
@@ -128,7 +128,7 @@
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
         
-        [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        [_tableView registerClass:[SelectedTableViewCell class] forCellReuseIdentifier:@"SelectedTableViewCell"];
         [_tableView registerClass:[TextHeaderView class] forHeaderFooterViewReuseIdentifier:@"TextHeaderView"];
         
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;

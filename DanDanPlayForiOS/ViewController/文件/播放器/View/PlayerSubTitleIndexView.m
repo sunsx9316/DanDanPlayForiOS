@@ -9,7 +9,7 @@
 #import "PlayerSubTitleIndexView.h"
 #import "JHBlurView.h"
 #import "JHBaseTableView.h"
-#import "FTPReceiceTableViewCell.h"
+#import "SelectedTableViewCell.h"
 
 @interface PlayerSubTitleIndexView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) JHBlurView *contentView;
@@ -81,7 +81,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
+    SelectedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SelectedTableViewCell" forIndexPath:indexPath];
     cell.titleLabel.textColor = [UIColor whiteColor];
     if (indexPath.section == 0) {
         cell.titleLabel.text = @"选择字幕...";
@@ -177,7 +177,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        [_tableView registerClass:[SelectedTableViewCell class] forCellReuseIdentifier:@"SelectedTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.estimatedRowHeight = 44;
         _tableView.rowHeight = UITableViewAutomaticDimension;

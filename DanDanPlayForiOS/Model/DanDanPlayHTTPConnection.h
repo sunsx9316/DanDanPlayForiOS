@@ -3,11 +3,6 @@
 
 @class MultipartFormDataParser;
 
-@interface DanDanPlayHTTPConnection : HTTPConnection  {
-    MultipartFormDataParser*        parser;
-	NSFileHandle*					storeFile;
-	
-//	NSMutableArray*					uploadedFiles;
-}
+@interface DanDanPlayHTTPConnection : HTTPConnection
 
 @end

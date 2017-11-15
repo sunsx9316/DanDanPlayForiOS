@@ -9,6 +9,7 @@
 #import "MultipartMessageHeaderField.h"
 #import "HTTPDynamicFileResponse.h"
 #import "HTTPFileResponse.h"
+#import "JHHttpReceive.h"
 
 #define UPLOAD_PATH @"/upload"
 
@@ -24,26 +25,29 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 @implementation DanDanPlayHTTPConnection
 {
     NSString *_writePath;
+    MultipartFormDataParser *_parser;
+    NSFileHandle *_storeFile;
+    uint64_t _contentLength;
 }
 
 - (BOOL)supportsMethod:(NSString *)method atPath:(NSString *)path {
-	HTTPLogTrace();
-	
-	// Add support for POST
-	
-	if ([method isEqualToString:@"POST"]) {
-			return YES;
-	}
-	
-	return [super supportsMethod:method atPath:path];
+    HTTPLogTrace();
+    
+    // Add support for POST
+    
+    if ([method isEqualToString:@"POST"]) {
+        return YES;
+    }
+    
+    return [super supportsMethod:method atPath:path];
 }
 
 - (BOOL)expectsRequestBodyFromMethod:(NSString *)method atPath:(NSString *)path {
-	HTTPLogTrace();
-	
-	// Inform HTTP server that we expect a body to accompany a POST request
-	
-	if([method isEqualToString:@"POST"] && [path isEqualToString:UPLOAD_PATH]) {
+    HTTPLogTrace();
+    
+    // Inform HTTP server that we expect a body to accompany a POST request
+    
+    if([method isEqualToString:@"POST"] && [path isEqualToString:UPLOAD_PATH]) {
         // here we need to make sure, boundary is set in header
         NSString* contentType = [request headerField:@"Content-Type"];
         NSUInteger paramsSeparator = [contentType rangeOfString:@";"].location;
@@ -58,8 +62,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
             // we expect multipart/form-data content type
             return NO;
         }
-
-		// enumerate all params in content-type, and find boundary there
+        
+        // enumerate all params in content-type, and find boundary there
         NSArray* params = [[contentType substringFromIndex:paramsSeparator + 1] componentsSeparatedByString:@";"];
         for(NSString* param in params) {
             paramsSeparator = [param rangeOfString:@"="].location;
@@ -80,15 +84,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
         }
         return YES;
     }
-	return [super expectsRequestBodyFromMethod:method atPath:path];
+    return [super expectsRequestBodyFromMethod:method atPath:path];
 }
 
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path {
-	HTTPLogTrace();
-	
-	if ([method isEqualToString:@"POST"] && [path isEqualToString:UPLOAD_PATH]) {
+    HTTPLogTrace();
+    
+    if ([method isEqualToString:@"POST"] && [path isEqualToString:UPLOAD_PATH]) {
         return [[HTTPDataResponse alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
-	}
+    }
     
     if( [method isEqualToString:@"GET"]) {
         
@@ -96,26 +100,26 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
             return [[HTTPDataResponse alloc] initWithData:[[[UIApplication sharedApplication] appVersion]  dataUsingEncoding:NSUTF8StringEncoding]];
         }
     }
-	
-	return [super httpResponseForMethod:method URI:path];
+    
+    return [super httpResponseForMethod:method URI:path];
 }
 
 - (void)prepareForBodyWithSize:(UInt64)contentLength {
-	HTTPLogTrace();
-	
-	// set up mime parser
+    HTTPLogTrace();
+    
+    // set up mime parser
     NSString* boundary = [request headerField:@"boundary"];
-    parser = [[MultipartFormDataParser alloc] initWithBoundary:boundary formEncoding:NSUTF8StringEncoding];
-    parser.delegate = self;
-
-//	uploadedFiles = [[NSMutableArray alloc] init];
+    _parser = [[MultipartFormDataParser alloc] initWithBoundary:boundary formEncoding:NSUTF8StringEncoding];
+    _parser.delegate = self;
+    _contentLength = contentLength;
+    //    uploadedFiles = [[NSMutableArray alloc] init];
 }
 
 - (void)processBodyData:(NSData *)postDataChunk {
-	HTTPLogTrace();
+    HTTPLogTrace();
     // append data to the parser. It will invoke callbacks to let us handle
     // parsed data.
-    [parser appendData:postDataChunk];
+    [_parser appendData:postDataChunk];
 }
 
 
@@ -124,73 +128,86 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
 
 
 - (void)processStartOfPartWithHeader:(MultipartMessageHeader*)header {
-	// in this sample, we are not interested in parts, other then file parts.
-	// check content disposition to find out filename
-
-    MultipartMessageHeaderField* disposition = [header.fields objectForKey:@"Content-Disposition"];
-	NSString* filename = [[disposition.params objectForKey:@"filename"] lastPathComponent];
-
-    if ( (nil == filename) || [filename isEqualToString: @""]) {
-        // it's either not a file part, or
-		// an empty form sent. we won't handle it.
-		return;
-	}
+    // in this sample, we are not interested in parts, other then file parts.
+    // check content disposition to find out filename
     
-//	NSString* uploadDirPath = [[config documentRoot] stringByAppendingPathComponent:@"upload"];
+    MultipartMessageHeaderField* disposition = [header.fields objectForKey:@"Content-Disposition"];
+    NSString* filename = [[disposition.params objectForKey:@"filename"] lastPathComponent];
+    
+    if ((nil == filename) || [filename isEqualToString: @""]) {
+        // it's either not a file part, or
+        // an empty form sent. we won't handle it.
+        return;
+    }
+    
+    //    NSString* uploadDirPath = [[config documentRoot] stringByAppendingPathComponent:@"upload"];
     NSString* uploadDirPath = [[UIApplication sharedApplication] documentsPath];
-
-	BOOL isDir = YES;
-	if (![[NSFileManager defaultManager] fileExistsAtPath:uploadDirPath isDirectory:&isDir ]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	
+    
+    BOOL isDir = YES;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:uploadDirPath isDirectory:&isDir ]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
     NSString* filePath = [uploadDirPath stringByAppendingPathComponent:filename];
     if( [[NSFileManager defaultManager] fileExistsAtPath:filePath] ) {
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-//        storeFile = nil;
-//        _writePath = nil;
+        //        storeFile = nil;
+        //        _writePath = nil;
     }
     
-		HTTPLogVerbose(@"Saving file to %@", filePath);
-		if(![[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:true attributes:nil error:nil]) {
-			HTTPLogError(@"Could not create directory at path: %@", filePath);
-		}
-        
-		if(![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil]) {
-			HTTPLogError(@"Could not create file at path: %@", filePath);
-		}
-        _writePath = filePath;
-		storeFile = [NSFileHandle fileHandleForWritingAtPath:filePath];
-//		[uploadedFiles addObject: [NSString stringWithFormat:@"/upload/%@", filename]];
+    HTTPLogVerbose(@"Saving file to %@", filePath);
+    if(![[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:true attributes:nil error:nil]) {
+        HTTPLogError(@"Could not create directory at path: %@", filePath);
+    }
+    
+    if(![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil]) {
+        HTTPLogError(@"Could not create file at path: %@", filePath);
+    }
+    _writePath = filePath;
+    _storeFile = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    
+    JHHttpReceive *receive = [[JHHttpReceive alloc] init];
+    receive.filePath = _writePath;
+    //开始接收
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:START_RECEIVE_FILE_NOTICE object:receive];
+    });
+    //        [uploadedFiles addObject: [NSString stringWithFormat:@"/upload/%@", filename]];
 }
 
 
 - (void)processContent:(NSData *)data WithHeader:(MultipartMessageHeader*)header {
-	// here we just write the output from parser to the file.
-	if(storeFile) {
-		[storeFile writeData:data];
-	}
+    // here we just write the output from parser to the file.
+    //写入内存
+    if(_storeFile) {
+        [_storeFile writeData:data];
+    }
+    
+    JHHttpReceive *receive = [[JHHttpReceive alloc] init];
+    receive.progress = _storeFile.offsetInFile * 1.0 / _contentLength;
+    receive.filePath = _writePath;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVE_FILE_PROGRESS_NOTICE object:receive];
+    });
 }
 
 - (void)processEndOfPartWithHeader:(MultipartMessageHeader*)header {
-	// as the file part is over, we close the file.
-	[storeFile closeFile];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:WRITE_FILE_SUCCESS_NOTICE object:_writePath]; 
-    });
-	storeFile = nil;
+    // as the file part is over, we close the file.
+    
+    JHHttpReceive *receive = [[JHHttpReceive alloc] init];
+    receive.progress = 1;
+    receive.filePath = _writePath;
+    
+    [_storeFile closeFile];
+    _storeFile = nil;
     _writePath = nil;
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:WRITE_FILE_SUCCESS_NOTICE object:receive];
+    });
 }
 
-- (void)processPreambleData:(NSData*)data {
-    // if we are interested in preamble data, we could process it here.
-
-}
-
-- (void)processEpilogueData:(NSData*)data {
-    // if we are interested in epilogue data, we could process it here.
-    
-}
 
 @end
+

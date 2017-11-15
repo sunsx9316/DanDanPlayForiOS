@@ -10,7 +10,7 @@
 //#import "PickerFileViewController.h"
 
 #import "PlayerControlHeaderView.h"
-#import "FTPReceiceTableViewCell.h"
+#import "SelectedTableViewCell.h"
 #import "PlayerSliderTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "JHMediaPlayer.h"
@@ -58,7 +58,7 @@
         return cell;
     }
     
-    FTPReceiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FTPReceiceTableViewCell" forIndexPath:indexPath];
+    SelectedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SelectedTableViewCell" forIndexPath:indexPath];
     if (cell.isFromCache == NO) {
         cell.titleLabel.textColor = [UIColor whiteColor];
         cell.fromCache = YES;
@@ -125,7 +125,7 @@
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
-        [_tableView registerClass:[FTPReceiceTableViewCell class] forCellReuseIdentifier:@"FTPReceiceTableViewCell"];
+        [_tableView registerClass:[SelectedTableViewCell class] forCellReuseIdentifier:@"SelectedTableViewCell"];
         [_tableView registerClass:[PlayerSliderTableViewCell class] forCellReuseIdentifier:@"PlayerSliderTableViewCell"];
         [_tableView registerClass:[PlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"PlayerControlHeaderView"];
         [self addSubview:_tableView];

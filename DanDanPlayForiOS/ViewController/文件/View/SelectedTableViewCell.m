@@ -1,14 +1,14 @@
 //
-//  FTPReceiceTableViewCell.m
+//  SelectedTableViewCell.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/4/25.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "FTPReceiceTableViewCell.h"
+#import "SelectedTableViewCell.h"
 
-@implementation FTPReceiceTableViewCell
+@implementation SelectedTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {

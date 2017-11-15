@@ -65,6 +65,8 @@
 
 //通知文件列表刷新
 #define COPY_FILE_AT_OTHER_APP_SUCCESS_NOTICE @"copy_file_at_other_app_success"
+#define START_RECEIVE_FILE_NOTICE @"start_receive_file"
+#define RECEIVE_FILE_PROGRESS_NOTICE @"receive_file_progress"
 #define WRITE_FILE_SUCCESS_NOTICE @"write_file_success"
 #define ATTENTION_SUCCESS_NOTICE @"attention_success"
 #define ATTENTION_KEY @"attention"
