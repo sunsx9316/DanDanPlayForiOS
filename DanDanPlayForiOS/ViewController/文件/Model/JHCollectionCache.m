@@ -12,7 +12,7 @@
 @implementation JHCollectionCache
 
 - (NSUInteger)hash {
-    return self.cacheType | self.fileURL.hash;
+    return self.cacheType | self.filePath.hash;
 }
 
 - (BOOL)isEqual:(JHCollectionCache *)object {
@@ -20,7 +20,7 @@
         return NO;
     }
     
-    return self.cacheType == object.cacheType && [self.fileURL.absoluteString isEqualToString:object.fileURL.absoluteString];
+    return self.cacheType == object.cacheType && [self.filePath isEqualToString:object.filePath];
 }
 
 @end

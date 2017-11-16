@@ -195,7 +195,7 @@
 
             NSString *relativePath = [file.fileURL relativePathWithBaseURL:[UIApplication sharedApplication].documentsURL];
             if (relativePath.length) {
-                cache.fileURL = [NSURL URLWithString:relativePath];
+                cache.filePath = relativePath;
                 cache.name = file.videoModel.fileNameWithPathExtension;
                 cache.cacheType = JHCollectionCacheTypeLocal;
                 NSError *error = [[CacheManager shareCacheManager] addCollectionCache:cache];

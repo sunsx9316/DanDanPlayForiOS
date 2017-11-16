@@ -25,6 +25,7 @@
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
     [aButton setTitle:title forState:UIControlStateNormal];
     [aButton sizeToFit];
+    aButton.width += 30;
     if (configAction) configAction(aButton);
     
     return [self initWithCustomView:aButton];

@@ -29,5 +29,5 @@ CG_INLINE NSString *JHCollectionCacheTypeStringValue(JHCollectionCacheType type)
 
 @interface JHCollectionCache : JHBase
 @property (assign, nonatomic) JHCollectionCacheType cacheType;
-@property (strong, nonatomic) NSURL *fileURL;
+@property (strong, nonatomic) NSString *filePath;
 @end

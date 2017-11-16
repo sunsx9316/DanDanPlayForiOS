@@ -378,7 +378,12 @@
     else {
         JHCollectionCache *cache = [CacheManager shareCacheManager].collectionList[indexPath.row];
         if (cache.cacheType == JHCollectionCacheTypeLocal) {
-            JHFile *file = [[JHFile alloc] initWithFileURL:[[UIApplication sharedApplication].documentsURL URLByAppendingPathComponent:cache.fileURL.absoluteString] type:JHFileTypeFolder];
+            NSString *path = cache.filePath;
+            if (path.length == 0) return;
+            
+            NSURL *aURL = [NSURL fileURLWithPath:[[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:path]];
+            
+            JHFile *file = [[JHFile alloc] initWithFileURL:aURL type:JHFileTypeFolder];
 
             [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:file type:PickerFileTypeAll completion:^(JHFile *aFile) {
                 if (aFile == nil) {
