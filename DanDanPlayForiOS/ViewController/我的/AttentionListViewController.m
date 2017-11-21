@@ -73,37 +73,44 @@
     
     NSInteger index = indexPath.row;
     JHFavorite *model = self.modelDic[_sectionIndexTitles[indexPath.section]][indexPath.row];
-    
-    [MBProgressHUD showLoadingInView:self.view text:nil];
-    [FavoriteNetManager favoriteLikeWithUser:[CacheManager shareCacheManager].user animeId:model.identity like:NO completionHandler:^(NSError *error) {
-        [MBProgressHUD hideLoading];
-        
-        if (error) {
-            [MBProgressHUD showWithError:error atView:self.view];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ATTENTION_SUCCESS_NOTICE object:@(model.identity) userInfo:@{ATTENTION_KEY : @(NO)}];
+
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:    [NSString stringWithFormat:@"是否取消关注%@", model.name] message:@"操作不可恢复" preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [MBProgressHUD showLoadingInView:self.view text:nil];
+        [FavoriteNetManager favoriteLikeWithUser:[CacheManager shareCacheManager].user animeId:model.identity like:NO completionHandler:^(NSError *error) {
+            [MBProgressHUD hideLoading];
             
-            NSString *title = _sectionIndexTitles[indexPath.section];
-            NSMutableArray *arr = self.modelDic[title];
-            [arr removeObjectAtIndex:index];
-            
-            [self.responseObject.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(__kindof JHBase * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (obj.identity == model.identity) {
-                    [self.responseObject.collection removeObjectAtIndex:idx];
-                }
-            }];
-            
-            if (arr.count == 0) {
-                [self.sectionIndexTitles removeObject:title];
-                [tableView deleteSection:indexPath.section withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (error) {
+                [MBProgressHUD showWithError:error atView:self.view];
             }
             else {
-                [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ATTENTION_SUCCESS_NOTICE object:@(model.identity) userInfo:@{ATTENTION_KEY : @(NO)}];
+                
+                NSString *title = _sectionIndexTitles[indexPath.section];
+                NSMutableArray *arr = self.modelDic[title];
+                [arr removeObjectAtIndex:index];
+                
+                [self.responseObject.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(__kindof JHBase * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (obj.identity == model.identity) {
+                        [self.responseObject.collection removeObjectAtIndex:idx];
+                    }
+                }];
+                
+                if (arr.count == 0) {
+                    [self.sectionIndexTitles removeObject:title];
+                    [tableView deleteSection:indexPath.section withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+                else {
+                    [tableView deleteRowAtIndexPath:indexPath withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+                [self.tableView reloadEmptyDataSet];
             }
-            [self.tableView reloadEmptyDataSet];
-        }
-    }];
+        }];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (nullable NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -266,9 +273,9 @@
                 }
                 else {
                     self.responseObject = responseObject;
+                    [self.filterView reloadData];
                     [self userfilterDataSource];
                     self.filterView.hidden = NO;
-                    [self.filterView reloadData];
                     [self.tableView reloadData];
                 }
                 

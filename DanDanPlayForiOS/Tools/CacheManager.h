@@ -41,7 +41,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 //缓存所有弹幕的标识
 #define CACHE_ALL_DANMAKU_FLAG 9999
 
-@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask, JHMediaPlayer, JHCollectionCache;
+@class JHUser, JHFile, TOSMBSessionFile, TOSMBSessionDownloadTask, JHMediaPlayer, JHCollectionCache, JHSMBFileHashCache;
 
 @protocol CacheManagerDelagate <NSObject>
 @optional

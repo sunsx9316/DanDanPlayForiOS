@@ -269,22 +269,20 @@
         //写入图片到相册
         [PHAssetChangeRequest creationRequestForAssetFromImage:image];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) {
                 if (self.snapshotCompleteBlock) {
                     self.snapshotCompleteBlock(image, nil);
                     self.snapshotCompleteBlock = nil;
                 }
-            });
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            }
+            else {
                 if (self.snapshotCompleteBlock) {
                     self.snapshotCompleteBlock(nil, error);
                     self.snapshotCompleteBlock = nil;
                 }
-            });
-        }
+            }
+        });
     }];
 }
 

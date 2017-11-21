@@ -12,7 +12,7 @@
 #import "UIApplication+Tools.h"
 #import "JHQRHelpViewController.h"
 
-#define SCANNER_SIZE (self.view.width * 0.7)
+#define SCANNER_SIZE (MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) * 0.7)
 
 @interface QRScanerViewController ()
 @property (strong, nonatomic) JHQRCodeReader *QRCodeReader;
@@ -28,6 +28,17 @@
     [self setNavigationBarWithColor:[UIColor clearColor]];
 }
 
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [self.QRCodeReader stopScanning];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.QRCodeReader startScanning];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -41,7 +52,7 @@
     }];
     
     [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_offset(-20);
+        make.bottom.mas_offset(-15);
         make.centerX.mas_equalTo(0);
     }];
     
@@ -72,6 +83,7 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.QRCodeReader.previewLayer.frame = self.view.bounds;
+    [self addQRLayer];
 }
 
 - (void)dealloc {
@@ -189,6 +201,41 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)addQRLayer {
+    [self.maskView.layer removeAllSublayers];
+    
+    CAShapeLayer* cropLayer = [[CAShapeLayer alloc] init];
+    [self.maskView.layer addSublayer:cropLayer];
+    
+    // 创建一个绘制路径
+    CGMutablePathRef path = CGPathCreateMutable();
+    // 空心矩形的rect
+    float width = SCANNER_SIZE;
+    CGRect cropRect = CGRectMake((self.view.width - width) / 2, (self.view.height - width) / 2, width, width);
+    CGPathAddRect(path, nil, self.view.bounds);
+    CGPathAddRect(path, nil, cropRect);
+    cropLayer.fillRule = kCAFillRuleEvenOdd;
+    cropLayer.path = path;
+    cropLayer.fillColor = RGBACOLOR(0, 0, 0, 0.6).CGColor;
+    CGPathRelease(path);
+    
+    
+    //绘制虚线
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.frame = cropRect;
+    shapeLayer.fillColor = [UIColor clearColor].CGColor;
+    shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
+    shapeLayer.lineWidth = 2;
+    shapeLayer.lineJoin = kCALineJoinRound;
+    //设置线宽，线间距
+    [shapeLayer setLineDashPattern:@[@14, @7]];
+    
+    UIBezierPath *linkPath = [UIBezierPath bezierPathWithRoundedRect:(CGRect){-1, -1, CGSizeMake(cropRect.size.width + 2, cropRect.size.height + 2)} cornerRadius:6];
+    [shapeLayer setPath:linkPath.CGPath];
+    
+    [self.maskView.layer addSublayer:shapeLayer];
+}
+
 #pragma mark - 懒加载
 
 - (JHQRCodeReader *)QRCodeReader {
@@ -210,36 +257,6 @@
 - (UIView *)maskView {
     if (_maskView == nil) {
         _maskView = [[UIView alloc] initWithFrame:self.view.bounds];
-        
-        CAShapeLayer* cropLayer = [[CAShapeLayer alloc] init];
-        [_maskView.layer addSublayer:cropLayer];
-        
-        // 创建一个绘制路径
-        CGMutablePathRef path = CGPathCreateMutable();
-        // 空心矩形的rect
-        float width = SCANNER_SIZE;
-        CGRect cropRect = CGRectMake((self.view.width - width) / 2, (self.view.height - width) / 2, width, width);
-        CGPathAddRect(path, nil, self.view.bounds);
-        CGPathAddRect(path, nil, cropRect);
-        cropLayer.fillRule = kCAFillRuleEvenOdd;
-        cropLayer.path = path;
-        cropLayer.fillColor = RGBACOLOR(0, 0, 0, 0.6).CGColor;
-        CGPathRelease(path);
-        
-        //绘制虚线
-        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-        shapeLayer.frame = cropRect;
-        shapeLayer.fillColor = [UIColor clearColor].CGColor;
-        shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
-        shapeLayer.lineWidth = 2;
-        shapeLayer.lineJoin = kCALineJoinRound;
-        //设置线宽，线间距
-        [shapeLayer setLineDashPattern:@[@14, @7]];
-        
-        UIBezierPath *linkPath = [UIBezierPath bezierPathWithRoundedRect:(CGRect){-1, -1, CGSizeMake(cropRect.size.width + 2, cropRect.size.height + 2)} cornerRadius:6];
-        [shapeLayer setPath:linkPath.CGPath];
-        
-        [_maskView.layer addSublayer:shapeLayer];
         [self.view addSubview:_maskView];
     }
     return _maskView;

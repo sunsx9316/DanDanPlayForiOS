@@ -79,6 +79,7 @@
             cell.fromCache = YES;
         }
         cell.model = file;
+        
         return cell;
     }
     
@@ -109,15 +110,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    JHSMBFile *file = _file.subFiles[indexPath.row];
-    if (file.type == JHFileTypeDocument) {
-        return [tableView fd_heightForCellWithIdentifier:@"FileManagerVideoTableViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerVideoTableViewCell *cell) {
-            cell.model = file;
-        }];
-//        return 60 + 30 * jh_isPad();
-    }
-//    return 70 + 30 * jh_isPad();
     return UITableViewAutomaticDimension;
 }
 
@@ -181,6 +173,9 @@
                 }];
             }
         }
+        else {
+            [MBProgressHUD showWithText:@"视频格式不正确！"];
+        }
     }
 }
 
@@ -206,12 +201,17 @@
             model.danmakus = responseObject;
             [aHUD hideAnimated:NO];
             
-            if (responseObject == nil) {
-                jumpToMatchVCAction();
+            if (error) {
+                [MBProgressHUD showWithError:error];
             }
             else {
-                PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:model];
-                [self presentViewController:nav animated:YES completion:nil];
+                if (responseObject == nil) {
+                    jumpToMatchVCAction();
+                }
+                else {
+                    PlayNavigationController *nav = [[PlayNavigationController alloc] initWithModel:model];
+                    [self presentViewController:nav animated:YES completion:nil];
+                }
             }
         }];
     }

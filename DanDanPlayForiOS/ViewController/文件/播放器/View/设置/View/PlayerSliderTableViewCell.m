@@ -67,7 +67,7 @@
         {
             NSInteger value = sender.value;
             
-            if (value > 99) {
+            if (value == sender.maximumValue) {
                 self.currentValueLabel.text = @"∞";
             }
             else {
@@ -109,7 +109,7 @@
     }
     else if (_type == PlayerSliderTableViewCellTypeDanmakuLimit) {
         NSInteger value = sender.value;
-        if (value > 99) {
+        if (value == sender.maximumValue) {
             [CacheManager shareCacheManager].danmakuLimitCount = 0;
         }
         else {
@@ -159,11 +159,18 @@
     }
     else if (_type == PlayerSliderTableViewCellTypeDanmakuLimit) {
         self.currentValueLabel.textColor = [UIColor whiteColor];
-        self.slider.value = [CacheManager shareCacheManager].danmakuLimitCount;
         self.slider.minimumValue = 1;
         self.slider.maximumValue = 100;
+        NSInteger danmakuLimitCount = [CacheManager shareCacheManager].danmakuLimitCount;
+        self.slider.value = danmakuLimitCount == 0 ? self.slider.maximumValue : danmakuLimitCount;
         self.totalValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.maximumValue];
-        self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+        
+        if (self.slider.value == self.slider.maximumValue) {
+            self.currentValueLabel.text = @"∞";
+        }
+        else {
+            self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (NSInteger)self.slider.value];
+        }
     }
 }
 

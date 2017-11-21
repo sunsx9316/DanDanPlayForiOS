@@ -10,6 +10,7 @@
 #import "UIFont+Tools.h"
 #import <TOSMBSessionFile.h>
 #import <TOSMBSessionDownloadTaskPrivate.h>
+#import "JHSMBFileHashCache.h"
 
 static NSString *const userSaveKey = @"login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
@@ -535,11 +536,28 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 #pragma mark -
 - (void)saveSMBFileHashWithHash:(NSString *)hash file:(TOSMBSessionFile *)file {
     if (file == nil) return;
-    [self.smbFileHashCache setObject:hash forKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
+    JHSMBFileHashCache *cache = [[JHSMBFileHashCache alloc] init];
+    cache.md5 = hash;
+    cache.date = [NSDate date];
+    
+    [self.smbFileHashCache setObject:cache forKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
 }
 
 - (NSString *)SMBFileHash:(TOSMBSessionFile *)file {
-    return (NSString *)[self.smbFileHashCache objectForKey:[NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize]];
+    NSString *key = [NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize];
+    JHSMBFileHashCache *cache = (JHSMBFileHashCache *)[self.smbFileHashCache objectForKey:key];
+    //兼容旧数据
+    if ([cache isKindOfClass:[JHSMBFileHashCache class]] == NO) {
+        [self.smbFileHashCache setObject:nil forKey:key];
+        return nil;
+    }
+    //缓存过期
+    else if(fabs([[NSDate date] timeIntervalSinceDate:cache.date]) > 7 * 24 * 3600) {
+        [self.smbFileHashCache setObject:nil forKey:key];
+        return nil;
+    }
+    
+    return cache.md5;
 }
 
 #pragma mark -

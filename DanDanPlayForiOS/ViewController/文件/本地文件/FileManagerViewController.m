@@ -400,7 +400,7 @@
             MatchViewController *vc = [[MatchViewController alloc] init];
             vc.model = model;
             vc.hidesBottomBarWhenPushed = YES;
-            [self.parentViewController.navigationController pushViewController:vc animated:YES];
+            [self.navigationController pushViewController:vc animated:YES];
         };
         
         if ([CacheManager shareCacheManager].openFastMatch) {
@@ -411,6 +411,11 @@
             } completionHandler:^(JHDanmakuCollection *responseObject, NSError *error) {
                 model.danmakus = responseObject;
                 [aHUD hideAnimated:NO];
+                
+                if (error) {
+                    [MBProgressHUD showWithError:error];
+                    return;
+                }
                 
                 if (responseObject == nil) {
                     jumpToMatchVCAction();

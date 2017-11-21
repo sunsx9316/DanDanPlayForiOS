@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 //x自动隐藏底下的指示条
 - (BOOL)prefersHomeIndicatorAutoHidden {
-    return !self.interfaceView.isShow;
+    return !_interfaceView.isShow;
 }
 
 - (void)viewDidLoad {
@@ -625,6 +625,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     else {
         self->_danmakuDic = [DanmakuManager parseLocalDanmakuWithSource:DanDanPlayDanmakuTypeBiliBili obj:danmaku];
         self.danmakuEngine.currentTime = self.player.currentTime;
+        __block NSUInteger danmakuCount = 0;
+        [self->_danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
+            danmakuCount += obj.count;
+        }];
+        [MBProgressHUD showWithText:[NSString stringWithFormat:@"加载弹幕成功 共%ld条", danmakuCount]];
     }
 }
 
@@ -751,6 +756,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [_queue cancelAllOperations];
     
     //主线程先分析一部分弹幕
+    
     for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
         NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
         //已经分析过
@@ -765,18 +771,26 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     //子线程继续分析
     
-    [_queue addOperationWithBlock:^{
+    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+    @weakify(op)
+    [op addExecutionBlock:^{
+        @strongify(op)
+        if (!self || !op || op.isCancelled) return;
+        
+        
         for (NSInteger i = time + PARSE_TIME; i <= maxTime; ++i) {
             NSMutableArray<JHBaseDanmaku *>* arr = _danmakuDic[@(i)];
             //已经分析过
-            if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == _danmakuParseFlag) continue;
+            if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == self->_danmakuParseFlag) continue;
             
             [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 [self setDanmakuFilter:obj filter:[DanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
             }];
-            [arr setAssociateValue:@(_danmakuParseFlag) withKey:_cmd];
+            [arr setAssociateValue:@(self->_danmakuParseFlag) withKey:_cmd];
         }
     }];
+    
+    [_queue addOperation:op];
     
 }
 

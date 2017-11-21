@@ -14,6 +14,7 @@
 		890BEEFE1FA3738900C7915D /* JHFileSectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEEFD1FA3738900C7915D /* JHFileSectionTableViewCell.m */; };
 		890BEF011FA3752400C7915D /* JHFileLargeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */; };
 		890BEF051FA37BC300C7915D /* JHFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* JHFileTreeNode.m */; };
+		890D9B701FC4677900E34275 /* JHSMBFileHashCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D9B6F1FC4677900E34275 /* JHSMBFileHashCache.m */; };
 		890DE4861F690CC7002B45EB /* JHLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */; };
 		8913D7E01ECC559200B7975D /* PlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D7DF1ECC559200B7975D /* PlayerSubTitleIndexView.m */; };
 		891643511FBB13D500096F09 /* UINavigation+SXFixSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */; };
@@ -243,6 +244,8 @@
 		890BEF001FA3752400C7915D /* JHFileLargeTitleTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileLargeTitleTableViewCell.m; sourceTree = "<group>"; };
 		890BEF031FA37BC300C7915D /* JHFileTreeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHFileTreeNode.h; sourceTree = "<group>"; };
 		890BEF041FA37BC300C7915D /* JHFileTreeNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHFileTreeNode.m; sourceTree = "<group>"; };
+		890D9B6E1FC4677900E34275 /* JHSMBFileHashCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHSMBFileHashCache.h; sourceTree = "<group>"; };
+		890D9B6F1FC4677900E34275 /* JHSMBFileHashCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHSMBFileHashCache.m; sourceTree = "<group>"; };
 		890DE4841F690CC7002B45EB /* JHLinkDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLinkDownloadTask.h; sourceTree = "<group>"; };
 		890DE4851F690CC7002B45EB /* JHLinkDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHLinkDownloadTask.m; sourceTree = "<group>"; };
 		8913D7DE1ECC559200B7975D /* PlayerSubTitleIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSubTitleIndexView.h; sourceTree = "<group>"; };
@@ -1455,6 +1458,8 @@
 				89EF59CF1F92378D002BDC15 /* JHRegisterResponse.m */,
 				8903725C1F94EB7C0029C47B /* JHPofileResponse.h */,
 				8903725D1F94EB7C0029C47B /* JHPofileResponse.m */,
+				890D9B6E1FC4677900E34275 /* JHSMBFileHashCache.h */,
+				890D9B6F1FC4677900E34275 /* JHSMBFileHashCache.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1696,6 +1701,7 @@
 				8916C7CD1EA8DC2C00A2233D /* SearchAnimeTitleTableViewCell.m in Sources */,
 				898AD23C1F579B6D0040B7C4 /* DanmakuFilterTableViewCell.m in Sources */,
 				89AE37B41F6262BD008D06CF /* AttentionListViewController.m in Sources */,
+				890D9B701FC4677900E34275 /* JHSMBFileHashCache.m in Sources */,
 				89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */,
 				89A467941F162C31001840C7 /* FileViewController.m in Sources */,
 				8903725E1F94EB7C0029C47B /* JHPofileResponse.m in Sources */,

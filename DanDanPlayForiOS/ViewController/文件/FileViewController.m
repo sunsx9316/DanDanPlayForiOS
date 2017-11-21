@@ -330,6 +330,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
         JHFileTreeNode *item = self.dataSources[indexPath.section].subItems[indexPath.row];
         

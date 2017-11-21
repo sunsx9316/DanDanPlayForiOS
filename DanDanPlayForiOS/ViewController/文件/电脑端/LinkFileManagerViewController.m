@@ -120,7 +120,7 @@
             MatchViewController *vc = [[MatchViewController alloc] init];
             vc.model = model;
             vc.hidesBottomBarWhenPushed = YES;
-            [self.parentViewController.navigationController pushViewController:vc animated:YES];
+            [self.navigationController pushViewController:vc animated:YES];
         };
         
         if ([CacheManager shareCacheManager].openFastMatch) {

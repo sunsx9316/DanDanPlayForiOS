@@ -188,15 +188,21 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 }
 
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url {
-    NSArray *danmakuTypes = jh_danmakuTypes();
-    NSURL *aURL = [url URLByDeletingPathExtension];
+//    NSArray *danmakuTypes = jh_danmakuTypes();
+//    NSURL *aURL = [url URLByDeletingLastPathComponent];
+    
+    NSString *fileName = [url.lastPathComponent stringByDeletingPathExtension];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:[url URLByDeletingLastPathComponent] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
     NSMutableArray *subTitleFiles = [NSMutableArray array];
-    [danmakuTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSURL *tempURL = [aURL URLByAppendingPathExtension:obj];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:tempURL.path]) {
-            [subTitleFiles addObject:tempURL];
+    
+    for (NSURL *aURL in childFilesEnumerator) {
+        NSString *tempFileName = [aURL.lastPathComponent stringByDeletingPathExtension];
+        if (jh_isDanmakuFile(aURL.absoluteString) && [tempFileName isEqualToString:fileName]) {
+            [subTitleFiles addObject:aURL];
         }
-    }];
+    }
+    
     return subTitleFiles;
 }
 
