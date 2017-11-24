@@ -57,7 +57,7 @@
     
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.md5, @"EpisodeId" : @(model.identity)};
     
-    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
         completionHandler(model.error);
     }];
 }

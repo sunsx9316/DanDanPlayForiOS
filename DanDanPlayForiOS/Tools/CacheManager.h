@@ -35,6 +35,12 @@ typedef NS_ENUM(NSUInteger, CollectionCacheDidChangeType) {
     CollectionCacheDidChangeTypeRemove,
 };
 
+typedef NS_ENUM(NSUInteger, UserLoginInTouchIdType) {
+    UserLoginInTouchIdTypeInit,
+    UserLoginInTouchIdTypeAgree,
+    UserLoginInTouchIdTypeReject,
+};
+
 FOUNDATION_EXPORT NSString *const videoNameKey;
 FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
@@ -53,7 +59,15 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
 @interface CacheManager : NSObject
 
+/**
+ 当前登录的用户
+ */
 @property (strong, nonatomic) JHUser *user;
+
+/**
+ 上次登录的用户
+ */
+@property (strong, nonatomic) JHUser *lastLoginUser;
 
 @property (weak, nonatomic) JHMediaPlayer *mediaPlayer;
 /**
@@ -98,9 +112,9 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 @property (assign, nonatomic) BOOL openAutoDownloadSubtitle;
 
 /**
- 优先加载本地弹幕
+ 使用touchId登录
  */
-//@property (assign, nonatomic) BOOL priorityLoadLocalDanmaku;
+@property (assign, nonatomic) UserLoginInTouchIdType useTouchIdLogin;
 
 
 /**

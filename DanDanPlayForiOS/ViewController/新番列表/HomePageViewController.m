@@ -31,9 +31,6 @@
 @property (strong, nonatomic) HomePageHeaderView *headerView;
 @property (strong, nonatomic) JHHomePage *model;
 @property (strong, nonatomic) WMMenuView *menuView;
-//<WMPageControllerDelegate, WMPageControllerDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
-//@property (strong, nonatomic) JHDefaultPageViewController *pageViewController;
-//@property (strong, nonatomic) JHHomePage *model;
 @end
 
 @implementation HomePageViewController

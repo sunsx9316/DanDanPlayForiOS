@@ -6,7 +6,5 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import <DanDanPlayEncrypt/NSData+DanDanPlayEncrypt.h>
+#import "DanDanPlayEncipher.h"
 

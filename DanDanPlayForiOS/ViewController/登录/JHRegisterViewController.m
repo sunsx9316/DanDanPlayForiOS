@@ -170,7 +170,6 @@
                     [MBProgressHUD showWithError:error1];
                 }
                 else {
-                    [CacheManager shareCacheManager].user = responseObject1;
                     [self.navigationController popToRootViewControllerAnimated:YES];
                     [MBProgressHUD showWithText:@"登录成功！"];
                 }

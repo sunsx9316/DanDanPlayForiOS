@@ -19,6 +19,7 @@
 #import "JHSetting.h"
 #import "UIFont+Tools.h"
 #import "JHBaseTableView.h"
+#import "LAContext+Tools.h"
 
 @interface SettingViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) JHBaseTableView *tableView;
@@ -221,119 +222,157 @@
 
 - (NSArray<JHSetting *> *)dataSources {
     if (_dataSources == nil) {
-        NSMutableArray *arr = [NSMutableArray array];
         
         //弹幕设置
         JHSetting *danmakuSetting = [[JHSetting alloc] init];
         danmakuSetting.title = @"弹幕设置";
+        [danmakuSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"弹幕字体";
+            item.type = JHSettingItemTypeDanmakuFont;
+            [item setDetailTextCallBack:^{
+                UIFont *font = [CacheManager shareCacheManager].danmakuFont;
+                if (font.isSystemFont) {
+                    return @"系统字体";
+                }
+                else {
+                    return font.fontName;
+                }
+            }];
+            item;
+        })];
         
-        JHSettingItem *danmakuFontItem = [[JHSettingItem alloc] init];
-        danmakuFontItem.title = @"弹幕字体";
-        danmakuFontItem.type = JHSettingItemTypeDanmakuFont;
-        [danmakuFontItem setDetailTextCallBack:^{
-            UIFont *font = [CacheManager shareCacheManager].danmakuFont;
-            if (font.isSystemFont) {
-                return @"系统字体";
-            }
-            else {
-                return font.fontName;
-            }
-        }];
-        [danmakuSetting.items addObject:danmakuFontItem];
+        [danmakuSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"弹幕屏蔽列表";
+            item.type = JHSettingItemTypeFilter;
+            item;
+        })];
         
-        JHSettingItem *danmakuFilterItem = [[JHSettingItem alloc] init];
-        danmakuFilterItem.title = @"弹幕屏蔽列表";
-        danmakuFilterItem.type = JHSettingItemTypeFilter;
-        [danmakuSetting.items addObject:danmakuFilterItem];
-
+        [danmakuSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"弹幕快速匹配";
+            item.detail = @"自动识别视频 并匹配弹幕";
+            item.type = JHSettingItemTypeSwitch;
+            [item setSwitchStatusCallBack:^{
+                return [CacheManager shareCacheManager].openFastMatch;
+            }];
+            [item setSwitchStatusChangeCallBack:^{
+                [CacheManager shareCacheManager].openFastMatch = ![CacheManager shareCacheManager].openFastMatch;
+            }];
+            item;
+        })];
         
-        JHSettingItem *fastMatchItem = [[JHSettingItem alloc] init];
-        fastMatchItem.title = @"弹幕快速匹配";
-        fastMatchItem.detail = @"自动识别视频 并匹配弹幕";
-        fastMatchItem.type = JHSettingItemTypeSwitch;
-        [fastMatchItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].openFastMatch;
-        }];
-        [fastMatchItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].openFastMatch = ![CacheManager shareCacheManager].openFastMatch;
-        }];
-        [danmakuSetting.items addObject:fastMatchItem];
+        [danmakuSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"自动请求第三方弹幕";
+            item.detail = @"会把ABC站的弹幕一起加进来";
+            item.type = JHSettingItemTypeSwitch;
+            [item setSwitchStatusCallBack:^{
+                return [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
+            }];
+            [item setSwitchStatusChangeCallBack:^{
+                [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
+            }];
+            item;
+        })];
         
-        JHSettingItem *requestThreePartyDamakuItem = [[JHSettingItem alloc] init];
-        requestThreePartyDamakuItem.title = @"自动请求第三方弹幕";
-        requestThreePartyDamakuItem.detail = @"会把ABC站的弹幕一起加进来";
-        requestThreePartyDamakuItem.type = JHSettingItemTypeSwitch;
-        [requestThreePartyDamakuItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-        }];
-        [requestThreePartyDamakuItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-        }];
-        [danmakuSetting.items addObject:requestThreePartyDamakuItem];
-        
-        JHSettingItem *danmakuCacheTimeItem = [[JHSettingItem alloc] init];
-        danmakuCacheTimeItem.title = @"弹幕缓存时间";
-        danmakuCacheTimeItem.type = JHSettingItemTypeLeftRight;
-        [danmakuCacheTimeItem setDetailTextCallBack:^{
-            NSInteger day = [CacheManager shareCacheManager].danmakuCacheTime;
-            if (day == 0) {
-                return @"不缓存";
-            }
-            else if (day >= CACHE_ALL_DANMAKU_FLAG) {
-                return @"全部缓存";
-            }
-            else {
-                return [NSString stringWithFormat:@"%ld天", (long)day];
-            }
-        }];
-        [danmakuSetting.items addObject:danmakuCacheTimeItem];
-        
-        [arr addObject:danmakuSetting];
+        [danmakuSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"弹幕缓存时间";
+            item.type = JHSettingItemTypeLeftRight;
+            [item setDetailTextCallBack:^{
+                NSInteger day = [CacheManager shareCacheManager].danmakuCacheTime;
+                if (day == 0) {
+                    return @"不缓存";
+                }
+                else if (day >= CACHE_ALL_DANMAKU_FLAG) {
+                    return @"全部缓存";
+                }
+                else {
+                    return [NSString stringWithFormat:@"%ld天", (long)day];
+                }
+            }];
+            item;
+        })];
         
         
         //其他设置
         JHSetting *otherSetting = [[JHSetting alloc] init];
         otherSetting.title = @"其他设置";
         
-
-        JHSettingItem *protectAreaItem = [[JHSettingItem alloc] init];
-        protectAreaItem.title = @"字幕保护区域";
-        protectAreaItem.detail = @"在画面底部大约15%的位置禁止弹幕出现";
-        protectAreaItem.type = JHSettingItemTypeSwitch;
-        [protectAreaItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].subtitleProtectArea;
-        }];
-        [protectAreaItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].subtitleProtectArea = ![CacheManager shareCacheManager].subtitleProtectArea;
-        }];
-        [otherSetting.items addObject:protectAreaItem];
+        [otherSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"字幕保护区域";
+            item.detail = @"在画面底部大约15%的位置禁止弹幕出现";
+            item.type = JHSettingItemTypeSwitch;
+            [item setSwitchStatusCallBack:^{
+                return [CacheManager shareCacheManager].subtitleProtectArea;
+            }];
+            [item setSwitchStatusChangeCallBack:^{
+                [CacheManager shareCacheManager].subtitleProtectArea = ![CacheManager shareCacheManager].subtitleProtectArea;
+            }];
+            item;
+        })];
         
-        JHSettingItem *openAutoDownloadSubtitleItem = [[JHSettingItem alloc] init];
-        openAutoDownloadSubtitleItem.title = @"自动加载远程设备字幕";
-        openAutoDownloadSubtitleItem.detail = @"大概没人会关掉";
-        openAutoDownloadSubtitleItem.type = JHSettingItemTypeSwitch;
-        [openAutoDownloadSubtitleItem setSwitchStatusCallBack:^{
-            return [CacheManager shareCacheManager].openAutoDownloadSubtitle;
-        }];
-        [openAutoDownloadSubtitleItem setSwitchStatusChangeCallBack:^{
-            [CacheManager shareCacheManager].openAutoDownloadSubtitle = ![CacheManager shareCacheManager].openAutoDownloadSubtitle;
-        }];
-        [otherSetting.items addObject:openAutoDownloadSubtitleItem];
+        [otherSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"自动加载远程设备字幕";
+            item.detail = @"大概没人会关掉";
+            item.type = JHSettingItemTypeSwitch;
+            [item setSwitchStatusCallBack:^{
+                return [CacheManager shareCacheManager].openAutoDownloadSubtitle;
+            }];
+            [item setSwitchStatusChangeCallBack:^{
+                [CacheManager shareCacheManager].openAutoDownloadSubtitle = ![CacheManager shareCacheManager].openAutoDownloadSubtitle;
+            }];
+            item;
+        })];
         
-        JHSettingItem *clearCacheItem = [[JHSettingItem alloc] init];
-        clearCacheItem.title = @"清理缓存";
-        clearCacheItem.type = JHSettingItemTypeLeftRight;
-        @weakify(self)
-        [clearCacheItem setDetailTextCallBack:^{
-            @strongify(self)
-            if (!self) return @"";
-            
-            return self->_cacheSize;
-        }];
-        [otherSetting.items addObject:clearCacheItem];
-        [arr addObject:otherSetting];
+        LAContext *laContext = [[LAContext alloc] init];
+        //验证touchID是否可用
+        if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+            [otherSetting.items addObject:({
+                NSString *biometryType = laContext.biometryTypeStringValue;
+                
+                JHSettingItem *item = [[JHSettingItem alloc] init];
+                item.title = [NSString stringWithFormat:@"使用%@登录", biometryType];
+                item.type = JHSettingItemTypeSwitch;
+                @weakify(self)
+                item.switchStatusCallBack = ^BOOL{
+                    return [CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeReject ? NO : YES;
+                };
+                
+                item.switchStatusChangeCallBack = ^{
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeReject) {
+                        [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeAgree;
+                    }
+                    else {
+                        [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeReject;
+                    }
+                };
+                item;
+            })];            
+        }
         
-        _dataSources = arr;
+        [otherSetting.items addObject:({
+            JHSettingItem *item = [[JHSettingItem alloc] init];
+            item.title = @"清理缓存";
+            item.type = JHSettingItemTypeLeftRight;
+            @weakify(self)
+            [item setDetailTextCallBack:^{
+                @strongify(self)
+                if (!self) return @"";
+                
+                return self->_cacheSize;
+            }];
+            item;
+        })];
+        
+        _dataSources = @[danmakuSetting, otherSetting];
     }
     return _dataSources;
 }

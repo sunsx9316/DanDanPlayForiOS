@@ -13,6 +13,7 @@
 #import "JHSMBFileHashCache.h"
 
 static NSString *const userSaveKey = @"login_user";
+static NSString *const lastLoginUserKey = @"last_login_user";
 static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
 static NSString *const autoRequestThirdPartyDanmakuKey = @"auto_request_third_party_danmaku";
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
@@ -35,6 +36,7 @@ static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
 static NSString *const playInterfaceOrientationKey = @"play_interface_orientation";
 static NSString *const danmakuLimitCountKey = @"danmaku_limit_count";
 static NSString *const collectionCacheKey = @"collection_cache";
+static NSString *const useTouchIdLoginKey = @"use_touch_id_login";
 
 NSString *const videoNameKey = @"video_name";
 NSString *const videoEpisodeIdKey = @"video_episode_id";
@@ -114,14 +116,13 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark - 
-//- (DownloadStatusView *)downloadView {
-//    if (_downloadView == nil) {
-//        _downloadView = [[DownloadStatusView alloc] init];
-//        _downloadView.hidden = !self.showDownloadStatusView;
-//        [self addObserver:(DownloadStatusView <CacheManagerDelagate>*)_downloadView];
-//    }
-//    return _downloadView;
-//}
+- (void)setLastLoginUser:(JHUser *)lastLoginUser {
+    [self.cache setObject:lastLoginUser forKey:lastLoginUserKey];
+}
+
+- (JHUser *)lastLoginUser {
+    return (JHUser *)[self.cache objectForKey:lastLoginUserKey];
+}
 
 #pragma mark - 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
@@ -228,6 +229,20 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
         self.openAutoDownloadSubtitle = YES;
     }
     return num.boolValue;
+}
+
+#pragma mark -
+- (void)setUseTouchIdLogin:(UserLoginInTouchIdType)useTouchIdLogin {
+    [self.cache setObject:@(useTouchIdLogin) forKey:useTouchIdLoginKey withBlock:nil];
+}
+
+- (UserLoginInTouchIdType)useTouchIdLogin {
+    NSNumber * num = (NSNumber *)[self.cache objectForKey:useTouchIdLoginKey];
+    if (num == nil) {
+        num = @(UserLoginInTouchIdTypeInit);
+        self.useTouchIdLogin = UserLoginInTouchIdTypeInit;
+    }
+    return num.integerValue;
 }
 
 #pragma mark -

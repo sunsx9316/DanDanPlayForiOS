@@ -15,6 +15,8 @@
 #import "UIView+Tools.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
+#import "LAContext+Tools.h"
+#import "UIApplication+Tools.h"
 
 CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     switch (error.code) {
@@ -74,6 +76,42 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         make.bottom.mas_offset(-20);
         make.left.right.mas_equalTo(0);
     }];
+    
+    LAContext *laContext = [[LAContext alloc] init];
+    //验证touchID是否可用
+    if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+        NSString *biometryType = laContext.biometryTypeStringValue;
+        
+        //初始化touchId
+        if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeInit) {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"如果不希望使用%@登录，可以在设置里关掉它~", biometryType] preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
+            [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeAgree;
+            return;
+        }
+        
+        //用户同意使用touchID登录 并且上次登录过
+        if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeAgree && [CacheManager shareCacheManager].lastLoginUser) {
+            
+            [laContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                      localizedReason:[NSString stringWithFormat:@"使用%@登录 %@", biometryType, [CacheManager shareCacheManager].lastLoginUser.name] reply:^(BOOL success, NSError *error) {
+                          if (success) {
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  JHUser *user = [CacheManager shareCacheManager].lastLoginUser;
+                                  [self loginWithAccount:user.account password:user.password source:user.loginUserType];
+                              });
+                          }
+                          
+                          if (error) {
+                              NSLog(@"---failed to evaluate---error: %@---", error.description);
+                          }
+                      }];
+        }
+    }
+    else {
+        NSLog(@"touchID不可用");
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -89,7 +127,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
  
  @param sender 按钮
  */
-- (void)touchBotton:(UIButton *)sender {
+- (void)touchThirdPartyBotton:(UIButton *)sender {
     UMSocialPlatformType platformType = sender.tag;
     
     [MBProgressHUD showLoadingInView:self.view text:nil];
@@ -119,7 +157,6 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
                         [self.navigationController pushViewController:vc animated:YES];
                     }
                     else {
-                        [CacheManager shareCacheManager].user = responseObject;
                         [self.navigationController popViewControllerAnimated:YES];
                         [MBProgressHUD showWithText:@"登录成功！"];
                     }
@@ -141,6 +178,12 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     NSString *account = self.userNameTextField.textField.text;
     NSString *password = self.passwordTextField.textField.text;
     
+    [self loginWithAccount:account password:password source:JHUserTypeDefault];
+}
+
+- (void)loginWithAccount:(NSString *)account
+                password:(NSString *)password
+                  source:(JHUserType)source {
     if (account.length == 0) {
         [MBProgressHUD showWithText:@"请输入登录用户名！"];
         return;
@@ -152,14 +195,13 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     }
     
     [MBProgressHUD showLoadingInView:self.view text:nil];
-    [LoginNetManager loginWithSource:JHUserTypeDefault userId:account token:password completionHandler:^(JHUser *responseObject, NSError *error) {
+    [LoginNetManager loginWithSource:source userId:account token:password completionHandler:^(JHUser *responseObject, NSError *error) {
         [MBProgressHUD hideLoading];
         
         if (error) {
             [MBProgressHUD showWithError:error];
         }
         else {
-            [CacheManager shareCacheManager].user = responseObject;
             [self.navigationController popToRootViewControllerAnimated:YES];
             [MBProgressHUD showWithText:@"登录成功！"];
         }
@@ -322,7 +364,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         _qqButton.inset = CGSizeMake(20, 20);
         _qqButton.tag = UMSocialPlatformType_QQ;
         [_qqButton setImage:[UIImage imageNamed:@"login_qq"] forState:UIControlStateNormal];
-        [_qqButton addTarget:self action:@selector(touchBotton:) forControlEvents:UIControlEventTouchUpInside];
+        [_qqButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
         [_qqButton setRequiredContentVerticalResistancePriority];
         [_qqButton setRequiredContentHorizontalResistancePriority];
     }
@@ -334,7 +376,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         _weiboButton = [[JHEdgeButton alloc] init];
         _weiboButton.inset = CGSizeMake(20, 20);
         _weiboButton.tag = UMSocialPlatformType_Sina;
-        [_weiboButton addTarget:self action:@selector(touchBotton:) forControlEvents:UIControlEventTouchUpInside];
+        [_weiboButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
         [_weiboButton setImage:[UIImage imageNamed:@"login_weibo"] forState:UIControlStateNormal];
         [_weiboButton setRequiredContentVerticalResistancePriority];
         [_weiboButton setRequiredContentHorizontalResistancePriority];

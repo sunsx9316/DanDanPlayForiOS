@@ -108,8 +108,8 @@
         }
         return nil;
     }
-
-    return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", API_PATH, (unsigned long)episodeId, CLIENT_ID] data:[[model yy_modelToJSONData] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    
+    return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", API_PATH, (unsigned long)episodeId, CLIENT_ID] data:ddplay_encryptionObj([model yy_modelToJSONObject]) completionHandler:^(JHResponse *model) {
         if (completionHandler) {
             completionHandler(model.error);
         }

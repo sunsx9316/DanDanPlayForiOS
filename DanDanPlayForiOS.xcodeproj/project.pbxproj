@@ -70,6 +70,7 @@
 		89753D4B1F8CB4480036C0AB /* JHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D4A1F8CB4480036C0AB /* JHLoginViewController.m */; };
 		89753D4F1F8CB5930036C0AB /* JHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D4E1F8CB5930036C0AB /* JHTextField.m */; };
 		89753D5E1F8D07EE0036C0AB /* JHBaseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D5D1F8D07EE0036C0AB /* JHBaseScrollView.m */; };
+		8975F1E61FC86DE700C945EC /* LAContext+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975F1E51FC86DE700C945EC /* LAContext+Tools.m */; };
 		897858ED1F6BD67B00010690 /* LinkFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EC1F6BD67B00010690 /* LinkFileManagerViewController.m */; };
 		897858F01F6BD6AD00010690 /* JHLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* JHLinkFile.m */; };
 		897858F31F6C136300010690 /* LinkVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858F21F6C136300010690 /* LinkVideoModel.m */; };
@@ -359,6 +360,8 @@
 		89753D4E1F8CB5930036C0AB /* JHTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHTextField.m; sourceTree = "<group>"; };
 		89753D5C1F8D07EE0036C0AB /* JHBaseScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHBaseScrollView.h; sourceTree = "<group>"; };
 		89753D5D1F8D07EE0036C0AB /* JHBaseScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHBaseScrollView.m; sourceTree = "<group>"; };
+		8975F1E41FC86DE700C945EC /* LAContext+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LAContext+Tools.h"; sourceTree = "<group>"; };
+		8975F1E51FC86DE700C945EC /* LAContext+Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "LAContext+Tools.m"; sourceTree = "<group>"; };
 		897858EB1F6BD67B00010690 /* LinkFileManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkFileManagerViewController.h; sourceTree = "<group>"; };
 		897858EC1F6BD67B00010690 /* LinkFileManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkFileManagerViewController.m; sourceTree = "<group>"; };
 		897858EE1F6BD6AD00010690 /* JHLinkFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLinkFile.h; sourceTree = "<group>"; };
@@ -630,7 +633,6 @@
 		89EF59CC1F923765002BDC15 /* JHRegisterRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHRegisterRequest.m; sourceTree = "<group>"; };
 		89EF59CE1F92378D002BDC15 /* JHRegisterResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JHRegisterResponse.h; sourceTree = "<group>"; };
 		89EF59CF1F92378D002BDC15 /* JHRegisterResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JHRegisterResponse.m; sourceTree = "<group>"; };
-		89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
 		89F173041EB1F6F0006A2473 /* SettingTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTitleTableViewCell.h; sourceTree = "<group>"; };
 		89F173051EB1F6F0006A2473 /* SettingTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTitleTableViewCell.m; sourceTree = "<group>"; };
 		89F173361EB20E4D006A2473 /* UIFont+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Tools.h"; sourceTree = "<group>"; };
@@ -647,6 +649,7 @@
 		89F8CDBA1EA78A10000D5F3F /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		89FBDED11F457C7800663865 /* FileManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManagerViewController.h; sourceTree = "<group>"; };
 		89FBDED21F457C7800663865 /* FileManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManagerViewController.m; sourceTree = "<group>"; };
+		89FE036C1FC72E5C00129872 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
 		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
 		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1058,6 +1061,8 @@
 				89657F2D1F724C570003AF96 /* UINavigationItem+Tools.m */,
 				8938E4F81F7747F400F21E52 /* UITableViewCell+Tools.h */,
 				8938E4F91F7747F400F21E52 /* UITableViewCell+Tools.m */,
+				8975F1E41FC86DE700C945EC /* LAContext+Tools.h */,
+				8975F1E51FC86DE700C945EC /* LAContext+Tools.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1234,8 +1239,8 @@
 		89D8F8441EB0F5FB009329AA /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				89FE036C1FC72E5C00129872 /* DanDanPlayEncrypt.framework */,
 				89A5C2C51F4A8C750058EB43 /* FDFullscreenPopGesture */,
-				89F173021EB1C59F006A2473 /* DanDanPlayEncrypt.framework */,
 			);
 			path = Vender;
 			sourceTree = "<group>";
@@ -1824,6 +1829,7 @@
 				89AE37BD1F626AE2008D06CF /* AttentionListTableViewCell.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* SearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* AboutUsViewController.m in Sources */,
+				8975F1E61FC86DE700C945EC /* LAContext+Tools.m in Sources */,
 				894C64921F691004003C7888 /* JHLinkDownloadTaskCollection.m in Sources */,
 				897858F31F6C136300010690 /* LinkVideoModel.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,

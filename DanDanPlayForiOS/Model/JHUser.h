@@ -7,6 +7,7 @@
 //
 
 #import "JHBase.h"
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, JHUserType) {
     JHUserTypeUnknow,
@@ -50,6 +51,9 @@ CG_INLINE JHUserType jh_userTypeStringToEnum(NSString *str) {
     return JHUserTypeUnknow;
 };
 
+UIKIT_EXTERN NSString *jh_encryption(NSString *text);
+UIKIT_EXTERN NSString *jh_decryption(NSString *text);
+
 @interface JHUser : JHBase
 @property (copy, nonatomic) NSString *token;
 @property (strong, nonatomic) NSURL *icoImgURL;
@@ -64,4 +68,8 @@ CG_INLINE JHUserType jh_userTypeStringToEnum(NSString *str) {
  是否登录成功
  */
 @property (assign, nonatomic) BOOL needLogin;
+
+@property (copy, nonatomic) NSString *account;
+@property (copy, nonatomic) NSString *password;
+@property (assign, nonatomic) JHUserType loginUserType;
 @end

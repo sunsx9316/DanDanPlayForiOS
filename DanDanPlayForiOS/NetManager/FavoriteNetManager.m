@@ -25,9 +25,7 @@
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"AnimeId" : @(animeId)};
     
     if (like) {
-        NSString *json = [dic jsonStringEncoded];
-        
-        return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/favorite?clientId=%@", API_PATH, CLIENT_ID] data:[[json dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+        return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/favorite?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
             completionHandler(model.error);
         }];
     }
@@ -79,9 +77,9 @@
     }
     
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"EpisodeId" : @(episodeId), @"AddToFavorite" : @(AddToFavorite)};
-    NSString *json = [dic jsonStringEncoded];
+    NSData *data = [ddplay_encryptionData([dic yy_modelToJSONData]) dataUsingEncoding:NSUTF8StringEncoding];
     
-    return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/playhistory?clientId=%@", API_PATH, CLIENT_ID] data:[[json dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self PUTDataWithPath:[NSString stringWithFormat:@"%@/playhistory?clientId=%@", API_PATH, CLIENT_ID] data:data completionHandler:^(JHResponse *model) {
         completionHandler(model.error);
     }];
 }

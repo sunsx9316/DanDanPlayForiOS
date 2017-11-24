@@ -26,18 +26,21 @@
     NSString *sourceStr = jh_userTypeToString(source);
     NSDictionary *dic = @{@"Source" : sourceStr, @"UserId" : userId, @"AccessToken" : token};
     
-    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/applogin?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/applogin?clientId=%@", API_PATH, CLIENT_ID] data:[ddplay_encryption([dic jsonStringEncoded]) dataUsingEncoding:NSUTF8StringEncoding] completionHandler:^(JHResponse *model) {
         if (model.error) {
             completionHandler(nil, model.error);
         }
         else {
             JHUser *user = [JHUser yy_modelWithJSON:model.responseObject];
+            user.account = userId;
+            user.password = token;
+            user.loginUserType = source;
             //登录失败
             if (user.needLogin == YES) {
-                
                 completionHandler(user, jh_creatErrorWithCode(jh_errorCodeLoginFail));
             }
             else {
+                [CacheManager shareCacheManager].user = user;
                 completionHandler(user, model.error);
             }
         }
@@ -55,7 +58,7 @@
     
     NSDictionary *dic = [request yy_modelToJSONObject];
     
-    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
         if (model.error) {
             completionHandler(nil, model.error);
         }
@@ -84,7 +87,7 @@
 
     NSDictionary *dic = [[request yy_modelToJSONObject] dictionaryWithValuesForKeys:@[@"UserName", @"Password", @"Email", @"ScreenName", @"UserId", @"Token"]];
     
-    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register/relate?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register/relate?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
         if (model.error) {
             completionHandler(nil, model.error);
         }
@@ -112,7 +115,7 @@
     
     NSDictionary *dic = [[request yy_modelToJSONObject] dictionaryWithValuesForKeys:@[@"UserId", @"Token", @"UserName", @"Password"]];
     
-    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register/relateonly?clientId=%@", API_PATH, CLIENT_ID] data:[[[dic jsonStringEncoded] dataUsingEncoding:NSUTF8StringEncoding] encryptWithDandanplayType] completionHandler:^(JHResponse *model) {
+    return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/register/relateonly?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
         if (model.error) {
             completionHandler(nil, model.error);
         }

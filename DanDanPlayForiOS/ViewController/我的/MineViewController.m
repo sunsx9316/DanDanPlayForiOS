@@ -299,6 +299,7 @@
                 }
                 
                 [vc addAction:[UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                    [CacheManager shareCacheManager].lastLoginUser = [CacheManager shareCacheManager].user;
                     [CacheManager shareCacheManager].user = nil;
                     [self reloadUserInfo];
                 }]];

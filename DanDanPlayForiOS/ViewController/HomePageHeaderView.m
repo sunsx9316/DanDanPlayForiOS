@@ -43,6 +43,11 @@
             make.bottom.mas_offset(-10);
             make.centerX.mas_offset(width / 2 + 10);
         }];
+        
+        [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_offset(-5);
+            make.top.mas_offset(-5);
+        }];
     }
     return self;
 }
@@ -50,6 +55,7 @@
 - (void)setDataSource:(NSArray<JHBannerPage *> *)dataSource {
     _dataSource = dataSource;
     [self.scrollView reloadData];
+    self.pageControl.numberOfPages = _dataSource.count;
     self.timer.fireDate = [NSDate distantPast];
 }
 
@@ -135,7 +141,8 @@
         _scrollView.dataSource = self;
         _scrollView.delegate = self;
         _scrollView.pagingEnabled = YES;
-        _scrollView.type = iCarouselTypeRotary;
+        _scrollView.type = iCarouselTypeLinear;
+        [_scrollView addSubview:self.pageControl];
         [self addSubview:_scrollView];
     }
     return _scrollView;
@@ -147,7 +154,6 @@
         _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
         _pageControl.transform = CGAffineTransformMakeScale(0.7, 0.7);
-        [self addSubview:_pageControl ];
     }
     return _pageControl;
 }
@@ -159,7 +165,7 @@
             @strongify(self)
             if (!self) return;
             
-            [self.scrollView scrollToItemAtIndex:self.scrollView.currentItemIndex + 1 duration:1];
+            [self.scrollView scrollToItemAtIndex:self.scrollView.currentItemIndex + 1 duration:0.8];
         } repeats:YES];
         _timer.fireDate = [NSDate distantFuture];
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
