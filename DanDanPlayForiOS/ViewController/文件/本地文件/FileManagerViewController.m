@@ -412,11 +412,6 @@
                 model.danmakus = responseObject;
                 [aHUD hideAnimated:NO];
                 
-                if (error) {
-                    [MBProgressHUD showWithError:error];
-                    return;
-                }
-                
                 if (responseObject == nil) {
                     jumpToMatchVCAction();
                 }
