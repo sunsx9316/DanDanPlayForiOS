@@ -31,19 +31,6 @@
 @end
 
 @implementation FileManagerViewController
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    
-//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: MAIN_COLOR, NSFontAttributeName : NORMAL_SIZE_FONT};
-//    
-//    if (jh_isRootFile(self.file)) {
-//        [self setNavigationBarWithColor:[UIColor clearColor]];
-//        [[CacheManager shareCacheManager] addObserver:self];
-//    }
-//    else {
-//        [self setNavigationBarWithColor:[UIColor whiteColor]];
-//    }
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

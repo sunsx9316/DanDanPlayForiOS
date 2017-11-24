@@ -26,7 +26,6 @@
     
     self.viewControllers = @[homeVC, fileVC, settingVC];
     
-    self.selectedIndex = 1;
     self.tabBar.translucent = NO;
 }
 
