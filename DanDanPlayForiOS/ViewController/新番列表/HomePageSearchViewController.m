@@ -348,6 +348,7 @@
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = MAIN_COLOR;
+        _searchBar.backgroundColor = [UIColor clearColor];
         _searchBar.textField.font = NORMAL_SIZE_FONT;
     }
     return _searchBar;
@@ -360,21 +361,6 @@
         _filterView.dataSource = self;
         _filterView.hidden = YES;
         [self.view addSubview:_filterView];
-        
-        
-//        _filterView.selectedTypeCallBack = ^(NSString *typeName) {
-//            @strongify(self)
-//            if (!self) return;
-//
-//            filterAction(typeName, self.filterView.subGroupName);
-//        };
-//
-//        _filterView.selectedSubGroupsCallBack = ^(NSString *subGroupName) {
-//            @strongify(self)
-//            if (!self) return;
-//
-//            filterAction(self.filterView.typeName, subGroupName);
-//        };
     }
     return _filterView;
 }

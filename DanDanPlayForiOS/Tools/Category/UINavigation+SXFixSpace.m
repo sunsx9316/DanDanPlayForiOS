@@ -94,7 +94,7 @@ static BOOL sx_disableFixSpace = NO;
     }
     else {
         if (!sx_disableFixSpace && leftBarButtonItem) {//存在按钮且需要调节
-            [self setLeftBarButtonItems:@[[self fixedSpaceWithWidth:4], leftBarButtonItem]];
+            [self setLeftBarButtonItems:@[[self fixedSpaceWithWidth:-10], leftBarButtonItem]];
         }
         else {//不存在按钮,或者不需要调节
             [self sx_setLeftBarButtonItem:leftBarButtonItem];
@@ -123,7 +123,7 @@ static BOOL sx_disableFixSpace = NO;
         [self sx_setRightBarButtonItem:rightBarButtonItem];
     } else {
         if (!sx_disableFixSpace && rightBarButtonItem) {//存在按钮且需要调节
-            [self setRightBarButtonItems:@[[self fixedSpaceWithWidth:4], rightBarButtonItem]];
+            [self setRightBarButtonItems:@[[self fixedSpaceWithWidth:-10], rightBarButtonItem]];
         } else {//不存在按钮,或者不需要调节
             [self sx_setRightBarButtonItem:rightBarButtonItem];
         }

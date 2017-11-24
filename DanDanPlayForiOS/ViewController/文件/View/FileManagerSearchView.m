@@ -175,6 +175,7 @@
         _searchBar.barTintColor = [UIColor whiteColor];
         _searchBar.tintColor = MAIN_COLOR;
         _searchBar.textField.font = NORMAL_SIZE_FONT;
+        _searchBar.backgroundColor = [UIColor clearColor];
         [self addSubview:_searchBar];
     }
     return _searchBar;

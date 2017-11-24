@@ -449,7 +449,10 @@
         [aButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
-    [self.navigationItem addRightItemsFixedSpace:@[addItem, item]];
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpace.width = -10;
+    
+    [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, addItem, item]];
 }
 
 - (void)touchSearchButton:(UIButton *)sender {

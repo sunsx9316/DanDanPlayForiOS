@@ -78,6 +78,8 @@
         _searchBar.placeholder = @"试试手动♂搜索";
         _searchBar.returnKeyType = UIReturnKeySearch;
         _searchBar.textField.font = NORMAL_SIZE_FONT;
+        _searchBar.tintColor = MAIN_COLOR;
+        _searchBar.backgroundColor = [UIColor clearColor];
     }
     return _searchBar;
 }
