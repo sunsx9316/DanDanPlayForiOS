@@ -14,7 +14,7 @@ target 'DanDanPlayForiOS' do
 # 集成微信
     #pod 'UMengUShare/Social/WeChat'
 
-    pod 'Bugly'
+    pod 'Bugly', '2.4.8'
     pod 'MobileVLCKit-unstable', '3.0.0a42'
     pod 'AFNetworking'
     pod 'Masonry'
