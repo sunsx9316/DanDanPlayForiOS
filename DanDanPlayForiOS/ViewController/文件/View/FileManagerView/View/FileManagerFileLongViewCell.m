@@ -79,16 +79,6 @@
     }
 }
 
-//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-//    [super setHighlighted:highlighted animated:animated];
-//    self.grayView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
-//}
-//
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//    self.grayView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
-//}
-
 #pragma mark - 懒加载
 - (UILabel *)nameLabel {
 	if(_nameLabel == nil) {
@@ -124,15 +114,5 @@
     }
     return _lastPlayTimeButton;
 }
-
-//- (UIView *)grayView {
-//    if(_grayView == nil) {
-//        _grayView = [[UIView alloc] init];
-//        _grayView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
-////        _grayImgView.image = [UIImage imageNamed:@"comment_gradual_gray"];
-//        [self.contentView addSubview:_grayView];
-//    }
-//    return _grayView;
-//}
 
 @end

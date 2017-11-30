@@ -226,7 +226,7 @@
         //弹幕设置
         JHSetting *danmakuSetting = [[JHSetting alloc] init];
         danmakuSetting.title = @"弹幕设置";
-        [danmakuSetting.items addObject:({
+        danmakuSetting.items = @[({
             JHSettingItem *item = [[JHSettingItem alloc] init];
             item.title = @"弹幕字体";
             item.type = JHSettingItemTypeDanmakuFont;
@@ -240,16 +240,12 @@
                 }
             }];
             item;
-        })];
-        
-        [danmakuSetting.items addObject:({
+        }), ({
             JHSettingItem *item = [[JHSettingItem alloc] init];
             item.title = @"弹幕屏蔽列表";
             item.type = JHSettingItemTypeFilter;
             item;
-        })];
-        
-        [danmakuSetting.items addObject:({
+        }), ({
             JHSettingItem *item = [[JHSettingItem alloc] init];
             item.title = @"弹幕快速匹配";
             item.detail = @"自动识别视频 并匹配弹幕";
@@ -261,9 +257,7 @@
                 [CacheManager shareCacheManager].openFastMatch = ![CacheManager shareCacheManager].openFastMatch;
             }];
             item;
-        })];
-        
-        [danmakuSetting.items addObject:({
+        }), ({
             JHSettingItem *item = [[JHSettingItem alloc] init];
             item.title = @"自动请求第三方弹幕";
             item.detail = @"会把ABC站的弹幕一起加进来";
@@ -275,9 +269,7 @@
                 [CacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![CacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
             }];
             item;
-        })];
-        
-        [danmakuSetting.items addObject:({
+        }), ({
             JHSettingItem *item = [[JHSettingItem alloc] init];
             item.title = @"弹幕缓存时间";
             item.type = JHSettingItemTypeLeftRight;
@@ -294,7 +286,7 @@
                 }
             }];
             item;
-        })];
+        })].mutableCopy;
         
         
         //其他设置
@@ -338,21 +330,12 @@
                 JHSettingItem *item = [[JHSettingItem alloc] init];
                 item.title = [NSString stringWithFormat:@"使用%@登录", biometryType];
                 item.type = JHSettingItemTypeSwitch;
-                @weakify(self)
                 item.switchStatusCallBack = ^BOOL{
-                    return [CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeReject ? NO : YES;
+                    return [CacheManager shareCacheManager].useTouchIdLogin;
                 };
                 
                 item.switchStatusChangeCallBack = ^{
-                    @strongify(self)
-                    if (!self) return;
-                    
-                    if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeReject) {
-                        [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeAgree;
-                    }
-                    else {
-                        [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeReject;
-                    }
+                    [CacheManager shareCacheManager].useTouchIdLogin = ![CacheManager shareCacheManager].useTouchIdLogin;
                 };
                 item;
             })];            

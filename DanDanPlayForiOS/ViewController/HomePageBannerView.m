@@ -47,7 +47,7 @@
     return self;
 }
 
-- (void)setModel:(JHBannerPage *)model {
+- (void)setModel:(JHHomeBanner *)model {
     _model = model;
     self.titleLabel.text = _model.name;
     self.contentLabel.text = _model.desc;
@@ -91,7 +91,7 @@
 - (UIView *)gradualView {
     if (_gradualView == nil) {
         _gradualView = [[UIView alloc] init];
-        _gradualView.backgroundColor = RGBACOLOR(0, 0, 0, 0.7);
+        _gradualView.backgroundColor = RGBACOLOR(0, 0, 0, DEFAULT_BLACK_ALPHA);
         [self addSubview:_gradualView];
     }
     return _gradualView;

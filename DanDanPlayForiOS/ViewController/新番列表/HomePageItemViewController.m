@@ -39,7 +39,7 @@
     [self.tableView endRefreshing];
 }
 
-- (void)setBangumis:(NSArray<JHBangumi *> *)bangumis {
+- (void)setBangumis:(NSArray<JHHomeBangumi *> *)bangumis {
     _bangumis = bangumis;
     if (self.isViewLoaded) {
         [self.tableView reloadData];
@@ -53,10 +53,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomePageItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomePageItemTableViewCell" forIndexPath:indexPath];
-    JHBangumi *model = self.bangumis[indexPath.row];
+    JHHomeBangumi *model = self.bangumis[indexPath.row];
     cell.model = model;
     @weakify(self)
-    cell.touchLikeCallBack = ^(JHBangumi *aModel) {
+    cell.touchLikeCallBack = ^(JHHomeBangumi *aModel) {
         @strongify(self)
         if (!self) return;
         
@@ -76,7 +76,7 @@
         }];
     };
     
-    cell.selectedItemCallBack = ^(JHBangumiGroup *aModel) {
+    cell.selectedItemCallBack = ^(JHHomeBangumiSubtitleGroup *aModel) {
         @strongify(self)
         if (!self) return;
         
@@ -97,7 +97,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    JHBangumi *model = self.bangumis[indexPath.row];
+    JHHomeBangumi *model = self.bangumis[indexPath.row];
     
     AttentionDetailViewController *vc = [[AttentionDetailViewController alloc] init];
     vc.animateId = model.identity;
@@ -119,7 +119,7 @@
 - (void)cancelAttention:(NSNotification *)aSender {
     NSInteger animateId = [aSender.object integerValue];
     BOOL attention = [aSender.userInfo[ATTENTION_SUCCESS_NOTICE] boolValue];
-    [self.bangumis enumerateObjectsUsingBlock:^(JHBangumi * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.bangumis enumerateObjectsUsingBlock:^(JHHomeBangumi * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.identity == animateId) {
             obj.isFavorite = attention;
             [self resortBangumis];
@@ -130,7 +130,7 @@
 }
 
 - (void)resortBangumis {
-    [(NSMutableArray *)self.bangumis sortUsingComparator:^NSComparisonResult(JHBangumi * _Nonnull obj1, JHBangumi * _Nonnull obj2) {
+    [(NSMutableArray *)self.bangumis sortUsingComparator:^NSComparisonResult(JHHomeBangumi * _Nonnull obj1, JHHomeBangumi * _Nonnull obj2) {
         return obj2.isFavorite - obj1.isFavorite;
     }];
 }

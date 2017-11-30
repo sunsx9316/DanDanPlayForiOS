@@ -220,19 +220,18 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
     }
     else if ([keyPath isEqualToString:@"outputVolume"]) {
-        CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
-        self.interfaceView.volumeControlView.progress = volume;
-        
         //通过物理按键控制音量
         if (self.interfaceView.volumeControlView.dragging == NO) {
+            CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
+            self.interfaceView.volumeControlView.progress = volume;
             NSLog(@"========= 物理按键调节%f", volume)
             if (self.interfaceView.volumeControlView.isShowing == NO) {
                 [self.interfaceView.volumeControlView showFromView:self.view];
             }
-            else {
-                [self.interfaceView.volumeControlView resetTimer];
-            }
-            
+//            else {
+//                [self.interfaceView.volumeControlView resetTimer];
+//            }
+
             [self.interfaceView.volumeControlView dismissAfter:1];
         }
     }
@@ -509,10 +508,22 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     //设置匹配名称
     NSString *matchName = _model.matchName;
-    [self.interfaceView.matchNoticeView.titleButton setTitle:matchName forState:UIControlStateNormal];
+    //弹幕匹配数量
+    NSString *danmakuCountStr = ({
+        __block NSInteger danmakuCount = 0;
+        [_danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
+            danmakuCount += obj.count;
+        }];
+        [NSString stringWithFormat:@"共%ld条弹幕", danmakuCount];
+    });
+    
     if (matchName.length) {
-        [self.interfaceView.matchNoticeView show];
+        [self.interfaceView.matchNoticeView.titleButton setTitle:[matchName stringByAppendingFormat:@"\n%@", danmakuCountStr] forState:UIControlStateNormal];
     }
+    else {
+        [self.interfaceView.matchNoticeView.titleButton setTitle:danmakuCountStr forState:UIControlStateNormal];
+    }
+    [self.interfaceView.matchNoticeView show];
     
     //设置上次播放时间
     NSInteger lastPlayTime = [[CacheManager shareCacheManager] lastPlayTimeWithVideoModel:_model];
@@ -918,9 +929,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         }
         
         _panType = InterfaceViewPanTypeInactive;
-        self.interfaceView.volumeControlView.dragging = NO;
         [self.interfaceView.brightnessControlView dismiss];
         [self.interfaceView.volumeControlView dismiss];
+        self.interfaceView.volumeControlView.dragging = NO;
     }
     else {
         if (_panType == InterfaceViewPanTypeInactive) {
@@ -943,6 +954,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                 _panType = InterfaceViewPanTypeVolume;
                 self.interfaceView.volumeControlView.dragging = YES;
                 [self.interfaceView.volumeControlView showFromView:self.view];
+                [self.interfaceView.volumeControlView resetTimer];
             }
         }
         //进度调节
@@ -970,9 +982,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             //改变系统音量
             if (_panType == InterfaceViewPanTypeVolume) {
-                CGFloat value = self.mpVolumeView.volume + rate;
-//                self.interfaceView.volumeControlView.progress = value;
-                self.mpVolumeView.volume = value;
+                CGFloat value = self.interfaceView.volumeControlView.progress + rate;
+                self.interfaceView.volumeControlView.progress = value;
+                self.mpVolumeView.jh_volume = value;
             }
             else {
                 float brightness = [UIScreen mainScreen].brightness;

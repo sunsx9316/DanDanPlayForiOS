@@ -9,7 +9,7 @@
 #import "DanmakuManager.h"
 #import "JHScrollDanmaku.h"
 #import "JHFloatDanmaku.h"
-#import <GDataXMLNode.h>
+//#import <GDataXMLNode.h>
 #import "JHBaseDanmaku+Tools.h"
 
 typedef void(^CallBackAction)(JHDanmaku *model);
@@ -262,17 +262,18 @@ typedef void(^CallBackAction)(JHDanmaku *model);
 
 //b站解析方式
 + (void)parseBilibiliDamakus:(NSData *)data block:(CallBackAction)block {
-    GDataXMLDocument *document=[[GDataXMLDocument alloc] initWithData:data error:nil];
-    GDataXMLElement *rootElement = document.rootElement;
-    NSArray *array = [rootElement elementsForName:@"d"];
-    for (GDataXMLElement *ele in array) {
-            NSArray* strArr = [[[ele attributeForName:@"p"] stringValue] componentsSeparatedByString:@","];
-            JHDanmaku* model = [[JHDanmaku alloc] init];
+    NSDictionary *dic = [NSDictionary dictionaryWithXML:data];
+    NSArray *array = dic[@"d"];
+    for (NSDictionary *dic in array) {
+        NSArray *strArr = [dic[@"p"] componentsSeparatedByString:@","];
+        JHDanmaku* model = [[JHDanmaku alloc] init];
+        if (strArr.count >= 4) {
             model.time = [strArr[0] floatValue];
             model.mode = [strArr[1] intValue];
             model.color = [strArr[3] intValue];
-            model.message = [ele stringValue];
-            if (block) block(model);
+        }
+        model.message = dic[@"_text"];
+        if (block) block(model);
     }
 }
 

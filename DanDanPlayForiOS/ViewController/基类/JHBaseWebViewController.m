@@ -41,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self configRightItem];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -111,6 +112,21 @@
     }
     
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+#pragma mark - 私有方法
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_browser"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchRightItem:(UIButton *)sender {
+    if (self.request.URL) {
+        [[UIApplication sharedApplication] openURL:self.request.URL];
+    }
 }
 
 #pragma mark - 懒加载

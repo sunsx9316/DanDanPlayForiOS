@@ -68,7 +68,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    JHBangumiCollection *collection = [self bangumiCollectionWithIndex:section];
+    JHHomeBangumiCollection *collection = [self bangumiCollectionWithIndex:section];
     return collection.collection.count;
 }
 
@@ -78,11 +78,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomePageItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomePageItemTableViewCell" forIndexPath:indexPath];
-    JHBangumiCollection *collection = [self bangumiCollectionWithIndex:indexPath.section];
-    JHBangumi *model = collection.collection[indexPath.row];
+    JHHomeBangumiCollection *collection = [self bangumiCollectionWithIndex:indexPath.section];
+    JHHomeBangumi *model = collection.collection[indexPath.row];
     cell.model = model;
     @weakify(self)
-    cell.touchLikeCallBack = ^(JHBangumi *aModel) {
+    cell.touchLikeCallBack = ^(JHHomeBangumi *aModel) {
         @strongify(self)
         if (!self) return;
         
@@ -104,7 +104,7 @@
         }];
     };
     
-    cell.selectedItemCallBack = ^(JHBangumiGroup *aModel) {
+    cell.selectedItemCallBack = ^(JHHomeBangumiSubtitleGroup *aModel) {
         @strongify(self)
         if (!self) return;
         
@@ -124,7 +124,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    JHBangumiCollection *collecion = [self bangumiCollectionWithIndex:section];
+    JHHomeBangumiCollection *collecion = [self bangumiCollectionWithIndex:section];
     TextHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"TextHeaderView"];
     view.titleLabel.text = collecion.weekDayStringValue;
     return view;
@@ -132,8 +132,8 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    JHBangumiCollection *collecion = [self bangumiCollectionWithIndex:indexPath.section];
-    JHBangumi *model = collecion.collection[indexPath.row];
+    JHHomeBangumiCollection *collecion = [self bangumiCollectionWithIndex:indexPath.section];
+    JHHomeBangumi *model = collecion.collection[indexPath.row];
     
     AttentionDetailViewController *vc = [[AttentionDetailViewController alloc] init];
     vc.animateId = model.identity;
@@ -165,7 +165,7 @@
 }
 
 - (NSString *)menuView:(WMMenuView *)menu titleAtIndex:(NSInteger)index {
-    JHBangumiCollection *collection = [self bangumiCollectionWithIndex:index];
+    JHHomeBangumiCollection *collection = [self bangumiCollectionWithIndex:index];
     return collection.weekDayStringValue;
 }
 
@@ -194,7 +194,7 @@
 }
 
 - (CGFloat)menuView:(WMMenuView *)menu widthForItemAtIndex:(NSInteger)index {
-    JHBangumiCollection *collection = [self bangumiCollectionWithIndex:index];
+    JHHomeBangumiCollection *collection = [self bangumiCollectionWithIndex:index];
     NSString *string = collection.weekDayStringValue;
     return [string sizeForFont:NORMAL_SIZE_FONT size:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) mode:NSLineBreakByWordWrapping].width + 20;
 }
@@ -224,8 +224,8 @@
 - (void)cancelAttention:(NSNotification *)aSender {
     NSInteger animateId = [aSender.object integerValue];
     BOOL attention = [aSender.userInfo[ATTENTION_SUCCESS_NOTICE] boolValue];
-    [self.model.bangumis enumerateObjectsUsingBlock:^(JHBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj.collection enumerateObjectsUsingBlock:^(JHBangumi * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+    [self.model.bangumis enumerateObjectsUsingBlock:^(JHHomeBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj.collection enumerateObjectsUsingBlock:^(JHHomeBangumi * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
             if (obj1.identity == animateId) {
                 obj1.isFavorite = attention;
                 [self resortBangumisAtSection:idx];
@@ -241,22 +241,22 @@
     //全部重排
     if (section == NSNotFound) {
         //收藏排在前面
-        [self.model.bangumis enumerateObjectsUsingBlock:^(JHBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj.collection sortUsingComparator:^NSComparisonResult(JHBangumi * _Nonnull obj1, JHBangumi * _Nonnull obj2) {
+        [self.model.bangumis enumerateObjectsUsingBlock:^(JHHomeBangumiCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj.collection sortUsingComparator:^NSComparisonResult(JHHomeBangumi * _Nonnull obj1, JHHomeBangumi * _Nonnull obj2) {
                 return obj2.isFavorite - obj1.isFavorite;
             }];
         }];
     }
     //只重排分区
     else {
-        JHBangumiCollection *collection = self.model.bangumis[section];
-        [collection.collection sortUsingComparator:^NSComparisonResult(JHBangumi * _Nonnull obj1, JHBangumi * _Nonnull obj2) {
+        JHHomeBangumiCollection *collection = self.model.bangumis[section];
+        [collection.collection sortUsingComparator:^NSComparisonResult(JHHomeBangumi * _Nonnull obj1, JHHomeBangumi * _Nonnull obj2) {
             return obj2.isFavorite - obj1.isFavorite;
         }];
     }
 }
 
-- (JHBangumiCollection *)bangumiCollectionWithIndex:(NSInteger)index {
+- (JHHomeBangumiCollection *)bangumiCollectionWithIndex:(NSInteger)index {
     NSInteger week = [NSDate currentWeekDay];
     if (week < 0 || week > 7) {
         return self.model.bangumis[index];
@@ -311,7 +311,7 @@
                 }
                 else {
                     self.model = responseObject;
-                    self.headerView.dataSource = self.model.bannerPages;
+                    self.headerView.dataSource = self.model.banners;
                     [self resortBangumisAtSection:NSNotFound];
                     self.headerView.hidden = NO;
                     [self.tableView reloadData];
@@ -331,7 +331,7 @@
         _headerView = [[HomePageHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, HOME_PAGE_HEADER_HEIGHT)];
         _headerView.hidden = YES;
         @weakify(self)
-        _headerView.didSelctedModelCallBack = ^(JHBannerPage *model) {
+        _headerView.didSelctedModelCallBack = ^(JHHomeBanner *model) {
             @strongify(self)
             if (!self) return;
             

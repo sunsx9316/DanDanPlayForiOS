@@ -9,7 +9,7 @@
 #import "SMBFileOprationView.h"
 
 @interface SMBFileOprationView ()
-
+@property (strong, nonatomic) CALayer *lineLayer;
 @end
 
 @implementation SMBFileOprationView
@@ -35,6 +35,11 @@
     return [self initWithFrame:CGRectZero];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.lineLayer.frame = CGRectMake(0, 0, self.width, 1);
+}
+
 #pragma mark - 懒加载
 - (UIButton *)selectedAllButton {
     if (_selectedAllButton == nil) {
@@ -57,6 +62,15 @@
         [self addSubview:_downloadButton];
     }
     return _downloadButton;
+}
+
+- (CALayer *)lineLayer {
+    if (_lineLayer == nil) {
+        _lineLayer = [CALayer layer];
+        _lineLayer.backgroundColor = LIGHT_GRAY_COLOR.CGColor;
+        [self.layer addSublayer:_lineLayer];
+    }
+    return _lineLayer;
 }
 
 

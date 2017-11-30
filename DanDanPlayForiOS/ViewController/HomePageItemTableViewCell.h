@@ -11,7 +11,7 @@
 #define ITEM_CELL_HEIGHT (80 + jh_isPad() * 30)
 
 @interface HomePageItemTableViewCell : UITableViewCell
-@property (strong, nonatomic) JHBangumi *model;
-@property (copy, nonatomic) void(^selectedItemCallBack)(JHBangumiGroup *model);
-@property (copy, nonatomic) void(^touchLikeCallBack)(JHBangumi *model);
+@property (strong, nonatomic) JHHomeBangumi *model;
+@property (copy, nonatomic) void(^selectedItemCallBack)(JHHomeBangumiSubtitleGroup *model);
+@property (copy, nonatomic) void(^touchLikeCallBack)(JHHomeBangumi *model);
 @end

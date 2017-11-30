@@ -52,7 +52,7 @@
     return self;
 }
 
-- (void)setDataSource:(NSArray<JHBannerPage *> *)dataSource {
+- (void)setDataSource:(NSArray<JHHomeBanner *> *)dataSource {
     _dataSource = dataSource;
     [self.scrollView reloadData];
     self.pageControl.numberOfPages = _dataSource.count;
@@ -112,7 +112,7 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    JHBannerPage *task = _dataSource[index];
+    JHHomeBanner *task = _dataSource[index];
     if (self.didSelctedModelCallBack) {
         self.didSelctedModelCallBack(task);
     }
@@ -154,6 +154,8 @@
         _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
         _pageControl.transform = CGAffineTransformMakeScale(0.7, 0.7);
+        _pageControl.currentPageIndicatorTintColor = MAIN_COLOR;
+        _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     }
     return _pageControl;
 }

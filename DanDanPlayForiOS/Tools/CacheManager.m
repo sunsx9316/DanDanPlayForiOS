@@ -232,17 +232,17 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 }
 
 #pragma mark -
-- (void)setUseTouchIdLogin:(UserLoginInTouchIdType)useTouchIdLogin {
+- (void)setUseTouchIdLogin:(BOOL)useTouchIdLogin {
     [self.cache setObject:@(useTouchIdLogin) forKey:useTouchIdLoginKey withBlock:nil];
 }
 
-- (UserLoginInTouchIdType)useTouchIdLogin {
+- (BOOL)useTouchIdLogin {
     NSNumber * num = (NSNumber *)[self.cache objectForKey:useTouchIdLoginKey];
     if (num == nil) {
-        num = @(UserLoginInTouchIdTypeInit);
-        self.useTouchIdLogin = UserLoginInTouchIdTypeInit;
+        num = @(YES);
+        self.useTouchIdLogin = YES;
     }
-    return num.integerValue;
+    return num.boolValue;
 }
 
 #pragma mark -

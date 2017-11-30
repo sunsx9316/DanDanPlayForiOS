@@ -67,16 +67,6 @@
 
 #pragma mark - UITableViewDelegate
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    JHFile *file = self.file.subFiles[indexPath.row];
-//    if (file.type == JHFileTypeDocument) {
-//        return [tableView fd_heightForCellWithIdentifier:@"FileManagerFolderPlayerListViewCell" cacheByIndexPath:indexPath configuration:^(FileManagerFolderPlayerListViewCell *cell) {
-//            cell.titleLabel.text = file.name;
-//        }];
-//    }
-//    return 70 + 30 * jh_isPad();
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JHFile *file = self.file.subFiles[indexPath.row];
     

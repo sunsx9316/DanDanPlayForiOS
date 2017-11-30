@@ -56,7 +56,7 @@ static BOOL sx_disableFixSpace = NO;
     
     if (@available(iOS 11.0, *)) {//需要调节
         self.layoutMargins = UIEdgeInsetsZero;
-        CGFloat space = sx_defaultFixSpace;
+        CGFloat space = 5;
         for (UIView *subview in self.subviews) {
             if ([NSStringFromClass(subview.class) containsString:@"ContentView"]) {
                 subview.layoutMargins = UIEdgeInsetsMake(0, space, 0, space);//可修正iOS11之后的偏移
@@ -76,14 +76,14 @@ static BOOL sx_disableFixSpace = NO;
         [self swizzleInstanceMethod:@selector(setLeftBarButtonItem:)
                                      with:@selector(sx_setLeftBarButtonItem:)];
         
-        [self swizzleInstanceMethod:@selector(setLeftBarButtonItems:)
-                                     with:@selector(sx_setLeftBarButtonItems:)];
+//        [self swizzleInstanceMethod:@selector(setLeftBarButtonItems:)
+//                                     with:@selector(sx_setLeftBarButtonItems:)];
         
         [self swizzleInstanceMethod:@selector(setRightBarButtonItem:)
                                      with:@selector(sx_setRightBarButtonItem:)];
         
-        [self swizzleInstanceMethod:@selector(setRightBarButtonItems:)
-                                     with:@selector(sx_setRightBarButtonItems:)];
+//        [self swizzleInstanceMethod:@selector(setRightBarButtonItems:)
+//                                     with:@selector(sx_setRightBarButtonItems:)];
     });
     
 }

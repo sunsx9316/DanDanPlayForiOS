@@ -16,8 +16,10 @@
 #import "TextHeaderView.h"
 #import "HomePageSearchFilterView.h"
 #import "HomePageSearchFilterModel.h"
+#import "JHSearchBar.h"
+#import "JHExpandView.h"
 
-@interface AttentionListViewController ()<UITableViewDelegate, UITableViewDataSource, HomePageSearchFilterViewDataSource, HomePageSearchFilterViewDelegate>
+@interface AttentionListViewController ()<UITableViewDelegate, UITableViewDataSource, HomePageSearchFilterViewDataSource, HomePageSearchFilterViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) JHBaseTableView *tableView;
 @property (strong, nonatomic) HomePageSearchFilterView *filterView;
 @property (strong, nonatomic) JHFavoriteCollection *responseObject;
@@ -27,6 +29,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary <NSString *, NSMutableArray <JHFavorite *>*>*modelDic;
 @property (strong, nonatomic) NSMutableArray <NSString *>*sectionIndexTitles;
+@property (strong, nonatomic) JHSearchBar *searchBar;
 @end
 
 @implementation AttentionListViewController
@@ -34,7 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"我的关注";
+//    self.navigationItem.title = @"我的关注";
+    [self configTitleView];
     
     [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -51,6 +55,13 @@
 
 - (void)endRefresh {
     [self.tableView endRefreshing];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self userfilterDataSource];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDataSource
@@ -200,10 +211,18 @@
     NSInteger viewIndex = [self.filterView selectedItemIndexAtSection:1];
     NSInteger sortIndex = [self.filterView selectedItemIndexAtSection:2];
     
+    NSArray <JHFavorite *>*filterArr = nil;
+    if (self.searchBar.text.length == 0) {
+        filterArr = self.responseObject.collection;
+    }
+    else {
+        filterArr = [self.responseObject.collection filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS[c] %@", self.searchBar.text]];
+    }
+    
     
     NSMutableArray <JHFavorite *>*realDataSource = [NSMutableArray array];
     
-    [self.responseObject.collection enumerateObjectsUsingBlock:^(JHFavorite * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [filterArr enumerateObjectsUsingBlock:^(JHFavorite * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL onAirCanAdd = onAirIndex == 0 || (onAirIndex == 1 && obj.isOnAir) || (onAirIndex == 2 && obj.isOnAir == NO);
         BOOL viewCanAdd = viewIndex == 0 || (viewIndex == 1 && obj.episodeWatched < obj.episodeTotal) || (viewIndex == 2 && obj.episodeWatched >= obj.episodeTotal);
         
@@ -247,6 +266,17 @@
     self.sectionIndexTitles = [[self.modelDic allKeysSorted] mutableCopy];
 }
 
+- (void)configTitleView {
+    JHExpandView *searchBarHolderView = [[JHExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+    [searchBarHolderView addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_offset(0);
+        make.trailing.mas_offset(0);
+        make.top.bottom.mas_equalTo(0);
+    }];
+    self.navigationItem.titleView = searchBarHolderView;
+}
+
 #pragma mark - 懒加载
 - (JHBaseTableView *)tableView {
     if (_tableView == nil) {
@@ -273,6 +303,7 @@
                 }
                 else {
                     self.responseObject = responseObject;
+                    self.searchBar.text = nil;
                     [self.filterView reloadData];
                     [self userfilterDataSource];
                     self.filterView.hidden = NO;
@@ -299,6 +330,19 @@
     return _filterView;
 }
 
+- (JHSearchBar *)searchBar {
+    if (_searchBar == nil) {
+        _searchBar = [[JHSearchBar alloc] init];
+        _searchBar.placeholder = @"搜索番剧";
+        _searchBar.delegate = self;
+        _searchBar.backgroundImage = [[UIImage alloc] init];
+        _searchBar.tintColor = MAIN_COLOR;
+        _searchBar.backgroundColor = [UIColor clearColor];
+        _searchBar.textField.font = NORMAL_SIZE_FONT;
+    }
+    return _searchBar;
+}
+
 - (NSMutableDictionary<NSString *,NSMutableArray<JHFavorite *> *> *)modelDic {
     if (_modelDic == nil) {
         _modelDic = [NSMutableDictionary dictionary];
@@ -308,29 +352,22 @@
 
 - (NSArray<HomePageSearchFilterModel *> *)filterDataSource {
     if (_filterDataSource == nil) {
-        NSMutableArray *arr = [NSMutableArray array];
-        {
+        _filterDataSource = @[({
             HomePageSearchFilterModel *model = [[HomePageSearchFilterModel alloc] init];
             model.title = @"全部";
             model.subItems = @[@"全部", @"正在连载", @"已完结"];
-            [arr addObject:model];
-        }
-        
-        {
+            model;
+        }),({
             HomePageSearchFilterModel *model = [[HomePageSearchFilterModel alloc] init];
             model.title = @"全部";
             model.subItems = @[@"全部", @"未看完", @"已看完"];
-            [arr addObject:model];
-        }
-        
-        {
+            model;
+        }),({
             HomePageSearchFilterModel *model = [[HomePageSearchFilterModel alloc] init];
             model.title = @"默认";
             model.subItems = @[@"默认", @"关注时间顺序", @"关注时间倒序", @"名称顺序", @"名称倒序"];
-            [arr addObject:model];
-        }
-        
-        _filterDataSource = arr;
+            model;
+        })];
     }
     return _filterDataSource;
 }

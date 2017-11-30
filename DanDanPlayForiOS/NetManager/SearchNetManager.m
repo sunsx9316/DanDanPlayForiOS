@@ -40,7 +40,7 @@
         return nil;
     }
     
-    return [self GETWithPath:[@"http://biliproxy.chinacloudsites.cn/search/" stringByAppendingString:[keyword stringByURLEncode]] parameters:nil completionHandler:^(JHResponse *model) {
+    return [self GETWithPath:@"http://biliproxy.chinacloudsites.cn/search" parameters:@{@"keyword" : keyword} completionHandler:^(JHResponse *model) {
         completionHandler([JHBiliBiliSearchCollection yy_modelWithJSON:model.responseObject], model.error);
     }];
 }

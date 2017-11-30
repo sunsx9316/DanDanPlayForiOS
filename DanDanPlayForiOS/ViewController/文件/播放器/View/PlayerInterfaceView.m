@@ -10,7 +10,7 @@
 #import "PlayerInterfaceHolderView.h"
 #import "JHBlurView.h"
 #import "JHEdgeButton.h"
-
+#import <MediaPlayer/MediaPlayer.h>
 #import <YYKeyboardManager.h>
 
 #define AUTO_DISS_MISS_TIME 3.5f
@@ -470,6 +470,11 @@
 - (JHControlView *)volumeControlView {
     if (_volumeControlView == nil) {
         _volumeControlView = [[JHControlView alloc] initWithImage:[UIImage imageNamed:@"player_volume"]];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+        MPMusicPlayerController *mpc = [MPMusicPlayerController applicationMusicPlayer];
+        _volumeControlView.progress = mpc.volume;
+#pragma clang diagnostic pop
     }
     return _volumeControlView;
 }
@@ -477,6 +482,7 @@
 - (JHControlView *)brightnessControlView {
     if (_brightnessControlView == nil) {
         _brightnessControlView = [[JHControlView alloc] initWithImage:[UIImage imageNamed:@"player_brightness"]];
+        _brightnessControlView.progress = [UIScreen mainScreen].brightness;
     }
     return _brightnessControlView;
 }

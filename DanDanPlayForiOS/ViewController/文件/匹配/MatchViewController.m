@@ -43,7 +43,6 @@
     }];
     
     [self.treeView.jh_tableView.mj_header beginRefreshing];
-    
 }
 
 #pragma mark - RATreeViewDelegate

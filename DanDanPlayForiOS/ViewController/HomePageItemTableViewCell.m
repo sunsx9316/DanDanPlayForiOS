@@ -52,7 +52,7 @@
     return self;
 }
 
-- (void)setModel:(JHBangumi *)model {
+- (void)setModel:(JHHomeBangumi *)model {
     _model = model;
     [self.iconImgView jh_setImageWithURL:_model.imageURL];
     self.titleLabel.text = _model.name;
@@ -69,14 +69,14 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HomePageItemCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemCollectionViewCell" forIndexPath:indexPath];
-    JHBangumiGroup *model = self.model.collection[indexPath.item];
+    JHHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
     [cell.button setTitle:model.name forState:UIControlStateNormal];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JHBangumiGroup *model = self.model.collection[indexPath.item];
+    JHHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
     NSValue *value = [model getAssociatedValueForKey:_cmd];
     if (value) {
         return value.CGSizeValue;

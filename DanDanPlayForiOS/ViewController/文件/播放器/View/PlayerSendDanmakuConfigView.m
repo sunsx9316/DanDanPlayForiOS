@@ -256,7 +256,7 @@
             
             [self dismiss];
         }]];
-        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.7);
+        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, DEFAULT_BLACK_ALPHA);
         [self addSubview:_bgView];
     }
     return _bgView;

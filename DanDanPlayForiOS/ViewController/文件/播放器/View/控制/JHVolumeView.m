@@ -17,11 +17,11 @@
     UISlider *_slider;
 }
 
-- (void)setVolume:(CGFloat)volume {
-    self.volumeSlider.value = volume;
+- (void)setJh_volume:(CGFloat)jh_volume {
+    self.volumeSlider.value = jh_volume;
 }
 
-- (CGFloat)volume {
+- (CGFloat)jh_volume {
     return self.volumeSlider.value;
 }
 
@@ -30,7 +30,7 @@
 - (UISlider *)volumeSlider {
     if (_slider == nil) {
         for (UIView *view in [self subviews]) {
-            if ([view.class.description isEqualToString:@"MPVolumeSlider"]) {
+            if ([view isMemberOfClass:NSClassFromString(@"MPVolumeSlider")]) {
                 _slider = (UISlider *)view;
                 break;
             }

@@ -106,7 +106,7 @@
     if (_versionLabel == nil) {
         _versionLabel = [[UILabel alloc] init];
         _versionLabel.text = [NSString stringWithFormat:@"v%@", [UIApplication sharedApplication].appVersion];
-        _versionLabel.font = VERY_SMALL_SIZE_FONT;
+        _versionLabel.font = SMALL_SIZE_FONT;
         _versionLabel.textColor = [UIColor lightGrayColor];
         [self.view addSubview:_versionLabel];
     }
@@ -116,7 +116,7 @@
 - (JHEdgeButton *)officialButton {
     if (_officialButton == nil) {
         _officialButton = [[JHEdgeButton alloc] init];
-        _officialButton.titleLabel.font = VERY_SMALL_SIZE_FONT;
+        _officialButton.titleLabel.font = SMALL_SIZE_FONT;
         _officialButton.inset = CGSizeMake(10, 10);
         [_officialButton setTitle:@"官网" forState:UIControlStateNormal];
         [_officialButton addTarget:self action:@selector(touchOfficialWebsiteButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -129,7 +129,7 @@
     if (_openSourceButton == nil) {
         _openSourceButton = [[JHEdgeButton alloc] init];
         _openSourceButton.inset = CGSizeMake(10, 10);
-        _openSourceButton.titleLabel.font = VERY_SMALL_SIZE_FONT;
+        _openSourceButton.titleLabel.font = SMALL_SIZE_FONT;
         [_openSourceButton setTitle:@"开源地址" forState:UIControlStateNormal];
         [_openSourceButton addTarget:self action:@selector(touchOpenSourceButton:) forControlEvents:UIControlEventTouchUpInside];
         [_openSourceButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
@@ -141,7 +141,7 @@
     if (_weiboButton == nil) {
         _weiboButton = [[JHEdgeButton alloc] init];
         _weiboButton.inset = CGSizeMake(10, 10);
-        _weiboButton.titleLabel.font = VERY_SMALL_SIZE_FONT;
+        _weiboButton.titleLabel.font = SMALL_SIZE_FONT;
         [_weiboButton setTitle:@"@我" forState:UIControlStateNormal];
         [_weiboButton setTitleColor:MAIN_COLOR forState:UIControlStateNormal];
         [_weiboButton addTarget:self action:@selector(touchWeiboButton:) forControlEvents:UIControlEventTouchUpInside];

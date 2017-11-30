@@ -286,6 +286,7 @@
     }];
 }
 
+//电话事件
 - (void)handleInterreption:(NSNotification *)aNotification {
     BOOL interruption = [aNotification.userInfo[AVAudioSessionInterruptionTypeKey] boolValue];
     //中断
@@ -296,9 +297,9 @@
     }
     //恢复
     else {
-        if (self.isPlaying == NO) {
-            [self play];
-        }
+//        if (self.isPlaying == NO) {
+//            [self play];
+//        }
     }
 }
 

@@ -13,8 +13,8 @@
 #define HOME_PAGE_HEADER_HEIGHT (BANNER_HEIGHT - MENU_VIEW_HEIGHT + BANNER_BUTTON_HEIGHT + 20)
 
 @interface HomePageHeaderView : UIView
-@property (strong, nonatomic) NSArray <JHBannerPage *>*dataSource;
+@property (strong, nonatomic) NSArray <JHHomeBanner *>*dataSource;
 @property (strong, nonatomic) UIButton *attionButton;
 @property (strong, nonatomic) UIButton *searchButton;
-@property (copy, nonatomic) void(^didSelctedModelCallBack)(JHBannerPage *model);
+@property (copy, nonatomic) void(^didSelctedModelCallBack)(JHHomeBanner *model);
 @end

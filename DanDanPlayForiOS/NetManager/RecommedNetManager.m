@@ -7,7 +7,6 @@
 //
 
 #import "RecommedNetManager.h"
-#import "GDataXMLElement+Tools.h"
 
 @implementation RecommedNetManager
 + (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void(^)(JHHomePage *responseObject, NSError *error))completionHandler {
@@ -23,59 +22,9 @@
             completionHandler(nil, model.error);
         }
         else {
-            NSError *err;
-            GDataXMLDocument *document = [[GDataXMLDocument alloc] initWithData:model.responseObject error:&err];
-            
-            if (err == nil) {
-                JHHomePage *homePageModel = [[JHHomePage alloc] init];
-                homePageModel.bangumis = [NSMutableArray array];
-                homePageModel.bannerPages = [NSMutableArray array];
-                GDataXMLElement *rootElement = document.rootElement;
-                //滚动视图
-                GDataXMLElement *aElement = [rootElement elementsForName:@"Banner"].firstObject;
-                NSArray *aElements = [aElement elementsForName:@"BannerPage"];
-                
-                for (GDataXMLElement *element in aElements) {
-                    JHBannerPage *model = [JHBannerPage yy_modelWithDictionary:[element keysValuesForElementKeys:@[@"Title", @"Description", @"ImageUrl", @"Url"]]];
-                    [(NSMutableArray *)homePageModel.bannerPages addObject:model];
-                }
-                
-                //每日推荐
-                aElement = [rootElement elementsForName:@"Featured"].firstObject;
-                JHFeatured *featuredModel = [JHFeatured yy_modelWithDictionary:[aElement keysValuesForElementKeys:@[@"Title", @"ImageUrl", @"Category", @"Introduction", @"Url"]]];
-                homePageModel.todayFeaturedModel = featuredModel;
-                
-                //推荐番剧
-                aElement = [rootElement elementsForName:@"Bangumi"].firstObject;
-                aElements = [aElement elementsForName:@"BangumiOfDay"];
-                
-                for (GDataXMLElement *element in aElements) {
-                    NSDictionary *dic = [element keysValuesForElementKeys:@[@"DayOfWeek", @"Bangumi"]];
-                    JHBangumiCollection *model = [[JHBangumiCollection alloc] init];
-                    model.weekDay = [dic[@"DayOfWeek"] integerValue];
-                    model.collection = [NSMutableArray array];
-                    [(NSMutableArray *)homePageModel.bangumis addObject:model];
-                    
-                    for (GDataXMLElement *aBangumiElement in dic[@"Bangumi"]) {
-                        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[aBangumiElement keysValuesForElementKeys:@[@"Name", @"Keyword", @"ImageUrl", @"AnimeId", @"IsFavorite", @"Groups"]]];
-                        
-                        NSArray *groupsArr = [dic[@"Groups"] elementsForName:@"Group"];
-                        dic[@"Groups"] = [NSMutableArray array];
-                        for (GDataXMLElement *aGroupsElement in groupsArr) {
-                            JHBangumiGroup *groupModel = [JHBangumiGroup yy_modelWithDictionary:[aGroupsElement keysValuesForAttributeKeys:@[@"GroupName", @"SearchUrl"]]];
-                            [dic[@"Groups"] addObject:groupModel];
-                        }
-                        
-                        JHBangumi *bangumiDataModel = [JHBangumi yy_modelWithDictionary:dic];
-                        [(NSMutableArray *)model.collection addObject:bangumiDataModel];
-                    }
-                }
-                
-                completionHandler(homePageModel, err);
-            }
-            else {
-                completionHandler(nil, err);
-            }
+            NSDictionary *dic = [NSDictionary dictionaryWithXML:model.responseObject];
+            JHHomePage *homePageModel = [JHHomePage yy_modelWithJSON:dic];
+            completionHandler(homePageModel, model.error);
         }
     }];
 }

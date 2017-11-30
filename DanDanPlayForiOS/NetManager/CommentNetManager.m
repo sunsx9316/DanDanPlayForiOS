@@ -82,7 +82,10 @@
                     }
                     
                     //合并弹幕 并缓存
-                    [collection.collection addObjectsFromArray:responseObject1.collection];
+                    if (responseObject1) {
+                        [collection.collection addObjectsFromArray:responseObject1.collection];
+                    }
+                    
                     collection = [DanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DanDanPlayDanmakuTypeOfficial];
                     
                     progressAction(1.0f);
@@ -121,7 +124,7 @@
     if (completionHandler == nil) return;
     
     if (relatedCollection.collection.count == 0) {
-        completionHandler(nil, @[jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion)]);
+        completionHandler(nil, @[]);
         return;
     }
     

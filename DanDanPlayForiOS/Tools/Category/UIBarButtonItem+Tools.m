@@ -14,6 +14,7 @@
 - (instancetype)initWithImage:(UIImage *)image configAction:(ItemConfigAction)configAction {
     UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 35)];
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
+//    aButton.backgroundColor = [UIColor redColor];
     [aButton setImage:image forState:UIControlStateNormal];
 //    [aButton sizeToFit];
     if (configAction) configAction(aButton);
@@ -25,7 +26,7 @@
     aButton.titleLabel.font = NORMAL_SIZE_FONT;
     [aButton setTitle:title forState:UIControlStateNormal];
     [aButton sizeToFit];
-    aButton.width += 30;
+    aButton.width += 10;
     if (configAction) configAction(aButton);
     
     return [self initWithCustomView:aButton];

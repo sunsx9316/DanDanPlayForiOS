@@ -9,5 +9,5 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface JHVolumeView : MPVolumeView
-@property (assign, nonatomic) CGFloat volume;
+@property (assign, nonatomic) CGFloat jh_volume;
 @end

@@ -82,17 +82,8 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
         NSString *biometryType = laContext.biometryTypeStringValue;
         
-        //初始化touchId
-        if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeInit) {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"如果不希望使用%@登录，可以在设置里关掉它~", biometryType] preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:vc animated:YES completion:nil];
-            [CacheManager shareCacheManager].useTouchIdLogin = UserLoginInTouchIdTypeAgree;
-            return;
-        }
-        
         //用户同意使用touchID登录 并且上次登录过
-        if ([CacheManager shareCacheManager].useTouchIdLogin == UserLoginInTouchIdTypeAgree && [CacheManager shareCacheManager].lastLoginUser) {
+        if ([CacheManager shareCacheManager].useTouchIdLogin && [CacheManager shareCacheManager].lastLoginUser) {
             
             [laContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                       localizedReason:[NSString stringWithFormat:@"使用%@登录 %@", biometryType, [CacheManager shareCacheManager].lastLoginUser.name] reply:^(BOOL success, NSError *error) {

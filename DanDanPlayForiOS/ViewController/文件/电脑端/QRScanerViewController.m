@@ -282,7 +282,7 @@
         _noticeButton.titleLabel.font = NORMAL_SIZE_FONT;
         [_noticeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_noticeButton setTitle:@"二维码在哪?" forState:UIControlStateNormal];
-        _noticeButton.backgroundColor = RGBACOLOR(180, 180, 180, 0.7);
+        _noticeButton.backgroundColor = RGBACOLOR(100, 100, 100, 0.7);
         _noticeButton.layer.cornerRadius = 10;
         _noticeButton.layer.masksToBounds = YES;
         [_noticeButton addTarget:self action:@selector(touchHelpButton:) forControlEvents:UIControlEventTouchUpInside];

@@ -10,7 +10,7 @@
 #import "JHBaseTableView.h"
 
 @interface HomePageItemViewController : JHBaseViewController
-@property (strong, nonatomic) NSArray <JHBangumi *>*bangumis;
+@property (strong, nonatomic) NSArray <JHHomeBangumi *>*bangumis;
 @property (copy, nonatomic) void(^handleBannerCallBack)(void);
 @property (copy, nonatomic) void(^endRefreshCallBack)(void);
 - (void)endRefresh;

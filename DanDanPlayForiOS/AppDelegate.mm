@@ -96,7 +96,7 @@
         if ([CacheManager shareCacheManager].linkInfo == nil) {
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"检测到磁力链" message:@"需要连接到电脑端才能下载~" preferredStyle:UIAlertControllerStyleAlert];
             
-            [vc addAction:[UIAlertAction actionWithTitle:@"扫码链接" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [vc addAction:[UIAlertAction actionWithTitle:@"扫码连接" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 QRScanerViewController *vc = [[QRScanerViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 @weakify(self)

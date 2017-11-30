@@ -292,7 +292,7 @@ CG_INLINE NSString *jh_jsonString(id obj) {
     
     if (paths.count == 0) {
         if (completionBlock) {
-            completionBlock(nil, nil, @[jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion)]);
+            completionBlock(nil, nil, @[]);
         }
         return;
     }

@@ -263,7 +263,7 @@
     if (_bgView == nil) {
         _bgView = [[UIView alloc] init];
         _bgView.alpha = 0;
-        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
+        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, DEFAULT_BLACK_ALPHA);
         @weakify(self)
         [_bgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
             @strongify(self)

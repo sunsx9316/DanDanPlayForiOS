@@ -222,13 +222,13 @@
 - (void)configRightItem {
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_browser"] configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+        aButton.userInteractionEnabled = !!self.config;
     }];
     
     [self.navigationItem addRightItemFixedSpace:item];
 }
 
 - (void)touchRightItem:(UIButton *)sender {
-    if (self.config == nil) return;
     
     NSString *link = self.config.link;
     if (link.length == 0) {
@@ -323,7 +323,7 @@
                                 make.top.mas_offset(0);
                             }];
                         }
-                        
+                        self.navigationItem.rightBarButtonItem.customView.userInteractionEnabled = !!self.config;
                         self.dataSource = responseObject.collection;
                         [self.tableView reloadData];
                     }

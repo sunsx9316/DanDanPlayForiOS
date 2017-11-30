@@ -231,10 +231,10 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:nil configAction:^(UIButton *aButton) {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_download_pause"] configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
         [aButton setImage:[UIImage imageNamed:@"file_match_play"] forState:UIControlStateSelected];
-        [aButton setImage:[UIImage imageNamed:@"mine_download_pause"] forState:UIControlStateNormal];
+        
     }];
     
     [self.navigationItem addRightItemFixedSpace:item];

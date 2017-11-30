@@ -9,9 +9,9 @@
 #import "JHControlView.h"
 
 @interface JHControlView ()
-@property (strong, nonatomic) UIVisualEffectView *bgView;
-@property (strong, nonatomic) UIVisualEffectView *progressVibrancyView;
-@property (strong, nonatomic) UIVisualEffectView *iconVibrancyView;
+@property (strong, nonatomic) UIView *bgView;
+//@property (strong, nonatomic) UIVisualEffectView *progressVibrancyView;
+//@property (strong, nonatomic) UIVisualEffectView *iconVibrancyView;
 @property (strong, nonatomic) UIView *progressView;
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) NSTimer *timer;
@@ -24,7 +24,7 @@
 
 - (instancetype)initWithImage:(UIImage *)image {
     if (self = [self initWithFrame:CGRectZero]) {
-        self.iconImgView.image = image;
+        self.iconImgView.image = [image yy_imageByTintColor:[UIColor blackColor]];
     }
     return self;
 }
@@ -36,12 +36,14 @@
             make.edges.mas_equalTo(0);
         }];
         
-        [self.progressVibrancyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
-        
-        [self.iconVibrancyView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
+
+        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.mas_equalTo(0);
+            make.bottom.mas_offset(-10);
+            make.centerX.mas_equalTo(0);
         }];
         
         self.layer.cornerRadius = 8;
@@ -88,7 +90,8 @@
     
 //    self.alpha = 0;
 //    [UIView animateWithDuration:0.2 animations:^{
-        self.alpha = 1;
+    [self.layer removeAllAnimations];
+    self.alpha = 1;
 //    }];
     
 }
@@ -100,6 +103,8 @@
     [UIView animateWithDuration:0.2 animations:^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
+        if (_isShowing) return;
+        
         self.timer.fireDate = [NSDate distantFuture];
         [self removeFromSuperview];
     }];
@@ -120,41 +125,46 @@
 }
 
 #pragma mark - 懒加载
-- (UIVisualEffectView *)bgView {
+- (UIView *)bgView {
     if (_bgView == nil) {
-        _bgView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+//        _bgView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = RGBACOLOR(0, 0, 0, 0.8);
         
         [self addSubview:_bgView];
     }
     return _bgView;
 }
 
-- (UIVisualEffectView *)progressVibrancyView {
-    if (_progressVibrancyView == nil) {
-        _progressVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
-        [_progressVibrancyView.contentView addSubview:self.progressView];
-        [self addSubview:_progressVibrancyView];
-    }
-    return _progressVibrancyView;
-}
-
-- (UIVisualEffectView *)iconVibrancyView {
-    if (_iconVibrancyView == nil) {
-        _iconVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]]];
-        [_iconVibrancyView.contentView addSubview:self.iconImgView];
-        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_offset(-10);
-            make.centerX.mas_equalTo(0);
-        }];
-        [self addSubview:_iconVibrancyView];
-    }
-    return _iconVibrancyView;
-}
+//- (UIView *)progressVibrancyView {
+//    if (_progressVibrancyView == nil) {
+//        _progressVibrancyView = [[UIVisualEffectView alloc] init];
+//        _progressVibrancyView.backgroundColor = RGBACOLOR(0, 0, 0, 0.3);
+//        _progressVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
+//        [_progressVibrancyView.contentView addSubview:self.progressView];
+//        [self addSubview:_progressVibrancyView];
+//    }
+//    return _progressVibrancyView;
+//}
+//
+//- (UIVisualEffectView *)iconVibrancyView {
+//    if (_iconVibrancyView == nil) {
+//        _iconVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]]];
+//        [_iconVibrancyView.contentView addSubview:self.iconImgView];
+//        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.mas_offset(-10);
+//            make.centerX.mas_equalTo(0);
+//        }];
+//        [self addSubview:_iconVibrancyView];
+//    }
+//    return _iconVibrancyView;
+//}
 
 - (UIView *)progressView {
     if (_progressView == nil) {
         _progressView = [[UIView alloc] init];
-        _progressView.backgroundColor = [UIColor whiteColor];
+        _progressView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.4];
+        [self addSubview:_progressView];
     }
     return _progressView;
 }
@@ -162,6 +172,7 @@
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
         _iconImgView = [[UIImageView alloc] init];
+        [self addSubview:_iconImgView];
     }
     return _iconImgView;
 }

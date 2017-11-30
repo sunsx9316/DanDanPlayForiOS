@@ -174,7 +174,7 @@
             }
         }
         else {
-            [MBProgressHUD showWithText:@"视频格式不正确！"];
+            [MBProgressHUD showWithText:@"不支持的文件格式！"];
         }
     }
 }

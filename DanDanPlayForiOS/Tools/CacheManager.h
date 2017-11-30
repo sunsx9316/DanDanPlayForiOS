@@ -35,12 +35,6 @@ typedef NS_ENUM(NSUInteger, CollectionCacheDidChangeType) {
     CollectionCacheDidChangeTypeRemove,
 };
 
-typedef NS_ENUM(NSUInteger, UserLoginInTouchIdType) {
-    UserLoginInTouchIdTypeInit,
-    UserLoginInTouchIdTypeAgree,
-    UserLoginInTouchIdTypeReject,
-};
-
 FOUNDATION_EXPORT NSString *const videoNameKey;
 FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 
@@ -114,7 +108,7 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 /**
  使用touchId登录
  */
-@property (assign, nonatomic) UserLoginInTouchIdType useTouchIdLogin;
+@property (assign, nonatomic) BOOL useTouchIdLogin;
 
 
 /**

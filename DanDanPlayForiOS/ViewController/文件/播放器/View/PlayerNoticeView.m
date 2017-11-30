@@ -91,6 +91,7 @@
     if (_titleButton == nil) {
         _titleButton = [[UIButton alloc] init];
         _titleButton.titleLabel.font = SMALL_SIZE_FONT;
+        _titleButton.titleLabel.numberOfLines = 0;
         _titleButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [_titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_titleButton addTarget:self action:@selector(touchTitleButton:) forControlEvents:UIControlEventTouchUpInside];
