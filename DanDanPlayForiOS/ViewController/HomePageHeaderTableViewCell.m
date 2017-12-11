@@ -1,37 +1,38 @@
 //
-//  HomePageHeaderView.m
+//  HomePageHeaderTableViewCell.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/10/22.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "HomePageHeaderView.h"
+#import "HomePageHeaderTableViewCell.h"
 #import "HomePageBannerView.h"
 #import <iCarousel.h>
 
-@interface HomePageHeaderView ()<iCarouselDelegate, iCarouselDataSource>
+@interface HomePageHeaderTableViewCell ()<iCarouselDelegate, iCarouselDataSource>
 @property (strong, nonatomic) iCarousel *scrollView;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) UIPageControl *pageControl;
+@property (strong, nonatomic) UIButton *timeLineButton;
+@property (strong, nonatomic) UIButton *searchButton;
 @end
 
-@implementation HomePageHeaderView
+@implementation HomePageHeaderTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = NO;
         
         [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(-MENU_VIEW_HEIGHT);
-            make.left.right.mas_equalTo(0);
+            make.top.left.right.mas_equalTo(0);
             make.height.mas_equalTo(BANNER_HEIGHT);
         }];
         
         CGFloat width = (kScreenWidth - 100) / 2;
         
-        [self.attionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.timeLineButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(width);
             make.height.mas_equalTo(40);
             make.bottom.mas_offset(-10);
@@ -39,7 +40,7 @@
         }];
         
         [self.searchButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(self.attionButton);
+            make.size.mas_equalTo(self.timeLineButton);
             make.bottom.mas_offset(-10);
             make.centerX.mas_offset(width / 2 + 10);
         }];
@@ -59,42 +60,12 @@
     self.timer.fireDate = [NSDate distantPast];
 }
 
-- (UIButton *)attionButton {
-    if (_attionButton == nil) {
-        _attionButton = [[UIButton alloc] init];
-        [_attionButton setImage:[[UIImage imageNamed:@"home_attention"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
-        _attionButton.titleLabel.font = NORMAL_SIZE_FONT;
-        [_attionButton setTitle:@"我的关注" forState:UIControlStateNormal];
-        [_attionButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
-        [_attionButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        _attionButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
-//        _attionButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-//        _attionButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
-        [self addSubview:_attionButton];
-    }
-    return _attionButton;
-}
-
-- (UIButton *)searchButton {
-    if (_searchButton == nil) {
-        _searchButton = [[UIButton alloc] init];
-        [_searchButton setImage:[[UIImage imageNamed:@"home_search"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
-        _searchButton.titleLabel.font = NORMAL_SIZE_FONT;
-        [_searchButton setTitle:@"搜索资源" forState:UIControlStateNormal];
-        [_searchButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
-        [_searchButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
-        [self addSubview:_searchButton];
-    }
-    return _searchButton;
-}
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event {
-    if (point.y < 0) {
-        return YES;
-    }
-    return [super pointInside:point withEvent:event];
-}
+//- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event {
+//    if (point.y < 0) {
+//        return YES;
+//    }
+//    return [super pointInside:point withEvent:event];
+//}
 
 #pragma mark - iCarouselDelegate
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
@@ -133,6 +104,19 @@
     return bannerView;
 }
 
+#pragma mark - 私有方法
+- (void)touchTimeLineButton:(UIButton *)sender {
+    if (self.touchTimeLineButtonCallBack) {
+        self.touchTimeLineButtonCallBack();
+    }
+}
+
+- (void)touchSearchButton:(UIButton *)sender {
+    if (self.touchSearchButtonCallBack) {
+        self.touchSearchButtonCallBack();
+    }
+}
+
 #pragma mark - 懒加载
 - (iCarousel *)scrollView {
     if (_scrollView == nil) {
@@ -143,7 +127,7 @@
         _scrollView.pagingEnabled = YES;
         _scrollView.type = iCarouselTypeLinear;
         [_scrollView addSubview:self.pageControl];
-        [self addSubview:_scrollView];
+        [self.contentView addSubview:_scrollView];
     }
     return _scrollView;
 }
@@ -158,6 +142,36 @@
         _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     }
     return _pageControl;
+}
+
+- (UIButton *)timeLineButton {
+    if (_timeLineButton == nil) {
+        _timeLineButton = [[UIButton alloc] init];
+        [_timeLineButton setImage:[[UIImage imageNamed:@"home_attention"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
+        _timeLineButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_timeLineButton setTitle:@"时间线" forState:UIControlStateNormal];
+        [_timeLineButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
+        [_timeLineButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        _timeLineButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        [_timeLineButton addTarget:self action:@selector(touchTimeLineButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_timeLineButton];
+    }
+    return _timeLineButton;
+}
+
+- (UIButton *)searchButton {
+    if (_searchButton == nil) {
+        _searchButton = [[UIButton alloc] init];
+        [_searchButton setImage:[[UIImage imageNamed:@"home_search"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
+        _searchButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_searchButton setTitle:@"搜索资源" forState:UIControlStateNormal];
+        [_searchButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
+        [_searchButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        [_searchButton addTarget:self action:@selector(touchSearchButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_searchButton];
+    }
+    return _searchButton;
 }
 
 - (NSTimer *)timer {

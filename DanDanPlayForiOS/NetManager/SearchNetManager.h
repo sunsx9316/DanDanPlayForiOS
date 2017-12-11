@@ -8,7 +8,7 @@
 
 #import "BaseNetManager.h"
 #import "JHSearchCollection.h"
-#import "JHBiliBiliSearchCollection.h"
+#import "JHBiliBiliSearchResult.h"
 #import "JHBiliBiliBangumiCollection.h"
 #import "JHDMHYSearchCollection.h"
 #import "JHDMHYSearchConfig.h"
@@ -40,7 +40,7 @@
  *  @return 任务
  */
 + (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword
-                                  completionHandler:(void(^)(JHBiliBiliSearchCollection *responseObject, NSError *error))completionHandler;
+                                  completionHandler:(void(^)(JHBiliBiliSearchResult *responseObject, NSError *error))completionHandler;
 /**
  *  获取b站番剧详情
  *

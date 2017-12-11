@@ -19,5 +19,6 @@
 #import "FavoriteNetManager.h"
 #import "ParseNetManager.h"
 #import "LinkNetManager.h"
+#import "PlayHistoryNetManager.h"
 
 #endif /* NetManagerHeader_h */

@@ -282,7 +282,7 @@
             [self.tableView.mj_header endRefreshing];
         }];
         
-        [header setTitle:@"下拉扫描本地SMB服务器（￣工￣）" forState:MJRefreshStateIdle];
+        [header setTitle:@"下拉准备扫描（￣工￣）" forState:MJRefreshStateIdle];
         [header setTitle:@"松手扫描(￣▽￣)" forState:MJRefreshStatePulling];
         [header setTitle:@"扫描中... (　´_ゝ｀)" forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;

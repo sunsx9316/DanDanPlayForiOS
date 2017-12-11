@@ -12,15 +12,17 @@
 
 + (NSURLSessionDataTask *)parseDMHYWithURL:(NSString *)url
                          completionHandler:(void(^)(JHDMHYParse *responseObject, NSError *error))completionHandler {
-    if (completionHandler == nil) return nil;
-    
     if (url.length == 0) {
-        completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
+        if (completionHandler) {
+            completionHandler(nil, jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
+        }
         return nil;
     }
     
     return [self GETWithPath:[NSString stringWithFormat:@"%@/dmhy/parse", API_DMHY_DOMAIN] parameters:@{@"url" : url} completionHandler:^(JHResponse *model) {
-        completionHandler([JHDMHYParse yy_modelWithJSON:model.responseObject], model.error);
+        if (completionHandler) {
+            completionHandler([JHDMHYParse yy_modelWithJSON:model.responseObject], model.error);
+        }
     }];
 }
 

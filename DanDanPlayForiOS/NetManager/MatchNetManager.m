@@ -48,17 +48,20 @@
 + (NSURLSessionDataTask *)matchEditMatchVideoModel:(VideoModel *)model
                                               user:(JHUser *)user
                                  completionHandler:(void(^)(NSError *error))completionHandler {
-    if (completionHandler == nil) return nil;
     
     if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.md5.length == 0 || model.identity == 0) {
-        completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
+        if (completionHandler) {
+            completionHandler(jh_creatErrorWithCode(jh_errorCodeParameterNoCompletion));
+        }
         return nil;
     }
     
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.md5, @"EpisodeId" : @(model.identity)};
     
     return [self POSTDataWithPath:[NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID] data:ddplay_encryptionObj(dic) completionHandler:^(JHResponse *model) {
-        completionHandler(model.error);
+        if (completionHandler) {
+            completionHandler(model.error);
+        }
     }];
 }
 

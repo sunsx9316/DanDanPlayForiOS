@@ -14,7 +14,7 @@ target 'DanDanPlayForiOS' do
 # 集成微信
     #pod 'UMengUShare/Social/WeChat'
 
-    pod 'Bugly', '2.4.8'
+    pod 'Bugly'
     pod 'MobileVLCKit-unstable', '3.0.0a42'
     pod 'AFNetworking'
     pod 'Masonry'
@@ -23,10 +23,9 @@ target 'DanDanPlayForiOS' do
     pod 'YYCategories'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
-    pod 'GDataXML-HTML'
+    #pod 'GDataXML-HTML'
     pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
-    #pod 'FDFullscreenPopGesture'
     pod 'RATreeView'
     pod 'WMPageController'
     pod 'IQKeyboardManager'
@@ -38,5 +37,6 @@ target 'DanDanPlayForiOS' do
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
-    
+    pod 'FMDB'
+
 end

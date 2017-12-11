@@ -47,6 +47,7 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
 @property (strong, nonatomic) YYCache *episodeInfoCache;
 @property (strong, nonatomic) YYCache *lastPlayTimeCache;
 @property (strong, nonatomic) YYCache *smbFileHashCache;
+@property (strong, nonatomic) NSMutableDictionary <NSNumber *, YYWebImageManager *>*imageManagerDic;
 @property (strong, nonatomic) NSMutableArray <TOSMBSessionDownloadTask *>*aDownloadTasks;
 @property (strong, nonatomic) NSMutableArray <JHFilter *>*aFilterCollection;
 @property (strong, nonatomic) NSTimer *timer;
@@ -103,6 +104,13 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
         _smbFileHashCache = [[YYCache alloc] initWithName:@"smb_file_hash_cache"];
     }
     return _smbFileHashCache;
+}
+
+- (NSMutableDictionary<NSNumber *,YYWebImageManager *> *)imageManagerDic {
+    if (_imageManagerDic == nil) {
+        _imageManagerDic = [NSMutableDictionary dictionary];
+    }
+    return _imageManagerDic;
 }
 
 
@@ -793,6 +801,20 @@ NSString *const videoEpisodeIdKey = @"video_episode_id";
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
+}
+
+#pragma mark -
+- (YYWebImageManager *)imageManagerWithRoundedCornersRadius:(CGFloat)radius {
+    YYWebImageManager *manager = self.imageManagerDic[@(radius)];
+    if (manager == nil) {
+        NSString *cachePath = [UIApplication sharedApplication].cachesPath;
+        cachePath = [cachePath stringByAppendingPathComponent:@"dandanplay"];
+        cachePath = [cachePath stringByAppendingPathComponent:@"roundedCorners"];
+        
+        manager = [[YYWebImageManager alloc] initWithCache:[[YYImageCache alloc] initWithPath:cachePath] queue:nil];
+        self.imageManagerDic[@(radius)] = manager;
+    }
+    return manager;
 }
 
 @end

@@ -10,4 +10,12 @@
 
 @implementation JHFilterCollection
 
++ (Class)entityClass {
+    return [JHFilter class];
+}
+
++ (NSString *)collectionKey {
+    return @"FilterItem";
+}
+
 @end

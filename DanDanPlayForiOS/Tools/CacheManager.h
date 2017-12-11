@@ -238,15 +238,26 @@ FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
 - (void)removeSMBSessionDownloadTask:(TOSMBSessionDownloadTask *)task;
 - (NSArray <TOSMBSessionDownloadTask *>*)downloadTasks;
 
+
+/**
+ 电脑端下载文件大小
+ */
 @property (assign, nonatomic) NSUInteger totoalExpectedToReceive;
+
+/**
+ 电脑端总接收大小
+ */
 @property (assign, nonatomic) NSUInteger totoalToReceive;
 
-//@property (assign, nonatomic) NSUInteger linkTotoalExpectedToReceive;
-//@property (assign, nonatomic) NSUInteger linkTotoalToReceive;
+/**
+ 总下载数
+ */
 @property (assign, nonatomic) NSUInteger linkDownloadingTaskCount;
 - (BOOL)timerIsStart;
 - (void)addLinkDownload;
 - (void)updateLinkDownloadInfo;
+
+- (YYWebImageManager *)imageManagerWithRoundedCornersRadius:(CGFloat)radius;
 
 + (instancetype)shareCacheManager;
 @end

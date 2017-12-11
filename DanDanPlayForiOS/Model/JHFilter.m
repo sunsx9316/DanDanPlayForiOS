@@ -10,6 +10,13 @@
 
 @implementation JHFilter
 
++ (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
+    return @{@"isRegex" : @"IsRegex",
+             @"name" : @"Name",
+             @"content" : @"_text"
+             };
+}
+
 - (NSUInteger)hash {
     if (self.identity == 0) {
         return self.name.hash;

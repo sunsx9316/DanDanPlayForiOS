@@ -1,5 +1,5 @@
 //
-//  HomePageHeaderView.h
+//  HomePageHeaderTableViewCell.h
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/10/22.
@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #define BANNER_HEIGHT 180
 #define BANNER_BUTTON_HEIGHT 40
-#define MENU_VIEW_HEIGHT 44
-#define HOME_PAGE_HEADER_HEIGHT (BANNER_HEIGHT - MENU_VIEW_HEIGHT + BANNER_BUTTON_HEIGHT + 20)
+//#define MENU_VIEW_HEIGHT 44
+#define HOME_PAGE_HEADER_HEIGHT (BANNER_HEIGHT + BANNER_BUTTON_HEIGHT + 20)
 
-@interface HomePageHeaderView : UIView
+@interface HomePageHeaderTableViewCell : UITableViewCell
 @property (strong, nonatomic) NSArray <JHHomeBanner *>*dataSource;
-@property (strong, nonatomic) UIButton *attionButton;
-@property (strong, nonatomic) UIButton *searchButton;
+
 @property (copy, nonatomic) void(^didSelctedModelCallBack)(JHHomeBanner *model);
+@property (copy, nonatomic) void(^touchTimeLineButtonCallBack)(void);
+@property (copy, nonatomic) void(^touchSearchButtonCallBack)(void);
 @end

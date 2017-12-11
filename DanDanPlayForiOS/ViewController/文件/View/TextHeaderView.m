@@ -12,7 +12,9 @@
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
-        self.contentView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+        self.backgroundColor = [UIColor colorWithWhite:0.75 alpha:1];
+        [self.layer setLayerShadow:RGBACOLOR(20, 20, 20, 0.15) offset:CGSizeMake(0, 1) radius:1.5];
+        
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
             make.left.mas_equalTo(10);

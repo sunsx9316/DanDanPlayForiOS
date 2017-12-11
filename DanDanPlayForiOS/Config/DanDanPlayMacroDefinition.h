@@ -82,6 +82,8 @@
 #define CLIENT_ID @"ddplayios"
 //windows最小连接的版本
 #define WIN_MINI_LINK_VERSION @"6.8.2"
+//系统最低支持版本
+#define MINI_SUPPORT_VERTSION @"9.0"
 
 
 #endif /* DanDanPlayMacroDefinition_h */
