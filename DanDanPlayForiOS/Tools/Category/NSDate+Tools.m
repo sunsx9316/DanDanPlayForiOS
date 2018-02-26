@@ -12,6 +12,7 @@
 #define YEAR_MONTH_HOUR_MINUTE_DAY_TIME_STYLE @"yyyy/M/d HH:mm"
 #define YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE @"yyyy/MM/dd HH:mm"
 #define HISTORY_YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE @"yyyy-MM-dd HH:mm:ss"
+#define LAST_WATCH_HOUR_MINUTE_DAY_TIME_LONG_STYLE @"HH:mm"
 
 @implementation NSDate (Tools)
 + (NSDateFormatter *)shareDateFormatter {
@@ -47,6 +48,25 @@
 
 + (NSString *)historyTimeStyleWithDate:(NSDate *)date {
     if (date == nil) return nil;
+    
+    NSDateFormatter *dateFormatter = [self shareDateFormatter];
+    dateFormatter.dateFormat = HISTORY_YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)lastWatchTimeStyleWithDate:(NSDate *)date {
+    if (date == nil) return nil;
+    
+    if (date.isToday) {
+        NSDateFormatter *dateFormatter = [self shareDateFormatter];
+        dateFormatter.dateFormat = LAST_WATCH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;
+        return [NSString stringWithFormat:@"今天 %@", [dateFormatter stringFromDate:date]];
+    }
+    else if (date.isYesterday) {
+        NSDateFormatter *dateFormatter = [self shareDateFormatter];
+        dateFormatter.dateFormat = LAST_WATCH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;
+        return [NSString stringWithFormat:@"昨天 %@", [dateFormatter stringFromDate:date]];
+    }
     
     NSDateFormatter *dateFormatter = [self shareDateFormatter];
     dateFormatter.dateFormat = HISTORY_YEAR_MONTH_HOUR_MINUTE_DAY_TIME_LONG_STYLE;

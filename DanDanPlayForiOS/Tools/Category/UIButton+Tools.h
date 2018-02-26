@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (Tools)
-- (void)jh_setImageWithURL:(nullable NSURL *)imageURL
+- (void)ddp_setImageWithURL:(nullable NSURL *)imageURL
                   forState:(UIControlState)state;
 @end

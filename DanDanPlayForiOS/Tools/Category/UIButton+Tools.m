@@ -9,7 +9,7 @@
 #import "UIButton+Tools.h"
 
 @implementation UIButton (Tools)
-- (void)jh_setImageWithURL:(nullable NSURL *)imageURL
+- (void)ddp_setImageWithURL:(nullable NSURL *)imageURL
                   forState:(UIControlState)state {
     [self yy_setImageWithURL:imageURL forState:state placeholder:[UIImage imageNamed:@"comment_place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }

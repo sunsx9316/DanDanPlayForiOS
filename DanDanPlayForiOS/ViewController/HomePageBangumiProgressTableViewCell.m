@@ -24,7 +24,7 @@
     return self;
 }
 
-- (void)setCollection:(JHBangumiQueueIntroCollection *)collection {
+- (void)setCollection:(DDPBangumiQueueIntroCollection *)collection {
     _collection = collection;
     [self.collectionView reloadData];
 }
@@ -36,6 +36,7 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HomePageBangumiProgressCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageBangumiProgressCollectionViewCell" forIndexPath:indexPath];
+    cell.itemSize = [self collectionView:collectionView layout:collectionView.collectionViewLayout sizeForItemAtIndexPath:indexPath];
     cell.model = self.collection.collection[indexPath.item];
     return cell;
 }
@@ -44,6 +45,13 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger width = (NSInteger)((kScreenWidth - 40) / 2.5);
     return CGSizeMake(width, self.height - 20);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    DDPBangumiQueueIntro *model = self.collection.collection[indexPath.item];
+    if (self.didSelectedBangumiCallBack) {
+        self.didSelectedBangumiCallBack(model);
+    }
 }
 
 #pragma mark - 懒加载
@@ -55,14 +63,12 @@
         layout.minimumInteritemSpacing = 10;
         layout.minimumInteritemSpacing = 10;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//        NSInteger width = (NSInteger)((kScreenWidth - 40) / 3);
-//        layout.itemSize = CGSizeMake(width, <#CGFloat height#>)
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.backgroundColor = BACK_GROUND_COLOR;
+        _collectionView.backgroundColor = [UIColor ddp_backgroundColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        [_collectionView registerNib:[UINib nibWithNibName:@"HomePageBangumiProgressCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"HomePageBangumiProgressCollectionViewCell"];
+        [_collectionView registerNib:[HomePageBangumiProgressCollectionViewCell loadNib] forCellWithReuseIdentifier:@"HomePageBangumiProgressCollectionViewCell"];
         [self.contentView addSubview:self.collectionView];
     }
     return _collectionView;

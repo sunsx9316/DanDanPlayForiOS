@@ -9,15 +9,24 @@
 #import "UIImageView+Tools.h"
 
 @implementation UIImageView (Tools)
-- (void)jh_setImageWithURL:(NSURL *)imageURL {
-    [self yy_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"comment_place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
+- (void)ddp_setImageWithURL:(NSURL *)imageURL {
+    [self ddp_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"comment_place_holder"] progress:nil manager:nil transform:nil completion:nil];
 }
 
-- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {
-    [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
+- (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {
+    [self ddp_setImageWithURL:imageURL placeholder:placeholder progress:nil manager:nil transform:nil completion:nil];
 }
 
-- (void)jh_setImageWithFadeType:(UIImage *)image {
+- (void)ddp_setImageWithURL:(NSURL *)imageURL
+               placeholder:(UIImage *)placeholder
+                  progress:(YYWebImageProgressBlock)progress
+                   manager:(YYWebImageManager *)manager
+                 transform:(YYWebImageTransformBlock)transform
+                completion:(YYWebImageCompletionBlock)completion {
+    [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION progress:progress transform:transform completion:completion];
+}
+
+- (void)ddp_setImageWithFadeType:(UIImage *)image {
     self.image = nil;
     [self.layer removeAllAnimations];
     CATransition *transition = [CATransition animation];

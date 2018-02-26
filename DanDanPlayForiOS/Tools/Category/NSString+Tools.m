@@ -74,7 +74,7 @@
 }
 
 - (BOOL)isSubtileFileWithVideoPath:(NSString *)videoPath {
-    if (jh_isSubTitleFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
+    if (ddp_isSubTitleFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
         return NO;
     }
     
@@ -89,7 +89,7 @@
 }
 
 - (BOOL)isDanmakuFileWithVideoPath:(NSString *)videoPath {
-    if (jh_isDanmakuFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
+    if (ddp_isDanmakuFile(self) == NO || videoPath.length == 0 || self.length < videoPath.length) {
         return NO;
     }
     

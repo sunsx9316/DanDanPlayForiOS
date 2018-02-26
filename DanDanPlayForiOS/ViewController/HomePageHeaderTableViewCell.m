@@ -24,6 +24,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = NO;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_equalTo(0);
@@ -53,7 +54,7 @@
     return self;
 }
 
-- (void)setDataSource:(NSArray<JHHomeBanner *> *)dataSource {
+- (void)setDataSource:(NSArray<DDPHomeBanner *> *)dataSource {
     _dataSource = dataSource;
     [self.scrollView reloadData];
     self.pageControl.numberOfPages = _dataSource.count;
@@ -83,7 +84,7 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
-    JHHomeBanner *task = _dataSource[index];
+    DDPHomeBanner *task = _dataSource[index];
     if (self.didSelctedModelCallBack) {
         self.didSelctedModelCallBack(task);
     }
@@ -138,7 +139,7 @@
         _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
         _pageControl.transform = CGAffineTransformMakeScale(0.7, 0.7);
-        _pageControl.currentPageIndicatorTintColor = MAIN_COLOR;
+        _pageControl.currentPageIndicatorTintColor = [UIColor ddp_mainColor];
         _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     }
     return _pageControl;
@@ -147,8 +148,8 @@
 - (UIButton *)timeLineButton {
     if (_timeLineButton == nil) {
         _timeLineButton = [[UIButton alloc] init];
-        [_timeLineButton setImage:[[UIImage imageNamed:@"home_attention"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
-        _timeLineButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_timeLineButton setImage:[[UIImage imageNamed:@"home_attention"] imageByTintColor:[UIColor ddp_mainColor]] forState:UIControlStateNormal];
+        _timeLineButton.titleLabel.font = [UIFont ddp_normalSizeFont];
         [_timeLineButton setTitle:@"时间线" forState:UIControlStateNormal];
         [_timeLineButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_timeLineButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -162,8 +163,8 @@
 - (UIButton *)searchButton {
     if (_searchButton == nil) {
         _searchButton = [[UIButton alloc] init];
-        [_searchButton setImage:[[UIImage imageNamed:@"home_search"] imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
-        _searchButton.titleLabel.font = NORMAL_SIZE_FONT;
+        [_searchButton setImage:[[UIImage imageNamed:@"home_search"] imageByTintColor:[UIColor ddp_mainColor]] forState:UIControlStateNormal];
+        _searchButton.titleLabel.font = [UIFont ddp_normalSizeFont];
         [_searchButton setTitle:@"搜索资源" forState:UIControlStateNormal];
         [_searchButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_searchButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];

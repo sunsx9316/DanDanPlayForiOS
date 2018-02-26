@@ -23,7 +23,6 @@ target 'DanDanPlayForiOS' do
     pod 'YYCategories'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
-    #pod 'GDataXML-HTML'
     pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
     pod 'RATreeView'
@@ -37,6 +36,6 @@ target 'DanDanPlayForiOS' do
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
-    pod 'FMDB'
+    pod 'WCDB'
 
 end

@@ -47,11 +47,11 @@
     return self;
 }
 
-- (void)setModel:(JHHomeBanner *)model {
+- (void)setModel:(DDPHomeBanner *)model {
     _model = model;
     self.titleLabel.text = _model.name;
     self.contentLabel.text = _model.desc;
-    [self.imgView jh_setImageWithURL:_model.imageURL];
+    [self.imgView ddp_setImageWithURL:_model.imageURL];
 }
 
 #pragma mark - 懒加载
@@ -68,7 +68,7 @@
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = NORMAL_SIZE_FONT;
+        _titleLabel.font = [UIFont ddp_normalSizeFont];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.numberOfLines = 2;
         [_titleLabel setRequiredContentVerticalResistancePriority];
@@ -80,8 +80,8 @@
 - (UILabel *)contentLabel {
     if (_contentLabel == nil) {
         _contentLabel = [[UILabel alloc] init];
-        _contentLabel.font = SMALL_SIZE_FONT;
-        _contentLabel.textColor = VERY_LIGHT_GRAY_COLOR;
+        _contentLabel.font = [UIFont ddp_smallSizeFont];
+        _contentLabel.textColor = [UIColor ddp_veryLightGrayColor];
         _contentLabel.numberOfLines = 3;
         [self addSubview:_contentLabel];
     }
@@ -91,7 +91,7 @@
 - (UIView *)gradualView {
     if (_gradualView == nil) {
         _gradualView = [[UIView alloc] init];
-        _gradualView.backgroundColor = RGBACOLOR(0, 0, 0, DEFAULT_BLACK_ALPHA);
+        _gradualView.backgroundColor = DDPRGBAColor(0, 0, 0, DEFAULT_BLACK_ALPHA);
         [self addSubview:_gradualView];
     }
     return _gradualView;

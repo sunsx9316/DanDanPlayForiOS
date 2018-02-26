@@ -6,13 +6,21 @@
 //
 
 #import "YYPhotoBrowseView.h"
-
 #include <sys/sysctl.h>
 
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
 #import "YYCGUtilities.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #define kPadding 20
+
+
+static char saveImageKey = '\0';
+static char scanQRKey = '\0';
+
 //#define kSystemVersion [[UIDevice currentDevice].systemVersion doubleValue]
 
 #ifndef YY_CLAMP // return the clamped value
@@ -55,17 +63,18 @@
 
 
 @interface YYPhotoGroupItem()<NSCopying>
-@property (nonatomic, readonly) UIImage *thumbImage;
 @property (nonatomic, readonly) BOOL thumbClippedToTop;
 - (BOOL)shouldClipToTop:(CGSize)imageSize forView:(UIView *)view;
 @end
 @implementation YYPhotoGroupItem
 
 - (UIImage *)thumbImage {
-    if ([_thumbView respondsToSelector:@selector(image)]) {
-        return ((UIImageView *)_thumbView).image;
+    if (_thumbImage == nil) {
+        if ([_thumbView respondsToSelector:@selector(image)]) {
+            return ((UIImageView *)_thumbView).image;
+        }
     }
-    return nil;
+    return _thumbImage;
 }
 
 - (BOOL)thumbClippedToTop {
@@ -129,7 +138,7 @@
     [_imageContainerView addSubview:_imageView];
     
     _progressLayer = [CAShapeLayer layer];
-   _progressLayer.size = CGSizeMake(40, 40);
+    _progressLayer.size = CGSizeMake(40, 40);
     _progressLayer.cornerRadius = 20;
     _progressLayer.backgroundColor = [UIColor colorWithWhite:0.000 alpha:0.500].CGColor;
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(_progressLayer.bounds, 7, 7) cornerRadius:(40 / 2 - 7)];
@@ -147,7 +156,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-
+    
     _progressLayer.center = CGPointMake(self.width / 2, self.height / 2);
 }
 
@@ -161,7 +170,7 @@
     self.maximumZoomScale = 3;
     
     [_imageView yy_cancelCurrentImageRequest];
-
+    
     
     _progressLayer.hidden = NO;
     [CATransaction begin];
@@ -181,14 +190,18 @@
         @strongify(self);
         if (!self) return;
         CGFloat progress = receivedSize / (float)expectedSize;
-        progress = progress < 0.01 ? 0.01 : progress > 1 ? 1 : progress;
+        progress = progress < 0.2 ? 0.2 : progress > 1 ? 1 : progress;
         if (isnan(progress)) progress = 0;
+        
         self.progressLayer.hidden = NO;
         self.progressLayer.strokeEnd = progress;
     } transform:nil completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
         @strongify(self);
         if (!self) return;
-        self.progressLayer.hidden = YES;
+        self.progressLayer.strokeEnd = 1;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.progressLayer.hidden = YES;
+        });
         if (stage == YYWebImageStageFinished) {
             self.maximumZoomScale = 3;
             if (image) {
@@ -205,7 +218,7 @@
 
 - (void)resizeSubviewSize {
     _imageContainerView.origin = CGPointZero;
- 
+    
     _imageContainerView.width = self.width;
     
     UIImage *image = _imageView.image;
@@ -256,17 +269,7 @@
 @end
 
 
-
-
-
-
-
-
-
-
-
-
-@interface YYPhotoBrowseView() <UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface YYPhotoBrowseView() <UIScrollViewDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 @property (nonatomic, weak) UIView *fromView;
 @property (nonatomic, weak) UIView *toContainerView;
 
@@ -279,7 +282,8 @@
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *cells;
-@property (nonatomic, strong) UIPageControl *pager;
+//@property (nonatomic, strong) UIPageControl *pager;
+@property (nonatomic, strong) UILabel *pageLabel;
 @property (nonatomic, assign) CGFloat pagerCurrentPage;
 @property (nonatomic, assign) BOOL fromNavigationBarHidden;
 
@@ -364,7 +368,7 @@
     [tap requireGestureRecognizerToFail: tap2];
     [self addGestureRecognizer:tap2];
     
-    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress)];
+    UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     press.delegate = self;
     [self addGestureRecognizer:press];
     
@@ -390,7 +394,7 @@
     _contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     _scrollView = UIScrollView.new;
-   _scrollView.frame = CGRectMake(-kPadding / 2, 0, self.width + kPadding, self.height);
+    _scrollView.frame = CGRectMake(-kPadding / 2, 0, self.width + kPadding, self.height);
     _scrollView.delegate = self;
     _scrollView.scrollsToTop = NO;
     _scrollView.pagingEnabled = YES;
@@ -401,21 +405,41 @@
     _scrollView.delaysContentTouches = NO;
     _scrollView.canCancelContentTouches = YES;
     
-    _pager = [[UIPageControl alloc] init];
-    _pager.hidesForSinglePage = YES;
-    _pager.userInteractionEnabled = NO;
-    _pager.width = self.width - 36;
-    _pager.height = 10;
-    _pager.center = CGPointMake(self.width / 2, self.height - 18);
-    _pager.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    //    _pager = [[UIPageControl alloc] init];
+    //    _pager.hidesForSinglePage = YES;
+    //    _pager.userInteractionEnabled = NO;
+    //    _pager.width = self.width - 36;
+    //    _pager.height = 10;
+    //    _pager.center = CGPointMake(self.width / 2, self.height - 18);
+    //    _pager.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    
+    _pageLabel = [[UILabel alloc] init];
+    _pageLabel.font = [UIFont systemFontOfSize:15];
+    _pageLabel.textColor = [UIColor whiteColor];
+    _pageLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    _pageLabel.layer.shadowRadius = 2;
+    _pageLabel.layer.shadowOpacity = 1;
+    _pageLabel.layer.masksToBounds = NO;
+    _pageLabel.layer.shadowOffset = CGSizeZero;
     
     [self addSubview:_background];
     [self addSubview:_blurBackground];
     [self addSubview:_contentView];
     [_contentView addSubview:_scrollView];
-    [_contentView addSubview:_pager];
+    [_contentView addSubview:_pageLabel];
+    [_pageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_offset(-15);
+        make.left.mas_offset(15);
+    }];
+    //    [_contentView addSubview:_pager];
     
     return self;
+}
+
+- (void)presentFromImageView:(UIView *)fromView
+                    animated:(BOOL)animated
+                  completion:(void (^)(void))completion {
+    [self presentFromImageView:fromView toContainer:[UIApplication sharedApplication].keyWindow animated:YES completion:nil];
 }
 
 
@@ -447,20 +471,22 @@
     
     _background.image = _snapshorImageHideFromView;
     if (_blurEffectBackground) {
-        _blurBackground.image = [_snapshorImageHideFromView yy_imageByBlurDark]; //Same to UIBlurEffectStyleDark
+        _blurBackground.image = [_snapshorImageHideFromView imageByBlurDark]; //Same to UIBlurEffectStyleDark
     } else {
-        _blurBackground.image = [UIImage yy_imageWithColor:[UIColor blackColor]];
+        _blurBackground.image = [UIImage imageWithColor:[UIColor blackColor]];
     }
     
     self.size = _toContainerView.size;
     self.blurBackground.alpha = 0;
-    self.pager.alpha = 0;
-    self.pager.numberOfPages = self.groupItems.count;
-    self.pager.currentPage = page;
+    //    self.pager.alpha = 0;
+    //    self.pager.numberOfPages = self.groupItems.count;
+    //    self.pager.currentPage = page;
+    self.pageLabel.alpha = 0;
+    self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", page + 1, self.groupItems.count];
     [_toContainerView addSubview:self];
     
     _scrollView.contentSize = CGSizeMake(_scrollView.width * self.groupItems.count, _scrollView.height);
-    [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width * _pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:NO];
+    [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width * page, 0, _scrollView.width, _scrollView.height) animated:NO];
     [self scrollViewDidScroll:_scrollView];
     
     [UIView setAnimationsEnabled:YES];
@@ -501,7 +527,8 @@
         [UIView animateWithDuration:oneTime delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             cell.imageContainerView.layer.transformScale = 1;
             cell.imageContainerView.frame = originFrame;
-            _pager.alpha = 1;
+            //            _pager.alpha = 1;
+            self.pageLabel.alpha = 1;
         }completion:^(BOOL finished) {
             _isPresented = YES;
             [self scrollViewDidScroll:_scrollView];
@@ -529,7 +556,8 @@
         }completion:^(BOOL finished) {
             [UIView animateWithDuration:oneTime delay:0 options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut animations:^{
                 cell.imageView.layer.transformScale = 1.0;
-                _pager.alpha = 1;
+                //                _pager.alpha = 1;
+                self.pageLabel.alpha = 1;
             }completion:^(BOOL finished) {
                 cell.imageContainerView.clipsToBounds = YES;
                 _isPresented = YES;
@@ -543,97 +571,115 @@
 }
 
 - (void)dismissAnimated:(BOOL)animated completion:(void (^)(void))completion {
-    [UIView setAnimationsEnabled:YES];
+    [UIApplication sharedApplication].statusBarHidden = _fromNavigationBarHidden;
+    //    [[UIApplication sharedApplication] setStatusBarHidden:_fromNavigationBarHidden withAnimation:UIStatusBarAnimationNone];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:_fromNavigationBarHidden withAnimation:animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone];
-    NSInteger currentPage = self.currentPage;
-    YYPhotoGroupCell *cell = [self cellForPage:currentPage];
-    YYPhotoGroupItem *item = _groupItems[currentPage];
-    
-    UIView *fromView = nil;
-    if (_fromItemIndex == currentPage) {
-        fromView = _fromView;
-    } else {
-        fromView = item.thumbView;
-    }
-    
-    [self cancelAllImageLoad];
-    _isPresented = NO;
-    BOOL isFromImageClipped = fromView.layer.contentsRect.size.height < 1;
-    
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    if (isFromImageClipped) {
-        CGRect frame = cell.imageContainerView.frame;
-        cell.imageContainerView.layer.anchorPoint = CGPointMake(0.5, 0);
-        cell.imageContainerView.frame = frame;
-    }
-    cell.progressLayer.hidden = YES;
-    [CATransaction commit];
-    
-    
-    
-    
-    if (fromView == nil) {
-        self.background.image = _snapshotImage;
-        [UIView animateWithDuration:animated ? 0.25 : 0 delay:0 options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut animations:^{
-            self.alpha = 0.0;
-            self.scrollView.layer.transformScale = 0.95;
-            self.scrollView.alpha = 0;
-            self.pager.alpha = 0;
-            self.blurBackground.alpha = 0;
-        }completion:^(BOOL finished) {
-            self.scrollView.layer.transformScale = 1;
-            [self removeFromSuperview];
-            [self cancelAllImageLoad];
-            if (completion) completion();
-        }];
-        return;
-    }
-    
-    if (_fromItemIndex != currentPage) {
-        _background.image = _snapshotImage;
-        [_background.layer addFadeAnimationWithDuration:0.25 curve:UIViewAnimationCurveEaseOut];
-    } else {
-        _background.image = _snapshorImageHideFromView;
-    }
-
-    
-    if (isFromImageClipped) {
-        CGPoint off = cell.contentOffset;
-        off.y = 0 - cell.contentInset.top;
-        [cell setContentOffset:off animated:animated];
-    }
-    
-    [UIView animateWithDuration:animated ? 0.2 : 0 delay:0 options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut animations:^{
-        _pager.alpha = 0.0;
-        _blurBackground.alpha = 0.0;
-        if (isFromImageClipped) {
-            
-            CGRect fromFrame = [fromView convertRect:fromView.bounds toView:cell];
-            CGFloat scale = fromFrame.size.width / cell.imageContainerView.width * cell.zoomScale;
-            CGFloat height = fromFrame.size.height / fromFrame.size.width * cell.imageContainerView.width;
-            if (isnan(height)) height = cell.imageContainerView.height;
-            
-            cell.imageContainerView.height = height;
-            cell.imageContainerView.center = CGPointMake(CGRectGetMidX(fromFrame), CGRectGetMinY(fromFrame));
-            cell.imageContainerView.layer.transformScale = scale;
-            
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [UIView setAnimationsEnabled:YES];
+        NSInteger currentPage = self.currentPage;
+        YYPhotoGroupCell *cell = [self cellForPage:currentPage];
+        YYPhotoGroupItem *item = _groupItems[currentPage];
+        
+        UIView *fromView = nil;
+        if (_fromItemIndex == currentPage) {
+            fromView = _fromView;
         } else {
-            CGRect fromFrame = [fromView convertRect:fromView.bounds toView:cell.imageContainerView];
-            cell.imageContainerView.clipsToBounds = NO;
-            cell.imageView.contentMode = fromView.contentMode;
-            cell.imageView.frame = fromFrame;
+            fromView = item.thumbView;
         }
-    }completion:^(BOOL finished) {
-        [UIView animateWithDuration:animated ? 0.15 : 0 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-            self.alpha = 0;
-        } completion:^(BOOL finished) {
-            cell.imageContainerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
-            [self removeFromSuperview];
-            if (completion) completion();
+        
+        [self cancelAllImageLoad];
+        _isPresented = NO;
+        BOOL isFromImageClipped = fromView.layer.contentsRect.size.height < 1;
+        
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        if (isFromImageClipped) {
+            CGRect frame = cell.imageContainerView.frame;
+            cell.imageContainerView.layer.anchorPoint = CGPointMake(0.5, 0);
+            cell.imageContainerView.frame = frame;
+        }
+        cell.progressLayer.hidden = YES;
+        [CATransaction commit];
+        
+        
+        
+        if (fromView == nil) {
+            self.background.image = _snapshotImage;
+            [UIView animateWithDuration:animated ? 0.25 : 0 delay:0 options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut animations:^{
+                self.alpha = 0.0;
+                self.scrollView.layer.transformScale = 0.95;
+                self.scrollView.alpha = 0;
+                //            self.pager.alpha = 0;
+                self.pageLabel.alpha = 1;
+                self.blurBackground.alpha = 0;
+            }completion:^(BOOL finished) {
+                self.scrollView.layer.transformScale = 1;
+                [self removeFromSuperview];
+                [self cancelAllImageLoad];
+                if (completion) completion();
+            }];
+            return;
+        }
+        
+        if (_fromItemIndex != currentPage) {
+            _background.image = _snapshotImage;
+            [_background.layer addFadeAnimationWithDuration:0.25 curve:UIViewAnimationCurveEaseOut];
+        } else {
+            _background.image = _snapshorImageHideFromView;
+        }
+        
+        
+        if (isFromImageClipped) {
+            CGPoint off = cell.contentOffset;
+            off.y = 0 - cell.contentInset.top;
+            [cell setContentOffset:off animated:animated];
+        }
+        
+        [UIView animateWithDuration:animated ? 0.2 : 0 delay:0 options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut animations:^{
+            //        _pager.alpha = 0.0;
+            self.pageLabel.alpha = 0;
+            _blurBackground.alpha = 0.0;
+            CGSize imageSize = cell.imageView.frame.size;
+            NSString *ratio = [NSString stringWithFormat:@"%.2f", imageSize.width/imageSize.height];
+            NSString *ratio0 = [NSString stringWithFormat:@"%.2f", fromView.frame.size.width/fromView.frame.size.height];
+            if (ratio != ratio0) {
+                if (imageSize.width > imageSize.height) {
+                    [cell.imageView setContentMode:UIViewContentModeScaleAspectFill];
+                    [cell.imageView.layer setContentsRect:CGRectMake(0, 0, 1, 1)];
+                } else {
+                    [cell.imageView setContentMode:UIViewContentModeScaleToFill];
+                    [cell.imageView.layer setContentsRect:CGRectMake(0, (1.0-imageSize.width/imageSize.height)/2, 1, imageSize.width/imageSize.height)];
+                }
+            }
+            if (isFromImageClipped) {
+                
+                CGRect fromFrame = [fromView convertRect:fromView.bounds toView:cell];
+                CGFloat scale = fromFrame.size.width / cell.imageContainerView.width * cell.zoomScale;
+                CGFloat height = fromFrame.size.height / fromFrame.size.width * cell.imageContainerView.width;
+                if (isnan(height)) height = cell.imageContainerView.height;
+                
+                cell.imageContainerView.height = height;
+                cell.imageContainerView.center = CGPointMake(CGRectGetMidX(fromFrame), CGRectGetMinY(fromFrame));
+                cell.imageContainerView.layer.transformScale = scale;
+                
+            } else {
+                CGRect fromFrame = [fromView convertRect:fromView.bounds toView:cell.imageContainerView];
+                cell.imageContainerView.clipsToBounds = NO;
+                cell.imageView.contentMode = fromView.contentMode;
+                cell.imageView.frame = fromFrame;
+            }
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:animated ? 0.15 : 0 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                self.alpha = 0;
+            } completion:^(BOOL finished) {
+                cell.imageContainerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+                [self removeFromSuperview];
+                if (completion) completion();
+            }];
         }];
-    }];
+    });
+    
     
     
 }
@@ -677,9 +723,11 @@
     
     NSInteger intPage = floatPage + 0.5;
     intPage = intPage < 0 ? 0 : intPage >= _groupItems.count ? (int)_groupItems.count - 1 : intPage;
-    _pager.currentPage = intPage;
+    //    _pager.currentPage = intPage;
+    self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", intPage + 1, self.groupItems.count];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut animations:^{
-        _pager.alpha = 1;
+        //        _pager.alpha = 1;
+        self.pageLabel.alpha = 1;
     }completion:^(BOOL finish) {
     }];
 }
@@ -696,10 +744,11 @@
 
 
 - (void)hidePager {
-        [UIView animateWithDuration:0.3 delay:0.8 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
-            _pager.alpha = 0;
-        }completion:^(BOOL finish) {
-        }];
+    [UIView animateWithDuration:0.3 delay:0.8 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
+        //            _pager.alpha = 0;
+        self.pageLabel.alpha = 0;
+    }completion:^(BOOL finish) {
+    }];
 }
 
 /// enqueue invisible cells for reuse
@@ -806,30 +855,21 @@
     }
 }
 
-- (void)longPress {
-    if (!_isPresented) return;
-    
-    YYPhotoGroupCell *tile = [self cellForPage:self.currentPage];
-    if (!tile.imageView.image) return;
-    
-    // try to save original image data if the image contains multi-frame (such as GIF/APNG)
-    id imageItem = [tile.imageView.image yy_imageDataRepresentation];
-    YYImageType type = YYImageDetectType((__bridge CFDataRef)(imageItem));
-    if (type != YYImageTypePNG &&
-        type != YYImageTypeJPEG &&
-        type != YYImageTypeGIF) {
-        imageItem = tile.imageView.image;
+- (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        if (!_isPresented) return;
+        
+        YYPhotoGroupCell *tile = [self cellForPage:self.currentPage];
+        UIImage *image = tile.imageView.image;
+        if (!image) return;
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"选择操作类型" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil];
+        [actionSheet addButtonWithTitle:@"保存图片"];
+        
+        objc_setAssociatedObject(actionSheet, &saveImageKey, image, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [actionSheet showInView:self];
     }
     
-    UIActivityViewController *activityViewController =
-    [[UIActivityViewController alloc] initWithActivityItems:@[imageItem] applicationActivities:nil];
-    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {
-        activityViewController.popoverPresentationController.sourceView = self;
-    }
-
-    UIViewController *toVC = self.toContainerView.viewController;
-    if (!toVC) toVC = self.viewController;
-    [toVC presentViewController:activityViewController animated:YES completion:nil];
 }
 
 - (void)pan:(UIPanGestureRecognizer *)g {
@@ -852,7 +892,8 @@
             alpha = YY_CLAMP(alpha, 0, 1);
             [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionCurveLinear animations:^{
                 _blurBackground.alpha = alpha;
-                _pager.alpha = alpha;
+                //                _pager.alpha = alpha;
+                self.pageLabel.alpha = alpha;
             } completion:nil];
             
         } break;
@@ -876,7 +917,8 @@
                 
                 [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState animations:^{
                     _blurBackground.alpha = 0;
-                    _pager.alpha = 0;
+                    //                    _pager.alpha = 0;
+                    self.pageLabel.alpha = 0;
                     if (moveToTop) {
                         _scrollView.bottom = 0;
                     } else {
@@ -893,14 +935,19 @@
                 [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:v.y / 1000 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
                     _scrollView.top = 0;
                     _blurBackground.alpha = 1;
-                    _pager.alpha = 1;
+                    //                    _pager.alpha = 1;
+                    self.pageLabel.alpha = 1;
                 } completion:^(BOOL finished) {
-                    
+                    [UIView animateWithDuration:0.3 delay:1 options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState animations:^{
+                        self.pageLabel.alpha = 0;
+                    } completion:nil];
                 }];
             }
             
         } break;
-        case UIGestureRecognizerStateCancelled : {
+        case UIGestureRecognizerStateCancelled :
+        case UIGestureRecognizerStateFailed:
+        {
             _scrollView.top = 0;
             _blurBackground.alpha = 1;
         }
@@ -908,5 +955,23 @@
     }
 }
 
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        UIImage *img = objc_getAssociatedObject(actionSheet, &saveImageKey);
+        //保存
+        if (buttonIndex == 1) {
+            [img yy_saveToAlbumWithCompletionBlock:^(NSURL * _Nullable assetURL, NSError * _Nullable error) {
+                if (error) {
+                    [self showWithError:error];
+                }
+                else {
+                    [self showWithText:@"保存成功!"];
+                }
+            }];
+        }
+    }
+}
 
 @end
+

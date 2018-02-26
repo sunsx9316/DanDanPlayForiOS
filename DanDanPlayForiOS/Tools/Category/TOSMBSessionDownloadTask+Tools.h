@@ -7,7 +7,8 @@
 //
 
 #import <TOSMBClient/TOSMBClient.h>
+#import "DDPDownloadTaskProtocol.h"
 
-@interface TOSMBSessionDownloadTask (Tools)
-@property (assign, nonatomic, readonly) float progress;
+@interface TOSMBSessionDownloadTask (Tools)<DDPDownloadTaskProtocol>
+
 @end

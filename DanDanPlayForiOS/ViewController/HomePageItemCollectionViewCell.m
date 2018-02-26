@@ -7,7 +7,7 @@
 //
 
 #import "HomePageItemCollectionViewCell.h"
-#import "JHEdgeButton.h"
+#import "DDPEdgeButton.h"
 
 @implementation HomePageItemCollectionViewCell
 
@@ -23,11 +23,11 @@
 #pragma mark - 懒加载
 - (UIButton *)button {
     if (_button == nil) {
-        JHEdgeButton *aButton = [[JHEdgeButton alloc] init];
+        DDPEdgeButton *aButton = [[DDPEdgeButton alloc] init];
         aButton.inset = CGSizeMake(10, 10);
         _button = aButton;
         _button.userInteractionEnabled = NO;
-        _button.titleLabel.font = NORMAL_SIZE_FONT;
+        _button.titleLabel.font = [UIFont ddp_normalSizeFont];
         [_button setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.contentView addSubview:_button];

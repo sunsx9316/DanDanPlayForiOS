@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HomePageSearchTableViewCell : UITableViewCell
-@property (strong, nonatomic) JHDMHYSearch *model;
-@property (copy, nonatomic) void(^touchSubGroupCallBack)(JHDMHYSearch *model);
+@property (strong, nonatomic) DDPDMHYSearch *model;
+@property (copy, nonatomic) void(^touchSubGroupCallBack)(DDPDMHYSearch *model);
 @end

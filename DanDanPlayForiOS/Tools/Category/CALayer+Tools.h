@@ -9,6 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface CALayer (Tools)
-- (void)jh_setImageWithURL:(NSURL *)imageURL;
-- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
+- (void)ddp_setImageWithURL:(NSURL *)imageURL;
+- (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
 @end

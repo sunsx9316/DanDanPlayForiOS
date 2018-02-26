@@ -12,7 +12,7 @@
 
 - (NSURL *)fullURL {
     //smb://xiaoming:123456@192.168.1.100/xiaoming/Desktop/1.mp4
-    TOSMBSession *session = [ToolsManager shareToolsManager].SMBSession;
+    TOSMBSession *session = [DDPToolsManager shareToolsManager].SMBSession;
     //两次URL编码
     NSMutableString *path = [[NSMutableString alloc] initWithString:@"smb://"];
     if (session.userName.length && session.password.length) {

@@ -13,9 +13,9 @@
 #define HOME_PAGE_HEADER_HEIGHT (BANNER_HEIGHT + BANNER_BUTTON_HEIGHT + 20)
 
 @interface HomePageHeaderTableViewCell : UITableViewCell
-@property (strong, nonatomic) NSArray <JHHomeBanner *>*dataSource;
+@property (strong, nonatomic) NSArray <DDPHomeBanner *>*dataSource;
 
-@property (copy, nonatomic) void(^didSelctedModelCallBack)(JHHomeBanner *model);
+@property (copy, nonatomic) void(^didSelctedModelCallBack)(DDPHomeBanner *model);
 @property (copy, nonatomic) void(^touchTimeLineButtonCallBack)(void);
 @property (copy, nonatomic) void(^touchSearchButtonCallBack)(void);
 @end

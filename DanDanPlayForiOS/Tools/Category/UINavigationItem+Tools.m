@@ -7,7 +7,7 @@
 //
 
 #import "UINavigationItem+Tools.h"
-#import "JHEdgeButton.h"
+#import "DDPEdgeButton.h"
 
 @implementation UINavigationItem (Tools)
 - (void)addLeftItemFixedSpace:(UIBarButtonItem *)item {

@@ -10,5 +10,6 @@
 
 
 @interface HomePageBangumiProgressTableViewCell : UITableViewCell
-@property (strong, nonatomic) JHBangumiQueueIntroCollection *collection;
+@property (strong, nonatomic) DDPBangumiQueueIntroCollection *collection;
+@property (copy, nonatomic) void(^didSelectedBangumiCallBack)(DDPBangumiQueueIntro *model);
 @end

@@ -40,4 +40,13 @@
  @return 字符串
  */
 + (NSString *)historyTimeStyleWithDate:(NSDate *)date;
+
+
+/**
+ 上次观看时间
+
+ @param date 时间
+ @return 字符串
+ */
++ (NSString *)lastWatchTimeStyleWithDate:(NSDate *)date;
 @end

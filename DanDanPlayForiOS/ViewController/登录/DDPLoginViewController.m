@@ -1,0 +1,378 @@
+//
+//  DDPLoginViewController.m
+//  DanDanPlayForiOS
+//
+//  Created by JimHuang on 2017/10/10.
+//  Copyright © 2017年 JimHuang. All rights reserved.
+//
+
+#import "DDPLoginViewController.h"
+#import "DDPRegisterViewController.h"
+
+#import "DDPTextField.h"
+#import "DDPEdgeButton.h"
+#import "DDPBaseScrollView.h"
+#import "UIView+Tools.h"
+#import <UMSocialCore/UMSocialCore.h>
+#import <Bugly/Bugly.h>
+#import "LAContext+Tools.h"
+#import "UIApplication+Tools.h"
+
+CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
+    switch (error.code) {
+        case UMSocialPlatformErrorType_NotSupport:
+            return @"客户端不支持该操作";
+        case UMSocialPlatformErrorType_AuthorizeFailed:
+            return @"授权失败";
+        case UMSocialPlatformErrorType_ShareFailed:
+            return @"分享失败";
+        case UMSocialPlatformErrorType_RequestForUserProfileFailed:
+            return @"请求用户信息失败";
+        case UMSocialPlatformErrorType_ShareDataNil:
+            return @"分享内容为空";
+        case UMSocialPlatformErrorType_ShareDataTypeIllegal:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_CheckUrlSchemaFail:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_NotInstall:
+            return @"应用未安装";
+        case UMSocialPlatformErrorType_Cancel:
+            return @"用户取消操作";
+        case UMSocialPlatformErrorType_NotUsingHttps:
+        case UMSocialPlatformErrorType_NotNetWork:
+            return @"网络异常";
+        case UMSocialPlatformErrorType_SourceError:
+            return @"第三方错误";
+        default:
+            return @"未知错误";
+            break;
+    }
+};
+
+@interface DDPLoginViewController ()<UITextFieldDelegate>
+@property (strong, nonatomic) UIImageView *iconImgView;
+@property (strong, nonatomic) DDPTextField *userNameTextField;
+@property (strong, nonatomic) DDPTextField *passwordTextField;
+@property (strong, nonatomic) DDPEdgeButton *registerButton;
+@property (strong, nonatomic) DDPBaseScrollView *scrollView;
+@property (strong, nonatomic) DDPEdgeButton *qqButton;
+@property (strong, nonatomic) DDPEdgeButton *weiboButton;
+@property (strong, nonatomic) UIButton *loginButton;
+@property (strong, nonatomic) UIView *thirdLoginHolderView;
+@end
+
+@implementation DDPLoginViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.navigationItem.title = @"登录";
+    
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
+    [self.thirdLoginHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_offset(-20);
+        make.left.right.mas_equalTo(0);
+    }];
+    
+    LAContext *laContext = [[LAContext alloc] init];
+    //验证touchID是否可用
+    if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+        NSString *biometryType = laContext.biometryTypeStringValue;
+        
+        //用户同意使用touchID登录 并且上次登录过
+        if ([DDPCacheManager shareCacheManager].useTouchIdLogin && [DDPCacheManager shareCacheManager].lastLoginUser) {
+            
+            [laContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                      localizedReason:[NSString stringWithFormat:@"使用%@登录 %@", biometryType, [DDPCacheManager shareCacheManager].lastLoginUser.name] reply:^(BOOL success, NSError *error) {
+                          if (success) {
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  DDPUser *user = [DDPCacheManager shareCacheManager].lastLoginUser;
+                                  [self loginWithAccount:user.account password:user.password source:user.loginUserType];
+                              });
+                          }
+                          
+                          if (error) {
+                              NSLog(@"---failed to evaluate---error: %@---", error.description);
+                          }
+                      }];
+        }
+    }
+    else {
+        NSLog(@"touchID不可用");
+    }
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self touchLoginButton];
+    return NO;
+}
+
+#pragma mark - 私有方法
+
+/**
+ 第三方登录
+ 
+ @param sender 按钮
+ */
+- (void)touchThirdPartyBotton:(UIButton *)sender {
+    UMSocialPlatformType platformType = sender.tag;
+    
+    [self.view showLoading];
+    
+    [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
+        [self.view hideLoading];
+        
+        if (error) {
+            [self.view showWithText:UMErrorStringWithError(error)];
+        }
+        else {
+            UMSocialUserInfoResponse *resp = result;
+            [self.view showLoadingWithText:@"登录中..."];
+            
+            [DDPLoginNetManagerOperation loginWithSource:platformType == UMSocialPlatformType_Sina ? DDPUserTypeWeibo : DDPUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(DDPUser *responseObject, NSError *error1) {
+                [self.view hideLoading];
+                
+                if (error1) {
+                    [self.view showWithError:error1];
+                }
+                //登录成功
+                else {
+                    if (responseObject.registerRequired == YES) {
+                        DDPRegisterViewController *vc = [[DDPRegisterViewController alloc] init];
+                        vc.user = responseObject;
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }
+                    else {
+                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.view showWithText:@"登录成功!"];
+                    }
+                }
+            }];
+        }
+    }];
+}
+
+- (void)touchRegisterButton:(UIButton *)sender {
+    [self.view endEditing:YES];
+    DDPRegisterViewController *vc = [[DDPRegisterViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchLoginButton {
+    [self.view endEditing:YES];
+    
+    NSString *account = self.userNameTextField.textField.text;
+    NSString *password = self.passwordTextField.textField.text;
+    
+    [self loginWithAccount:account password:password source:DDPUserTypeDefault];
+}
+
+- (void)loginWithAccount:(NSString *)account
+                password:(NSString *)password
+                  source:(DDPUserType)source {
+    if (account.length == 0) {
+        [self.view showWithText:@"请输入登录用户名!"];
+        return;
+    }
+    
+    if (password.length == 0) {
+        [self.view showWithText:@"请输入登录密码!"];
+        return;
+    }
+    
+    [self.view showLoading];
+    [DDPLoginNetManagerOperation loginWithSource:source userId:account token:password completionHandler:^(DDPUser *responseObject, NSError *error) {
+        [self.view hideLoading];
+        
+        if (error) {
+            [self.view showWithError:error];
+        }
+        else {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.view showWithText:@"登录成功!"];
+        }
+    }];
+}
+
+#pragma mark - 懒加载
+
+- (DDPBaseScrollView *)scrollView {
+    if (_scrollView == nil) {
+        _scrollView = [[DDPBaseScrollView alloc] init];
+        [_scrollView addSubview:self.iconImgView];
+        [_scrollView addSubview:self.userNameTextField];
+        [_scrollView addSubview:self.passwordTextField];
+        [_scrollView addSubview:self.registerButton];
+        [_scrollView addSubview:self.loginButton];
+        
+        CGFloat edge = 15;
+        
+        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.top.mas_offset(edge);
+            make.width.height.mas_equalTo(80);
+        }];
+        
+        [self.userNameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(_scrollView).mas_offset(-50);
+            make.height.mas_equalTo(40);
+            make.centerX.mas_equalTo(0);
+            make.top.equalTo(self.iconImgView.mas_bottom).mas_offset(edge + 10);
+        }];
+        
+        [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.centerX.mas_equalTo(self.userNameTextField);
+            make.top.equalTo(self.userNameTextField.mas_bottom).mas_offset(edge);
+        }];
+        
+        [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.passwordTextField);
+            make.top.equalTo(self.passwordTextField.mas_bottom).mas_offset(0);
+        }];
+        
+        [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(_scrollView).mas_offset(-30);
+            make.centerX.mas_equalTo(0);
+            make.height.mas_equalTo(44);
+            make.top.equalTo(self.registerButton.mas_bottom).mas_offset(edge);
+        }];
+        
+        [self.view addSubview:_scrollView];
+    }
+    return _scrollView;
+}
+
+- (UIImageView *)iconImgView {
+    if (_iconImgView == nil) {
+        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_icon"]];
+        _iconImgView.layer.masksToBounds = YES;
+        _iconImgView.layer.cornerRadius = 40;
+    }
+    return _iconImgView;
+}
+
+- (DDPTextField *)userNameTextField {
+    if (_userNameTextField == nil) {
+        _userNameTextField = [[DDPTextField alloc] initWithType:DDPTextFieldTypeNormal];
+        _userNameTextField.textField.placeholder = @"用户名";
+    }
+    return _userNameTextField;
+}
+
+- (DDPTextField *)passwordTextField {
+    if (_passwordTextField == nil) {
+        _passwordTextField = [[DDPTextField alloc] initWithType:DDPTextFieldTypePassword];
+        _passwordTextField.textField.placeholder = @"密码";
+        _passwordTextField.textField.delegate = self;
+    }
+    return _passwordTextField;
+}
+
+- (DDPEdgeButton *)registerButton {
+    if (_registerButton == nil) {
+        _registerButton = [[DDPEdgeButton alloc] init];
+        _registerButton.inset = CGSizeMake(0, 10);
+        _registerButton.titleLabel.font = [UIFont ddp_smallSizeFont];
+        [_registerButton setTitleColor:[UIColor ddp_mainColor] forState:UIControlStateNormal];
+        [_registerButton setTitle:@"没有账号？去注册" forState:UIControlStateNormal];
+        [_registerButton addTarget:self action:@selector(touchRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _registerButton;
+}
+
+- (UIView *)thirdLoginHolderView {
+    if (_thirdLoginHolderView == nil) {
+        _thirdLoginHolderView = [[UIView alloc] init];
+        
+        UIView *leftLineView = [[UIView alloc] init];
+        leftLineView.backgroundColor = DDPRGBColor(230, 230, 230);
+        [_thirdLoginHolderView addSubview:leftLineView];
+        
+        UIView *rightLineView = [[UIView alloc] init];
+        rightLineView.backgroundColor = DDPRGBColor(230, 230, 230);
+        [_thirdLoginHolderView addSubview:rightLineView];
+        
+        [leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_thirdLoginHolderView);
+            make.left.mas_offset(20);
+            make.height.mas_equalTo(1);
+        }];
+        
+        UIView *buttonHolderView = [[UIView alloc] init];
+        [buttonHolderView addSubview:self.qqButton];
+        [buttonHolderView addSubview:self.weiboButton];
+        [_thirdLoginHolderView addSubview:buttonHolderView];
+        
+        [self.qqButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.bottom.mas_equalTo(0);
+        }];
+        
+        [self.weiboButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.mas_equalTo(0);
+            make.left.equalTo(self.qqButton.mas_right);
+        }];
+        
+        [buttonHolderView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.top.bottom.mas_equalTo(0);
+            make.left.equalTo(leftLineView.mas_right).mas_offset(10);
+        }];
+        
+        [rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(buttonHolderView.mas_right).mas_offset(10);
+            make.centerY.equalTo(_thirdLoginHolderView);
+            make.right.mas_offset(-20);
+            make.height.mas_equalTo(leftLineView);
+        }];
+        
+        [self.view addSubview:_thirdLoginHolderView];
+    }
+    return _thirdLoginHolderView;
+}
+
+- (UIButton *)loginButton {
+    if (_loginButton == nil) {
+        _loginButton = [[UIButton alloc] init];
+        _loginButton.backgroundColor = [UIColor ddp_mainColor];
+        _loginButton.titleLabel.font = [UIFont ddp_normalSizeFont];
+        [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
+        _loginButton.layer.cornerRadius = 6;
+        _loginButton.layer.masksToBounds = YES;
+        [_loginButton addTarget:self action:@selector(touchLoginButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _loginButton;
+}
+
+- (DDPEdgeButton *)qqButton {
+    if (_qqButton == nil) {
+        _qqButton = [[DDPEdgeButton alloc] init];
+        _qqButton.inset = CGSizeMake(20, 20);
+        _qqButton.tag = UMSocialPlatformType_QQ;
+        [_qqButton setImage:[UIImage imageNamed:@"login_qq"] forState:UIControlStateNormal];
+        [_qqButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
+        [_qqButton setRequiredContentVerticalResistancePriority];
+        [_qqButton setRequiredContentHorizontalResistancePriority];
+    }
+    return _qqButton;
+}
+
+- (DDPEdgeButton *)weiboButton {
+    if (_weiboButton == nil) {
+        _weiboButton = [[DDPEdgeButton alloc] init];
+        _weiboButton.inset = CGSizeMake(20, 20);
+        _weiboButton.tag = UMSocialPlatformType_Sina;
+        [_weiboButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
+        [_weiboButton setImage:[UIImage imageNamed:@"login_weibo"] forState:UIControlStateNormal];
+        [_weiboButton setRequiredContentVerticalResistancePriority];
+        [_weiboButton setRequiredContentHorizontalResistancePriority];
+    }
+    return _weiboButton;
+}
+
+@end
+

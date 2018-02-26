@@ -9,11 +9,11 @@
 #import "CALayer+Tools.h"
 
 @implementation CALayer (Tools)
-- (void)jh_setImageWithURL:(NSURL *)imageURL {
+- (void)ddp_setImageWithURL:(NSURL *)imageURL {
     [self yy_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"comment_place_holder"] options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }
 
-- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {
+- (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {
     [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION completion:nil];
 }
 

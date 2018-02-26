@@ -10,4 +10,11 @@
 
 @interface UIFont (Tools)
 @property (assign, nonatomic) BOOL isSystemFont;
+
++ (UIFont *)ddp_normalSizeFont;
++ (UIFont *)ddp_smallSizeFont;
++ (UIFont *)ddp_verySmallSizeFont;
++ (UIFont *)ddp_bigSizeFont;
++ (UIFont *)ddp_veryBigSizeFont;
++ (UIFont *)ddp_blodLargeSizeFont;
 @end

@@ -6,13 +6,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YYWebImage.h"
+
+@class YYPhotoBrowseView;
 
 /// Single picture's info.
 @interface YYPhotoGroupItem : NSObject
 @property (nonatomic, strong) UIView *thumbView; ///< thumb image, used for animation position calculation
 @property (nonatomic, assign) CGSize largeImageSize;
 @property (nonatomic, strong) NSURL *largeImageURL;
+@property (nonatomic, strong) UIImage *thumbImage;
 @end
 
 
@@ -34,6 +36,11 @@
                     animated:(BOOL)animated
                   completion:(void (^)(void))completion;
 
+- (void)presentFromImageView:(UIView *)fromView
+                    animated:(BOOL)animated
+                  completion:(void (^)(void))completion;
+
 - (void)dismissAnimated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)dismiss;
 @end
+

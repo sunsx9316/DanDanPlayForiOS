@@ -23,7 +23,7 @@
         self.navigationController.navigationBar.tintColor = color;
         self.navigationController.navigationBar.translucent = NO;
         [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.shadowImage = nil;
+        self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     }
 }
 

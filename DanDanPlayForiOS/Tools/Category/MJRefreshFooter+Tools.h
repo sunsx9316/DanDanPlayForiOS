@@ -16,5 +16,5 @@
  *
  *  @return self
  */
-+ (instancetype)jh_footRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler;
++ (instancetype)ddp_footRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler;
 @end

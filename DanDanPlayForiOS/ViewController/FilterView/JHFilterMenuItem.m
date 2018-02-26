@@ -69,9 +69,9 @@
     if (_button == nil) {
         _button = [[UIButton alloc] init];
         _button.userInteractionEnabled = NO;
-        _button.titleLabel.font = NORMAL_SIZE_FONT;
+        _button.titleLabel.font = [UIFont ddp_normalSizeFont];
         _button.imageEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);
-        [_button setImage:[[UIImage imageNamed:@"filter_arrow_down"] yy_imageByTintColor:MAIN_COLOR] forState:UIControlStateNormal];
+        [_button setImage:[[UIImage imageNamed:@"filter_arrow_down"] yy_imageByTintColor:[UIColor ddp_mainColor]] forState:UIControlStateNormal];
         [self addSubview:_button];
     }
     return _button;
@@ -80,7 +80,7 @@
 - (UIView *)lineView {
     if (_lineView == nil) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = RGBCOLOR(230, 230, 230);
+        _lineView.backgroundColor = DDPRGBColor(230, 230, 230);
         [self addSubview:_lineView];
     }
     return _lineView;

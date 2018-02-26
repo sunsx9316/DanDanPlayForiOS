@@ -4,17 +4,17 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/DanDanPlayEncipher.h</key>
+		<key>Headers/DDPEncrypter.h</key>
 		<data>
-		Agn9e0L0XbJA3Ag5SccbwNDw8qg=
+		ub5+mSsk3fQcCqNw02YE+h0aJQ4=
 		</data>
 		<key>Headers/DanDanPlayEncrypt.h</key>
 		<data>
-		EAmkBdRDP/O1EA7q/b9YMOdKlqY=
+		kFXK9lWSHyv58KWnIDmipePNfzs=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Ax24Gacfuy6L/mrPG+lKNYcz890=
+		eMVoHm6DO2fPzuU4Ve5tR6nq9d8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -23,26 +23,26 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/DanDanPlayEncipher.h</key>
+		<key>Headers/DDPEncrypter.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Agn9e0L0XbJA3Ag5SccbwNDw8qg=
+			ub5+mSsk3fQcCqNw02YE+h0aJQ4=
 			</data>
 			<key>hash2</key>
 			<data>
-			k8ThiaH8zz5KnamFYFPf8ZCgGrvpVxxYXZADykRaPZA=
+			TzVghTPRzGMGsLPDnOq8NPwvkL484L+F84jv1sJFcyg=
 			</data>
 		</dict>
 		<key>Headers/DanDanPlayEncrypt.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			EAmkBdRDP/O1EA7q/b9YMOdKlqY=
+			kFXK9lWSHyv58KWnIDmipePNfzs=
 			</data>
 			<key>hash2</key>
 			<data>
-			BMgKVmolWNGUd2pJSYDuXUmQzP10OHnkaGXkwYBhjuk=
+			Mz3xuo95eEXWcG24ISJ+7Ih3X3SQ8z4iN65bG/gVbT0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

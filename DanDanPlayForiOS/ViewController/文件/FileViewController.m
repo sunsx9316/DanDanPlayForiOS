@@ -1,38 +1,38 @@
 //
-//  FileViewController.m
+//  DDPFileViewController.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/7/12.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "FileViewController.h"
+#import "DDPFileViewController.h"
 #import "SMBViewController.h"
 #import "HTTPServerViewController.h"
 #import "FileManagerViewController.h"
 #import "LinkFileManagerViewController.h"
 #import "QRScanerViewController.h"
 
-#import "JHBaseTreeView.h"
-#import "JHFileLargeTitleTableViewCell.h"
-#import "JHFileSectionTableViewCell.h"
-#import "JHFileCollectionTableViewCell.h"
+#import "DDPBaseTreeView.h"
+#import "DDPFileLargeTitleTableViewCell.h"
+#import "DDPFileSectionTableViewCell.h"
+#import "DDPFileCollectionTableViewCell.h"
 
 #import "UITableViewCell+Tools.h"
-#import "JHFileTreeNode.h"
+#import "DDPFileTreeNode.h"
 #import "JHCollectionCache.h"
 
-@interface FileViewController ()<UITableViewDelegate, UITableViewDataSource, CacheManagerDelagate>
-@property (strong, nonatomic) JHBaseTableView *tableView;
-@property (strong, nonatomic) NSArray <JHFileTreeNode *>*dataSources;
+@interface DDPFileViewController ()<UITableViewDelegate, UITableViewDataSource, DDPCacheManagerDelagate>
+@property (strong, nonatomic) DDPBaseTableView *tableView;
+@property (strong, nonatomic) NSArray <DDPFileTreeNode *>*dataSources;
 @end
 
-@implementation FileViewController
+@implementation DDPFileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"文件";
-    [[CacheManager shareCacheManager] addObserver:self];
+    [[DDPCacheManager shareCacheManager] addObserver:self];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -40,10 +40,10 @@
 }
 
 - (void)dealloc {
-    [[CacheManager shareCacheManager] removeObserver:self];
+    [[DDPCacheManager shareCacheManager] removeObserver:self];
 }
 
-#pragma mark - CacheManagerDelagate
+#pragma mark - DDPCacheManagerDelagate
 - (void)collectionDidHandleCache:(JHCollectionCache *)cache operation:(CollectionCacheDidChangeType)operation {
     [self.tableView reloadData];
 }
@@ -54,33 +54,33 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    JHFileTreeNode *node = self.dataSources[section];
+    DDPFileTreeNode *node = self.dataSources[section];
     
     if (section == 0) {
         return self.dataSources.firstObject.subItems.count * node.isExpand;
     }
-    return [CacheManager shareCacheManager].collectionList.count * node.isExpand;
+    return [DDPCacheManager shareCacheManager].collectionList.count * node.isExpand;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        JHFileTreeNode *node = self.dataSources.firstObject.subItems[indexPath.row];
-        JHFileSectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JHFileSectionTableViewCell" forIndexPath:indexPath];
+        DDPFileTreeNode *node = self.dataSources.firstObject.subItems[indexPath.row];
+        DDPFileSectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileSectionTableViewCell" forIndexPath:indexPath];
         cell.iconImgView.image = node.img;
         cell.titleLabel.text = node.name;
         return cell;
     }
     
-    JHCollectionCache *cache = [CacheManager shareCacheManager].collectionList[indexPath.row];
-    JHFileCollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JHFileCollectionTableViewCell" forIndexPath:indexPath];
+    JHCollectionCache *cache = [DDPCacheManager shareCacheManager].collectionList[indexPath.row];
+    DDPFileCollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileCollectionTableViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = cache.name;
     cell.detailLabel.text = JHCollectionCacheTypeStringValue(cache.cacheType);
     return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    JHFileTreeNode *node = self.dataSources[section];
-    JHFileLargeTitleTableViewCell *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"JHFileLargeTitleTableViewCell"];
+    DDPFileTreeNode *node = self.dataSources[section];
+    DDPFileLargeTitleTableViewCell *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPFileLargeTitleTableViewCell"];
     view.titleLabel.text = node.name;
     if (node.isExpand) {
         view.arrowImgView.transform = CGAffineTransformMakeRotation(M_PI_2);
@@ -90,7 +90,7 @@
     }
     
     @weakify(self)
-    view.touchTitleCallBack = ^(JHFileLargeTitleTableViewCell *cell) {
+    view.touchTitleCallBack = ^(DDPFileLargeTitleTableViewCell *cell) {
         @strongify(self)
         if (!self) return;
         
@@ -113,14 +113,14 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 44 + jh_isPad() * 20;
+        return 44 + ddp_isPad() * 20;
     }
     
-    return 50 + jh_isPad() * 20;
+    return 50 + ddp_isPad() * 20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50 + jh_isPad() * 20;
+    return 50 + ddp_isPad() * 20;
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -128,8 +128,8 @@
         UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否删除这个收藏？" message:@"操作无法恢复" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                JHCollectionCache *cache = [CacheManager shareCacheManager].collectionList[indexPath.row];
-                [[CacheManager shareCacheManager] removeCollectionCache:cache];
+                JHCollectionCache *cache = [DDPCacheManager shareCacheManager].collectionList[indexPath.row];
+                [[DDPCacheManager shareCacheManager] removeCollectionCache:cache];
                 [self.tableView reloadData];
             }]];
             
@@ -146,7 +146,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        JHFileTreeNode *item = self.dataSources[indexPath.section].subItems[indexPath.row];
+        DDPFileTreeNode *item = self.dataSources[indexPath.section].subItems[indexPath.row];
         
         if ([item.name isEqualToString:@"本机"]) {
             FileManagerViewController *vc = [[FileManagerViewController alloc] init];
@@ -161,7 +161,7 @@
         }
         else if ([item.name isEqualToString:@"我的电脑"]) {
             //已经登录
-            if ([CacheManager shareCacheManager].linkInfo) {
+            if ([DDPCacheManager shareCacheManager].linkInfo) {
                 LinkFileManagerViewController *vc = [[LinkFileManagerViewController alloc] init];
                 vc.file = jh_getANewLinkRootFile();
                 vc.hidesBottomBarWhenPushed = YES;
@@ -171,7 +171,7 @@
                 QRScanerViewController *vc = [[QRScanerViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 @weakify(self)
-                vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                vc.linkSuccessCallBack = ^(DDPLinkInfo *info) {
                     @strongify(self)
                     if (!self) return;
                     
@@ -191,16 +191,16 @@
         }
     }
     else {
-        JHCollectionCache *cache = [CacheManager shareCacheManager].collectionList[indexPath.row];
+        JHCollectionCache *cache = [DDPCacheManager shareCacheManager].collectionList[indexPath.row];
         if (cache.cacheType == JHCollectionCacheTypeLocal) {
             NSString *path = cache.filePath;
             if (path.length == 0) return;
             
             NSURL *aURL = [NSURL fileURLWithPath:[[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:path]];
             
-            JHFile *file = [[JHFile alloc] initWithFileURL:aURL type:JHFileTypeFolder];
+            DDPFile *file = [[DDPFile alloc] initWithFileURL:aURL type:DDPFileTypeFolder];
 
-            [[ToolsManager shareToolsManager] startDiscovererVideoWithFile:file type:PickerFileTypeAll completion:^(JHFile *aFile) {
+            [[DDPToolsManager shareToolsManager] startDiscovererVideoWithFile:file type:PickerFileTypeAll completion:^(DDPFile *aFile) {
                 if (aFile == nil) {
                     [MBProgressHUD showWithText:@"文件夹被移动或删除！"];
                     return;
@@ -221,49 +221,49 @@
 }
 
 #pragma mark - 懒加载
-- (JHBaseTableView *)tableView {
+- (DDPBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[JHBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[JHFileSectionTableViewCell class] forCellReuseIdentifier:@"JHFileSectionTableViewCell"];
-        [_tableView registerClass:[JHFileLargeTitleTableViewCell class] forHeaderFooterViewReuseIdentifier:@"JHFileLargeTitleTableViewCell"];
-        [_tableView registerClass:[JHFileCollectionTableViewCell class] forCellReuseIdentifier:@"JHFileCollectionTableViewCell"];
+        [_tableView registerClass:[DDPFileSectionTableViewCell class] forCellReuseIdentifier:@"DDPFileSectionTableViewCell"];
+        [_tableView registerClass:[DDPFileLargeTitleTableViewCell class] forHeaderFooterViewReuseIdentifier:@"DDPFileLargeTitleTableViewCell"];
+        [_tableView registerClass:[DDPFileCollectionTableViewCell class] forCellReuseIdentifier:@"DDPFileCollectionTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
         [self.view addSubview:_tableView];
     }
     return _tableView;
 }
 
-- (NSArray<JHFileTreeNode *> *)dataSources {
+- (NSArray<DDPFileTreeNode *> *)dataSources {
     if (_dataSources == nil) {
         NSMutableArray *arr = [NSMutableArray array];
         [arr addObject:({
-            JHFileTreeNode *node = [[JHFileTreeNode alloc] init];
-            node.type = JHFileTreeNodeTypeSection;
+            DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
+            node.type = DDPFileTreeNodeTypeSection;
             node.name = @"位置";
             node.expand = YES;
             
             [node.subItems addObject:({
-                JHFileTreeNode *node = [[JHFileTreeNode alloc] init];
+                DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
                 node.name = @"本机";
-                node.type = JHFileTreeNodeTypeLocation;
+                node.type = DDPFileTreeNodeTypeLocation;
                 node.img = [[UIImage imageNamed:@"file_phone"] yy_imageByTintColor:[UIColor darkGrayColor]];
                 node;
             })];
             
             [node.subItems addObject:({
-                JHFileTreeNode *node = [[JHFileTreeNode alloc] init];
+                DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
                 node.name = @"远程设备";
-                node.type = JHFileTreeNodeTypeLocation;
+                node.type = DDPFileTreeNodeTypeLocation;
                 node.img = [[UIImage imageNamed:@"file_net_equipment"] yy_imageByTintColor:[UIColor darkGrayColor]];
                 node;
             })];
             
             [node.subItems addObject:({
-                JHFileTreeNode *node = [[JHFileTreeNode alloc] init];
+                DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
                 node.name = @"我的电脑";
-                node.type = JHFileTreeNodeTypeLocation;
+                node.type = DDPFileTreeNodeTypeLocation;
                 node.img = [[UIImage imageNamed:@"file_computer"] yy_imageByTintColor:[UIColor darkGrayColor]];
                 node;
             })];
@@ -272,8 +272,8 @@
         })];
         
         [arr addObject:({
-            JHFileTreeNode *node = [[JHFileTreeNode alloc] init];
-            node.type = JHFileTreeNodeTypeSection;
+            DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
+            node.type = DDPFileTreeNodeTypeSection;
             node.name = @"收藏";
             node.expand = YES;
             node;

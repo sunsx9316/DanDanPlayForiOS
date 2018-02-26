@@ -1,0 +1,32 @@
+//
+//  DDPRelatedNetManagerOperation.m
+//  DanDanPlayForiOS
+//
+//  Created by JimHuang on 2017/4/18.
+//  Copyright © 2017年 JimHuang. All rights reserved.
+//
+
+#import "DDPRelatedNetManagerOperation.h"
+
+@implementation DDPRelatedNetManagerOperation
+
++ (NSURLSessionDataTask *)relatedDanmakuWithEpisodeId:(NSUInteger)episodeId completionHandler:(void (^)(DDPRelatedCollection *, NSError *))completionHandler {
+    if (episodeId == 0) {
+        if (completionHandler) {
+            completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/related/%lu", API_PATH, (unsigned long)episodeId];
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
+                                                 parameters:nil
+                                          completionHandler:^(DDPResponse *responseObj) {
+        if (completionHandler) {
+            completionHandler([DDPRelatedCollection yy_modelWithJSON:responseObj.responseObject], responseObj.error);
+        }
+    }];
+}
+
+@end

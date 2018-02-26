@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (Tools)
-- (void)jh_setImageWithURL:(NSURL *)imageURL;
-- (void)jh_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
-- (void)jh_setImageWithFadeType:(UIImage *)image;
+- (void)ddp_setImageWithURL:(NSURL *)imageURL;
+- (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
+- (void)ddp_setImageWithURL:(NSURL *)imageURL
+               placeholder:(UIImage *)placeholder
+                  progress:(YYWebImageProgressBlock)progress
+                   manager:(YYWebImageManager *)manager
+                 transform:(YYWebImageTransformBlock)transform
+                completion:(YYWebImageCompletionBlock)completion;
+- (void)ddp_setImageWithFadeType:(UIImage *)image;
 @end

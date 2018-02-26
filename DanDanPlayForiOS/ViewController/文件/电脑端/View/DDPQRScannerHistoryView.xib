@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DDPQRScannerHistoryView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MMc-hd-pg3">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="OS4-oe-o6Z" appends="YES" id="b6P-9w-m7e"/>
+                    </connections>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XFD-Oq-MsI" customClass="DDPBaseTableView">
+                    <rect key="frame" x="30" y="124" width="260" height="320"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="340" id="90r-qh-dg8"/>
+                        <constraint firstAttribute="height" constant="320" id="Uzu-Wx-Dfi"/>
+                        <constraint firstAttribute="height" constant="480" id="lpR-hg-vjy"/>
+                        <constraint firstAttribute="width" constant="260" id="rSD-Be-MRd"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="90r-qh-dg8"/>
+                            <exclude reference="lpR-hg-vjy"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=regular">
+                        <mask key="constraints">
+                            <include reference="90r-qh-dg8"/>
+                            <exclude reference="Uzu-Wx-Dfi"/>
+                            <include reference="lpR-hg-vjy"/>
+                            <exclude reference="rSD-Be-MRd"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outlet property="dataSource" destination="iN0-l3-epB" id="B7d-2P-nbG"/>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="LMx-8L-lcA"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="MMc-hd-pg3" secondAttribute="bottom" id="2Yn-Ab-3Zc"/>
+                <constraint firstAttribute="trailing" secondItem="MMc-hd-pg3" secondAttribute="trailing" id="5CX-ch-aFw"/>
+                <constraint firstItem="MMc-hd-pg3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9OY-zC-GLT"/>
+                <constraint firstItem="XFD-Oq-MsI" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="jBz-Hz-pfs"/>
+                <constraint firstItem="MMc-hd-pg3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zdb-T4-bGt"/>
+                <constraint firstItem="XFD-Oq-MsI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zyC-Qs-o4k"/>
+            </constraints>
+            <connections>
+                <outlet property="tableView" destination="XFD-Oq-MsI" id="Jna-Zu-yDO"/>
+            </connections>
+            <point key="canvasLocation" x="-73" y="-476.5"/>
+        </view>
+        <tapGestureRecognizer id="OS4-oe-o6Z">
+            <connections>
+                <action selector="dismiss" destination="iN0-l3-epB" id="Zg7-MP-eO5"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

@@ -21,4 +21,20 @@
  设置水平方向必须的约束
  */
 - (void)setRequiredContentHorizontalResistancePriority;
+
+/**
+ 加载nib文件
+
+ @return nib文件
+ */
++ (UINib *)loadNib;
+
+/**
+ 点击边缘
+ */
+@property (assign, nonatomic) UIEdgeInsets ddp_hitTestSlop;
+
+- (void)ddp_showViewWithHolderView:(UIView *)holderView
+                        completion:(void(^)(BOOL finished))completion;
+- (void)ddp_dismissViewWithCompletion:(void(^)(BOOL finished))completion;
 @end

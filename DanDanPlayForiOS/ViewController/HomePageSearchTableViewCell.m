@@ -7,14 +7,14 @@
 //
 
 #import "HomePageSearchTableViewCell.h"
-#import "JHEdgeButton.h"
+#import "DDPEdgeButton.h"
 
 @interface HomePageSearchTableViewCell ()
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *sizeLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UILabel *typeLabel;
-@property (strong, nonatomic) JHEdgeButton *subTitleButton;
+@property (strong, nonatomic) DDPEdgeButton *subTitleButton;
 @end
 
 @implementation HomePageSearchTableViewCell
@@ -49,7 +49,7 @@
     return self;
 }
 
-- (void)setModel:(JHDMHYSearch *)model {
+- (void)setModel:(DDPDMHYSearch *)model {
     _model = model;
     self.nameLabel.text = _model.name;
     self.sizeLabel.text = _model.fileSize;
@@ -69,7 +69,7 @@
 - (UILabel *)nameLabel {
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = NORMAL_SIZE_FONT;
+        _nameLabel.font = [UIFont ddp_normalSizeFont];
         _nameLabel.textColor = [UIColor blackColor];
         _nameLabel.numberOfLines = 0;
         [self.contentView addSubview:_nameLabel];
@@ -80,7 +80,7 @@
 - (UILabel *)sizeLabel {
     if (_sizeLabel == nil) {
         _sizeLabel = [[UILabel alloc] init];
-        _sizeLabel.font = SMALL_SIZE_FONT;
+        _sizeLabel.font = [UIFont ddp_smallSizeFont];
         _sizeLabel.textColor = [UIColor grayColor];
         [_sizeLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_sizeLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -92,7 +92,7 @@
 - (UILabel *)timeLabel {
     if (_timeLabel == nil) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.font = SMALL_SIZE_FONT;
+        _timeLabel.font = [UIFont ddp_smallSizeFont];
         _timeLabel.textColor = [UIColor grayColor];
         [_timeLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_timeLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -104,18 +104,18 @@
 - (UILabel *)typeLabel {
     if (_typeLabel == nil) {
         _typeLabel = [[UILabel alloc] init];
-        _typeLabel.font = SMALL_SIZE_FONT;
-        _typeLabel.textColor = MAIN_COLOR;
+        _typeLabel.font = [UIFont ddp_smallSizeFont];
+        _typeLabel.textColor = [UIColor ddp_mainColor];
         [self.contentView addSubview:_typeLabel];
     }
     return _typeLabel;
 }
 
-- (JHEdgeButton *)subTitleButton {
+- (DDPEdgeButton *)subTitleButton {
     if (_subTitleButton == nil) {
-        _subTitleButton = [[JHEdgeButton alloc] init];
+        _subTitleButton = [[DDPEdgeButton alloc] init];
         _subTitleButton.inset = CGSizeMake(10, 10);
-        _subTitleButton.titleLabel.font = SMALL_SIZE_FONT;
+        _subTitleButton.titleLabel.font = [UIFont ddp_smallSizeFont];
         [_subTitleButton setBackgroundImage:[UIImage imageNamed:@"home_bangumi_group_bg"] forState:UIControlStateNormal];
         [_subTitleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_subTitleButton addTarget:self action:@selector(touchSubTitleButton:) forControlEvents:UIControlEventTouchUpInside];

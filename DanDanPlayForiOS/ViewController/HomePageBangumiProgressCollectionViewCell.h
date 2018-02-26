@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HomePageBangumiProgressCollectionViewCell : UICollectionViewCell
-@property (strong, nonatomic) JHBangumiQueueIntro *model;
+@property (strong, nonatomic) DDPBangumiQueueIntro *model;
+@property (assign, nonatomic) CGSize itemSize;
 @end

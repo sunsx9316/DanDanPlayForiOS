@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HomePageBannerView : UIView
-@property (strong, nonatomic) JHHomeBanner *model;
+@property (strong, nonatomic) DDPHomeBanner *model;
 @end

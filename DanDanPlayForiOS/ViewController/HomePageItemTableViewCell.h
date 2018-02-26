@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#define ITEM_CELL_HEIGHT (80 + jh_isPad() * 30)
+#define ITEM_CELL_HEIGHT (80 + ddp_isPad() * 30)
 
 @interface HomePageItemTableViewCell : UITableViewCell
-@property (strong, nonatomic) JHHomeBangumi *model;
-@property (copy, nonatomic) void(^selectedItemCallBack)(JHHomeBangumiSubtitleGroup *model);
-@property (copy, nonatomic) void(^touchLikeCallBack)(JHHomeBangumi *model);
+@property (strong, nonatomic) DDPHomeBangumi *model;
+@property (copy, nonatomic) void(^selectedItemCallBack)(DDPHomeBangumiSubtitleGroup *model);
+@property (copy, nonatomic) void(^touchLikeCallBack)(DDPHomeBangumi *model);
 @end

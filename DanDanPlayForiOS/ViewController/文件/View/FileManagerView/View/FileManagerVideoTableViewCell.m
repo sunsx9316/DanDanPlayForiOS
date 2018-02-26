@@ -1,19 +1,19 @@
 //
-//  FileManagerVideoTableViewCell.m
+//  DDPFileManagerVideoTableViewCell.m
 //  DanDanPlayForiOS
 //
 //  Created by JimHuang on 2017/7/16.
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "FileManagerVideoTableViewCell.h"
-#import "JHEdgeLabel.h"
+#import "DDPFileManagerVideoTableViewCell.h"
+#import "DDPEdgeLabel.h"
 
-@interface FileManagerVideoTableViewCell ()
+@interface DDPFileManagerVideoTableViewCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @end
 
-@implementation FileManagerVideoTableViewCell
+@implementation DDPFileManagerVideoTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) { 
@@ -38,7 +38,7 @@
     return self;
 }
 
-- (void)setModel:(JHSMBFile *)model {
+- (void)setModel:(DDPSMBFile *)model {
     _model = model;
     self.titleLabel.text = _model.name;
     if (jh_isVideoFile(_model.fileURL.absoluteString)) {
@@ -49,7 +49,7 @@
         }];
         
         [self.fileTypeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(40 + jh_isPad() * 10);
+            make.width.mas_equalTo(40 + ddp_isPad() * 10);
         }];
     }
     else {

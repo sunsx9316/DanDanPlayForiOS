@@ -72,11 +72,12 @@ static MBProgressHUD *progressHUD = nil;
     
     MBProgressHUD *aHUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
     aHUD.mode = mode;
-    aHUD.bezelView.color = RGBACOLOR(0, 0, 0, 0.8);
+    aHUD.bezelView.color = DDPRGBAColor(0, 0, 0, 0.6);
     aHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
-//    aHUD.label.textColor = [UIColor whiteColor];
-    aHUD.label.font = NORMAL_SIZE_FONT;
+    aHUD.bezelView.userInteractionEnabled = YES;
+    aHUD.label.font = [UIFont ddp_normalSizeFont];
     aHUD.contentColor = [UIColor whiteColor];
+    aHUD.userInteractionEnabled = YES;
     return aHUD;
 }
 

@@ -7,13 +7,13 @@
 //
 
 #import "UIBarButtonItem+Tools.h"
-#import "JHEdgeButton.h"
+#import "DDPEdgeButton.h"
 
 @implementation UIBarButtonItem (Tools)
 
 - (instancetype)initWithImage:(UIImage *)image configAction:(ItemConfigAction)configAction {
     UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 35)];
-    aButton.titleLabel.font = NORMAL_SIZE_FONT;
+    aButton.titleLabel.font = [UIFont ddp_normalSizeFont];
 //    aButton.backgroundColor = [UIColor redColor];
     [aButton setImage:image forState:UIControlStateNormal];
 //    [aButton sizeToFit];
@@ -23,7 +23,7 @@
 
 - (instancetype)initWithTitle:(NSString *)title configAction:(ItemConfigAction)configAction {
     UIButton *aButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
-    aButton.titleLabel.font = NORMAL_SIZE_FONT;
+    aButton.titleLabel.font = [UIFont ddp_normalSizeFont];
     [aButton setTitle:title forState:UIControlStateNormal];
     [aButton sizeToFit];
     aButton.width += 10;

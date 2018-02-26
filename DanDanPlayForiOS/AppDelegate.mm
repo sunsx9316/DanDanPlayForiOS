@@ -7,17 +7,18 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "DDPMainViewController.h"
 #import <IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import <AVFoundation/AVFoundation.h>
-#import "JHMediaPlayer.h"
+#import "DDPMediaPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSString+Tools.h"
-#import "CacheManager.h"
-#import "DownloadViewController.h"
-#import "QRScanerViewController.h"
+#import "DDPCacheManager.h"
+#import "DDPDownloadViewController.h"
+#import "DDPQRScannerViewController.h"
+#import "DDPDownloadManager.h"
 
 @interface AppDelegate ()
 
@@ -27,14 +28,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
-//    [CacheManager shareCacheManager].folderCache = nil;
+//    [DDPCacheManager shareCacheManager].folderCache = nil;
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUMShare];
+    [self configDDLog];
+    [self configOther];
     
-    MainViewController *vc = [[MainViewController alloc] init];
+    DDPMainViewController *vc = [[DDPMainViewController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = BACK_GROUND_COLOR;
+    self.window.backgroundColor = [UIColor ddp_backgroundColor];
     self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
     
@@ -72,16 +75,16 @@
         
         void(^downloadAction)(NSString *) = ^(NSString *magnet){
             
-            [LinkNetManager linkAddDownloadWithIpAdress:[CacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(JHLinkDownloadTask *responseObject, NSError *error) {
+            [DDPLinkNetManagerOperation linkAddDownloadWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(DDPLinkDownloadTask *responseObject, NSError *error) {
                 if (error) {
-                    [MBProgressHUD showWithError:error];
+                    [[UIApplication sharedApplication].keyWindow showWithError:error];
                 }
                 else {
-                    [[CacheManager shareCacheManager] addLinkDownload];
+                    [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
                     
                     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        DownloadViewController *vc = [[DownloadViewController alloc] init];
+                        DDPDownloadViewController *vc = [[DDPDownloadViewController alloc] init];
                         vc.hidesBottomBarWhenPushed = YES;
                         [nav pushViewController:vc animated:YES];
                     }]];
@@ -93,14 +96,14 @@
             }];
         };
         
-        if ([CacheManager shareCacheManager].linkInfo == nil) {
+        if ([DDPCacheManager shareCacheManager].linkInfo == nil) {
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"检测到磁力链" message:@"需要连接到电脑端才能下载~" preferredStyle:UIAlertControllerStyleAlert];
             
             [vc addAction:[UIAlertAction actionWithTitle:@"扫码连接" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                QRScanerViewController *vc = [[QRScanerViewController alloc] init];
+                DDPQRScannerViewController *vc = [[DDPQRScannerViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 @weakify(self)
-                vc.linkSuccessCallBack = ^(JHLinkInfo *info) {
+                vc.linkSuccessCallBack = ^(DDPLinkInfo *info) {
                     @strongify(self)
                     if (!self) return;
                     
@@ -173,8 +176,18 @@
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
 }
 
+- (void)configDDLog {
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+}
+
+- (void)configOther {
+    if (@available(iOS 11.0, *)) {
+        [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+}
+
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
-    JHMediaPlayer *player = [CacheManager shareCacheManager].mediaPlayer;
+    DDPMediaPlayer *player = [DDPCacheManager shareCacheManager].mediaPlayer;
     switch (event.subtype) {
         case UIEventSubtypeRemoteControlPlay:
         {

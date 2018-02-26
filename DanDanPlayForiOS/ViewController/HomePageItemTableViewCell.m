@@ -8,13 +8,13 @@
 
 #import "HomePageItemTableViewCell.h"
 #import "HomePageItemCollectionViewCell.h"
-#import "JHEdgeButton.h"
+#import "DDPEdgeButton.h"
 
 @interface HomePageItemTableViewCell ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) JHEdgeButton *likeButton;
+@property (strong, nonatomic) DDPEdgeButton *likeButton;
 @end
 
 @implementation HomePageItemTableViewCell
@@ -25,7 +25,7 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.width.mas_offset(60 + jh_isPad() * 30);
+            make.width.mas_offset(60 + ddp_isPad() * 30);
             make.height.mas_offset(ITEM_CELL_HEIGHT);
             make.centerY.mas_equalTo(0);
         }];
@@ -45,19 +45,19 @@
 //            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(10);
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
             make.right.mas_offset(-10);
-            make.height.mas_equalTo(NORMAL_SIZE_FONT.lineHeight + 15);
+            make.height.mas_equalTo([UIFont ddp_normalSizeFont].lineHeight + 15);
             make.bottom.mas_offset(-10);
         }];
     }
     return self;
 }
 
-- (void)setModel:(JHHomeBangumi *)model {
+- (void)setModel:(DDPHomeBangumi *)model {
     _model = model;
-    [self.iconImgView jh_setImageWithURL:_model.imageURL];
+    [self.iconImgView ddp_setImageWithURL:_model.imageURL];
     self.titleLabel.text = _model.name;
     self.likeButton.selected = _model.isFavorite;
-    self.likeButton.hidden = [CacheManager shareCacheManager].user == nil;
+    self.likeButton.hidden = [DDPCacheManager shareCacheManager].user == nil;
     
     [self.collectionView reloadData];
 }
@@ -69,20 +69,20 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HomePageItemCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageItemCollectionViewCell" forIndexPath:indexPath];
-    JHHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
+    DDPHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
     [cell.button setTitle:model.name forState:UIControlStateNormal];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JHHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
+    DDPHomeBangumiSubtitleGroup *model = self.model.collection[indexPath.item];
     NSValue *value = [model getAssociatedValueForKey:_cmd];
     if (value) {
         return value.CGSizeValue;
     }
     
-    CGSize size = [model.name sizeForFont:NORMAL_SIZE_FONT size:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) mode:NSLineBreakByWordWrapping];
+    CGSize size = [model.name sizeForFont:[UIFont ddp_normalSizeFont] size:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) mode:NSLineBreakByWordWrapping];
     size.width += 10;
     size.height += 10;
     [model setAssociateValue:[NSValue valueWithCGSize:size] withKey:_cmd];
@@ -116,7 +116,7 @@
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = NORMAL_SIZE_FONT;
+        _titleLabel.font = [UIFont ddp_normalSizeFont];
         _titleLabel.numberOfLines = 2;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [self.contentView addSubview:_titleLabel];
@@ -124,9 +124,9 @@
     return _titleLabel;
 }
 
-- (JHEdgeButton *)likeButton {
+- (DDPEdgeButton *)likeButton {
     if (_likeButton == nil) {
-        _likeButton = [[JHEdgeButton alloc] init];
+        _likeButton = [[DDPEdgeButton alloc] init];
         _likeButton.inset = CGSizeMake(20, 20);
         [_likeButton setImage:[UIImage imageNamed:@"home_like"] forState:UIControlStateSelected];
         [_likeButton setImage:[UIImage imageNamed:@"home_unlike"] forState:UIControlStateNormal];

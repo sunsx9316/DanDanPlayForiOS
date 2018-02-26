@@ -9,27 +9,34 @@
 #import <UIKit/UIKit.h>
 #define FILTER_VIEW_HEIGHT 44
 
-@class HomePageSearchFilterView;
+@class HomePageSearchFilterView, WMMenuView;
 @protocol HomePageSearchFilterViewDataSource<NSObject>
-- (NSInteger)numberOfItem;
-- (NSString *)itemTitleAtSection:(NSInteger)section;
 
-- (NSInteger)numberOfSubItemAtSection:(NSInteger)index;
-- (NSString *)subItemTitleAtIndex:(NSInteger)index section:(NSInteger)section;
+- (NSInteger)numberOfSection;
+
+- (NSInteger)numberOfItemAtSection:(NSInteger)section;
+- (NSString *)itemTitleAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @protocol HomePageSearchFilterViewDelegate<NSObject>
 @optional
-- (void)pageSearchFilterView:(HomePageSearchFilterView *)view didSelectedSubItemAtIndex:(NSInteger)index
-                   section:(NSInteger)section
+- (void)pageSearchFilterView:(HomePageSearchFilterView *)view
+  didSelectedItemAtIndexPath:(NSIndexPath *)indexPath
                        title:(NSString *)title;
+
+- (NSInteger)defaultSelectedItemAtSection:(NSInteger)section;
+- (CGFloat)widthAtSection:(NSInteger)section;
 @end
 
 @interface HomePageSearchFilterView : UIView
+//@property (strong, nonatomic, readonly) WMMenuView *menuView;
 @property (weak, nonatomic) id<HomePageSearchFilterViewDataSource>dataSource;
 @property (weak, nonatomic) id<HomePageSearchFilterViewDelegate>delegate;
-- (NSString *)titleInSection:(NSInteger)section;
+//- (NSString *)titleInSection:(NSInteger)section;
 - (NSInteger)selectedItemIndexAtSection:(NSInteger)section;
-- (void)selectedSubItemAtIndex:(NSInteger)index section:(NSInteger)section;
+
+//- (NSString *)selectedTitleAtIndexPath:(NSIndexPath *)indexPath;
+//- (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
+//             updateSectionTitle:(BOOL)updateSectionTitle;
 - (void)reloadData;
 @end
