@@ -12,7 +12,7 @@
 #import "DDPHomePageViewController.h"
 #import "DDPBaseNavigationController.h"
 
-@interface DDPMainViewController ()
+@interface DDPMainViewController ()<UITabBarControllerDelegate>
 @end
 
 @implementation DDPMainViewController
@@ -27,6 +27,7 @@
     self.viewControllers = @[homeVC, fileVC, settingVC];
     
     self.tabBar.translucent = NO;
+    self.delegate = self;
 }
 
 - (BOOL)shouldAutorotate {
@@ -44,6 +45,17 @@
 //设置presentation方式展示的屏幕方向
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
+}
+
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    NSInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+    if (index == 2) {
+        [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
+    }
+    else {
+        [[DDPDownloadManager shareDownloadManager] stopObserverTaskInfo];
+    }
 }
 
 #pragma mark - 私有方法

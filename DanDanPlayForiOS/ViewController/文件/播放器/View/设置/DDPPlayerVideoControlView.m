@@ -18,15 +18,20 @@
 
 @interface DDPPlayerVideoControlView ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
+@property (strong, nonatomic) NSArray <NSValue *>*videoAspectRatios;
 @end
 
 @implementation DDPPlayerVideoControlView
+{
+    __weak NSValue *_selectedVideoAspectRatio;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
+        _selectedVideoAspectRatio = self.videoAspectRatios.firstObject;
     }
     return self;
 }
@@ -41,11 +46,11 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 0 || section == 1) {
         return 1;
     }
     return 4;
@@ -55,6 +60,24 @@
     if (indexPath.section == 0) {
         DDPPlayerSliderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPPlayerSliderTableViewCell" forIndexPath:indexPath];
         cell.type = DDPPlayerSliderTableViewCellTypeRate;
+        return cell;
+    }
+    
+    if (indexPath.section == 1) {
+        DDPSelectedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPSelectedTableViewCell" forIndexPath:indexPath];
+        if (cell.isFromCache == NO) {
+            cell.titleLabel.textColor = [UIColor whiteColor];
+            cell.fromCache = YES;
+        }
+        
+        CGSize size = _selectedVideoAspectRatio.CGSizeValue;
+        if (CGSizeEqualToSize(size, CGSizeZero)) {
+            cell.titleLabel.text = @"默认";
+        }
+        else {
+            cell.titleLabel.text = [NSString stringWithFormat:@"%ld : %ld", (NSInteger)size.width, (NSInteger)size.height];
+        }
+        cell.iconImgView.hidden = YES;
         return cell;
     }
     
@@ -90,8 +113,19 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [DDPCacheManager shareCacheManager].playMode = indexPath.row;
-    [tableView reloadData];
+    if (indexPath.section == 1) {
+        NSInteger index = [self.videoAspectRatios indexOfObject:_selectedVideoAspectRatio];
+        if (index != NSNotFound) {
+            index = (index + 1) % self.videoAspectRatios.count;
+            _selectedVideoAspectRatio = self.videoAspectRatios[index];
+            [DDPCacheManager shareCacheManager].mediaPlayer.videoAspectRatio = _selectedVideoAspectRatio.CGSizeValue;
+            [tableView reloadSection:1 withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+    else if (indexPath.section == 2) {
+        [DDPCacheManager shareCacheManager].playMode = indexPath.row;
+        [tableView reloadData];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -102,6 +136,9 @@
     DDPPlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPPlayerControlHeaderView"];
     if (section == 0) {
         view.titleLabel.text = @"播放速度";
+    }
+    else if (section == 1) {
+        view.titleLabel.text = @"视频比例";
     }
     else {
         view.titleLabel.text = @"播放模式";
@@ -131,6 +168,13 @@
         [self addSubview:_tableView];
     }
     return _tableView;
+}
+
+- (NSArray<NSValue *> *)videoAspectRatios {
+    if (_videoAspectRatios == nil) {
+        _videoAspectRatios = @[@(CGSizeZero), @(CGSizeMake(16, 9)), @(CGSizeMake(4, 3))];
+    }
+    return _videoAspectRatios;
 }
 
 @end

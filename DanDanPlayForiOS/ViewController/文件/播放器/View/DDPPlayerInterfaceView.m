@@ -450,9 +450,9 @@
     return _subTitleIndexView;
 }
 
-- (DDPPlayerNoticeView *)matchNoticeView {
+- (DDPPlayerMatchView *)matchNoticeView {
     if (_matchNoticeView == nil) {
-        _matchNoticeView = [[DDPPlayerNoticeView alloc] init];
+        _matchNoticeView = [[DDPPlayerMatchView alloc] init];
         [self addSubview:_matchNoticeView];
     }
     return _matchNoticeView;

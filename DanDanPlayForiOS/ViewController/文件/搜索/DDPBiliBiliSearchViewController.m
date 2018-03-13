@@ -8,8 +8,12 @@
 
 #import "DDPBiliBiliSearchViewController.h"
 #import "DDPSearchNetManagerOperation.h"
+#import "DDPBaseTableView.h"
+#import "DDPBiliBiliSearchBangumiTableViewCell.h"
+#import "DDPBiliBiliSearchVideoTableViewCell.h"
 
-@interface DDPBiliBiliSearchViewController ()
+@interface DDPBiliBiliSearchViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) DDPBiliBiliSearchResult *searchResult;
 @end
 
@@ -17,22 +21,81 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
+    [self.tableView.mj_header beginRefreshing];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return self.searchResult.bangumi.count;
+    }
+    
+    return self.searchResult.video.count;
 }
-*/
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        DDPBiliBiliSearchBangumiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDPBiliBiliSearchBangumiTableViewCell.className forIndexPath:indexPath];
+        cell.model = self.searchResult.bangumi[indexPath.row];
+        return cell;
+    }
+    
+    DDPBiliBiliSearchVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDPBiliBiliSearchVideoTableViewCell.className forIndexPath:indexPath];
+    cell.model = self.searchResult.video[indexPath.row];
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 160;
+    }
+    return 100;
+}
+
+#pragma mark - 懒加载
+- (DDPBaseTableView *)tableView {
+    if (_tableView == nil) {
+        _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [_tableView registerNib:[DDPBiliBiliSearchBangumiTableViewCell loadNib] forCellReuseIdentifier:DDPBiliBiliSearchBangumiTableViewCell.className];
+        [_tableView registerNib:[DDPBiliBiliSearchVideoTableViewCell loadNib] forCellReuseIdentifier:DDPBiliBiliSearchVideoTableViewCell.className];
+        _tableView.tableFooterView = [[UIView alloc] init];
+        @weakify(self)
+        _tableView.mj_header = [MJRefreshNormalHeader ddp_headerRefreshingCompletionHandler:^{
+            @strongify(self)
+            if (!self) return;
+            
+            [DDPSearchNetManagerOperation searchBiliBiliWithkeyword:self.keyword completionHandler:^(DDPBiliBiliSearchResult *model, NSError *error) {
+                if (error) {
+                    [self.view showWithError:error];
+                }
+                else {
+                    self.searchResult = model;
+                    [self.tableView reloadData];
+                }
+                
+                [self.tableView endRefreshing];
+            }];
+        }];
+        
+        [self.view addSubview:_tableView];
+    }
+    return _tableView;
+}
 
 @end

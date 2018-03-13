@@ -51,7 +51,7 @@
  *  @return 任务
  */
 
-+ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithSeasonId:(NSUInteger)seasonId
++ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithKeyWord:(NSString *)keyWord
                                              completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPBiliBiliBangumiCollection))completionHandler;
 
 

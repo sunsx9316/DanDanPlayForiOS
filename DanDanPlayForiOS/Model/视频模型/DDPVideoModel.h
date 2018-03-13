@@ -43,7 +43,7 @@
 /**
  文件前16MB(16x1024x1024Byte)数据的32位MD5结果，不区分大小写
  */
-@property (copy, nonatomic, readonly) NSString *md5;
+@property (copy, nonatomic, readonly) NSString *fileHash;
 
 /**
  文件总长度，单位为Byte。
@@ -74,4 +74,9 @@
  匹配名称
  */
 @property (strong, nonatomic) NSString *matchName;
+
+/**
+ 是否缓存了hash值
+ */
+@property (assign, nonatomic, getter=isCacheHash) BOOL cacheHash;
 @end

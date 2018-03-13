@@ -11,7 +11,7 @@
 @implementation TOSMBSessionDownloadTask (Tools)
 
 - (NSString *)ddp_id {
-    return [self.sourceFilePath md5String];
+    return self.sourceFilePath;
 }
 
 - (CGFloat)ddp_progress {
@@ -39,6 +39,10 @@
         default:
             break;
     }
+}
+
+- (BOOL)isDdp_downloading {
+    return self.state == TOSMBSessionTaskStateRunning;
 }
 
 - (void)ddp_resumeWithCompletion:(DDPDownloadTaskCompletionAction)completion {

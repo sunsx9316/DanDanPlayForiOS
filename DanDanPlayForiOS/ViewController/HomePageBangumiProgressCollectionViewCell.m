@@ -31,10 +31,7 @@
 
 - (void)setModel:(DDPBangumiQueueIntro *)model {
     _model = model;
-    
-    [self.iconImgView ddp_setImageWithURL:_model.imageUrl placeholder:nil progress:nil manager:[[DDPCacheManager shareCacheManager] imageManagerWithRoundedCornersRadius:6] transform:^UIImage * _Nullable(UIImage * _Nonnull image, NSURL * _Nonnull url) {
-        return [[image yy_imageByResizeToSize:CGSizeMake(self.itemSize.width, 150) contentMode:UIViewContentModeScaleAspectFill] yy_imageByRoundCornerRadius:6];
-    } completion:nil];
+    [self.iconImgView ddp_setImageWithURL:_model.imageUrl resize:CGSizeMake(self.itemSize.width, 150) roundedCornersRadius:6];
     self.nameLabel.text = _model.name;
     self.progressLabel.text = _model.episodeTitle;
     self.descLabel.text = _model.desc;

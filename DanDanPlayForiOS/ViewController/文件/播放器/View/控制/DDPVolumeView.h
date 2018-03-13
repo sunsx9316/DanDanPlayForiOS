@@ -10,7 +10,4 @@
 
 @interface DDPVolumeView : MPVolumeView
 @property (assign, nonatomic) CGFloat ddp_volume;
-//@property (assign, nonatomic) BOOL recallVolume;
-
-@property (copy, nonatomic) void(^volumeChangeCallBack)(CGFloat volume);
 @end

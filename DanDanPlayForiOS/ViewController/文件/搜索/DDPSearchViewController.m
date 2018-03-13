@@ -9,6 +9,7 @@
 #import "DDPSearchViewController.h"
 #import "DDPDefaultPageViewController.h"
 #import "DDPOfficialSearchViewController.h"
+#import "DDPBiliBiliSearchViewController.h"
 #import "DDPExpandView.h"
 #import "DDPSearchBar.h"
 
@@ -32,9 +33,11 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if (searchBar.text.length) {
+        self.keyword = searchBar.text;
         [self.searchBar endEditing:YES];
-        id vc = self.pageController.currentViewController;
-        [vc setKeyword:searchBar.text];
+        [self.pageController reloadData];
+//        id vc = self.pageController.currentViewController;
+//        [vc setKeyword:searchBar.text];
     }
 }
 
@@ -44,10 +47,17 @@
 }
 
 - (__kindof UIViewController * _Nonnull)pageController:(WMPageController * _Nonnull)pageController viewControllerAtIndex:(NSInteger)index {
-    DDPOfficialSearchViewController *officialSearchVC = [[DDPOfficialSearchViewController alloc] init];
-    officialSearchVC.keyword = _keyword;
-    officialSearchVC.model = _model;
-    return officialSearchVC;
+    if (index == 0) {
+        let vc = [[DDPOfficialSearchViewController alloc] init];
+        vc.keyword = _keyword;
+        vc.model = _model;
+        return vc;
+    }
+    
+    let vc = [[DDPBiliBiliSearchViewController alloc] init];
+    vc.keyword = _keyword;
+//    vc.model = _model;
+    return vc;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
@@ -81,6 +91,7 @@
         _searchBar = [[DDPSearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, SEARCH_BAR_HEIRHT)];
         _searchBar.delegate = self;
         _searchBar.placeholder = @"试试手动♂搜索";
+        _searchBar.text = self.keyword;
         _searchBar.returnKeyType = UIReturnKeySearch;
         _searchBar.textField.font = [UIFont ddp_normalSizeFont];
         _searchBar.tintColor = [UIColor ddp_mainColor];

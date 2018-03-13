@@ -48,6 +48,10 @@
     }
 }
 
+- (BOOL)isDdp_downloading {
+    return self.state == DDPLinkDownloadTaskStateDownloading;
+}
+
 - (void)ddp_resumeWithCompletion:(DDPDownloadTaskCompletionAction)completion {
     [DDPLinkNetManagerOperation linkControlDownloadWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress taskId:self.taskId method:JHControlLinkTaskMethodStart forceDelete:NO completionHandler:^(DDPLinkDownloadTask *model, NSError *error) {
         if (completion) {

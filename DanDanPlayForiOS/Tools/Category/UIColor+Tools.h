@@ -15,4 +15,5 @@
 + (UIColor *)ddp_backgroundColor;
 + (UIColor *)ddp_veryLightGrayColor;
 + (UIColor *)ddp_lightGrayColor;
++ (UIColor *)ddp_cellHighlightColor;
 @end

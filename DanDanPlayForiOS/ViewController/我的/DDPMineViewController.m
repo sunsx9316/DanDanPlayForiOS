@@ -50,7 +50,6 @@
     }];
     
     [[DDPDownloadManager shareDownloadManager] addObserver:self];
-//    [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:@"linkDownloadingTaskCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], user) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[DDPToolsManager shareToolsManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     
@@ -59,7 +58,6 @@
 
 - (void)dealloc {
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
-//    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkDownloadingTaskCount"];
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], user)];
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)];
 }

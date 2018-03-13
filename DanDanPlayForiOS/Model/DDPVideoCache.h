@@ -14,7 +14,7 @@
  哈希值
 
  */
-@property (copy, nonatomic) NSString *md5;
+@property (copy, nonatomic) NSString *fileHash;
 
 /**
  上次播放时间

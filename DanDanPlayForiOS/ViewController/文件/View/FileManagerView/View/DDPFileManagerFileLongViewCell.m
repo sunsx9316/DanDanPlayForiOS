@@ -59,17 +59,17 @@
     
     self.nameLabel.text = [_model fileNameWithPathExtension];
     [self.bgImgView ddp_setImageWithURL:[NSURL URLWithString:_model.quickHash]];
-//    DDPVideoCache *cache = [[DDPCacheManager shareCacheManager] episodeLinkCacheWithVideoModel:_model];
-    NSInteger time = _model.lastPlayTime;
-//    NSInteger time = [[DDPCacheManager shareCacheManager] lastPlayTimeWithVideoModel:_model];
-    if (time > 0) {
-        self.lastPlayTimeButton.hidden = NO;
-        [self.lastPlayTimeButton setTitle:[NSString stringWithFormat:@"• %@", ddp_mediaFormatterTime(time)] forState:UIControlStateNormal];
-    }
-    else {
-        self.lastPlayTimeButton.hidden = YES;
-    }
-    
+
+    [_model lastPlayTimeWithBlock:^(NSInteger lastPlayTime) {
+        if (lastPlayTime > 0) {
+            self.lastPlayTimeButton.hidden = NO;
+            [self.lastPlayTimeButton setTitle:[NSString stringWithFormat:@"• %@", ddp_mediaFormatterTime(lastPlayTime)] forState:UIControlStateNormal];
+        }
+        else {
+            self.lastPlayTimeButton.hidden = YES;
+        }
+    }];
+
     if ([[YYWebImageManager sharedManager].cache containsImageForKey:_model.quickHash] == NO) {
         @weakify(self)
         [[DDPToolsManager shareToolsManager] videoSnapShotWithModel:_model completion:^(UIImage *image) {
@@ -109,6 +109,7 @@
         DDPEdgeButton *button = [[DDPEdgeButton alloc] init];
         button.inset = CGSizeMake(6, 2);
         _lastPlayTimeButton = button;
+        _lastPlayTimeButton.hidden = YES;
         _lastPlayTimeButton.titleLabel.font = [UIFont ddp_smallSizeFont];
         [_lastPlayTimeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_lastPlayTimeButton setBackgroundImage:[UIImage imageNamed:@"comment_file_type"] forState:UIControlStateNormal];

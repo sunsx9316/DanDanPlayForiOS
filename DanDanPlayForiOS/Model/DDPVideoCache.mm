@@ -15,9 +15,9 @@ WCDB_IMPLEMENTATION(DDPVideoCache)
 
 WCDB_SYNTHESIZE(DDPVideoCache, name)
 WCDB_SYNTHESIZE(DDPVideoCache, identity)
-WCDB_SYNTHESIZE(DDPVideoCache, md5)
+WCDB_SYNTHESIZE(DDPVideoCache, fileHash)
 WCDB_SYNTHESIZE(DDPVideoCache, lastPlayTime)
 
-WCDB_PRIMARY(DDPVideoCache, md5)
+WCDB_PRIMARY(DDPVideoCache, fileHash)
 
 @end

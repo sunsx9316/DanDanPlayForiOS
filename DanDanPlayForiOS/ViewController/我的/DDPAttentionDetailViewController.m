@@ -178,7 +178,7 @@
     DDPLinkInfo *linkInfo = [DDPCacheManager shareCacheManager].linkInfo ? [DDPCacheManager shareCacheManager].linkInfo : [DDPCacheManager shareCacheManager].lastLinkInfo;
     
     [[DDPToolsManager shareToolsManager] startDiscovererFileWithLinkParentFile:nil linkInfo:linkInfo completion:^(DDPLinkFile *file, NSError *error) {
-        if (error) {
+        if (error && error.code != DDPErrorCodeParameterNoCompletion) {
             [self.view showWithError:error];
         }
         else {

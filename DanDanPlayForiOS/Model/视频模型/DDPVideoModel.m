@@ -14,7 +14,7 @@
     NSString *_fileName;
     NSString *_fileNameWithPathExtension;
     NSURL *_fileURL;
-    NSString *_md5;
+    NSString *_fileHash;
     NSUInteger _length;
     NSString *_quickHash;
     VLCMedia *_media;
@@ -46,11 +46,11 @@
     return _fileURL;
 }
 
-- (NSString *)md5 {
-    if (_md5 == nil) {
-        _md5 = [[[NSFileHandle fileHandleForReadingFromURL:_fileURL error:nil] readDataOfLength: MEDIA_MATCH_LENGTH] md5String];
+- (NSString *)fileHash {
+    if (_fileHash == nil) {
+        _fileHash = [[[NSFileHandle fileHandleForReadingFromURL:_fileURL error:nil] readDataOfLength: MEDIA_MATCH_LENGTH] md5String];
     }
-    return _md5;
+    return _fileHash;
 }
 
 - (NSUInteger)length {
@@ -77,6 +77,10 @@
 
 - (NSUInteger)hash {
     return self.fileURL.hash;
+}
+
+- (BOOL)isCacheHash {
+    return _fileHash != nil;
 }
 
 - (BOOL)isEqual:(DDPVideoModel *)object {

@@ -88,11 +88,8 @@
         make.height.mas_equalTo(120);
     }];
     
-//    self.alpha = 0;
-//    [UIView animateWithDuration:0.2 animations:^{
     [self.layer removeAllAnimations];
     self.alpha = 1;
-//    }];
     
 }
 
@@ -107,17 +104,21 @@
         
         self.timer.fireDate = [NSDate distantFuture];
         [self removeFromSuperview];
+        if (self.dismissCallBack) {
+            self.dismissCallBack(finished);
+        }
     }];
 }
 
-- (void)resetTimer {
-    self.timer.fireDate = [NSDate distantFuture];
-}
 
 - (void)dismissAfter:(NSInteger)second {
     if (_isShowing == NO) return;
     
     self.timer.fireDate = [NSDate dateWithTimeIntervalSinceNow:second];
+}
+
+- (void)resetTimer {
+    self.timer.fireDate = [NSDate distantFuture];
 }
 
 - (BOOL)isShowing {
@@ -127,7 +128,6 @@
 #pragma mark - 懒加载
 - (UIView *)bgView {
     if (_bgView == nil) {
-//        _bgView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
         _bgView = [[UIView alloc] init];
         _bgView.backgroundColor = DDPRGBAColor(0, 0, 0, 0.8);
         
@@ -135,30 +135,6 @@
     }
     return _bgView;
 }
-
-//- (UIView *)progressVibrancyView {
-//    if (_progressVibrancyView == nil) {
-//        _progressVibrancyView = [[UIVisualEffectView alloc] init];
-//        _progressVibrancyView.backgroundColor = DDPRGBAColor(0, 0, 0, 0.3);
-//        _progressVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]]];
-//        [_progressVibrancyView.contentView addSubview:self.progressView];
-//        [self addSubview:_progressVibrancyView];
-//    }
-//    return _progressVibrancyView;
-//}
-//
-//- (UIVisualEffectView *)iconVibrancyView {
-//    if (_iconVibrancyView == nil) {
-//        _iconVibrancyView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]]];
-//        [_iconVibrancyView.contentView addSubview:self.iconImgView];
-//        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.mas_offset(-10);
-//            make.centerX.mas_equalTo(0);
-//        }];
-//        [self addSubview:_iconVibrancyView];
-//    }
-//    return _iconVibrancyView;
-//}
 
 - (UIView *)progressView {
     if (_progressView == nil) {

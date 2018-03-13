@@ -43,6 +43,7 @@
 - (void)dealloc {
     [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    free(_localMediaPlayer.videoAspectRatio);
     _localMediaPlayer.drawable = nil;
     _localMediaPlayer = nil;
     self.mediaView = nil;
@@ -165,6 +166,15 @@
     return _localMediaPlayer.rate;
 }
 
+- (void)setVideoAspectRatio:(CGSize)videoAspectRatio {
+    if (CGSizeEqualToSize(videoAspectRatio, CGSizeZero)) {
+        self.localMediaPlayer.videoAspectRatio = nil;
+    }
+    else {
+        self.localMediaPlayer.videoAspectRatio = (char *)[NSString stringWithFormat:@"%ld:%ld", (NSInteger)videoAspectRatio.width, (NSInteger)videoAspectRatio.height].UTF8String;
+    }
+}
+
 #pragma mark 播放器控制
 - (BOOL)isPlaying {
     return [_localMediaPlayer isPlaying];
@@ -228,6 +238,7 @@
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
         VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
+        
 //        [media addOptions:@{@"freetype-font" : @"Helvetica Neue"}];
         self.localMediaPlayer.media = media;
     }

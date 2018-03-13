@@ -171,13 +171,13 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 //}
 
 - (void)saveEpisodeId:(NSUInteger)episodeId episodeName:(NSString *)episodeName videoModel:(DDPVideoModel *)model {
-    if (model.md5.length == 0 || episodeName.length == 0 || episodeId == 0) return;
+    if (model.fileHash.length == 0 || episodeName.length == 0 || episodeId == 0) return;
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     DDPVideoCache *cache = [self relevanceCacheWithVideoModel:model];
     if (cache == nil) {
         cache = [[DDPVideoCache alloc] init];
-        cache.md5 = model.md5;
+        cache.fileHash = model.fileHash;
     }
     
     cache.identity = episodeId;
@@ -187,13 +187,13 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 }
 
 - (void)saveLastPlayTime:(NSInteger)time videoModel:(DDPVideoModel *)model {
-    if (model.md5.length == 0) return;
+    if (model.fileHash.length == 0) return;
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     DDPVideoCache *cache = [self relevanceCacheWithVideoModel:model];
     if (cache == nil) {
         cache = [[DDPVideoCache alloc] init];
-        cache.md5 = model.md5;
+        cache.fileHash = model.fileHash;
     }
     
     cache.lastPlayTime = time;
@@ -203,7 +203,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 
 - (DDPVideoCache *)relevanceCacheWithVideoModel:(DDPVideoModel *)model {
     WCTDatabase *db = [DDPCacheManager shareDB];
-    return [db getOneObjectOfClass:DDPVideoCache.class fromTable:DDPVideoCache.className where:DDPVideoCache.md5 == model.md5];
+    return [db getOneObjectOfClass:DDPVideoCache.class fromTable:DDPVideoCache.className where:DDPVideoCache.fileHash == model.fileHash];
 }
 
 //- (NSDictionary *)episodeInfoWithVideoModel:(DDPVideoModel *)model {
@@ -544,7 +544,9 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     YYWebImageManager *manager = self.imageManagerDic[@(radius)];
     if (manager == nil) {
         NSString *cachePath = [UIApplication sharedApplication].cachesPath;
-        cachePath = [cachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"dandanplay/roundedCorners/%@", @(radius)]];
+        cachePath = [cachePath stringByAppendingPathComponent:@"dandanplay"];
+        cachePath = [cachePath stringByAppendingPathComponent:@"roundedCorners"];
+        cachePath = [cachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", @(radius)]];
         
         manager = [[YYWebImageManager alloc] initWithCache:[[YYImageCache alloc] initWithPath:cachePath] queue:nil];
         self.imageManagerDic[@(radius)] = manager;

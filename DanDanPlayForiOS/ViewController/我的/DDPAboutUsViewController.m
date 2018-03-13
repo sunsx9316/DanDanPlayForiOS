@@ -52,7 +52,8 @@
     }];
 
     [self.copyrightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(0);
+        make.left.mas_offset(10);
+        make.right.mas_offset(-10);
         make.bottom.mas_offset(-20);
     }];
 }
@@ -201,14 +202,17 @@
         _copyrightLabel = [[UILabel alloc] init];
         _copyrightLabel.font = [UIFont ddp_verySmallSizeFont];
         _copyrightLabel.textColor = [UIColor lightGrayColor];
+        _copyrightLabel.numberOfLines = 0;
+        _copyrightLabel.textAlignment = NSTextAlignmentCenter;
     
         NSDate *date = [NSDate date];
         NSString *year = nil;
-        if (date.year == 2017) {
-            year = @"2017";
-        }
-        else if (date.year > 2017) {
+
+        if (date.year > 2017) {
             year = [NSString stringWithFormat:@"2017-%ld", (long)date.year];
+        }
+        else {
+            year = @"2017";
         }
     
         _copyrightLabel.text = [NSString stringWithFormat:@"Copyright © %@年 JimHuang. All rights reserved.", year];

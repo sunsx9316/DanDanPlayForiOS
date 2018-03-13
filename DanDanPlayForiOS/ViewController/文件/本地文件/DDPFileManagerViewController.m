@@ -54,18 +54,13 @@
     [self.tableView addGestureRecognizer:self.longPressGestureRecognizer];
     
     if (ddp_isRootFile(self.file)) {
-//        self.automaticallyAdjustsScrollViewInsets = NO;
-        
-        if (self.tableView.mj_header.refreshingBlock) {
-            self.tableView.mj_header.refreshingBlock();
-        }
-        
         self.navigationItem.title = @"根目录";
         [[DDPDownloadManager shareDownloadManager] addObserver:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
+        
+        [self.tableView.mj_header beginRefreshing];
     }
     else {
-//        self.automaticallyAdjustsScrollViewInsets = YES;
         self.navigationItem.title = _file.name;
     }
 }

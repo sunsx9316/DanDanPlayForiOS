@@ -193,7 +193,7 @@
                 [self.view showWithError:error];
             }
             else {
-//                [[DDPCacheManager shareCacheManager] addLinkDownload];
+                [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
                 
                 UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

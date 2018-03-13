@@ -34,5 +34,11 @@
  时长
  */
 @property (copy, nonatomic) NSString *duration;
+
+
+/**
+ 播放数
+ */
+@property (assign, nonatomic) NSUInteger play;
  
 @end

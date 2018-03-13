@@ -93,4 +93,9 @@ typedef NS_ENUM(NSUInteger, DDPLinkDownloadTaskState) {
  "2017-01-12T12:47:58.1776363+08:00" //任务创建时间，使用系统时区信息
  */
 @property (copy, nonatomic) NSString *createdTime;
+
+/**
+ 是否在回收站
+ */
+@property (assign, nonatomic) BOOL isDeleted;
 @end

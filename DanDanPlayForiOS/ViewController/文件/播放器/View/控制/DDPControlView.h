@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface DDPControlView : UIView
-//@property (copy, nonatomic) void(^rateChangeCallBack)(CGFloat progress);
 @property (assign, nonatomic) CGFloat progress;
-- (instancetype)initWithImage:(UIImage *)image;
 @property (assign, nonatomic, readonly, getter=isShowing) BOOL showing;
-@property (assign, nonatomic, getter=isDragging) BOOL dragging;
+@property (copy, nonatomic) void(^dismissCallBack)(BOOL finish);
+
+- (instancetype)initWithImage:(UIImage *)image;
 - (void)showFromView:(UIView *)view;
 - (void)dismiss;
-- (void)resetTimer;
 - (void)dismissAfter:(NSInteger)second;
+- (void)resetTimer;
 @end

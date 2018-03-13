@@ -10,7 +10,7 @@
 #import "DDPPlayerConfigPanelView.h"
 #import "DDPPlayerSubTitleIndexView.h"
 #import "DDPPlayerSendDanmakuConfigView.h"
-#import "DDPPlayerNoticeView.h"
+#import "DDPPlayerMatchView.h"
 #import "DDPControlView.h"
 
 @class DDPPlayerInterfaceView;
@@ -43,7 +43,7 @@
 @property (strong, nonatomic) UIView *gestureView;
 @property (strong, nonatomic) DDPPlayerConfigPanelView *configPanelView;
 @property (strong, nonatomic) DDPPlayerSubTitleIndexView *subTitleIndexView;
-@property (strong, nonatomic) DDPPlayerNoticeView *matchNoticeView;
+@property (strong, nonatomic) DDPPlayerMatchView *matchNoticeView;
 @property (strong, nonatomic) DDPPlayerNoticeView *lastTimeNoticeView;
 @property (strong, nonatomic) DDPControlView *volumeControlView;
 @property (strong, nonatomic) DDPControlView *brightnessControlView;

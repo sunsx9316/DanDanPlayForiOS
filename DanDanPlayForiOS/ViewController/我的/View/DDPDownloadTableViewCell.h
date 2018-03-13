@@ -14,12 +14,7 @@
 @property (strong, nonatomic) UILabel *progressLabel;
 @property (strong, nonatomic) UIView *progressView;
 
-//@property (strong, nonatomic) UILabel *titleBGLabel;
-//@property (strong, nonatomic) UILabel *progressBGLabel;
-
-//@property (strong, nonatomic) UIView *progressView;
+@property (assign, nonatomic) BOOL showHightlight;
 
 @property (strong, nonatomic) id<DDPDownloadTaskProtocol> task;
-//- (void)setTask:(id<DDPDownloadTaskProtocol>)task animate:(BOOL)animate;
-//- (void)updateDataSourceWithAnimate:(BOOL)flag;
 @end

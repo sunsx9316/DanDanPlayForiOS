@@ -51,6 +51,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 @property (strong, nonatomic) DDPMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
 @property (strong, nonatomic) DDPVolumeView *mpVolumeView;
+
+//上次滑动时间
+@property (strong, nonatomic) NSDate *lastPanDate;
 @end
 
 @implementation DDPPlayerViewController
@@ -119,6 +122,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
     
     _lock = [[NSLock alloc] init];
     _queue = [[NSOperationQueue alloc] init];
@@ -128,23 +132,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //加入最底层
     [self.view addSubview:self.mpVolumeView];
     
-    self.view.backgroundColor = [UIColor blackColor];
-    
-    //监听音量变化
-//    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-//    [audioSession setActive:YES error:nil];
-//    [audioSession addObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume) options:NSKeyValueObservingOptionNew context:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    
-    _addKeyPaths = @[DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)];
-    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
-    }];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
         if ([DDPCacheManager shareCacheManager].subtitleProtectArea) {
@@ -164,12 +151,70 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         make.edges.mas_equalTo(0);
     }];
     
+    //添加一堆监听
+    [self addNotice];
+    
     [self reload];
 }
 
 - (void)appWillResignActive:(NSNotification *)sender {
     if (self.player.isPlaying) {
         [self.player pause];
+    }
+}
+
+- (void)dealloc {
+    //保存上次播放时间
+    [[DDPCacheManager shareCacheManager] saveLastPlayTime:self.player.currentTime videoModel:_model];
+    
+    self.player.speed = 1.0;
+    [self.player stop];
+    [self.danmakuEngine stop];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
+    }];
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession removeObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume)];
+    
+    _lock = nil;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont)]) {
+        UIFont *font = change[NSKeyValueChangeNewKey];
+        self.danmakuEngine.globalFont = font;
+    }
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed)]) {
+        float speed = [change[NSKeyValueChangeNewKey] floatValue];
+        [self.danmakuEngine setSpeed:speed];
+        NSLog(@"弹幕速度 %f", speed);
+    }
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle)]) {
+        JHDanmakuShadowStyle style = [change[NSKeyValueChangeNewKey] integerValue];
+        self.danmakuEngine.globalShadowStyle = style;
+    }
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity)]) {
+        self.danmakuEngine.canvas.alpha = [change[NSKeyValueChangeNewKey] floatValue];
+    }
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)]) {
+        self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
+    }
+    //物理按键调节音量
+    else if ([keyPath isEqualToString:DDP_KEYPATH([AVAudioSession sharedInstance], outputVolume)]) {
+        
+        if (self->_lastPanDate != nil) return;
+        
+        CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
+        
+        if (self.interfaceView.volumeControlView.isShowing == NO) {
+            [self.interfaceView.volumeControlView showFromView:self.view];
+        }
+        
+        [self.interfaceView.volumeControlView dismissAfter:1];
+        self.interfaceView.volumeControlView.progress = volume;
     }
 }
 
@@ -188,63 +233,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
 }
 
-- (void)dealloc {
-    //保存上次播放时间
-    [[DDPCacheManager shareCacheManager] saveLastPlayTime:self.player.currentTime videoModel:_model];
-    
-    self.player.speed = 1.0;
-    [self.player stop];
-    [self.danmakuEngine stop];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
-    }];
-    
-//    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-//    [audioSession removeObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume)];
-    
-    _lock = nil;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    
-    if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont)]) {
-        UIFont *font = change[NSKeyValueChangeNewKey];
-        self.danmakuEngine.globalFont = font;
-    }
-    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed)]) {
-        float speed = [change[NSKeyValueChangeNewKey] floatValue];
-        [self.danmakuEngine setSpeed:speed];
-        NSLog(@"弹幕速度 %f", speed);
-    }
-    else if (DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle)) {
-        JHDanmakuShadowStyle style = [change[NSKeyValueChangeNewKey] integerValue];
-        self.danmakuEngine.globalShadowStyle = style;
-    }
-    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity)]) {
-        self.danmakuEngine.canvas.alpha = [change[NSKeyValueChangeNewKey] floatValue];
-    }
-    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)]) {
-        self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
-    }
-//    else if ([keyPath isEqualToString:DDP_KEYPATH([AVAudioSession sharedInstance], outputVolume)]) {
-//        //通过物理按键控制音量
-//        if (self.interfaceView.volumeControlView.dragging == NO) {
-//            CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
-//            self.interfaceView.volumeControlView.progress = volume;
-//            NSLog(@"========= 物理按键调节%f", volume);
-//            if (self.interfaceView.volumeControlView.isShowing == NO) {
-//                [self.interfaceView.volumeControlView showFromView:self.view];
-//            }
-////            else {
-////                [self.interfaceView.volumeControlView resetTimer];
-////            }
-//
-//            [self.interfaceView.volumeControlView dismissAfter:1];
-//        }
-//    }
-}
-
 #pragma mark - DDPMediaPlayerDelegate
 - (void)mediaPlayer:(DDPMediaPlayer *)player progress:(float)progress currentTime:(NSString *)currentTime totalTime:(NSString *)totalTime {
     self.interfaceView.currentTimeLabel.text = currentTime;
@@ -252,7 +240,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     if (_isSliderNoActionNotice == NO) {
         self.interfaceView.progressSlider.value = progress;
     }
-    
 }
 
 - (void)mediaPlayer:(DDPMediaPlayer *)player statusChange:(DDPMediaPlayerStatus)status {
@@ -462,10 +449,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             DDPDanmaku *danmaku = [[DDPDanmaku alloc] init];
             
-            CGFloat r, g, b = 0;
-            [color getRed:&r green:&g blue:&b alpha:nil];
-            
-            danmaku.color = r * 256 * 256 * 255 + g * 256 * 255 + b * 255;
+            danmaku.color = ddp_danmakuColor(color);
             danmaku.time = self.player.currentTime;
             danmaku.mode = mode;
             danmaku.token = user.token;
@@ -514,24 +498,27 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self.player setMediaURL:_model.fileURL];
     self.danmakuEngine.currentTime = 0;
     
-    //设置匹配名称
-    NSString *matchName = _model.matchName;
-    //弹幕匹配数量
-    NSString *danmakuCountStr = ({
-        __block NSInteger danmakuCount = 0;
-        [_danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
-            danmakuCount += obj.count;
-        }];
-        [NSString stringWithFormat:@"共%ld条弹幕", danmakuCount];
-    });
-    
-    if (matchName.length) {
-        [self.interfaceView.matchNoticeView.titleButton setTitle:[matchName stringByAppendingFormat:@"\n%@", danmakuCountStr] forState:UIControlStateNormal];
+    {
+        //设置匹配名称
+        NSString *matchName = _model.matchName;
+        //弹幕匹配数量
+        NSString *danmakuCountStr = ({
+            __block NSInteger danmakuCount = 0;
+            [_danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
+                danmakuCount += obj.count;
+            }];
+            [NSString stringWithFormat:@"共%ld条弹幕", danmakuCount];
+        });
+        
+        if (matchName.length) {
+            [self.interfaceView.matchNoticeView.titleButton setTitle:[matchName stringByAppendingFormat:@"\n%@", danmakuCountStr] forState:UIControlStateNormal];
+        }
+        else {
+            [self.interfaceView.matchNoticeView.titleButton setTitle:danmakuCountStr forState:UIControlStateNormal];
+        }
+        [self.interfaceView.matchNoticeView show];
+        
     }
-    else {
-        [self.interfaceView.matchNoticeView.titleButton setTitle:danmakuCountStr forState:UIControlStateNormal];
-    }
-    [self.interfaceView.matchNoticeView show];
     
     //设置上次播放时间
     NSInteger lastPlayTime = _model.lastPlayTime;
@@ -820,25 +807,23 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [_lock unlock];
 }
 
-//- (void)volumeDidChange:(NSNotification *)aNotification {
-//    NSDictionary *userInfo = aNotification.userInfo;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (self.interfaceView.volumeControlView.dragging == NO && [userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"] isEqualToString:@"ExplicitVolumeChange"]) {
-//            NSLog(@"%@", userInfo);
-//            float value = [userInfo[@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-//            self.interfaceView.volumeControlView.progress = value;
-//
-//            if (self.interfaceView.volumeControlView.isShowing == NO) {
-//                [self.interfaceView.volumeControlView showFromView:self.view];
-//            }
-//            else {
-//                [self.interfaceView.volumeControlView resetTimer];
-//            }
-//
-//            [self.interfaceView.volumeControlView dismissAfter:1];
-//        }
-//    });
-//}
+- (void)addNotice {
+    //监听音量变化
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setActive:YES error:nil];
+    [audioSession addObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume) options:NSKeyValueObservingOptionNew context:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    _addKeyPaths = @[DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)];
+    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
+    }];
+}
 
 #pragma mark UI
 
@@ -940,8 +925,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         _panType = InterfaceViewPanTypeInactive;
         [self.interfaceView.brightnessControlView dismiss];
         [self.interfaceView.volumeControlView dismiss];
-//        self.mpVolumeView.recallVolume = YES;
-        self.interfaceView.volumeControlView.dragging = NO;
     }
     else {
         if (_panType == InterfaceViewPanTypeInactive) {
@@ -949,10 +932,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             CGPoint tempPoint = CGPointMake(point.x - _panGestureTouchPoint.x, point.y - _panGestureTouchPoint.y);
             //横向移动
-            if (fabs(tempPoint.y) < 5) {
+            if (fabs(tempPoint.y) < 4.5) {
                 //让slider不响应进度更新
-                [self touchSliderDown:self.interfaceView.progressSlider];
                 _panType = InterfaceViewPanTypeProgress;
+                [self touchSliderDown:self.interfaceView.progressSlider];
             }
             //亮度调节
             else if (point.x < self.view.width / 2) {
@@ -962,10 +945,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             //音量调节
             else {
                 _panType = InterfaceViewPanTypeVolume;
-                self.interfaceView.volumeControlView.dragging = YES;
-//                self.mpVolumeView.recallVolume = NO;
                 [self.interfaceView.volumeControlView showFromView:self.view];
-                [self.interfaceView.volumeControlView resetTimer];
             }
         }
         //进度调节
@@ -993,9 +973,13 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             
             //改变系统音量
             if (_panType == InterfaceViewPanTypeVolume) {
-                CGFloat value = self.mpVolumeView.ddp_volume + rate;
-                self.mpVolumeView.ddp_volume = value;
-                self.interfaceView.volumeControlView.progress = value;
+                if (_lastPanDate == nil || fabs([_lastPanDate timeIntervalSinceDate:[NSDate date]]) > 0.015) {
+                    CGFloat value = self.interfaceView.volumeControlView.progress + rate;
+                    self.interfaceView.volumeControlView.progress = value;
+                    self.mpVolumeView.ddp_volume = value;
+                    _lastPanDate = [NSDate date];
+                    [self.interfaceView.volumeControlView resetTimer];
+                }
             }
             else {
                 float brightness = [UIScreen mainScreen].brightness;
@@ -1073,6 +1057,20 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             }];
         }];
         
+        _interfaceView.volumeControlView.dismissCallBack = ^(BOOL finish) {
+            @strongify(self)
+            if (!self) return;
+            
+            self.lastPanDate = nil;
+        };
+        
+        [_interfaceView.matchNoticeView.customMathButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
+            @strongify(self)
+            if (!self) return;
+            
+            [self playerConfigPanelViewDidTouchMatchCell];
+        }];
+        
         [self.view addSubview:_interfaceView];
     }
     return _interfaceView;
@@ -1091,21 +1089,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 - (DDPVolumeView *)mpVolumeView {
     if (_mpVolumeView == nil) {
         _mpVolumeView = [[DDPVolumeView alloc] init];
-        @weakify(self)
-        _mpVolumeView.volumeChangeCallBack = ^(CGFloat volume) {
-            @strongify(self)
-            if (!self) return;
-
-            NSLog(@"========= 物理按键调节%f", volume);
-            if (self.interfaceView.volumeControlView.isShowing == NO) {
-                [self.interfaceView.volumeControlView showFromView:self.view];
-            }
-
-            [self.interfaceView.volumeControlView dismissAfter:1];
-            if (self.interfaceView.volumeControlView.dragging == NO) {
-                self.interfaceView.volumeControlView.progress = volume;
-            }
-        };
     }
     return _mpVolumeView;
 }

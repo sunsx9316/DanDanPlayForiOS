@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, DDPDownloadTaskState) {
 
 @property (assign, readonly) DDPDownloadTaskState ddp_state;
 
+@property (assign, nonatomic, readonly, getter=isDdp_downloading) BOOL ddp_downloading;
+
 - (void)ddp_resumeWithCompletion:(DDPDownloadTaskCompletionAction)completion;
 - (void)ddp_suspendWithCompletion:(DDPDownloadTaskCompletionAction)completion;
 - (void)ddp_cancelWithForce:(BOOL)force

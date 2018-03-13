@@ -65,8 +65,6 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 
 @interface DDPMediaPlayer : NSObject
 
-//+ (instancetype)sharePlayer;
-
 @property (strong, nonatomic) UIView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
@@ -75,6 +73,11 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 @property (strong, nonatomic, readonly) NSArray *subtitleTitles;
 @property (assign, nonatomic) int currentSubtitleIndex;
 @property (assign, nonatomic) float speed;
+
+/**
+ 宽高比
+ */
+@property (assign, nonatomic) CGSize videoAspectRatio;
 /**
  *  位置 0 ~ 1
  */

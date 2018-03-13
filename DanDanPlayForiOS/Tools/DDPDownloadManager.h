@@ -11,9 +11,12 @@
 
 typedef void(^DDPDownloadManagerCompletionAction)(NSError *error);
 
+typedef void(^DDPDownloadManagerTasksCompletionAction)(void);
+
 typedef NS_ENUM(NSUInteger, DDPDownloadTasksChangeType) {
     DDPDownloadTasksChangeTypeAdd,
     DDPDownloadTasksChangeTypeRemove,
+    DDPDownloadTasksChangeTypeUpdate
 };
 
 @protocol DDPDownloadManagerObserver<NSObject>
@@ -36,8 +39,10 @@ typedef NS_ENUM(NSUInteger, DDPDownloadTasksChangeType) {
 
 - (void)addTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion;
 - (void)addTasks:(NSArray <id<DDPDownloadTaskProtocol>>*)tasks completion:(dispatch_block_t)completion;
+
 - (void)removeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion;
 - (void)removeTask:(id<DDPDownloadTaskProtocol>)task force:(BOOL)force completion:(DDPDownloadManagerCompletionAction)completion;
+- (void)removeTasks:(NSArray <id<DDPDownloadTaskProtocol>>*)tasks force:(BOOL)force completion:(DDPDownloadManagerTasksCompletionAction)completion;
 
 - (void)resumeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion;
 - (void)pauseTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion;

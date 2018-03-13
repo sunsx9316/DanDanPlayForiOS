@@ -21,4 +21,14 @@
              };
 }
 
+- (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic {
+    NSString *cover = dic[@"cover"];
+    if ([cover hasPrefix:@"http"] == NO) {
+        NSMutableDictionary *mDic = dic.mutableCopy;
+        mDic[@"cover"] = [@"https:" stringByAppendingString:cover];
+        return mDic;
+    }
+    return dic;
+}
+
 @end

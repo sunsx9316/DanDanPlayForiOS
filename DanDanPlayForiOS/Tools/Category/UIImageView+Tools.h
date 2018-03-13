@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIImage+Tools.h"
 
 @interface UIImageView (Tools)
 - (void)ddp_setImageWithURL:(NSURL *)imageURL;
+
+- (void)ddp_setImageWithURL:(NSURL *)imageURL
+                     resize:(CGSize)resize
+       roundedCornersRadius:(CGFloat)roundedCornersRadius;
+
 - (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder;
+
 - (void)ddp_setImageWithURL:(NSURL *)imageURL
                placeholder:(UIImage *)placeholder
                   progress:(YYWebImageProgressBlock)progress

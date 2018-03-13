@@ -13,7 +13,7 @@
 
 WCDB_PROPERTY(name)
 WCDB_PROPERTY(identity)
-WCDB_PROPERTY(md5)
+WCDB_PROPERTY(fileHash)
 WCDB_PROPERTY(lastPlayTime)
 
 @end

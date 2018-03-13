@@ -10,7 +10,7 @@
 
 @implementation DDPLinkVideoModel
 {
-    NSString *_md5;
+    NSString *_fileHash;
     NSString *_name;
     NSUInteger _length;
 }
@@ -20,15 +20,15 @@
                         hash:(NSString *)hash
                       length:(NSUInteger)length {
     if (self = [super initWithFileURL:fileURL]) {
-        _md5 = hash;
+        _fileHash = hash;
         _length = length;
         _name = name;
     }
     return self;
 }
 
-- (NSString *)md5 {
-    return _md5;
+- (NSString *)fileHash {
+    return _fileHash;
 }
 
 - (NSUInteger)length {
@@ -37,6 +37,10 @@
 
 - (NSString *)name {
     return _name;
+}
+
+- (BOOL)isCacheHash {
+    return _fileHash != nil;
 }
 
 @end

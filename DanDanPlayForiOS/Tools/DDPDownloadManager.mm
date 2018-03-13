@@ -45,7 +45,10 @@
 
 - (NSArray<id<DDPDownloadTaskProtocol>> *)tasks {
     if (self.linkDownloadTasks.count > 0) {
-        return [self.mTasks arrayByAddingObjectsFromArray:self.linkDownloadTasks];
+        if (self.mTasks) {
+            return [self.mTasks arrayByAddingObjectsFromArray:self.linkDownloadTasks];
+        }
+        return self.linkDownloadTasks;
     }
     return self.mTasks;
 }
@@ -63,7 +66,29 @@
 }
 
 - (void)addTask:(NSObject <DDPDownloadTaskProtocol, WCTTableCoding>*)task completion:(DDPDownloadManagerCompletionAction)completion {
-    [self addTask:task autoNotice:YES completion:completion];
+    if (task == nil) {
+        if (completion) {
+            completion(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        
+        return;
+    }
+    
+    @weakify(self)
+    [self addTask:task autoNotice:YES completion:^(NSError *error) {
+        @strongify(self)
+        if (!self) return;
+        
+        for (id<DDPDownloadManagerObserver>obj in self->_observers.copy) {
+            if ([obj respondsToSelector:@selector(tasksDidChange:type:error:)]) {
+                [obj tasksDidChange:@[task] type:DDPDownloadTasksChangeTypeAdd error:error];
+            }
+        }
+        
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
 
 - (void)addTasks:(NSArray <NSObject <DDPDownloadTaskProtocol, WCTTableCoding>*>*)tasks completion:(dispatch_block_t)completion {
@@ -113,9 +138,9 @@
     
     [task ddp_cancelWithForce:force completion:^(NSError *error) {
         if (error == nil) {
-            [self.mTasks removeObject:task];
-            WCTDatabase *db = [DDPCacheManager shareDB];
             if ([task isKindOfClass:[TOSMBSessionDownloadTask class]]) {
+                [self.mTasks removeObject:task];
+                WCTDatabase *db = [DDPCacheManager shareDB];
                 [db deleteObjectsFromTable:DDPSMBDownloadTaskCache.className where:DDPSMBDownloadTaskCache.sourceFilePath == task.ddp_id];
             }
         }
@@ -130,6 +155,50 @@
             completion(error);
         }
     }];
+}
+
+- (void)removeTasks:(NSArray <NSObject <DDPDownloadTaskProtocol>*>*)tasks force:(BOOL)force completion:(DDPDownloadManagerTasksCompletionAction)completion {
+    if (tasks.count == 0) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
+    
+    dispatch_group_t _group = dispatch_group_create();
+    
+    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.creat.group", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    
+    dispatch_group_async(_group, _queue, ^{
+        
+        [tasks enumerateObjectsUsingBlock:^(NSObject<DDPDownloadTaskProtocol> * _Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
+            dispatch_group_enter(_group);
+            
+            [task ddp_cancelWithForce:force completion:^(NSError *error) {
+                if (error == nil) {
+                    if ([task isKindOfClass:[TOSMBSessionDownloadTask class]]) {
+                        [self.mTasks removeObject:task];
+                        WCTDatabase *db = [DDPCacheManager shareDB];
+                        [db deleteObjectsFromTable:DDPSMBDownloadTaskCache.className where:DDPSMBDownloadTaskCache.sourceFilePath == task.ddp_id];
+                    }
+                }
+                
+                dispatch_group_leave(_group);
+            }];
+        }];
+    });
+    
+    dispatch_group_notify(_group, dispatch_get_main_queue(), ^{
+        for (id<DDPDownloadManagerObserver>obj in _observers.copy) {
+            if ([obj respondsToSelector:@selector(tasksDidChange:type:error:)]) {
+                [obj tasksDidChange:tasks type:DDPDownloadTasksChangeTypeRemove error:nil];
+            }
+        }
+        
+        if (completion) {
+            completion();
+        }
+    });
 }
 
 - (void)resumeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
@@ -152,7 +221,23 @@
 - (void)timerStart:(NSTimer *)timer {
     [DDPLinkNetManagerOperation linkDownloadListWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress completionHandler:^(DDPLinkDownloadTaskCollection *collection, NSError *error) {
         if (error == nil) {
-            self.linkDownloadTasks = collection.collection;
+            [collection.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.isDeleted) {
+                    [collection.collection removeObjectAtIndex:idx];
+                }
+            }];
+            
+            if (self.linkDownloadTasks.count != collection.collection.count) {
+                self.linkDownloadTasks = collection.collection;
+                for (id<DDPDownloadManagerObserver>obj in _observers.copy) {
+                    if ([obj respondsToSelector:@selector(tasksDidChange:type:error:)]) {
+                        [obj tasksDidChange:collection.collection type:DDPDownloadTasksChangeTypeUpdate error:nil];
+                    }
+                }
+            }
+            else {
+                self.linkDownloadTasks = collection.collection;
+            }
         }
     }];
 }
@@ -245,7 +330,7 @@
             NSString *downloadPath = ddp_taskDownloadPath();
             NSMutableArray *tasks = [NSMutableArray array];
             [taskCaches enumerateObjectsUsingBlock:^(DDPSMBDownloadTaskCache * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                TOSMBSessionDownloadTask *aTask = [session downloadTaskForFileAtPath:obj.sourceFilePath destinationPath:downloadPath delegate:nil];
+                TOSMBSessionDownloadTask *aTask = [session downloadTaskForFileAtPath:obj.sourceFilePath destinationPath:downloadPath delegate:self];
                 //设置文件大小
                 [aTask setValue:@(obj.countOfBytesExpectedToReceive) forKey:NSStringFromSelector(@selector(countOfBytesExpectedToReceive))];
 //                [aTask setValue:@(obj.countOfBytesReceived) forKey:NSStringFromSelector(@selector(countOfBytesReceived))];

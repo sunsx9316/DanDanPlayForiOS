@@ -10,15 +10,14 @@
 #import "TOSMBSessionDownloadTask+Tools.h"
 
 @interface DDPDownloadTableViewCell ()
-//@property (strong, nonatomic) id<DDPDownloadTaskProtocol> task;
-//@property (strong, nonatomic, readwrite) TOSMBSessionDownloadTask *task;
+@property (strong, nonatomic) UIView *bottomLineView;
 @end
 
 @implementation DDPDownloadTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        self.selectedBackgroundView = [[UIView alloc] init];
         
         [self.contentView addSubview:self.progressView];
         
@@ -29,7 +28,14 @@
         
         [self.progressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
+            make.top.equalTo(self.titleLabel.mas_bottom).mas_offset(10);
             make.bottom.mas_offset(-10);
+        }];
+        
+        [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(10);
+            make.right.bottom.mas_equalTo(0);
+            make.height.mas_equalTo(1);
         }];
         
     }
@@ -51,21 +57,28 @@
     self.titleLabel.text = name;
     
     self.progressView.frame = CGRectMake(0, 0, progress * self.width, self.height);
-    if (_task.ddp_state == DDPDownloadTaskStateRunning) {
+    if (_task.isDdp_downloading) {
         self.progressView.backgroundColor = [UIColor ddp_mainColor];
     }
     else {
-        self.progressView.backgroundColor = [UIColor darkGrayColor];
+        self.progressView.backgroundColor = [UIColor lightGrayColor];
     }
 }
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    self.selectedBackgroundView.backgroundColor = self.contentView.backgroundColor;
+}
+
 
 #pragma mark - 懒加载
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont ddp_normalSizeFont];
+        _titleLabel.numberOfLines = 0;
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.textColor = DDPRGBColor(60, 60, 60);
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;
@@ -75,48 +88,27 @@
     if (_progressLabel == nil) {
         _progressLabel = [[UILabel alloc] init];
         _progressLabel.font = [UIFont ddp_smallSizeFont];
-        _progressLabel.textColor = [UIColor blackColor];
+        _progressLabel.textColor = DDPRGBColor(80, 80, 80);
         [self.contentView addSubview:_progressLabel];
     }
     return _progressLabel;
 }
 
-//- (UILabel *)titleBGLabel {
-//    if (_titleBGLabel == nil) {
-//        _titleBGLabel = [[UILabel alloc] init];
-//        _titleBGLabel.font = [UIFont ddp_normalSizeFont];
-//        _titleBGLabel.textColor = [UIColor blackColor];
-//        _titleBGLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-//        [self.contentView addSubview:_titleBGLabel];
-//    }
-//    return _titleBGLabel;
-//}
-//
-//- (UILabel *)progressBGLabel {
-//    if (_progressBGLabel == nil) {
-//        _progressBGLabel = [[UILabel alloc] init];
-//        _progressBGLabel.font = [UIFont ddp_smallSizeFont];
-//        _progressBGLabel.textColor = [UIColor blackColor];
-//        [self.contentView addSubview:_progressBGLabel];
-//    }
-//    return _progressBGLabel;
-//}
-
-//- (CALayer *)progressLayer {
-//    if (_progressLayer == nil) {
-//        _progressLayer = [CALayer layer];
-//        _progressLayer.backgroundColor = [UIColor whiteColor].CGColor;
-//    }
-//    return _progressLayer;
-//}
-
 - (UIView *)progressView {
     if (_progressView == nil) {
         _progressView = [[UIView alloc] init];
         _progressView.backgroundColor = [UIColor ddp_mainColor];
-//        [self.contentView addSubview:_progressView];
     }
     return _progressView;
+}
+
+- (UIView *)bottomLineView {
+    if (_bottomLineView == nil) {
+        _bottomLineView = [[UIView alloc] init];
+        _bottomLineView.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:_bottomLineView];
+    }
+    return _bottomLineView;
 }
 
 @end

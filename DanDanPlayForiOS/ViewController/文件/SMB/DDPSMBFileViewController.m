@@ -343,6 +343,7 @@
         _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.allowsMultipleSelectionDuringEditing = YES;
         _tableView.estimatedRowHeight = 60;
         [_tableView registerClass:[DDPFileManagerVideoTableViewCell class] forCellReuseIdentifier:@"DDPFileManagerVideoTableViewCell"];

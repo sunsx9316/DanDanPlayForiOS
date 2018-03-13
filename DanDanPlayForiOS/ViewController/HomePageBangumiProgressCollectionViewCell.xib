@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="221" height="294"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="YY2-fy-wps">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="252" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="YY2-fy-wps">
                         <rect key="frame" x="0.0" y="0.0" width="221" height="150"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="150" id="MMQ-CF-9Ra"/>

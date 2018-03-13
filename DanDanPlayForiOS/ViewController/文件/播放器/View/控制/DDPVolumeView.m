@@ -25,12 +25,6 @@
     return self.volumeSlider.value;
 }
 
-- (void)volumeChange:(UISlider *)sender {
-    if (self.volumeChangeCallBack) {
-        self.volumeChangeCallBack(sender.value);
-    }
-}
-
 #pragma mark - 懒加载
 
 - (UISlider *)volumeSlider {
@@ -38,7 +32,6 @@
         for (UIView *view in [self subviews]) {
             if ([view isMemberOfClass:NSClassFromString(@"MPVolumeSlider")]) {
                 _slider = (UISlider *)view;
-                [_slider addTarget:self action:@selector(volumeChange:) forControlEvents:UIControlEventValueChanged];
                 break;
             }
         }

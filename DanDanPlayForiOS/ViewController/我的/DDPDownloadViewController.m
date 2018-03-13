@@ -11,10 +11,12 @@
 #import "DDPDownloadTableViewCell.h"
 #import "DDPEdgeButton.h"
 #import "DDPDownloadManager.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @interface DDPDownloadViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DDPDownloadManagerObserver>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @end
 
 @implementation DDPDownloadViewController
@@ -67,60 +69,25 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView.isEditing) {
+        return;
+    }
     
-//    if (indexPath.section == 0) {
-//        DDPLinkDownloadTask *task = self.linkDownloadTaskCollection.collection[indexPath.row];
-//        JHControlLinkTaskMethod method = nil;
-//        //开始
-//        if (task.state == DDPLinkDownloadTaskStatePause || task.state == DDPLinkDownloadTaskStateStop || task.state == DDPLinkDownloadTaskStateError) {
-//            method = JHControlLinkTaskMethodStart;
-//        }
-//        //暂停
-//        else if (task.state == DDPLinkDownloadTaskStateDownloading) {
-//            method = JHControlLinkTaskMethodPause;
-//        }
-//
-//        if (method.length) {
-//            [self.view showLoading];
-//
-//            [DDPLinkNetManagerOperation linkControlDownloadWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress taskId:task.taskId method:method forceDelete:NO completionHandler:^(DDPLinkDownloadTask *responseObject, NSError *error) {
-//                [MBProgressHUD hideLoadingAfterDelay:1];
-//
-//                if (error) {
-//                    [self.view showWithError:error];
-//                }
-//                else {
-//                    responseObject.state = [method isEqualToString:JHControlLinkTaskMethodPause] ? DDPLinkDownloadTaskStatePause : DDPLinkDownloadTaskStateDownloading;
-//                    [self.linkDownloadTaskCollection.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                        if ([obj.taskId isEqualToString:responseObject.taskId]) {
-//                            self.linkDownloadTaskCollection.collection[idx] = responseObject;
-//                        }
-//                    }];
-//
-//                    DDPDownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//                    [cell setTask:responseObject animate:YES];
-//                }
-//            }];
-//        }
-//    }
-//    else {
-//        TOSMBSessionDownloadTask *task = [DDPDownloadManager shareDownloadManager].downloadTasks[indexPath.row];
-//        if (task.state == TOSMBSessionTaskStateSuspended) {
-//            [task resume];
-//            DDPDownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//            [cell updateDataSourceWithAnimate:YES];
-//        }
-//        else if (task.state == TOSMBSessionTaskStateRunning) {
-//            [task suspend];
-//            DDPDownloadTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//            [cell updateDataSourceWithAnimate:YES];
-//        }
-//    }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    id<DDPDownloadTaskProtocol> task = [DDPDownloadManager shareDownloadManager].tasks[indexPath.row];
+    if ([task isDdp_downloading]) {
+        [task ddp_suspendWithCompletion:nil];
+    }
+    else {
+        [task ddp_resumeWithCompletion:nil];
+    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return CGFLOAT_MIN;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    id<DDPDownloadTaskProtocol> task = [DDPDownloadManager shareDownloadManager].tasks[indexPath.row];
+    return [tableView fd_heightForCellWithIdentifier:DDPDownloadTableViewCell.className cacheByIndexPath:indexPath configuration:^(DDPDownloadTableViewCell *cell) {
+        cell.task = task;
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -158,11 +125,11 @@
         deleteAction(NO);
     }]];
     
-    if ([task isKindOfClass:[DDPLinkDownloadTask class]]) {
-        [vc addAction:[UIAlertAction actionWithTitle:@"删除任务和源文件" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            deleteAction(YES);
-        }]];
-    }
+//    if ([task isKindOfClass:[DDPLinkDownloadTask class]]) {
+//        [vc addAction:[UIAlertAction actionWithTitle:@"删除任务和源文件" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+//            deleteAction(YES);
+//        }]];
+//    }
     
     
     [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
@@ -190,13 +157,28 @@
 
 #pragma mark - 私有方法
 - (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_download_pause"] configAction:^(UIButton *aButton) {
-        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-        [aButton setImage:[UIImage imageNamed:@"file_match_play"] forState:UIControlStateSelected];
-        _rightButton = aButton;
-    }];
-    
-    [self.navigationItem addRightItemFixedSpace:item];
+    if (self.tableView.isEditing) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_download_pause"] configAction:^(UIButton *aButton) {
+            [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+            [aButton setImage:[UIImage imageNamed:@"file_match_play"] forState:UIControlStateSelected];
+            _rightButton = aButton;
+        }];
+        
+        UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_download_delete"] configAction:^(UIButton *aButton) {
+            [aButton addTarget:self action:@selector(touchDeleteItem:) forControlEvents:UIControlEventTouchUpInside];
+        }];
+        
+        [self.navigationItem addRightItemsFixedSpace:@[item, deleteItem]];
+    }
+    else {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_download_pause"] configAction:^(UIButton *aButton) {
+            [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+            [aButton setImage:[UIImage imageNamed:@"file_match_play"] forState:UIControlStateSelected];
+            _rightButton = aButton;
+        }];
+        
+        [self.navigationItem addRightItemsFixedSpace:@[item]];
+    }
 }
 
 - (void)touchRightItem:(UIButton *)button {
@@ -220,27 +202,61 @@
     [self.tableView reloadData];
 }
 
+- (void)touchDeleteItem:(UIButton *)button {
+    NSArray<NSIndexPath *>*indexPathsForSelectedRows = self.tableView.indexPathsForSelectedRows;
+    NSMutableArray *tasks = [NSMutableArray array];
+    [indexPathsForSelectedRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [tasks addObject:[DDPDownloadManager shareDownloadManager].tasks[obj.row]];
+    }];
+    
+    if (tasks.count == 0) {
+        return;
+    }
+    
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认删除选择的视频吗？" preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.view showLoading];
+        [[DDPDownloadManager shareDownloadManager] removeTasks:tasks force:YES completion:^{
+            [self.view hideLoading];
+            [self updateTableViewEditing:NO];
+        }];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
 - (void)updateTaskInfo {
     NSArray<NSIndexPath *> *indexPathsForVisibleRows = [self.tableView indexPathsForVisibleRows];
     [indexPathsForVisibleRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        id<DDPDownloadTaskProtocol>task = [DDPDownloadManager shareDownloadManager].tasks[obj.row];
-        DDPDownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
-        cell.task = task;
+        NSArray *tasks = [DDPDownloadManager shareDownloadManager].tasks;
+        if (obj.row < tasks.count) {
+            id<DDPDownloadTaskProtocol>task = tasks[obj.row];
+            DDPDownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
+            cell.task = task;
+        }
     }];
-    
+}
+
+- (void)updateTableViewEditing:(BOOL)editing {
+    [self.tableView setEditing:editing animated:YES];
+    [self configRightItem];
 }
 
 #pragma mark - 懒加载
 - (DDPBaseTableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 70;
         _tableView.showEmptyView = YES;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.emptyDataSetSource = self;
+        _tableView.allowsMultipleSelectionDuringEditing = YES;
+        _tableView.allowsMultipleSelection = NO;
         [_tableView registerClass:[DDPDownloadTableViewCell class] forCellReuseIdentifier:@"DDPDownloadTableViewCell"];
-//        [_tableView registerClass:[DDPTextHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPTextHeaderView"];
+        [_tableView addGestureRecognizer:self.longPressGestureRecognizer];
         _tableView.tableFooterView = [[UIView alloc] init];
         @weakify(self)
         _tableView.mj_header = [MJRefreshNormalHeader ddp_headerRefreshingCompletionHandler:^{
@@ -263,48 +279,44 @@
             if (!self) return;
             
             [self updateTaskInfo];
-//            DDPLinkInfo *info = [DDPCacheManager shareCacheManager].linkInfo;
-//            if (info) {
-//                [DDPLinkNetManagerOperation linkDownloadListWithIpAdress:info.selectedIpAdress completionHandler:^(DDPLinkDownloadTaskCollection *responseObject, NSError *error) {
-//                    if (error == nil) {
-//                        if (responseObject.collection.count > 0 && [DDPCacheManager shareCacheManager].timerIsStart == NO) {
-//                            [[DDPCacheManager shareCacheManager] addLinkDownload];
-//                        }
-//
-//                        NSInteger oldCount = self.linkDownloadTaskCollection.collection.count;
-//                        NSInteger aNewCount = responseObject.collection.count;
-//
-//                        self.linkDownloadTaskCollection = responseObject;
-//                        if (oldCount != aNewCount) {
-//                            [self.tableView reloadData];
-//                            [self.tableView reloadEmptyDataSet];
-//                        }
-//
-//                        NSArray <NSIndexPath *>*indexPaths = [self.tableView indexPathsForVisibleRows];
-//                        [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                            DDPDownloadLinkTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
-//                            if (obj.section == 0) {
-//                                //                                [cell updateDataSourceWithAnimate:YES];
-//                                [cell setTask:self.linkDownloadTaskCollection.collection[obj.row] animate:YES];
-//                            }
-//                        }];
-//                    }
-//                }];
-//            }
-//
-//            NSArray <NSIndexPath *>*indexPaths = [self.tableView indexPathsForVisibleRows];
-//            [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                DDPDownloadTableViewCell *cell = [self.tableView cellForRowAtIndexPath:obj];
-//                if (obj.section != 0) {
-//                    [cell updateDataSourceWithAnimate:YES];
-//                }
-//            }];
 
         } repeats:YES];
         _timer.fireDate = [NSDate distantFuture];
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
+}
+
+- (UILongPressGestureRecognizer *)longPressGestureRecognizer {
+    if (_longPressGestureRecognizer == nil) {
+        @weakify(self)
+        _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithActionBlock:^(UILongPressGestureRecognizer * _Nonnull gesture) {
+            @strongify(self)
+            if (!self) return;
+            
+            switch (gesture.state) {
+                case UIGestureRecognizerStateBegan:
+                {
+                    if (self.tableView.isEditing == NO && [DDPDownloadManager shareDownloadManager].tasks.count > 0) {
+                        [self updateTableViewEditing:YES];
+                        
+                        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:[gesture locationInView:self.tableView]];
+                        if (indexPath) {
+                            //将当前长按的cell加入选择
+                            [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+                        }
+                    }
+                    else {
+                        [self updateTableViewEditing:NO];
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }
+    return _longPressGestureRecognizer;
 }
 
 @end

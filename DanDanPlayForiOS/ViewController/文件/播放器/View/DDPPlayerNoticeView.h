@@ -21,6 +21,7 @@
  */
 @property (assign, nonatomic) float autoDismissTime;
 @property (strong, nonatomic) UIButton *titleButton;
+@property (strong, nonatomic) UIButton *closeButton;
 @property (weak, nonatomic) id<DDPPlayerNoticeViewDelegate>delegate;
 - (void)show;
 - (void)dismiss;

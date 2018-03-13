@@ -32,6 +32,7 @@
  */
 @property (assign, nonatomic, readonly) NSInteger lastPlayTime;
 
+- (void)lastPlayTimeWithBlock:(void(^)(NSInteger lastPlayTime))action;
 
 
 @end

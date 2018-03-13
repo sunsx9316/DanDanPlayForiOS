@@ -69,4 +69,6 @@
  @param afterDelay 在afterDelay秒后
  */
 - (void)hideLoadingAfterDelay:(NSTimeInterval)afterDelay;
+
+- (void)hideAllHUD;
 @end

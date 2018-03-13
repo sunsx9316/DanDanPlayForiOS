@@ -228,110 +228,111 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 - (void)startDiscovererVideoWithFile:(DDPFile *)file
                                 type:(PickerFileType)type
                           completion:(GetFilesAction)completion {
-    //    DDPFile *rootFile = [DDPCacheManager shareCacheManager].rootFile;
-    DDPFile *rootFile = ddp_getANewRootFile();
-    //    [rootFile.subFiles removeAllObjects];
     
-    //    if (type == PickerFileTypeAll) {
-    //        [self.videoArray removeAllObjects];
-    //    }
-    
-    NSFileManager* manager = [NSFileManager defaultManager];
-    
-    NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
-    
-    NSMutableDictionary <NSString *, DDPFile *>*folderDic = [NSMutableDictionary dictionary];
-    
-    //用户自定义的目录 存储文件的quickHash
-    NSMutableDictionary *folderCache = [DDPCacheManager shareCacheManager].folderCache;
-    
-    DDPFile *(^getParentFileAction)(NSURL *, NSString *) = ^(NSURL *parentURL, NSString *key) {
-        if ([key isEqualToString:@"/"]) {
-            return rootFile;
-        }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        DDPFile *rootFile = ddp_getANewRootFile();
         
-        DDPFile *parentFile = folderDic[key];
-        if (parentFile == nil) {
-            parentFile = [[DDPFile alloc] initWithFileURL:parentURL type:DDPFileTypeFolder];
-            parentFile.parentFile = rootFile;
-            folderDic[key] = parentFile;
-        }
-        return parentFile;
-    };
-    
-    for (NSURL *aURL in childFilesEnumerator) {
-        if (((type & PickerFileTypeVideo) && ddp_isVideoFile(aURL.absoluteString)) ||
-            ((type & PickerFileTypeSubtitle) && ddp_isSubTitleFile(aURL.absoluteString)) ||
-            ((type & PickerFileTypeDanmaku) && ddp_isDanmakuFile(aURL.absoluteString))) {
-            DDPFile *aFile = [[DDPFile alloc] initWithFileURL:aURL type:DDPFileTypeDocument];
+        NSFileManager* manager = [NSFileManager defaultManager];
+        
+        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+        
+        NSMutableDictionary <NSString *, DDPFile *>*folderDic = [NSMutableDictionary dictionary];
+        
+        //用户自定义的目录 存储文件的quickHash
+        NSMutableDictionary *folderCache = [DDPCacheManager shareCacheManager].folderCache;
+        
+        DDPFile *(^getParentFileAction)(NSURL *, NSString *) = ^(NSURL *parentURL, NSString *key) {
+            if ([key isEqualToString:@"/"]) {
+                return rootFile;
+            }
             
-            NSURL *parentURL = [aURL URLByDeletingLastPathComponent];
-            NSString *parentFileType = [[[NSFileManager defaultManager] attributesOfItemAtPath:parentURL.path error:nil] fileType];
-            
-            __block BOOL flag = NO;
-            [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
-                //如果文件被用户转移过
-                if ([obj containsObject:aFile.videoModel.quickHash]) {
-                    DDPFile *parentFile = getParentFileAction([rootFile.fileURL URLByAppendingPathComponent:key], key);
+            DDPFile *parentFile = folderDic[key];
+            if (parentFile == nil) {
+                parentFile = [[DDPFile alloc] initWithFileURL:parentURL type:DDPFileTypeFolder];
+                parentFile.parentFile = rootFile;
+                folderDic[key] = parentFile;
+            }
+            return parentFile;
+        };
+        
+        for (NSURL *aURL in childFilesEnumerator) {
+            if (((type & PickerFileTypeVideo) && ddp_isVideoFile(aURL.absoluteString)) ||
+                ((type & PickerFileTypeSubtitle) && ddp_isSubTitleFile(aURL.absoluteString)) ||
+                ((type & PickerFileTypeDanmaku) && ddp_isDanmakuFile(aURL.absoluteString))) {
+                DDPFile *aFile = [[DDPFile alloc] initWithFileURL:aURL type:DDPFileTypeDocument];
+                
+                NSURL *parentURL = [aURL URLByDeletingLastPathComponent];
+                NSString *parentFileType = [[[NSFileManager defaultManager] attributesOfItemAtPath:parentURL.path error:nil] fileType];
+                
+                __block BOOL flag = NO;
+                [folderCache enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull obj, BOOL * _Nonnull stop) {
+                    //如果文件被用户转移过
+                    if ([obj containsObject:aFile.videoModel.quickHash]) {
+                        DDPFile *parentFile = getParentFileAction([rootFile.fileURL URLByAppendingPathComponent:key], key);
+                        aFile.parentFile = parentFile;
+                        [parentFile.subFiles addObject:aFile];
+                        
+                        flag = YES;
+                        *stop = YES;
+                    }
+                }];
+                
+                //用户已经转移 则不进行之后的操作
+                if (flag == YES) continue;
+                
+                //根目录
+                if ([parentURL relationshipWithURL:rootFile.fileURL] == NSURLRelationshipSame) {
+                    aFile.parentFile = rootFile;
+                    [rootFile.subFiles addObject:aFile];
+                }
+                //上层目录是文件夹则创建文件夹
+                else if ([parentFileType isEqualToString:NSFileTypeDirectory]) {
+                    DDPFile *parentFile = getParentFileAction(parentURL, parentURL.lastPathComponent);
                     aFile.parentFile = parentFile;
                     [parentFile.subFiles addObject:aFile];
-                    
-                    flag = YES;
+                }
+            }
+        }
+        
+        [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
+        
+        //把文件夹排在前面
+        [rootFile.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
+            
+            if (obj1.type == DDPFileTypeFolder) {
+                return NSOrderedAscending;
+            }
+            
+            if (obj2.type == DDPFileTypeFolder) {
+                return NSOrderedDescending;
+            }
+            
+            return [obj1.name compare:obj2.name];
+        }];
+        
+        if (ddp_isRootFile(file)) {
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(rootFile);
+                });
+            }
+        }
+        else {
+            __block DDPFile *tempFile = nil;
+            [rootFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.fileURL isEqual:file.fileURL]) {
+                    tempFile = obj;
                     *stop = YES;
                 }
             }];
             
-            //用户已经转移 则不进行之后的操作
-            if (flag == YES) continue;
-            
-            //根目录
-            if ([parentURL relationshipWithURL:rootFile.fileURL] == NSURLRelationshipSame) {
-                aFile.parentFile = rootFile;
-                [rootFile.subFiles addObject:aFile];
-            }
-            //上层目录是文件夹则创建文件夹
-            else if ([parentFileType isEqualToString:NSFileTypeDirectory]) {
-                DDPFile *parentFile = getParentFileAction(parentURL, parentURL.lastPathComponent);
-                aFile.parentFile = parentFile;
-                [parentFile.subFiles addObject:aFile];
+            if (completion) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(tempFile);
+                });
             }
         }
-    }
-    
-    [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
-    
-    //把文件夹排在前面
-    [rootFile.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
-        
-        if (obj1.type == DDPFileTypeFolder) {
-            return NSOrderedAscending;
-        }
-        
-        if (obj2.type == DDPFileTypeFolder) {
-            return NSOrderedDescending;
-        }
-        
-        return [obj1.name compare:obj2.name];
-    }];
-    
-    if (ddp_isRootFile(file)) {
-        if (completion) {
-            completion(rootFile);
-        }
-    }
-    else {
-        __block DDPFile *tempFile = nil;
-        [rootFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.fileURL isEqual:file.fileURL]) {
-                tempFile = obj;
-                *stop = YES;
-            }
-        }];
-        
-        if (completion) {
-            completion(tempFile);
-        }
-    }
+    });
 }
 
 - (void)startDiscovererFileWithType:(PickerFileType)type completion:(GetFilesAction)completion {

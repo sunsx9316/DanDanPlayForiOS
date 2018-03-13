@@ -74,7 +74,6 @@ static MBProgressHUD *progressHUD = nil;
     aHUD.mode = mode;
     aHUD.bezelView.color = DDPRGBAColor(0, 0, 0, 0.6);
     aHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
-    aHUD.bezelView.userInteractionEnabled = YES;
     aHUD.label.font = [UIFont ddp_normalSizeFont];
     aHUD.contentColor = [UIColor whiteColor];
     aHUD.userInteractionEnabled = YES;

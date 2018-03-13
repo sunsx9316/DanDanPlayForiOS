@@ -136,7 +136,6 @@
             [self.navigationController pushViewController:vc animated:YES];
         };
         
-        
         return cell;
     }
     

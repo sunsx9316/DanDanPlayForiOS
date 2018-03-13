@@ -10,7 +10,7 @@
 
 @implementation DDPSMBVideoModel
 {
-    NSString *_md5;
+    NSString *_fileHash;
     NSUInteger _length;
 }
 
@@ -18,18 +18,22 @@
                            hash:(NSString *)hash
                          length:(NSUInteger)length {
     if (self = [super initWithFileURL:fileURL]) {
-        _md5 = hash;
+        _fileHash = hash;
         _length = length;
     }
     return self;
 }
 
-- (NSString *)md5 {
-    return _md5;
+- (NSString *)fileHash {
+    return _fileHash;
 }
 
 - (NSUInteger)length {
     return _length;
+}
+
+- (BOOL)isCacheHash {
+    return _fileHash != nil;
 }
 
 @end

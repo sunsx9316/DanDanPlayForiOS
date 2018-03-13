@@ -22,8 +22,13 @@
     return DDPRGBColor(240, 240, 240);
     
 }
+
 + (UIColor *)ddp_lightGrayColor {
     return DDPRGBColor(230, 230, 230);
+}
+
++ (UIColor *)ddp_cellHighlightColor {
+    return DDPRGBColor(236, 243, 249);
 }
 
 @end

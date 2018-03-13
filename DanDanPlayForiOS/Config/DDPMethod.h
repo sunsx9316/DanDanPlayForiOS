@@ -110,6 +110,20 @@ CG_INLINE NSString *ddp_taskDownloadPath() {
 
 
 /**
+ 弹弹弹幕颜色的计算公式
+
+ @param color 颜色
+ @return 弹幕颜色
+ */
+CG_INLINE uint32_t ddp_danmakuColor(UIColor *color) {
+    CGFloat r, g, b = 0;
+    [color getRed:&r green:&g blue:&b alpha:nil];
+    
+    return r * 256 * 256 * 255 + g * 256 * 255 + b * 255;
+}
+
+
+/**
  分集类型转字符串
 
  @param type 类型

@@ -10,7 +10,15 @@
 
 @implementation UIImageView (Tools)
 - (void)ddp_setImageWithURL:(NSURL *)imageURL {
-    [self ddp_setImageWithURL:imageURL placeholder:[UIImage imageNamed:@"comment_place_holder"] progress:nil manager:nil transform:nil completion:nil];
+    [self ddp_setImageWithURL:imageURL placeholder:[UIImage ddp_placeHolder] progress:nil manager:nil transform:nil completion:nil];
+}
+
+- (void)ddp_setImageWithURL:(NSURL *)imageURL
+                     resize:(CGSize)resize
+       roundedCornersRadius:(CGFloat)roundedCornersRadius {
+    [self ddp_setImageWithURL:imageURL placeholder:[UIImage ddp_placeHolder] progress:nil manager:[[DDPCacheManager shareCacheManager] imageManagerWithRoundedCornersRadius:roundedCornersRadius] transform:^UIImage * _Nullable(UIImage * _Nonnull image, NSURL * _Nonnull url) {
+        return [[image yy_imageByResizeToSize:resize contentMode:UIViewContentModeScaleAspectFill] yy_imageByRoundCornerRadius:roundedCornersRadius];
+    } completion:nil];
 }
 
 - (void)ddp_setImageWithURL:(NSURL *)imageURL placeholder:(UIImage *)placeholder {

@@ -26,6 +26,12 @@
  */
 @property (copy, nonatomic) NSString *cv;
 
+
+/**
+ 风格
+ */
+@property (copy, nonatomic) NSString *styles;
+
 /**
  弹幕数
  */

@@ -10,7 +10,6 @@
 #import "DDPEdgeButton.h"
 
 @interface DDPPlayerNoticeView ()
-@property (strong, nonatomic) DDPEdgeButton *closeButton;
 @property (strong, nonatomic) NSTimer *timer;
 @end
 
@@ -100,10 +99,11 @@
     return _titleButton;
 }
 
-- (DDPEdgeButton *)closeButton {
+- (UIButton *)closeButton {
     if (_closeButton == nil) {
-        _closeButton = [[DDPEdgeButton alloc] init];
-        _closeButton.inset = CGSizeMake(10, 8);
+        DDPEdgeButton *aButton = [[DDPEdgeButton alloc] init];
+        aButton.inset = CGSizeMake(10, 8);
+        _closeButton = aButton;
         [_closeButton setImage:[UIImage imageNamed:@"player_close_button"] forState:UIControlStateNormal];
         [_closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [_closeButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];

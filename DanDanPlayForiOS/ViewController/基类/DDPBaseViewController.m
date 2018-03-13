@@ -28,6 +28,7 @@
 }
 
 - (void)dealloc {
+    [self.view hideAllHUD];
     NSLog(@"%@ dealloc", NSStringFromClass(self.class));
 }
 

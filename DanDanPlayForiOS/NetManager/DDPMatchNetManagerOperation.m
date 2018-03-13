@@ -16,7 +16,7 @@
 
 + (NSURLSessionDataTask *)matchVideoModel:(DDPVideoModel *)model completionHandler:(void (^)(DDPMatchCollection *, NSError *))completionHandler {
     
-    NSString *hash = model.md5;
+    NSString *hash = model.fileHash;
     NSUInteger length = model.length;
     NSString *fileName = model.name;
     
@@ -55,7 +55,7 @@
 + (NSURLSessionDataTask *)matchEditMatchVideoModel:(DDPVideoModel *)model
                                               user:(DDPUser *)user
                                  completionHandler:(void(^)(NSError *error))completionHandler {
-    if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.md5.length == 0 || model.identity == 0) {
+    if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.fileHash.length == 0 || model.identity == 0) {
         if (completionHandler) {
             completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
@@ -63,7 +63,7 @@
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID];
-    NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.md5, @"EpisodeId" : @(model.identity)};
+    NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.fileHash, @"EpisodeId" : @(model.identity)};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON

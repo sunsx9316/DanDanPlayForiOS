@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="116" id="KGk-i7-Jjw" customClass="DDPBiliBiliSearchVideoTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="389" height="116"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="389" height="115.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F1h-2T-Lqi">
+                        <rect key="frame" x="10" y="18" width="130" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="Uhs-D0-qI4"/>
+                            <constraint firstAttribute="width" constant="130" id="Vw2-1Y-b5n"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PKb-mT-oOA" customClass="DDPEdgeLabel">
+                        <rect key="frame" x="104" y="78.5" width="31" height="14.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.35108090753424659" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="go1-wh-fqH">
+                        <rect key="frame" x="150" y="18" width="229" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jpd-UL-Ldg">
+                        <rect key="frame" x="150" y="84" width="45" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="-4" maxY="0.0"/>
+                        <state key="normal" title="Button" image="search_play_icon">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="jpd-UL-Ldg" firstAttribute="leading" secondItem="go1-wh-fqH" secondAttribute="leading" id="2bn-2T-YCe"/>
+                    <constraint firstItem="PKb-mT-oOA" firstAttribute="trailing" secondItem="F1h-2T-Lqi" secondAttribute="trailing" constant="-5" id="8lb-x9-mI4"/>
+                    <constraint firstItem="PKb-mT-oOA" firstAttribute="bottom" secondItem="F1h-2T-Lqi" secondAttribute="bottom" constant="-5" id="Cvu-hN-V1o"/>
+                    <constraint firstItem="jpd-UL-Ldg" firstAttribute="bottom" secondItem="F1h-2T-Lqi" secondAttribute="bottom" id="IMB-uc-c0E"/>
+                    <constraint firstItem="F1h-2T-Lqi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="O9n-dl-sRe"/>
+                    <constraint firstItem="F1h-2T-Lqi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Q3y-aC-Pdt"/>
+                    <constraint firstAttribute="trailing" secondItem="go1-wh-fqH" secondAttribute="trailing" constant="10" id="cbl-Lx-OC8"/>
+                    <constraint firstItem="go1-wh-fqH" firstAttribute="top" secondItem="F1h-2T-Lqi" secondAttribute="top" id="iUs-Jm-IKT"/>
+                    <constraint firstItem="go1-wh-fqH" firstAttribute="leading" secondItem="F1h-2T-Lqi" secondAttribute="trailing" constant="10" id="vYM-X5-K1J"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="iconImgView" destination="F1h-2T-Lqi" id="Sdu-TK-uxj"/>
+                <outlet property="nameLabel" destination="go1-wh-fqH" id="ZJs-bL-4Xm"/>
+                <outlet property="playButton" destination="jpd-UL-Ldg" id="Yjp-IF-im2"/>
+                <outlet property="timeLabel" destination="PKb-mT-oOA" id="xVJ-Ce-4UD"/>
+            </connections>
+            <point key="canvasLocation" x="-123.5" y="81"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="search_play_icon" width="10" height="8"/>
+    </resources>
+</document>
