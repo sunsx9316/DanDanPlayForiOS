@@ -201,5 +201,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 //当前分析的视频模型
 @property (strong, nonatomic) DDPVideoModel *currentPlayVideoModel;
 
+
+/**
+ 刷新中显示的文字
+ */
+@property (strong, nonatomic) NSMutableArray <NSString *>*refreshTexts;
+
 + (instancetype)shareCacheManager;
 @end

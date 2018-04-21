@@ -119,7 +119,6 @@
 		898AD2421F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m */; };
 		898E2D491FE6521C00953DA8 /* DDPFeaturedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D471FE6521C00953DA8 /* DDPFeaturedTableViewCell.m */; };
 		898E2D4A1FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898E2D481FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib */; };
-		898E2D4C1FE65E9000953DA8 /* DanDanPlayEncrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898E2D4B1FE65E9000953DA8 /* DanDanPlayEncrypt.framework */; };
 		898E2D4F1FE6611500953DA8 /* DDPHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */; };
 		898E2D521FE6612500953DA8 /* DDPHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D511FE6612500953DA8 /* DDPHTTPResponseSerializer.m */; };
 		898E2D561FE6836F00953DA8 /* DDPHomeMoreHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D551FE6836F00953DA8 /* DDPHomeMoreHeaderView.m */; };
@@ -167,6 +166,8 @@
 		89A467971F162DDA001840C7 /* DDPDefaultPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */; };
 		89A5C2C81F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5C2C71F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.m */; };
 		89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
+		89A80334208B331D00FF6C2B /* DDPRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */; };
+		89A80336208B35EA00FF6C2B /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
 		89AE37B41F6262BD008D06CF /* DDPAttentionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */; };
 		89AE37B71F626531008D06CF /* DDPFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B61F626531008D06CF /* DDPFavorite.m */; };
 		89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B91F626629008D06CF /* DDPFavoriteCollection.m */; };
@@ -515,7 +516,6 @@
 		898E2D461FE6521C00953DA8 /* DDPFeaturedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPFeaturedTableViewCell.h; sourceTree = "<group>"; };
 		898E2D471FE6521C00953DA8 /* DDPFeaturedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPFeaturedTableViewCell.m; sourceTree = "<group>"; };
 		898E2D481FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPFeaturedTableViewCell.xib; sourceTree = "<group>"; };
-		898E2D4B1FE65E9000953DA8 /* DanDanPlayEncrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DanDanPlayEncrypt.framework; sourceTree = "<group>"; };
 		898E2D4D1FE6611500953DA8 /* DDPHTTPRequestSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHTTPRequestSerializer.h; sourceTree = "<group>"; };
 		898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHTTPRequestSerializer.m; sourceTree = "<group>"; };
 		898E2D501FE6612500953DA8 /* DDPHTTPResponseSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHTTPResponseSerializer.h; sourceTree = "<group>"; };
@@ -614,6 +614,9 @@
 		89A8032C208B1B5200FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		89A8032E208B1B5400FF6C2B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		89A8032F208B1B5C00FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89A80332208B331D00FF6C2B /* DDPRefreshNormalHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPRefreshNormalHeader.h; sourceTree = "<group>"; };
+		89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPRefreshNormalHeader.m; sourceTree = "<group>"; };
+		89A80335208B35EA00FF6C2B /* RefreshText.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RefreshText.plist; sourceTree = "<group>"; };
 		89AE37B21F6262BD008D06CF /* DDPAttentionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPAttentionListViewController.h; sourceTree = "<group>"; };
 		89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPAttentionListViewController.m; sourceTree = "<group>"; };
 		89AE37B51F626531008D06CF /* DDPFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFavorite.h; sourceTree = "<group>"; };
@@ -849,7 +852,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				898E2D4C1FE65E9000953DA8 /* DanDanPlayEncrypt.framework in Frameworks */,
 				097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1490,6 +1492,15 @@
 			path = FDFullscreenPopGesture;
 			sourceTree = "<group>";
 		};
+		89A80331208B330600FF6C2B /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				89A80332208B331D00FF6C2B /* DDPRefreshNormalHeader.h */,
+				89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */,
+			);
+			path = MJRefresh;
+			sourceTree = "<group>";
+		};
 		89B6EEC9201C6AAA0022DE0D /* DB */ = {
 			isa = PBXGroup;
 			children = (
@@ -1556,7 +1567,7 @@
 		89D8F8441EB0F5FB009329AA /* Vender */ = {
 			isa = PBXGroup;
 			children = (
-				898E2D4B1FE65E9000953DA8 /* DanDanPlayEncrypt.framework */,
+				89A80331208B330600FF6C2B /* MJRefresh */,
 				8938E4FE1F775A0B00F21E52 /* YYPhotoBrowseView */,
 				8931CDF01F73E1C000F05C1F /* JHQRCodeReader */,
 				89350AFD1EAAFB9900072DA5 /* DDPMediaPlayer */,
@@ -1617,7 +1628,6 @@
 				89E3F5CD1E5829BD007AB1BD /* Info.plist */,
 				89E3F5BD1E5829BD007AB1BD /* main.m */,
 				89BF74B61F60F9A800D40F07 /* InfoPlist.strings */,
-				89B8E36A1F8F6DD500DA9BEF /* email.plist */,
 				89A8032D208B1B5200FF6C2B /* Localizable.strings */,
 			);
 			name = "Supporting Files";
@@ -1846,6 +1856,8 @@
 		89F5C8281EAF104100676361 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				89A80335208B35EA00FF6C2B /* RefreshText.plist */,
+				89B8E36A1F8F6DD500DA9BEF /* email.plist */,
 				89E2576E1FB88B3400AC075A /* Image */,
 				89DDCFB01F2A3DB0007B83CA /* course */,
 				89DDCFAE1F2A3DA3007B83CA /* web */,
@@ -1924,6 +1936,7 @@
 				893BCC0B2053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */,
 				895CA8C11FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.xib in Resources */,
 				89E257741FB8936C00AC075A /* qr_help2@2x.png in Resources */,
+				89A80336208B35EA00FF6C2B /* RefreshText.plist in Resources */,
 				89E257721FB88E7E00AC075A /* qr_help1@2x.png in Resources */,
 				89DDCFB11F2A3DB0007B83CA /* course in Resources */,
 				893BCC032053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */,
@@ -2166,6 +2179,7 @@
 				89657F2E1F724C570003AF96 /* UINavigationItem+Tools.m in Sources */,
 				89F173061EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m in Sources */,
 				89A42E991EA5B0BA00FA0DF3 /* DDPBase.m in Sources */,
+				89A80334208B331D00FF6C2B /* DDPRefreshNormalHeader.m in Sources */,
 				89E3F5FF1E585135007AB1BD /* DDPMatchNetManagerOperation.m in Sources */,
 				89E1EA0D1EAE1B0500419C78 /* DDPPlayerSendDanmakuConfigView.m in Sources */,
 				89A42EEC1EA5F87500FA0DF3 /* DDPUser.m in Sources */,
@@ -2410,17 +2424,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = B2C6Y83F26;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"$(SRCROOT)/DanDanPlayForiOS/Vender/DanDanPlayEncrypt.framework/DanDanPlayEncrypt",
 					"$(inherited)",
 					"-ObjC",
 					"-l\"AFNetworking\"",
@@ -2496,17 +2505,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = B2C6Y83F26;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"$(SRCROOT)/DanDanPlayForiOS/Vender/DanDanPlayEncrypt.framework/DanDanPlayEncrypt",
 					"$(inherited)",
 					"-ObjC",
 					"-l\"AFNetworking\"",

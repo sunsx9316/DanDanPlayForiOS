@@ -7,16 +7,14 @@
 //
 
 #import "MJRefreshHeader+Tools.h"
+#import "DDPRefreshNormalHeader.h"
 
 @implementation MJRefreshHeader (Tools)
 + (instancetype)ddp_headerRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler {
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:completionHandler];
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.automaticallyChangeAlpha = YES;
-    header.stateLabel.font = [UIFont ddp_normalSizeFont];
-    [header setTitle:@"再拉，再拉就刷新给你看" forState:MJRefreshStateIdle];
-    [header setTitle:@"够了啦，松开人家嘛" forState:MJRefreshStatePulling];
-    [header setTitle:@"刷呀刷，好累啊，喵(＾▽＾)" forState:MJRefreshStateRefreshing];
+    MJRefreshNormalHeader *header = [DDPRefreshNormalHeader headerWithRefreshingBlock:completionHandler];
+    
+    [header setTitle:@"" forState:MJRefreshStateIdle];
+    [header setTitle:@"" forState:MJRefreshStatePulling];
     return header;
 }
 @end

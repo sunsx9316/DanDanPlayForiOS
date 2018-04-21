@@ -420,6 +420,15 @@ static NSString *const collectionCacheKey = @"collection_cache";
     [self.cache setObject:folderCache forKey:[self keyWithSEL:_cmd]];
 }
 
+#pragma mark -
+
+- (NSMutableArray<NSString *> *)refreshTexts {
+    if (_refreshTexts == nil) {
+        _refreshTexts = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RefreshText" ofType:@"plist"]];
+    }
+    return _refreshTexts;
+}
+
 #pragma mark - 私有方法
 - (NSString *)keyWithSEL:(SEL)aSEL {
     if (aSEL == nil) return nil;

@@ -4,18 +4,21 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 
 target 'DanDanPlayForiOS' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
-
-  # Pods for DanDanPlayForiOS
-
+    # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+    # use_frameworks!
+    
+    # Pods for DanDanPlayForiOS
+    
+    pod 'DDPEncrypt', :path => 'LocalVender/Encrypt'
+    pod 'JSPatch', :path => 'LocalVender/JSPatch'
+    
     # 集成新浪微博
     pod 'UMengUShare/Social/ReducedSina'
     # 集成QQ
     pod 'UMengUShare/Social/ReducedQQ'
     # 集成微信
     #pod 'UMengUShare/Social/WeChat'
-
+    
     pod 'Bugly'
     pod 'MobileVLCKit'
     pod 'AFNetworking'
@@ -39,5 +42,5 @@ target 'DanDanPlayForiOS' do
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
     pod 'WCDB'
-
+    
 end

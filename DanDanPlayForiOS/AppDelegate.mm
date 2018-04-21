@@ -10,6 +10,7 @@
 #import "DDPMainViewController.h"
 #import <IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
+#import <JSPatchPlatform/JSPatch.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "DDPMediaPlayer.h"
@@ -28,7 +29,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
-//    [DDPCacheManager shareCacheManager].folderCache = nil;
+    
+    [self configJSPatch];
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUMShare];
@@ -174,6 +176,30 @@
     [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
+}
+
+- (void)configJSPatch {
+    BOOL localTest = true;
+    
+#ifdef DEBUG
+    [JSPatch setupDevelopment];
+#else
+    localTest = false;
+#endif
+    
+    if (localTest) {
+        [JSPatch testScriptInBundle];
+    }
+    else {
+        [JSPatch startWithAppKey:@"372ca85cc624bb14"];
+        [JSPatch setupRSAPublicKey:@"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIjsQtfDJvKO4kFzUlgnwtukiR\ni+IF7hxDWqd4z7Y6yqR3nc0BWXLaFL8qa+0dBN8tyO8xPUPZxzgv6dg0EV6vN8wo\n8O2QSK9unVTkzAli4bGrC+3JG4dp0z25YPStQba5hAbyHcm7KklBwPL6j3rMmzer\neLv31kZzjS4tVeCtkQIDAQAB\n-----END PUBLIC KEY-----"];
+        
+        if ([DDPCacheManager shareCacheManager].user.identity > 0) {
+            [JSPatch setupUserData:@{@"userId" : [NSString stringWithFormat:@"%ld", [DDPCacheManager shareCacheManager].user.identity]}];
+        }
+        
+        [JSPatch sync];
+    }
 }
 
 - (void)configDDLog {
