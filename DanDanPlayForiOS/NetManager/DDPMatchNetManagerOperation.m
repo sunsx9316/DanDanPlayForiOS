@@ -31,7 +31,7 @@
         fileName = @"";
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/match", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/match", [DDPMethod apiPath]];
     NSDictionary *parameters = @{@"fileName":fileName, @"hash": hash, @"length": @(length)};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
@@ -62,7 +62,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/match?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/match?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.fileHash, @"EpisodeId" : @(model.identity)};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path

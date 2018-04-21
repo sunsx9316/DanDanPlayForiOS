@@ -18,109 +18,6 @@
 #import "DDPMediaThumbnailer.h"
 #import "DDPLoginViewController.h"
 
-CG_INLINE NSArray <NSString *>*ddp_danmakuTypes() {
-    static NSArray <NSString *>*_danmakuTypes;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _danmakuTypes = @[@"XML"];
-    });
-    return _danmakuTypes;
-};
-
-UIKIT_EXTERN DDPFile *ddp_getANewRootFile() {
-    return [[DDPFile alloc] initWithFileURL:[[UIApplication sharedApplication] documentsURL] type:DDPFileTypeFolder];
-}
-
-UIKIT_EXTERN DDPLinkFile *ddp_getANewLinkRootFile() {
-    DDPLibrary *lib = [[DDPLibrary alloc] init];
-    lib.path = @"/";
-    lib.fileType = DDPFileTypeFolder;
-    return [[DDPLinkFile alloc] initWithLibraryFile:lib];
-}
-
-UIKIT_EXTERN DDPDanmakuType ddp_danmakuStringToType(NSString *string) {
-    if ([string isEqualToString: @"acfun"]) {
-        return DDPDanmakuTypeAcfun;
-    }
-    else if ([string isEqualToString: @"bilibili"]) {
-        return DDPDanmakuTypeBiliBili;
-    }
-    else if ([string isEqualToString: @"official"]) {
-        return DDPDanmakuTypeOfficial;
-    }
-    return DDPDanmakuTypeUnknow;
-}
-
-UIKIT_EXTERN NSString *ddp_danmakuTypeToString(DDPDanmakuType type) {
-    switch (type) {
-        case DDPDanmakuTypeAcfun:
-            return @"acfun";
-        case DDPDanmakuTypeBiliBili:
-            return @"bilibili";
-        case DDPDanmakuTypeOfficial:
-            return @"official";
-        default:
-            break;
-    }
-    return @"";
-}
-
-UIKIT_EXTERN BOOL ddp_isSubTitleFile(NSString *aURL) {
-    static dispatch_once_t onceToken;
-    static NSArray *_subtitles = nil;
-    dispatch_once(&onceToken, ^{
-        _subtitles = @[@"SSA", @"ASS", @"SMI", @"SRT", @"SUB", @"LRC", @"SST", @"TXT", @"XSS", @"PSB", @"SSB"];
-    });
-    
-    NSString *pathExtension = aURL.pathExtension;
-    __block BOOL flag = NO;
-    [_subtitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            flag = YES;
-            *stop = YES;
-        }
-    }];
-    
-    return flag;
-    
-    //        CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
-    //        CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
-    //        BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeText);
-    //        CFRelease(fileUTI);
-    //        return flag;
-};
-
-UIKIT_EXTERN BOOL ddp_isVideoFile(NSString *aURL) {
-    CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
-    CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
-    BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeMovie);
-    CFRelease(fileUTI);
-    return flag;
-};
-
-UIKIT_EXTERN BOOL ddp_isDanmakuFile(NSString *aURL) {
-    NSArray *danmakuTypes = ddp_danmakuTypes();
-    
-    NSString *pathExtension = aURL.pathExtension;
-    __block BOOL flag = NO;
-    [danmakuTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj rangeOfString:pathExtension options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            flag = YES;
-            *stop = YES;
-        }
-    }];
-    
-    return flag;
-};
-
-UIKIT_EXTERN BOOL ddp_isRootFile(DDPFile *file) {
-    if ([file isKindOfClass:[DDPLinkFile class]] || [file isKindOfClass:[DDPSMBFile class]]) {
-        return [file.fileURL.absoluteString isEqualToString:@"/"];
-    }
-    
-    return [file.fileURL relationshipWithURL:[UIApplication sharedApplication].documentsURL] == NSURLRelationshipSame;
-};
-
 static NSString *const tempImageKey = @"temp_image";
 static NSString *const smbProgressBlockKey = @"smb_progress_block";
 static NSString *const smbCompletionBlockKey = @"smb_completion_block";
@@ -225,16 +122,40 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 
 
 #pragma mark - 本地文件
-- (void)startDiscovererVideoWithFile:(DDPFile *)file
-                                type:(PickerFileType)type
-                          completion:(GetFilesAction)completion {
+- (void)startDiscovererFileParentFolderWithChildrenFile:(DDPFile *)file
+                                                   type:(PickerFileType)type
+                                             completion:(GetFilesAction)completion {
     
+    [self startDiscovererAllFileWithType:type completion:^(DDPFile *rootFile) {
+        if (ddp_isRootFile(file)) {
+            if (completion) {
+                completion(rootFile);
+            }
+        }
+        else {
+            __block DDPFile *tempFile = nil;
+            [rootFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.fileURL.absoluteString hasSuffix:file.fileURL.absoluteString]) {
+                    tempFile = obj;
+                    *stop = YES;
+                }
+            }];
+            
+            if (completion) {
+                completion(tempFile);
+            }
+        }
+    }];
+}
+
+- (void)startDiscovererAllFileWithType:(PickerFileType)type
+                            completion:(GetFilesAction)completion {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         DDPFile *rootFile = ddp_getANewRootFile();
         
         NSFileManager* manager = [NSFileManager defaultManager];
         
-        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:@[NSURLFileResourceTypeRegular, NSURLFileResourceTypeDirectory] options:kNilOptions errorHandler:nil];
         
         NSMutableDictionary <NSString *, DDPFile *>*folderDic = [NSMutableDictionary dictionary];
         
@@ -310,27 +231,10 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             return [obj1.name compare:obj2.name];
         }];
         
-        if (ddp_isRootFile(file)) {
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(rootFile);
-                });
-            }
-        }
-        else {
-            __block DDPFile *tempFile = nil;
-            [rootFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([obj.fileURL isEqual:file.fileURL]) {
-                    tempFile = obj;
-                    *stop = YES;
-                }
-            }];
-            
-            if (completion) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(tempFile);
-                });
-            }
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(rootFile);
+            });
         }
     });
 }
@@ -360,7 +264,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             return parentFile;
         };
         
-        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
+        NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:nil options:kNilOptions errorHandler:nil];
         
         for (NSURL *url in childFilesEnumerator) {
             DDPFile *parentFile = getParentFileAction([url URLByDeletingLastPathComponent]);

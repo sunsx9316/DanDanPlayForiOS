@@ -19,7 +19,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/intro", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/intro", [DDPMethod apiPath]];
     NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.token};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
@@ -41,7 +41,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/details", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/details", [DDPMethod apiPath]];
     NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.token};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path

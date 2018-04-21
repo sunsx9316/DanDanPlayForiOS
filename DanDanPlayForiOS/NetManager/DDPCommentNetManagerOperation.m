@@ -51,8 +51,7 @@
     
     //下载弹幕
     progressAction(0.3f);
-    
-    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", API_PATH, (unsigned long)episodeId];
+    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiPath], (unsigned long)episodeId];
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:nil
@@ -115,7 +114,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", API_PATH, (unsigned long)episodeId, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", [DDPMethod apiPath], (unsigned long)episodeId, CLIENT_ID];
     
     return [[DDPBaseNetManager shareNetManager] PUTWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
@@ -139,7 +138,7 @@
     
     NSMutableArray *paths = [NSMutableArray array];
     [relatedCollection.collection enumerateObjectsUsingBlock:^(DDPRelated * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [paths addObject:[NSString stringWithFormat:@"%@/extcomment?url=%@", API_PATH, obj.url]];
+        [paths addObject:[NSString stringWithFormat:@"%@/extcomment?url=%@", [DDPMethod apiPath], obj.url]];
     }];
     
     [[DDPBaseNetManager shareNetManager] batchGETWithPaths:paths serializerType:DDPBaseNetManagerSerializerTypeJSON editResponseBlock:nil progressBlock:nil completionHandler:^(NSArray<DDPBatchResponse *> *responseObjects, NSError *error) {

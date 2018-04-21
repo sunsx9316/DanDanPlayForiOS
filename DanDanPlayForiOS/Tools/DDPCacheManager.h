@@ -30,8 +30,40 @@ typedef NS_ENUM(NSUInteger, DDPCollectionCacheDidChangeType) {
     DDPCollectionCacheDidChangeTypeRemove,
 };
 
-//FOUNDATION_EXPORT NSString *const videoNameKey;
-//FOUNDATION_EXPORT NSString *const videoEpisodeIdKey;
+
+/**
+ 屏蔽弹幕类型
+
+ - DDPDanmakuShieldTypeScrollToLeft: 滚动到左边
+ - DDPDanmakuShieldTypeScrollToRight: 滚动到右边
+ - DDPDanmakuShieldTypeScrollToTop: 滚动到顶部
+ - DDPDanmakuShieldTypeScrollToBottom: 滚动到底部
+ - DDPDanmakuShieldTypeFloatAtTo: 浮动在顶部
+ - DDPDanmakuShieldTypeFloatAtBottom: 浮动在底部
+ - DDPDanmakuShieldTypeColor: 彩色弹幕
+ - DDPDanmakuShieldTypeScroll: 所有滚动弹幕
+ - DDPDanmakuShieldTypeFloat: 所以浮动弹幕
+ */
+typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
+    DDPDanmakuShieldTypeNone = kNilOptions,
+    DDPDanmakuShieldTypeScrollToLeft = 1 << 0,
+    DDPDanmakuShieldTypeScrollToRight = 1 << 1,
+    DDPDanmakuShieldTypeScrollToTop = 1 << 2,
+    DDPDanmakuShieldTypeScrollToBottom = 1 << 3,
+    DDPDanmakuShieldTypeFloatAtTo = 1 << 4,
+    DDPDanmakuShieldTypeFloatAtBottom = 1 << 5,
+    DDPDanmakuShieldTypeColor = 1 << 6,
+    
+    DDPDanmakuShieldTypeScroll =
+    DDPDanmakuShieldTypeScrollToLeft |
+    DDPDanmakuShieldTypeScrollToRight |
+    DDPDanmakuShieldTypeScrollToTop |
+    DDPDanmakuShieldTypeScrollToBottom,
+    
+    DDPDanmakuShieldTypeFloat =
+    DDPDanmakuShieldTypeFloatAtTo |
+    DDPDanmakuShieldTypeFloatAtBottom,
+};
 
 //缓存所有弹幕的标识
 #define CACHE_ALL_DANMAKU_FLAG 9999
@@ -148,6 +180,18 @@ typedef NS_ENUM(NSUInteger, DDPCollectionCacheDidChangeType) {
  播放页默认旋屏位置
  */
 @property (assign, nonatomic) UIInterfaceOrientation playInterfaceOrientation;
+
+
+/**
+ 屏蔽弹幕类型
+ */
+@property (assign, nonatomic) DDPDanmakuShieldType danmakuShieldType;
+
+
+/**
+ 用于请求的域名
+ */
+@property (copy, nonatomic) NSString *userDefineRequestDomain;
 
 /**
  存储文件夹名称和文件hash

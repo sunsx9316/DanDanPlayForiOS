@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface DDPPlayerDanmakuControlView : UIView
+
+/**
+ 弹幕偏移时间
+ */
 @property (copy, nonatomic) void(^touchStepperCallBack)(CGFloat value);
 
 /**
@@ -25,4 +29,9 @@
  点击筛选弹幕功能
  */
 @property (copy, nonatomic) void(^touchFilterDanmakuCellCallBack)(void);
+
+/**
+ 点击其他设置
+ */
+@property (copy, nonatomic) void(^touchOtherSettingCellCallBack)(void);
 @end

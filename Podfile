@@ -1,21 +1,23 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '9.0'
 
+inhibit_all_warnings!
+
 target 'DanDanPlayForiOS' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
   # Pods for DanDanPlayForiOS
 
-  # 集成新浪微博
+    # 集成新浪微博
     pod 'UMengUShare/Social/ReducedSina'
-# 集成QQ
+    # 集成QQ
     pod 'UMengUShare/Social/ReducedQQ'
-# 集成微信
+    # 集成微信
     #pod 'UMengUShare/Social/WeChat'
 
     pod 'Bugly'
-    pod 'MobileVLCKit-unstable', '3.0.0a42'
+    pod 'MobileVLCKit'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'

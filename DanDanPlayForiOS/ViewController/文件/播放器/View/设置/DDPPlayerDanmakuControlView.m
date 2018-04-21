@@ -12,9 +12,10 @@
 #import "DDPBaseTableView.h"
 #import "DDPPlayerSliderTableViewCell.h"
 #import "DDPPlayerControlHeaderView.h"
-#import "DDPPlayerShadowStyleTableViewCell.h"
 #import "DDPPlayerStepTableViewCell.h"
 #import "DDPFileManagerFolderPlayerListViewCell.h"
+//#import "DDPPlayerShadowStyleTableViewCell.h"
+#import "DDPPlayerShieldDanmakuTableViewCell.h"
 #import "UIFont+Tools.h"
 #import "DDPPlayerDanmakuControlModel.h"
 
@@ -54,10 +55,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     DDPPlayerDanmakuControlModel *model = self.dataSource[indexPath.section];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.initializeClass forIndexPath:indexPath];
-    [model.cellDic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [cell setValue:obj forKeyPath:key];
-    }];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.reuseIdentifier forIndexPath:indexPath];
+    if (model.dequeueReuseCellCallBack) {
+        model.dequeueReuseCellCallBack(cell);
+    }
+    
     return cell;
 }
 
@@ -88,9 +90,9 @@
     DDPPlayerDanmakuControlModel *model = self.dataSource[section];
     if (model.headerHeight > CGFLOAT_MIN) {
         DDPPlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPPlayerControlHeaderView"];
-        [model.headerDic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [view setValue:obj forKeyPath:key];
-        }];
+        if (model.dequeueReuseHeaderCallBack) {
+            model.dequeueReuseHeaderCallBack(view);
+        }
         return view;
     }
     return nil;
@@ -106,7 +108,7 @@
         _tableView.backgroundColor = [UIColor clearColor];
         [_tableView registerClass:[DDPPlayerSliderTableViewCell class] forCellReuseIdentifier:@"DDPPlayerSliderTableViewCell"];
         [_tableView registerClass:[DDPPlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPPlayerControlHeaderView"];
-        [_tableView registerClass:[DDPPlayerShadowStyleTableViewCell class] forCellReuseIdentifier:@"DDPPlayerShadowStyleTableViewCell"];
+        [_tableView registerNib:[DDPPlayerShieldDanmakuTableViewCell loadNib] forCellReuseIdentifier:[DDPPlayerShieldDanmakuTableViewCell className]];
         [_tableView registerClass:[DDPPlayerStepTableViewCell class] forCellReuseIdentifier:@"DDPPlayerStepTableViewCell"];
         [_tableView registerClass:[DDPFileManagerFolderPlayerListViewCell class] forCellReuseIdentifier:@"DDPFileManagerFolderPlayerListViewCell"];
         [self addSubview:_tableView];
@@ -123,119 +125,187 @@
         CGFloat heightHeight1 = 30;
         CGFloat heightHeight2 = CGFLOAT_MIN;
         
+        @weakify(self)
+        
         //弹幕大小
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerSliderTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
-            cell.cellDic = @{@"type" : @(DDPPlayerSliderTableViewCellTypeFontSize)};
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerSliderTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerSliderTableViewCell *cell) {
+                cell.type = DDPPlayerSliderTableViewCellTypeFontSize;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"弹幕字体大小"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"弹幕字体大小";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
         }
         
         //弹幕速度
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerSliderTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
-            cell.cellDic = @{@"type" : @(DDPPlayerSliderTableViewCellTypeSpeed)};
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerSliderTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerSliderTableViewCell *cell) {
+                cell.type = DDPPlayerSliderTableViewCellTypeSpeed;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"弹幕速度"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"弹幕速度";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
         }
         
         //弹幕透明度
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerSliderTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
-            cell.cellDic = @{@"type" : @(DDPPlayerSliderTableViewCellTypeOpacity)};
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerSliderTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerSliderTableViewCell *cell) {
+                cell.type = DDPPlayerSliderTableViewCellTypeOpacity;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"弹幕透明度"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"弹幕透明度";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
         }
         
         //同屏弹幕数量
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerSliderTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
-            cell.cellDic = @{@"type" : @(DDPPlayerSliderTableViewCellTypeDanmakuLimit)};
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerSliderTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerSliderTableViewCell *cell) {
+                cell.type = DDPPlayerSliderTableViewCellTypeDanmakuLimit;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"同屏弹幕数量"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"同屏弹幕数量";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
         }
         
         
         //弹幕边缘风格
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerShadowStyleTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerShieldDanmakuTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerShieldDanmakuTableViewCell *cell) {
+                cell.type = DDPPlayerShieldDanmakuTableViewCellTypeShadow;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"弹幕特效"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"弹幕特效";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
+        }
+        
+        //快速屏蔽弹幕弹幕
+        {
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerShieldDanmakuTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            
+            model.dequeueReuseCellCallBack = ^(DDPPlayerShieldDanmakuTableViewCell *cell) {
+                cell.type = DDPPlayerShieldDanmakuTableViewCellTypeField;
+            };
+            
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"屏蔽弹幕";
+            };
+            
+            [arr addObject:model];
         }
         
         //弹幕快进快退
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPPlayerStepTableViewCell";
-            cell.cellHeight = rowHeight1;
-            cell.headerHeight = heightHeight1;
-            cell.cellDic = @{@"touchStepperCallBack" : ^(CGFloat value){
-                if (self.touchStepperCallBack) {
-                    self.touchStepperCallBack(value);
-                }
-            }};
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPPlayerStepTableViewCell class]);
+            model.cellHeight = rowHeight1;
+            model.headerHeight = heightHeight1;
+            model.dequeueReuseCellCallBack = ^(DDPPlayerStepTableViewCell *cell) {
+                @strongify(self)
+                if (!self) return;
+                
+                cell.touchStepperCallBack = self.touchStepperCallBack;
+            };
             
-            cell.headerDic = @{@"titleLabel.text" : @"弹幕时间偏移"};
+            model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
+                view.titleLabel.text = @"弹幕时间偏移";
+            };
             
-            [arr addObject:cell];
+            [arr addObject:model];
         }
         
         //屏蔽弹幕
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPFileManagerFolderPlayerListViewCell";
-            cell.cellHeight = rowHeight2;
-            cell.headerHeight = heightHeight2;
-            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"屏蔽弹幕"};
-            cell.didSelectedRowCallBack = self.touchFilterDanmakuCellCallBack;
-            [arr addObject:cell];
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPFileManagerFolderPlayerListViewCell class]);
+            model.cellHeight = rowHeight2;
+            model.headerHeight = heightHeight2;
+            model.dequeueReuseCellCallBack = ^(DDPFileManagerFolderPlayerListViewCell *cell) {
+                cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+                cell.titleLabel.text = @"屏蔽弹幕列表";
+            };
+            model.didSelectedRowCallBack = self.touchFilterDanmakuCellCallBack;
+            [arr addObject:model];
         }
         
         //手动加载弹幕
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPFileManagerFolderPlayerListViewCell";
-            cell.cellHeight = rowHeight2;
-            cell.headerHeight = heightHeight2;
-            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"手动加载弹幕..."};
-            cell.didSelectedRowCallBack = self.touchSelectedDanmakuCellCallBack;
-            [arr addObject:cell];
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPFileManagerFolderPlayerListViewCell class]);
+            model.cellHeight = rowHeight2;
+            model.headerHeight = heightHeight2;
+            model.dequeueReuseCellCallBack = ^(DDPFileManagerFolderPlayerListViewCell *cell) {
+                cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+                cell.titleLabel.text = @"加载本地弹幕";
+            };
+            
+            model.didSelectedRowCallBack = self.touchSelectedDanmakuCellCallBack;
+            [arr addObject:model];
         }
         
         //手动匹配视频
         {
-            DDPPlayerDanmakuControlModel *cell = [[DDPPlayerDanmakuControlModel alloc] init];
-            cell.initializeClass = @"DDPFileManagerFolderPlayerListViewCell";
-            cell.cellHeight = rowHeight2;
-            cell.headerHeight = heightHeight2;
-            cell.cellDic = @{@"titleLabel.textAlignment" : @(NSTextAlignmentCenter), @"titleLabel.text" : @"手动匹配视频"};
-            cell.didSelectedRowCallBack = self.touchMatchVideoCellCallBack;
-            [arr addObject:cell];
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPFileManagerFolderPlayerListViewCell class]);
+            model.cellHeight = rowHeight2;
+            model.headerHeight = heightHeight2;
+            model.dequeueReuseCellCallBack = ^(DDPFileManagerFolderPlayerListViewCell *cell) {
+                cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+                cell.titleLabel.text = @"手动匹配视频";
+            };
+            model.didSelectedRowCallBack = self.touchMatchVideoCellCallBack;
+            [arr addObject:model];
+        }
+        
+        //其它设置
+        {
+            DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
+            model.reuseIdentifier = NSStringFromClass([DDPFileManagerFolderPlayerListViewCell class]);
+            model.cellHeight = rowHeight2;
+            model.headerHeight = heightHeight2;
+            model.dequeueReuseCellCallBack = ^(DDPFileManagerFolderPlayerListViewCell *cell) {
+                cell.titleLabel.textAlignment = NSTextAlignmentCenter;
+                cell.titleLabel.text = @"其他设置";
+            };
+            model.didSelectedRowCallBack = self.touchOtherSettingCellCallBack;
+            [arr addObject:model];
         }
         
         _dataSource = arr;

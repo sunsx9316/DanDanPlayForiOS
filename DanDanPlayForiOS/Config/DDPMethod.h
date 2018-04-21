@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DDPMacroDefinition.h"
 
+@class DDPFile, DDPLinkFile;
+
 /**
  弹幕类型
 
@@ -161,6 +163,81 @@ UIKIT_EXTERN UIColor *DDPRGBColor(int r, int g, int b);
  */
 UIKIT_EXTERN UIColor *DDPRGBAColor(int r, int g, int b, CGFloat a);
 
+
+UIKIT_EXTERN DDPDanmakuType ddp_danmakuStringToType(NSString *string);
+UIKIT_EXTERN NSString *ddp_danmakuTypeToString(DDPDanmakuType type);
+
+/**
+ 判断路径是不是字幕
+ 
+ @param aURL 路径
+ @return 是不是字幕
+ */
+UIKIT_EXTERN BOOL ddp_isSubTitleFile(NSString *aURL);
+/**
+ 判断文件是不是视频
+ 
+ @param aURL 路径
+ @return 是不是视频
+ */
+UIKIT_EXTERN BOOL ddp_isVideoFile(NSString *aURL);
+
+/**
+ 判断路径是不是弹幕文件
+ 
+ @param aURL 路径
+ @return 是不是弹幕
+ */
+UIKIT_EXTERN BOOL ddp_isDanmakuFile(NSString *aURL);
+
+
+/**
+ 生成一个根目录文件夹
+ 
+ @return 根目录
+ */
+UIKIT_EXTERN DDPFile *ddp_getANewRootFile(void);
+
+
+/**
+ 生成一个PC的根目录对象
+ 
+ @return 根目录
+ */
+UIKIT_EXTERN DDPLinkFile *ddp_getANewLinkRootFile(void);
+
+
+/**
+ 判断路径是不是根目录
+ 
+ @param file 文件
+ @return    是不是根目录
+ */
+UIKIT_EXTERN BOOL ddp_isRootFile(DDPFile *file);
+
+
+/**
+ 判断路径是不是根目录
+
+ @param path 路径
+ @return 是不是根目录
+ */
+UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path);
+
 @interface DDPMethod : NSObject
+
+/**
+ 请求域名
+
+ @return 请求域名
+ */
++ (NSString *)apiDomain;
+
+/**
+ 请求路径
+
+ @return 请求路径
+ */
++ (NSString *)apiPath;
 
 @end

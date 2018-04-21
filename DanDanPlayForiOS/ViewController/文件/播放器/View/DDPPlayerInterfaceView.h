@@ -41,11 +41,17 @@
 @property (strong, nonatomic) UIActivityIndicatorView *screenShotIndicatorView;
 
 @property (strong, nonatomic) UIView *gestureView;
+//从右边画出来的控制面板
 @property (strong, nonatomic) DDPPlayerConfigPanelView *configPanelView;
+//字幕视图
 @property (strong, nonatomic) DDPPlayerSubTitleIndexView *subTitleIndexView;
+//左边弹出来的匹配视图
 @property (strong, nonatomic) DDPPlayerMatchView *matchNoticeView;
+//上次播放时间
 @property (strong, nonatomic) DDPPlayerNoticeView *lastTimeNoticeView;
+//音量控制视图
 @property (strong, nonatomic) DDPControlView *volumeControlView;
+//亮度控制视图
 @property (strong, nonatomic) DDPControlView *brightnessControlView;
 @property (assign, nonatomic, readonly, getter=isShow) BOOL show;
 

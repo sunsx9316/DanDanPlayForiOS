@@ -9,8 +9,7 @@
 #import "DDPHomeMoreHeaderView.h"
 
 @interface DDPHomeMoreHeaderView ()
-@property (strong, nonatomic) UIImageView *moreImgView;
-@property (strong, nonatomic) UILabel *detailLabel;
+
 @end
 
 @implementation DDPHomeMoreHeaderView

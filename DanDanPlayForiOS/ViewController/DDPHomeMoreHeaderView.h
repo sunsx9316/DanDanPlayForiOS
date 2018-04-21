@@ -9,5 +9,8 @@
 #import "DDPTextHeaderView.h"
 
 @interface DDPHomeMoreHeaderView : DDPTextHeaderView
+@property (strong, nonatomic) UIImageView *moreImgView;
+@property (strong, nonatomic) UILabel *detailLabel;
+
 @property (copy, nonatomic) void(^touchCallBack)(void);
 @end

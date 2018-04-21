@@ -38,9 +38,16 @@
     return self;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.titleLabel.text = nil;
+    self.detailLabel.text = nil;
+}
+
 - (void)touchSwitch:(UISwitch *)sender {
     if (self.touchSwitchCallBack) {
-        self.touchSwitchCallBack();
+        self.touchSwitchCallBack(sender);
     }
 }
 

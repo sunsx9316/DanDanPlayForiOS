@@ -16,8 +16,24 @@
 }
 
 - (NSString *)relativePathWithBaseURL:(NSURL *)url {
-    NSArray *rootURLArr = url.pathComponents;
-    NSArray *currentURLArr = self.pathComponents;
+    
+    NSMutableArray <NSString *>*rootURLArr = url.pathComponents.mutableCopy;
+    NSMutableArray <NSString *>*currentURLArr = self.pathComponents.mutableCopy;
+    
+    [rootURLArr enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isEqualToString:@"private"]) {
+            [rootURLArr removeObjectAtIndex:idx];
+            *stop = true;
+        }
+    }];
+    
+    [currentURLArr enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isEqualToString:@"private"]) {
+            [currentURLArr removeObjectAtIndex:idx];
+            *stop = true;
+        }
+    }];
+    
     if (currentURLArr.count <= rootURLArr.count) {
         return nil;
     }

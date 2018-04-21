@@ -14,10 +14,10 @@
     
     NSString *path;
     if (user.identity == 0) {
-        path = [NSString stringWithFormat:@"%@/homepage", API_PATH];
+        path = [NSString stringWithFormat:@"%@/homepage", [DDPMethod apiPath]];
     }
     else {
-        path = [NSString stringWithFormat:@"%@/homepage?userId=%lu&token=%@", API_PATH, (unsigned long)user.identity, user.token];
+        path = [NSString stringWithFormat:@"%@/homepage?userId=%lu&token=%@", [DDPMethod apiPath], (unsigned long)user.identity, user.token];
     }
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path

@@ -13,6 +13,7 @@
 WCDB_IMPLEMENTATION(DDPCollectionCache)
 WCDB_SYNTHESIZE(DDPCollectionCache, cacheType)
 WCDB_SYNTHESIZE(DDPCollectionCache, filePath)
+WCDB_SYNTHESIZE_COLUMN(DDPCollectionCache, name, "dpp_name")
 
 WCDB_MULTI_PRIMARY(DDPCollectionCache, "ddp_m_p", cacheType)
 WCDB_MULTI_PRIMARY(DDPCollectionCache, "ddp_m_p", filePath)

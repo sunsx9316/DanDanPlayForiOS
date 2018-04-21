@@ -166,6 +166,7 @@
 		89A467941F162C31001840C7 /* DDPFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467931F162C31001840C7 /* DDPFileViewController.m */; };
 		89A467971F162DDA001840C7 /* DDPDefaultPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */; };
 		89A5C2C81F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5C2C71F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.m */; };
+		89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
 		89AE37B41F6262BD008D06CF /* DDPAttentionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */; };
 		89AE37B71F626531008D06CF /* DDPFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B61F626531008D06CF /* DDPFavorite.m */; };
 		89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B91F626629008D06CF /* DDPFavoriteCollection.m */; };
@@ -227,7 +228,6 @@
 		89E1E9FA1EADA82000419C78 /* DDPPlayerDanmakuControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F91EADA82000419C78 /* DDPPlayerDanmakuControlView.m */; };
 		89E1E9FE1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9FC1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m */; };
 		89E1EA021EADFD5400419C78 /* DDPPlayerControlHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA011EADFD5400419C78 /* DDPPlayerControlHeaderView.m */; };
-		89E1EA051EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA041EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.m */; };
 		89E1EA091EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m */; };
 		89E1EA0D1EAE1B0500419C78 /* DDPPlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA0C1EAE1B0500419C78 /* DDPPlayerSendDanmakuConfigView.m */; };
 		89E2576D1FB8835800AC075A /* DDPQRHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2576C1FB8835800AC075A /* DDPQRHelpViewController.m */; };
@@ -253,6 +253,10 @@
 		89E5AFAE1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m */; };
 		89E8341F1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.m */; };
 		89E834291F1E5A5400E781EB /* DDPSMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* DDPSMBVideoModel.m */; };
+		89E867272084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E867252084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m */; };
+		89E867282084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E867262084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib */; };
+		89E8672C2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8672A2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m */; };
+		89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */; };
 		89E8C9991F3DDEF100CCF4BC /* DDPSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */; };
 		89EC0E5C1F2D812A004D3C12 /* DDPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */; };
 		89EF59CD1F923765002BDC15 /* DDPRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EF59CC1F923765002BDC15 /* DDPRegisterRequest.m */; };
@@ -607,6 +611,9 @@
 		89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDefaultPageViewController.m; sourceTree = "<group>"; };
 		89A5C2C61F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		89A5C2C71F4A8C750058EB43 /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		89A8032C208B1B5200FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		89A8032E208B1B5400FF6C2B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		89A8032F208B1B5C00FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		89AE37B21F6262BD008D06CF /* DDPAttentionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPAttentionListViewController.h; sourceTree = "<group>"; };
 		89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPAttentionListViewController.m; sourceTree = "<group>"; };
 		89AE37B51F626531008D06CF /* DDPFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFavorite.h; sourceTree = "<group>"; };
@@ -727,8 +734,6 @@
 		89E1E9FC1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerSliderTableViewCell.m; sourceTree = "<group>"; };
 		89E1EA001EADFD5400419C78 /* DDPPlayerControlHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerControlHeaderView.h; sourceTree = "<group>"; };
 		89E1EA011EADFD5400419C78 /* DDPPlayerControlHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerControlHeaderView.m; sourceTree = "<group>"; };
-		89E1EA031EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerShadowStyleTableViewCell.h; sourceTree = "<group>"; };
-		89E1EA041EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerShadowStyleTableViewCell.m; sourceTree = "<group>"; };
 		89E1EA061EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerStepTableViewCell.h; sourceTree = "<group>"; };
 		89E1EA071EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerStepTableViewCell.m; sourceTree = "<group>"; };
 		89E1EA0B1EAE1B0500419C78 /* DDPPlayerSendDanmakuConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerSendDanmakuConfigView.h; sourceTree = "<group>"; };
@@ -778,6 +783,12 @@
 		89E8341E1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerInterfaceHolderView.m; sourceTree = "<group>"; };
 		89E834271F1E5A5400E781EB /* DDPSMBVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBVideoModel.h; sourceTree = "<group>"; };
 		89E834281F1E5A5400E781EB /* DDPSMBVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSMBVideoModel.m; sourceTree = "<group>"; };
+		89E867242084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayerShieldDanmakuTableViewCell.h; sourceTree = "<group>"; };
+		89E867252084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerShieldDanmakuTableViewCell.m; sourceTree = "<group>"; };
+		89E867262084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayerShieldDanmakuTableViewCell.xib; sourceTree = "<group>"; };
+		89E867292084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayerShieldDanmakuCollectionViewCell.h; sourceTree = "<group>"; };
+		89E8672A2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerShieldDanmakuCollectionViewCell.m; sourceTree = "<group>"; };
+		89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayerShieldDanmakuCollectionViewCell.xib; sourceTree = "<group>"; };
 		89E8C9971F3DDEF100CCF4BC /* DDPSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSetting.h; sourceTree = "<group>"; };
 		89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSetting.m; sourceTree = "<group>"; };
 		89EC0E5A1F2D812A004D3C12 /* DDPHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHelpViewController.h; sourceTree = "<group>"; };
@@ -1143,12 +1154,16 @@
 				89D8F8211EB0B196009329AA /* DDPPlayerControlPlayModeTableViewCell.m */,
 				89E1E9FB1EADF13600419C78 /* DDPPlayerSliderTableViewCell.h */,
 				89E1E9FC1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m */,
-				89E1EA031EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.h */,
-				89E1EA041EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.m */,
 				89E1EA061EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.h */,
 				89E1EA071EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m */,
 				89E1EA001EADFD5400419C78 /* DDPPlayerControlHeaderView.h */,
 				89E1EA011EADFD5400419C78 /* DDPPlayerControlHeaderView.m */,
+				89E867242084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.h */,
+				89E867252084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m */,
+				89E867262084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib */,
+				89E867292084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.h */,
+				89E8672A2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m */,
+				89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1603,6 +1618,7 @@
 				89E3F5BD1E5829BD007AB1BD /* main.m */,
 				89BF74B61F60F9A800D40F07 /* InfoPlist.strings */,
 				89B8E36A1F8F6DD500DA9BEF /* email.plist */,
+				89A8032D208B1B5200FF6C2B /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1848,7 +1864,6 @@
 				89E3F5B51E5829BD007AB1BD /* Sources */,
 				89E3F5B61E5829BD007AB1BD /* Frameworks */,
 				89E3F5B71E5829BD007AB1BD /* Resources */,
-				F1833FDA439ACD4FF9D67045 /* [CP] Embed Pods Frameworks */,
 				DB42375BBB4B96942128B566 /* [CP] Copy Pods Resources */,
 				89E5AFAB1F566CBD00CD4334 /* ShellScript */,
 				89409FC51FE518B900704F33 /* Embed Frameworks */,
@@ -1869,7 +1884,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DDP;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = JimHuang;
 				TargetAttributes = {
 					89E3F5B81E5829BD007AB1BD = {
@@ -1921,7 +1936,10 @@
 				8901622020148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */,
 				894E5DA02036BFA50082FCCC /* DDPQRScannerHistoryTableViewCell.xib in Resources */,
 				89BE4B05201C490F0009A5FF /* DDPQRScannerHistoryView.xib in Resources */,
+				89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
+				89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */,
 				89B8E36B1F8F6DD500DA9BEF /* email.plist in Resources */,
+				89E867282084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1987,21 +2005,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F1833FDA439ACD4FF9D67045 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2031,9 +2034,11 @@
 				89929FFB1FBC6903009FDB06 /* DDPHttpReceiveTableViewCell.m in Sources */,
 				89A2A07C1F81DE5900D53619 /* DDPControlView.m in Sources */,
 				89A42EA81EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m in Sources */,
+				89E867272084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */,
 				89EC0E5C1F2D812A004D3C12 /* DDPHelpViewController.m in Sources */,
 				898E2D491FE6521C00953DA8 /* DDPFeaturedTableViewCell.m in Sources */,
 				8946D52B1EB6D38800161833 /* DDPFileManagerBaseViewCell.m in Sources */,
+				89E8672C2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */,
 				891643541FBB16FE00096F09 /* JHFilterMenuItem.m in Sources */,
 				89347AEF1F4BC7FE00914FB6 /* DDPSMBFileManagerPickerViewController.m in Sources */,
 				89409FB81FE5138400704F33 /* YYDispatchQueuePool.m in Sources */,
@@ -2077,7 +2082,6 @@
 				89DD05211F6AC49500051A96 /* DDPLinkFileTableViewCell.m in Sources */,
 				8916C7BC1EA85DB400A2233D /* DDPMatchTableViewCell.m in Sources */,
 				893BCC062053CF08007E378F /* UIImage+Tools.m in Sources */,
-				89E1EA051EAE0A1900419C78 /* DDPPlayerShadowStyleTableViewCell.m in Sources */,
 				891E69EE1F48085700F69975 /* NSURL+Tools.m in Sources */,
 				891643511FBB13D500096F09 /* UINavigation+SXFixSpace.m in Sources */,
 				89350B181EAB125700072DA5 /* DDPEdgeButton.m in Sources */,
@@ -2268,10 +2272,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		89A8032D208B1B5200FF6C2B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89A8032C208B1B5200FF6C2B /* en */,
+				89A8032E208B1B5400FF6C2B /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		89BF74B61F60F9A800D40F07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				89BF74B51F60F9A800D40F07 /* zh-Hans */,
+				89A8032F208B1B5C00FF6C2B /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2301,6 +2315,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -2353,6 +2368,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;

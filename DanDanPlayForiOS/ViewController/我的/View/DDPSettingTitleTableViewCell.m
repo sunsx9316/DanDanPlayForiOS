@@ -37,6 +37,14 @@
     return self;
 }
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.titleLabel.text = nil;
+    self.detailLabel.text = nil;
+    self.detailLabel.font = [UIFont ddp_normalSizeFont];
+}
+
 #pragma mark - 懒加载
 
 - (UIImageView *)arrowImgView {

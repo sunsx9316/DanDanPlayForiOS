@@ -32,7 +32,6 @@
 #import <UMSocialCore/UMSocialCore.h>
 #import <UITableView+FDTemplateLayoutCell.h>
 
-
 @interface DDPHomePageViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) DDPHomePage *model;
@@ -149,10 +148,11 @@
         return nil;
     }
     
+    DDPHomeMoreHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPHomeMoreHeaderView"];
+    @weakify(self)
     if (section == 1) {
-        DDPHomeMoreHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPHomeMoreHeaderView"];
         view.titleLabel.text = @"追番进度";
-        @weakify(self)
+        view.detailLabel.text = @"查看更多";
         view.touchCallBack = ^{
             @strongify(self)
             if (!self) return;
@@ -162,11 +162,22 @@
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         };
-        return view;
+        view.moreImgView.image = [UIImage imageNamed:@"comment_right_arrow"];
     }
-    
-    DDPTextHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPTextHeaderView"];
-    view.titleLabel.text = @"今日推荐";
+    else {
+        view.touchCallBack = ^{
+            @strongify(self)
+            if (self.model.todayFeaturedModel.link.length == 0) return;
+            
+            NSURL *url = [NSURL URLWithString:self.model.todayFeaturedModel.link];
+            DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:url];
+            vc.hidesBottomBarWhenPushed = true;
+            [self.navigationController pushViewController:vc animated:true];
+        };
+        view.titleLabel.text = @"今日推荐";
+        view.detailLabel.text = nil;
+        view.moreImgView.image = [UIImage imageNamed:@"home_link"];
+    }
     return view;
 }
 
@@ -201,12 +212,20 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 2) {
-        if (self.model.todayFeaturedModel.link.length) {
-            NSURL *url = [NSURL URLWithString:self.model.todayFeaturedModel.link];
-            DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:url];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+        DDPDMHYSearchConfig *config = [[DDPDMHYSearchConfig alloc] init];
+        config.keyword = self.model.todayFeaturedModel.name;
+        
+        DDPHomePageSearchViewController *vc = [[DDPHomePageSearchViewController alloc] init];
+        vc.config = config;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+//        if (self.model.todayFeaturedModel.link.length) {
+//            NSURL *url = [NSURL URLWithString:self.model.todayFeaturedModel.link];
+//            DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:url];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }
     }
 }
 
@@ -223,7 +242,7 @@
         _tableView.dataSource = self;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[DDPTextHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPTextHeaderView"];
+//        [_tableView registerClass:[DDPTextHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPTextHeaderView"];
         [_tableView registerClass:[HomePageHeaderTableViewCell class] forCellReuseIdentifier:@"HomePageHeaderTableViewCell"];
         [_tableView registerClass:[HomePageBangumiProgressTableViewCell class] forCellReuseIdentifier:@"HomePageBangumiProgressTableViewCell"];
         [_tableView registerNib:[DDPFeaturedTableViewCell loadNib] forCellReuseIdentifier:@"DDPFeaturedTableViewCell"];

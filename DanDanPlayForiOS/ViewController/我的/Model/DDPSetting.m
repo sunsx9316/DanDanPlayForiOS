@@ -9,10 +9,17 @@
 #import "DDPSetting.h"
 
 @implementation DDPSettingItem
+- (instancetype)initWithReuseClass:(Class)reuseClass {
+    if (self = [super init]) {
+        _reuseClass = reuseClass;
+    }
+    return self;
+}
 
 @end
 
 @implementation DDPSetting
+
 
 - (NSMutableArray<DDPSettingItem *> *)items {
     if (_items == nil) {

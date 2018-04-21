@@ -376,6 +376,29 @@ static NSString *const collectionCacheKey = @"collection_cache";
     return num.integerValue;
 }
 
+- (DDPDanmakuShieldType)danmakuShieldType {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    if (num == nil) {
+        num = @(DDPDanmakuShieldTypeNone);
+        self.danmakuShieldType = DDPDanmakuShieldTypeNone;
+    }
+    
+    return num.integerValue;
+}
+
+- (void)setDanmakuShieldType:(DDPDanmakuShieldType)danmakuShieldType {
+    [self.cache setObject:@(danmakuShieldType) forKey:[self keyWithSEL:_cmd]];
+}
+
+- (void)setUserDefineRequestDomain:(NSString *)userDefineRequestDomain {
+    [self.cache setObject:userDefineRequestDomain forKey:[self keyWithSEL:_cmd]];
+}
+
+- (NSString *)userDefineRequestDomain {
+    NSString *path = (NSString *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    return path;
+}
+
 #pragma mark -
 - (NSMutableDictionary *)folderCache {
     NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[self.cache objectForKey:[self keyWithSEL:_cmd]];

@@ -16,61 +16,10 @@
 #import "DDPSMBInfo.h"
 #import "DDPLinkFile.h"
 
-UIKIT_EXTERN DDPDanmakuType ddp_danmakuStringToType(NSString *string);
-UIKIT_EXTERN NSString *ddp_danmakuTypeToString(DDPDanmakuType type);
-
-/**
- 判断路径是不是字幕
-
- @param aURL 路径
- @return 是不是字幕
- */
-UIKIT_EXTERN BOOL ddp_isSubTitleFile(NSString *aURL);
-/**
- 判断文件是不是视频
- 
- @param aURL 路径
- @return 是不是视频
- */
-UIKIT_EXTERN BOOL ddp_isVideoFile(NSString *aURL);
-
-/**
- 判断路径是不是弹幕文件
-
- @param aURL 路径
- @return 是不是弹幕
- */
-UIKIT_EXTERN BOOL ddp_isDanmakuFile(NSString *aURL);
-
-
-/**
- 生成一个根目录文件夹
-
- @return 根目录
- */
-UIKIT_EXTERN DDPFile *ddp_getANewRootFile(void);
-
-
-/**
- 生成一个PC的根目录对象
-
- @return 根目录
- */
-UIKIT_EXTERN DDPLinkFile *ddp_getANewLinkRootFile(void);
-
-
-/**
- 判断路径是不是根目录
-
- @param url 路径
- @return    是不是根目录
- */
-UIKIT_EXTERN BOOL ddp_isRootFile(DDPFile *file);
-
 typedef void(^GetSnapshotAction)(UIImage *image);
-typedef void(^GetFilesAction)(DDPFile *file);
-typedef void(^GetSMBFilesAction)(DDPSMBFile *file, NSError *error);
-typedef void(^GetLinkFilesAction)(DDPLinkFile *file, NSError *error);
+typedef void(^GetFilesAction)(DDPFile *aFile);
+typedef void(^GetSMBFilesAction)(DDPSMBFile *aFile, NSError *error);
+typedef void(^GetLinkFilesAction)(DDPLinkFile *aDile, NSError *error);
 
 typedef NS_ENUM(NSUInteger, PickerFileType) {
     PickerFileTypeVideo = 1 << 0,
@@ -110,12 +59,26 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 - (void)popLoginAlertViewInViewController:(UIViewController *)viewController;
 
 #pragma mark - 本地文件
+
 /**
- 扫描视频模型
+ 获取文件的父路径
+
+ @param file 文件
+ @param type 文件类型
+ @param completion 完成回调
  */
-- (void)startDiscovererVideoWithFile:(DDPFile *)file
+- (void)startDiscovererFileParentFolderWithChildrenFile:(DDPFile *)file
                                 type:(PickerFileType)type
                           completion:(GetFilesAction)completion;
+
+/**
+ 获取所有本地文件
+
+ @param type 文件类型
+ @param completion 完成回调
+ */
+- (void)startDiscovererAllFileWithType:(PickerFileType)type
+                            completion:(GetFilesAction)completion;
 
 
 /**

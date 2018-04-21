@@ -38,7 +38,7 @@
     
     _cacheSize = @"计算中";
     
-    [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:@"danmakuFont" options:NSKeyValueObservingOptionNew context:nil];
+    [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont) options:NSKeyValueObservingOptionNew context:nil];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -50,11 +50,11 @@
 }
 
 - (void)dealloc {
-    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:@"danmakuFont"];
+    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont)];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"danmakuFont"]) {
+    if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont)]) {
         [self.tableView reloadData];
     }
 }
@@ -66,56 +66,14 @@
     
     DDPSettingItem *item = self.dataSources[indexPath.section].items[indexPath.row];
     
-    if (item.type == DDPSettingItemTypeDanmakuFont) {
-        DDPDanmakuSelectedFontViewController *vc = [[DDPDanmakuSelectedFontViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (item.type == DDPSettingItemTypeFilter) {
-        DDPDanmakuFilterViewController *vc = [[DDPDanmakuFilterViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (item.type == DDPSettingItemTypeLeftRight) {
-        if ([item.title isEqualToString:@"弹幕缓存时间"]) {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
-            @weakify(vc)
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                @strongify(vc)
-                if (!vc) return;
-                
-                UITextField *textField = vc.textFields.firstObject;
-                NSInteger day = [textField.text integerValue];
-                if (day < 0) day = 0;
-                if (day > CACHE_ALL_DANMAKU_FLAG) day = CACHE_ALL_DANMAKU_FLAG;
-                
-                [DDPCacheManager shareCacheManager].danmakuCacheTime = day;
-                [self.tableView reloadData];
-            }]];
-            
-            [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-                textField.keyboardType = UIKeyboardTypeNumberPad;
-            }];
-            
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-        else if ([item.title isEqualToString:@"清理缓存"]) {
-            [self.view showLoadingWithText:@"删除中..."];
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                [DDPDanmakuManager removeAllDanmakuCache];
-//                [DDPCacheManager removeAllCache];
-                [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
-                [self reloadCacheSizeWithCompletion:^{
-                    [self.view hideLoading];
-                    [self.tableView reloadData];
-                }];
-            });
-        }
+    if (item.didSelectedCellCallBack) {
+        item.didSelectedCellCallBack(indexPath);
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     DDPSettingItem *item = self.dataSources[indexPath.section].items[indexPath.row];
-    if (item.type == DDPSettingItemTypeSwitch) {
+    if (item.reuseClass == [DDPOtherSettingSwitchTableViewCell class]) {
         return 55;
     }
     return 44;
@@ -147,34 +105,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DDPSettingItem *item = self.dataSources[indexPath.section].items[indexPath.row];
-    if (item.type == DDPSettingItemTypeDanmakuFont) {
-        DDPSettingTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingTitleTableViewCell" forIndexPath:indexPath];
-            cell.titleLabel.text = item.title;
-            UIFont *font = [DDPCacheManager shareCacheManager].danmakuFont;
-            cell.detailLabel.font = [font fontWithSize:[UIFont ddp_normalSizeFont].pointSize];
-        cell.detailLabel.text = item.detailTextCallBack();
-        return cell;
-    }
     
-    if (item.type == DDPSettingItemTypeFilter) {
-        DDPSettingTitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingTitleTableViewCell" forIndexPath:indexPath];
-        cell.titleLabel.text = item.title;
-        return cell;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(item.reuseClass) forIndexPath:indexPath];
+    if (item.dequeueReuseCellCallBack) {
+        item.dequeueReuseCellCallBack(cell);
     }
-    
-    if (item.type == DDPSettingItemTypeSwitch) {
-        DDPOtherSettingSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPOtherSettingSwitchTableViewCell" forIndexPath:indexPath];
-        cell.titleLabel.text = item.title;
-        cell.detailLabel.text = item.detail;
-        cell.aSwitch.on = item.switchStatusCallBack();
-        [cell setTouchSwitchCallBack:item.switchStatusChangeCallBack];
-        return cell;
-    }
-    
-    DDPOtherSettingTitleSubtitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPOtherSettingTitleSubtitleTableViewCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.titleLabel.text = item.title;
-    cell.detailLabel.text = item.detailTextCallBack();
     return cell;
 }
 
@@ -208,10 +143,10 @@
         _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[DDPOtherSettingSwitchTableViewCell class] forCellReuseIdentifier:@"DDPOtherSettingSwitchTableViewCell"];
-        [_tableView registerClass:[DDPOtherSettingTitleSubtitleTableViewCell class] forCellReuseIdentifier:@"DDPOtherSettingTitleSubtitleTableViewCell"];
-        [_tableView registerClass:[DDPSettingTitleTableViewCell class] forCellReuseIdentifier:@"DDPSettingTitleTableViewCell"];
-        [_tableView registerClass:[DDPTextHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPTextHeaderView"];
+        [_tableView registerClass:[DDPOtherSettingSwitchTableViewCell class] forCellReuseIdentifier:[DDPOtherSettingSwitchTableViewCell className]];
+        [_tableView registerClass:[DDPOtherSettingTitleSubtitleTableViewCell class] forCellReuseIdentifier:[DDPOtherSettingTitleSubtitleTableViewCell className]];
+        [_tableView registerClass:[DDPSettingTitleTableViewCell class] forCellReuseIdentifier:[DDPSettingTitleTableViewCell className]];
+        [_tableView registerClass:[DDPTextHeaderView class] forHeaderFooterViewReuseIdentifier:[DDPTextHeaderView className]];
         
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         _tableView.tableFooterView = [[UIView alloc] init];
@@ -222,138 +157,251 @@
 
 - (NSArray<DDPSetting *> *)dataSources {
     if (_dataSources == nil) {
-        
+        @weakify(self)
         //弹幕设置
         DDPSetting *danmakuSetting = [[DDPSetting alloc] init];
         danmakuSetting.title = @"弹幕设置";
-        danmakuSetting.items = @[({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"弹幕字体";
-            item.type = DDPSettingItemTypeDanmakuFont;
-            [item setDetailTextCallBack:^{
+        [danmakuSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPSettingTitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPSettingTitleTableViewCell *cell) {
+                cell.titleLabel.text = @"弹幕字体";
                 UIFont *font = [DDPCacheManager shareCacheManager].danmakuFont;
+                cell.detailLabel.font = [font fontWithSize:[UIFont ddp_normalSizeFont].pointSize];
+                
                 if (font.isSystemFont) {
-                    return @"系统字体";
+                    cell.detailLabel.text = @"系统字体";
                 }
                 else {
-                    return font.fontName;
+                    cell.detailLabel.text = font.fontName;
                 }
-            }];
-            item;
-        }), ({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"弹幕屏蔽列表";
-            item.type = DDPSettingItemTypeFilter;
-            item;
-        }), ({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"弹幕快速匹配";
-            item.detail = @"自动识别视频 并匹配弹幕";
-            item.type = DDPSettingItemTypeSwitch;
-            [item setSwitchStatusCallBack:^{
-                return [DDPCacheManager shareCacheManager].openFastMatch;
-            }];
-            [item setSwitchStatusChangeCallBack:^{
-                [DDPCacheManager shareCacheManager].openFastMatch = ![DDPCacheManager shareCacheManager].openFastMatch;
-            }];
-            item;
-        }), ({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"自动请求第三方弹幕";
-            item.detail = @"会把ABC站的弹幕一起加进来";
-            item.type = DDPSettingItemTypeSwitch;
-            [item setSwitchStatusCallBack:^{
-                return [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-            }];
-            [item setSwitchStatusChangeCallBack:^{
-                [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
-            }];
-            item;
-        }), ({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"弹幕缓存时间";
-            item.type = DDPSettingItemTypeLeftRight;
-            [item setDetailTextCallBack:^{
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
+                @strongify(self)
+                if (!self) return;
+                
+                DDPDanmakuSelectedFontViewController *vc = [[DDPDanmakuSelectedFontViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = true;
+                [self.navigationController pushViewController:vc animated:YES];
+            };
+            
+            return item;
+        }()];
+        
+        
+        [danmakuSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPSettingTitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPSettingTitleTableViewCell *cell) {
+                cell.titleLabel.text = @"弹幕屏蔽列表";
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
+                @strongify(self)
+                if (!self) return;
+                
+                DDPDanmakuFilterViewController *vc = [[DDPDanmakuFilterViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = true;
+                [self.navigationController pushViewController:vc animated:YES];
+            };
+            
+            return item;
+        }()];
+        
+        [danmakuSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                cell.titleLabel.text = @"弹幕快速匹配";
+                cell.detailLabel.text = @"自动识别视频 并匹配弹幕";
+                cell.aSwitch.on = [DDPCacheManager shareCacheManager].openFastMatch;
+                cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                    [DDPCacheManager shareCacheManager].openFastMatch = ![DDPCacheManager shareCacheManager].openFastMatch;
+                };
+            };
+            return item;
+        }()];
+        
+        [danmakuSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                cell.titleLabel.text = @"自动请求第三方弹幕";
+                cell.detailLabel.text = @"会把ABC站的弹幕一起加进来";
+                cell.aSwitch.on = [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
+                cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                    [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku = ![DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku;
+                };
+            };
+            return item;
+        }()];
+        
+        [danmakuSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingTitleSubtitleTableViewCell *cell) {
+                cell.titleLabel.text = @"弹幕缓存时间";
                 NSInteger day = [DDPCacheManager shareCacheManager].danmakuCacheTime;
                 if (day == 0) {
-                    return @"不缓存";
+                    cell.detailLabel.text = @"不缓存";
                 }
                 else if (day >= CACHE_ALL_DANMAKU_FLAG) {
-                    return @"全部缓存";
+                    cell.detailLabel.text = @"全部缓存";
                 }
                 else {
-                    return [NSString stringWithFormat:@"%ld天", (long)day];
+                    cell.detailLabel.text = [NSString stringWithFormat:@"%ld天", (long)day];
                 }
-            }];
-            item;
-        })].mutableCopy;
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
+                @strongify(self)
+                if (!self) return;
+                
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"设置天数" message:@"默认7天" preferredStyle:UIAlertControllerStyleAlert];
+                @weakify(vc)
+                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    @strongify(vc)
+                    @strongify(self)
+                    if (!self) return;
+                    if (!vc) return;
+                    
+                    UITextField *textField = vc.textFields.firstObject;
+                    NSInteger day = [textField.text integerValue];
+                    if (day < 0) day = 0;
+                    if (day > CACHE_ALL_DANMAKU_FLAG) day = CACHE_ALL_DANMAKU_FLAG;
+                    
+                    [DDPCacheManager shareCacheManager].danmakuCacheTime = day;
+                    [self.tableView reloadData];
+                }]];
+                
+                [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                    textField.keyboardType = UIKeyboardTypeNumberPad;
+                }];
+                
+                [self presentViewController:vc animated:YES completion:nil];
+            };
+            
+            return item;
+        }()];
         
         
         //其他设置
         DDPSetting *otherSetting = [[DDPSetting alloc] init];
         otherSetting.title = @"其他设置";
         
-        [otherSetting.items addObject:({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"字幕保护区域";
-            item.detail = @"在画面底部大约15%的位置禁止弹幕出现";
-            item.type = DDPSettingItemTypeSwitch;
-            [item setSwitchStatusCallBack:^{
-                return [DDPCacheManager shareCacheManager].subtitleProtectArea;
-            }];
-            [item setSwitchStatusChangeCallBack:^{
-                [DDPCacheManager shareCacheManager].subtitleProtectArea = ![DDPCacheManager shareCacheManager].subtitleProtectArea;
-            }];
-            item;
-        })];
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                cell.titleLabel.text = @"字幕保护区域";
+                cell.detailLabel.text = @"在画面底部大约15%的位置禁止弹幕出现";
+                cell.aSwitch.on = [DDPCacheManager shareCacheManager].subtitleProtectArea;
+                cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                    [DDPCacheManager shareCacheManager].subtitleProtectArea = ![DDPCacheManager shareCacheManager].subtitleProtectArea;
+                };
+            };
+            return item;
+        }()];
         
-        [otherSetting.items addObject:({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"自动加载远程设备字幕";
-            item.detail = @"大概没人会关掉";
-            item.type = DDPSettingItemTypeSwitch;
-            [item setSwitchStatusCallBack:^{
-                return [DDPCacheManager shareCacheManager].openAutoDownloadSubtitle;
-            }];
-            [item setSwitchStatusChangeCallBack:^{
-                [DDPCacheManager shareCacheManager].openAutoDownloadSubtitle = ![DDPCacheManager shareCacheManager].openAutoDownloadSubtitle;
-            }];
-            item;
-        })];
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                cell.titleLabel.text = @"自动加载远程设备字幕";
+                cell.detailLabel.text = @"大概没人会关掉";
+                cell.aSwitch.on = [DDPCacheManager shareCacheManager].openAutoDownloadSubtitle;
+                cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                    [DDPCacheManager shareCacheManager].openAutoDownloadSubtitle = ![DDPCacheManager shareCacheManager].openAutoDownloadSubtitle;
+                };
+            };
+            return item;
+        }()];
         
         LAContext *laContext = [[LAContext alloc] init];
         //验证touchID是否可用
         if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
-            [otherSetting.items addObject:({
+            [otherSetting.items addObject:^{
                 NSString *biometryType = laContext.biometryTypeStringValue;
                 
-                DDPSettingItem *item = [[DDPSettingItem alloc] init];
-                item.title = [NSString stringWithFormat:@"使用%@登录", biometryType];
-                item.type = DDPSettingItemTypeSwitch;
-                item.switchStatusCallBack = ^BOOL{
-                    return [DDPCacheManager shareCacheManager].useTouchIdLogin;
+                DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+                item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                    cell.titleLabel.text = [NSString stringWithFormat:@"使用%@登录", biometryType];
+                    cell.aSwitch.on = [DDPCacheManager shareCacheManager].useTouchIdLogin;
+                    cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                        [DDPCacheManager shareCacheManager].useTouchIdLogin = ![DDPCacheManager shareCacheManager].useTouchIdLogin;
+                    };
                 };
                 
-                item.switchStatusChangeCallBack = ^{
-                    [DDPCacheManager shareCacheManager].useTouchIdLogin = ![DDPCacheManager shareCacheManager].useTouchIdLogin;
-                };
-                item;
-            })];            
+                return item;
+            }()];
         }
         
-        [otherSetting.items addObject:({
-            DDPSettingItem *item = [[DDPSettingItem alloc] init];
-            item.title = @"清理缓存";
-            item.type = DDPSettingItemTypeLeftRight;
-            @weakify(self)
-            [item setDetailTextCallBack:^{
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingTitleSubtitleTableViewCell *cell) {
+                cell.titleLabel.text = @"请求域名";
+                NSString *domain = [DDPCacheManager shareCacheManager].userDefineRequestDomain;
+                cell.detailLabel.text = domain.length > 0 ? domain : @"默认";
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
                 @strongify(self)
-                if (!self) return @"";
+                if (!self) return;
                 
-                return self->_cacheSize;
-            }];
-            item;
-        })];
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"输入请求域名" message:@"留空则使用默认域名" preferredStyle:UIAlertControllerStyleAlert];
+                @weakify(vc)
+                [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    @strongify(vc)
+                    if (!vc) return;
+                    
+                    NSString *domain = vc.textFields.firstObject.text;
+                    [DDPCacheManager shareCacheManager].userDefineRequestDomain = domain;
+                    [self.tableView reloadData];
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                    textField.text = [DDPCacheManager shareCacheManager].userDefineRequestDomain;
+                    textField.font = [UIFont ddp_normalSizeFont];
+                    textField.placeholder = @"例如: https://api.acplay.net";
+                }];
+                
+                [self presentViewController:vc animated:true completion:nil];
+            };
+            
+            return item;
+        }()];
+        
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingTitleSubtitleTableViewCell *cell) {
+                @strongify(self)
+                if (!self) return;
+                
+                cell.titleLabel.text = @"清理缓存";
+                cell.detailLabel.text = self->_cacheSize;
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
+                @strongify(self)
+                if (!self) return;
+                
+                [self.view showLoadingWithText:@"删除中..."];
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    [DDPDanmakuManager removeAllDanmakuCache];
+                    [[YYWebImageManager sharedManager].cache.diskCache removeAllObjects];
+                    [self reloadCacheSizeWithCompletion:^{
+                        @strongify(self)
+                        if (!self) return;
+                        
+                        [self.view hideLoading];
+                        [self.tableView reloadData];
+                    }];
+                });
+            };
+            
+            return item;
+        }()];
         
         _dataSources = @[danmakuSetting, otherSetting];
     }

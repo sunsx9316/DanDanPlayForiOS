@@ -203,6 +203,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>请允许弹弹play访问您的相机</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>请允许弹弹play使用Face Id进行认证</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>请允许弹弹play访问您的相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>

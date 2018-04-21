@@ -25,7 +25,7 @@
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"AnimeId" : @(animeId)};
     
     if (like) {
-        NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", API_PATH, CLIENT_ID];
+        NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
         return [[DDPBaseNetManager shareNetManager] PUTWithPath:path
                                                  serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
                                                      parameters:ddplay_encryption(dic)
@@ -36,7 +36,7 @@
         }];
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     return [[DDPBaseNetManager shareNetManager] DELETEWithPath:path
                                                 serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                     parameters:dic
@@ -56,7 +56,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/favorite", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiPath]];
     NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.token};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
@@ -79,7 +79,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/playhistory/%lu", API_PATH, (unsigned long)animateId];
+    NSString *path = [NSString stringWithFormat:@"%@/playhistory/%lu", [DDPMethod apiPath], (unsigned long)animateId];
     NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.token.length ? user.token : @"0"};
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
@@ -101,7 +101,7 @@
         return nil;
     }
     
-     NSString *path = [NSString stringWithFormat:@"%@/playhistory?clientId=%@", API_PATH, CLIENT_ID];
+     NSString *path = [NSString stringWithFormat:@"%@/playhistory?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"EpisodeId" : @(episodeId), @"AddToFavorite" : @(AddToFavorite)};
     
     return [[DDPBaseNetManager shareNetManager] PUTWithPath:path

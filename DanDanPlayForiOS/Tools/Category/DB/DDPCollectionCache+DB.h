@@ -11,6 +11,7 @@
 
 @interface DDPCollectionCache (DB)<WCTTableCoding>
 
+WCDB_PROPERTY(name)
 WCDB_PROPERTY(cacheType)
 WCDB_PROPERTY(filePath)
 

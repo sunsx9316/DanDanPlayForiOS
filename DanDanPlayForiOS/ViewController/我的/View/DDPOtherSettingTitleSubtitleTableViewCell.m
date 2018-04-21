@@ -13,7 +13,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.backgroundColor = [UIColor ddp_veryLightGrayColor];
+//        self.backgroundColor = [UIColor ddp_veryLightGrayColor];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(10);
@@ -29,6 +29,13 @@
         }];
     }
     return self;
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.titleLabel.text = nil;
+    self.detailLabel.text = nil;
 }
 
 #pragma mark - 懒加载

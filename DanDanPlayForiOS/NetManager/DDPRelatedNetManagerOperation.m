@@ -18,7 +18,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/related/%lu", API_PATH, (unsigned long)episodeId];
+    NSString *path = [NSString stringWithFormat:@"%@/related/%lu", [DDPMethod apiPath], (unsigned long)episodeId];
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:nil

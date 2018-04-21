@@ -151,6 +151,7 @@
                 [self startMatchWithHash:hash];
             }
             else {
+                
                 MBProgressHUD *_aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
                 _aHUD.label.text = @"分析视频中...";
                 

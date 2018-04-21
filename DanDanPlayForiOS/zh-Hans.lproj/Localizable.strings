@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  DanDanPlayForiOS
+
+  Created by JimHuang on 2018/4/21.
+  Copyright © 2018年 JimHuang. All rights reserved.
+*/
+"Device isn't on a WiFi network." = "设备不在WiFi网络上";
+"Unable to resolve device address." = "无法解析设备地址 请尝试重新连接";
+"Unable to connect to device." = "无法连接到设备";
+"Login authentication failed." = "登录身份验证失败";
+"Unable to connect to share." = "无法连接共享";
+"Unable to locate file." = "无法找到文件";
+"Unable to download a directory." = "无法下载目录";
+"File download failed - check your connection." = "文件下载失败 - 请检查您的连接";
+"Unknown Error Occurred." = "未知错误";

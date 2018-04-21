@@ -956,6 +956,8 @@ static char scanQRKey = '\0';
 }
 
 #pragma mark - UIActionSheetDelegate
+
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
         UIImage *img = objc_getAssociatedObject(actionSheet, &saveImageKey);

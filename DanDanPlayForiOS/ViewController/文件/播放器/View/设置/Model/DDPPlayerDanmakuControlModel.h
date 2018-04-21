@@ -8,11 +8,22 @@
 
 #import "DDPBase.h"
 
+@class DDPPlayerControlHeaderView;
 @interface DDPPlayerDanmakuControlModel : DDPBase
-@property (copy, nonatomic) NSString *initializeClass;
-@property (strong, nonatomic) NSDictionary <NSString *, id>*cellDic;
+
+/**
+ 重用标识
+ */
+@property (copy, nonatomic) NSString *reuseIdentifier;
+
+/**
+ 自定义参数 用于存储头视图属性
+ */
+@property (strong, nonatomic) NSDictionary <NSString *, id>*headerDic;
 @property (copy, nonatomic) void(^didSelectedRowCallBack)(void);
+@property (copy, nonatomic) void(^dequeueReuseCellCallBack)(__kindof UITableViewCell *cell);
+@property (copy, nonatomic) void(^dequeueReuseHeaderCallBack)(DDPPlayerControlHeaderView *view);
 @property (assign, nonatomic) CGFloat cellHeight;
 @property (assign, nonatomic) CGFloat headerHeight;
-@property (strong, nonatomic) NSDictionary <NSString *, id>*headerDic;
+
 @end

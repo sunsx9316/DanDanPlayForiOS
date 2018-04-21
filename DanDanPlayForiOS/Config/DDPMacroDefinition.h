@@ -43,12 +43,12 @@ typedef struct __attribute__((objc_boxable)) UIEdgeInsets UIEdgeInsets;
 typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 
 
-#define API_DOMAIN @"https://api.acplay.net"
-#define API_INDEX @"api/v1"
-#define API_PATH [NSString stringWithFormat:@"%@/%@", API_DOMAIN, API_INDEX]
+//#define API_DOMAIN @"https://api.acplay.net"
+//#define API_INDEX @"api/v1"
+//#define [DDPMethod apiPath] [NSString stringWithFormat:@"%@/%@", API_DOMAIN, API_INDEX]
 
 //连接PC的api路径
-#define LINK_API_INDEX API_INDEX
+#define LINK_API_INDEX @"api/v1"
 
 //动漫花园解析url
 #define API_DMHY_DOMAIN @"https://res.chinacloudsites.cn"

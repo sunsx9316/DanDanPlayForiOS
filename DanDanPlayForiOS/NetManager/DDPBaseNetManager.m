@@ -33,28 +33,31 @@
  *  @return 可读的错误
  */
 static NSError *ddp_humanReadableError(NSError *error) {
-    if (error == nil) return nil;
+    return error;
     
-    NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
-    NSUInteger statusCode = response.statusCode;
-    NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%lu ", (unsigned long)statusCode];
-    if (statusCode == 400) {
-        [str appendString:@"客户端发送的请求有错误"];
-    }
-    else if (statusCode == 401) {
-        [str appendString:@"客户端无权限或token验证失败"];
-    }
-    else if (statusCode == 404) {
-        [str appendString:@"未找到API"];
-    }
-    else if (statusCode == 500) {
-        [str appendString:@"服务器处理请求时发生错误"];
-    }
     
-    JHLog(@"%@", str);
-    
-    NSError *aError = [NSError errorWithDomain:@"网络错误" code:statusCode userInfo:@{NSLocalizedDescriptionKey : @"网络错误"}];
-    return aError;
+//    if (error == nil) return nil;
+//    
+//    NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+//    NSUInteger statusCode = response.statusCode;
+//    NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%lu ", (unsigned long)statusCode];
+//    if (statusCode == 400) {
+//        [str appendString:@"客户端发送的请求有错误"];
+//    }
+//    else if (statusCode == 401) {
+//        [str appendString:@"客户端无权限或token验证失败"];
+//    }
+//    else if (statusCode == 404) {
+//        [str appendString:@"未找到API"];
+//    }
+//    else if (statusCode == 500) {
+//        [str appendString:@"服务器处理请求时发生错误"];
+//    }
+//    
+//    JHLog(@"%@", str);
+//    
+//    NSError *aError = [NSError errorWithDomain:@"网络错误" code:statusCode userInfo:@{NSLocalizedDescriptionKey : @"网络错误"}];
+//    return aError;
 }
 
 static NSString *ddp_jsonString(id obj) {
@@ -297,65 +300,18 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     }
 }
 
-//#pragma mark - DDPHTTPSerializerDelegate
-//- (DDPBaseNetManagerSerializerType)serializerTypeWithURL:(NSURL *)url type:(DDPHTTPSerializerType)type {
-//    return [self.URLDic[url.absoluteString].firstObject integerValue];
-//}
-//
-//- (void)serializerDidResponseWithURL:(NSURL *)url {
-//    [self.URLDic[url.absoluteString] removeLastObject];
-//}
-
-//#pragma mark - 私有方法
-//- (void)addTypeToCache:(DDPBaseNetManagerSerializerType)type path:(NSString *)path {
-//    NSMutableArray *arr = self.URLDic[path];
-//    if (arr == nil) {
-//        arr = [NSMutableArray array];
-//        self.URLDic[path] = arr;
-//    }
-//    [arr addObject:@(type)];
-//}
-
 #pragma mark - 懒加载
-//- (AFHTTPSessionManager *)JSONSessionManager {
-//    if (_JSONSessionManager == nil) {
-//        _JSONSessionManager = [AFHTTPSessionManager manager];
-//        NSDictionary *dic = ddp_defaultHTTPHeaderField();
-//        [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            [_JSONSessionManager.requestSerializer setValue:obj forHTTPHeaderField:key];
-//        }];
-//        _JSONSessionManager.requestSerializer.timeoutInterval = ddp_HTTP_TIME_OUT;
-//    }
-//    return _JSONSessionManager;
-//}
-//
-//- (AFHTTPSessionManager *)XMLSessionManager {
-//    if (_XMLSessionManager == nil) {
-//        _XMLSessionManager = [AFHTTPSessionManager manager];
-//        _XMLSessionManager.responseSerializer = [DDPHTTPXMLResponseSerializer serializer];
-//        _XMLSessionManager.requestSerializer = [DDPHTTPNoParseRequestSerializer serializer];
-//        [_XMLSessionManager.requestSerializer setValue:@"text/html,application/xhtml+xml,application/xml" forHTTPHeaderField:@"accept"];
-//
-//        NSDictionary *dic = ddp_defaultHTTPHeaderField();
-//        [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            [_XMLSessionManager.requestSerializer setValue:obj forHTTPHeaderField:key];
-//        }];
-//        _XMLSessionManager.requestSerializer.timeoutInterval = ddp_HTTP_TIME_OUT;
-//    }
-//    return _XMLSessionManager;
-//}
 
 - (AFHTTPSessionManager *)HTTPSessionManager {
     if (_HTTPSessionManager == nil) {
         _HTTPSessionManager = [AFHTTPSessionManager manager];
         _HTTPSessionManager.responseSerializer = ({
             DDPHTTPResponseSerializer *serializer = [DDPHTTPResponseSerializer serializer];
-//            serializer.delegate = self;
             serializer;
         });
+        
         _HTTPSessionManager.requestSerializer = ({
             DDPHTTPRequestSerializer *serializer = [DDPHTTPRequestSerializer serializer];
-//            serializer.delegate = self;
             serializer;
         });
         NSDictionary *dic = ddp_defaultHTTPHeaderField();
@@ -366,13 +322,6 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     }
     return _HTTPSessionManager;
 }
-
-//- (NSMutableDictionary *)URLDic {
-//    if (_URLDic == nil) {
-//        _URLDic = [NSMutableDictionary dictionary];
-//    }
-//    return _URLDic;
-//}
 
 - (YYReachability *)reachability {
     if (_reachability == nil) {

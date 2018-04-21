@@ -24,7 +24,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/applogin?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/applogin?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = @{@"Source" : ddp_userTypeToString(source), @"UserId" : userId, @"AccessToken" : token, @"Timestamp" : @((UInt64)([[NSDate date] timeIntervalSince1970]))};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
@@ -66,7 +66,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/register?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/register?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = [request yy_modelToJSONObject];
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
@@ -105,7 +105,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/register/relate?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/register/relate?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = [[request yy_modelToJSONObject] dictionaryWithValuesForKeys:@[@"UserName", @"Password", @"Email", @"ScreenName", @"UserId", @"Token"]];
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
@@ -142,7 +142,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/register/relateonly?clientId=%@", API_PATH, CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/register/relateonly?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
     NSDictionary *dic = [[request yy_modelToJSONObject] dictionaryWithValuesForKeys:@[@"UserId", @"Token", @"UserName", @"Password"]];
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
@@ -176,7 +176,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/user/profile", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/user/profile", [DDPMethod apiPath]];
     NSDictionary *parameters = @{@"UserId" : @(userId), @"Token" : token, @"ScreenName" : userName};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
@@ -209,7 +209,7 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/user/profile", API_PATH];
+    NSString *path = [NSString stringWithFormat:@"%@/user/profile", [DDPMethod apiPath]];
     NSDictionary *parameters = @{@"UserId" : @(userId), @"Token" : token, @"OldPassword" : oldPassword, @"NewPassword" : aNewPassword};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path

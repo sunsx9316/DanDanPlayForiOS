@@ -19,10 +19,10 @@
     
     NSString *path = nil;
     if (episode == 0) {
-        path = [NSString stringWithFormat:@"%@/searchall/%@", API_PATH, [keyword stringByURLEncode]];
+        path = [NSString stringWithFormat:@"%@/searchall/%@", [DDPMethod apiPath], [keyword stringByURLEncode]];
     }
     else {
-        path = [NSString stringWithFormat:@"%@/searchall/%@/%lu", API_PATH, [keyword stringByURLEncode], (unsigned long)episode];
+        path = [NSString stringWithFormat:@"%@/searchall/%@/%lu", [DDPMethod apiPath], [keyword stringByURLEncode], (unsigned long)episode];
     }
     
     
@@ -57,45 +57,46 @@
     }];
 }
 
-+ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithSeasonId:(NSUInteger)seasonId completionHandler:(void (^)(DDPBiliBiliBangumiCollection *, NSError *))completionHandler {
-    
-    if (seasonId == 0) {
-        if (completionHandler) {
-            completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
-        }
-        return nil;
-    }
-    
-    NSString *path = [NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%lu.ver?", (unsigned long)seasonId];
-    
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
-                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:nil
-                                          completionHandler:^(DDPResponse *responseObj) {
-        if ([responseObj.responseObject isKindOfClass:[NSData class]]) {
-            NSString *tempStr = [[NSString alloc] initWithData:responseObj.responseObject encoding:NSUTF8StringEncoding];
-            NSRange range = [tempStr rangeOfString:@"\\{.*\\}" options:NSRegularExpressionSearch];
-            
-            if (range.location != NSNotFound) {
-                tempStr = [tempStr substringWithRange:range];
-                NSError *err;
-                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[tempStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-                if (completionHandler) {
-                    completionHandler([DDPBiliBiliBangumiCollection yy_modelWithDictionary: dic[@"result"]], err);
-                }
-            }
-            else {
-                if (completionHandler) {
-                    completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
-                }
-            }
-        }
-        else {
-            if (completionHandler) {
-                completionHandler(nil, responseObj.error);
-            }
-        }
-    }];
++ (NSURLSessionDataTask *)searchBiliBiliSeasonInfoWithKeyWord:(NSString *)keyWord
+                                            completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPBiliBiliBangumiCollection))completionHandler {
+    return nil;
+//    if (seasonId == 0) {
+//        if (completionHandler) {
+//            completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+//        }
+//        return nil;
+//    }
+//
+//    NSString *path = [NSString stringWithFormat:@"http://bangumi.bilibili.com/jsonp/seasoninfo/%lu.ver?", (unsigned long)seasonId];
+//
+//    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+//                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
+//                                                 parameters:nil
+//                                          completionHandler:^(DDPResponse *responseObj) {
+//        if ([responseObj.responseObject isKindOfClass:[NSData class]]) {
+//            NSString *tempStr = [[NSString alloc] initWithData:responseObj.responseObject encoding:NSUTF8StringEncoding];
+//            NSRange range = [tempStr rangeOfString:@"\\{.*\\}" options:NSRegularExpressionSearch];
+//
+//            if (range.location != NSNotFound) {
+//                tempStr = [tempStr substringWithRange:range];
+//                NSError *err;
+//                NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[tempStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+//                if (completionHandler) {
+//                    completionHandler([DDPBiliBiliBangumiCollection yy_modelWithDictionary: dic[@"result"]], err);
+//                }
+//            }
+//            else {
+//                if (completionHandler) {
+//                    completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+//                }
+//            }
+//        }
+//        else {
+//            if (completionHandler) {
+//                completionHandler(nil, responseObj.error);
+//            }
+//        }
+//    }];
 }
 
 + (NSURLSessionDataTask *)searchDMHYWithConfig:(DDPDMHYSearchConfig *)config completionHandler:(void (^)(DDPDMHYSearchCollection *, NSError *))completionHandler {

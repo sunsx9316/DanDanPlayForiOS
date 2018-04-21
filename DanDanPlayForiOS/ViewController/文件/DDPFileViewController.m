@@ -116,7 +116,8 @@
         return 44 + ddp_isPad() * 20;
     }
     
-    return 50 + ddp_isPad() * 20;
+//    return 50 + ddp_isPad() * 20;
+    return UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -126,7 +127,7 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1) {
         UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否删除这个收藏？" message:@"操作无法恢复" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否删除这个收藏？" preferredStyle:UIAlertControllerStyleAlert];
             [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 DDPCollectionCache *cache = [DDPCacheManager shareCacheManager].collectors[indexPath.row];
                 [[DDPCacheManager shareCacheManager] removeCollector:cache];
@@ -193,21 +194,30 @@
     else {
         DDPCollectionCache *cache = [DDPCacheManager shareCacheManager].collectors[indexPath.row];
         if (cache.cacheType == DDPCollectionCacheTypeLocal) {
-            NSString *path = cache.filePath;
-            if (path.length == 0) return;
+            NSString *path = [cache.filePath stringByURLEncode];
+            if (path.length == 0) {
+                [self.view showWithText:@"文件夹被移动或删除!"];
+                return;
+            }
             
-            NSURL *aURL = [NSURL fileURLWithPath:[[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:path]];
-            
-            DDPFile *file = [[DDPFile alloc] initWithFileURL:aURL type:DDPFileTypeFolder];
-
-            [[DDPToolsManager shareToolsManager] startDiscovererVideoWithFile:file type:PickerFileTypeAll completion:^(DDPFile *aFile) {
-                if (aFile == nil) {
+            [[DDPToolsManager shareToolsManager] startDiscovererAllFileWithType:PickerFileTypeVideo completion:^(DDPFile *aFile) {
+                
+                __block DDPFile *tempFile = nil;
+                [aFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSString *tempFilePath = obj.fileURL.absoluteString;
+                    if ([tempFilePath hasSuffix:path] || [tempFilePath hasSuffix:[path stringByAppendingString:@"/"]]) {
+                        tempFile = obj;
+                        *stop = YES;
+                    }
+                }];
+                
+                if (tempFile == nil) {
                     [self.view showWithText:@"文件夹被移动或删除!"];
                     return;
                 }
                 
                 DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];
-                vc.file = aFile;
+                vc.file = tempFile;
                 vc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
@@ -226,6 +236,7 @@
         _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.estimatedRowHeight = 60;
         [_tableView registerClass:[DDPFileSectionTableViewCell class] forCellReuseIdentifier:@"DDPFileSectionTableViewCell"];
         [_tableView registerClass:[DDPFileLargeTitleTableViewCell class] forHeaderFooterViewReuseIdentifier:@"DDPFileLargeTitleTableViewCell"];
         [_tableView registerClass:[DDPFileCollectionTableViewCell class] forCellReuseIdentifier:@"DDPFileCollectionTableViewCell"];

@@ -11,7 +11,7 @@
 @implementation DDPFilterNetManagerOperation
 + (NSURLSessionDataTask *)cloudFilterListWithCompletionHandler:(void (^)(DDPFilterCollection *, NSError *))completionHandler {
     
-    NSString *path = API_DOMAIN@"/config/filter.xml";
+    NSString *path = @"https://api.acplay.net/config/filter.xml";
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeXML

@@ -103,7 +103,7 @@
             @strongify(self)
             if (!self) return;
             
-            [[DDPToolsManager shareToolsManager] startDiscovererVideoWithFile:self.file type:self.fileType completion:^(DDPFile *file) {
+            [[DDPToolsManager shareToolsManager] startDiscovererFileParentFolderWithChildrenFile:self.file type:self.fileType completion:^(DDPFile *file) {
                 self.file = file;
                 [self.tableView reloadData];
                 [self.tableView endRefreshing];

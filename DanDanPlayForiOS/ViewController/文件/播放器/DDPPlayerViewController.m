@@ -12,6 +12,7 @@
 #import "DDPSMBFileManagerPickerViewController.h"
 #import "DDPPlayerSendDanmakuViewController.h"
 #import "DDPDanmakuFilterViewController.h"
+#import "DDPSettingViewController.h"
 
 #import "DDPPlayerInterfaceView.h"
 #import "DDPMediaPlayer.h"
@@ -202,6 +203,18 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)]) {
         self.danmakuEngine.limitCount = [change[NSKeyValueChangeNewKey] integerValue];
     }
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], subtitleProtectArea)]) {
+        BOOL value = [change[NSKeyValueChangeNewKey] boolValue];
+        
+        [self.danmakuEngine.canvas mas_updateConstraints:^(MASConstraintMaker *make) {
+            if (value) {
+                make.bottom.mas_offset(-DDP_HEIGHT * 0.12);
+            }
+            else {
+                make.bottom.mas_equalTo(0);
+            }
+        }];
+    }
     //物理按键调节音量
     else if ([keyPath isEqualToString:DDP_KEYPATH([AVAudioSession sharedInstance], outputVolume)]) {
         
@@ -323,12 +336,46 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHBaseDanmaku *)danmaku {
+    
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
+        //添加下划线
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:danmaku.attributedString];
         [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
         danmaku.attributedString = str;
         return YES;
+    }
+    
+    DDPDanmakuShieldType danmakuShieldType = [DDPCacheManager shareCacheManager].danmakuShieldType;
+    //屏蔽滚动弹幕
+    if ((danmakuShieldType & DDPDanmakuShieldTypeScrollToLeft) && [danmaku isKindOfClass:[JHScrollDanmaku class]]) {
+        return false;
+    }
+    
+    //屏蔽顶部弹幕
+    if ((danmakuShieldType & DDPDanmakuShieldTypeFloatAtTo) && [danmaku isKindOfClass:[JHFloatDanmaku class]]) {
+        JHFloatDanmakuDirection direction = [danmaku direction];
+        if (direction == JHFloatDanmakuDirectionT2B) {
+            return false;
+        }
+    }
+    
+    //屏蔽底部弹幕
+    if ((danmakuShieldType & DDPDanmakuShieldTypeFloatAtBottom) && [danmaku isKindOfClass:[JHFloatDanmaku class]]) {
+        JHFloatDanmakuDirection direction = [danmaku direction];
+        if (direction == JHFloatDanmakuDirectionB2T) {
+            return false;
+        }
+    }
+    
+    //屏蔽彩色弹幕
+    if (danmakuShieldType & DDPDanmakuShieldTypeColor) {
+        UIColor *color = danmaku.textColor;
+        
+        if ([color isEqual:[UIColor whiteColor]] || [color isEqual:[UIColor blackColor]]) {
+            return true;
+        }
+        return false;
     }
     
     return !danmaku.filter;
@@ -425,6 +472,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         self->_danmakuParseFlag = [NSDate date].hash;
         [self asynFilterDanmakuWithTime:self.player.currentTime];
     };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)playerConfigPanelViewDidTouchOtherSettingCell {
+    DDPSettingViewController *vc = [[DDPSettingViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -718,7 +771,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         __block DDPFile *tempFile = nil;
         DDPSMBFile *parentFile = file.parentFile;
         
-        [[DDPToolsManager shareToolsManager] startDiscovererVideoWithFile:ddp_getANewRootFile() type:type completion:^(DDPFile *aFile) {
+        [[DDPToolsManager shareToolsManager] startDiscovererFileParentFolderWithChildrenFile:ddp_getANewRootFile() type:type completion:^(DDPFile *aFile) {
             
             [aFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([obj.fileURL relationshipWithURL:parentFile.fileURL] == NSURLRelationshipSame) {
@@ -819,7 +872,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount)];
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], subtitleProtectArea)];
     [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
     }];

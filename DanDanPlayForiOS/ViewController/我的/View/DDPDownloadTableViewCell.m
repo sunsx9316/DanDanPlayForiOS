@@ -58,7 +58,7 @@
     
     self.progressView.frame = CGRectMake(0, 0, progress * self.width, self.height);
     if (_task.isDdp_downloading) {
-        self.progressView.backgroundColor = [UIColor ddp_mainColor];
+        self.progressView.backgroundColor = DDPRGBColor(254, 103, 35);
     }
     else {
         self.progressView.backgroundColor = [UIColor lightGrayColor];
@@ -97,7 +97,7 @@
 - (UIView *)progressView {
     if (_progressView == nil) {
         _progressView = [[UIView alloc] init];
-        _progressView.backgroundColor = [UIColor ddp_mainColor];
+        _progressView.backgroundColor = DDPRGBColor(254, 103, 235);
     }
     return _progressView;
 }

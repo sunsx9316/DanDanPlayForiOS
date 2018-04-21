@@ -9,5 +9,9 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 
 @interface LAContext (Tools)
+
+/**
+ 登录类型
+ */
 @property (copy, nonatomic, readonly) NSString *biometryTypeStringValue;
 @end

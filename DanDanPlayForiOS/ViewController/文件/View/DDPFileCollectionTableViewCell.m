@@ -14,8 +14,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(0);
+            make.top.mas_equalTo(10);
             make.left.mas_offset(15);
+            make.bottom.mas_offset(-10);
         }];
         
         [self.detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -34,6 +35,7 @@
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont ddp_normalSizeFont];
+        _titleLabel.numberOfLines = 0;
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;

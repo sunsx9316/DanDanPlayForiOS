@@ -215,6 +215,15 @@
                 [self.delegate playerConfigPanelViewDidTouchFilterCell];
             }
         };
+        
+        _danmakuControlView.touchOtherSettingCellCallBack = ^{
+            @strongify(self)
+            if (!self) return;
+            
+            if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewDidTouchOtherSettingCell)]) {
+                [self.delegate playerConfigPanelViewDidTouchOtherSettingCell];
+            }
+        };
     }
     return _danmakuControlView;
 }
