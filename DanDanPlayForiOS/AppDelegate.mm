@@ -179,7 +179,7 @@
 }
 
 - (void)configJSPatch {
-    BOOL localTest = true;
+    BOOL localTest = false;
     
 #ifdef DEBUG
     [JSPatch setupDevelopment];
