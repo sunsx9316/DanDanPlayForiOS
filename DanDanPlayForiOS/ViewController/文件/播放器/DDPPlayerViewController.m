@@ -822,6 +822,9 @@
 }
 
 - (void)appWillResignActive:(NSNotification *)sender {
+    //保存观看时间
+    [[DDPCacheManager shareCacheManager] saveLastPlayTime:_currentTime videoModel:self.model];
+    
     //本地视频不需要特殊处理
     if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
         _isPlay = self.player.isPlaying;
@@ -832,8 +835,6 @@
         
         _cacheCurrentTime = self.player.currentTime;
         DDLogVerbose(@"退到后台保存时间：%@", ddp_mediaFormatterTime(_cacheCurrentTime));
-        
-        [[DDPCacheManager shareCacheManager] saveLastPlayTime:_currentTime videoModel:self.model];
         [self.player setMediaURL:_model.fileURL];
         [self.player stop];
     }
