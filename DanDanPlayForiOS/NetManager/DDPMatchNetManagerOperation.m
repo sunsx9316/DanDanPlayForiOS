@@ -93,7 +93,7 @@
         }
     };
     
-    NSMutableArray *danmakus = [DDPDanmakuManager danmakuCacheWithVideoModel:model source:DDPDanmakuTypeOfficial].mutableCopy;
+    NSMutableArray *danmakus = [DDPDanmakuManager danmakuCacheWithVideoModel:model source:DDPDanmakuTypeOfficial | DDPDanmakuTypeByUser].mutableCopy;
     //命中缓存
     if (danmakus.count) {
         DDPDanmakuCollection *collection = [[DDPDanmakuCollection alloc] init];

@@ -50,10 +50,11 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
         cache = [DDPDanmakuManager shareDanmakuManager].acfunDanmakuCache;
     }
     else if (source & DDPDanmakuTypeOfficial) {
-        //用户发送的弹幕 缓存
-        if (source & DDPDanmakuTypeByUser) {
-            [key stringByAppendingString:@"_user"];
-        }
+        cache = [DDPDanmakuManager shareDanmakuManager].officialDanmakuCache;
+    }
+    //用户发送的弹幕 缓存
+    else if (source & DDPDanmakuTypeByUser) {
+        key = [key stringByAppendingString:@"_user"];
         cache = [DDPDanmakuManager shareDanmakuManager].officialDanmakuCache;
     }
     
@@ -91,51 +92,58 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
     //获取的是B站弹幕
     if (source & DDPDanmakuTypeBiliBili) {
         DDPDanmakuCollection *tempCollection = (DDPDanmakuCollection *)[[DDPDanmakuManager shareDanmakuManager].bilibiliDanmakuCache objectForKey:key];
-        //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
-            [[DDPDanmakuManager shareDanmakuManager].bilibiliDanmakuCache removeObjectForKey:key withBlock:nil];
-        }
-        else {
-            [danmakuCache addObjectsFromArray:(NSArray *)[[DDPDanmakuManager shareDanmakuManager].bilibiliDanmakuCache objectForKey:key]];
+        if ([tempCollection isKindOfClass:[DDPDanmakuCollection class]]) {
+            //缓存过期
+            if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
+                [[DDPDanmakuManager shareDanmakuManager].bilibiliDanmakuCache removeObjectForKey:key withBlock:nil];
+            }
+            else {
+                [danmakuCache addObjectsFromArray:tempCollection.collection];
+            }
         }
     }
     
     //获取的是A站弹幕
     if (source & DDPDanmakuTypeAcfun) {
         DDPDanmakuCollection *tempCollection = (DDPDanmakuCollection *)[[DDPDanmakuManager shareDanmakuManager].acfunDanmakuCache objectForKey:key];
-        //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
-            [[DDPDanmakuManager shareDanmakuManager].acfunDanmakuCache removeObjectForKey:key withBlock:nil];
-        }
-        else {
-            [danmakuCache addObjectsFromArray:(NSArray *)[[DDPDanmakuManager shareDanmakuManager].acfunDanmakuCache objectForKey:key]];
+        if ([tempCollection isKindOfClass:[DDPDanmakuCollection class]]) {
+            //缓存过期
+            if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
+                [[DDPDanmakuManager shareDanmakuManager].acfunDanmakuCache removeObjectForKey:key withBlock:nil];
+            }
+            else {
+                [danmakuCache addObjectsFromArray:tempCollection.collection];
+            }
         }
     }
     
     //获取的是官方弹幕
     if (source & DDPDanmakuTypeOfficial) {
         DDPDanmakuCollection *tempCollection = (DDPDanmakuCollection *)[[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
-        //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
-            [[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
-        }
-        else {
-            DDPDanmakuCollection *cacheCollection = (DDPDanmakuCollection *)[[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
-            [danmakuCache addObjectsFromArray:cacheCollection.collection];
+        if ([tempCollection isKindOfClass:[DDPDanmakuCollection class]]) {
+            //缓存过期
+            if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
+                [[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
+            }
+            else {
+                [danmakuCache addObjectsFromArray:tempCollection.collection];
+            }
         }
     }
     
     //用户发送的弹幕 缓存
     if (source & DDPDanmakuTypeByUser) {
-        [key stringByAppendingString:@"_user"];
+        key = [key stringByAppendingString:@"_user"];
         
         DDPDanmakuCollection *tempCollection = (DDPDanmakuCollection *)[[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key];
-        //缓存过期
-        if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
-            [[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
-        }
-        else {
-            [danmakuCache addObjectsFromArray:(NSArray *)[[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache objectForKey:key]];
+        if ([tempCollection isKindOfClass:[DDPDanmakuCollection class]]) {
+            //缓存过期
+            if (fabs([tempCollection.saveTime timeIntervalSinceDate:[NSDate date]]) >= cacheTime) {
+                [[DDPDanmakuManager shareDanmakuManager].officialDanmakuCache removeObjectForKey:key withBlock:nil];
+            }
+            else {
+                [danmakuCache addObjectsFromArray:tempCollection.collection];
+            }
         }
     }
     
@@ -223,8 +231,11 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 
 #pragma mark - 私有方法
 + (void)switchParseWithSource:(DDPDanmakuType)source obj:(id)obj block:(CallBackAction)block {
-    if (source & DDPDanmakuTypeBiliBili || source & DDPDanmakuTypeByUser) {
+    if (source & DDPDanmakuTypeBiliBili) {
         [self parseBilibiliDamakus:obj block:block];
+    }
+    else if (source & DDPDanmakuTypeByUser) {
+        [self parseUserSendDamakus:obj block:block];
     }
     else if (source & DDPDanmakuTypeAcfun) {
         [self parseAcfunDanmakus:obj block:block];
@@ -274,6 +285,14 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
         model.message = dic[@"_text"];
         if (block) block(model);
     }
+}
+
++ (void)parseUserSendDamakus:(NSArray <DDPDanmaku *>*)danmakus block:(CallBackAction)block {
+    [danmakus enumerateObjectsUsingBlock:^(DDPDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (block) {
+            block(obj);
+        }
+    }];
 }
 
 

@@ -386,6 +386,13 @@
                     }
                     [_danmakuDic[@(appearTime)] appendObject:sendDanmaku];
                     [self.danmakuEngine sendDanmaku:sendDanmaku];
+                    
+                    //发送成功 缓存弹幕
+                    NSMutableArray <DDPDanmaku *>*danmakus = [DDPDanmakuManager danmakuCacheWithEpisodeId:episodeId source:DDPDanmakuTypeByUser].mutableCopy;
+                    [danmakus addObject:danmaku];
+                    
+                    [DDPDanmakuManager saveDanmakuWithObj:danmakus episodeId:episodeId source:DDPDanmakuTypeByUser];
+                    
                 }
             }];
         }
