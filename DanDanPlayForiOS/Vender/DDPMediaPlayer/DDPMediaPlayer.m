@@ -49,6 +49,13 @@
     self.mediaView = nil;
 }
 
+- (void)synchronousParse {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [self.localMediaPlayer.media synchronousParse];    
+#pragma clang diagnostic pop
+}
+
 
 #pragma mark 属性
 - (DDPMediaType)mediaType {
@@ -58,18 +65,23 @@
 - (NSTimeInterval)length {
     if (_length > 0) return _length;
     
-    _length = _localMediaPlayer.media.length.value.floatValue / 1000;
+    _length = _localMediaPlayer.media.length.value.floatValue / 1000.0f;
     return _length;
 }
 
 - (NSTimeInterval)currentTime {
-    return _localMediaPlayer.time.value.floatValue / 1000;
+    return _localMediaPlayer.time.value.floatValue / 1000.0f;
 }
 
 - (DDPMediaPlayerStatus)status {
     switch (_localMediaPlayer.state) {
         case VLCMediaPlayerStateStopped:
-            _status = DDPMediaPlayerStatusStop;
+            if (self.localMediaPlayer.position >= 0.999) {
+                _status = DDPMediaPlayerStatusNextEpisode;
+            }
+            else {
+                _status = DDPMediaPlayerStatusStop;
+            }
             break;
         case VLCMediaPlayerStatePaused:
             _status = DDPMediaPlayerStatusPause;
@@ -78,11 +90,11 @@
             _status = DDPMediaPlayerStatusPlaying;
             break;
         case VLCMediaPlayerStateBuffering:
-            if (self.localMediaPlayer.media.length.intValue > 0) {
+            if (self.localMediaPlayer.isPlaying) {
                 _status = DDPMediaPlayerStatusPlaying;
             }
             else {
-                _status = DDPMediaPlayerStatusBuffering;
+                _status = DDPMediaPlayerStatusPause;
             }
             break;
         default:
@@ -111,6 +123,10 @@
 #pragma mark 播放位置
 - (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler {
     [self setPosition:([self currentTime] + value) / [self length] completionHandler:completionHandler];
+}
+
+- (void)setCurrentTime:(int)time completionHandler:(void(^)(NSTimeInterval time))completionHandler {
+    [self setPosition:time / [self length] completionHandler:completionHandler];
 }
 
 - (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler {
@@ -238,8 +254,6 @@
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
         VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
-        
-//        [media addOptions:@{@"freetype-font" : @"Helvetica Neue"}];
         self.localMediaPlayer.media = media;
     }
     
@@ -255,8 +269,10 @@
         NSString *nowDateTime = ddp_mediaFormatterTime(nowTime);
         NSString *videoDateTime = ddp_mediaFormatterTime(videoTime);
         
+        CGFloat progress = videoTime == 0 ? 0.0 : nowTime / videoTime;
+        
         if (!(videoDateTime && nowDateTime)) return;
-        [self.delegate mediaPlayer:self progress:nowTime / videoTime currentTime:nowDateTime totalTime:videoDateTime];
+        [self.delegate mediaPlayer:self progress:progress currentTime:nowDateTime totalTime:videoDateTime];
     }
 }
 
@@ -266,7 +282,7 @@
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-    NSLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+//    DDLogVerbose(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
     
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         DDPMediaPlayerStatus status = [self status];

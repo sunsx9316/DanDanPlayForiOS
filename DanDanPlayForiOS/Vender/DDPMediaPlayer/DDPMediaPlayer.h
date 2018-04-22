@@ -11,7 +11,8 @@ typedef NS_ENUM(NSUInteger, DDPMediaPlayerStatus) {
     DDPMediaPlayerStatusPlaying,
     DDPMediaPlayerStatusPause,
     DDPMediaPlayerStatusStop,
-    DDPMediaPlayerStatusBuffering
+    DDPMediaPlayerStatusNextEpisode,
+//    DDPMediaPlayerStatusBuffering
 };
 
 typedef NS_ENUM(NSUInteger, DDPMediaType) {
@@ -64,7 +65,6 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 
 
 @interface DDPMediaPlayer : NSObject
-
 @property (strong, nonatomic) UIView *mediaView;
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
@@ -99,11 +99,20 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 - (NSTimeInterval)currentTime;
 - (DDPMediaType)mediaType;
 /**
- *  媒体跳转
+ *  基于当前时间跳转
  *
  *  @param value 增加的值
  */
 - (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler;
+
+/**
+ 设置播放时间
+
+ @param time 播放时间
+ @param completionHandler 完成回调
+ */
+- (void)setCurrentTime:(int)time completionHandler:(void(^)(NSTimeInterval time))completionHandler;
+
 /**
  *  音量增加
  *
@@ -137,5 +146,11 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  *  @return self
  */
 - (instancetype)initWithMediaURL:(NSURL *)mediaURL;
+
+
+/**
+ 同步解析
+ */
+- (void)synchronousParse;
 
 @end

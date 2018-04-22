@@ -12,48 +12,67 @@
 #import "DDPPlayerSendDanmakuConfigView.h"
 #import "DDPPlayerMatchView.h"
 #import "DDPControlView.h"
+#import "DDPMediaPlayer.h"
 
 @class DDPPlayerInterfaceView;
-@protocol DDPPlayerInterfaceViewDelegate <NSObject>
+@protocol DDPPlayerInterfaceViewDelegate <DDPPlayerConfigPanelViewDelegate>
 
 @optional
+
+/**
+ 点击发送弹幕按钮
+ */
 - (void)interfaceViewDidTouchSendDanmakuButton;
+
+/**
+ 点击滑动条
+
+ @param view view
+ @param time 时间
+ */
+- (void)interfaceView:(DDPPlayerInterfaceView *)view touchSliderWithTime:(int)time;
+
+/**
+ 点击弹幕隐藏按钮
+
+ @param view view
+ @param visiable 是否可见
+ */
+- (void)interfaceView:(DDPPlayerInterfaceView *)view touchDanmakuVisiableButton:(BOOL)visiable;
+
+/**
+ 点击字幕空视图
+ */
+- (void)interfaceViewDidTapSubTitleIndexEmptyView;
+
+/**
+ 点击匹配按钮
+ */
+- (void)interfaceViewDidTouchCustomMatchButton;
 @end
 
 @class DDPBlurView;
 @interface DDPPlayerInterfaceView : UIView
+
 @property (weak, nonatomic) id<DDPPlayerInterfaceViewDelegate> delegate;
 
-@property (strong, nonatomic) UIView *topView;
-@property (strong, nonatomic) UIView *bottomView;
+@property (weak, nonatomic, readonly) DDPMediaPlayer *player;
 
-@property (strong, nonatomic) UIButton *backButton;
-@property (strong, nonatomic) UILabel *titleLabel;
+- (instancetype)initWithPlayer:(DDPMediaPlayer *)player frame:(CGRect)frame;
 
-@property (strong, nonatomic) UILabel *currentTimeLabel;
-@property (strong, nonatomic) UILabel *totalTimeLabel;
-@property (strong, nonatomic) UISlider *progressSlider;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithFrame:(CGRect)frame UNAVAILABLE_ATTRIBUTE;
 
-@property (strong, nonatomic) UISwitch *danmakuHideSwitch;
-@property (strong, nonatomic) UIButton *playButton;
-@property (strong, nonatomic) UIButton *subTitleIndexButton;
-@property (strong, nonatomic) UIButton *screenShotButton;
-@property (strong, nonatomic) UIActivityIndicatorView *screenShotIndicatorView;
-
-@property (strong, nonatomic) UIView *gestureView;
-//从右边画出来的控制面板
-@property (strong, nonatomic) DDPPlayerConfigPanelView *configPanelView;
-//字幕视图
-@property (strong, nonatomic) DDPPlayerSubTitleIndexView *subTitleIndexView;
-//左边弹出来的匹配视图
-@property (strong, nonatomic) DDPPlayerMatchView *matchNoticeView;
-//上次播放时间
-@property (strong, nonatomic) DDPPlayerNoticeView *lastTimeNoticeView;
-//音量控制视图
-@property (strong, nonatomic) DDPControlView *volumeControlView;
-//亮度控制视图
-@property (strong, nonatomic) DDPControlView *brightnessControlView;
+/**
+ 是否显示
+ */
 @property (assign, nonatomic, readonly, getter=isShow) BOOL show;
+
+
+/**
+ 视频模型
+ */
+@property (strong, nonatomic) DDPVideoModel *model;
 
 
 /**
@@ -66,5 +85,19 @@
  */
 - (void)dismissWithAnimate:(BOOL)flag;
 
-- (void)resetTimer;
+/**
+ 更新UI状态
+
+ @param currentTime 当前时间
+ @param totalTime 总时间
+ @param progress 进度
+ */
+- (void)updateCurrentTime:(NSString *)currentTime totalTime:(NSString *)totalTime progress:(CGFloat)progress;
+
+/**
+ 更新状态
+
+ @param status 播放器状态
+ */
+- (void)updateWithPlayerStatus:(DDPMediaPlayerStatus)status;
 @end

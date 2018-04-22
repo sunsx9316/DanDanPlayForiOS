@@ -32,47 +32,30 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DDPVideoModel+Tools.h"
 
-static const float slowRate = 0.05f;
-static const float normalRate = 0.2f;
-static const float fastRate = 0.6f;
-
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
-#define HUD_TAG 10086
-
-typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
-    InterfaceViewPanTypeInactive,
-    InterfaceViewPanTypeProgress,
-    InterfaceViewPanTypeVolume,
-    InterfaceViewPanTypeLight,
-};
 
 @interface DDPPlayerViewController ()<DDPMediaPlayerDelegate, JHDanmakuEngineDelegate, DDPPlayerConfigPanelViewDelegate, DDPPlayerInterfaceViewDelegate, DDPCacheManagerDelagate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) DDPPlayerInterfaceView *interfaceView;
 @property (strong, nonatomic) DDPMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
-@property (strong, nonatomic) DDPVolumeView *mpVolumeView;
-
-//上次滑动时间
-@property (strong, nonatomic) NSDate *lastPanDate;
 @end
 
 @implementation DDPPlayerViewController
 {
-    //进度条是否不响应通知
-    BOOL _isSliderNoActionNotice;
     NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*> *_danmakuDic;
     NSInteger _currentTime;
-    //滑动速率
-    float _sliderRate;
-    InterfaceViewPanType _panType;
+    
     NSOperationQueue *_queue;
     NSLock *_lock;
     //当前弹幕屏蔽标志 因为可以实时修改屏蔽的弹幕 所以需要设置唯一的标志
     NSInteger _danmakuParseFlag;
-    //记录滑动手势刚开始点击的位置
-    CGPoint _panGestureTouchPoint;
+    //kvo监听的属性
     NSArray <NSString *>*_addKeyPaths;
+    //播放器是否正在播放
+    BOOL _isPlay;
+    //进入后台时保存当前播放器时间
+    NSInteger _cacheCurrentTime;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -97,7 +80,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return !_interfaceView.isShow;
+    if (self.viewIfLoaded == false) {
+        return false;
+    }
+    return !self.interfaceView.isShow;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -118,7 +104,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 //x自动隐藏底下的指示条
 - (BOOL)prefersHomeIndicatorAutoHidden {
-    return !_interfaceView.isShow;
+    if (self.viewIfLoaded == false) {
+        return false;
+    }
+    return !self.interfaceView.isShow;
 }
 
 - (void)viewDidLoad {
@@ -129,10 +118,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     _queue = [[NSOperationQueue alloc] init];
     _currentTime = -1;
     _danmakuParseFlag = [NSDate date].hash;
-    _panGestureTouchPoint = CGPointZero;
-    //加入最底层
-    [self.view addSubview:self.mpVolumeView];
     
+    [self.view addSubview:self.player.mediaView];
+    [self.view insertSubview:self.danmakuEngine.canvas aboveSubview:self.player.mediaView];
+    [self.view addSubview:self.interfaceView];
     
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
         if ([DDPCacheManager shareCacheManager].subtitleProtectArea) {
@@ -155,13 +144,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //添加一堆监听
     [self addNotice];
     
+    //刷新
     [self reload];
-}
-
-- (void)appWillResignActive:(NSNotification *)sender {
-    if (self.player.isPlaying) {
-        [self.player pause];
-    }
 }
 
 - (void)dealloc {
@@ -175,9 +159,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
     }];
-    
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession removeObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume)];
     
     _lock = nil;
 }
@@ -215,30 +196,15 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             }
         }];
     }
-    //物理按键调节音量
-    else if ([keyPath isEqualToString:DDP_KEYPATH([AVAudioSession sharedInstance], outputVolume)]) {
-        
-        if (self->_lastPanDate != nil) return;
-        
-        CGFloat volume = [change[NSKeyValueChangeNewKey] floatValue];
-        
-        if (self.interfaceView.volumeControlView.isShowing == NO) {
-            [self.interfaceView.volumeControlView showFromView:self.view];
-        }
-        
-        [self.interfaceView.volumeControlView dismissAfter:1];
-        self.interfaceView.volumeControlView.progress = volume;
-    }
 }
 
 - (void)setModel:(DDPVideoModel *)model {
-    
     DDPVideoModel *oldVideoModel = _model;
     //保存上次播放时间
     _model = model;
     [DDPCacheManager shareCacheManager].currentPlayVideoModel = _model;
     
-    if (self.isViewLoaded) {
+    if (self.viewIfLoaded) {
         [[DDPCacheManager shareCacheManager] saveLastPlayTime:self.player.currentTime videoModel:oldVideoModel];
         
         [self reload];
@@ -248,25 +214,20 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 #pragma mark - DDPMediaPlayerDelegate
 - (void)mediaPlayer:(DDPMediaPlayer *)player progress:(float)progress currentTime:(NSString *)currentTime totalTime:(NSString *)totalTime {
-    self.interfaceView.currentTimeLabel.text = currentTime;
-    self.interfaceView.totalTimeLabel.text = totalTime;
-    if (_isSliderNoActionNotice == NO) {
-        self.interfaceView.progressSlider.value = progress;
-    }
+    [self.interfaceView updateCurrentTime:currentTime totalTime:totalTime progress:progress];
 }
 
 - (void)mediaPlayer:(DDPMediaPlayer *)player statusChange:(DDPMediaPlayerStatus)status {
+    [self.interfaceView updateWithPlayerStatus:status];
+    
     switch (status) {
         case DDPMediaPlayerStatusPlaying:
         {
-            self.interfaceView.playButton.selected = NO;
             [self.danmakuEngine start];
         }
             break;
-        case DDPMediaPlayerStatusStop:
+        case DDPMediaPlayerStatusNextEpisode:
         {
-            //防止中途终止
-            if (fabs(player.currentTime - player.length) > 2) break;
             
             DDPPlayerPlayMode mode = [DDPCacheManager shareCacheManager].playMode;
             //单集循环
@@ -285,7 +246,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                     for (NSInteger i = 0; i < count; ++i) {
                         currentFile = parentFile.subFiles[(i + 1 + index) % count];
                         if (currentFile.type == DDPFileTypeDocument && ddp_isVideoFile(currentFile.fileURL.absoluteString)) {
-                            [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
+                            [self playerConfigPanelView:nil didSelectedModel:currentFile.videoModel];
                             return;
                         }
                     }
@@ -301,7 +262,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                     for (NSInteger i = index + 1; i < count; ++i) {
                         currentFile = parentFile.subFiles[i];
                         if (currentFile.type == DDPFileTypeDocument && ddp_isVideoFile(currentFile.fileURL.absoluteString)) {
-                            [self playerConfigPanelView:self.interfaceView.configPanelView didSelectedModel:currentFile.videoModel];
+                            [self playerConfigPanelView:nil didSelectedModel:currentFile.videoModel];
                             return;
                         }
                     }
@@ -310,7 +271,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         }
             break;
         default:
-            self.interfaceView.playButton.selected = YES;
             [self.danmakuEngine pause];
             break;
     }
@@ -379,6 +339,85 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }
     
     return !danmaku.filter;
+}
+
+#pragma mark - DDPPlayerInterfaceViewDelegate
+- (void)interfaceViewDidTouchSendDanmakuButton {
+    
+    DDPPlayerSendDanmakuViewController *vc = [[DDPPlayerSendDanmakuViewController alloc] init];
+    @weakify(self)
+    vc.sendDanmakuCallBack = ^(UIColor *color, DDPDanmakuMode mode, NSString *text) {
+        @strongify(self)
+        if (!self) return;
+        
+        if (text.length) {
+            NSUInteger episodeId = self.model.identity;
+            if (episodeId == 0) {
+                episodeId = self.model.relevanceEpisodeId;
+            }
+            
+            if (episodeId == 0) return;
+            
+            DDPUser *user = [DDPCacheManager shareCacheManager].user;
+            
+            DDPDanmaku *danmaku = [[DDPDanmaku alloc] init];
+            
+            danmaku.color = ddp_danmakuColor(color);
+            danmaku.time = self.player.currentTime;
+            danmaku.mode = mode;
+            danmaku.token = user.token;
+            danmaku.userId = user.identity;
+            danmaku.message = text;
+            //隐藏UI
+            [self.interfaceView dismissWithAnimate:YES];
+            //发射弹幕
+            [DDPCommentNetManagerOperation launchDanmakuWithModel:danmaku episodeId:episodeId completionHandler:^(NSError *error) {
+                if (error) {
+                    [self.view showWithText:@"发送失败"];
+                }
+                else {
+                    [self.view showWithText:@"发送成功"];
+                    JHBaseDanmaku *sendDanmaku = [DDPDanmakuManager converDanmaku:danmaku];
+                    sendDanmaku.sendByUserId = [[NSDate date] timeIntervalSince1970];
+                    
+                    NSUInteger appearTime = (NSInteger)sendDanmaku.appearTime;
+                    if (_danmakuDic[@(appearTime)] == nil) {
+                        _danmakuDic[@(appearTime)] = [NSMutableArray array];
+                    }
+                    [_danmakuDic[@(appearTime)] appendObject:sendDanmaku];
+                    [self.danmakuEngine sendDanmaku:sendDanmaku];
+                }
+            }];
+        }
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)interfaceView:(DDPPlayerInterfaceView *)view touchSliderWithTime:(int)time {
+    [self asynFilterDanmakuWithTime:time];
+}
+
+- (void)interfaceView:(DDPPlayerInterfaceView *)view touchDanmakuVisiableButton:(BOOL)visiable {
+    self.danmakuEngine.canvas.hidden = !visiable;
+}
+
+- (void)interfaceViewDidTapSubTitleIndexEmptyView {
+    @weakify(self)
+    [self pickFileWithType:PickerFileTypeSubtitle selectedFileCallBack:^(__kindof DDPFile *aFile) {
+        @strongify(self)
+        if (!self) return;
+        
+        if ([aFile isKindOfClass:[DDPSMBFile class]]) {
+            [self downloadSubtitleFile:aFile];
+        }
+        else {
+            [self.player openVideoSubTitlesFromFile:aFile.fileURL];
+        }
+    }];
+}
+
+- (void)interfaceViewDidTouchCustomMatchButton {
+    [self playerConfigPanelViewDidTouchMatchCell];
 }
 
 #pragma mark - DDPPlayerConfigPanelViewDelegate
@@ -481,112 +520,17 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - DDPPlayerInterfaceViewDelegate
-- (void)interfaceViewDidTouchSendDanmakuButton {
-    
-    DDPPlayerSendDanmakuViewController *vc = [[DDPPlayerSendDanmakuViewController alloc] init];
-    @weakify(self)
-    vc.sendDanmakuCallBack = ^(UIColor *color, DDPDanmakuMode mode, NSString *text) {
-        @strongify(self)
-        if (!self) return;
-        
-        if (text.length) {
-            NSUInteger episodeId = self.model.identity;
-            if (episodeId == 0) {
-                episodeId = self.model.relevanceEpisodeId;
-            }
-            
-            if (episodeId == 0) return;
-            
-            DDPUser *user = [DDPCacheManager shareCacheManager].user;
-            
-            DDPDanmaku *danmaku = [[DDPDanmaku alloc] init];
-            
-            danmaku.color = ddp_danmakuColor(color);
-            danmaku.time = self.player.currentTime;
-            danmaku.mode = mode;
-            danmaku.token = user.token;
-            danmaku.userId = user.identity;
-            danmaku.message = text;
-            //隐藏UI
-            [self.interfaceView dismissWithAnimate:YES];
-            //发射弹幕
-            [DDPCommentNetManagerOperation launchDanmakuWithModel:danmaku episodeId:episodeId completionHandler:^(NSError *error) {
-                if (error) {
-                    [self.view showWithText:@"发送失败"];
-                }
-                else {
-                    [self.view showWithText:@"发送成功"];
-                    JHBaseDanmaku *sendDanmaku = [DDPDanmakuManager converDanmaku:danmaku];
-                    sendDanmaku.sendByUserId = [[NSDate date] timeIntervalSince1970];
-                    
-                    NSUInteger appearTime = (NSInteger)sendDanmaku.appearTime;
-                    if (_danmakuDic[@(appearTime)] == nil) {
-                        _danmakuDic[@(appearTime)] = [NSMutableArray array];
-                    }
-                    [_danmakuDic[@(appearTime)] appendObject:sendDanmaku];
-                    [self.danmakuEngine sendDanmaku:sendDanmaku];
-                }
-            }];
-        }
-    };
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizer:(UIPanGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    //记录滑动手势一开始点击的位置
-    _panGestureTouchPoint = [touch locationInView:self.view];
-    return YES;
-}
-
 #pragma mark - 私有方法
 - (void)reload {
     //转换弹幕
     _danmakuDic = [DDPDanmakuManager converDanmakus:_model.danmakus.collection filter:NO];
     [self asynFilterDanmakuWithTime:0];
     
-    self.interfaceView.titleLabel.text = _model.name;
     //更换视频
     [self.player setMediaURL:_model.fileURL];
     self.danmakuEngine.currentTime = 0;
     
-    {
-        //设置匹配名称
-        NSString *matchName = _model.matchName;
-        //弹幕匹配数量
-        NSString *danmakuCountStr = ({
-            __block NSInteger danmakuCount = 0;
-            [_danmakuDic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
-                danmakuCount += obj.count;
-            }];
-            [NSString stringWithFormat:@"共%ld条弹幕", danmakuCount];
-        });
-        
-        if (matchName.length) {
-            [self.interfaceView.matchNoticeView.titleButton setTitle:[matchName stringByAppendingFormat:@"\n%@", danmakuCountStr] forState:UIControlStateNormal];
-        }
-        else {
-            [self.interfaceView.matchNoticeView.titleButton setTitle:danmakuCountStr forState:UIControlStateNormal];
-        }
-        [self.interfaceView.matchNoticeView show];
-        
-    }
-    
-    //设置上次播放时间
-    NSInteger lastPlayTime = _model.lastPlayTime;
-    
-    if (lastPlayTime > 0) {
-        [self.interfaceView.lastTimeNoticeView.titleButton setTitle:[NSString stringWithFormat:@"点击继续观看: %@", ddp_mediaFormatterTime((int)lastPlayTime)] forState:UIControlStateNormal];
-        @weakify(self)
-        [self.interfaceView.lastTimeNoticeView.titleButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
-            @strongify(self)
-            if (!self) return;
-            
-            [self.player jump:(int)lastPlayTime completionHandler:nil];
-        }];
-        [self.interfaceView.lastTimeNoticeView show];
-    }
+    self.interfaceView.model = _model;
     
     DDPSMBFile *file = _model.file;
     DDPSMBFile *parentFile = file.parentFile;
@@ -861,12 +805,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 }
 
 - (void)addNotice {
-    //监听音量变化
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setActive:YES error:nil];
-    [audioSession addObserver:self forKeyPath:DDP_KEYPATH(audioSession, outputVolume) options:NSKeyValueObservingOptionNew context:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     _addKeyPaths = @[DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed),
@@ -879,253 +821,63 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     }];
 }
 
-#pragma mark UI
-
-- (void)touchBackButton:(UIButton *)sender {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)touchPlayButton {
-    if ([self.player isPlaying]) {
+- (void)appWillResignActive:(NSNotification *)sender {
+    //本地视频不需要特殊处理
+    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
+        _isPlay = self.player.isPlaying;
         [self.player pause];
     }
     else {
+        _isPlay = self.player.isPlaying;
+        
+        _cacheCurrentTime = self.player.currentTime;
+        DDLogVerbose(@"退到后台保存时间：%@", ddp_mediaFormatterTime(_cacheCurrentTime));
+        
+        [[DDPCacheManager shareCacheManager] saveLastPlayTime:_currentTime videoModel:self.model];
+        [self.player setMediaURL:_model.fileURL];
+        [self.player stop];
+    }
+}
+
+- (void)appDidBecomeActive:(NSNotification *)sender {
+    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
+        if (_isPlay) {
+            [self.player play];
+        }
+    }
+    else {
+        NSInteger time = _cacheCurrentTime;
+        
+        DDLogVerbose(@"回到前台获取的时间：%@", ddp_mediaFormatterTime(time));
+        
+        //更换视频
+        [self.player setMediaURL:self.model.fileURL];
+        [self.player synchronousParse];
         [self.player play];
-    }
-}
-
-- (void)touchSliderDown:(UISlider *)slider {
-    _isSliderNoActionNotice = YES;
-}
-
-- (void)touchSliderUp:(UISlider *)slider {
-    @weakify(self)
-    [self.player setPosition:slider.value completionHandler:^(NSTimeInterval time) {
-        @strongify(self)
-        if (!self) return;
         
-        self->_isSliderNoActionNotice = NO;
-        [self asynFilterDanmakuWithTime:time];
-        MBProgressHUD *aHUD = [self.view viewWithTag:HUD_TAG];
-        [aHUD hideAnimated:YES];
-    }];
-}
-
-- (void)touchSlider:(UISlider *)slider {
-    MBProgressHUD *aHUD = [self.view viewWithTag:HUD_TAG];
-    if (aHUD == nil) {
-        aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeDeterminateHorizontalBar InView:self.view];
-        aHUD.label.numberOfLines = 0;
-        aHUD.tag = HUD_TAG;
-    }
-    
-    int length = [self.player length];
-    NSString *time = [NSString stringWithFormat:@"%@/%@", ddp_mediaFormatterTime(length * slider.value), ddp_mediaFormatterTime(length)];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:time attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont], NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    NSString *speed = nil;
-    if (_sliderRate == slowRate) {
-        speed = @"\n慢速";
-    }
-    else if (_sliderRate == normalRate) {
-        speed = @"\n中速";
-    }
-    else {
-        speed = @"\n快速";
-    }
-    
-    [str appendAttributedString:[[NSAttributedString alloc] initWithString:speed attributes:@{NSFontAttributeName : [UIFont ddp_smallSizeFont], NSForegroundColorAttributeName : [UIColor whiteColor]}]];
-    aHUD.label.attributedText = str;
-    aHUD.progress = slider.value;
-    
-    [self.interfaceView resetTimer];
-}
-
-- (void)touchSwitch:(UISwitch *)sender {
-    self.danmakuEngine.canvas.hidden = !sender.on;
-}
-
-- (void)touchSubTitleIndexButton {
-    [self.interfaceView endEditing:YES];
-    self.interfaceView.subTitleIndexView.currentVideoSubTitleIndex = self.player.currentSubtitleIndex;
-    self.interfaceView.subTitleIndexView.videoSubTitlesIndexes = self.player.subtitleIndexs;
-    self.interfaceView.subTitleIndexView.videoSubTitlesNames = self.player.subtitleTitles;
-    [self.interfaceView.subTitleIndexView show];
-}
-
-- (void)touchScreenShotButton:(UIButton *)sender {
-    sender.alpha = 0.2;
-    [self.interfaceView.screenShotIndicatorView startAnimating];
-    [self.player saveVideoSnapshotwithSize:CGSizeZero completionHandler:^(UIImage *image, NSError *error) {
-        [self.interfaceView.screenShotIndicatorView stopAnimating];
-        sender.alpha = 1;
         
-        if (error) {
-            [self.view showWithText:@"截图失败!"];
-        }
-        else {
-            [self.view showWithText:@"截图成功!"];
-        }
-    }];
-}
-
-- (void)panScreen:(UIPanGestureRecognizer *)panGesture {
-    UIGestureRecognizerState state = panGesture.state;
-    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled || state == UIGestureRecognizerStateFailed) {
-        if (_panType == InterfaceViewPanTypeProgress) {
-            [self touchSliderUp:self.interfaceView.progressSlider];
-        }
-        
-        _panType = InterfaceViewPanTypeInactive;
-        [self.interfaceView.brightnessControlView dismiss];
-        [self.interfaceView.volumeControlView dismiss];
-    }
-    else {
-        if (_panType == InterfaceViewPanTypeInactive) {
-            CGPoint point = [panGesture locationInView:nil];
+        //延迟一会 把时间调整到之前的位置
+        @weakify(self)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            @strongify(self)
+            if (!self) return;
             
-            CGPoint tempPoint = CGPointMake(point.x - _panGestureTouchPoint.x, point.y - _panGestureTouchPoint.y);
-            //横向移动
-            if (fabs(tempPoint.y) < 4.5) {
-                //让slider不响应进度更新
-                _panType = InterfaceViewPanTypeProgress;
-                [self touchSliderDown:self.interfaceView.progressSlider];
-            }
-            //亮度调节
-            else if (point.x < self.view.width / 2) {
-                _panType = InterfaceViewPanTypeLight;
-                [self.interfaceView.brightnessControlView showFromView:self.view];
-            }
-            //音量调节
-            else {
-                _panType = InterfaceViewPanTypeVolume;
-                [self.interfaceView.volumeControlView showFromView:self.view];
-            }
-        }
-        //进度调节
-        else if (_panType == InterfaceViewPanTypeProgress) {
-            float y = [panGesture locationInView:self.view].y;
-            if (y >= 0 && y <= self.view.height / 3) {
-                _sliderRate = slowRate;
-            }
-            else if (y >= self.view.height / 3 && y <= self.view.height * 2 / 3) {
-                _sliderRate = normalRate;
-            }
-            else {
-                _sliderRate = fastRate;
-            }
+            [self.player setCurrentTime:time completionHandler:nil];
+            self.danmakuEngine.currentTime = time;
             
-            float x = self.player.position + ([panGesture translationInView:nil].x / self.view.width) * _sliderRate;
-            self.interfaceView.progressSlider.value = x;
-            [self touchSlider:self.interfaceView.progressSlider];
-        }
-        //亮度和音量调节
-        else {
-            float rate = -[panGesture translationInView:nil].y;
-            [panGesture setTranslation:CGPointZero inView:nil];
-            rate /= self.view.height;
-            
-            //改变系统音量
-            if (_panType == InterfaceViewPanTypeVolume) {
-                if (_lastPanDate == nil || fabs([_lastPanDate timeIntervalSinceDate:[NSDate date]]) > 0.015) {
-                    CGFloat value = self.interfaceView.volumeControlView.progress + rate;
-                    self.interfaceView.volumeControlView.progress = value;
-                    self.mpVolumeView.ddp_volume = value;
-                    _lastPanDate = [NSDate date];
-                    [self.interfaceView.volumeControlView resetTimer];
-                }
+            if (self->_isPlay == false) {
+                [self.player pause];
+                [self.danmakuEngine pause];
             }
-            else {
-                float brightness = [UIScreen mainScreen].brightness;
-                brightness += rate;
-                self.interfaceView.brightnessControlView.progress = brightness;
-                [[UIScreen mainScreen] setBrightness:brightness];
-            }
-        }
+        });
     }
 }
-
-- (void)tapGesture:(UITapGestureRecognizer *)sender {
-    if (self.interfaceView.isShow) {
-        [self.interfaceView dismissWithAnimate:YES];
-    }
-    else {
-        [self.interfaceView showWithAnimate:YES];
-    }
-}
-
 
 #pragma mark - 懒加载
 - (DDPPlayerInterfaceView *)interfaceView {
     if (_interfaceView == nil) {
-        _interfaceView = [[DDPPlayerInterfaceView alloc] initWithFrame:self.view.bounds];
-        [_interfaceView.backButton addTarget:self action:@selector(touchBackButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_interfaceView.playButton addTarget:self action:@selector(touchPlayButton) forControlEvents:UIControlEventTouchUpInside];
-        [_interfaceView.progressSlider addTarget:self action:@selector(touchSliderDown:) forControlEvents:UIControlEventTouchDown];
-        [_interfaceView.progressSlider addTarget:self action:@selector(touchSliderUp:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchCancel];
-        [_interfaceView.progressSlider addTarget:self action:@selector(touchSlider:) forControlEvents:UIControlEventValueChanged];
-        [_interfaceView.danmakuHideSwitch addTarget:self action:@selector(touchSwitch:) forControlEvents:UIControlEventValueChanged];
-        [_interfaceView.subTitleIndexButton addTarget:self action:@selector(touchSubTitleIndexButton) forControlEvents:UIControlEventTouchUpInside];
-        [_interfaceView.screenShotButton addTarget:self action:@selector(touchScreenShotButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        _interfaceView.configPanelView.delegate = self;
+        _interfaceView = [[DDPPlayerInterfaceView alloc] initWithPlayer:self.player frame:[UIScreen mainScreen].bounds];
         _interfaceView.delegate = self;
-        
-        //手势
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-        tapGesture.numberOfTapsRequired = 1;
-        [_interfaceView.gestureView addGestureRecognizer:tapGesture];
-        
-        UITapGestureRecognizer *pauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchPlayButton)];
-        pauseGesture.numberOfTapsRequired = 2;
-        [_interfaceView.gestureView addGestureRecognizer:pauseGesture];
-        [tapGesture requireGestureRecognizerToFail:pauseGesture];
-        
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScreen:)];
-        panGesture.delegate = self;
-        [_interfaceView.gestureView addGestureRecognizer:panGesture];
-        
-        //字幕视图
-        @weakify(self)
-        [_interfaceView.subTitleIndexView setSelectedIndexCallBack:^(int index) {
-            @strongify(self)
-            if (!self) return;
-            
-            self.player.currentSubtitleIndex = index;
-        }];
-        
-        [_interfaceView.subTitleIndexView setDidTapEmptyViewCallBack:^{
-            @strongify(self)
-            if (!self) return;
-            
-            [self pickFileWithType:PickerFileTypeSubtitle selectedFileCallBack:^(__kindof DDPFile *aFile) {
-                @strongify(self)
-                if (!self) return;
-                
-                if ([aFile isKindOfClass:[DDPSMBFile class]]) {
-                    [self downloadSubtitleFile:aFile];
-                }
-                else {
-                    [self.player openVideoSubTitlesFromFile:aFile.fileURL];
-                }
-            }];
-        }];
-        
-        _interfaceView.volumeControlView.dismissCallBack = ^(BOOL finish) {
-            @strongify(self)
-            if (!self) return;
-            
-            self.lastPanDate = nil;
-        };
-        
-        [_interfaceView.matchNoticeView.customMathButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
-            @strongify(self)
-            if (!self) return;
-            
-            [self playerConfigPanelViewDidTouchMatchCell];
-        }];
-        
-        [self.view addSubview:_interfaceView];
     }
     return _interfaceView;
 }
@@ -1135,16 +887,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         _player = [[DDPMediaPlayer alloc] init];
         _player.delegate = self;
         [DDPCacheManager shareCacheManager].mediaPlayer = _player;
-        [self.view addSubview:_player.mediaView];
     }
     return _player;
-}
-
-- (DDPVolumeView *)mpVolumeView {
-    if (_mpVolumeView == nil) {
-        _mpVolumeView = [[DDPVolumeView alloc] init];
-    }
-    return _mpVolumeView;
 }
 
 - (JHDanmakuEngine *)danmakuEngine {
@@ -1154,7 +898,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         [_danmakuEngine setSpeed:[DDPCacheManager shareCacheManager].danmakuSpeed];
         _danmakuEngine.canvas.alpha = [DDPCacheManager shareCacheManager].danmakuOpacity;
         _danmakuEngine.limitCount = [DDPCacheManager shareCacheManager].danmakuLimitCount;
-        [self.view insertSubview:_danmakuEngine.canvas aboveSubview:self.player.mediaView];
     }
     return _danmakuEngine;
 }
