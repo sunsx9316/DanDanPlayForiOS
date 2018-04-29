@@ -9,6 +9,10 @@
 #import "DDPPlayerMatchView.h"
 #import "DDPEdgeButton.h"
 
+@interface DDPPlayerMatchView ()
+@property (strong, nonatomic) UIButton *customMathButton;
+@end
+
 @implementation DDPPlayerMatchView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -16,7 +20,7 @@
         
         [self.customMathButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
-            make.left.equalTo(self.titleButton.mas_right).mas_offset(8);
+            make.left.equalTo(self.titleLabel.mas_right).mas_offset(8);
         }];
         
         [self.closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -26,6 +30,13 @@
         }];
     }
     return self;
+}
+
+#pragma mark - 私有方法
+- (void)touchCustomMathButton:(UIButton *)button {
+    if (self.touchMatchButtonCallBack) {
+        self.touchMatchButtonCallBack();
+    }
 }
 
 #pragma mark - 懒加载
@@ -41,7 +52,7 @@
         _customMathButton.layer.cornerRadius = 6;
         _customMathButton.layer.masksToBounds = YES;
         
-        [_customMathButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+        [_customMathButton addTarget:self action:@selector(touchCustomMathButton:) forControlEvents:UIControlEventTouchUpInside];
         [_customMathButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_customMathButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [self addSubview:_customMathButton];

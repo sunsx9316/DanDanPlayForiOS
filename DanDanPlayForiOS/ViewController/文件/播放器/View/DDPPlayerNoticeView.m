@@ -11,6 +11,7 @@
 
 @interface DDPPlayerNoticeView ()
 @property (strong, nonatomic) NSTimer *timer;
+
 @end
 
 @implementation DDPPlayerNoticeView
@@ -21,7 +22,7 @@
         self.alpha = 0;
         _autoDismissTime = 4;
         
-        [self.titleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.mas_offset(5);
             make.bottom.mas_offset(-5);
             make.width.mas_lessThanOrEqualTo(DDP_WIDTH * 0.4);
@@ -30,7 +31,7 @@
         [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
             make.right.mas_offset(-5);
-            make.left.equalTo(self.titleButton.mas_right).mas_offset(5);
+            make.left.equalTo(self.titleLabel.mas_right).mas_offset(5);
         }];
     }
     return self;
@@ -38,6 +39,14 @@
 
 - (instancetype)init {
     return [self initWithFrame:CGRectZero];
+}
+
+- (void)setTitle:(NSString *)title {
+    self.titleLabel.text = title;
+}
+
+- (NSString *)title {
+    return self.titleLabel.text;
 }
 
 - (void)show {
@@ -78,25 +87,34 @@
     }];
 }
 
-- (void)touchTitleButton:(UIButton *)button {
+- (void)touchTitleButton {
     [self dismiss];
-    if ([self.delegate respondsToSelector:@selector(playerNoticeViewDidTouchButton)]) {
-        [self.delegate playerNoticeViewDidTouchButton];
+    if (self.touchTitleCallBack) {
+        self.touchTitleCallBack();
+    }
+}
+
+- (void)touchCloseButton {
+    [self dismiss];
+    if (self.touchCloseButtonCallBack) {
+        self.touchCloseButtonCallBack();
     }
 }
 
 #pragma mark - 懒加载
-- (UIButton *)titleButton {
-    if (_titleButton == nil) {
-        _titleButton = [[UIButton alloc] init];
-        _titleButton.titleLabel.font = [UIFont ddp_smallSizeFont];
-        _titleButton.titleLabel.numberOfLines = 0;
-        _titleButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        [_titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_titleButton addTarget:self action:@selector(touchTitleButton:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_titleButton];
+
+- (UILabel *)titleLabel {
+    if (_titleLabel == nil) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.font = [UIFont ddp_smallSizeFont];
+        _titleLabel.numberOfLines = 0;
+        _titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.userInteractionEnabled = true;
+        [_titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTitleButton)]];
+        [self addSubview:_titleLabel];
     }
-    return _titleButton;
+    return _titleLabel;
 }
 
 - (UIButton *)closeButton {
@@ -105,7 +123,7 @@
         aButton.inset = CGSizeMake(10, 8);
         _closeButton = aButton;
         [_closeButton setImage:[UIImage imageNamed:@"player_close_button"] forState:UIControlStateNormal];
-        [_closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+        [_closeButton addTarget:self action:@selector(touchCloseButton) forControlEvents:UIControlEventTouchUpInside];
         [_closeButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_closeButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [self addSubview:_closeButton];

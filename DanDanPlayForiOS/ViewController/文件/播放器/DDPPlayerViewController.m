@@ -261,7 +261,8 @@
                     //找到下一个是视频的模型
                     for (NSInteger i = index + 1; i < count; ++i) {
                         currentFile = parentFile.subFiles[i];
-                        if (currentFile.type == DDPFileTypeDocument && ddp_isVideoFile(currentFile.fileURL.absoluteString)) {
+                        NSString *path = currentFile.fileURL.absoluteString;
+                        if (currentFile.type == DDPFileTypeDocument && (ddp_isVideoFile(path) || [path hasPrefix:@"http"])) {
                             [self playerConfigPanelView:nil didSelectedModel:currentFile.videoModel];
                             return;
                         }
