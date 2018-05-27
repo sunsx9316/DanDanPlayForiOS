@@ -337,7 +337,9 @@
             }
         }];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:DELETE_FILE_SUCCESS_NOTICE object:nil];
+        [self.tableView reloadData];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:DELETE_FILE_SUCCESS_NOTICE object:self];
         [self touchCancelButton:nil];
     }]];
     
@@ -354,6 +356,10 @@
 }
 
 - (void)deleteFileSuccess:(NSNotification *)aSender {
+    if (aSender.object == self) {
+        return;
+    }
+    
     if (ddp_isRootFile(self.file)) {
         if (self.tableView.mj_header.refreshingBlock) {
             self.tableView.mj_header.refreshingBlock();

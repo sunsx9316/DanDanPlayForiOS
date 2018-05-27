@@ -300,7 +300,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 + (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <DDPFilter *>*)danmakuFilters {
     for (DDPFilter *filter in danmakuFilters) {
         //使用正则表达式
-        if (filter.isRegex) {
+        if (filter.isRegex && filter.content.length > 0) {
             if ([content matchesRegex:filter.content options:NSRegularExpressionCaseInsensitive]) {
                 return YES;
             }

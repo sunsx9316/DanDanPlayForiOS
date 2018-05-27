@@ -22,9 +22,6 @@
 @end
 
 @implementation DDPLinkFileManagerViewController
-{
-    BOOL _observeLinkInfo;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,8 +34,6 @@
     
     if (ddp_isRootFile(self.file)) {
         self.navigationItem.title = @"根目录";
-        [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:@"linkInfo" options:NSKeyValueObservingOptionNew context:nil];
-        _observeLinkInfo = YES;
         [self.tableView.mj_header beginRefreshing];
     }
     else {
@@ -49,9 +44,6 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[DDPCacheManager shareCacheManager] removeObserver:self];
-    if (_observeLinkInfo) {
-        [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:@"linkInfo"];
-    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {

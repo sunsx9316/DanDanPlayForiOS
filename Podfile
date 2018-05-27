@@ -10,7 +10,6 @@ target 'DanDanPlayForiOS' do
     # Pods for DanDanPlayForiOS
     
     pod 'DDPEncrypt', :path => 'LocalVender/Encrypt'
-    pod 'JSPatch', :path => 'LocalVender/JSPatch'
     
     # 集成新浪微博
     pod 'UMengUShare/Social/ReducedSina'
@@ -42,5 +41,6 @@ target 'DanDanPlayForiOS' do
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
     pod 'WCDB'
+    pod 'BayMaxProtector'
     
 end
