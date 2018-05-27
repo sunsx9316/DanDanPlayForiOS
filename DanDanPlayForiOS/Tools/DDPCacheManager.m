@@ -16,40 +16,11 @@
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
 static NSString *const collectionCacheKey = @"collection_cache";
-//static NSString *const userSaveKey = @"login_user";
-//static NSString *const lastLoginUserKey = @"last_login_user";
-//static NSString *const danmakuCacheTimeKey = @"damaku_cache_time";
-//static NSString *const autoRequestThirdPartyDanmakuKey = @"auto_request_third_party_danmaku";
-//static NSString *const openFastMatchKey = @"open_fast_match";
-//static NSString *const danmakuFontKey = @"danmaku_font";
-//static NSString *const danmakuOpacityKey = @"danmaku_opacity";
-//static NSString *const danmakuShadowStyleKey = @"danmaku_shadow_style";
-//static NSString *const subtitleProtectAreaKey = @"subtitle_protect_area";
-//static NSString *const danmakuSpeedKey = @"danmaku_speed";
-//static NSString *const playerPlayKey = @"player_play";
-//static NSString *const folderCacheKey = @"folder_cache";
-//static NSString *const SMBLoginKey = @"SMB_login";
-//static NSString *const lastPlayTimeKey = @"last_play_time";
-//static NSString *const openAutoDownloadSubtitleKey = @"open_auto_download_subtitle";
-//static NSString *const priorityLoadLocalDanmakuKey = @"priority_load_local_danmaku";
-//static NSString *const showDownloadStatusViewKey = @"show_down_load_status_view";
-//static NSString *const sendDanmakuColorKey = @"send_danmaku_color";
-//static NSString *const sendDanmakuModeKey = @"send_danmaku_mode";
-//static NSString *const playInterfaceOrientationKey = @"play_interface_orientation";
-//static NSString *const danmakuLimitCountKey = @"danmaku_limit_count";
-//static NSString *const useTouchIdLoginKey = @"use_touch_id_login";
-
-//NSString *const videoNameKey = @"video_name";
-//NSString *const videoEpisodeIdKey = @"video_episode_id";
 
 
 @interface DDPCacheManager ()<TOSMBSessionDownloadTaskDelegate>
 @property (strong, nonatomic) YYCache *cache;
-//@property (strong, nonatomic) YYCache *episodeInfoCache;
-//@property (strong, nonatomic) YYCache *lastPlayTimeCache;
-//@property (strong, nonatomic) YYCache *smbFileHashCache;
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, YYWebImageManager *>*imageManagerDic;
-//@property (strong, nonatomic) NSMutableArray <TOSMBSessionDownloadTask *>*aDownloadTasks;
 @property (strong, nonatomic) NSMutableArray <DDPFilter *>*aFilterCollection;
 @property (strong, nonatomic) NSTimer *timer;
 
@@ -58,7 +29,6 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 @implementation DDPCacheManager
 {
-//    NSHashTable *_observers;
     //已经接收的大小
     NSUInteger _totalAlreadyReceive;
 }
@@ -80,27 +50,6 @@ static NSString *const collectionCacheKey = @"collection_cache";
     }
     return _cache;
 }
-
-//- (YYCache *)episodeInfoCache {
-//    if (_episodeInfoCache == nil) {
-//        _episodeInfoCache = [[YYCache alloc] initWithName:@"episode_info_cache"];
-//    }
-//    return _episodeInfoCache;
-//}
-//
-//- (YYCache *)lastPlayTimeCache {
-//    if (_lastPlayTimeCache == nil) {
-//        _lastPlayTimeCache = [[YYCache alloc] initWithName:@"last_play_time_cache"];
-//    }
-//    return _lastPlayTimeCache;
-//}
-//
-//- (YYCache *)smbFileHashCache {
-//    if (_smbFileHashCache == nil) {
-//        _smbFileHashCache = [[YYCache alloc] initWithName:@"smb_file_hash_cache"];
-//    }
-//    return _smbFileHashCache;
-//}
 
 - (NSMutableDictionary<NSNumber *,YYWebImageManager *> *)imageManagerDic {
     if (_imageManagerDic == nil) {
@@ -157,15 +106,15 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 #pragma mark - 
-- (void)setDanmakuShadowStyle:(JHDanmakuShadowStyle)danmakuShadowStyle {
-    [self.cache setObject:@(danmakuShadowStyle) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+- (void)setDanmakuEffectStyle:(JHDanmakuEffectStyle)danmakuEffectStyle {
+    [self.cache setObject:@(danmakuEffectStyle) forKey:[self keyWithSEL:_cmd] withBlock:nil];
 }
 
-- (JHDanmakuShadowStyle)danmakuShadowStyle {
+- (JHDanmakuEffectStyle)danmakuEffectStyle {
     NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
-        num = @(JHDanmakuShadowStyleGlow);
-        self.danmakuShadowStyle = JHDanmakuShadowStyleGlow;
+        num = @(JHDanmakuEffectStyleGlow);
+        self.danmakuEffectStyle = JHDanmakuEffectStyleGlow;
     }
     return [num integerValue];
 }

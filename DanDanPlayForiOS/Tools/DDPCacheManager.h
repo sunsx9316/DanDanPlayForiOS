@@ -104,7 +104,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 /**
  弹幕边缘特效
  */
-@property (assign, nonatomic) JHDanmakuShadowStyle danmakuShadowStyle;
+@property (assign, nonatomic) JHDanmakuEffectStyle danmakuEffectStyle;
 
 /**
  字幕保护区域
