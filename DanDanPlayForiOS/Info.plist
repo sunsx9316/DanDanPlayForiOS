@@ -202,7 +202,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>请允许弹弹play访问您的相机</string>
+	<string>请允许弹弹play访问您的相机扫描二维码</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>请允许弹弹play使用Face Id进行认证</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
