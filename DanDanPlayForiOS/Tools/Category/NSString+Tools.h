@@ -78,4 +78,7 @@
  @return 是否为磁力链
  */
 - (BOOL)isMagnet;
+
+- (NSString *)ddp_appendingPathComponent:(NSString *)str;
+
 @end

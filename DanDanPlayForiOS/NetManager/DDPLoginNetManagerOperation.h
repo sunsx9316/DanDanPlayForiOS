@@ -9,7 +9,7 @@
 #import "DDPBaseNetManager.h"
 #import "DDPUser.h"
 #import "DDPRegisterRequest.h"
-#import "DDPRegisterResponse.h"
+#import "DDPRegisterResult.h"
 
 @interface DDPLoginNetManagerOperation : NSObject
 
@@ -35,7 +35,7 @@
  @return 任务
  */
 + (NSURLSessionDataTask *)loginRegisterWithRequest:(DDPRegisterRequest *)request
-                        completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResponse))completionHandler;
+                        completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResult))completionHandler;
 
 
 /**
@@ -46,7 +46,7 @@
  @return 任务
  */
 + (NSURLSessionDataTask *)loginRegisterRelateToThirdPartyWithRequest:(DDPRegisterRequest *)request
-                                                   completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResponse))completionHandler;
+                                                   completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResult))completionHandler;
 
 
 /**
@@ -57,7 +57,7 @@
  @return 任务
  */
 + (NSURLSessionDataTask *)loginRegisterRelateOnlyWithRequest:(DDPRegisterRequest *)request
-                                                   completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResponse))completionHandler;
+                                                   completionHandler:(DDPErrorCompletionAction)completionHandler;
 
 /**
  修改用户名
@@ -87,5 +87,18 @@
                                           oldPassword:(NSString *)oldPassword
                                              aNewPassword:(NSString *)aNewPassword
                                     completionHandler:(DDPErrorCompletionAction)completionHandler;
+
+/**
+ 重设密码
+
+ @param account 账号id
+ @param email 邮箱
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)resetPasswordWithAccount:(NSString *)account
+                                                email:(NSString *)email
+                                    completionHandler:(DDPErrorCompletionAction)completionHandler;
+
 
 @end

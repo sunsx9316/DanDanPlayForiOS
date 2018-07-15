@@ -10,16 +10,27 @@
 
 @implementation UIView (Toast)
 - (void)showWithText:(NSString *)text {
-    [self showWithText:text hideAfterDelay:1.3];
+    [self showWithText:text offset:CGPointZero];
+}
+
+- (void)showWithText:(NSString *)text offset:(CGPoint)offset {
+    [self showWithText:text offset:offset hideAfterDelay:1.3];
 }
 
 - (void)showWithText:(NSString *)text
+      hideAfterDelay:(NSTimeInterval)afterDelay {
+    [self showWithText:text offset:CGPointZero hideAfterDelay:afterDelay];
+}
+
+- (void)showWithText:(NSString *)text
+              offset:(CGPoint)offset
       hideAfterDelay:(NSTimeInterval)afterDelay {
     [MBProgressHUD hideHUDForView:self animated:YES];
     
     MBProgressHUD *hud = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeText InView:self];
     hud.label.text = text;
     hud.label.numberOfLines = 0;
+    hud.offset = offset;
     [hud hideAnimated:YES afterDelay:afterDelay];
 }
 

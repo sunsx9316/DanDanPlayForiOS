@@ -114,9 +114,12 @@
 		8981170C1F3343C700B34352 /* DDPDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DDPDownloadTableViewCell.m */; };
 		8981170F1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
 		8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
+		8989B6C820D2BEEF00FA943E /* DDPRegisterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989B6C720D2BEEF00FA943E /* DDPRegisterResult.m */; };
+		8989B6CB20D2C35400FA943E /* DDPBindingResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8989B6CA20D2C35400FA943E /* DDPBindingResponse.m */; };
 		898AD23C1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23B1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m */; };
 		898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */; };
 		898AD2421F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m */; };
+		898C45BC20FB4090003C5F7D /* DDPForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C45BB20FB4090003C5F7D /* DDPForgetPasswordViewController.m */; };
 		898E2D491FE6521C00953DA8 /* DDPFeaturedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D471FE6521C00953DA8 /* DDPFeaturedTableViewCell.m */; };
 		898E2D4A1FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898E2D481FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib */; };
 		898E2D4F1FE6611500953DA8 /* DDPHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */; };
@@ -507,12 +510,18 @@
 		8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSettingDownloadTableViewCell.m; sourceTree = "<group>"; };
 		8987C1201F2ED964005BC154 /* UIView+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Tools.h"; sourceTree = "<group>"; };
 		8987C1211F2ED964005BC154 /* UIView+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Tools.m"; sourceTree = "<group>"; };
+		8989B6C620D2BEEF00FA943E /* DDPRegisterResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPRegisterResult.h; sourceTree = "<group>"; };
+		8989B6C720D2BEEF00FA943E /* DDPRegisterResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPRegisterResult.m; sourceTree = "<group>"; };
+		8989B6C920D2C35400FA943E /* DDPBindingResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBindingResponse.h; sourceTree = "<group>"; };
+		8989B6CA20D2C35400FA943E /* DDPBindingResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBindingResponse.m; sourceTree = "<group>"; };
 		898AD23A1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuFilterTableViewCell.h; sourceTree = "<group>"; };
 		898AD23B1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuFilterTableViewCell.m; sourceTree = "<group>"; };
 		898AD23D1F57A7460040B7C4 /* UIScrollView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Base.h"; sourceTree = "<group>"; };
 		898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Base.m"; sourceTree = "<group>"; };
 		898AD2401F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuFilterDetailViewController.h; sourceTree = "<group>"; };
 		898AD2411F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuFilterDetailViewController.m; sourceTree = "<group>"; };
+		898C45BA20FB4090003C5F7D /* DDPForgetPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPForgetPasswordViewController.h; sourceTree = "<group>"; };
+		898C45BB20FB4090003C5F7D /* DDPForgetPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPForgetPasswordViewController.m; sourceTree = "<group>"; };
 		898E2D461FE6521C00953DA8 /* DDPFeaturedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPFeaturedTableViewCell.h; sourceTree = "<group>"; };
 		898E2D471FE6521C00953DA8 /* DDPFeaturedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPFeaturedTableViewCell.m; sourceTree = "<group>"; };
 		898E2D481FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPFeaturedTableViewCell.xib; sourceTree = "<group>"; };
@@ -1417,6 +1426,8 @@
 				89753D4A1F8CB4480036C0AB /* DDPLoginViewController.m */,
 				89B8E3671F8F690000DA9BEF /* DDPRegisterViewController.h */,
 				89B8E3681F8F690000DA9BEF /* DDPRegisterViewController.m */,
+				898C45BA20FB4090003C5F7D /* DDPForgetPasswordViewController.h */,
+				898C45BB20FB4090003C5F7D /* DDPForgetPasswordViewController.m */,
 				8958240F1F938105000CF6D5 /* DDPLinkOriginalAccountViewController.h */,
 				895824101F938105000CF6D5 /* DDPLinkOriginalAccountViewController.m */,
 			);
@@ -1432,6 +1443,22 @@
 				89B8E36D1F8F702D00DA9BEF /* DDPEmailListView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8989B6C220D2B8EC00FA943E /* 请求 */ = {
+			isa = PBXGroup;
+			children = (
+				89EF59CA1F923745002BDC15 /* DDPErrorProtocol.h */,
+				89EF59CB1F923765002BDC15 /* DDPRegisterRequest.h */,
+				89EF59CC1F923765002BDC15 /* DDPRegisterRequest.m */,
+				89EF59CE1F92378D002BDC15 /* DDPRegisterResponse.h */,
+				89EF59CF1F92378D002BDC15 /* DDPRegisterResponse.m */,
+				8989B6C920D2C35400FA943E /* DDPBindingResponse.h */,
+				8989B6CA20D2C35400FA943E /* DDPBindingResponse.m */,
+				8903725C1F94EB7C0029C47B /* DDPPofileResponse.h */,
+				8903725D1F94EB7C0029C47B /* DDPPofileResponse.m */,
+			);
+			path = "请求";
 			sourceTree = "<group>";
 		};
 		89988D1D1F5A63AD001413BE /* View */ = {
@@ -1713,11 +1740,11 @@
 		89E3F6221E585B4E007AB1BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8989B6C220D2B8EC00FA943E /* 请求 */,
 				89B6EED3201C7D1A0022DE0D /* Protocol */,
 				89BE4B06201C4CF50009A5FF /* Category */,
 				89F0DC341FCAABB000E32D54 /* Home */,
 				89C2D3961FCAAB700021B3B8 /* 视频模型 */,
-				89EF59CA1F923745002BDC15 /* DDPErrorProtocol.h */,
 				89F5C82E1EAF112200676361 /* DDPHTTPConnection.h */,
 				89F5C82F1EAF112200676361 /* DDPHTTPConnection.m */,
 				89929FFC1FBC6A76009FDB06 /* DDPHttpReceive.h */,
@@ -1796,12 +1823,6 @@
 				89DD051A1F6AC18C00051A96 /* DDPLibrary.m */,
 				89DD051C1F6AC3AB00051A96 /* DDPLibraryCollection.h */,
 				89DD051D1F6AC3AB00051A96 /* DDPLibraryCollection.m */,
-				89EF59CB1F923765002BDC15 /* DDPRegisterRequest.h */,
-				89EF59CC1F923765002BDC15 /* DDPRegisterRequest.m */,
-				89EF59CE1F92378D002BDC15 /* DDPRegisterResponse.h */,
-				89EF59CF1F92378D002BDC15 /* DDPRegisterResponse.m */,
-				8903725C1F94EB7C0029C47B /* DDPPofileResponse.h */,
-				8903725D1F94EB7C0029C47B /* DDPPofileResponse.m */,
 				890D9B6E1FC4677900E34275 /* DDPSMBFileHashCache.h */,
 				890D9B6F1FC4677900E34275 /* DDPSMBFileHashCache.m */,
 				895CA8B41FDD0BFB00EF52BB /* DDPBangumiEpisode.h */,
@@ -1814,6 +1835,8 @@
 				89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */,
 				89F915F0203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.h */,
 				89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */,
+				8989B6C620D2BEEF00FA943E /* DDPRegisterResult.h */,
+				8989B6C720D2BEEF00FA943E /* DDPRegisterResult.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2088,6 +2111,7 @@
 				89350B131EAB0DA000072DA5 /* DDPBlurView.m in Sources */,
 				89BE4B0F201C51250009A5FF /* DDPCacheManager+DB.mm in Sources */,
 				89988D231F5A6620001413BE /* HomePageItemCollectionViewCell.m in Sources */,
+				8989B6CB20D2C35400FA943E /* DDPBindingResponse.m in Sources */,
 				897F02BC1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m in Sources */,
 				8916C7C91EA8BB8D00A2233D /* DDPOfficialSearchViewController.m in Sources */,
 				89350B101EAB059000072DA5 /* DDPPlayerInterfaceView.m in Sources */,
@@ -2099,6 +2123,7 @@
 				891643511FBB13D500096F09 /* UINavigation+SXFixSpace.m in Sources */,
 				89350B181EAB125700072DA5 /* DDPEdgeButton.m in Sources */,
 				89988D191F5A5D57001413BE /* DDPHomePageViewController.m in Sources */,
+				8989B6C820D2BEEF00FA943E /* DDPRegisterResult.m in Sources */,
 				895824111F938105000CF6D5 /* DDPLinkOriginalAccountViewController.m in Sources */,
 				8916C7CD1EA8DC2C00A2233D /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
 				898AD23C1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m in Sources */,
@@ -2256,6 +2281,7 @@
 				8975F1E61FC86DE700C945EC /* LAContext+Tools.m in Sources */,
 				895CA8BC1FDD21F900EF52BB /* HomePageBangumiProgressTableViewCell.m in Sources */,
 				894C64921F691004003C7888 /* DDPLinkDownloadTaskCollection.m in Sources */,
+				898C45BC20FB4090003C5F7D /* DDPForgetPasswordViewController.m in Sources */,
 				897858F31F6C136300010690 /* DDPLinkVideoModel.m in Sources */,
 				89D8F7F41EB040E6009329AA /* UIApplication+Tools.m in Sources */,
 				89E4B61A1F9CCFF20003E610 /* HomePageSearchFilterModel.m in Sources */,

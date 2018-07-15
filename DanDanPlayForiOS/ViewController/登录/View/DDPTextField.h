@@ -20,6 +20,5 @@ typedef NS_ENUM(NSUInteger, DDPTextFieldType) {
 @property (strong, nonatomic) UITextField *textField;
 
 - (instancetype)initWithType:(DDPTextFieldType)type;
-//- (void)touchSeeButton:(UIButton *)sender;
 @end
 

@@ -191,7 +191,11 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path) {
 }
 
 + (NSString *)apiPath {
-    return [[self apiDomain] stringByAppendingPathComponent:@"/api/v1"];
+    return [[self apiDomain] ddp_appendingPathComponent:@"api/v1"];
+}
+
++ (NSString *)newApiPath {
+    return [[self apiDomain] ddp_appendingPathComponent:@"api/v2"];
 }
 
 @end

@@ -154,7 +154,7 @@
     MBProgressHUD *aHud = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:self.view];
     aHud.label.text = @"注册中...";
     
-    void(^completionAction)(DDPRegisterResponse *, NSError *) = ^(DDPRegisterResponse *responseObject, NSError *error) {
+    void(^completionAction)(DDPRegisterResult *, NSError *) = ^(DDPRegisterResult *responseObject, NSError *error) {
         //关联失败
         if (error) {
             [aHud hideAnimated:YES];

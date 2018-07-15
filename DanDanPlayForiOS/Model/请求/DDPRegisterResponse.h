@@ -7,13 +7,10 @@
 //
 
 #import "DDPBase.h"
-#import "DDPErrorProtocol.h"
+#import "DDPResponse.h"
 
-@interface DDPRegisterResponse : DDPBase<DDPErrorProtocol>
-/*
- identity -> UserId
- */
+@interface DDPRegisterResponse : DDPResponse
 
-@property (copy, nonatomic) NSString *token;
+
 
 @end

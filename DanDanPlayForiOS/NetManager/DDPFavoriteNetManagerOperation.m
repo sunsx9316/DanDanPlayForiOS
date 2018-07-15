@@ -26,9 +26,10 @@
     
     if (like) {
         NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
+        DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
+        
         return [[DDPBaseNetManager shareNetManager] PUTWithPath:path
-                                                 serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
-                                                     parameters:ddplay_encryption(dic)
+                                                 serializerType:type parameters:ddplay_encryption(dic)
                                               completionHandler:^(DDPResponse *responseObj) {
             if (completionHandler) {
                 completionHandler(responseObj.error);

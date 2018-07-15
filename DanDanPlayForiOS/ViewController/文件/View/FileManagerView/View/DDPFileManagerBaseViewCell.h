@@ -8,6 +8,6 @@
 
 #import <MGSwipeTableCell.h>
 
-@interface DDPFileManagerBaseViewCell : MGSwipeTableCell
+@interface DDPFileManagerBaseViewCell : UITableViewCell //MGSwipeTableCell
 
 @end

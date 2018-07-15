@@ -7,8 +7,8 @@
 //
 
 #import "DDPBase.h"
+#import "DDPResponse.h"
 
-@interface DDPPofileResponse : DDPBase
-@property (assign, nonatomic) BOOL updateScreenNameSuccess;
-@property (assign, nonatomic) BOOL updatePasswordSuccess;
+@interface DDPPofileResponse : DDPResponse
+
 @end

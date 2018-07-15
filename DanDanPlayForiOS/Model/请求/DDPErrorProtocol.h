@@ -10,7 +10,7 @@
 /**
  错误代码
  */
-//@property (assign, nonatomic) NSUInteger errorCode;
+@property (assign, nonatomic) NSUInteger errorCode;
 /**
  错误描述
  */

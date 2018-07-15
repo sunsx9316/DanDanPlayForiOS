@@ -227,17 +227,18 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path);
 @interface DDPMethod : NSObject
 
 /**
- 请求域名
-
- @return 请求域名
- */
-+ (NSString *)apiDomain;
-
-/**
  请求路径
 
  @return 请求路径
  */
 + (NSString *)apiPath;
+
+
+/**
+ 新路径
+
+ @return 新路径
+ */
++ (NSString *)newApiPath;
 
 @end

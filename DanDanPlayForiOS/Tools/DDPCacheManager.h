@@ -65,6 +65,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     DDPDanmakuShieldTypeFloatAtBottom,
 };
 
+typedef NS_ENUM(NSUInteger, DDPFileSortType) {
+    DDPFileSortTypeAsc,
+    DDPFileSortTypeDesc,
+};
+
 //缓存所有弹幕的标识
 #define CACHE_ALL_DANMAKU_FLAG 9999
 
@@ -192,6 +197,12 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
  用于请求的域名
  */
 @property (copy, nonatomic) NSString *userDefineRequestDomain;
+
+
+/**
+ 文件排序类型
+ */
+@property (assign, nonatomic) DDPFileSortType fileSortType;
 
 /**
  存储文件夹名称和文件hash

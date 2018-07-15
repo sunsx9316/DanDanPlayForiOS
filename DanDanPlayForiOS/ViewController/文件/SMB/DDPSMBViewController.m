@@ -62,9 +62,9 @@
     DDPFileManagerFolderPlayerListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerFolderPlayerListViewCell" forIndexPath:indexPath];
     if (cell.isFromCache == NO) {
         cell.titleLabel.textColor = [UIColor blackColor];
-        cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
-        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
-        cell.delegate = self;
+//        cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"删除" backgroundColor:[UIColor redColor]]];
+//        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
+//        cell.delegate = self;
         [cell.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(15);
             make.bottom.mas_offset(-15);
@@ -135,21 +135,36 @@
     return nil;
 }
 
-#pragma mark - MGSwipeTableCellDelegate
-- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell canSwipe:(MGSwipeDirection) direction {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    return indexPath.section == 1;
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        return @[^{
+            UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull aIndexPath) {
+                DDPSMBInfo *model = [DDPCacheManager shareCacheManager].SMBLinkInfos[aIndexPath.row];
+                [self touchDeleteButtonWithAction:model];
+            }];
+            action.backgroundColor = DDPRGBColor(255, 48, 54);
+            return action;
+        }()];
+    }
+    
+    return @[];
 }
 
-- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    if (indexPath.section == 1) {
-        DDPSMBInfo *model = [DDPCacheManager shareCacheManager].SMBLinkInfos[indexPath.row];
-        [[DDPCacheManager shareCacheManager] removeSMBInfo:model];
-        [self.tableView reloadData];
-    }
-    return YES;
-}
+//#pragma mark - MGSwipeTableCellDelegate
+//- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell canSwipe:(MGSwipeDirection) direction {
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    return indexPath.section == 1;
+//}
+
+//- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    if (indexPath.section == 1) {
+//        DDPSMBInfo *model = [DDPCacheManager shareCacheManager].SMBLinkInfos[indexPath.row];
+//        [[DDPCacheManager shareCacheManager] removeSMBInfo:model];
+//        [self.tableView reloadData];
+//    }
+//    return YES;
+//}
 
 #pragma mark - 私有方法
 - (void)loginWithModel:(DDPSMBInfo *)model completion:(void(^)(BOOL success))completion {
@@ -253,6 +268,18 @@
 - (void)touchHelpButton:(UIButton *)sender {
     DDPHelpViewController *vc = [[DDPHelpViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchDeleteButtonWithAction:(DDPSMBInfo *)info {
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认删除吗？" preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[DDPCacheManager shareCacheManager] removeSMBInfo:info];
+        [self.tableView reloadData];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:vc animated:true completion:nil];
 }
 
 #pragma mark - 懒加载

@@ -31,5 +31,6 @@
 #import "UIFont+Tools.h"
 #import "UIColor+Tools.h"
 #import "UIView+Tools.h"
+#import "NSString+Tools.h"
 
 #endif /* DDPPrefixHeader_pch */

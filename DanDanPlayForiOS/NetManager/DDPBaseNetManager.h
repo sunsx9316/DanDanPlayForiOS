@@ -53,6 +53,7 @@
  POST封装
 
  @param path 路径
+ @param serializerType 序列化类型
  @param parameters 参数
  @param completionHandler 完成回调
  @return 任务
@@ -61,6 +62,23 @@
                         serializerType:(DDPBaseNetManagerSerializerType)serializerType
                             parameters:(id)parameters
                      completionHandler:(DDPResponseCompletionAction)completionHandler;
+
+/**
+ POST封装
+
+ @param path 路径
+ @param serializerType 序列化类型
+ @param parameters 参数
+ @param responseClass 响应类 DDPResponse的子类
+ @param completionHandler 完成回调
+ @return 任务
+ */
+- (NSURLSessionDataTask *)POSTWithPath:(NSString *)path
+                        serializerType:(DDPBaseNetManagerSerializerType)serializerType
+                            parameters:(id)parameters
+                         responseClass:(Class)responseClass
+                     completionHandler:(DDPResponseCompletionAction)completionHandler;
+
 /**
  *  DELETE封装
  *

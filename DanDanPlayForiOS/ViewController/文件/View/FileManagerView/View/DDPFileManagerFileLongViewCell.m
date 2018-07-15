@@ -30,7 +30,8 @@
         [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.edges.mas_equalTo(0);
             make.top.left.mas_equalTo(10);
-            make.bottom.mas_offset(-10);
+//            make.bottom.mas_offset(-10);
+            make.height.mas_equalTo(80);
             make.width.equalTo(self.bgImgView.mas_height).mas_offset(30);
         }];
         
@@ -44,9 +45,10 @@
 //        }];
         
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self.bgImgView);
+            make.top.equalTo(self.bgImgView);
             make.left.equalTo(self.bgImgView.mas_right).mas_offset(10);
             make.right.mas_offset(-10);
+            make.bottom.mas_offset(-10);
 //            make.edges.equalTo(self.grayView).mas_equalTo(UIEdgeInsetsMake(10, 5, 5, 5));
         }];
         

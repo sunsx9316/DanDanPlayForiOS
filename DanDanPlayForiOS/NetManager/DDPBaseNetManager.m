@@ -8,21 +8,15 @@
 
 #import "DDPBaseNetManager.h"
 #import <AFNetworking.h>
+#import <AFNetworkActivityIndicatorManager.h>
 #import "DDPHTTPRequestSerializer.h"
 #import "DDPHTTPResponseSerializer.h"
-//#import "DDPHTTPNoParseResponseSerializer.h"
-//#import "DDPHTTPNoParseRequestSerializer.h"
-//#import "DDPHTTPXMLResponseSerializer.h"
 
 #define ddp_HTTP_TIME_OUT 10
 
 @interface DDPBaseNetManager ()
-//<DDPHTTPSerializerDelegate>
-//@property (strong, nonatomic) AFHTTPSessionManager *JSONSessionManager;
-//@property (strong, nonatomic) AFHTTPSessionManager *XMLSessionManager;
 @property (strong, nonatomic) AFHTTPSessionManager *HTTPSessionManager;
 @property (strong, nonatomic) YYReachability *reachability;
-//@property (strong, nonatomic) NSMutableDictionary <NSString *, NSMutableArray <NSNumber *>*>*URLDic;
 @end
 
 /**
@@ -103,6 +97,8 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
 - (instancetype)init {
     if (self = [super init]) {
         _observers = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsWeakMemory|NSPointerFunctionsObjectPointerPersonality capacity:0];
+        //开启网络的指示符
+        [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     }
     return self;
 }
@@ -135,9 +131,14 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     }];
 }
 
+- (NSURLSessionDataTask *)POSTWithPath:(NSString *)path serializerType:(DDPBaseNetManagerSerializerType)serializerType parameters:(id)parameters completionHandler:(DDPResponseCompletionAction)completionHandler {
+    return [self POSTWithPath:path serializerType:serializerType parameters:parameters responseClass:nil completionHandler:completionHandler];
+}
+
 - (NSURLSessionDataTask *)POSTWithPath:(NSString *)path
                         serializerType:(DDPBaseNetManagerSerializerType)serializerType
                             parameters:(id)parameters
+                         responseClass:(Class)responseClass
                      completionHandler:(DDPResponseCompletionAction)completionHandler {
     if (path.length == 0) {
         if (completionHandler) {
@@ -152,12 +153,20 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
         JHLog(@"POST 请求成功：%@\n\n%@", path, ddp_jsonString(responseObject));
         
         if (completionHandler) {
-            completionHandler([[DDPResponse alloc] initWithResponseObject:responseObject error:nil]);
+            if ([responseClass isKindOfClass:[DDPResponse class]]) {
+                completionHandler([[responseClass alloc] initWithResponseObject:responseObject error:nil]);
+            }
+            else {
+                completionHandler([[DDPResponse alloc] initWithResponseObject:responseObject error:nil]);
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         JHLog(@"POST 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
         
-        if (completionHandler) {
+        if ([responseClass isKindOfClass:[DDPResponse class]]) {
+            completionHandler([[responseClass alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
+        }
+        else {
             completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
         }
     }];
@@ -314,6 +323,7 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
             DDPHTTPRequestSerializer *serializer = [DDPHTTPRequestSerializer serializer];
             serializer;
         });
+        
         NSDictionary *dic = ddp_defaultHTTPHeaderField();
         [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             [_HTTPSessionManager.requestSerializer setValue:obj forHTTPHeaderField:key];

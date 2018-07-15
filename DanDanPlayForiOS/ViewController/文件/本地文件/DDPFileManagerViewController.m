@@ -24,14 +24,18 @@
 #import "NSURL+Tools.h"
 #import "NSString+Tools.h"
 #import "DDPDownloadManager.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
-@interface DDPFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, MGSwipeTableCellDelegate, DDPDownloadManagerObserver, DDPFileManagerSearchViewDelegate>
+@interface DDPFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DDPDownloadManagerObserver, DDPFileManagerSearchViewDelegate>
 
 @property (strong, nonatomic) DDPFileManagerEditView *editView;
 @property (strong, nonatomic) DDPFileManagerSearchView *searchView;
 @end
 
 @implementation DDPFileManagerViewController
+{
+    __weak UIBarButtonItem *_sortItem;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,16 +87,16 @@
         DDPFileManagerFileLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerFileLongViewCell" forIndexPath:indexPath];
         cell.model = file.videoModel;
         
-        NSMutableArray *buttons = [NSMutableArray array];
-        [buttons addObject:({
-            MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:DDPRGBColor(255, 48, 54)];
-            button.buttonWidth = 80;
-            button;
-        })];
-        
-        cell.rightButtons = buttons;
-        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
-        cell.delegate = self;
+//        NSMutableArray *buttons = [NSMutableArray array];
+//        [buttons addObject:({
+//            MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:DDPRGBColor(255, 48, 54)];
+//            button.buttonWidth = 80;
+//            button;
+//        })];
+//
+//        cell.rightButtons = buttons;
+//        cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
+//        cell.delegate = self;
         return cell;
     }
     
@@ -102,22 +106,22 @@
     cell.detailLabel.text = [NSString stringWithFormat:@"%@个视频", [NSString numberFormatterWithUpper:0 number:file.subFiles.count]];
     cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
     
-    NSMutableArray *buttons = [NSMutableArray array];
-    [buttons addObject:({
-        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:DDPRGBColor(255, 48, 54)];
-        button.buttonWidth = 80;
-        button;
-    })];
-    
-    [buttons addObject:({
-        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"收藏" backgroundColor:DDPRGBColor(88, 85, 209)];
-        button.buttonWidth = 90;
-        button;
-    })];
-    
-    cell.rightButtons = buttons;
-    cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
-    cell.delegate = self;
+//    NSMutableArray *buttons = [NSMutableArray array];
+//    [buttons addObject:({
+//        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"删除" backgroundColor:DDPRGBColor(255, 48, 54)];
+//        button.buttonWidth = 80;
+//        button;
+//    })];
+//
+//    [buttons addObject:({
+//        MGSwipeButton *button = [MGSwipeButton buttonWithTitle:@"收藏" backgroundColor:DDPRGBColor(88, 85, 209)];
+//        button.buttonWidth = 90;
+//        button;
+//    })];
+//
+//    cell.rightButtons = buttons;
+//    cell.rightSwipeSettings.transition = MGSwipeTransitionClipCenter;
+//    cell.delegate = self;
     return cell;
 }
 
@@ -128,7 +132,15 @@
 //        return 80 + 40 * ddp_isPad();
         return UITableViewAutomaticDimension;
     }
-    return 100 + 40 * ddp_isPad();
+    
+    CGFloat height = [tableView fd_heightForCellWithIdentifier:@"DDPFileManagerFileLongViewCell" cacheByIndexPath:indexPath configuration:^(DDPFileManagerFileLongViewCell *cell) {
+        cell.model = file.videoModel;
+    }];
+    
+    
+    return MAX(100, height);
+    
+//    return 100 + 40 * ddp_isPad();
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -143,6 +155,37 @@
     [self matchFile:self.file.subFiles[indexPath.row]];
 }
 
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DDPFile *file = _file.subFiles[indexPath.row];
+    
+    if (file.type == DDPFileTypeDocument) {
+        return @[^{
+            UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull aIndexPath) {
+                DDPFile *aFile = self.file.subFiles[aIndexPath.row];
+                [self deleteFiles:@[aFile]];
+            }];
+            action.backgroundColor = DDPRGBColor(255, 48, 54);
+            return action;
+        }()];
+    }
+    
+    return @[^{
+        UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull aIndexPath) {
+            DDPFile *aFile = self.file.subFiles[aIndexPath.row];
+            [self deleteFiles:@[aFile]];
+        }];
+        action.backgroundColor = DDPRGBColor(255, 48, 54);
+        return action;
+    }(), ^{
+        UITableViewRowAction *action = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"收藏" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull aIndexPath) {
+            DDPFile *aFile = self.file.subFiles[aIndexPath.row];
+            [self touchCollectionButtonWithFile:aFile];
+        }];
+        action.backgroundColor = DDPRGBColor(88, 85, 209);
+        return action;
+    }()];
+}
+
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"(´_ゝ`)没有视频 点击刷新" attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
@@ -154,45 +197,45 @@
     return str;
 }
 
-#pragma mark - MGSwipeTableCellDelegate
-- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    //删除
-    if (index == 0) {
-        if (indexPath) {
-            DDPFile *file = self.file.subFiles[indexPath.row];
-            if (file.type == DDPFileTypeFolder) {
-                [self deleteFiles:file.subFiles];
-            }
-            else {
-                [self deleteFiles:@[file]];
-            }
-        }
-    }
-    //收藏
-    else {
-        DDPFile *file = self.file.subFiles[indexPath.row];
-        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否添加%@到收藏夹?", file.videoModel.fileNameWithPathExtension] preferredStyle:UIAlertControllerStyleAlert];
-        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            DDPCollectionCache *cache = [[DDPCollectionCache alloc] init];
-
-            NSString *relativePath = [file.fileURL relativePathWithBaseURL:[UIApplication sharedApplication].documentsURL];
-            if (relativePath.length) {
-                cache.filePath = relativePath;
-                cache.name = file.videoModel.fileNameWithPathExtension;
-                cache.cacheType = DDPCollectionCacheTypeLocal;
-                [[DDPCacheManager shareCacheManager] addCollector:cache];
-                [self.view showWithText:@"添加成功!"];
-            }
-        }]];
-        
-        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-        
-        [self presentViewController:vc animated:YES completion:nil];
-    }
-    
-    return YES;
-}
+//#pragma mark - MGSwipeTableCellDelegate
+//- (BOOL)swipeTableCell:(nonnull MGSwipeTableCell*)cell tappedButtonAtIndex:(NSInteger) index direction:(MGSwipeDirection)direction fromExpansion:(BOOL) fromExpansion {
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    //删除
+//    if (index == 0) {
+//        if (indexPath) {
+//            DDPFile *file = self.file.subFiles[indexPath.row];
+//            if (file.type == DDPFileTypeFolder) {
+//                [self deleteFiles:file.subFiles];
+//            }
+//            else {
+//                [self deleteFiles:@[file]];
+//            }
+//        }
+//    }
+//    //收藏
+//    else {
+//        DDPFile *file = self.file.subFiles[indexPath.row];
+//        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否添加%@到收藏夹?", file.videoModel.fileNameWithPathExtension] preferredStyle:UIAlertControllerStyleAlert];
+//        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            DDPCollectionCache *cache = [[DDPCollectionCache alloc] init];
+//
+//            NSString *relativePath = [file.fileURL relativePathWithBaseURL:[UIApplication sharedApplication].documentsURL];
+//            if (relativePath.length) {
+//                cache.filePath = relativePath;
+//                cache.name = file.videoModel.fileNameWithPathExtension;
+//                cache.cacheType = DDPCollectionCacheTypeLocal;
+//                [[DDPCacheManager shareCacheManager] addCollector:cache];
+//                [self.view showWithText:@"添加成功!"];
+//            }
+//        }]];
+//
+//        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+//
+//        [self presentViewController:vc animated:YES completion:nil];
+//    }
+//
+//    return YES;
+//}
 
 #pragma mark - DDPDownloadManagerObserver
 - (void)tasksDidChange:(NSArray <id<DDPDownloadTaskProtocol>>*)tasks
@@ -435,10 +478,15 @@
         [aButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
+    UIBarButtonItem *sortItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_sort"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchSortButton:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    _sortItem = sortItem;
+    
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -10;
     
-    [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, addItem, item]];
+    [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, sortItem, addItem, item]];
 }
 
 - (void)touchSearchButton:(UIButton *)sender {
@@ -450,6 +498,78 @@
     DDPHTTPServerViewController *vc = [[DDPHTTPServerViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)touchSortButton:(UIButton *)button {
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择排序类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [vc addAction:[UIAlertAction actionWithTitle:@"文件名升序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [DDPCacheManager shareCacheManager].fileSortType = DDPFileSortTypeAsc;
+        [self sortFile];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"文件名倒序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [DDPCacheManager shareCacheManager].fileSortType = DDPFileSortTypeDesc;
+        [self sortFile];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    if (ddp_isPad()) {
+        vc.popoverPresentationController.barButtonItem = _sortItem;
+    }
+    
+    
+    [self presentViewController:vc animated:true completion:nil];
+}
+
+- (void)touchCollectionButtonWithFile:(DDPFile *)file {
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否添加%@到收藏夹?", file.videoModel.fileNameWithPathExtension] preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        DDPCollectionCache *cache = [[DDPCollectionCache alloc] init];
+        
+        NSString *relativePath = [file.fileURL relativePathWithBaseURL:[UIApplication sharedApplication].documentsURL];
+        if (relativePath.length) {
+            cache.filePath = relativePath;
+            cache.name = file.videoModel.fileNameWithPathExtension;
+            cache.cacheType = DDPCollectionCacheTypeLocal;
+            [[DDPCacheManager shareCacheManager] addCollector:cache];
+            [self.view showWithText:@"添加成功!"];
+        }
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)sortFile {
+    DDPFileSortType sortType = [DDPCacheManager shareCacheManager].fileSortType;
+    [self.file.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
+        if (sortType == 0) {
+            if (obj1.type == DDPFileTypeFolder) {
+                return NSOrderedAscending;
+            }
+            
+            if (obj2.type == DDPFileTypeFolder) {
+                return NSOrderedDescending;
+            }
+            
+            return [obj1.name compare:obj2.name];
+        }
+        else {
+            if (obj1.type == DDPFileTypeFolder) {
+                return NSOrderedDescending;
+            }
+            
+            if (obj2.type == DDPFileTypeFolder) {
+                return NSOrderedAscending;
+            }
+            
+            return [obj2.name compare:obj1.name];
+        }
+    }];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - 懒加载
@@ -475,7 +595,7 @@
             
             [[DDPToolsManager shareToolsManager] startDiscovererFileParentFolderWithChildrenFile:self.file type:PickerFileTypeVideo completion:^(DDPFile *file) {
                 self.file = file;
-                [self.tableView reloadData];
+                [self sortFile];
                 [self.tableView endRefreshing];
             }];
         }];

@@ -9,5 +9,5 @@
 #import <AFNetworking/AFNetworking.h>
 
 @interface DDPHTTPResponseSerializer : AFJSONResponseSerializer
-//@property (weak, nonatomic) id<DDPHTTPSerializerDelegate> delegate;
+
 @end

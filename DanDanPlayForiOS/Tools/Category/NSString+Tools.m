@@ -150,4 +150,24 @@
     return [self containsString:@"magnet:?xt=urn:btih:"];
 }
 
+- (NSString *)ddp_appendingPathComponent:(NSString *)str {
+    if (str.length == 0) {
+        return self;
+    }
+    
+    NSString *tempStr = self;
+    
+    //移除最后一个 ”/”
+    if (self.length > 0 && [[self substringFromIndex:self.length - 1] isEqualToString:@"/"]) {
+        tempStr = [self substringToIndex:self.length - 1];
+    }
+    
+    //移除第一个 "/"
+    if ([[str substringToIndex:1] isEqualToString:@"/"]) {
+        str = [str substringFromIndex:1];
+    }
+    
+    return [tempStr stringByAppendingFormat:@"/%@", str];
+}
+
 @end

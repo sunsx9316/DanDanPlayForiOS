@@ -54,8 +54,7 @@
     
     MBProgressHUD *aHud = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:self.view];
     aHud.label.text = @"绑定中...";
-    [DDPLoginNetManagerOperation loginRegisterRelateOnlyWithRequest:request completionHandler:^(DDPRegisterResponse *responseObject, NSError *error) {
-        
+    [DDPLoginNetManagerOperation loginRegisterRelateOnlyWithRequest:request completionHandler:^(NSError *error) {
         if (error) {
             [aHud hideAnimated:YES];
             [self.view showWithError:error];

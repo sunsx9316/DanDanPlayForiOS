@@ -7,8 +7,9 @@
 //
 
 #import "DDPBase.h"
+#import "DDPErrorProtocol.h"
 
-@interface DDPResponse : DDPBase
+@interface DDPResponse : DDPBase<DDPErrorProtocol>
 @property (strong, nonatomic) id responseObject;
 @property (strong, nonatomic) NSError *error;
 - (instancetype)initWithResponseObject:(id)responseObject error:(NSError *)error;

@@ -44,6 +44,6 @@
         return responseObject;
     }
     
-    return data;
+    return [super responseObjectForResponse:response data:data error:error];
 }
 @end

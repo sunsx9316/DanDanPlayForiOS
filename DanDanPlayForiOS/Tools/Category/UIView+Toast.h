@@ -19,11 +19,30 @@
 
 /**
  只显示文字
+
+ @param text 文字
+ @param offset 偏移
+ */
+- (void)showWithText:(NSString *)text offset:(CGPoint)offset;
+
+/**
+ 只显示文字
  
  @param text 文字
  @param afterDelay 多少秒之后隐藏
  */
+- (void)showWithText:(NSString *)text 
+      hideAfterDelay:(NSTimeInterval)afterDelay;
+
+/**
+ 只显示文字
+
+ @param text 文字
+ @param offset 偏移
+ @param afterDelay 在多少秒之后隐藏
+ */
 - (void)showWithText:(NSString *)text
+              offset:(CGPoint)offset
       hideAfterDelay:(NSTimeInterval)afterDelay;
 
 /**
@@ -70,5 +89,8 @@
  */
 - (void)hideLoadingAfterDelay:(NSTimeInterval)afterDelay;
 
+/**
+ 隐藏所有HUD
+ */
 - (void)hideAllHUD;
 @end

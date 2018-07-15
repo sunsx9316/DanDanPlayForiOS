@@ -8,6 +8,7 @@
 
 #import "DDPLoginViewController.h"
 #import "DDPRegisterViewController.h"
+#import "DDPForgetPasswordViewController.h"
 
 #import "DDPTextField.h"
 #import "DDPEdgeButton.h"
@@ -54,6 +55,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
 @property (strong, nonatomic) DDPTextField *userNameTextField;
 @property (strong, nonatomic) DDPTextField *passwordTextField;
 @property (strong, nonatomic) DDPEdgeButton *registerButton;
+@property (strong, nonatomic) DDPEdgeButton *resetPasswordButton;
 @property (strong, nonatomic) DDPBaseScrollView *scrollView;
 @property (strong, nonatomic) DDPEdgeButton *qqButton;
 @property (strong, nonatomic) DDPEdgeButton *weiboButton;
@@ -121,10 +123,9 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
 - (void)touchThirdPartyBotton:(UIButton *)sender {
     UMSocialPlatformType platformType = sender.tag;
     
-    [self.view showLoading];
-    
+    @weakify(self)
     [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
-        [self.view hideLoading];
+        @strongify(self)
         
         if (error) {
             [self.view showWithText:UMErrorStringWithError(error)];
@@ -171,6 +172,11 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     [self loginWithAccount:account password:password source:DDPUserTypeDefault];
 }
 
+- (void)touchForgetButton:(UIButton *)sender {
+    DDPForgetPasswordViewController *vc = [[DDPForgetPasswordViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:true];
+}
+
 - (void)loginWithAccount:(NSString *)account
                 password:(NSString *)password
                   source:(DDPUserType)source {
@@ -208,6 +214,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         [_scrollView addSubview:self.passwordTextField];
         [_scrollView addSubview:self.registerButton];
         [_scrollView addSubview:self.loginButton];
+        [_scrollView addSubview:self.resetPasswordButton];
         
         CGFloat edge = 15;
         
@@ -232,6 +239,11 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         [self.registerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.passwordTextField);
             make.top.equalTo(self.passwordTextField.mas_bottom).mas_offset(0);
+        }];
+        
+        [self.resetPasswordButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.passwordTextField);
+            make.top.equalTo(self.registerButton);
         }];
         
         [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -282,6 +294,18 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         [_registerButton addTarget:self action:@selector(touchRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _registerButton;
+}
+
+- (DDPEdgeButton *)resetPasswordButton {
+    if (_resetPasswordButton == nil) {
+        _resetPasswordButton = [[DDPEdgeButton alloc] init];
+        _resetPasswordButton.inset = CGSizeMake(0, 10);
+        _resetPasswordButton.titleLabel.font = [UIFont ddp_smallSizeFont];
+        [_resetPasswordButton setTitleColor:[UIColor ddp_mainColor] forState:UIControlStateNormal];
+        [_resetPasswordButton setTitle:@"忘记密码" forState:UIControlStateNormal];
+        [_resetPasswordButton addTarget:self action:@selector(touchForgetButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _resetPasswordButton;
 }
 
 - (UIView *)thirdLoginHolderView {

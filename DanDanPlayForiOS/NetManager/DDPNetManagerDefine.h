@@ -12,7 +12,7 @@ typedef id(^DDPBatchEditResponseObjAction)(id responseObj);
 
 typedef void(^DDPBatchCompletionAction)(NSArray <DDPBatchResponse *>*responseObjects, NSError *error);
 
-typedef void(^DDPResponseCompletionAction)(DDPResponse *responseObj);
+typedef void(^DDPResponseCompletionAction)(__kindof DDPResponse *responseObj);
 
 typedef void(^DDPProgressAction)(float progress);
 

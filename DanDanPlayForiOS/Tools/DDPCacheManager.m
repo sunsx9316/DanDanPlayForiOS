@@ -20,6 +20,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 @interface DDPCacheManager ()<TOSMBSessionDownloadTaskDelegate>
 @property (strong, nonatomic) YYCache *cache;
+
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, YYWebImageManager *>*imageManagerDic;
 @property (strong, nonatomic) NSMutableArray <DDPFilter *>*aFilterCollection;
 @property (strong, nonatomic) NSTimer *timer;
@@ -46,7 +47,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 #pragma mark - 懒加载
 - (YYCache *)cache {
     if (_cache == nil) {
-        _cache = [[YYCache alloc] initWithName:@"dandanplay_cache"];
+        _cache = [[YYCache alloc] initWithPath:[[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:@"dandanplay_cache"]];
     }
     return _cache;
 }
@@ -72,7 +73,8 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (DDPUser *)user {
-    return (DDPUser *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    DDPUser *_user = (DDPUser *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    return _user;
 }
 
 #pragma mark - 
@@ -264,6 +266,21 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 - (void)setDanmakuOpacity:(float)danmakuOpacity {
     [self.cache setObject:@(danmakuOpacity) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+}
+
+#pragma mark -
+- (void)setFileSortType:(DDPFileSortType)fileSortType {
+    [self.cache setObject:@(fileSortType) forKey:[self keyWithSEL:_cmd]];
+}
+
+- (DDPFileSortType)fileSortType {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    if (num == nil) {
+        num = @(DDPFileSortTypeAsc);
+        self.fileSortType = DDPFileSortTypeAsc;
+    }
+    
+    return num.integerValue;
 }
 
 #pragma mark -
