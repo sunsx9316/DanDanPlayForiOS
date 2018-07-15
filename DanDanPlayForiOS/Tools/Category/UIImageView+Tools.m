@@ -31,7 +31,7 @@
                    manager:(YYWebImageManager *)manager
                  transform:(YYWebImageTransformBlock)transform
                 completion:(YYWebImageCompletionBlock)completion {
-    [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION progress:progress transform:transform completion:completion];
+    [self yy_setImageWithURL:imageURL placeholder:placeholder options:YY_WEB_IMAGE_DEFAULT_OPTION manager:manager progress:progress transform:transform completion:completion];
 }
 
 - (void)ddp_setImageWithFadeType:(UIImage *)image {

@@ -10,7 +10,6 @@
 #import "DDPMainViewController.h"
 #import <IQKeyboardManager.h>
 #import <Bugly/Bugly.h>
-#import <JSPatchPlatform/JSPatch.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "DDPMediaPlayer.h"
@@ -20,6 +19,7 @@
 #import "DDPDownloadViewController.h"
 #import "DDPQRScannerViewController.h"
 #import "DDPDownloadManager.h"
+#import <BayMaxProtector.h>
 
 @interface AppDelegate ()
 
@@ -30,7 +30,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
     
-    [self configJSPatch];
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUMShare];
@@ -160,6 +159,10 @@
 
 #endif
 
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
@@ -178,30 +181,6 @@
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
 }
 
-- (void)configJSPatch {
-    BOOL localTest = false;
-    
-#ifdef DEBUG
-    [JSPatch setupDevelopment];
-#else
-    localTest = false;
-#endif
-    
-    if (localTest) {
-        [JSPatch testScriptInBundle];
-    }
-    else {
-        [JSPatch startWithAppKey:@"372ca85cc624bb14"];
-        [JSPatch setupRSAPublicKey:@"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIjsQtfDJvKO4kFzUlgnwtukiR\ni+IF7hxDWqd4z7Y6yqR3nc0BWXLaFL8qa+0dBN8tyO8xPUPZxzgv6dg0EV6vN8wo\n8O2QSK9unVTkzAli4bGrC+3JG4dp0z25YPStQba5hAbyHcm7KklBwPL6j3rMmzer\neLv31kZzjS4tVeCtkQIDAQAB\n-----END PUBLIC KEY-----"];
-        
-        if ([DDPCacheManager shareCacheManager].user.identity > 0) {
-            [JSPatch setupUserData:@{@"userId" : [NSString stringWithFormat:@"%ld", [DDPCacheManager shareCacheManager].user.identity]}];
-        }
-        
-        [JSPatch sync];
-    }
-}
-
 - (void)configDDLog {
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 }
@@ -210,6 +189,15 @@
     if (@available(iOS 11.0, *)) {
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
+}
+
+- (void)configCrash {
+#ifndef DEBUG
+    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
+        NSDictionary *errorInfos = error.errorInfos;
+        [Bugly reportExceptionWithCategory:3 name:errorInfos[BMPErrorUnrecognizedSel_Func] reason:errorInfos[BMPErrorUnrecognizedSel_Reason] callStack:errorInfos[BMPErrorCallStackSymbols] extraInfo:errorInfos terminateApp:false];
+    }];
+#endif
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {

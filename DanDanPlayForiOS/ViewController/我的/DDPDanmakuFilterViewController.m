@@ -171,27 +171,17 @@
                         [[DDPCacheManager shareCacheManager] addFilters:responseObject.collection];
                     }
                     else {
-                        NSMutableArray *removeArr = [NSMutableArray array];
+                        NSMutableArray *addArr = [NSMutableArray arrayWithCapacity:filters.count];
                         
-                        [filters enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPFilter * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            NSInteger index = [responseObject.collection indexOfObject:obj];
-                            //将本地列表的状态更新到云端列表
-                            if (index != NSNotFound) {
-                                DDPFilter *aObj = responseObject.collection[index];
-                                aObj.enable = obj.enable;
-                            }
-                            
-                            //云端列表
-                            if (obj.identity == 0) {
-                                [removeArr addObject:obj];
+                        [responseObject.collection enumerateObjectsUsingBlock:^(DDPFilter * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            if ([filters containsObject:obj] == false) {
+                                [addArr addObject:obj];
                             }
                         }];
                         
-                        [[DDPCacheManager shareCacheManager] removeFilters:removeArr];
-                        [[DDPCacheManager shareCacheManager] addFilters:responseObject.collection];
+                        //保存云端新增列表
+                        [[DDPCacheManager shareCacheManager] addFilters:addArr];
                     }
-                    
-                    
                     
                     [self.tableView reloadData];
                 }

@@ -13,12 +13,17 @@
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "UIView+Tools.h"
 
-@interface DDPQRScannerHistoryView ()<UITableViewDelegate, UITableViewDataSource>
+static char alertViewValueKey = 0;
+
+@interface DDPQRScannerHistoryView ()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet DDPBaseTableView *tableView;
 
 @end
 
 @implementation DDPQRScannerHistoryView
+{
+    __weak DDPLinkInfo *_selectedInfo;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -62,6 +67,14 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    DDPLinkInfo *info = [DDPCacheManager shareCacheManager].linkInfoHistorys[indexPath.row];
+    
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    _selectedInfo = info;
+    [view show];
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -79,6 +92,20 @@
     return [tableView fd_heightForCellWithIdentifier:DDPQRScannerHistoryTableViewCell.className configuration:^(DDPQRScannerHistoryTableViewCell *cell) {
         cell.model = info;
     }];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [[DDPCacheManager shareCacheManager] removeLinkInfo:_selectedInfo];
+    [self.tableView reloadData];
 }
 
 @end

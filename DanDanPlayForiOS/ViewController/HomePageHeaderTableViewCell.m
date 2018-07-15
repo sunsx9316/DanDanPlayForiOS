@@ -58,7 +58,7 @@
     _dataSource = dataSource;
     [self.scrollView reloadData];
     self.pageControl.numberOfPages = _dataSource.count;
-    self.timer.fireDate = [NSDate distantPast];
+    self.timer.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
 }
 
 //- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event {

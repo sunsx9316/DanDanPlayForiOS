@@ -75,6 +75,15 @@
                                                           return;
                                                       }
                                                       
+                                                      //没有第三方弹幕
+                                                      if (responseObject.collection.count == 0) {
+                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+                                                          
+                                                          progressAction(1.0f);
+                                                          completionAction(collection, error);
+                                                          return;
+                                                      }
+                                                      
                                                       //下载第三方弹幕
                                                       progressAction(0.6f);
                                                       

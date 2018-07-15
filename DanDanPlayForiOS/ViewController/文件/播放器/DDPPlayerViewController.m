@@ -31,6 +31,7 @@
 #import "DDPVolumeView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "DDPVideoModel+Tools.h"
+#import <JHDanmakuContainer.h>
 
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
@@ -174,9 +175,9 @@
         [self.danmakuEngine setSpeed:speed];
         NSLog(@"弹幕速度 %f", speed);
     }
-    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle)]) {
-        JHDanmakuShadowStyle style = [change[NSKeyValueChangeNewKey] integerValue];
-        self.danmakuEngine.globalShadowStyle = style;
+    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuEffectStyle)]) {
+        JHDanmakuEffectStyle style = [change[NSKeyValueChangeNewKey] integerValue];
+        self.danmakuEngine.globalEffectStyle = style;
     }
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity)]) {
         self.danmakuEngine.canvas.alpha = [change[NSKeyValueChangeNewKey] floatValue];
@@ -261,7 +262,8 @@
                     //找到下一个是视频的模型
                     for (NSInteger i = index + 1; i < count; ++i) {
                         currentFile = parentFile.subFiles[i];
-                        if (currentFile.type == DDPFileTypeDocument && ddp_isVideoFile(currentFile.fileURL.absoluteString)) {
+                        NSString *path = currentFile.fileURL.absoluteString;
+                        if (currentFile.type == DDPFileTypeDocument && (ddp_isVideoFile(path) || [path hasPrefix:@"http"])) {
                             [self playerConfigPanelView:nil didSelectedModel:currentFile.videoModel];
                             return;
                         }
@@ -299,10 +301,6 @@
     
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
-        //添加下划线
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:danmaku.attributedString];
-        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
-        danmaku.attributedString = str;
         return YES;
     }
     
@@ -312,18 +310,14 @@
         return false;
     }
     
-    //屏蔽顶部弹幕
-    if ((danmakuShieldType & DDPDanmakuShieldTypeFloatAtTo) && [danmaku isKindOfClass:[JHFloatDanmaku class]]) {
-        JHFloatDanmakuDirection direction = [danmaku direction];
-        if (direction == JHFloatDanmakuDirectionT2B) {
+    if ([danmaku isKindOfClass:[JHFloatDanmaku class]]) {
+        JHFloatDanmaku *_danmaku = (JHFloatDanmaku *)danmaku;
+        
+        if (danmakuShieldType & DDPDanmakuShieldTypeFloatAtTo && _danmaku.position == JHFloatDanmakuPositionAtTop) {
             return false;
         }
-    }
-    
-    //屏蔽底部弹幕
-    if ((danmakuShieldType & DDPDanmakuShieldTypeFloatAtBottom) && [danmaku isKindOfClass:[JHFloatDanmaku class]]) {
-        JHFloatDanmakuDirection direction = [danmaku direction];
-        if (direction == JHFloatDanmakuDirectionB2T) {
+        
+        if (danmakuShieldType & DDPDanmakuShieldTypeFloatAtBottom && _danmaku.position == JHFloatDanmakuPositionAtBottom) {
             return false;
         }
     }
@@ -339,6 +333,16 @@
     }
     
     return !danmaku.filter;
+}
+
+- (void)danmakuEngine:(JHDanmakuEngine *)danmakuEngine configContent:(JHDanmakuContainer *)container {
+    JHBaseDanmaku *danmaku = container.danmaku;
+    if (danmaku.sendByUserId != 0) {
+        //添加下划线
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:container.attributedText];
+        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
+        container.attributedText = str;
+    }
 }
 
 #pragma mark - DDPPlayerInterfaceViewDelegate
@@ -819,7 +823,7 @@
     
     _addKeyPaths = @[DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuFont),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed),
-                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuShadowStyle),
+                     DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuEffectStyle),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuOpacity),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuLimitCount),
                      DDP_KEYPATH([DDPCacheManager shareCacheManager], subtitleProtectArea)];
@@ -840,7 +844,7 @@
     else {
         _isPlay = self.player.isPlaying;
         
-        _cacheCurrentTime = self.player.currentTime;
+        _cacheCurrentTime = self.danmakuEngine.currentTime;
         DDLogVerbose(@"退到后台保存时间：%@", ddp_mediaFormatterTime(_cacheCurrentTime));
         [self.player setMediaURL:_model.fileURL];
         [self.player stop];
