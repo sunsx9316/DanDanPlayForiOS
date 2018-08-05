@@ -7,7 +7,7 @@
 
 #import "JHDanmakuDefinition.h"
 
-#if JH_MAC_OS
+#if JH_MACOS
 #define _JHLabel NSTextField
 #else
 #define _JHLabel UILabel

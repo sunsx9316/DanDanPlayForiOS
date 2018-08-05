@@ -12,6 +12,7 @@
 #import "DDPDownloadViewController.h"
 #import "DDPAttentionListViewController.h"
 #import "DDPLoginViewController.h"
+#import "DDPControlVideoViewController.h"
 
 #import "UIApplication+Tools.h"
 #import "DDPSettingTitleTableViewCell.h"
@@ -118,6 +119,11 @@
     }
     else if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
         DDPDownloadViewController *vc = [[DDPDownloadViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if ([dic[TITLE_KEY] isEqualToString:@"PC遥控器"]) {
+        DDPControlVideoViewController *vc = [[DDPControlVideoViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -397,6 +403,7 @@
                                @[
                                  @{TITLE_KEY: @"设置"},
                                  @{TITLE_KEY: @"下载任务"},
+                                 @{TITLE_KEY: @"PC遥控器"},
                                  @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
                                  ]];
         

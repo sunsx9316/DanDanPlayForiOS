@@ -7,12 +7,12 @@
 //
 
 #import "JHDanmakuCanvas.h"
-#import "JHDanmakuDefinition.h"
+#import "JHDanmakuPrivateHeader.h"
 
 @implementation JHDanmakuCanvas
-//- (JHView *)hitTest:(CGPoint)aPoint{
-//    return nil;
-//}
+- (JHView *)hitTest:(CGPoint)aPoint{
+    return nil;
+}
 
 - (instancetype)init{
     if (self = [super init]) {
@@ -38,7 +38,7 @@
         return;
     }
     
-#if JH_MAC_OS
+#if JH_MACOS
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     _layoutStyle = layoutStyle;
     switch (_layoutStyle) {

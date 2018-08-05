@@ -12,11 +12,21 @@
 #import "DDPLinkDownloadTaskCollection.h"
 #import "DDPLibraryCollection.h"
 
-typedef NSString * JHControlLinkTaskMethod;
+//控制下载文件状态
+typedef NSString * JHControlLinkTaskMethod NS_STRING_ENUM;
+//控制视频状态
+typedef NSString * JHControlVideoMethod NS_STRING_ENUM;
 
 FOUNDATION_EXPORT JHControlLinkTaskMethod JHControlLinkTaskMethodStart;
 FOUNDATION_EXPORT JHControlLinkTaskMethod JHControlLinkTaskMethodPause;
 FOUNDATION_EXPORT JHControlLinkTaskMethod JHControlLinkTaskMethodDelete;
+
+
+FOUNDATION_EXPORT JHControlVideoMethod JHControlVideoMethodPlay;
+FOUNDATION_EXPORT JHControlVideoMethod JHControlVideoMethodStop;
+FOUNDATION_EXPORT JHControlVideoMethod JHControlVideoMethodPause;
+FOUNDATION_EXPORT JHControlVideoMethod JHControlVideoMethodNext;
+FOUNDATION_EXPORT JHControlVideoMethod JHControlVideoMethodPrevious;
 
 @interface DDPLinkNetManagerOperation : NSObject
 
@@ -43,7 +53,53 @@ FOUNDATION_EXPORT JHControlLinkTaskMethod JHControlLinkTaskMethodDelete;
                          completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPLinkDownloadTask))completionHandler;
 
 /**
- 控制文件
+ 控制音量
+
+ @param ipAdress ip
+ @param volume 音量 0~100
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)linkChangeWithIpAdress:(NSString *)ipAdress
+                                          volume:(NSUInteger)volume
+                                    completionHandler:(DDPErrorCompletionAction)completionHandler;
+/**
+ 控制进度
+ 
+ @param ipAdress ip
+ @param time 跳转时间 整数，范围0-max。time值的单位为毫秒，例如传入12345代表将视频跳转到第12.345秒处
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)linkChangeWithIpAdress:(NSString *)ipAdress
+                                          time:(NSUInteger)time
+                               completionHandler:(DDPErrorCompletionAction)completionHandler;
+
+
+/**
+ 控制视频
+
+ @param ipAdress ip
+ @param method 方式
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)linkControlWithIpAdress:(NSString *)ipAdress
+                                           method:(JHControlVideoMethod)method
+                                completionHandler:(DDPErrorCompletionAction)completionHandler;
+
+/**
+ 获取当前播放的媒体信息
+
+ @param ipAdress ip
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)linkGetVideoInfoWithIpAdress:(NSString *)ipAdress
+                                     completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPLibrary))completionHandler;
+
+/**
+ 控制下载的文件
 
  @param ipAdress ip
  @param taskId 任务id

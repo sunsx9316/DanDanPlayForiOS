@@ -7,10 +7,11 @@
 //
 
 #import "JHBaseDanmaku.h"
+#import "JHDanmakuDefinition.h"
 
 /**
  滚动弹幕方向
-
+ 
  - JHScrollDanmakuDirectionR2L: 从右到左
  - JHScrollDanmakuDirectionL2R: 从左到右
  - JHScrollDanmakuDirectionT2B: 从上到下
@@ -24,6 +25,27 @@ typedef NS_ENUM(NSInteger, JHScrollDanmakuDirection) {
 };
 
 @interface JHScrollDanmaku : JHBaseDanmaku
+/**
+ *  初始化 阴影 字体
+ *
+ *  @param fontSize    文字大小(在font为空时有效)
+ *  @param textColor   文字颜色(务必使用 colorWithRed:green:blue:alpha初始化)
+ *  @param text        文本内容
+ *  @param shadowStyle 阴影风格
+ *  @param font        字体
+ *  @param speed       弹幕速度
+ *  @param direction   弹幕运动方向
+ *
+ *  @return self
+ */
+- (instancetype)initWithFontSize:(CGFloat)fontSize
+                       textColor:(JHColor *)textColor
+                            text:(NSString *)text
+                     shadowStyle:(JHDanmakuShadowStyle)shadowStyle
+                            font:(JHFont *)font
+                           speed:(CGFloat)speed
+                       direction:(JHScrollDanmakuDirection)direction JHDeprecated("使用 initWithFont:text:textColor:effectStyle:speed:direction");
+
 /**
  *  初始化 阴影 字体
  *

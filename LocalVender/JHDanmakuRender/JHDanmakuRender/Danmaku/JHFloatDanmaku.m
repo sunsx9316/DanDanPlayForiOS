@@ -20,16 +20,24 @@
     NSInteger _currentChannel;
 }
 
+- (instancetype)initWithFontSize:(CGFloat)fontSize textColor:(JHColor *)textColor text:(NSString *)text shadowStyle:(JHDanmakuShadowStyle)shadowStyle font:(JHFont *)font during:(CGFloat)during direction:(JHFloatDanmakuDirection)direction {
+    
+    if (font == nil) {
+        font = [JHFont systemFontOfSize:fontSize];
+    }
+    
+    return [self initWithFont:font text:text textColor:textColor effectStyle:(JHDanmakuEffectStyle)shadowStyle during:direction position:(JHFloatDanmakuPosition)direction];
+}
+
 - (instancetype)initWithFont:(JHFont *)font
                         text:(NSString *)text
                    textColor:(JHColor *)textColor
                  effectStyle:(JHDanmakuEffectStyle)effectStyle
                       during:(CGFloat)during
                     position:(JHFloatDanmakuPosition)position {
-    
     if (self = [super initWithFont:font text:text textColor:textColor effectStyle:effectStyle]) {
-        self.position = position;
-        self.during = during;
+        _position = position;
+        _during = during;
     }
     return self;
 }
@@ -101,6 +109,15 @@
     
     _currentChannel = channel;
     return CGPointMake((rect.size.width - danmakuSize.width) / 2, channelHeight * channel);
+}
+
+
+- (CGFloat)during {
+    return _during;
+}
+
+- (JHFloatDanmakuDirection)direction {
+    return (JHFloatDanmakuDirection)_position;
 }
 
 - (NSInteger)currentChannel {

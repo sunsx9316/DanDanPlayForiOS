@@ -12,6 +12,13 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodStart = @"start";
 JHControlLinkTaskMethod JHControlLinkTaskMethodPause = @"pause";
 JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
 
+
+JHControlVideoMethod JHControlVideoMethodPlay = @"play";
+JHControlVideoMethod JHControlVideoMethodStop = @"stop";
+JHControlVideoMethod JHControlVideoMethodPause = @"pause";
+JHControlVideoMethod JHControlVideoMethodNext = @"next";
+JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
+
 @implementation DDPLinkNetManagerOperation
 
 + (NSURLSessionDataTask *)linkWithIpAdress:(NSString *)ipAdress
@@ -141,6 +148,101 @@ JHControlLinkTaskMethod JHControlLinkTaskMethodDelete = @"delete";
             completionHandler(collection, responseObj.error);
         }
     }];
+}
+
++ (NSURLSessionDataTask *)linkChangeWithIpAdress:(NSString *)ipAdress
+                                          volume:(NSUInteger)volume
+                               completionHandler:(DDPErrorCompletionAction)completionHandler {
+    if (ipAdress.length == 0) {
+        if (completionHandler) {
+            completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@/control/volume/%lu", ipAdress, LINK_API_INDEX, (unsigned long)volume];
+    
+    DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:serializerType
+                                                 parameters:nil
+                                          completionHandler:^(DDPResponse *responseObj) {
+                                              if (completionHandler) {
+                                                  completionHandler(responseObj.error);
+                                              }
+                                          }];
+}
+
++ (NSURLSessionDataTask *)linkChangeWithIpAdress:(NSString *)ipAdress
+                                            time:(NSUInteger)time
+                               completionHandler:(DDPErrorCompletionAction)completionHandler {
+    if (ipAdress.length == 0) {
+        if (completionHandler) {
+            completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@/control/seek/%lu", ipAdress, LINK_API_INDEX, (unsigned long)time];
+    
+    DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:serializerType
+                                                 parameters:nil
+                                          completionHandler:^(DDPResponse *responseObj) {
+                                              if (completionHandler) {
+                                                  completionHandler(responseObj.error);
+                                              }
+                                          }];
+}
+
++ (NSURLSessionDataTask *)linkControlWithIpAdress:(NSString *)ipAdress
+                                           method:(JHControlVideoMethod)method
+                                completionHandler:(DDPErrorCompletionAction)completionHandler {
+    if (ipAdress.length == 0 || method.length == 0) {
+        if (completionHandler) {
+            completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@/control/%@", ipAdress, LINK_API_INDEX, method];
+    
+    DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:serializerType
+                                                 parameters:nil
+                                          completionHandler:^(DDPResponse *responseObj) {
+                                              if (completionHandler) {
+                                                  completionHandler(responseObj.error);
+                                              }
+                                          }];
+}
+
++ (NSURLSessionDataTask *)linkGetVideoInfoWithIpAdress:(NSString *)ipAdress
+                                     completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPLibrary))completionHandler {
+    if (ipAdress.length == 0) {
+        if (completionHandler) {
+            completionHandler(nil , DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/%@/current/video", ipAdress, LINK_API_INDEX];
+    
+    DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:serializerType
+                                                 parameters:nil
+                                          completionHandler:^(DDPResponse *responseObj) {
+                                              if (completionHandler) {
+                                                  completionHandler([DDPLibrary yy_modelWithJSON:responseObj.responseObject], responseObj.error);
+                                              }
+                                          }];
 }
 
 + (NSURLSessionDataTask *)linkLibraryWithIpAdress:(NSString *)ipAdress

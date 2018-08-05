@@ -13,19 +13,15 @@
 
 @class JHDanmakuEngine;
 @interface JHDanmakuContainer : JHLabel
-/**
- 初始位置
- */
 @property (assign, nonatomic) CGPoint originalPosition;
 @property (weak, nonatomic) JHDanmakuEngine *danmakuEngine;
 @property (strong, nonatomic) JHBaseDanmaku *danmaku;
 
+- (instancetype)initWithDanmaku:(JHBaseDanmaku *)danmaku;
 /**
  刷新当前弹幕属性
  */
 - (void)updateAttributed;
-
-- (instancetype)initWithDanmaku:(JHBaseDanmaku *)danmaku;
 /**
  *  更新位置
  *

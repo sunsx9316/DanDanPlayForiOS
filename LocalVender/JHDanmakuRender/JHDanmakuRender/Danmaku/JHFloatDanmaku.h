@@ -6,10 +6,11 @@
 //  Copyright © 2016年 JimHuang. All rights reserved.
 //
 #import "JHBaseDanmaku.h"
+#import "JHDanmakuDefinition.h"
 
 /**
  浮动弹幕位置
-
+ 
  - JHFloatDanmakuPositionAtBottom: 在底部
  - JHFloatDanmakuPositionAtTop: 在顶部
  */
@@ -18,7 +19,34 @@ typedef NS_ENUM(NSUInteger, JHFloatDanmakuPosition) {
     JHFloatDanmakuPositionAtTop
 };
 
+typedef NS_ENUM(NSUInteger, JHFloatDanmakuDirection) {
+    JHFloatDanmakuDirectionB2T = JHFloatDanmakuPositionAtBottom,
+    JHFloatDanmakuDirectionT2B = JHFloatDanmakuPositionAtTop
+} JHDeprecated("使用 JHFloatDanmakuPosition");
+
+
 @interface JHFloatDanmaku : JHBaseDanmaku
+/**
+ *  初始化 阴影 字体
+ *
+ *  @param fontSize    文字大小
+ *  @param textColor   文字颜色(务必使用 colorWithRed:green:blue:alpha初始化)
+ *  @param text        文本
+ *  @param shadowStyle 阴影类型
+ *  @param font        字体
+ *  @param during      弹幕持续时间
+ *  @param direction   弹幕方向
+ *
+ *  @return self
+ */
+- (instancetype)initWithFontSize:(CGFloat)fontSize
+                       textColor:(JHColor *)textColor
+                            text:(NSString *)text
+                     shadowStyle:(JHDanmakuShadowStyle)shadowStyle
+                            font:(JHFont *)font
+                          during:(CGFloat)during
+                       direction:(JHFloatDanmakuDirection)direction JHDeprecated("使用 initWithFont:text:textColor:effectStyle:during:position");
+
 /**
  *  初始化 阴影 字体
  *
@@ -36,7 +64,9 @@ typedef NS_ENUM(NSUInteger, JHFloatDanmakuPosition) {
                    textColor:(JHColor *)textColor
                  effectStyle:(JHDanmakuEffectStyle)effectStyle
                       during:(CGFloat)during
-                   position:(JHFloatDanmakuPosition)position;
+                    position:(JHFloatDanmakuPosition)position;
+
+- (JHFloatDanmakuDirection)direction JHDeprecated("使用 position");
 
 @property (assign, nonatomic, readonly) CGFloat during;
 @property (assign, nonatomic, readonly) JHFloatDanmakuPosition position;
