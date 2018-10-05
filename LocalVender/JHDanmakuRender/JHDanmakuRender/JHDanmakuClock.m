@@ -36,7 +36,7 @@
 - (void)stop {
     _previousDate = 0;
     _currentTime = 0.0;
-    [self.displayLink pause];
+    [self.displayLink stop];
 }
 
 - (void)pause {

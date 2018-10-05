@@ -8,8 +8,7 @@
 
 #import "JHDanmakuContainer.h"
 #import "JHDanmakuEngine.h"
-#import "JHDanmakuMethod.h"
-#import "JHLabel+Tools.h"
+#import "JHDanmakuPrivateHeader.h"
 
 @implementation JHDanmakuContainer
 {
@@ -18,7 +17,7 @@
 
 - (instancetype)initWithDanmaku:(JHBaseDanmaku *)danmaku {
     if (self = [super init]) {
-#if !TARGET_OS_IPHONE
+#if JH_MACOS
         self.editable = NO;
         self.drawsBackground = NO;
         self.bordered = NO;
@@ -34,41 +33,22 @@
 
 - (void)setDanmaku:(JHBaseDanmaku *)danmaku {
     _danmaku = danmaku;
-    self.attributedString = [[NSMutableAttributedString alloc] initWithString:_danmaku.text attributes:[JHDanmakuMethod edgeEffectDicWithStyle:_danmaku.effectStyle textColor:_danmaku.textColor]];
-    
+    self.attributedString = danmaku.attributedString;
     [self updateAttributed];
-}
-
-- (BOOL)updatePositionWithTime:(NSTimeInterval)time {
-    return [_danmaku updatePositonWithTime:time container:self];
 }
 
 - (JHBaseDanmaku *)danmaku {
     return _danmaku;
 }
 
-- (void)setOriginalPosition:(CGPoint)originalPosition {
+- (BOOL)updatePositionWithTime:(NSTimeInterval)time {
+    return [_danmaku updatePositonWithTime:time container:self];
+}
 
+- (void)setOriginalPosition:(CGPoint)originalPosition {
     _originalPosition = originalPosition;
     CGRect rect = self.frame;
     rect.origin = originalPosition;
-    
-    if (isnan(rect.size.width)) {
-        rect.size.width = 0;
-    }
-    
-    if (isnan(rect.size.height)) {
-        rect.size.height = 0;
-    }
-    
-    if (isnan(rect.origin.x)) {
-        rect.origin.x = 0;
-    }
-    
-    if (isnan(rect.origin.y)) {
-        rect.origin.y = 0;
-    }
-    
     self.frame = rect;
 }
 
@@ -90,16 +70,17 @@
         }
         
         if (shadowStyle > JHDanmakuEffectStyleUndefine) {
+            JHColor *textColor = [self.attributedString attributesAtIndex:0 effectiveRange:nil][NSForegroundColorAttributeName];
             [str removeAttribute:NSShadowAttributeName range:range];
             [str removeAttribute:NSStrokeColorAttributeName range:range];
             [str removeAttribute:NSStrokeWidthAttributeName range:range];
             
-            [str addAttributes:[JHDanmakuMethod edgeEffectDicWithStyle:shadowStyle textColor:self.danmaku.textColor] range:range];
+            [str addAttributes:[JHDanmakuMethod edgeEffectDicWithStyle:shadowStyle textColor:textColor] range:range];
+            
         }
         
         self.attributedString = str;
     }
-    
     
     [self sizeToFit];
 }

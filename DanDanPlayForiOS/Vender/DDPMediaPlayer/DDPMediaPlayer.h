@@ -41,7 +41,7 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
     NSInteger seconds = totalSeconds % 60;
     NSInteger minutes = (totalSeconds - seconds) / 60;
     
-    return [NSString stringWithFormat:@"%.2ld:%.2ld", (long)minutes, seconds];
+    return [NSString stringWithFormat:@"%.2ld:%.2ld", (long)minutes, (long)seconds];
 }
 
 @class DDPMediaPlayer;

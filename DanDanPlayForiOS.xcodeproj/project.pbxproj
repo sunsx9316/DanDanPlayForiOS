@@ -75,6 +75,8 @@
 		89409FBD1FE5138400704F33 /* YYThreadSafeArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409FB01FE5138400704F33 /* YYThreadSafeArray.m */; };
 		89409FBE1FE5138400704F33 /* YYReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409FB11FE5138400704F33 /* YYReachability.m */; };
 		8946D52B1EB6D38800161833 /* DDPFileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */; };
+		894AE14F21172BD90023DED4 /* DDPControlVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */; };
+		894AE15021172BD90023DED4 /* DDPControlVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */; };
 		894C64921F691004003C7888 /* DDPLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */; };
 		894CBA9D1E6BC8D20021253F /* DDPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* DDPMainViewController.m */; };
 		894CBAA21E6BCA760021253F /* DDPMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* DDPMineViewController.m */; };
@@ -435,6 +437,9 @@
 		89409FB21FE5138400704F33 /* YYSentinel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSentinel.h; sourceTree = "<group>"; };
 		8946D5291EB6D38800161833 /* DDPFileManagerBaseViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFileManagerBaseViewCell.h; sourceTree = "<group>"; };
 		8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFileManagerBaseViewCell.m; sourceTree = "<group>"; };
+		894AE14C21172BD90023DED4 /* DDPControlVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPControlVideoViewController.h; sourceTree = "<group>"; };
+		894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPControlVideoViewController.m; sourceTree = "<group>"; };
+		894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPControlVideoViewController.xib; sourceTree = "<group>"; };
 		894C64901F691004003C7888 /* DDPLinkDownloadTaskCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkDownloadTaskCollection.h; sourceTree = "<group>"; };
 		894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLinkDownloadTaskCollection.m; sourceTree = "<group>"; };
 		894CBA9B1E6BC8D20021253F /* DDPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPMainViewController.h; sourceTree = "<group>"; };
@@ -974,6 +979,9 @@
 				89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */,
 				89AE37C11F628418008D06CF /* DDPAttentionDetailViewController.h */,
 				89AE37C21F628418008D06CF /* DDPAttentionDetailViewController.m */,
+				894AE14C21172BD90023DED4 /* DDPControlVideoViewController.h */,
+				894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */,
+				894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */,
 			);
 			path = "我的";
 			sourceTree = "<group>";
@@ -1971,6 +1979,7 @@
 				898E2D4A1FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib in Resources */,
 				8901622020148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */,
 				894E5DA02036BFA50082FCCC /* DDPQRScannerHistoryTableViewCell.xib in Resources */,
+				894AE15021172BD90023DED4 /* DDPControlVideoViewController.xib in Resources */,
 				89BE4B05201C490F0009A5FF /* DDPQRScannerHistoryView.xib in Resources */,
 				89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
 				89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */,
@@ -2188,6 +2197,7 @@
 				89A42EBA1EA5ECC800FA0DF3 /* DDPRelated.m in Sources */,
 				89A1C0191EAF7F4000DB9BE9 /* DDPSelectedTableViewCell.m in Sources */,
 				89E834291F1E5A5400E781EB /* DDPSMBVideoModel.m in Sources */,
+				894AE14F21172BD90023DED4 /* DDPControlVideoViewController.m in Sources */,
 				89E3F6281E585C17007AB1BD /* DDPDanmaku.m in Sources */,
 				89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */,
 				89350B191EAB125700072DA5 /* DDPEdgeLabel.m in Sources */,
@@ -2450,7 +2460,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = B2C6Y83F26;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LocalVender",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2531,7 +2544,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = B2C6Y83F26;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LocalVender",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

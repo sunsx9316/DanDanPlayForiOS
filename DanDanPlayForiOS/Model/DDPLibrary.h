@@ -67,6 +67,28 @@
  */
 @property (assign, nonatomic) NSUInteger duration;
 
+#pragma mark -  /api/v1/current/video 返回
+/**
+ 为当前进度，取值范围0-1；
+ */
+@property (assign, nonatomic) CGFloat position;
+
+/**
+ 为当前视频是否支持跳转进度，部分流媒体视频和直播视频不支持跳转；
+ */
+@property (assign, nonatomic) BOOL seekable;
+
+/**
+ 当前播放器声音大小，取值范围0-100
+ */
+@property (assign, nonatomic) NSUInteger volume;
+
+
+/**
+ 当前播放器状态 旧版本可能不存在 所以需要判空 Bool
+ */
+@property (strong, nonatomic) NSNumber *playing;
+
 #pragma mark - 自定义属性
 @property (assign, nonatomic) DDPFileType fileType ;
 

@@ -10,7 +10,7 @@
 @implementation _JHLabel (Tools)
 
 - (void)setAttributedString:(NSAttributedString *)attributedString {
-#ifdef JH_IOS
+#if JH_IOS
     self.attributedText = attributedString;
 #else
     self.attributedStringValue = attributedString;
@@ -18,7 +18,7 @@
 }
 
 - (NSAttributedString *)attributedString {
-#ifdef JH_IOS
+#if JH_IOS
     return self.attributedText;
 #else
     return self.attributedStringValue;

@@ -8,8 +8,9 @@
 
 #import "JHBaseDanmaku.h"
 #import "JHDanmakuCanvas.h"
+#import "JHDanmakuDefinition.h"
 
-@class JHDanmakuEngine, JHDanmakuContainer;
+@class JHDanmakuEngine;
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol JHDanmakuEngineDelegate <NSObject>
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param time 时间
  @return 发射的弹幕
  */
-- (NSArray <__kindof JHBaseDanmaku *> *)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time;
+- (NSArray <__kindof JHBaseDanmaku*>*)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time;
 
 /**
  是否发射某个弹幕
@@ -33,15 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHBaseDanmaku *)danmaku;
 
-
-/**
- 控制弹幕容器
-
- @param danmakuEngine 弹幕引擎
- @param container 弹幕容器
- */
-- (void)danmakuEngine:(JHDanmakuEngine *)danmakuEngine configContent:(JHDanmakuContainer *)container;
-
 /**
  使用外部时间系统
  
@@ -50,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSTimeInterval)engineTimeSystemFollowWithOuterTimeSystem;
 
 @end
-
 
 @interface JHDanmakuEngine : NSObject
 
@@ -91,19 +82,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) JHFont * _Nullable globalFont;
 
+
+@property (assign, nonatomic) JHDanmakuShadowStyle globalShadowStyle JHDeprecated("使用 globalEffectStyle");
+
 /**
  全局字体边缘特效 默认不使用 会覆盖个体设置
  */
 @property (assign, nonatomic) JHDanmakuEffectStyle globalEffectStyle;
 
-/**
- *  当前未激活的弹幕
- */
-@property (strong, nonatomic, readonly) NSMutableArray <JHDanmakuContainer *>*inactiveContainer;
-/**
- *  当前激活的弹幕
- */
-@property (strong, nonatomic, readonly) NSMutableArray <JHDanmakuContainer *>*activeContainer;
 
 /**
  额外速度 默认1.0倍速
@@ -134,6 +120,5 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sendDanmaku:(JHBaseDanmaku *)danmaku;
 @end
-
 NS_ASSUME_NONNULL_END
 
