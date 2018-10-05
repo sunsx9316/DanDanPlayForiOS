@@ -71,7 +71,7 @@
     cell.titleLabel.text = _currentDic[_currentArr[indexPath.item]][TITLE_KEY];
     
     if (self.type == DDPPlayerShieldDanmakuTableViewCellTypeShadow) {
-        cell.selected = _currentArr[indexPath.item].integerValue == [DDPCacheManager shareCacheManager].danmakuShadowStyle;
+        cell.selected = _currentArr[indexPath.item].integerValue == [DDPCacheManager shareCacheManager].danmakuEffectStyle;
     }
     else {
         DDPDanmakuShieldType danmakuShieldType = [DDPCacheManager shareCacheManager].danmakuShieldType;
@@ -84,7 +84,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     //单选
     if (self.type == DDPPlayerShieldDanmakuTableViewCellTypeShadow) {
-        [DDPCacheManager shareCacheManager].danmakuShadowStyle = _currentArr[indexPath.item].integerValue;
+        [DDPCacheManager shareCacheManager].danmakuEffectStyle = _currentArr[indexPath.item].integerValue;
     }
     else {
         DDPDanmakuShieldType danmakuShieldType = [DDPCacheManager shareCacheManager].danmakuShieldType;
@@ -111,10 +111,10 @@
 #pragma mark - 懒加载
 - (NSDictionary<NSNumber *,NSDictionary *> *)shadowStyleDic {
     if (_shadowStyleDic == nil) {
-        _shadowStyleDic = @{@(JHDanmakuShadowStyleNone) : @{TITLE_KEY : @"无"},
-                            @(JHDanmakuShadowStyleStroke) : @{TITLE_KEY : @"描边"},
-                            @(JHDanmakuShadowStyleShadow) : @{TITLE_KEY : @"投影"},
-                            @(JHDanmakuShadowStyleGlow) : @{TITLE_KEY : @"模糊阴影"}
+        _shadowStyleDic = @{@(JHDanmakuEffectStyleNone) : @{TITLE_KEY : @"无"},
+                            @(JHDanmakuEffectStyleStroke) : @{TITLE_KEY : @"描边"},
+                            @(JHDanmakuEffectStyleShadow) : @{TITLE_KEY : @"投影"},
+                            @(JHDanmakuEffectStyleGlow) : @{TITLE_KEY : @"模糊阴影"}
                             
                             };
     }
@@ -135,10 +135,10 @@
 
 - (NSArray<NSNumber *> *)shadowStyleArr {
     if (_shadowStyleArr == nil) {
-        _shadowStyleArr = @[@(JHDanmakuShadowStyleNone),
-                            @(JHDanmakuShadowStyleStroke),
-                            @(JHDanmakuShadowStyleShadow),
-                            @(JHDanmakuShadowStyleGlow)];
+        _shadowStyleArr = @[@(JHDanmakuEffectStyleNone),
+                            @(JHDanmakuEffectStyleStroke),
+                            @(JHDanmakuEffectStyleShadow),
+                            @(JHDanmakuEffectStyleGlow)];
     }
     return _shadowStyleArr;
 }

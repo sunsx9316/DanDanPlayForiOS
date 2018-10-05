@@ -247,10 +247,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         NSString *danmakuCountStr = [NSString stringWithFormat:@"共%ld条弹幕", _model.danmakus.collection.count];
         
         if (matchName.length) {
-            [self.matchNoticeView.titleButton setTitle:[matchName stringByAppendingFormat:@"\n%@", danmakuCountStr] forState:UIControlStateNormal];
+            self.matchNoticeView.title = [matchName stringByAppendingFormat:@"\n%@", danmakuCountStr];
         }
         else {
-            [self.matchNoticeView.titleButton setTitle:danmakuCountStr forState:UIControlStateNormal];
+            self.matchNoticeView.title = danmakuCountStr;
         }
         [self.matchNoticeView show];
         
@@ -260,14 +260,15 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     NSInteger lastPlayTime = _model.lastPlayTime;
     
     if (lastPlayTime > 0) {
-        [self.lastTimeNoticeView.titleButton setTitle:[NSString stringWithFormat:@"点击继续观看: %@", ddp_mediaFormatterTime((int)lastPlayTime)] forState:UIControlStateNormal];
+        self.lastTimeNoticeView.title = [NSString stringWithFormat:@"点击继续观看: %@", ddp_mediaFormatterTime((int)lastPlayTime)];
         @weakify(self)
-        [self.lastTimeNoticeView.titleButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
+        self.lastTimeNoticeView.touchTitleCallBack = ^{
             @strongify(self)
             if (!self) return;
             
-            [self.player jump:(int)time completionHandler:nil];
-        }];
+            [self.player jump:(int)lastPlayTime completionHandler:nil];
+        };
+        
         [self.lastTimeNoticeView show];
     }
 }
@@ -849,14 +850,14 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     if (_matchNoticeView == nil) {
         _matchNoticeView = [[DDPPlayerMatchView alloc] init];
         @weakify(self)
-        [_matchNoticeView.customMathButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
+        _matchNoticeView.touchMatchButtonCallBack = ^{
             @strongify(self)
             if (!self) return;
             
             if ([self.delegate respondsToSelector:@selector(interfaceViewDidTouchCustomMatchButton)]) {
                 [self.delegate interfaceViewDidTouchCustomMatchButton];
             }
-        }];
+        };
         
         [self addSubview:_matchNoticeView];
     }

@@ -59,7 +59,7 @@
 
 - (NSString *)quickHash {
     if (_quickHash == nil) {
-        _quickHash = [[NSString stringWithFormat:@"%@%ld", self.fileNameWithPathExtension, self.length] md5String];
+        _quickHash = [[NSString stringWithFormat:@"%@%lu", self.fileNameWithPathExtension, (unsigned long)self.length] md5String];
     }
     return _quickHash;
 }

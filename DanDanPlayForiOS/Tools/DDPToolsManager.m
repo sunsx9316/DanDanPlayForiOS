@@ -88,6 +88,10 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 //    NSArray *danmakuTypes = ddp_danmakuTypes();
 //    NSURL *aURL = [url URLByDeletingLastPathComponent];
     
+    if (url == nil) {
+        return @[];
+    }
+    
     NSString *fileName = [url.lastPathComponent stringByDeletingPathExtension];
     NSFileManager *manager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:[url URLByDeletingLastPathComponent] includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:nil];
@@ -152,6 +156,11 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
                             completion:(GetFilesAction)completion {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         DDPFile *rootFile = ddp_getANewRootFile();
+        
+        if (rootFile.fileURL == nil) {
+            completion(rootFile);
+            return;
+        }
         
         NSFileManager* manager = [NSFileManager defaultManager];
         
@@ -263,6 +272,11 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             }
             return parentFile;
         };
+        
+        if (rootFile.fileURL == nil) {
+            completion(rootFile);
+            return;
+        }
         
         NSDirectoryEnumerator *childFilesEnumerator = [manager enumeratorAtURL:rootFile.fileURL includingPropertiesForKeys:nil options:kNilOptions errorHandler:nil];
         

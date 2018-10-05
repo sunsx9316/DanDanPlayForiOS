@@ -25,7 +25,8 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 };
 
 @interface DDPCacheManager ()<TOSMBSessionTaskDelegate>
-
+@property (strong, nonatomic) NSMutableOrderedSet <DDPFilter *>*mDanmakuFilters;
+@property (strong, nonatomic) NSMutableOrderedSet <DDPLinkInfo *>*mLinkInfoHistorys;
 @end
 
 @implementation DDPCacheManager (multiply)
@@ -42,8 +43,25 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 
 #pragma mark -
 - (NSArray<DDPFilter *> *)danmakuFilters {
-    WCTDatabase *db = [DDPCacheManager shareDB];
-    return [db getAllObjectsOfClass:DDPFilter.class fromTable:DDPFilter.className];
+    return self.mDanmakuFilters.array;
+}
+
+- (NSMutableOrderedSet<DDPFilter *> *)mDanmakuFilters {
+    NSMutableOrderedSet<DDPFilter *> *_mDanmakuFilters = objc_getAssociatedObject(self, _cmd);
+    if (_mDanmakuFilters == nil) {
+        WCTDatabase *db = [DDPCacheManager shareDB];
+        NSArray *datas = [db getAllObjectsOfClass:DDPFilter.class fromTable:DDPFilter.className];
+        if (datas) {
+            _mDanmakuFilters = [NSMutableOrderedSet orderedSetWithArray:datas];
+        }
+        else {
+            _mDanmakuFilters = [NSMutableOrderedSet orderedSet];
+        }
+        
+        objc_setAssociatedObject(self, _cmd, _mDanmakuFilters, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
+    return _mDanmakuFilters;
 }
 
 - (void)addFilter:(DDPFilter *)model {
@@ -54,12 +72,14 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 
 - (void)removeFilter:(DDPFilter *)model {
     if (model) {
-        [self removeFilter:model];
+        [self removeFilters:@[model]];
     }
 }
 
 - (void)addFilters:(NSArray<DDPFilter *> *)models {
     if (models.count == 0) return;
+    
+    [self.mDanmakuFilters addObjectsFromArray:models];
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObjects:models into:DDPFilter.className];
@@ -67,6 +87,8 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 
 - (void)removeFilters:(NSArray<DDPFilter *> *)models {
     if (models.count == 0) return;
+    
+    [self.mDanmakuFilters removeObjectsInArray:models];
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     NSString *tableName = DDPFilter.className;
@@ -79,10 +101,27 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     }];
 }
 
+#pragma mark -
 - (NSArray<DDPLinkInfo *> *)linkInfoHistorys {
-    WCTDatabase *db = [DDPCacheManager shareDB];
-    NSArray *arr = [db getAllObjectsOfClass:DDPLinkInfo.class fromTable:DDPLinkInfo.className];
-    return arr;
+    return self.mLinkInfoHistorys.array;
+}
+
+- (NSMutableOrderedSet<DDPFilter *> *)mLinkInfoHistorys {
+    NSMutableOrderedSet<DDPFilter *> *_mLinkInfoHistorys = objc_getAssociatedObject(self, _cmd);
+    if (_mLinkInfoHistorys == nil) {
+        WCTDatabase *db = [DDPCacheManager shareDB];
+        NSArray *datas = [db getAllObjectsOfClass:DDPLinkInfo.class fromTable:DDPLinkInfo.className];
+        if (datas) {
+            _mLinkInfoHistorys = [NSMutableOrderedSet orderedSetWithArray:datas];
+        }
+        else {
+            _mLinkInfoHistorys = [NSMutableOrderedSet orderedSet];
+        }
+        
+        objc_setAssociatedObject(self, _cmd, _mLinkInfoHistorys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
+    return _mLinkInfoHistorys;
 }
 
 - (DDPLinkInfo *)lastLinkInfo {
@@ -93,12 +132,16 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 - (void)addLinkInfo:(DDPLinkInfo *)linkInfo {
     if (linkInfo == nil) return;
     
+    [self.mLinkInfoHistorys addObject:linkInfo];
+    
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObject:linkInfo into:DDPLinkInfo.className];
 }
 
 - (void)removeLinkInfo:(DDPLinkInfo *)linkInfo {
     if (linkInfo == nil) return;
+    
+    [self.mLinkInfoHistorys removeObject:linkInfo];
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db deleteObjectsFromTable:linkInfo.className where:DDPLinkInfo.selectedIpAdress == linkInfo.selectedIpAdress];

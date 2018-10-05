@@ -161,7 +161,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 + (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <DDPDanmaku *>*)danmakus filter:(BOOL)filter {
     NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *> *> *dic = [NSMutableDictionary dictionary];
     UIFont *font = [DDPCacheManager shareCacheManager].danmakuFont;
-    JHDanmakuShadowStyle shadowStyle = [DDPCacheManager shareCacheManager].danmakuShadowStyle;
+    JHDanmakuEffectStyle shadowStyle = [DDPCacheManager shareCacheManager].danmakuEffectStyle;
     NSArray *danmakuFilters = [DDPCacheManager shareCacheManager].danmakuFilters;
     
     [danmakus enumerateObjectsUsingBlock:^(DDPDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -174,7 +174,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
         
         JHBaseDanmaku *tempDanmaku = nil;
         if (obj.mode == DDPDanmakuModeBottom || obj.mode == DDPDanmakuModeTop) {
-            tempDanmaku = [[JHFloatDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font during:3 direction:obj.mode == DDPDanmakuModeBottom ? JHFloatDanmakuDirectionB2T : JHFloatDanmakuDirectionT2B];
+            tempDanmaku = [[JHFloatDanmaku alloc] initWithFont:font text:obj.message textColor:[UIColor colorWithRGB:obj.color] effectStyle:shadowStyle during:3 position:obj.mode == DDPDanmakuModeBottom ? JHFloatDanmakuPositionAtBottom : JHFloatDanmakuPositionAtTop];
         }
         else {
             CGFloat speed = 130 - obj.message.length * 2.5;
@@ -184,8 +184,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
             }
             
             speed += arc4random() % 20;
-            
-            tempDanmaku = [[JHScrollDanmaku alloc] initWithFontSize:0 textColor:[UIColor colorWithRGB:obj.color] text:obj.message shadowStyle:shadowStyle font:font speed:speed direction:JHScrollDanmakuDirectionR2L];
+            tempDanmaku = [[JHScrollDanmaku alloc] initWithFont:font text:obj.message textColor:[UIColor colorWithRGB:obj.color] effectStyle:shadowStyle speed:speed direction:JHScrollDanmakuDirectionR2L];
         }
         tempDanmaku.appearTime = obj.time;
         if (filter) {
@@ -300,7 +299,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 + (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <DDPFilter *>*)danmakuFilters {
     for (DDPFilter *filter in danmakuFilters) {
         //使用正则表达式
-        if (filter.isRegex) {
+        if (filter.isRegex && filter.content.length > 0) {
             if ([content matchesRegex:filter.content options:NSRegularExpressionCaseInsensitive]) {
                 return YES;
             }

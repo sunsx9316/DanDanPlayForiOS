@@ -22,7 +22,12 @@
              @"rate" : @"Rate",
              @"created" : @"Created",
              @"lastPlay" : @"LastPlay",
-             @"duration" : @"Duration"};
+             @"duration" : @"Duration",
+             @"position" : @"Position",
+             @"seekable" : @"Seekable",
+             @"volume" : @"Volume",
+             @"playing" : @"Playing"
+             };
 }
 
 @end

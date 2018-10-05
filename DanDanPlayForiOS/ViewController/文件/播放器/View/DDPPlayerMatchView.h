@@ -9,5 +9,5 @@
 #import "DDPPlayerNoticeView.h"
 
 @interface DDPPlayerMatchView : DDPPlayerNoticeView
-@property (strong, nonatomic) UIButton *customMathButton;
+@property (copy, nonatomic) void(^touchMatchButtonCallBack)(void);
 @end
