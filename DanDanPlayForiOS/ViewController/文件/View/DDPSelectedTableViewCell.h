@@ -6,9 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 
-@interface DDPSelectedTableViewCell : UITableViewCell
+@interface DDPSelectedTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIImageView *iconImgView;
 @end

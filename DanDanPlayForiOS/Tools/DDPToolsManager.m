@@ -107,23 +107,6 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
     return subTitleFiles;
 }
 
-- (void)popLoginAlertViewInViewController:(UIViewController *)viewController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([DDPCacheManager shareCacheManager].user == nil) {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"需要登录才能继续操作" message:@"跳转到登录页吗？" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [viewController.navigationController pushViewController:vc animated:YES];
-            }]];
-            
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            
-            [viewController presentViewController:vc animated:YES completion:nil];
-        }
-    });
-}
-
 
 #pragma mark - 本地文件
 - (void)startDiscovererFileParentFolderWithChildrenFile:(DDPFile *)file

@@ -8,6 +8,7 @@
 
 #import "HomePageBangumiProgressCollectionViewCell.h"
 #import "DDPCacheManager.h"
+#import "DDPAttentionDetailViewController.h"
 
 @interface HomePageBangumiProgressCollectionViewCell ()
 
@@ -27,6 +28,17 @@
     self.descLabel.font = [UIFont ddp_verySmallSizeFont];
     self.descLabel.textColor = [UIColor lightGrayColor];
     self.progressLabel.textColor = [UIColor ddp_mainColor];
+    
+    let ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self addGestureRecognizer:ges];
+}
+
+- (void)tapGesture:(UITapGestureRecognizer *)ges {
+    DDPAttentionDetailViewController *vc = [[DDPAttentionDetailViewController alloc] init];
+    vc.animateId = self.model.identity;
+    vc.isOnAir = self.model.isOnAir;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.viewController.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)setModel:(DDPBangumiQueueIntro *)model {

@@ -13,6 +13,7 @@
 #import "DDPCollectionCache.h"
 #import "DDPLinkInfo.h"
 #import "DDPSMBDownloadTaskCache.h"
+#import "DDPUser+WCTTableCoding.h"
 
 @implementation DDPCacheManager (DB)
 
@@ -29,6 +30,7 @@
         [_database createTableAndIndexesOfName:DDPSMBDownloadTaskCache.className withClass:DDPSMBDownloadTaskCache.class];
         [_database createTableAndIndexesOfName:DDPLinkInfo.className withClass:DDPLinkInfo.class];
         [_database createTableAndIndexesOfName:DDPSMBInfo.className withClass:DDPSMBInfo.class];
+        [_database createTableAndIndexesOfName:DDPUser.className withClass:DDPUser.class];
     });
     return _database;
 }

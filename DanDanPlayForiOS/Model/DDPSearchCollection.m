@@ -11,7 +11,7 @@
 @implementation DDPSearchCollection
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"collection" : @"Animes", @"hasMore" : @"HasMore"};
+    return @{@"collection" : @"animes"};
 }
 
 @end

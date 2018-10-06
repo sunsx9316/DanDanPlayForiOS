@@ -69,9 +69,41 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 @property (strong, nonatomic) NSURL *mediaURL;
 @property (assign, nonatomic) CGFloat volume;
 @property (assign, nonatomic) NSInteger subtitleDelay;
-@property (strong, nonatomic, readonly) NSArray *subtitleIndexs;
-@property (strong, nonatomic, readonly) NSArray *subtitleTitles;
+
+/**
+ 字幕索引
+ */
+@property (strong, nonatomic, readonly) NSArray <NSNumber *>*subtitleIndexs;
+
+/**
+ 字幕名称
+ */
+@property (strong, nonatomic, readonly) NSArray <NSString *>*subtitleTitles;
+
+/**
+ 当前字幕索引
+ */
 @property (assign, nonatomic) int currentSubtitleIndex;
+
+
+/**
+ 音频索引
+ */
+@property (strong, nonatomic, readonly) NSArray <NSNumber *>*audioChannelIndexs;
+
+/**
+ 音频名称
+ */
+@property (strong, nonatomic, readonly) NSArray <NSString *>*audioChannelTitles;
+
+/**
+ 当前音频索引
+ */
+@property (assign, nonatomic) int currentAudioChannelIndex;
+
+
+
+
 @property (assign, nonatomic) float speed;
 
 /**

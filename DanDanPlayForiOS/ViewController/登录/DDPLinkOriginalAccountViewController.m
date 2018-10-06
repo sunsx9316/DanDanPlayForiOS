@@ -47,14 +47,14 @@
     }
     
     DDPRegisterRequest *request = [[DDPRegisterRequest alloc] init];
-    request.userId = [NSString stringWithFormat:@"%ld", self.user.identity];
-    request.token = self.user.token;
+    request.userId = [NSString stringWithFormat:@"%lu", (unsigned long)self.user.identity];
+    request.token = self.user.legacyTokenNumber;
     request.account = account;
     request.password = password;
     
     MBProgressHUD *aHud = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:self.view];
     aHud.label.text = @"绑定中...";
-    [DDPLoginNetManagerOperation loginRegisterRelateOnlyWithRequest:request completionHandler:^(NSError *error) {
+    [DDPLoginNetManagerOperation relateOnlyWithRequest:request completionHandler:^(NSError *error) {
         if (error) {
             [aHud hideAnimated:YES];
             [self.view showWithError:error];
@@ -62,14 +62,13 @@
         else {
             aHud.label.text = @"登录中...";
             
-            [DDPLoginNetManagerOperation loginWithSource:DDPUserTypeDefault userId:account token:password completionHandler:^(DDPUser *responseObject1, NSError *error1) {
+            [DDPLoginNetManagerOperation loginWithSource:DDPUserLoginTypeDefault userId:account token:password completionHandler:^(DDPUser *responseObject1, NSError *error1) {
                 [aHud hideAnimated:YES];
                 
                 if (error1) {
                     [self.view showWithError:error1];
                 }
                 else {
-                    [DDPCacheManager shareCacheManager].user = responseObject1;
                     [self.navigationController popToRootViewControllerAnimated:YES];
                     [self.view showWithText:@"登录成功!"];
                 }

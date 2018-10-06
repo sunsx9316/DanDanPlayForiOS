@@ -10,4 +10,6 @@
 
 @interface DDPHomePageSearchViewController : DDPBaseViewController
 @property (strong, nonatomic) DDPDMHYSearchConfig *config;
+
+- (void)downloadVideoWithMagnet:(NSString *)magnet;
 @end

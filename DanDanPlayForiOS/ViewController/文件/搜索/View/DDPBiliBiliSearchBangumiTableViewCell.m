@@ -38,9 +38,9 @@
     _model = model;
     [self.coverImgView ddp_setImageWithURL:_model.cover resize:CGSizeMake(100, 140) roundedCornersRadius:6];
     self.finishButton.hidden = !_model.isFinish;
-    [self.danmakuCountButton setTitle:[NSString stringWithFormat:@"%ld", _model.danmakuCount] forState:UIControlStateNormal];
+    [self.danmakuCountButton setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)_model.danmakuCount] forState:UIControlStateNormal];
     self.nameLabel.text = _model.name;
-    self.totalEpisodeLabel.text = [NSString stringWithFormat:@"共%ld集", _model.totalCount];
+    self.totalEpisodeLabel.text = [NSString stringWithFormat:@"共%lu集", (unsigned long)_model.totalCount];
     self.briefLabel.text = _model.desc;
 }
 

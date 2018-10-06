@@ -16,9 +16,9 @@
 @property (copy, nonatomic) NSString *keyword;
 
 /**
- 动画类型id
+ 动画类型id 完整列表 ->  res.acplay.net/type
  */
-@property (assign, nonatomic) DDPEpisodeType episodeType;
+@property (assign, nonatomic) NSInteger episodeType;
 
 /**
  字幕组id
@@ -28,5 +28,5 @@
 /**
  链接id
  */
-@property (copy, nonatomic) NSString *link;
+//@property (copy, nonatomic) NSString *link;
 @end

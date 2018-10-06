@@ -19,7 +19,12 @@
 /**
  节目类型
  */
-@property (assign, nonatomic) DDPEpisodeType type;
+@property (strong, nonatomic) DDPProductionType type;
+
+/**
+ 类型描述
+ */
+@property (copy, nonatomic) NSString *typeDescription;
 
 @property (strong, nonatomic) NSArray <DDPEpisode *>*episodes;
 @end

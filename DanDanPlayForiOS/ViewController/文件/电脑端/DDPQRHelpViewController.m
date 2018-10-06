@@ -10,6 +10,7 @@
 #import "DDPBaseScrollView.h"
 #import "DDPFileTreeNode.h"
 #import "DDPEdgeButton.h"
+#import "DDPTransparentNavigationBar.h"
 
 @interface DDPQRHelpViewController ()<UIScrollViewDelegate>
 @property (strong, nonatomic) UILabel *titleLabel;
@@ -21,11 +22,6 @@
 @end
 
 @implementation DDPQRHelpViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self setNavigationBarWithColor:[UIColor clearColor]];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -57,6 +53,10 @@
         make.centerX.mas_equalTo(0);
         make.bottom.mas_offset(-20);
     }];
+}
+
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
 }
 
 #pragma mark - UIScrollViewDelegate

@@ -11,10 +11,10 @@
 @implementation DDPMatch
 
 + (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"identity" : @"EpisodeId",
-             @"name" : @"EpisodeTitle",
+    return @{@"identity" : @[@"EpisodeId", @"episodeId"],
+             @"name" : @[@"EpisodeTitle", @"episodeTitle"],
              @"animeTitle" : @"AnimeTitle",
-             @"type" : @"Type"};
+             @"type" : @[@"Type", @"type"]};
 }
 
 @end

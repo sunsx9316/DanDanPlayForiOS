@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UILabel *viewLabel;
 @property (strong, nonatomic) DDPEdgeButton *searchButton;
 @property (strong, nonatomic) UIVisualEffectView *blurView;
+@property (strong, nonatomic) UIButton *likeButton;
 @end
 
 @implementation DDPAttentionDetailTableViewCell
@@ -46,7 +47,7 @@
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.iconImgView).mas_offset(3);
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
-            make.right.mas_offset(-10);
+//            make.right.mas_offset(-10);
         }];
         
         [self.viewLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -60,6 +61,13 @@
             make.left.equalTo(self.nameLabel);
             make.bottom.mas_equalTo(self.iconImgView).mas_offset(-3);
         }];
+        
+        [self.contentView addSubview:self.likeButton];
+        [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-10);
+            make.centerY.mas_equalTo(self.nameLabel);
+            make.left.mas_equalTo(self.nameLabel.mas_right).mas_equalTo(5);
+        }];
     }
     return self;
 }
@@ -72,6 +80,8 @@
 //    self.onAirLabel.hidden = !_model.isOnAir;
     self.nameLabel.text = _model.name;
     
+    self.likeButton.selected = _model.isFavorite;
+    
     __block NSUInteger episodeWatched = 0;
     [_model.collection enumerateObjectsUsingBlock:^(DDPEpisode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.time.length) {
@@ -79,12 +89,18 @@
         }
     }];
     
-    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集",  episodeWatched, _model.collection.count];
+    self.viewLabel.text = [NSString stringWithFormat:@"已看%lu集 , 共%lu集",  (unsigned long)episodeWatched, (unsigned long)_model.collection.count];
 }
 
 - (void)touchSearchButton:(UIButton *)sender {
     if (self.touchSearchButtonCallBack) {
         self.touchSearchButtonCallBack(self.model);
+    }
+}
+
+- (void)touckLikeButton:(UIButton *)sender {
+    if (self.touchLikeButtonCallBack) {
+        self.touchLikeButtonCallBack(self.model);
     }
 }
 
@@ -101,7 +117,7 @@
             if (!self) return;
             
             YYPhotoGroupItem *item = [[YYPhotoGroupItem alloc] init];
-            item.largeImageURL = _model.imageUrl;
+            item.largeImageURL = self.model.imageUrl;
             YYPhotoBrowseView *view = [[YYPhotoBrowseView alloc] initWithGroupItems:@[item]];
             [view presentFromImageView:self.iconImgView toContainer:[UIApplication sharedApplication].keyWindow animated:YES completion:nil];
         }]];
@@ -169,6 +185,18 @@
         [self.contentView addSubview:_blurView];
     }
     return _blurView;
+}
+
+- (UIButton *)likeButton {
+    if (_likeButton == nil) {
+        _likeButton = [[UIButton alloc] init];
+        _likeButton.ddp_hitTestSlop = UIEdgeInsetsMake(-10, -10, -10, -10);
+        [_likeButton setBackgroundImage:[[UIImage imageNamed:@"home_unlike"] imageByTintColor:[UIColor ddp_mainColor]] forState:UIControlStateSelected];
+        [_likeButton setBackgroundImage:[[UIImage imageNamed:@"home_like"] imageByTintColor:[UIColor grayColor]] forState:UIControlStateNormal];
+        [_likeButton addTarget:self action:@selector(touckLikeButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_likeButton setRequiredContentHorizontalResistancePriority];
+    }
+    return _likeButton;
 }
 
 @end

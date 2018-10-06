@@ -12,6 +12,7 @@
 #import <TOSMBSessionDownloadTaskPrivate.h>
 #import "DDPSMBFileHashCache.h"
 #import "DDPCacheManager+multiply.h"
+#import "DDPBaseNetManager.h"
 
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
@@ -32,6 +33,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 {
     //已经接收的大小
     NSUInteger _totalAlreadyReceive;
+    DDPUser *_currentUser;
 }
 
 + (instancetype)shareCacheManager {
@@ -47,7 +49,9 @@ static NSString *const collectionCacheKey = @"collection_cache";
 #pragma mark - 懒加载
 - (YYCache *)cache {
     if (_cache == nil) {
-        _cache = [[YYCache alloc] initWithPath:[[UIApplication sharedApplication].documentsPath stringByAppendingPathComponent:@"dandanplay_cache"]];
+        _cache = [[YYCache alloc] initWithName:@"dandanplay_cache"];
+        _cache.memoryCache.shouldRemoveAllObjectsOnMemoryWarning = false;
+        _cache.memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = false;
     }
     return _cache;
 }
@@ -66,24 +70,23 @@ static NSString *const collectionCacheKey = @"collection_cache";
     return _observers;
 }
 
-
-#pragma mark -
-- (void)setUser:(DDPUser *)user {
-    [self.cache setObject:user forKey:[self keyWithSEL:_cmd]];
+- (DDPUser *)currentUser {
+    if (_currentUser == nil) {
+        _currentUser = [self _currentUser];
+    }
+    return _currentUser;
 }
 
-- (DDPUser *)user {
-    DDPUser *_user = (DDPUser *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
-    return _user;
-}
-
-#pragma mark - 
-- (void)setLastLoginUser:(DDPUser *)lastLoginUser {
-    [self.cache setObject:lastLoginUser forKey:[self keyWithSEL:_cmd]];
-}
-
-- (DDPUser *)lastLoginUser {
-    return (DDPUser *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+- (void)setCurrentUser:(DDPUser *)currentUser {
+    _currentUser = currentUser;
+    [[DDPBaseNetManager shareNetManager] resetJWTToken:_currentUser.JWTToken];
+    [self _saveWithUser:_currentUser];
+    
+    for (id<DDPCacheManagerDelagate>obj in self.observers) {
+        if ([obj respondsToSelector:@selector(userLoginStatusDidChange:)]) {
+            [obj userLoginStatusDidChange:_currentUser];
+        }
+    }
 }
 
 #pragma mark - 

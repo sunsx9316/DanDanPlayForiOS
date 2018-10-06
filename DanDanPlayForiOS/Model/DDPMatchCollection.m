@@ -11,7 +11,7 @@
 @implementation DDPMatchCollection
 
 + (NSString *)collectionKey {
-    return @"Matches";
+    return @"matches";
 }
 
 @end

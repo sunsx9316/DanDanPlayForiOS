@@ -34,7 +34,7 @@
     _model = model;
     [self.iconImgView ddp_setImageWithURL:_model.pic resize:CGSizeMake(130, 80) roundedCornersRadius:6];
     self.nameLabel.text = _model.name;
-    [self.playButton setTitle:[NSString stringWithFormat:@"%ld", _model.play] forState:UIControlStateNormal];
+    [self.playButton setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)_model.play] forState:UIControlStateNormal];
     self.timeLabel.text = _model.duration;
 }
 

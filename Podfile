@@ -2,6 +2,7 @@
 platform :ios, '9.0'
 
 inhibit_all_warnings!
+use_modular_headers!
 
 target 'DanDanPlayForiOS' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -10,8 +11,11 @@ target 'DanDanPlayForiOS' do
     # Pods for DanDanPlayForiOS
     
     pod 'DDPEncrypt', :path => 'LocalVender/Encrypt'
-    pod 'JHDanmakuRender', :path => 'LocalVender/JHDanmakuRender'
+    # pod 'JHDanmakuRender', :path => 'LocalVender/JHDanmakuRender'
+    pod 'YYUtility', :path => 'LocalVender/YYUtility'
     
+    # 友盟统计
+    pod 'UMengAnalytics'
     # 集成新浪微博
     pod 'UMengUShare/Social/ReducedSina'
     # 集成QQ
@@ -28,7 +32,7 @@ target 'DanDanPlayForiOS' do
     pod 'YYCategories'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
-    #pod 'JHDanmakuRender'
+    pod 'JHDanmakuRender'
     pod 'UITableView+FDTemplateLayoutCell'
     pod 'RATreeView'
     pod 'WMPageController'
@@ -42,6 +46,7 @@ target 'DanDanPlayForiOS' do
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
     pod 'WCDB'
+    pod 'RTRootNavigationController'
     #防止崩溃
     pod 'BayMaxProtector'
     #内存泄露检测

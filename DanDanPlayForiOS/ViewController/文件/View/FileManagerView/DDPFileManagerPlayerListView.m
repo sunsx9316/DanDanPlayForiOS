@@ -29,6 +29,7 @@
         
         self.currentFile = [DDPCacheManager shareCacheManager].currentPlayVideoModel.file.parentFile;
         
+         [self addSubview:self.tableView];
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
@@ -339,9 +340,6 @@
 //                }
             }];
         }
-        
-        
-        [self addSubview:_tableView];
     }
     return _tableView;
 }

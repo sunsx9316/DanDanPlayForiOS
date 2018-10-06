@@ -8,25 +8,22 @@
 
 #import "DDPBaseDanmaku+Tools.h"
 
-static NSString *const filterKey = @"filter";
-static NSString *const sendByUserIdKey = @"send_by_user_id";
-
 @implementation JHBaseDanmaku (Tools)
 
 - (void)setFilter:(BOOL)filter {
-    objc_setAssociatedObject(self, &filterKey, @(filter), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(filter), @(filter), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)filter {
-    return [objc_getAssociatedObject(self, &filterKey) boolValue];
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
 
 - (void)setSendByUserId:(NSUInteger)sendByUserId {
-    objc_setAssociatedObject(self, &sendByUserIdKey, @(sendByUserId), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(sendByUserId), @(sendByUserId), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (NSUInteger)sendByUserId {
-    return [objc_getAssociatedObject(self, &sendByUserIdKey) integerValue];
+    return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
 @end

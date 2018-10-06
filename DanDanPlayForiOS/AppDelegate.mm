@@ -20,6 +20,7 @@
 #import "DDPQRScannerViewController.h"
 #import "DDPDownloadManager.h"
 #import <BayMaxProtector.h>
+#import <UMMobClick/MobClick.h>
 
 @interface AppDelegate ()
 
@@ -32,7 +33,7 @@
     
     [self configIQKeyboardManager];
     [self configBugly];
-    [self configUMShare];
+    [self configUM];
     [self configDDLog];
     [self configOther];
     
@@ -174,11 +175,17 @@
     [Bugly startWithAppId:BUGLY_KEY];
 }
 
-- (void)configUMShare {
+- (void)configUM {
     [[UMSocialManager defaultManager] openLog:YES];
     [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
+    
+    //友盟统计
+    UMConfigInstance.appKey = UM_SHARE_KEY;
+    UMConfigInstance.channelId = @"App Store";
+    [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
+    [MobClick startWithConfigure:UMConfigInstance];
 }
 
 - (void)configDDLog {
@@ -189,6 +196,10 @@
     if (@available(iOS 11.0, *)) {
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
+    
+    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
+    
+    [[DDPBaseNetManager shareNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
 }
 
 - (void)configCrash {

@@ -9,6 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "DDPMacroDefinition.h"
 
+typedef NSString* DDPProductionType;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeTVSeries;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeTVSpecial;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeOVA;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMovie;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicVideo;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeWeb;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeOther;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicJPMovie;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicJPDrama;
+FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicUnknown;
+
+
+
 @class DDPFile, DDPLinkFile;
 
 /**
@@ -43,18 +57,18 @@ typedef NS_ENUM(NSUInteger, DDPDanmakuType) {
  - DDPEpisodeTypeThreeDTVPlayOrChineseAnimate: 三次元电视剧或国产动画
  - DDPEpisodeTypeUnknow: 未知（尚未分类）
  */
-typedef NS_ENUM(NSInteger, DDPEpisodeType) {
-    DDPEpisodeTypeAnimate = 1,
-    DDPEpisodeTypeAnimateSpecial,
-    DDPEpisodeTypeOVA,
-    DDPEpisodeTypePalgantong,
-    DDPEpisodeTypeMV,
-    DDPEpisodeTypeWeb,
-    DDPEpisodeTypeOther,
-    DDPEpisodeTypeThreeDMovie = 10,
-    DDPEpisodeTypeThreeDTVPlayOrChineseAnimate = 20,
-    DDPEpisodeTypeUnknow = 99,
-};
+//typedef NS_ENUM(NSInteger, DDPEpisodeType) {
+//    DDPEpisodeTypeAnimate = 1,
+//    DDPEpisodeTypeAnimateSpecial,
+//    DDPEpisodeTypeOVA,
+//    DDPEpisodeTypePalgantong,
+//    DDPEpisodeTypeMV,
+//    DDPEpisodeTypeWeb,
+//    DDPEpisodeTypeOther,
+//    DDPEpisodeTypeThreeDMovie = 10,
+//    DDPEpisodeTypeThreeDTVPlayOrChineseAnimate = 20,
+//    DDPEpisodeTypeUnknow = 99,
+//};
 
 
 /**
@@ -131,7 +145,7 @@ CG_INLINE uint32_t ddp_danmakuColor(UIColor *color) {
  @param type 类型
  @return 字符串
  */
-UIKIT_EXTERN NSString *DDPEpisodeTypeToString(DDPEpisodeType type);
+//UIKIT_EXTERN NSString *DDPEpisodeTypeToString(DDPEpisodeType type);
 
 /**
  根据错误编号生成错误对象
@@ -224,6 +238,22 @@ UIKIT_EXTERN BOOL ddp_isRootFile(DDPFile *file);
  */
 UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path);
 
+
+/**
+ 是否为小屏幕设备
+
+ @return 是否为小屏幕设备
+ */
+UIKIT_EXTERN BOOL ddp_isSmallDevice(void);
+
+
+/**
+ 是否为横屏
+
+ @return 是否为横屏
+ */
+UIKIT_EXTERN BOOL ddp_isLandscape(void);
+
 @interface DDPMethod : NSObject
 
 /**
@@ -233,12 +263,11 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path);
  */
 + (NSString *)apiPath;
 
-
 /**
- 新路径
+ v2请求路径
 
- @return 新路径
+ @return v2请求路径
  */
-+ (NSString *)newApiPath;
++ (NSString *)apiNewPath;
 
 @end

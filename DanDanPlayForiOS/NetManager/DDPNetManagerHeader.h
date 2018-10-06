@@ -20,5 +20,6 @@
 #import "DDPParseNetManagerOperation.h"
 #import "DDPLinkNetManagerOperation.h"
 #import "DDPPlayHistoryNetManagerOperation.h"
+#import "DDPBangumiNetManagerOperation.h"
 
 #endif /* DDPNetManagerHeader_h */

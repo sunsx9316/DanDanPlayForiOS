@@ -147,43 +147,50 @@
     request.password = password;
     request.email = email;
     if (self.user != nil) {
-        request.userId = self.user.identity > 0 ? [NSString stringWithFormat:@"%ld", self.user.identity] : nil;
-        request.token = self.user.token;
+        request.userId = self.user.identity > 0 ? [NSString stringWithFormat:@"%lu", (unsigned long)self.user.identity] : nil;
+        request.token = self.user.legacyTokenNumber;
     }
     
     MBProgressHUD *aHud = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeIndeterminate InView:self.view];
     aHud.label.text = @"注册中...";
     
-    void(^completionAction)(DDPRegisterResult *, NSError *) = ^(DDPRegisterResult *responseObject, NSError *error) {
-        //关联失败
-        if (error) {
-            [aHud hideAnimated:YES];
-            [self.view showWithError:error];
-        }
-        else {
-            aHud.label.text = @"登录中...";
-            //关联成功自动登录
-            [DDPLoginNetManagerOperation loginWithSource:DDPUserTypeDefault userId:account token:password completionHandler:^(DDPUser *responseObject1, NSError *error1) {
-                [aHud hideAnimated:YES];
-                
-                if (error1) {
-                    [self.view showWithError:error1];
-                }
-                else {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                    [self.view showWithText:@"登录成功!"];
-                }
-            }];
-        }
-    };
-    
     if (self.user != nil) {
         //快速注册并关联
-        [DDPLoginNetManagerOperation loginRegisterRelateToThirdPartyWithRequest:request completionHandler:completionAction];
+        [DDPLoginNetManagerOperation registerRelateToThirdPartyWithRequest:request completionHandler:^(DDPRegisterResult *model, NSError *error) {
+            if (error) {
+                [aHud hideAnimated:YES];
+                [self.view showWithError:error];
+            }
+            else {
+                aHud.label.text = @"登录中...";
+                //关联成功自动登录
+                [DDPLoginNetManagerOperation loginWithSource:DDPUserLoginTypeDefault userId:account token:password completionHandler:^(DDPUser *responseObject1, NSError *error1) {
+                    [aHud hideAnimated:YES];
+                    
+                    if (error1) {
+                        [self.view showWithError:error1];
+                    }
+                    else {
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                        [self.view showWithText:@"登录成功!"];
+                    }
+                }];
+            }
+        }];
     }
     else {
         //普通注册
-        [DDPLoginNetManagerOperation loginRegisterWithRequest:request completionHandler:completionAction];
+        [DDPLoginNetManagerOperation registerWithRequest:request completionHandler:^(DDPUser *model, NSError *error) {
+            if (error) {
+                [aHud hideAnimated:YES];
+                [self.view showWithError:error];
+            }
+            else {
+                aHud.label.text = @"登录中...";
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.view showWithText:@"登录成功!"];
+            }
+        }];
     }
 }
 

@@ -98,7 +98,7 @@
     
     dispatch_group_t _group = dispatch_group_create();
     
-    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.creat.group", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.creat.group", DISPATCH_QUEUE_SERIAL);
     
     dispatch_group_async(_group, _queue, ^{
         
@@ -167,7 +167,7 @@
     
     dispatch_group_t _group = dispatch_group_create();
     
-    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.creat.group", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.creat.group", DISPATCH_QUEUE_SERIAL);
     
     dispatch_group_async(_group, _queue, ^{
         

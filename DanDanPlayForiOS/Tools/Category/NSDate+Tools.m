@@ -73,4 +73,10 @@
     return [dateFormatter stringFromDate:date];
 }
 
+- (NSString *)searchAnimeTimeStyle {
+    NSDateFormatter *dateFormatter = [NSDate shareDateFormatter];
+    dateFormatter.dateFormat = @"yyyy年MM月";
+    return [dateFormatter stringFromDate:self];
+}
+
 @end

@@ -8,6 +8,7 @@
 
 #import "HomePageBangumiProgressTableViewCell.h"
 #import "HomePageBangumiProgressCollectionViewCell.h"
+#import "DDPAttentionDetailViewController.h"
 
 @interface HomePageBangumiProgressTableViewCell ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -15,13 +16,18 @@
 
 @implementation HomePageBangumiProgressTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self addSubview:self.collectionView];
         [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
     }
     return self;
+}
+
+- (instancetype)init {
+    return [self initWithFrame:CGRectZero];
 }
 
 - (void)setCollection:(DDPBangumiQueueIntroCollection *)collection {
@@ -35,7 +41,7 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    HomePageBangumiProgressCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"HomePageBangumiProgressCollectionViewCell" forIndexPath:indexPath];
+    HomePageBangumiProgressCollectionViewCell *cell = [collectionView dequeueReusableCellWithClass:[HomePageBangumiProgressCollectionViewCell class] forIndexPath:indexPath];
     cell.itemSize = [self collectionView:collectionView layout:collectionView.collectionViewLayout sizeForItemAtIndexPath:indexPath];
     cell.model = self.collection.collection[indexPath.item];
     return cell;
@@ -44,22 +50,17 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger width = (NSInteger)((kScreenWidth - 40) / 2.5);
-    return CGSizeMake(width, self.height - 20);
+    return CGSizeMake(width, self.height);
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DDPBangumiQueueIntro *model = self.collection.collection[indexPath.item];
-    if (self.didSelectedBangumiCallBack) {
-        self.didSelectedBangumiCallBack(model);
-    }
-}
+
 
 #pragma mark - 懒加载
 - (UICollectionView *)collectionView {
     if (_collectionView == nil) {
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
         layout.minimumInteritemSpacing = 10;
         layout.minimumInteritemSpacing = 10;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -68,8 +69,10 @@
         _collectionView.backgroundColor = [UIColor ddp_backgroundColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        [_collectionView registerNib:[HomePageBangumiProgressCollectionViewCell loadNib] forCellWithReuseIdentifier:@"HomePageBangumiProgressCollectionViewCell"];
-        [self.contentView addSubview:self.collectionView];
+        _collectionView.pagingEnabled = true;
+        _collectionView.bounces = false;
+        _collectionView.showsHorizontalScrollIndicator = false;
+        [_collectionView registerCellFromXib:[HomePageBangumiProgressCollectionViewCell class]];
     }
     return _collectionView;
 }

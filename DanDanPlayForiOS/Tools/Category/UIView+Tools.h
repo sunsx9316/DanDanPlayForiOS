@@ -30,10 +30,23 @@
 + (UINib *)loadNib;
 
 /**
+ 加载view
+
+ @return 加载view
+ */
++ (instancetype)fromXib;
+
+/**
  点击边缘
  */
 @property (assign, nonatomic) UIEdgeInsets ddp_hitTestSlop;
 
+/**
+ 在一个半透明视图上显示自己
+
+ @param holderView <#holderView description#>
+ @param completion <#completion description#>
+ */
 - (void)ddp_showViewWithHolderView:(UIView *)holderView
                         completion:(void(^)(BOOL finished))completion;
 - (void)ddp_dismissViewWithCompletion:(void(^)(BOOL finished))completion;

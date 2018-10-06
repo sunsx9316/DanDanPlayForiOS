@@ -15,6 +15,34 @@ static int *allowScrollKey;
 
 @implementation UIScrollView (Base)
 
+- (void)setTitleForEmptyView:(NSString *)titleForEmptyView {
+    objc_setAssociatedObject(self, @selector(titleForEmptyView), titleForEmptyView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSString *)titleForEmptyView {
+    NSString *title = objc_getAssociatedObject(self, _cmd);
+    
+    if (title == nil) {
+        title = @"暂无数据";
+        self.titleForEmptyView = title;
+    }
+    return title;
+}
+
+- (void)setDescriptionForEmptyView:(NSString *)descriptionForEmptyView {
+    objc_setAssociatedObject(self, @selector(descriptionForEmptyView), descriptionForEmptyView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSString *)descriptionForEmptyView {
+    NSString *title = objc_getAssociatedObject(self, _cmd);
+    
+    if (title == nil) {
+        title = @"点击刷新";
+        self.descriptionForEmptyView = title;
+    }
+    return title;
+}
+
 - (void)setShowEmptyView:(BOOL)showEmptyView {
     objc_setAssociatedObject(self, &showEmptyViewKey, @(showEmptyView), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -48,13 +76,19 @@ static int *allowScrollKey;
 
 #pragma mark - DZNEmptyDataSetSource
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"暂无数据" attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-    return str;
+    if (self.titleForEmptyView) {
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:self.titleForEmptyView attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+        return str;
+    }
+    return nil;
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"点击刷新" attributes:@{NSFontAttributeName : [UIFont ddp_smallSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-    return str;
+    if (self.descriptionForEmptyView) {
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:self.descriptionForEmptyView attributes:@{NSFontAttributeName : [UIFont ddp_smallSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+        return str;
+    }
+    return nil;
 }
 
 #pragma mark - DZNEmptyDataSetDelegate

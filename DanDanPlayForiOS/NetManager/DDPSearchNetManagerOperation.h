@@ -12,6 +12,7 @@
 #import "DDPBiliBiliBangumiCollection.h"
 #import "DDPDMHYSearchCollection.h"
 #import "DDPDMHYSearchConfig.h"
+#import "DDPSearchAnimeDetailsCollection.h"
 
 @interface DDPSearchNetManagerOperation : NSObject
 /**
@@ -30,6 +31,19 @@
 + (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword
                                             episode:(NSUInteger)episode
                                   completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchCollection))completionHandler;
+
+/**
+ 搜索动画
+
+ @param keyword 关键词
+ @param type 类型
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)searchAnimateWithKeyword:(NSString *)keyword
+                                            type:(DDPProductionType)type
+                                  completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchAnimeDetailsCollection))completionHandler;
+
 
 /**
  *  搜索b站结果

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIViewController (Tools)
-- (void)setNavigationBarWithColor:(UIColor *)color;
+//- (void)setNavigationBarWithColor:(UIColor *)color;
 @end

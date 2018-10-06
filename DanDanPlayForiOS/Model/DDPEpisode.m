@@ -11,8 +11,8 @@
 @implementation DDPEpisode
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"identity" : @[@"Id", @"EpisodeId"],
-             @"name" : @[@"Title", @"EpisodeTitle"],
+    return @{@"identity" : @[@"Id", @"episodeId"],
+             @"name" : @[@"Title", @"episodeTitle"],
              @"time" : @"Time",
              @"isOnAir" : @"IsOnAir"};
 }

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DDPFileManagerPlayerListView;
+@class DDPFileManagerPlayerListView, DDPBaseTableView;
 @protocol DDPFileManagerPlayerListViewDelegete <NSObject>
 @optional
 - (void)managerView:(DDPFileManagerPlayerListView *)managerView didselectedModel:(DDPFile *)file;
@@ -16,6 +16,7 @@
 @end
 
 @interface DDPFileManagerPlayerListView : UIView
+@property (strong, nonatomic, readonly) DDPBaseTableView *tableView;
 @property (strong, nonatomic) DDPFile *currentFile;
 @property (weak, nonatomic) id<DDPFileManagerPlayerListViewDelegete> delegate;
 - (void)scrollToCurrentFile;

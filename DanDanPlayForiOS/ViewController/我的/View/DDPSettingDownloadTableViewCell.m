@@ -38,7 +38,7 @@
         self.countLabel.text = @"99+";
     }
     else {
-        self.countLabel.text = [NSString stringWithFormat:@"%ld", _downLoadCount];
+        self.countLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_downLoadCount];
     }
 }
 

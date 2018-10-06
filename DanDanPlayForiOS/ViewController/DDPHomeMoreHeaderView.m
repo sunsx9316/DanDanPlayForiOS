@@ -26,10 +26,12 @@
             make.right.equalTo(self.moreImgView.mas_left).mas_offset(-5);
         }];
     }
+    
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchHeaderView)]];
     return self;
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchHeaderView {
     if (self.touchCallBack) {
         self.touchCallBack();
     }

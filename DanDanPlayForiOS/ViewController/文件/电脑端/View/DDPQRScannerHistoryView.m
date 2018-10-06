@@ -13,7 +13,7 @@
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "UIView+Tools.h"
 
-static char alertViewValueKey = 0;
+//static char alertViewValueKey = 0;
 
 @interface DDPQRScannerHistoryView ()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet DDPBaseTableView *tableView;

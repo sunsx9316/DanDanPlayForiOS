@@ -19,37 +19,6 @@
 #import "LAContext+Tools.h"
 #import "UIApplication+Tools.h"
 
-CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
-    switch (error.code) {
-        case UMSocialPlatformErrorType_NotSupport:
-            return @"客户端不支持该操作";
-        case UMSocialPlatformErrorType_AuthorizeFailed:
-            return @"授权失败";
-        case UMSocialPlatformErrorType_ShareFailed:
-            return @"分享失败";
-        case UMSocialPlatformErrorType_RequestForUserProfileFailed:
-            return @"请求用户信息失败";
-        case UMSocialPlatformErrorType_ShareDataNil:
-            return @"分享内容为空";
-        case UMSocialPlatformErrorType_ShareDataTypeIllegal:
-            return @"不支持该分享内容";
-        case UMSocialPlatformErrorType_CheckUrlSchemaFail:
-            return @"不支持该分享内容";
-        case UMSocialPlatformErrorType_NotInstall:
-            return @"应用未安装";
-        case UMSocialPlatformErrorType_Cancel:
-            return @"用户取消操作";
-        case UMSocialPlatformErrorType_NotUsingHttps:
-        case UMSocialPlatformErrorType_NotNetWork:
-            return @"网络异常";
-        case UMSocialPlatformErrorType_SourceError:
-            return @"第三方错误";
-        default:
-            return @"未知错误";
-            break;
-    }
-};
-
 @interface DDPLoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) UIImageView *iconImgView;
 @property (strong, nonatomic) DDPTextField *userNameTextField;
@@ -79,20 +48,27 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         make.left.right.mas_equalTo(0);
     }];
     
+    [self fillUserInfo];
+    
     LAContext *laContext = [[LAContext alloc] init];
     //验证touchID是否可用
     if ([laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
         NSString *biometryType = laContext.biometryTypeStringValue;
         
         //用户同意使用touchID登录 并且上次登录过
-        if ([DDPCacheManager shareCacheManager].useTouchIdLogin && [DDPCacheManager shareCacheManager].lastLoginUser) {
+        if ([DDPCacheManager shareCacheManager].useTouchIdLogin && [DDPCacheManager shareCacheManager].currentUser) {
             
             [laContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                      localizedReason:[NSString stringWithFormat:@"使用%@登录 %@", biometryType, [DDPCacheManager shareCacheManager].lastLoginUser.name] reply:^(BOOL success, NSError *error) {
+                      localizedReason:[NSString stringWithFormat:@"使用%@登录 %@", biometryType, [DDPCacheManager shareCacheManager].currentUser.name] reply:^(BOOL success, NSError *error) {
                           if (success) {
                               dispatch_async(dispatch_get_main_queue(), ^{
-                                  DDPUser *user = [DDPCacheManager shareCacheManager].lastLoginUser;
-                                  [self loginWithAccount:user.account password:user.password source:user.loginUserType];
+                                  DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
+                                  if ([user.userType isEqualToString:DDPUserLoginTypeDefault]) {
+                                      [self loginWithAccount:user.account password:user.password source:user.userType];
+                                  }
+                                  else {
+                                      [self loginWithAccount:user.thirdPartyUserId password:user.password source:user.userType];
+                                  }
                               });
                           }
                           
@@ -128,13 +104,13 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
         @strongify(self)
         
         if (error) {
-            [self.view showWithText:UMErrorStringWithError(error)];
+            [self.view showWithText:[self UMErrorStringWithError:error]];
         }
         else {
             UMSocialUserInfoResponse *resp = result;
             [self.view showLoadingWithText:@"登录中..."];
             
-            [DDPLoginNetManagerOperation loginWithSource:platformType == UMSocialPlatformType_Sina ? DDPUserTypeWeibo : DDPUserTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(DDPUser *responseObject, NSError *error1) {
+            [DDPLoginNetManagerOperation loginWithSource:platformType == UMSocialPlatformType_Sina ? DDPUserLoginTypeWeibo : DDPUserLoginTypeQQ userId:resp.uid token:resp.accessToken completionHandler:^(DDPUser *responseObject, NSError *error1) {
                 [self.view hideLoading];
                 
                 if (error1) {
@@ -169,7 +145,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
     NSString *account = self.userNameTextField.textField.text;
     NSString *password = self.passwordTextField.textField.text;
     
-    [self loginWithAccount:account password:password source:DDPUserTypeDefault];
+    [self loginWithAccount:account password:password source:DDPUserLoginTypeDefault];
 }
 
 - (void)touchForgetButton:(UIButton *)sender {
@@ -179,7 +155,7 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
 
 - (void)loginWithAccount:(NSString *)account
                 password:(NSString *)password
-                  source:(DDPUserType)source {
+                  source:(DDPUserLoginType)source {
     if (account.length == 0) {
         [self.view showWithText:@"请输入登录用户名!"];
         return;
@@ -202,6 +178,48 @@ CG_INLINE NSString *UMErrorStringWithError(NSError *error) {
             [self.view showWithText:@"登录成功!"];
         }
     }];
+}
+
+- (NSString *)UMErrorStringWithError:(NSError *)error {
+    switch (error.code) {
+        case UMSocialPlatformErrorType_NotSupport:
+            return @"客户端不支持该操作";
+        case UMSocialPlatformErrorType_AuthorizeFailed:
+            return @"授权失败";
+        case UMSocialPlatformErrorType_ShareFailed:
+            return @"分享失败";
+        case UMSocialPlatformErrorType_RequestForUserProfileFailed:
+            return @"请求用户信息失败";
+        case UMSocialPlatformErrorType_ShareDataNil:
+            return @"分享内容为空";
+        case UMSocialPlatformErrorType_ShareDataTypeIllegal:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_CheckUrlSchemaFail:
+            return @"不支持该分享内容";
+        case UMSocialPlatformErrorType_NotInstall:
+            return @"应用未安装";
+        case UMSocialPlatformErrorType_Cancel:
+            return @"用户取消操作";
+        case UMSocialPlatformErrorType_NotUsingHttps:
+        case UMSocialPlatformErrorType_NotNetWork:
+            return @"网络异常";
+        case UMSocialPlatformErrorType_SourceError:
+            return @"第三方错误";
+        default:
+            return @"未知错误";
+            break;
+    }
+}
+
+- (void)fillUserInfo {
+    let user = [DDPCacheManager shareCacheManager].currentUser;
+    if ([user.userType isEqualToString:DDPUserLoginTypeDefault]) {
+        self.userNameTextField.textField.text = user.account;
+        
+//        let range = [self.passwordTextField.textField textRangeFromPosition:self.passwordTextField.textField.beginningOfDocument toPosition:self.passwordTextField.textField.endOfDocument];
+//        
+//        [self.passwordTextField.textField replaceRange:range withText:user.password ?: @""];
+    }
 }
 
 #pragma mark - 懒加载

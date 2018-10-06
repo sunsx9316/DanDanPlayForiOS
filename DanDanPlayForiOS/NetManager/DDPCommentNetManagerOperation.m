@@ -123,13 +123,18 @@
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu?clientId=%@", [DDPMethod apiPath], (unsigned long)episodeId, CLIENT_ID];
-    DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
+    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiNewPath], (unsigned long)episodeId];
+    
+    NSMutableDictionary *dic = @{@"time" : @(model.time),
+                                 @"mode" : @(model.mode),
+                                 @"color" : @(model.color),
+                                 }.mutableCopy;
+    dic[@"comment"] = model.message;
     
     
-    return [[DDPBaseNetManager shareNetManager] PUTWithPath:path
-                                             serializerType:serializerType
-                                                 parameters:ddplay_encryption([model yy_modelToJSONObject])
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
+                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
+                                                 parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
                                               if (completionHandler) {
                                                   completionHandler(responseObj.error);

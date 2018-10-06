@@ -11,4 +11,8 @@
 
 @interface DDPMatchCollection : DDPBaseCollection
 
+/**
+ 是否已精确关联到某个弹幕库
+ */
+@property (assign, nonatomic) BOOL isMatched;
 @end

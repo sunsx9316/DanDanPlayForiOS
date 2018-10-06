@@ -50,14 +50,6 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  */
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url;
 
-/**
- 登录
-
- @param viewController 控制器
- @param completion 完成回调
- */
-- (void)popLoginAlertViewInViewController:(UIViewController *)viewController;
-
 #pragma mark - 本地文件
 
 /**
