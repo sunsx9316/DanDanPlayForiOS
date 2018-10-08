@@ -150,7 +150,7 @@
 
 - (NSArray<NSString *> *)titleArr {
     if (_titleArr == nil) {
-        _titleArr = @[@"相关番剧", @"关键词搜索"];
+        _titleArr = @[@"相关番剧", @"资源搜索"];
     }
     return _titleArr;
 }

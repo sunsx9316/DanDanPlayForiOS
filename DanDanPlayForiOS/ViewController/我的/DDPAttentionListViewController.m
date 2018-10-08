@@ -89,7 +89,7 @@
     NSInteger index = indexPath.row;
     DDPFavorite *model = self.modelDic[_sectionIndexTitles[indexPath.section]][indexPath.row];
 
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否取消关注%@", model.name] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否取消关注“%@”", model.name] preferredStyle:UIAlertControllerStyleAlert];
     [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.view showLoading];
         [DDPFavoriteNetManagerOperation favoriteLikeWithUser:[DDPCacheManager shareCacheManager].currentUser animeId:model.identity like:NO completionHandler:^(NSError *error) {
