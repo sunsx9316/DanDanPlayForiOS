@@ -51,66 +51,87 @@
     
     //下载弹幕
     progressAction(0.3f);
-    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiPath], (unsigned long)episodeId];
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
-                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:nil
-                                          completionHandler:^(DDPResponse *model) {
-                                              
-                                              if (model.error) {
-                                                  completionAction(nil, model.error);
-                                                  return;
-                                              }
-                                              
-                                              __block DDPDanmakuCollection *collection = [DDPDanmakuCollection yy_modelWithJSON:model.responseObject];
-                                              collection.identity = episodeId;
-                                              
-                                              //开启自动请求第三方弹幕的功能
-                                              if ([DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku) {
-                                                  [DDPRelatedNetManagerOperation relatedDanmakuWithEpisodeId:episodeId completionHandler:^(DDPRelatedCollection *responseObject, NSError *error) {
-                                                      //请求出错 返回之前请求成功的快速匹配弹幕
-                                                      if (error) {
-                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
-                                                          completionAction(collection, error);
-                                                          return;
-                                                      }
-                                                      
-                                                      //没有第三方弹幕
-                                                      if (responseObject.collection.count == 0) {
-                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
-                                                          
-                                                          progressAction(1.0f);
-                                                          completionAction(collection, error);
-                                                          return;
-                                                      }
-                                                      
-                                                      //下载第三方弹幕
-                                                      progressAction(0.6f);
-                                                      
-                                                      [self danmakuWithRelatedCollection:responseObject completionHandler:^(DDPDanmakuCollection *responseObject1, NSError *error) {
-                                                          if (collection.collection == nil) {
-                                                              collection.collection = [NSMutableArray array];
-                                                          }
-                                                          
-                                                          //合并弹幕 并缓存
-                                                          if (responseObject1) {
-                                                              [collection.collection addObjectsFromArray:responseObject1.collection];
-                                                          }
-                                                          
-                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
-                                                          
-                                                          progressAction(1.0f);
-                                                          completionAction(collection, error);
-                                                      }];
-                                                  }];
-                                              }
-                                              else {
-                                                  collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
-                                                  
-                                                  progressAction(1.0f);
-                                                  completionAction(collection, model.error);
-                                              }
-                                          }];
+    
+    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiNewPath], (unsigned long)episodeId];
+    
+    //是否请求第三方弹幕
+    let parameters = @{@"withRelated" : @([DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku)};
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
+        progressAction(1.0f);
+        if (responseObj.error) {
+            completionAction(nil, responseObj.error);
+        }
+        else {
+            DDPDanmakuCollection *collection = [DDPDanmakuCollection yy_modelWithJSON: responseObj.responseObject];
+            collection.identity = episodeId;
+            collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+            
+            completionAction(collection, nil);
+        }
+    }];
+    
+    
+    //    NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiPath], (unsigned long)episodeId];
+    //    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    //                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
+    //                                                 parameters:nil
+    //                                          completionHandler:^(DDPResponse *model) {
+    //
+    //                                              if (model.error) {
+    //                                                  completionAction(nil, model.error);
+    //                                                  return;
+    //                                              }
+    //
+    //                                              __block DDPDanmakuCollection *collection = [DDPDanmakuCollection yy_modelWithJSON:model.responseObject];
+    //                                              collection.identity = episodeId;
+    //
+    //                                              //开启自动请求第三方弹幕的功能
+    //                                              if ([DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku) {
+    //                                                  [DDPRelatedNetManagerOperation relatedDanmakuWithEpisodeId:episodeId completionHandler:^(DDPRelatedCollection *responseObject, NSError *error) {
+    //                                                      //请求出错 返回之前请求成功的快速匹配弹幕
+    //                                                      if (error) {
+    //                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+    //                                                          completionAction(collection, error);
+    //                                                          return;
+    //                                                      }
+    //
+    //                                                      //没有第三方弹幕
+    //                                                      if (responseObject.collection.count == 0) {
+    //                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+    //
+    //                                                          progressAction(1.0f);
+    //                                                          completionAction(collection, error);
+    //                                                          return;
+    //                                                      }
+    //
+    //                                                      //下载第三方弹幕
+    //                                                      progressAction(0.6f);
+    //
+    //                                                      [self danmakuWithRelatedCollection:responseObject completionHandler:^(DDPDanmakuCollection *responseObject1, NSError *error) {
+    //                                                          if (collection.collection == nil) {
+    //                                                              collection.collection = [NSMutableArray array];
+    //                                                          }
+    //
+    //                                                          //合并弹幕 并缓存
+    //                                                          if (responseObject1) {
+    //                                                              [collection.collection addObjectsFromArray:responseObject1.collection];
+    //                                                          }
+    //
+    //                                                          collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+    //
+    //                                                          progressAction(1.0f);
+    //                                                          completionAction(collection, error);
+    //                                                      }];
+    //                                                  }];
+    //                                              }
+    //                                              else {
+    //                                                  collection = [DDPDanmakuManager saveDanmakuWithObj:collection episodeId:episodeId source:DDPDanmakuTypeOfficial];
+    //
+    //                                                  progressAction(1.0f);
+    //                                                  completionAction(collection, model.error);
+    //                                              }
+    //                                          }];
 }
 
 + (NSURLSessionDataTask *)launchDanmakuWithModel:(DDPDanmaku *)model
@@ -133,13 +154,13 @@
     
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
-                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:dic
-                                          completionHandler:^(DDPResponse *responseObj) {
-                                              if (completionHandler) {
-                                                  completionHandler(responseObj.error);
-                                              }
-                                          }];
+                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
+                                                  parameters:dic
+                                           completionHandler:^(DDPResponse *responseObj) {
+                                               if (completionHandler) {
+                                                   completionHandler(responseObj.error);
+                                               }
+                                           }];
 }
 
 + (void)danmakuWithRelatedCollection:(DDPRelatedCollection *)relatedCollection

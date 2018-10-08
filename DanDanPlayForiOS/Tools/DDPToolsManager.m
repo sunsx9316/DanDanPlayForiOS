@@ -209,20 +209,8 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
         
         [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
         
-        //把文件夹排在前面
-        [rootFile.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
-            
-            if (obj1.type == DDPFileTypeFolder) {
-                return NSOrderedAscending;
-            }
-            
-            if (obj2.type == DDPFileTypeFolder) {
-                return NSOrderedDescending;
-            }
-            
-            return [obj1.name compare:obj2.name];
-        }];
-        
+        [self sortFiles:rootFile.subFiles];
+
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(rootFile);
@@ -283,6 +271,8 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
         }
         
         [rootFile.subFiles addObjectsFromArray:folderDic.allValues];
+        
+        [self sortFiles:rootFile.subFiles];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(rootFile);
@@ -597,6 +587,43 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
                                    completion:(GetLinkFilesAction)completion {
     [self startDiscovererFileWithLinkParentFile:parentFile linkInfo:[DDPCacheManager shareCacheManager].linkInfo completion:completion];
+}
+
+#pragma mark - 私有方法
+- (void)sortFiles:(NSMutableArray <DDPFile *>*)files {
+    
+    for (DDPFile *f in files) {
+        if (f.subFiles.count) {
+            [self sortFiles:f.subFiles];
+        }
+    }
+    
+    DDPFileSortType sortType = [DDPCacheManager shareCacheManager].fileSortType;
+    [files sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
+        if (sortType == 0) {
+            if (obj1.type == DDPFileTypeFolder) {
+                return NSOrderedAscending;
+            }
+
+            if (obj2.type == DDPFileTypeFolder) {
+                return NSOrderedDescending;
+            }
+
+            return [obj1.name compare:obj2.name];
+        }
+        else {
+            if (obj1.type == DDPFileTypeFolder) {
+                return NSOrderedDescending;
+            }
+
+            if (obj2.type == DDPFileTypeFolder) {
+                return NSOrderedAscending;
+            }
+
+            return [obj2.name compare:obj1.name];
+        }
+    }];
+    
 }
 
 #pragma mark - HTTPServer

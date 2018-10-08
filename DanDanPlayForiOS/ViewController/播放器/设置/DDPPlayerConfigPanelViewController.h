@@ -53,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DDPPlayerConfigPanelViewController : DDPBaseViewController
 @property (weak, nonatomic) id<DDPPlayerConfigPanelViewControllerDelegate>  _Nullable delegate;
+
+@property (copy, nonatomic) void(^touchBgViewCallBack)(void);
 @end
 
 NS_ASSUME_NONNULL_END

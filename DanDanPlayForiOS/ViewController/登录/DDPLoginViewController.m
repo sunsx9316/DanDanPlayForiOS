@@ -18,6 +18,7 @@
 #import <Bugly/Bugly.h>
 #import "LAContext+Tools.h"
 #import "UIApplication+Tools.h"
+#import "DDPBaseNavigationController.h"
 
 @interface DDPLoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) UIImageView *iconImgView;
@@ -83,6 +84,16 @@
     }
 }
 
+- (void)touchLeftItem:(UIButton *)button {
+    
+    if (self.presentingViewController != nil) {
+        [self.presentingViewController dismissViewControllerAnimated:true completion:nil];
+    }
+    else {
+        [super touchLeftItem:button];
+    }
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self touchLoginButton];
@@ -124,8 +135,8 @@
                         [self.navigationController pushViewController:vc animated:YES];
                     }
                     else {
-                        [self.navigationController popViewControllerAnimated:YES];
                         [self.view showWithText:@"登录成功!"];
+                        [self touchLeftItem:nil];
                     }
                 }
             }];
@@ -174,8 +185,8 @@
             [self.view showWithError:error];
         }
         else {
-            [self.navigationController popToRootViewControllerAnimated:YES];
             [self.view showWithText:@"登录成功!"];
+            [self touchLeftItem:nil];
         }
     }];
 }

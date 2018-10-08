@@ -31,6 +31,8 @@
 #import "DDPVideoModel+Tools.h"
 #import <JHDanmakuContainer.h>
 #import "YYThreadSafeDictionary.h"
+#import "DDPBaseNavigationController.h"
+#import "DDPLoginViewController.h"
 
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
@@ -336,18 +338,28 @@
     return !danmaku.filter;
 }
 
-- (void)danmakuEngine:(JHDanmakuEngine *)danmakuEngine configContent:(JHDanmakuContainer *)container {
-    JHBaseDanmaku *danmaku = container.danmaku;
-    if (danmaku.sendByUserId != 0) {
-        //添加下划线
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:container.attributedText];
-        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
-        container.attributedText = str;
-    }
-}
+//- (void)danmakuEngine:(JHDanmakuEngine *)danmakuEngine configContent:(JHDanmakuContainer *)container {
+//    JHBaseDanmaku *danmaku = container.danmaku;
+//    if (danmaku.sendByUserId != 0) {
+//        //添加下划线
+//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:container.attributedText];
+//        [str addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : [UIColor greenColor]} range:NSMakeRange(0, str.length)];
+//        container.attributedText = str;
+//    }
+//}
 
 #pragma mark - DDPPlayerInterfaceViewDelegate
 - (void)interfaceViewDidTouchSendDanmakuButton {
+    
+    if ([self showLoginAlertWithAction:^{
+        
+        DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
+        DDPBaseNavigationController *nav = [[DDPBaseNavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:true completion:nil];
+        
+    }] == false) {
+        return;
+    }
     
     DDPPlayerSendDanmakuViewController *vc = [[DDPPlayerSendDanmakuViewController alloc] init];
     @weakify(self)
@@ -363,15 +375,12 @@
             
             if (episodeId == 0) return;
             
-            DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
             
             DDPDanmaku *danmaku = [[DDPDanmaku alloc] init];
             
             danmaku.color = ddp_danmakuColor(color);
             danmaku.time = self.player.currentTime;
             danmaku.mode = mode;
-            danmaku.token = user.legacyTokenNumber;
-            danmaku.userId = user.identity;
             danmaku.message = text;
             //隐藏UI
             [self.interfaceView dismissWithAnimate:YES];
@@ -484,6 +493,8 @@
     else {
         [self matchVideoWithModel:model];
     }
+    
+    [self.interfaceView dismissWithAnimate:true];
 }
 
 - (void)playerConfigPanelViewController:(DDPPlayerConfigPanelViewController *)viewController didTouchStepper:(CGFloat)value {

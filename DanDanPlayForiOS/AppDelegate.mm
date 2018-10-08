@@ -21,6 +21,7 @@
 #import "DDPDownloadManager.h"
 #import <BayMaxProtector.h>
 #import <UMMobClick/MobClick.h>
+#import "DDPPlayNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -150,9 +151,27 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
+    
     if (!result) {
-        NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
-        [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
+        if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqual:@"com.apple.DocumentsApp"]) {
+            
+            if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
+                UITabBarController *tabvc = (UITabBarController *)self.window.rootViewController;
+                
+                UINavigationController *nav = tabvc.selectedViewController;
+                if ([nav isKindOfClass:[UINavigationController class]]) {
+                    let file = [[DDPFile alloc] initWithFileURL:url type:DDPFileTypeDocument];
+                    let video = file.videoModel;
+                    
+                    [nav tryAnalyzeVideo:video];
+                }
+            }
+        }
+        else {
+            NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
+            [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
+        }
+        
         return YES;
     }
     return result;

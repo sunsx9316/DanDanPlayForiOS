@@ -51,7 +51,15 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (strong, nonatomic) DDPMarqueeView *titleView;
+
+
+@property (strong, nonatomic) UIScrollView *titlsScrollView;
+@property (strong, nonatomic) UILabel *titleLabel;
+
+//@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+
+
+//@property (strong, nonatomic) DDPMarqueeView *titleView;
 
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 
@@ -98,8 +106,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 @property (weak, nonatomic) DDPPlayerConfigPanelViewController *configPanelVC;
 
-@property (strong, nonatomic) DDPPlayerControlAnimater *aniamter;
-
 
 /**
  字幕代理器
@@ -137,11 +143,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     _show = YES;
     _panGestureTouchPoint = CGPointZero;
     
-    [self.topView addSubview:self.titleView];
-    [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.backButton);
+    [self.topView addSubview:self.titlsScrollView];
+    [self.titlsScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.backButton.mas_right).mas_equalTo(10);
         make.right.mas_equalTo(self.settingButton.mas_left).mas_equalTo(-10);
+        make.height.centerY.mas_equalTo(self.backButton);
     }];
     
     self.backButton.ddp_hitTestSlop = UIEdgeInsetsMake(-20, -30, -20, -30);
@@ -150,7 +156,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     self.audioChannelIndexButton.ddp_hitTestSlop = UIEdgeInsetsMake(-20, -10, -20, -10);
     self.screenShotButton.ddp_hitTestSlop = UIEdgeInsetsMake(-20, -10, -20, -10);
     
-    self.titleView.label.font = [UIFont ddp_normalSizeFont];
     self.currentTimeLabel.font = [UIFont ddp_smallSizeFont];
     self.totalTimeLabel.font = [UIFont ddp_smallSizeFont];
     
@@ -262,7 +267,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         _show = YES;
         self.topView.transform = CGAffineTransformMakeTranslation(0, -30);
         self.bottomView.transform = CGAffineTransformMakeTranslation(0, 30);
-        [self.titleView startAnimate];
+//        [self.titleView startAnimate];
         
         let action = ^{
             self.holdView.alpha = 1;
@@ -287,7 +292,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     if (_show) {
         _show = NO;
         [self endEditing:YES];
-        [self.configPanelVC dismissViewControllerAnimated:true completion:nil];
+        [self dismissConfigPanelVC];
+//        [self.configPanelVC dismissViewControllerAnimated:flag completion:nil];
         
         let action = ^{
             self.holdView.alpha = 0;
@@ -302,12 +308,12 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         
         if (flag) {
             [self animate:action completion:^(BOOL finished) {
-                [self.titleView stopAnimate];
+//                [self.titleView stopAnimate];
             }];
         }
         else {
             action();
-            [self.titleView stopAnimate];
+//            [self.titleView stopAnimate];
         }
     }
 }
@@ -315,8 +321,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 - (void)setModel:(DDPVideoModel *)model {
     _model = model;
     
-    self.titleView.label.text = _model.name;
-    [self.titleView startAnimate];
+    self.titleLabel.text = _model.name;
     
     {
         //设置匹配名称
@@ -377,6 +382,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     //记录滑动手势一开始点击的位置
     _panGestureTouchPoint = [touch locationInView:self];
     return YES;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    return false;
 }
 
 #pragma mark - 私有方法
@@ -471,25 +481,56 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return subTitleIndexView;
 }
 
-#pragma mark UI
-- (IBAction)touchSettingButton:(UIButton *)button {
+- (void)dismissConfigPanelVC {
+    
+//    [self.tapGestureView removeFromSuperview];
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1.0 initialSpringVelocity:9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.configPanelVC.view.left = self.viewController.view.width / 2;
+    } completion:^(BOOL finished) {
+        [self.configPanelVC willMoveToParentViewController:nil];
+        [self.configPanelVC.view removeFromSuperview];
+        [self.configPanelVC removeFromParentViewController];
+        [self resetTimer];
+    }];
+}
+
+- (void)showConfigPanelVC {
     if (self.configPanelVC != nil) {
-        [self.configPanelVC dismissViewControllerAnimated:true completion:nil];
-    }
-    else {
-        
-        let vc = [[DDPPlayerConfigPanelViewController alloc] init];
-        vc.delegate = self.delegate;
-        vc.modalPresentationStyle = UIModalPresentationCustom;
-        vc.transitioningDelegate = self.aniamter;
-        
-        [self.viewController presentViewController:vc animated:true completion:nil];
-        [self pauserTimer];
+        [self dismissConfigPanelVC];
+        return;
     }
     
-    [self animate:^{
-        [self layoutIfNeeded];
-    } completion:nil];
+    @weakify(self)
+    
+    let vc = [[DDPPlayerConfigPanelViewController alloc] init];
+    vc.delegate = self.delegate;
+    vc.touchBgViewCallBack = ^{
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        [self dismissConfigPanelVC];
+    };
+    self.configPanelVC = vc;
+    
+    [self.viewController addChildViewController:vc];
+    [self.viewController.view addSubview:vc.view];
+    [vc didMoveToParentViewController:self.viewController];
+    
+    self.configPanelVC.view.left = self.viewController.view.width / 2;
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:1.0 initialSpringVelocity:9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.configPanelVC.view.left = 0;
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    [self pauserTimer];
+}
+
+#pragma mark UI
+- (IBAction)touchSettingButton:(UIButton *)button {
+    [self showConfigPanelVC];
 }
 
 - (IBAction)touchSendDanmakuButton:(UIButton *)sender {
@@ -714,28 +755,13 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     return _mpVolumeView;
 }
 
-- (DDPPlayerControlAnimater *)aniamter {
-    if (_aniamter == nil) {
-        _aniamter = [[DDPPlayerControlAnimater alloc] init];
-        @weakify(self)
-        _aniamter.didFinishAnimateCallBack = ^(BOOL success) {
-            @strongify(self)
-            if (!self) return;
-            
-            
-            [self resetTimer];
-        };
-    }
-    return _aniamter;
-}
-
-- (DDPMarqueeView *)titleView {
-    if (_titleView == nil) {
-        _titleView = [[DDPMarqueeView alloc] init];
-        _titleView.label.textColor = [UIColor whiteColor];
-    }
-    return _titleView;
-}
+//- (DDPMarqueeView *)titleView {
+//    if (_titleView == nil) {
+//        _titleView = [[DDPMarqueeView alloc] init];
+//        _titleView.label.textColor = [UIColor whiteColor];
+//    }
+//    return _titleView;
+//}
 
 - (DDPPlayerSubTitleIndexViewMediator *)subTitleIndexViewMediator {
     if (_subTitleIndexViewMediator == nil) {
@@ -758,6 +784,28 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         _audioChannelViewMediator = [[DDPPlayerAudioChannelViewMediator alloc] init];
     }
     return _audioChannelViewMediator;
+}
+
+- (UILabel *)titleLabel {
+    if (_titleLabel == nil) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.font = [UIFont ddp_normalSizeFont];
+    }
+    return _titleLabel;
+}
+
+- (UIScrollView *)titlsScrollView {
+    if (_titlsScrollView == nil) {
+        _titlsScrollView = [[UIScrollView alloc] init];
+        _titlsScrollView.bounces = false;
+        [_titlsScrollView addSubview:self.titleLabel];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(0);
+            make.height.centerY.mas_equalTo(_titlsScrollView);
+        }];
+    }
+    return _titlsScrollView;
 }
 
 @end

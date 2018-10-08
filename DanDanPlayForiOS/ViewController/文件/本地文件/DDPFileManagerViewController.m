@@ -425,6 +425,7 @@
 - (void)matchFile:(DDPFile *)file {
     if (file.type == DDPFileTypeDocument) {
         DDPVideoModel *model = file.videoModel;
+        
         void(^jumpToMatchVCAction)(void) = ^{
             DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
             vc.model = model;
@@ -504,12 +505,14 @@
     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择排序类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [vc addAction:[UIAlertAction actionWithTitle:@"文件名升序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [DDPCacheManager shareCacheManager].fileSortType = DDPFileSortTypeAsc;
-        [self sortFile];
+        [self.tableView.mj_header beginRefreshing];
+//        [self sortFile];
     }]];
     
     [vc addAction:[UIAlertAction actionWithTitle:@"文件名倒序" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [DDPCacheManager shareCacheManager].fileSortType = DDPFileSortTypeDesc;
-        [self sortFile];
+        [self.tableView.mj_header beginRefreshing];
+//        [self sortFile];
     }]];
     
     [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
@@ -542,35 +545,35 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (void)sortFile {
-    DDPFileSortType sortType = [DDPCacheManager shareCacheManager].fileSortType;
-    [self.file.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
-        if (sortType == 0) {
-            if (obj1.type == DDPFileTypeFolder) {
-                return NSOrderedAscending;
-            }
-            
-            if (obj2.type == DDPFileTypeFolder) {
-                return NSOrderedDescending;
-            }
-            
-            return [obj1.name compare:obj2.name];
-        }
-        else {
-            if (obj1.type == DDPFileTypeFolder) {
-                return NSOrderedDescending;
-            }
-            
-            if (obj2.type == DDPFileTypeFolder) {
-                return NSOrderedAscending;
-            }
-            
-            return [obj2.name compare:obj1.name];
-        }
-    }];
-    
-    [self.tableView reloadData];
-}
+//- (void)sortFile {
+//    DDPFileSortType sortType = [DDPCacheManager shareCacheManager].fileSortType;
+//    [self.file.subFiles sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
+//        if (sortType == 0) {
+//            if (obj1.type == DDPFileTypeFolder) {
+//                return NSOrderedAscending;
+//            }
+//
+//            if (obj2.type == DDPFileTypeFolder) {
+//                return NSOrderedDescending;
+//            }
+//
+//            return [obj1.name compare:obj2.name];
+//        }
+//        else {
+//            if (obj1.type == DDPFileTypeFolder) {
+//                return NSOrderedDescending;
+//            }
+//
+//            if (obj2.type == DDPFileTypeFolder) {
+//                return NSOrderedAscending;
+//            }
+//
+//            return [obj2.name compare:obj1.name];
+//        }
+//    }];
+//
+//    [self.tableView reloadData];
+//}
 
 #pragma mark - 懒加载
 - (DDPBaseTableView *)tableView {
@@ -595,7 +598,8 @@
             
             [[DDPToolsManager shareToolsManager] startDiscovererFileParentFolderWithChildrenFile:self.file type:PickerFileTypeVideo completion:^(DDPFile *file) {
                 self.file = file;
-                [self sortFile];
+                [self.tableView reloadData];
+//                [self sortFile];
                 [self.tableView endRefreshing];
             }];
         }];

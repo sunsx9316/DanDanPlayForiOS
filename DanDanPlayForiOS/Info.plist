@@ -144,7 +144,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2018080501</string>
+	<string>2018100801</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -195,6 +195,8 @@
 		<string>timapiV1</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>

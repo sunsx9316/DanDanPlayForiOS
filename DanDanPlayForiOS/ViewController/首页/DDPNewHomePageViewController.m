@@ -119,6 +119,13 @@
     [self.contentView.mj_header beginRefreshing];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAttention:) name:ATTENTION_SUCCESS_NOTICE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self headerRefresh];
 }
 
 
@@ -358,6 +365,13 @@
     view.dataSource = self;
     [view show];
     self.selectedIndexView = view;
+}
+
+- (void)headerRefresh {
+    //fix 有时候首页会空白的问题
+    if (self.contentView.mj_header.isRefreshing == false && self.contentView.mj_header.refreshingBlock && self.model == nil) {
+        self.contentView.mj_header.refreshingBlock();
+    }
 }
 
 #pragma mark - 懒加载

@@ -152,11 +152,11 @@ UIKIT_EXTERN BOOL ddp_isSubTitleFile(NSString *aURL) {
 };
 
 UIKIT_EXTERN BOOL ddp_isVideoFile(NSString *aURL) {
-//    NSString *pathExtension = [aURL pathExtension];
+    NSString *pathExtension = [aURL pathExtension];
     
-    //    if ([pathExtension compare:@"mkv" options:NSCaseInsensitiveSearch]) {
-    //        return true;
-    //    }
+    if ([pathExtension compare:@"mkv" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return true;
+    }
     
     
     CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];

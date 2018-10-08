@@ -42,15 +42,23 @@
 }
 
 - (BOOL)showLoginAlert {
+    return [self showLoginAlertWithAction:^{
+        DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+}
+
+- (BOOL)showLoginAlertWithAction:(void(^)(void))alertAction {
     
     let flag = [DDPCacheManager shareCacheManager].currentUser.isLogin;
     
     if (flag == false) {
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"需要登录才能继续操作" preferredStyle:UIAlertControllerStyleAlert];
         [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            if (alertAction) {
+                alertAction();
+            }
         }]];
         
         [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];

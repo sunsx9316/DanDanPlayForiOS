@@ -15,7 +15,7 @@
 }
 
 + (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"collection" : @"Comments"};
+    return @{@"collection" : @[@"Comments", @"comments"]};
 }
 
 @end

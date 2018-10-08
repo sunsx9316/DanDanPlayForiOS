@@ -15,6 +15,8 @@
 @interface DDPPlayerConfigPanelViewController ()<WMPageControllerDelegate, WMPageControllerDataSource>
 @property (strong, nonatomic) DDPDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <NSString *>*dataSources;
+
+@property (strong, nonatomic) UIView *holdView;
 @end
 
 @implementation DDPPlayerConfigPanelViewController
@@ -22,17 +24,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.view addSubview:self.holdView];
     
     [self addChildViewController:self.pageController];
     [self.view addSubview:self.pageController.view];
     
-    [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.holdView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+//    [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.bottom.right.mas_equalTo(0);
+//        make.width.mas_equalTo(self.view).multipliedBy(0.5);
+//    }];
     
     self.view.backgroundColor = [UIColor clearColor];
     self.pageController.view.backgroundColor = DDPRGBAColor(0, 0, 0, 0.8);
     self.pageController.scrollView.backgroundColor = [UIColor clearColor];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    var frame = self.view.bounds;
+    
+    CGFloat width = frame.size.width * 0.5;
+    
+    self.pageController.view.frame = CGRectMake(width, 0, width, frame.size.height);
 }
 
 #pragma mark - WMPageControllerDataSource
@@ -52,7 +70,7 @@
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewController:didSelectedModel:)]) {
                 [self.delegate playerConfigPanelViewController:self didSelectedModel:model];
             }
-            [self dismissViewControllerAnimated:true completion:nil];
+//            [self dismissViewControllerAnimated:true completion:nil];
         };
         return vc;
     }
@@ -121,12 +139,13 @@
 - (CGRect)pageController:(nonnull WMPageController *)pageController preferredFrameForContentView:(nonnull WMScrollView *)contentView {
     let frame = [self pageController:pageController preferredFrameForMenuView:pageController.menuView];
     let y = CGRectGetMaxY(frame);
-    return CGRectMake(0, y, self.view.width, self.view.height - y);
+    return CGRectMake(0, y, frame.size.width, self.view.height - y);
 }
 
 
 - (CGRect)pageController:(nonnull WMPageController *)pageController preferredFrameForMenuView:(nonnull WMMenuView *)menuView {
-    return CGRectMake(0, CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame), self.view.width, 40);
+    let width = self.view.width * 0.5;
+    return CGRectMake(0, CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame), width, 40);
 }
 
 
@@ -149,6 +168,25 @@
         _dataSources = @[@"播放列表", @"弹幕", @"播放器"];
     }
     return _dataSources;
+}
+
+- (UIView *)holdView {
+    if (_holdView == nil) {
+        _holdView = [[UIView alloc] init];
+        _holdView.userInteractionEnabled = true;
+        @weakify(self)
+        [_holdView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
+            @strongify(self)
+            if (!self) {
+                return;
+            }
+            
+            if (self.touchBgViewCallBack) {
+                self.touchBgViewCallBack();
+            }
+        }]];
+    }
+    return _holdView;
 }
 
 @end

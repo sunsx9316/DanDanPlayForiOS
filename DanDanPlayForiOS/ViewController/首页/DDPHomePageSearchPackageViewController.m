@@ -41,7 +41,9 @@
     [self.view addSubview:self.pageViewController.view];
     
     [UIView performWithoutAnimation:^{
-        [self.searchBar becomeFirstResponder];
+        if (self.searchBar.text.length == 0) {
+            [self.searchBar becomeFirstResponder];            
+        }
     }];
 }
 

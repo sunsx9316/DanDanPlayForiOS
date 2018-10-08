@@ -25,4 +25,12 @@
  @return 用户是否登录
  */
 - (BOOL)showLoginAlert;
+
+/**
+ 检测用户登录状态
+
+ @param action 确认之后的事件
+ @return 用户是否登录
+ */
+- (BOOL)showLoginAlertWithAction:(void(^)(void))action;
 @end
