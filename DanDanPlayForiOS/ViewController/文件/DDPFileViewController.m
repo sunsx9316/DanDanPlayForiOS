@@ -149,7 +149,7 @@
     if (indexPath.section == 0) {
         DDPFileTreeNode *item = self.dataSources[indexPath.section].subItems[indexPath.row];
         
-        if ([item.name isEqualToString:@"本机"]) {
+        if ([item.name isEqualToString:@"本机视频"]) {
             DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             vc.file = ddp_getANewRootFile();
@@ -257,7 +257,7 @@
             
             [node.subItems addObject:({
                 DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
-                node.name = @"本机";
+                node.name = @"本机视频";
                 node.type = DDPFileTreeNodeTypeLocation;
                 node.img = [[UIImage imageNamed:@"file_phone"] yy_imageByTintColor:[UIColor darkGrayColor]];
                 node;
