@@ -633,6 +633,7 @@
 		89988D291F5AB975001413BE /* DDPLoginNetManagerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLoginNetManagerOperation.m; sourceTree = "<group>"; };
 		89988D2B1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFavoriteNetManagerOperation.h; sourceTree = "<group>"; };
 		89988D2C1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFavoriteNetManagerOperation.m; sourceTree = "<group>"; };
+		89993B89216D15CE00AD7938 /* APPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPKey.h; sourceTree = "<group>"; };
 		89993F621F71422D009F5364 /* DDPTextHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPTextHeaderView.h; sourceTree = "<group>"; };
 		89993F631F71422D009F5364 /* DDPTextHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPTextHeaderView.m; sourceTree = "<group>"; };
 		899F5F9B1F22F3100068A1DB /* DDPSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBFile.h; sourceTree = "<group>"; };
@@ -1837,6 +1838,7 @@
 				89E3F6211E5858E2007AB1BD /* DDPMethod.h */,
 				89409F911FE4EC6500704F33 /* DDPMethod.m */,
 				89A42EA11EA5B1BF00FA0DF3 /* DDPMacroDefinition.h */,
+				89993B89216D15CE00AD7938 /* APPKey.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
