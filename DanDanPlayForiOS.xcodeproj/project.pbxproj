@@ -311,6 +311,7 @@
 		89FF61081FD6C8D400D62178 /* DDPBiliBiliSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61071FD6C8D400D62178 /* DDPBiliBiliSearchResult.m */; };
 		89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
+		8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -865,7 +866,6 @@
 		89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageSearchFilterModel.m; sourceTree = "<group>"; };
 		89E5AFAC1F56CB2300CD4334 /* DDPDanmakuFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuFilterViewController.h; sourceTree = "<group>"; };
 		89E5AFAD1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuFilterViewController.m; sourceTree = "<group>"; };
-		89E5DDC320459B17008F1B7B /* APPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPKey.h; sourceTree = "<group>"; };
 		89E8341D1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerInterfaceHolderView.h; sourceTree = "<group>"; };
 		89E8341E1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerInterfaceHolderView.m; sourceTree = "<group>"; };
 		89E834271F1E5A5400E781EB /* DDPSMBVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBVideoModel.h; sourceTree = "<group>"; };
@@ -922,6 +922,8 @@
 		89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchVideo.m; sourceTree = "<group>"; };
 		89FF610C1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBiliBiliSearchViewController.h; sourceTree = "<group>"; };
 		89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchViewController.m; sourceTree = "<group>"; };
+		8B847BFC216C6A0300DC8623 /* YYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPhotoBrowseView.h; sourceTree = "<group>"; };
+		8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoBrowseView.m; sourceTree = "<group>"; };
 		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
 		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1725,6 +1727,7 @@
 		89D8F8441EB0F5FB009329AA /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				8B847BFB216C69F400DC8623 /* YYPhotoBrowseView */,
 				898C181A2165028600AE7484 /* WMStickyPageController */,
 				8937D0A82156BAA700D0E17C /* FullscreenPopGesture */,
 				89A80331208B330600FF6C2B /* MJRefresh */,
@@ -1834,7 +1837,6 @@
 				89E3F6211E5858E2007AB1BD /* DDPMethod.h */,
 				89409F911FE4EC6500704F33 /* DDPMethod.m */,
 				89A42EA11EA5B1BF00FA0DF3 /* DDPMacroDefinition.h */,
-				89E5DDC320459B17008F1B7B /* APPKey.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -2025,6 +2027,15 @@
 				89DDCFAE1F2A3DA3007B83CA /* web */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		8B847BFB216C69F400DC8623 /* YYPhotoBrowseView */ = {
+			isa = PBXGroup;
+			children = (
+				8B847BFC216C6A0300DC8623 /* YYPhotoBrowseView.h */,
+				8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */,
+			);
+			path = YYPhotoBrowseView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2340,6 +2351,7 @@
 				89A1C0191EAF7F4000DB9BE9 /* DDPSelectedTableViewCell.m in Sources */,
 				89E834291F1E5A5400E781EB /* DDPSMBVideoModel.m in Sources */,
 				894AE14F21172BD90023DED4 /* DDPControlVideoViewController.m in Sources */,
+				8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */,
 				898C18162164D4CE00AE7484 /* DDPPlayerAudioChannelViewMediator.m in Sources */,
 				89E3F6281E585C17007AB1BD /* DDPDanmaku.m in Sources */,
 				89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */,

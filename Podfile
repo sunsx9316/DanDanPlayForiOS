@@ -10,9 +10,9 @@ target 'DanDanPlayForiOS' do
     
     # Pods for DanDanPlayForiOS
     
-    pod 'DDPEncrypt', :path => 'LocalVender/Encrypt'
-    # pod 'JHDanmakuRender', :path => 'LocalVender/JHDanmakuRender'
-    pod 'YYUtility', :path => 'LocalVender/YYUtility'
+    pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
+    # pod 'JHDanmakuRender', :path => 'LocalPods/JHDanmakuRender'
+    pod 'YYUtility', :path => 'LocalPods/YYUtility'
     
     # 友盟统计
     pod 'UMengAnalytics'
