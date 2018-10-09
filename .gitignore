@@ -60,3 +60,4 @@ fastlane/screenshots
 iOSInjectionProject/
 Config/APPKey.h
 APPKey.h
+Podfile.lock
