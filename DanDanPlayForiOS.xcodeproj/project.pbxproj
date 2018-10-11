@@ -290,6 +290,8 @@
 		89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */; };
 		89E8C9991F3DDEF100CCF4BC /* DDPSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */; };
 		89EC0E5C1F2D812A004D3C12 /* DDPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */; };
+		89ED6D44216FAAB400E4B7ED /* DDPHomePageFileLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89ED6D43216FAAB400E4B7ED /* DDPHomePageFileLocationView.m */; };
+		89ED6D46216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ED6D45216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib */; };
 		89F0DC411FCAAE4500E32D54 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC381FCAABB000E32D54 /* DDPHomePage.m */; };
 		89F0DC421FCAAE4500E32D54 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */; };
 		89F0DC431FCAAE4500E32D54 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */; };
@@ -881,6 +883,9 @@
 		89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSetting.m; sourceTree = "<group>"; };
 		89EC0E5A1F2D812A004D3C12 /* DDPHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHelpViewController.h; sourceTree = "<group>"; };
 		89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHelpViewController.m; sourceTree = "<group>"; };
+		89ED6D42216FAAB400E4B7ED /* DDPHomePageFileLocationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomePageFileLocationView.h; sourceTree = "<group>"; };
+		89ED6D43216FAAB400E4B7ED /* DDPHomePageFileLocationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomePageFileLocationView.m; sourceTree = "<group>"; };
+		89ED6D45216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPHomePageFileLocationView.xib; sourceTree = "<group>"; };
 		89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumiCollection.m; sourceTree = "<group>"; };
 		89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBanner.m; sourceTree = "<group>"; };
 		89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeFeatured.m; sourceTree = "<group>"; };
@@ -1588,6 +1593,9 @@
 				898C184321660BA200AE7484 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib */,
 				898E2D541FE6836F00953DA8 /* DDPHomeMoreHeaderView.h */,
 				898E2D551FE6836F00953DA8 /* DDPHomeMoreHeaderView.m */,
+				89ED6D42216FAAB400E4B7ED /* DDPHomePageFileLocationView.h */,
+				89ED6D43216FAAB400E4B7ED /* DDPHomePageFileLocationView.m */,
+				89ED6D45216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib */,
 				895CA8BD1FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.h */,
 				895CA8BE1FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.m */,
 				895CA8BF1FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.xib */,
@@ -2131,6 +2139,7 @@
 				89BE4B05201C490F0009A5FF /* DDPQRScannerHistoryView.xib in Resources */,
 				89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
 				89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */,
+				89ED6D46216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib in Resources */,
 				89B8E36B1F8F6DD500DA9BEF /* email.plist in Resources */,
 				89E867282084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */,
 				898C18782168EBF700AE7484 /* DDPNewSearchAnimateTableViewCell.xib in Resources */,
@@ -2278,6 +2287,7 @@
 				897F02BC1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m in Sources */,
 				898C181F2165028600AE7484 /* WMMagicScrollView.m in Sources */,
 				8916C7C91EA8BB8D00A2233D /* DDPOfficialSearchViewController.m in Sources */,
+				89ED6D44216FAAB400E4B7ED /* DDPHomePageFileLocationView.m in Sources */,
 				89350B101EAB059000072DA5 /* DDPPlayerInterfaceView.m in Sources */,
 				89B6EEE0201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m in Sources */,
 				8937D0C8215771DC00D0E17C /* DDPSliderShowAnimate.m in Sources */,

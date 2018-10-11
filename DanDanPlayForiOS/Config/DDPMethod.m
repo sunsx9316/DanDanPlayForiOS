@@ -8,6 +8,7 @@
 
 #import "DDPMethod.h"
 #import "NSURL+Tools.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 DDPProductionType DDPProductionTypeTVSeries = @"tvseries";
 DDPProductionType DDPProductionTypeTVSpecial = @"tvspecial";
@@ -221,6 +222,26 @@ BOOL ddp_isSmallDevice(void) {
 BOOL ddp_isLandscape(void) {
     let size = [UIScreen mainScreen].bounds.size;
     return size.width > size.height;
+}
+
+BOOL ddp_isChatAppInstall(void) {
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_QQ]) {
+        return true;
+    }
+    
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_Sina]) {
+        return true;
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+        return true;
+    }
+    
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_Tim]) {
+        return true;
+    }
+    
+    return false;
 }
 
 @end

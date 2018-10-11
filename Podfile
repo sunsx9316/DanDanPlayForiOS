@@ -21,7 +21,7 @@ target 'DanDanPlayForiOS' do
     # 集成QQ
     pod 'UMengUShare/Social/ReducedQQ'
     # 集成微信
-    #pod 'UMengUShare/Social/WeChat'
+    pod 'UMengUShare/Social/WeChat'
     
     pod 'Bugly'
     pod 'MobileVLCKit'

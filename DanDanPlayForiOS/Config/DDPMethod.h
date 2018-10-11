@@ -254,6 +254,14 @@ UIKIT_EXTERN BOOL ddp_isSmallDevice(void);
  */
 UIKIT_EXTERN BOOL ddp_isLandscape(void);
 
+
+/**
+ 是否安装了国内常见app
+
+ @return 是否安装了国内常见app
+ */
+UIKIT_EXTERN BOOL ddp_isChatAppInstall(void);
+
 @interface DDPMethod : NSObject
 
 /**

@@ -22,6 +22,7 @@
 #import "DDPDownloadManager.h"
 
 #import "DDPMineHeadView.h"
+#import "DDPTransparentNavigationBar.h"
 
 #define TITLE_KEY @"titleLabel.text"
 
@@ -41,9 +42,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"我的";
-    
-    self.ddp_navigationBarHidden = true;
     
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
@@ -69,8 +67,22 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)]) {
+        self.dataSourceArr = nil;
         [self.tableView reloadData];
     }
+}
+
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comment_setting"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchRightItem {
+    DDPSettingViewController *vc = [[DDPSettingViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -108,12 +120,7 @@
     
     NSDictionary *dic = self.dataSourceArr[indexPath.row];
     
-    if ([dic[TITLE_KEY] isEqualToString:@"设置"]) {
-        DDPSettingViewController *vc = [[DDPSettingViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if ([dic[TITLE_KEY] isEqualToString:@"我的关注"]) {
+    if ([dic[TITLE_KEY] isEqualToString:@"我的关注"]) {
         DDPAttentionListViewController *vc = [[DDPAttentionListViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -159,6 +166,11 @@
     [self reloadUserInfo];
 }
 
+- (void)linkInfoDidChange:(DDPLinkInfo *)linkInfo {
+    self.dataSourceArr = nil;
+    [self.tableView reloadData];
+}
+
 #pragma mark - 私有方法
 - (void)configLeftItem {
     
@@ -172,6 +184,10 @@
     
     self.dataSourceArr = nil;
     [self.tableView reloadData];
+}
+
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
 }
 
 #pragma mark - 懒加载
@@ -211,17 +227,21 @@
 
 - (NSArray<NSDictionary *> *)dataSourceArr {
     if (_dataSourceArr == nil) {
-        NSMutableArray *arr = [NSMutableArray arrayWithArray:
-                               @[
-                                 @{TITLE_KEY: @"设置"},
-                                 @{TITLE_KEY: @"下载任务"},
-                                 @{TITLE_KEY: @"PC遥控器"},
-                                 @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
-                                 ]];
+        NSMutableArray *arr = [NSMutableArray array];
         
         if ([DDPCacheManager shareCacheManager].currentUser.isLogin) {
-            [arr insertObject:@{TITLE_KEY: @"我的关注"} atIndex:0];
+            [arr addObject:@{TITLE_KEY: @"我的关注"}];
         }
+        
+        if ([DDPCacheManager shareCacheManager].linkInfo != nil || [DDPToolsManager shareToolsManager].SMBSession != nil) {
+            [arr addObject:@{TITLE_KEY: @"下载任务"}];
+        }
+        
+        [arr addObjectsFromArray:@[
+                                   @{TITLE_KEY: @"PC遥控器"},
+                                   @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
+                                   ]];
+        
         
         _dataSourceArr = arr;
     }

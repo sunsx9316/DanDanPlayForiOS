@@ -224,6 +224,17 @@ static NSString *const collectionCacheKey = @"collection_cache";
     return num.boolValue;
 }
 
+#pragma mark -
+
+- (void)setLinkInfo:(DDPLinkInfo *)linkInfo {
+    _linkInfo = linkInfo;
+    
+    for (id<DDPCacheManagerDelagate> obs in _observers) {
+        if ([obs respondsToSelector:@selector(linkInfoDidChange:)]) {
+            [obs linkInfoDidChange:_linkInfo];
+        }
+    }
+}
 
 
 #pragma mark -

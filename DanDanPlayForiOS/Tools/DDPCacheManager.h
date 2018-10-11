@@ -81,6 +81,7 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 - (void)lastPlayTimeWithVideoModel:(DDPVideoModel *)videoModel time:(NSInteger)time;
 - (void)collectionDidHandleCache:(DDPCollectionCache *)cache operation:(DDPCollectionCacheDidChangeType)operation;
 - (void)userLoginStatusDidChange:(DDPUser *)user;
+- (void)linkInfoDidChange:(DDPLinkInfo *)linkInfo;
 @end
 
 @interface DDPCacheManager : NSObject
