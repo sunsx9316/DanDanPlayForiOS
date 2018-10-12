@@ -55,7 +55,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/comment/%lu", [DDPMethod apiNewPath], (unsigned long)episodeId];
     
     //是否请求第三方弹幕
-    let parameters = @{@"withRelated" : @([DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku)};
+    let parameters = @{@"withRelated" : [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku ? @"true" : @"false"};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
         progressAction(1.0f);

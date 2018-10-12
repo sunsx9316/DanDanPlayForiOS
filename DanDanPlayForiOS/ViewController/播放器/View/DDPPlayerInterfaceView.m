@@ -163,7 +163,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     self.sendDanmakuButton.titleLabel.font = [UIFont ddp_normalSizeFont];
     self.sendDanmakuButton.inset = CGSizeMake(30, 5);
-    [self.sendDanmakuButton setTitle:@"吐个嘈~" forState:UIControlStateNormal];
+    [self.sendDanmakuButton setTitle:@"吐个槽~" forState:UIControlStateNormal];
     [self.sendDanmakuButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.8] forState:UIControlStateNormal];
     self.sendDanmakuButton.layer.cornerRadius = 6;
     self.sendDanmakuButton.layer.masksToBounds = YES;
