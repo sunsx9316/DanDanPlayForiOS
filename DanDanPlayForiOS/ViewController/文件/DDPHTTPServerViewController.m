@@ -13,6 +13,7 @@
 #import "DDPHttpReceiveTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "DDPHttpReceive.h"
+#import "DDPTransparentNavigationBar.h"
 
 @interface DDPHTTPServerViewController ()<UITableViewDelegate, UITableViewDataSource, DDPBaseNetManagerObserver>
 @property (strong, nonatomic) UIImageView *wifiImgView;
@@ -29,7 +30,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setNavigationBarWithColor:[UIColor clearColor]];
     //屏幕常亮
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
@@ -77,6 +77,10 @@
     [[DDPBaseNetManager shareNetManager] removeObserver:self];
     [[DDPToolsManager shareHTTPServer] stop];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
 }
 
 #pragma mark - DDPBaseNetManagerObserver

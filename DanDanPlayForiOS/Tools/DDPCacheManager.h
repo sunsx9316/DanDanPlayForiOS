@@ -80,6 +80,8 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 
 - (void)lastPlayTimeWithVideoModel:(DDPVideoModel *)videoModel time:(NSInteger)time;
 - (void)collectionDidHandleCache:(DDPCollectionCache *)cache operation:(DDPCollectionCacheDidChangeType)operation;
+- (void)userLoginStatusDidChange:(DDPUser *)user;
+- (void)linkInfoDidChange:(DDPLinkInfo *)linkInfo;
 @end
 
 @interface DDPCacheManager : NSObject
@@ -89,12 +91,7 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 /**
  当前登录的用户
  */
-@property (strong, nonatomic) DDPUser *user;
-
-/**
- 上次登录的用户
- */
-@property (strong, nonatomic) DDPUser *lastLoginUser;
+@property (strong, nonatomic) DDPUser *currentUser;
 
 /**
  当前连接信息

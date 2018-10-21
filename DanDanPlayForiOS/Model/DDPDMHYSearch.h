@@ -47,7 +47,7 @@
 /**
  类型id
  */
-@property (assign, nonatomic) DDPEpisodeType typeId;
+//@property (assign, nonatomic) DDPEpisodeType typeId;
 
 /**
  类型名称

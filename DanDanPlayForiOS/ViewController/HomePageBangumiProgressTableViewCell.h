@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface HomePageBangumiProgressTableViewCell : UITableViewCell
+@interface HomePageBangumiProgressTableViewCell : UIView
 @property (strong, nonatomic) DDPBangumiQueueIntroCollection *collection;
-@property (copy, nonatomic) void(^didSelectedBangumiCallBack)(DDPBangumiQueueIntro *model);
 @end

@@ -21,17 +21,20 @@
 #import "DDPEdgeButton.h"
 #import "DDPDownloadManager.h"
 
+#import "DDPMineHeadView.h"
+#import "DDPTransparentNavigationBar.h"
+
 #define TITLE_KEY @"titleLabel.text"
 
 #define TITLE_VIEW_RATE 0.4
 
-@interface DDPMineViewController ()<UITableViewDelegate, UITableViewDataSource, DDPDownloadManagerObserver, UIScrollViewDelegate>
+@interface DDPMineViewController ()<UITableViewDelegate, UITableViewDataSource, DDPDownloadManagerObserver, UIScrollViewDelegate, DDPCacheManagerDelagate>
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary *>*dataSourceArr;
-@property (strong, nonatomic) UIView *headView;
-@property (strong, nonatomic) UIView *nameIconHoldView;
-@property (strong, nonatomic) UIImageView *iconImgView;
-@property (strong, nonatomic) DDPEdgeButton *nameButton;
+
+@property (strong, nonatomic) DDPMineHeadView *headView;
+
+
 @property (strong, nonatomic) UIVisualEffectView *blurView;
 @end
 
@@ -39,11 +42,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"我的";
     
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(self.view.height * TITLE_VIEW_RATE);
+        make.height.mas_equalTo(self.headView.height);
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -51,25 +53,36 @@
     }];
     
     [[DDPDownloadManager shareDownloadManager] addObserver:self];
-    [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], user) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[DDPToolsManager shareToolsManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [[DDPCacheManager shareCacheManager] addObserver:self];
     
     [self reloadUserInfo];
 }
 
 - (void)dealloc {
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
-    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], user)];
+    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], currentUser)];
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)]) {
+        self.dataSourceArr = nil;
         [self.tableView reloadData];
     }
-    else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], user)]) {
-        [self reloadUserInfo];
-    }
+}
+
+- (void)configRightItem {
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"comment_setting"] configAction:^(UIButton *aButton) {
+        [aButton addTarget:self action:@selector(touchRightItem) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    [self.navigationItem addRightItemFixedSpace:item];
+}
+
+- (void)touchRightItem {
+    DDPSettingViewController *vc = [[DDPSettingViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -107,12 +120,7 @@
     
     NSDictionary *dic = self.dataSourceArr[indexPath.row];
     
-    if ([dic[TITLE_KEY] isEqualToString:@"设置"]) {
-        DDPSettingViewController *vc = [[DDPSettingViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if ([dic[TITLE_KEY] isEqualToString:@"我的关注"]) {
+    if ([dic[TITLE_KEY] isEqualToString:@"我的关注"]) {
         DDPAttentionListViewController *vc = [[DDPAttentionListViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
@@ -153,224 +161,36 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - DDPCacheManagerDelagate
+- (void)userLoginStatusDidChange:(DDPUser *)user {
+    [self reloadUserInfo];
+}
+
+- (void)linkInfoDidChange:(DDPLinkInfo *)linkInfo {
+    self.dataSourceArr = nil;
+    [self.tableView reloadData];
+}
+
 #pragma mark - 私有方法
 - (void)configLeftItem {
     
 }
 
 - (void)reloadUserInfo {
-    DDPUser *user = [DDPCacheManager shareCacheManager].user;
+    let user = [DDPCacheManager shareCacheManager].currentUser;
+    self.headView.model = user;
     
-    [self.blurView.layer ddp_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"comment_icon"]];
-    [self.iconImgView ddp_setImageWithURL:user.icoImgURL placeholder:[UIImage imageNamed:@"comment_icon"]];
-    if (user) {
-        [self.nameButton setTitle:user.name forState:UIControlStateNormal];
-    }
-    else {
-        [self.nameButton setTitle:@"点击登录" forState:UIControlStateNormal];
-    }
+    [self.blurView.layer ddp_setImageWithURL:user.isLogin ? user.iconImgURL : nil placeholder:[UIImage imageNamed:@"comment_icon"]];
     
     self.dataSourceArr = nil;
     [self.tableView reloadData];
 }
 
-- (void)editName {
-    DDPUser *user = [DDPCacheManager shareCacheManager].user;
-    
-    if (user == nil) return;
-    
-    UIAlertController *avc = [UIAlertController alertControllerWithTitle:@"修改昵称" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    @weakify(avc)
-    [avc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSString *name = weak_avc.textFields.firstObject.text;
-        
-        if (name.length == 0) {
-            [self.view showWithText:@"请输入昵称!"];
-            return;
-        }
-        
-        [self.view showLoading];
-        [DDPLoginNetManagerOperation loginEditUserNameWithUserId:user.identity token:user.token userName:name completionHandler:^(NSError *error) {
-            [self.view hideLoading];
-            
-            if (error) {
-                [self.view showWithError:error];
-            }
-            else {
-                [self.view showWithText:@"修改成功!"];
-                user.name = name;
-                [DDPCacheManager shareCacheManager].user = user;
-            }
-        }];
-    }]];
-    
-    [avc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    
-    [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.font = [UIFont ddp_normalSizeFont];
-        textField.placeholder = @"请输入昵称";
-        textField.text = user.name;
-    }];
-    
-    [self presentViewController:avc animated:YES completion:nil];
-}
-
-- (void)editPassword {
-    DDPUser *user = [DDPCacheManager shareCacheManager].user;
-    
-    UIAlertController *avc = [UIAlertController alertControllerWithTitle:@"修改密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    @weakify(avc)
-    [avc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSString *oldPassword = weak_avc.textFields.firstObject.text;
-        NSString *newPassword = weak_avc.textFields[1].text;
-        
-        if (oldPassword.length == 0) {
-            [self.view showWithText:@"请输入原密码！"];
-            return;
-        }
-        
-        if (newPassword.length == 0) {
-            [self.view showWithText:@"请输入新密码！"];
-            return;
-        }
-        
-        [self.view showLoading];
-        [DDPLoginNetManagerOperation loginEditPasswordWithUserId:user.identity token:user.token oldPassword:oldPassword aNewPassword:newPassword completionHandler:^(NSError *error) {
-            [self.view hideLoading];
-            if (error) {
-                [self.view showWithError:error];
-            }
-            else {
-                [self.view showWithText:@"修改成功！"];
-            }
-        }];
-    }]];
-    
-    [avc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    
-    [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.font = [UIFont ddp_normalSizeFont];
-        textField.placeholder = @"原密码";
-        textField.secureTextEntry = YES;
-    }];
-    
-    [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.font = [UIFont ddp_normalSizeFont];
-        textField.placeholder = @"新密码";
-        textField.secureTextEntry = YES;
-    }];
-    
-    [self presentViewController:avc animated:YES completion:nil];
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
 }
 
 #pragma mark - 懒加载
-
-- (UIView *)headView {
-    if (_headView == nil) {
-        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height * TITLE_VIEW_RATE)];
-        _headView.clipsToBounds = YES;
-        
-        [_headView addSubview:self.nameIconHoldView];
-        
-        [self.nameIconHoldView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.mas_equalTo(0);
-        }];
-        
-        @weakify(self)
-        [_headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
-            @strongify(self)
-            if (!self) return;
-            
-            DDPUser *user = [DDPCacheManager shareCacheManager].user;
-            
-            if (user == nil) {
-                DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            else {
-                UIAlertController *vc = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                
-                if (user.userType == DDPUserTypeDefault) {
-                    [vc addAction:[UIAlertAction actionWithTitle:@"修改密码" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        [self editPassword];
-                    }]];
-                    
-                    [vc addAction:[UIAlertAction actionWithTitle:@"修改昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        [self editName];
-                    }]];
-                }
-                
-                [vc addAction:[UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                    [DDPCacheManager shareCacheManager].lastLoginUser = [DDPCacheManager shareCacheManager].user;
-                    [DDPCacheManager shareCacheManager].user = nil;
-                    [self reloadUserInfo];
-                }]];
-                
-                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-                
-                if (ddp_isPad()) {
-                    vc.popoverPresentationController.sourceView = self.view;
-                    vc.popoverPresentationController.sourceRect = [self.view convertRect:self.nameButton.frame fromView:self.nameIconHoldView];
-                }
-                
-                [self presentViewController:vc animated:YES completion:nil];
-            }
-        }]];
-    }
-    return _headView;
-}
-
-- (UIImageView *)iconImgView {
-    if (_iconImgView == nil) {
-        _iconImgView = [[UIImageView alloc] init];
-        _iconImgView.contentMode = UIViewContentModeScaleAspectFill;
-        _iconImgView.layer.cornerRadius = (90 + ddp_isPad() * 40) / 2;
-        _iconImgView.layer.masksToBounds = YES;
-        _iconImgView.layer.borderWidth = 5;
-        _iconImgView.layer.borderColor = DDPRGBAColor(255, 255, 255, 0.6).CGColor;
-    }
-    return _iconImgView;
-}
-
-- (DDPEdgeButton *)nameButton {
-    if (_nameButton == nil) {
-        _nameButton = [[DDPEdgeButton alloc] init];
-        _nameButton.inset = CGSizeMake(10, 0);
-        _nameButton.userInteractionEnabled = NO;
-        _nameButton.titleLabel.font = [UIFont ddp_normalSizeFont];
-        [_nameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
-    return _nameButton;
-}
-
-- (UIView *)nameIconHoldView {
-    if (_nameIconHoldView == nil) {
-        _nameIconHoldView = [[UIView alloc] init];
-        _nameIconHoldView.clipsToBounds = NO;
-        [_nameIconHoldView addSubview:self.iconImgView];
-        [_nameIconHoldView addSubview:self.nameButton];
-        
-        [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.centerX.mas_equalTo(0);
-            make.width.height.mas_equalTo(90 + ddp_isPad() * 40);
-        }];
-        
-        [self.nameButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.iconImgView.mas_bottom).mas_offset(10);
-            make.bottom.mas_offset(-10);
-            //            make.centerX.mas_equalTo(0);
-            make.left.right.mas_equalTo(0);
-            make.width.mas_greaterThanOrEqualTo(self.iconImgView);
-        }];
-        
-    }
-    return _nameIconHoldView;
-}
-
 - (UIVisualEffectView *)blurView {
     if (_blurView == nil) {
         _blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
@@ -397,19 +217,31 @@
     return _tableView;
 }
 
+- (DDPMineHeadView *)headView {
+    if (_headView == nil) {
+        _headView = [DDPMineHeadView fromXib];
+        _headView.frame = CGRectMake(0, 0, self.view.width, self.view.height * TITLE_VIEW_RATE + CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame));
+    }
+    return _headView;
+}
+
 - (NSArray<NSDictionary *> *)dataSourceArr {
     if (_dataSourceArr == nil) {
-        NSMutableArray *arr = [NSMutableArray arrayWithArray:
-                               @[
-                                 @{TITLE_KEY: @"设置"},
-                                 @{TITLE_KEY: @"下载任务"},
-                                 @{TITLE_KEY: @"PC遥控器"},
-                                 @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
-                                 ]];
+        NSMutableArray *arr = [NSMutableArray array];
         
-        if ([DDPCacheManager shareCacheManager].user) {
-            [arr insertObject:@{TITLE_KEY: @"我的关注"} atIndex:0];
+        if ([DDPCacheManager shareCacheManager].currentUser.isLogin) {
+            [arr addObject:@{TITLE_KEY: @"我的关注"}];
         }
+        
+        if ([DDPCacheManager shareCacheManager].linkInfo != nil || [DDPToolsManager shareToolsManager].SMBSession != nil) {
+            [arr addObject:@{TITLE_KEY: @"下载任务"}];
+        }
+        
+        [arr addObjectsFromArray:@[
+                                   @{TITLE_KEY: @"PC遥控器"},
+                                   @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
+                                   ]];
+        
         
         _dataSourceArr = arr;
     }

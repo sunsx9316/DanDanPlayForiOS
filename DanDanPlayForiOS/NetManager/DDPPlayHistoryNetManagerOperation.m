@@ -12,7 +12,7 @@
 
 + (NSURLSessionDataTask *)playHistoryWithUser:(DDPUser *)user
                             completionHandler:(void(^)(DDPBangumiQueueIntroCollection *responseObject, NSError *error))completionHandler {
-    if (user.identity == 0 || user.token.length == 0) {
+    if (user.identity == 0 || user.legacyTokenNumber.length == 0) {
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
@@ -20,7 +20,7 @@
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/intro", [DDPMethod apiPath]];
-    NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.token};
+    NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.legacyTokenNumber};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
@@ -34,7 +34,7 @@
 
 + (NSURLSessionDataTask *)playHistoryDetailWithUser:(DDPUser *)user
                                   completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPBangumiQueueIntroCollection))completionHandler {
-    if (user.identity == 0 || user.token.length == 0) {
+    if (user.identity == 0 || user.legacyTokenNumber.length == 0) {
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
@@ -42,7 +42,7 @@
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/playhistory/queue/details", [DDPMethod apiPath]];
-    NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.token};
+    NSDictionary *parameters = @{@"userId" : @(user.identity), @"token" : user.legacyTokenNumber};
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON

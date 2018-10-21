@@ -22,7 +22,7 @@
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginWithSource:(DDPUserType)source
++ (NSURLSessionDataTask *)loginWithSource:(DDPUserLoginType)source
                                    userId:(NSString *)userId
                                     token:(NSString *)token
                         completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler;
@@ -34,8 +34,8 @@
  @param completionHandler 完成回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginRegisterWithRequest:(DDPRegisterRequest *)request
-                        completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResult))completionHandler;
++ (NSURLSessionDataTask *)registerWithRequest:(DDPRegisterRequest *)request
+                        completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler;
 
 
 /**
@@ -45,7 +45,7 @@
  @param completionHandler 完成回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginRegisterRelateToThirdPartyWithRequest:(DDPRegisterRequest *)request
++ (NSURLSessionDataTask *)registerRelateToThirdPartyWithRequest:(DDPRegisterRequest *)request
                                                    completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResult))completionHandler;
 
 
@@ -56,35 +56,27 @@
  @param completionHandler 完成回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginRegisterRelateOnlyWithRequest:(DDPRegisterRequest *)request
++ (NSURLSessionDataTask *)relateOnlyWithRequest:(DDPRegisterRequest *)request
                                                    completionHandler:(DDPErrorCompletionAction)completionHandler;
 
 /**
  修改用户名
 
- @param userId 用户id
- @param token 用户token
  @param userName 用户名
  @param completionHandler 完成回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginEditUserNameWithUserId:(NSUInteger)userId
-                                                token:(NSString *)token
-                                             userName:(NSString *)userName
++ (NSURLSessionDataTask *)editUserNameWithUserName:(NSString *)userName
                                            completionHandler:(DDPErrorCompletionAction)completionHandler;
 /**
  修改密码
  
- @param userId 用户id
- @param token 用户token
  @param oldPassword 原密码
  @param aNewPassword 新密码
  @param completionHandler 完成回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)loginEditPasswordWithUserId:(NSUInteger)userId
-                                                token:(NSString *)token
-                                          oldPassword:(NSString *)oldPassword
++ (NSURLSessionDataTask *)editPasswordWithOldPassword:(NSString *)oldPassword
                                              aNewPassword:(NSString *)aNewPassword
                                     completionHandler:(DDPErrorCompletionAction)completionHandler;
 

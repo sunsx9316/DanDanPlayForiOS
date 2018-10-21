@@ -13,6 +13,7 @@
 #import "DDPQRHelpViewController.h"
 #import "DDPCacheManager+multiply.h"
 #import "DDPQRScannerHistoryView.h"
+#import "DDPTransparentNavigationBar.h"
 
 #define SCANNER_SIZE (MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) * 0.7)
 
@@ -25,11 +26,6 @@
 @end
 
 @implementation DDPQRScannerViewController
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self setNavigationBarWithColor:[UIColor clearColor]];
-}
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -94,6 +90,10 @@
     [self addQRLayer];
 }
 
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
+}
+
 - (void)dealloc {
     [self.QRCodeReader stopScanning];
 }
@@ -112,7 +112,7 @@
             UIAlertController *vc = nil;
             
             if (info.ipAdress.count == 1) {
-                NSString *ip = [NSString stringWithFormat:@"http://%@:%ld", info.ipAdress.firstObject, info.port];
+                NSString *ip = [NSString stringWithFormat:@"http://%@:%lu", info.ipAdress.firstObject, (unsigned long)info.port];
 
                 vc = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"是否连接到%@", info.name] message:ip preferredStyle:UIAlertControllerStyleAlert];
                 [vc addAction:[UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -125,7 +125,7 @@
 
                 [info.ipAdress enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 
-                    NSString *aIp = [NSString stringWithFormat:@"http://%@:%ld", obj, info.port];
+                    NSString *aIp = [NSString stringWithFormat:@"http://%@:%lu", obj, (unsigned long)info.port];
                     [vc addAction:[UIAlertAction actionWithTitle:aIp style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         [self selectedIp:aIp info:info];
                     }]];

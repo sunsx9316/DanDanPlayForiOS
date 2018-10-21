@@ -20,6 +20,8 @@
 #import "DDPQRScannerViewController.h"
 #import "DDPDownloadManager.h"
 #import <BayMaxProtector.h>
+#import <UMMobClick/MobClick.h>
+#import "DDPPlayNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -32,7 +34,7 @@
     
     [self configIQKeyboardManager];
     [self configBugly];
-    [self configUMShare];
+    [self configUM];
     [self configDDLog];
     [self configOther];
     
@@ -149,9 +151,27 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
+    
     if (!result) {
-        NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
-        [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
+        if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqual:@"com.apple.DocumentsApp"]) {
+            
+            if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
+                UITabBarController *tabvc = (UITabBarController *)self.window.rootViewController;
+                
+                UINavigationController *nav = tabvc.selectedViewController;
+                if ([nav isKindOfClass:[UINavigationController class]]) {
+                    let file = [[DDPFile alloc] initWithFileURL:url type:DDPFileTypeDocument];
+                    let video = file.videoModel;
+                    
+                    [nav tryAnalyzeVideo:video];
+                }
+            }
+        }
+        else {
+            NSURL *toURL = [[[UIApplication sharedApplication] documentsURL] URLByAppendingPathComponent:[url lastPathComponent]];
+            [[NSFileManager defaultManager] copyItemAtURL:url toURL:toURL error:nil];
+        }
+        
         return YES;
     }
     return result;
@@ -174,11 +194,17 @@
     [Bugly startWithAppId:BUGLY_KEY];
 }
 
-- (void)configUMShare {
+- (void)configUM {
     [[UMSocialManager defaultManager] openLog:YES];
     [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
+    
+    //友盟统计
+    UMConfigInstance.appKey = UM_SHARE_KEY;
+    UMConfigInstance.channelId = @"App Store";
+    [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
+    [MobClick startWithConfigure:UMConfigInstance];
 }
 
 - (void)configDDLog {
@@ -189,6 +215,10 @@
     if (@available(iOS 11.0, *)) {
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
+    
+    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
+    
+    [[DDPBaseNetManager shareNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
 }
 
 - (void)configCrash {

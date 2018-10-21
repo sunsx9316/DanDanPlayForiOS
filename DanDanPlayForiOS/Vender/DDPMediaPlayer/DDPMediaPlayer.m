@@ -171,6 +171,24 @@
     return _localMediaPlayer.currentVideoSubTitleIndex;
 }
 
+
+- (NSArray<NSNumber *> *)audioChannelIndexs {
+    return _localMediaPlayer.audioTrackIndexes;
+}
+
+- (NSArray<NSString *> *)audioChannelTitles {
+    return _localMediaPlayer.audioTrackIndexes;
+}
+
+- (void)setCurrentAudioChannelIndex:(int)currentAudioChannelIndex {
+    _localMediaPlayer.audioChannel = currentAudioChannelIndex;
+}
+
+- (int)currentAudioChannelIndex {
+    return _localMediaPlayer.audioChannel;
+}
+
+
 - (void)setSpeed:(float)speed {
     _localMediaPlayer.rate = speed;
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:rateChange:)]) {
@@ -187,7 +205,7 @@
         self.localMediaPlayer.videoAspectRatio = nil;
     }
     else {
-        self.localMediaPlayer.videoAspectRatio = (char *)[NSString stringWithFormat:@"%ld:%ld", (NSInteger)videoAspectRatio.width, (NSInteger)videoAspectRatio.height].UTF8String;
+        self.localMediaPlayer.videoAspectRatio = (char *)[NSString stringWithFormat:@"%ld:%ld", (long)videoAspectRatio.width, (long)videoAspectRatio.height].UTF8String;
     }
 }
 
@@ -228,7 +246,7 @@
     
     self.snapshotCompleteBlock = completion;
     
-    NSString *aPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld", [NSDate date].hash]];
+    NSString *aPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)[NSDate date].hash]];
     if ([_mediaURL.absoluteString containsString:@"smb"]) {
         UIView *aView = self.localMediaPlayer.drawable;
         UIImage *tempImage = [aView snapshotImageAfterScreenUpdates:YES];

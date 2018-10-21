@@ -8,6 +8,18 @@
 
 #import "DDPMethod.h"
 #import "NSURL+Tools.h"
+#import <UMSocialCore/UMSocialCore.h>
+
+DDPProductionType DDPProductionTypeTVSeries = @"tvseries";
+DDPProductionType DDPProductionTypeTVSpecial = @"tvspecial";
+DDPProductionType DDPProductionTypeOVA = @"ova";
+DDPProductionType DDPProductionTypeMovie = @"movie";
+DDPProductionType DDPProductionTypeMusicVideo = @"musicvideo";
+DDPProductionType DDPProductionTypeWeb = @"web";
+DDPProductionType DDPProductionTypeOther = @"other";
+DDPProductionType DDPProductionTypeMusicJPMovie = @"jpmovie";
+DDPProductionType DDPProductionTypeMusicJPDrama = @"jpdrama";
+DDPProductionType DDPProductionTypeMusicUnknown = @"unknown";
 
 static NSArray <NSString *>*ddp_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -18,32 +30,33 @@ static NSArray <NSString *>*ddp_danmakuTypes() {
     return _danmakuTypes;
 };
 
-UIKIT_EXTERN NSString *DDPEpisodeTypeToString(DDPEpisodeType type) {
-    switch (type) {
-        case DDPEpisodeTypeAnimate:
-            return @"TV动画";
-        case DDPEpisodeTypeAnimateSpecial:
-            return @"TV动画特别放送";
-        case DDPEpisodeTypeOVA:
-            return @"OVA";
-        case DDPEpisodeTypePalgantong:
-            return @"剧场版";
-        case DDPEpisodeTypeMV:
-            return @"音乐视频（MV）";
-        case DDPEpisodeTypeWeb:
-            return @"网络放送";
-        case DDPEpisodeTypeOther:
-            return @"其他";
-        case DDPEpisodeTypeThreeDMovie:
-            return @"三次元电影";
-        case DDPEpisodeTypeThreeDTVPlayOrChineseAnimate:
-            return @"三次元电视剧或国产动画";
-        case DDPEpisodeTypeUnknow:
-            return @"未知";
-        default:
-            break;
-    }
-};
+
+//UIKIT_EXTERN NSString *DDPEpisodeTypeToString(DDPEpisodeType type) {
+//    switch (type) {
+//        case DDPEpisodeTypeAnimate:
+//            return @"TV动画";
+//        case DDPEpisodeTypeAnimateSpecial:
+//            return @"TV动画特别放送";
+//        case DDPEpisodeTypeOVA:
+//            return @"OVA";
+//        case DDPEpisodeTypePalgantong:
+//            return @"剧场版";
+//        case DDPEpisodeTypeMV:
+//            return @"音乐视频（MV）";
+//        case DDPEpisodeTypeWeb:
+//            return @"网络放送";
+//        case DDPEpisodeTypeOther:
+//            return @"其他";
+//        case DDPEpisodeTypeThreeDMovie:
+//            return @"三次元电影";
+//        case DDPEpisodeTypeThreeDTVPlayOrChineseAnimate:
+//            return @"三次元电视剧或国产动画";
+//        case DDPEpisodeTypeUnknow:
+//            return @"未知";
+//        default:
+//            break;
+//    }
+//};
 
 UIKIT_EXTERN NSError *DDPErrorWithCode(DDPErrorCode code) {
     switch (code) {
@@ -142,9 +155,9 @@ UIKIT_EXTERN BOOL ddp_isSubTitleFile(NSString *aURL) {
 UIKIT_EXTERN BOOL ddp_isVideoFile(NSString *aURL) {
     NSString *pathExtension = [aURL pathExtension];
     
-    //    if ([pathExtension compare:@"mkv" options:NSCaseInsensitiveSearch]) {
-    //        return true;
-    //    }
+    if ([pathExtension compare:@"mkv" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return true;
+    }
     
     
     CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
@@ -194,8 +207,41 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path) {
     return [[self apiDomain] ddp_appendingPathComponent:@"api/v1"];
 }
 
-+ (NSString *)newApiPath {
-    return [[self apiDomain] ddp_appendingPathComponent:@"api/v2"];
++ (NSString *)apiNewPath {
+    return [[self apiDomain] ddp_appendingPathComponent:@"/api/v2"];
+}
+
+BOOL ddp_isSmallDevice(void) {
+    let height = [UIScreen mainScreen].bounds.size.height;
+    if (ddp_isLandscape()) {
+        return height <= 320.0;
+    }
+    return height <= 568.0;
+}
+
+BOOL ddp_isLandscape(void) {
+    let size = [UIScreen mainScreen].bounds.size;
+    return size.width > size.height;
+}
+
+BOOL ddp_isChatAppInstall(void) {
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_QQ]) {
+        return true;
+    }
+    
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_Sina]) {
+        return true;
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+        return true;
+    }
+    
+    if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_Tim]) {
+        return true;
+    }
+    
+    return false;
 }
 
 @end

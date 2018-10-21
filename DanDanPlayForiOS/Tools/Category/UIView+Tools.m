@@ -52,6 +52,11 @@
     return [UINib nibWithNibName:[self className] bundle:nil];
 }
 
++ (instancetype)fromXib {
+    let nib = [self loadNib];
+    return [nib instantiateWithOwner:nil options:nil].firstObject;
+}
+
 - (UIEdgeInsets)ddp_hitTestSlop {
     NSValue *value = objc_getAssociatedObject(self, _cmd);
     return [value UIEdgeInsetsValue];

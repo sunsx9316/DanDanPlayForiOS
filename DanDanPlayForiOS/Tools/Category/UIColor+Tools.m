@@ -28,7 +28,7 @@
 }
 
 + (UIColor *)ddp_cellHighlightColor {
-    return DDPRGBColor(236, 243, 249);
+    return DDPRGBColor(153, 153, 153);
 }
 
 @end

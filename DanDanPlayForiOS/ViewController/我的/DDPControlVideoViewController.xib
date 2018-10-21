@@ -75,10 +75,10 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jSt-G1-gpZ">
                     <rect key="frame" x="152.66666666666666" y="593" width="70" height="70"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" image="player_play">
+                    <state key="normal" image="player_pause">
                         <color key="titleColor" red="0.20000000000000001" green="0.59215686270000001" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="selected" image="player_pause"/>
+                    <state key="selected" image="player_play"/>
                     <connections>
                         <action selector="touchPlayButton:" destination="-1" eventType="touchUpInside" id="hek-WW-w1e"/>
                     </connections>

@@ -125,9 +125,9 @@
     }
     
     if (number > upper) {
-        return [NSString stringWithFormat:@"%ld+", upper];
+        return [NSString stringWithFormat:@"%lu+", (unsigned long)upper];
     }
-    return [NSString stringWithFormat:@"%ld", number];
+    return [NSString stringWithFormat:@"%lu", (unsigned long)number];
 }
 
 - (BOOL)isRightAccount {

@@ -59,7 +59,7 @@
     [self.iconImgView ddp_setImageWithURL:_model.imageUrl];
     self.onAirLabel.hidden = !_model.isOnAir;
     self.nameLabel.text = _model.name;
-    self.viewLabel.text = [NSString stringWithFormat:@"已看%ld集 , 共%ld集", _model.episodeWatched, _model.episodeTotal];
+    self.viewLabel.text = [NSString stringWithFormat:@"已看%lu集 , 共%lu集", (unsigned long)_model.episodeWatched, (unsigned long)_model.episodeTotal];
     NSDate *date = [NSDate dateWithDefaultFormatString:_model.attentionTime];
     self.timeLabel.text = [NSString stringWithFormat:@"关注于: %@", [NSDate attentionTimeStyleWithDate:date]];
 }

@@ -31,13 +31,11 @@
         fileName = @"";
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/match", [DDPMethod apiPath]];
-    NSDictionary *parameters = @{@"fileName":fileName, @"hash": hash, @"length": @(length)};
+    NSString *path = [NSString stringWithFormat:@"%@/match", [DDPMethod apiNewPath]];
+    NSDictionary *parameters = @{@"fileName":fileName, @"fileHash": hash, @"fileSize": @(length)};
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
-                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:parameters
-                                          completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
+        
         DDPMatchCollection *collection = [DDPMatchCollection yy_modelWithDictionary: responseObj.responseObject];
         //精准匹配
         if (collection.collection.count == 1) {
@@ -55,7 +53,7 @@
 + (NSURLSessionDataTask *)matchEditMatchVideoModel:(DDPVideoModel *)model
                                               user:(DDPUser *)user
                                  completionHandler:(void(^)(NSError *error))completionHandler {
-    if (user.identity == 0 || user.token.length == 0 || model.name.length == 0 || model.fileHash.length == 0 || model.identity == 0) {
+    if (user.identity == 0 || user.legacyTokenNumber.length == 0 || model.name.length == 0 || model.fileHash.length == 0 || model.identity == 0) {
         if (completionHandler) {
             completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
@@ -63,7 +61,11 @@
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/match?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.token, @"FileName" : model.name, @"Hash" : model.fileHash, @"EpisodeId" : @(model.identity)};
+    NSDictionary *dic = @{@"UserId" : @(user.identity),
+                          @"Token" : user.legacyTokenNumber,
+                          @"FileName" : model.name,
+                          @"Hash" : model.fileHash,
+                          @"EpisodeId" : @(model.identity)};
     
     return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON

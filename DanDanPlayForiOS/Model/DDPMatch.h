@@ -19,9 +19,21 @@
  */
 @property (copy, nonatomic) NSString *animeTitle;
 
+
+/**
+ 作品ID
+ */
+@property (assign, nonatomic) NSInteger animeId;
+
 /**
  动画类型
  */
-@property (assign, nonatomic) DDPEpisodeType type;
+@property (copy, nonatomic) DDPProductionType type;
+
+
+/**
+ 类型描述
+ */
+@property (copy, nonatomic) NSString *typeDescription;
 
 @end

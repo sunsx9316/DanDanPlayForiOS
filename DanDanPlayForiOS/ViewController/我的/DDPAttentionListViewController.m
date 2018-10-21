@@ -89,10 +89,10 @@
     NSInteger index = indexPath.row;
     DDPFavorite *model = self.modelDic[_sectionIndexTitles[indexPath.section]][indexPath.row];
 
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否取消关注%@", model.name] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"是否取消关注“%@”", model.name] preferredStyle:UIAlertControllerStyleAlert];
     [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.view showLoading];
-        [DDPFavoriteNetManagerOperation favoriteLikeWithUser:[DDPCacheManager shareCacheManager].user animeId:model.identity like:NO completionHandler:^(NSError *error) {
+        [DDPFavoriteNetManagerOperation favoriteLikeWithUser:[DDPCacheManager shareCacheManager].currentUser animeId:model.identity like:NO completionHandler:^(NSError *error) {
             [self.view hideLoading];
             
             if (error) {
@@ -382,7 +382,7 @@
             if (!self) return;
             
             if (self.type == DDPAnimateListTypeAttention) {
-                [DDPFavoriteNetManagerOperation favoriteAnimateWithUser:[DDPCacheManager shareCacheManager].user completionHandler:^(DDPFavoriteCollection *responseObject, NSError *error) {
+                [DDPFavoriteNetManagerOperation favoriteAnimateWithUser:[DDPCacheManager shareCacheManager].currentUser completionHandler:^(DDPFavoriteCollection *responseObject, NSError *error) {
                     @strongify(self)
                     if (!self) return;
                     
@@ -402,7 +402,7 @@
                 }];
             }
             else {
-                [DDPPlayHistoryNetManagerOperation playHistoryDetailWithUser:[DDPCacheManager shareCacheManager].user completionHandler:^(DDPBangumiQueueIntroCollection *collection, NSError *error) {
+                [DDPPlayHistoryNetManagerOperation playHistoryDetailWithUser:[DDPCacheManager shareCacheManager].currentUser completionHandler:^(DDPBangumiQueueIntroCollection *collection, NSError *error) {
                     @strongify(self)
                     if (!self) return;
                     

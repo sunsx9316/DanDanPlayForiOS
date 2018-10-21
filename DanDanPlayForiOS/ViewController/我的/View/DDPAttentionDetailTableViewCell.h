@@ -13,4 +13,5 @@
 @interface DDPAttentionDetailTableViewCell : UITableViewCell
 @property (strong, nonatomic) DDPPlayHistory *model;
 @property (copy, nonatomic) void(^touchSearchButtonCallBack)(DDPPlayHistory *model);
+@property (copy, nonatomic) void(^touchLikeButtonCallBack)(DDPPlayHistory *model);
 @end

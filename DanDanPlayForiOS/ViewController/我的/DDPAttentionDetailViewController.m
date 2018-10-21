@@ -7,7 +7,7 @@
 //
 
 #import "DDPAttentionDetailViewController.h"
-#import "DDPHomePageSearchViewController.h"
+#import "DDPHomePageSearchPackageViewController.h"
 #import "DDPLinkFileManagerViewController.h"
 #import "DDPPlayNavigationController.h"
 #import "DDPMatchViewController.h"
@@ -64,12 +64,35 @@
             @strongify(self)
             if (!self) return;
             
-            DDPHomePageSearchViewController *vc = [[DDPHomePageSearchViewController alloc] init];
-            DDPDMHYSearchConfig *config = [[DDPDMHYSearchConfig alloc] init];
-            vc.config = config;
-            config.keyword = self.historyModel.searchKeyword.length ? self.historyModel.searchKeyword : self.historyModel.name;
+            DDPHomePageSearchPackageViewController *vc = [[DDPHomePageSearchPackageViewController alloc] initWithKeyword:self.historyModel.searchKeyword.length ? self.historyModel.searchKeyword : self.historyModel.name];
             [self.navigationController pushViewController:vc animated:YES];
         };
+        
+        cell.touchLikeButtonCallBack = ^(DDPPlayHistory *model) {
+            @strongify(self)
+            if (!self) return;
+            
+            BOOL flag = !model.isFavorite;
+            [DDPFavoriteNetManagerOperation changeFavoriteStatusWithAnimeId:model.identity like:flag completionHandler:^(NSError *error) {
+                @strongify(self)
+                if (!self) {
+                    return;
+                }
+                
+                [self.view hideLoading];
+                
+                if (error) {
+                    [self.view showWithError:error];
+                }
+                else {
+                    model.isFavorite = flag;
+                    [self.tableView reloadData];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ATTENTION_SUCCESS_NOTICE object:@(model.identity) userInfo:@{ATTENTION_KEY : @(flag)}];
+                }
+                
+            }];
+        };
+        
         return cell;
     }
     
@@ -80,34 +103,33 @@
         if (!self) return;
         
         DDPVideoModel *model = file.videoModel;
-        void(^jumpToMatchVCAction)(void) = ^{
-            DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-            vc.model = model;
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        };
         
-        if ([DDPCacheManager shareCacheManager].openFastMatch) {
-            MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-            [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-                aHUD.progress = progress;
-                aHUD.label.text = ddp_danmakusProgressToString(progress);
-            } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-                model.danmakus = responseObject;
-                [aHUD hideAnimated:NO];
-                
-                if (responseObject == nil) {
-                    jumpToMatchVCAction();
-                }
-                else {
-                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-                    [self presentViewController:nav animated:YES completion:nil];
-                }
-            }];
-        }
-        else {
-            jumpToMatchVCAction();
-        }
+        [self tryAnalyzeVideo:model];
+        
+//        if ([DDPCacheManager shareCacheManager].openFastMatch) {
+//            MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+//            [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
+//                aHUD.progress = progress;
+//                aHUD.label.text = ddp_danmakusProgressToString(progress);
+//            } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
+//                @strongify(self)
+//                if (!self) return;
+//
+//                model.danmakus = responseObject;
+//                [aHUD hideAnimated:NO];
+//
+//                if (responseObject == nil) {
+//                    [self jumpToMatchVCWithModel:model];
+//                }
+//                else {
+//                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
+//                    [self presentViewController:nav animated:YES completion:nil];
+//                }
+//            }];
+//        }
+//        else {
+//            [self jumpToMatchVCWithModel:model];
+//        }
     };
     return cell;
 }
@@ -127,38 +149,37 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section != 0) {
         //未登录
-        if ([DDPCacheManager shareCacheManager].user == nil) {
-            [[DDPToolsManager shareToolsManager] popLoginAlertViewInViewController:self];
+        
+        if ([self showLoginAlert] == false) {
             return;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            DDPEpisode *model = self.historyModel.collection[indexPath.row];
-            //已观看
-            if (model.time.length != 0) return;
-            
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self.view showLoadingWithText:@"添加中..."];
-                [DDPFavoriteNetManagerOperation favoriteAddHistoryWithUser:[DDPCacheManager shareCacheManager].user episodeId:model.identity addToFavorite:YES completionHandler:^(NSError *error) {
-                    [self.view hideLoading];
-                    
-                    if (error) {
-                        [self.view showWithError:error];
+        DDPEpisode *model = self.historyModel.collection[indexPath.row];
+        //已观看
+        if (model.time.length != 0) return;
+        
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.view showLoadingWithText:@"添加中..."];
+            [DDPFavoriteNetManagerOperation addHistoryWithEpisodeIds:@[@(model.identity)] addToFavorite:YES completionHandler:^(NSError *error) {
+                [self.view hideLoading];
+                
+                if (error) {
+                    [self.view showWithError:error];
+                }
+                else {
+                    model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
+                    self.historyModel.isFavorite = true;
+                    if (self.attentionCallBack) {
+                        self.attentionCallBack(self.animateId);
                     }
-                    else {
-                        model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
-                        if (self.attentionCallBack) {
-                            self.attentionCallBack(self.animateId);
-                        }
-                        [self.tableView reloadData];
-                    }
-                }];
-            }]];
-            
-            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-            [self presentViewController:vc animated:YES completion:nil];
-        });
+                    [self.tableView reloadData];
+                }
+            }];
+        }]];
+        
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -177,7 +198,14 @@
 - (void)requestLibrary {
     DDPLinkInfo *linkInfo = [DDPCacheManager shareCacheManager].linkInfo ? [DDPCacheManager shareCacheManager].linkInfo : [DDPCacheManager shareCacheManager].lastLinkInfo;
     
+    @weakify(self)
     [[DDPToolsManager shareToolsManager] startDiscovererFileWithLinkParentFile:nil linkInfo:linkInfo completion:^(DDPLinkFile *file, NSError *error) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        
         if (error && error.code != DDPErrorCodeParameterNoCompletion) {
 //            [self.view showWithError:error];
         }
@@ -209,6 +237,13 @@
     }];
 }
 
+//- (void)jumpToMatchVCWithModel:(DDPVideoModel *)model {
+//    DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
+//    vc.model = model;
+//    vc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
+
 #pragma mark - 懒加载
 - (DDPBaseTableView *)tableView {
     if (_tableView == nil) {
@@ -224,7 +259,10 @@
             @strongify(self)
             if (!self) return;
             
-            [DDPFavoriteNetManagerOperation favoriteHistoryAnimateWithUser:[DDPCacheManager shareCacheManager].user animateId:self.animateId completionHandler:^(DDPPlayHistory *responseObject, NSError *error) {
+            [DDPFavoriteNetManagerOperation favoriteHistoryAnimateWithUser:[DDPCacheManager shareCacheManager].currentUser animateId:self.animateId completionHandler:^(DDPPlayHistory *responseObject, NSError *error) {
+                @strongify(self)
+                if (!self) return;
+                
                 if (error) {
                     [self.view showWithError:error];
                 }

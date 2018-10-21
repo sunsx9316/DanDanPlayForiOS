@@ -10,6 +10,12 @@
 #import "DDPFavoriteCollection.h"
 #import "DDPPlayHistory.h"
 
+typedef NSString* DDPFavoriteStatus;
+
+FOUNDATION_EXPORT DDPFavoriteStatus DDPFavoriteStatusFavorited;
+FOUNDATION_EXPORT DDPFavoriteStatus DDPFavoriteStatusFinished;
+FOUNDATION_EXPORT DDPFavoriteStatus DDPFavoriteStatusAbandoned;
+
 @interface DDPFavoriteNetManagerOperation : NSObject
 
 /**
@@ -25,6 +31,9 @@
                                          animeId:(NSUInteger)animeId
                                             like:(BOOL)like
                         completionHandler:(DDPErrorCompletionAction)completionHandler;
+
+
+
 
 /**
  获取用户收藏列表
@@ -52,13 +61,26 @@
  添加观看记录
 
  @param user 用户
- @param episodeId 分集id
- @param AddToFavorite 是否自动关注
+ @param episodeIds 分集id集合
+ @param addToFavorite 是否自动关注
  @param completionHandler 回调
  @return 任务
  */
-+ (NSURLSessionDataTask *)favoriteAddHistoryWithUser:(DDPUser *)user
-                                           episodeId:(NSUInteger)episodeId addToFavorite:(BOOL)AddToFavorite
++ (NSURLSessionDataTask *)addHistoryWithEpisodeIds:(NSArray <NSNumber *>*)episodeIds
+                                            addToFavorite:(BOOL)addToFavorite
                                        completionHandler:(DDPErrorCompletionAction)completionHandler;
+
+
+/**
+ 更改收藏新番状态
+
+ @param animeId id
+ @param like s是否收藏
+ @param completionHandler 完成回调
+ @return 任务
+ */
++ (NSURLSessionDataTask *)changeFavoriteStatusWithAnimeId:(NSUInteger)animeId
+                                          like:(BOOL)like
+                                        completionHandler:(DDPErrorCompletionAction)completionHandler;
 
 @end

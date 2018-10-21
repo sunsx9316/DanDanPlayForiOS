@@ -9,7 +9,8 @@
 #import "DDPSearchNetManagerOperation.h"
 
 @implementation DDPSearchNetManagerOperation
-+ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword episode:(NSUInteger)episode completionHandler:(void (^)(DDPSearchCollection *, NSError *))completionHandler {
++ (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword
+                                            episode:(NSUInteger)episode completionHandler:(void (^)(DDPSearchCollection *, NSError *))completionHandler {
     if (!keyword.length) {
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
@@ -17,23 +18,50 @@
         return nil;
     }
     
-    NSString *path = nil;
-    if (episode == 0) {
-        path = [NSString stringWithFormat:@"%@/searchall/%@", [DDPMethod apiPath], [keyword stringByURLEncode]];
-    }
-    else {
-        path = [NSString stringWithFormat:@"%@/searchall/%@/%lu", [DDPMethod apiPath], [keyword stringByURLEncode], (unsigned long)episode];
+    NSString *path = [NSString stringWithFormat:@"%@/search/episodes", [DDPMethod apiNewPath]];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[@"anime"] = keyword;
+    if (episode != 0) {
+        dic[@"episode"] = @(episode);
     }
     
     
     return [[DDPBaseNetManager shareNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:nil
+                                                 parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler([DDPSearchCollection yy_modelWithDictionary:responseObj.responseObject], responseObj.error);
         }
     }];
+}
+
++ (NSURLSessionDataTask *)searchAnimateWithKeyword:(NSString *)keyword
+                                              type:(DDPProductionType)type
+                                 completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchAnimeDetailsCollection))completionHandler {
+    if (!keyword.length) {
+        if (completionHandler) {
+            completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
+        return nil;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"%@/search/anime", [DDPMethod apiNewPath]];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[@"keyword"] = keyword;
+    dic[@"type"] = type;
+    
+    
+    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+                                             serializerType:DDPBaseNetManagerSerializerTypeJSON
+                                                 parameters:dic
+                                          completionHandler:^(DDPResponse *responseObj) {
+                                              if (completionHandler) {
+                                                  completionHandler([DDPSearchAnimeDetailsCollection yy_modelWithDictionary:responseObj.responseObject], responseObj.error);
+                                              }
+                                          }];
 }
 
 + (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void (^)(DDPBiliBiliSearchResult *, NSError *))completionHandler {

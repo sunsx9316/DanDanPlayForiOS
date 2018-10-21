@@ -22,7 +22,7 @@
 #import "DDPCommentNetManagerOperation.h"
 
 @interface DDPHomePageSearchViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, HomePageSearchFilterViewDelegate, HomePageSearchFilterViewDataSource>
-@property (strong, nonatomic) DDPSearchBar *searchBar;
+//@property (strong, nonatomic) DDPSearchBar *searchBar;
 @property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) DDPDMHYSearchCollection *collection;
 @property (strong, nonatomic) HomePageSearchFilterView *filterView;
@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configRightItem];
-    [self configTitleView];
+//    [self configTitleView];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
@@ -46,8 +46,8 @@
         make.height.mas_equalTo(FILTER_VIEW_HEIGHT);
     }];
     
-    if (self.config) {
-        self.searchBar.text = self.config.keyword;
+    if (self.config.keyword.length > 0) {
+//        self.searchBar.text = self.config.keyword;
         [self.tableView.mj_header beginRefreshing];
     }
     else {
@@ -55,23 +55,32 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (self.config == nil) {
-        [UIView performWithoutAnimation:^{
-            [self.searchBar becomeFirstResponder];
-        }];
+- (void)setConfig:(DDPDMHYSearchConfig *)config {
+    _config = config;
+    
+    if (self.isViewLoaded) {
+        [self.tableView.mj_header beginRefreshing];
+//        [self.tableView.mj_header beginRefreshing];
     }
 }
 
-#pragma mark - UISearchBarDelegate
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    DDPDMHYSearchConfig *config = [[DDPDMHYSearchConfig alloc] init];
-    config.keyword = searchBar.text;
-    self.config = config;
-    [self.tableView.mj_header beginRefreshing];
-    [searchBar endEditing:YES];
-}
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    if (self.config == nil) {
+//        [UIView performWithoutAnimation:^{
+//            [self.searchBar becomeFirstResponder];
+//        }];
+//    }
+//}
+
+//#pragma mark - UISearchBarDelegate
+//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+//    DDPDMHYSearchConfig *config = [[DDPDMHYSearchConfig alloc] init];
+//    config.keyword = searchBar.text;
+//    self.config = config;
+//    [self.tableView.mj_header beginRefreshing];
+//    [searchBar endEditing:YES];
+//}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -239,50 +248,50 @@
         [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_browser"] configAction:^(UIButton *aButton) {
-        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
-        aButton.userInteractionEnabled = !!self.config;
-    }];
-    
-    [self.navigationItem addRightItemFixedSpace:item];
-}
+//- (void)configRightItem {
+//    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"home_browser"] configAction:^(UIButton *aButton) {
+//        [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
+//        aButton.userInteractionEnabled = !!self.config;
+//    }];
+//    
+//    [self.navigationItem addRightItemFixedSpace:item];
+//}
+//
+//- (void)touchRightItem:(UIButton *)sender {
+//    
+//    NSString *link = self.config.link;
+//    if (link.length == 0) {
+//        link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.config.keyword stringByURLEncode]];
+//    }
+//    
+////    [self.searchBar resignFirstResponder];
+//    
+//    DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
+//    @weakify(self)
+//    vc.clickMagnetCallBack = ^(NSString *url) {
+//        @strongify(self)
+//        if (!self) return;
+//
+//        [self downloadVideoWithMagnet:url];
+//    };
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 
-- (void)touchRightItem:(UIButton *)sender {
-    
-    NSString *link = self.config.link;
-    if (link.length == 0) {
-        link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.config.keyword stringByURLEncode]];
-    }
-    
-    [self.searchBar resignFirstResponder];
-    
-    DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
-    @weakify(self)
-    vc.clickMagnetCallBack = ^(NSString *url) {
-        @strongify(self)
-        if (!self) return;
+//- (void)touchLeftItem:(UIButton *)button {
+//    [self.searchBar resignFirstResponder];
+//    [super touchLeftItem:button];
+//}
 
-        [self downloadVideoWithMagnet:url];
-    };
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)touchLeftItem:(UIButton *)button {
-    [self.searchBar resignFirstResponder];
-    [super touchLeftItem:button];
-}
-
-- (void)configTitleView {
-    DDPExpandView *searchBarHolderView = [[DDPExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
-    [searchBarHolderView addSubview:self.searchBar];
-    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.mas_offset(0);
-        make.trailing.mas_offset(0);
-        make.top.bottom.mas_equalTo(0);
-    }];
-    self.navigationItem.titleView = searchBarHolderView;
-}
+//- (void)configTitleView {
+//    DDPExpandView *searchBarHolderView = [[DDPExpandView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 44)];
+//    [searchBarHolderView addSubview:self.searchBar];
+//    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.mas_offset(0);
+//        make.trailing.mas_offset(0);
+//        make.top.bottom.mas_equalTo(0);
+//    }];
+//    self.navigationItem.titleView = searchBarHolderView;
+//}
 
 
 #pragma mark - 懒加载
@@ -294,12 +303,17 @@
         _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [_tableView registerClass:[HomePageSearchTableViewCell class] forCellReuseIdentifier:@"HomePageSearchTableViewCell"];
         _tableView.tableFooterView = [[UIView alloc] init];
+        
+        _tableView.titleForEmptyView = @"没有搜索到结果";
+        _tableView.descriptionForEmptyView = @"换个关键词试试吧╮(╯▽╰)╭";
+        _tableView.showEmptyView = YES;
+        
         @weakify(self)
         _tableView.mj_header = [MJRefreshNormalHeader ddp_headerRefreshingCompletionHandler:^{
             @strongify(self)
             if (!self) return;
             
-            if (self.config) {
+            if (self.config.keyword.length) {
                 [DDPSearchNetManagerOperation searchDMHYWithConfig:self.config completionHandler:^(DDPDMHYSearchCollection *responseObject, NSError *error) {
                     if (error) {
                         [self.view showWithError:error];
@@ -343,7 +357,7 @@
                                 make.top.mas_offset(0);
                             }];
                         }
-                        self.navigationItem.rightBarButtonItem.customView.userInteractionEnabled = !!self.config;
+//                        self.navigationItem.rightBarButtonItem.customView.userInteractionEnabled = !!self.config;
                         self.dataSource = responseObject.collection;
                         [self.tableView reloadData];
                     }
@@ -361,18 +375,18 @@
     return _tableView;
 }
 
-- (DDPSearchBar *)searchBar {
-    if (_searchBar == nil) {
-        _searchBar = [[DDPSearchBar alloc] init];
-        _searchBar.placeholder = @"搜索资源";
-        _searchBar.delegate = self;
-        _searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchBar.tintColor = [UIColor ddp_mainColor];
-        _searchBar.backgroundColor = [UIColor clearColor];
-        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
-    }
-    return _searchBar;
-}
+//- (DDPSearchBar *)searchBar {
+//    if (_searchBar == nil) {
+//        _searchBar = [[DDPSearchBar alloc] init];
+//        _searchBar.placeholder = @"搜索资源";
+//        _searchBar.delegate = self;
+//        _searchBar.backgroundImage = [[UIImage alloc] init];
+//        _searchBar.tintColor = [UIColor ddp_mainColor];
+//        _searchBar.backgroundColor = [UIColor clearColor];
+//        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
+//    }
+//    return _searchBar;
+//}
 
 - (HomePageSearchFilterView *)filterView {
     if (_filterView == nil) {

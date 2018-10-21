@@ -8,31 +8,38 @@
 
 #import "DDPLoginNetManagerOperation.h"
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
-#import "DDPPofileResponse.h"
-#import "DDPBindingResponse.h"
-#import "DDPRegisterResponse.h"
 
 @implementation DDPLoginNetManagerOperation
 
-+ (NSURLSessionDataTask *)loginWithSource:(DDPUserType)source
++ (NSURLSessionDataTask *)loginWithSource:(DDPUserLoginType)source
                                    userId:(NSString *)userId
                                     token:(NSString *)token
                         completionHandler:(void(^)(DDPUser *responseObject, NSError *error))completionHandler {
 
-    if (userId.length == 0 || token.length == 0) {
+    if (userId.length == 0 || token.length == 0 || source.length == 0) {
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/applogin?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    NSDictionary *dic = @{@"Source" : ddp_userTypeToString(source), @"UserId" : userId, @"AccessToken" : token, @"Timestamp" : @((UInt64)([[NSDate date] timeIntervalSince1970]))};
+    NSDictionary *dic = nil;
+    NSString *path;
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
-                                              serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
-                                                  parameters:ddplay_encryption(dic)
-                                           completionHandler:^(DDPResponse *responseObj) {
+    if ([source isEqualToString:DDPUserLoginTypeDefault]) {
+        path = [NSString stringWithFormat:@"%@/login", [DDPMethod apiNewPath]];
+        dic = [self addAuthWithParameters:@{@"password" : token,
+                                            @"userName" : userId}];
+    }
+    //第三方登录
+    else {
+        path = [NSString stringWithFormat:@"%@/applogin", [DDPMethod apiNewPath]];
+        dic = [self addAuthWithParameters:@{@"source" : source,
+                                            @"userId" : userId,
+                                            @"accessToken" : token}];
+    }
+    
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
         if (responseObj.error) {
             if (completionHandler) {
                 completionHandler(nil, responseObj.error);
@@ -40,51 +47,69 @@
         }
         else {
             DDPUser *user = [DDPUser yy_modelWithJSON:responseObj.responseObject];
-            user.account = userId;
             user.password = token;
-            user.loginUserType = source;
-            //登录失败
-            if (user.needLogin == YES) {
-                if (completionHandler) {
-                    completionHandler(user, DDPErrorWithCode(DDPErrorCodeLoginFail));
-                }
+            user.thirdPartyUserId = userId;
+            user.userType = source;
+            
+            if (user.registerRequired == false) {
+                [user updateLoginStatus:true];
+                [DDPCacheManager shareCacheManager].currentUser = user;
             }
-            else {
-                [DDPCacheManager shareCacheManager].user = user;
-                if (completionHandler) {
-                    completionHandler(user, responseObj.error);
-                }
+            
+            if (completionHandler) {
+                completionHandler(user, nil);
             }
         }
     }];
+    
 }
 
-+ (NSURLSessionDataTask *)loginRegisterWithRequest:(DDPRegisterRequest *)request
-                                 completionHandler:(void(^)(DDPRegisterResult *responseObject, NSError *error))completionHandler {
-    if (request.name.length == 0 || request.password.length == 0 || request.email.length == 0 || request.account.length == 0) {
++ (NSURLSessionDataTask *)registerWithRequest:(DDPRegisterRequest *)request
+                            completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler {
+    if (request.name.length == 0 ||
+        request.password.length == 0 ||
+        request.email.length == 0 ||
+        request.account.length == 0) {
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/register?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    NSDictionary *dic = [request yy_modelToJSONObject];
     
-    DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
+    NSString *path = [NSString stringWithFormat:@"%@/register", [DDPMethod apiNewPath]];
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) responseClass:[DDPRegisterResponse class] completionHandler:^(DDPRegisterResponse *responseObj) {
+    let dic = [self addAuthWithParameters:@{@"userName" : request.account,
+                                            @"password" : request.password,
+                                            @"email" : request.email,
+                                            @"screenName" : request.name}];
+    
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
-            DDPRegisterResult *result = [DDPRegisterResult yy_modelWithJSON:responseObj.responseObject];
-            completionHandler(result, responseObj.error);
+            if (responseObj.success == false) {
+                completionHandler(nil, responseObj.error);
+            }
+            else {
+                DDPUser *user = [DDPUser yy_modelWithJSON:responseObj.responseObject];
+                user.password = request.password;
+                [user updateLoginStatus:true];
+                [DDPCacheManager shareCacheManager].currentUser = user;
+                
+                completionHandler(user, responseObj.error);
+            }
         }
     }];
 }
 
-+ (NSURLSessionDataTask *)loginRegisterRelateToThirdPartyWithRequest:(DDPRegisterRequest *)request
-                                                   completionHandler:(void (^)(DDPRegisterResult *, NSError *))completionHandler {
++ (NSURLSessionDataTask *)registerRelateToThirdPartyWithRequest:(DDPRegisterRequest *)request
+                                              completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPRegisterResult))completionHandler {
     
-    if (request.name.length == 0 || request.password.length == 0 || request.email.length == 0 || request.account.length == 0 || request.userId.length == 0 || request.token == 0){
+    if (request.name.length == 0 ||
+        request.password.length == 0 ||
+        request.email.length == 0 ||
+        request.account.length == 0 ||
+        request.userId.length == 0 ||
+        request.token == 0){
         if (completionHandler) {
             completionHandler(nil, DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
@@ -96,20 +121,27 @@
     
     DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) responseClass:[DDPRegisterResponse class] completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
-            DDPRegisterResult *result = [DDPRegisterResult yy_modelWithJSON:responseObj.responseObject];
-            completionHandler(result, responseObj.error);
+            if (responseObj.error) {
+//                responseObj.error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:-999 userInfo:@{NSLocalizedDescriptionKey : @"注册失败"}];
+                completionHandler(nil, responseObj.error);
+            }
+            else {
+                DDPRegisterResult *result = [DDPRegisterResult yy_modelWithJSON:responseObj.responseObject];
+                completionHandler(result, responseObj.error);
+            }
         }
     }];
 }
 
-+ (NSURLSessionDataTask *)loginRegisterRelateOnlyWithRequest:(DDPRegisterRequest *)request
-                                           completionHandler:(DDPErrorCompletionAction)completionHandler {
-    if (completionHandler == nil) return nil;
++ (NSURLSessionDataTask *)relateOnlyWithRequest:(DDPRegisterRequest *)request
+                              completionHandler:(DDPErrorCompletionAction)completionHandler {
     
     if (request.userId.length == 0 || request.token.length == 0 || request.account.length == 0 || request.password.length == 0){
-        completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        if (completionHandler) {
+            completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
         return nil;
     }
     
@@ -118,58 +150,63 @@
     
     DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) responseClass:[DDPBindingResponse class] completionHandler:^(DDPBindingResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
-            completionHandler(responseObj.error);
+            if (responseObj.error) {
+//                responseObj.error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:-999 userInfo:@{NSLocalizedDescriptionKey : @"绑定失败"}];
+                completionHandler(responseObj.error);
+            }
+            else {
+                completionHandler(nil);
+            }
         }
     }];
 }
 
-+ (NSURLSessionDataTask *)loginEditUserNameWithUserId:(NSUInteger)userId
-                                                token:(NSString *)token
-                                             userName:(NSString *)userName
-                                    completionHandler:(DDPErrorCompletionAction)completionHandler {
++ (NSURLSessionDataTask *)editUserNameWithUserName:(NSString *)userName
+                                      completionHandler:(DDPErrorCompletionAction)completionHandler {
     
-    if (userId == 0 || token.length == 0 || userName.length == 0){
+    if (userName.length == 0){
         if (completionHandler) {
             completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
         return nil;
     }
     
-    NSString *path = [DDPMethod apiPath];
-    path = [NSString stringWithFormat:@"%@?clientId=%@", [path ddp_appendingPathComponent:@"/user/profile"], CLIENT_ID];
-    NSDictionary *parameters = @{@"UserId" : @(userId), @"Token" : token, @"ScreenName" : userName};
+    NSString *path = [NSString stringWithFormat:@"%@/user/profile", [DDPMethod apiNewPath]];
+    NSDictionary *parameters = @{@"screenName" : userName};
     
-    DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
-    
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(parameters) responseClass:[DDPPofileResponse class] completionHandler:^(DDPPofileResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);
         }
     }];
 }
 
-+ (NSURLSessionDataTask *)loginEditPasswordWithUserId:(NSUInteger)userId
-                                                token:(NSString *)token
-                                          oldPassword:(NSString *)oldPassword
-                                         aNewPassword:(NSString *)aNewPassword
-                                    completionHandler:(DDPErrorCompletionAction)completionHandler {
-    if (completionHandler == nil) return nil;
++ (NSURLSessionDataTask *)editPasswordWithOldPassword:(NSString *)oldPassword
+                                              aNewPassword:(NSString *)aNewPassword
+                                         completionHandler:(DDPErrorCompletionAction)completionHandler {
     
-    if (userId == 0 || token.length == 0 || oldPassword.length == 0 || aNewPassword.length == 0){
-        completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+    if (oldPassword.length == 0 || aNewPassword.length == 0){
+        if (completionHandler) {
+            completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
+        }
         return nil;
     }
     
-    NSString *path = [DDPMethod apiPath];
-    path = [NSString stringWithFormat:@"%@?clientId=%@", [path ddp_appendingPathComponent:@"/user/profile"], CLIENT_ID];
+    NSString *path = [NSString stringWithFormat:@"%@/user/password", [DDPMethod apiNewPath]];
+    NSDictionary *parameters = @{@"oldPassword" : oldPassword, @"newPassword" : aNewPassword};
     
-    NSDictionary *parameters = @{@"UserId" : @(userId), @"Token" : token, @"OldPassword" : oldPassword, @"NewPassword" : aNewPassword};
-    
-    DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
-    
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(parameters) responseClass:[DDPPofileResponse class] completionHandler:^(DDPPofileResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
+        //弹弹的账号 更新密码
+        if (responseObj.error == nil) {
+            let user = [DDPCacheManager shareCacheManager].currentUser;
+            if ([user.userType isEqualToString:DDPUserLoginTypeDefault]) {
+                user.password = aNewPassword;
+                [DDPCacheManager shareCacheManager].currentUser = user;
+            }
+        }
+        
         if (completionHandler) {
             completionHandler(responseObj.error);
         }
@@ -184,18 +221,33 @@
         return nil;
     }
     
-    NSString *path = [[DDPMethod apiPath] ddp_appendingPathComponent:@"/register/resetpassword"];
-    path = [path stringByAppendingFormat:@"?clientId=%@", CLIENT_ID];
-    NSDictionary *parameters = @{@"UserName" : account, @"Email" : email,  @"Timestamp" : @((UInt64)([[NSDate date] timeIntervalSince1970]))};
+    NSString *path = [NSString stringWithFormat:@"%@/register/resetpassword", [DDPMethod apiNewPath]];
+    let parameters = [self addAuthWithParameters:@{@"userName" : account, @"email" : email}];
     
-    DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
-    
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(parameters) completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);
         }
         
     }];
+}
+
+
+#pragma mark - 私有方法
++ (NSDictionary *)addAuthWithParameters:(NSDictionary *)parameters {
+    NSMutableDictionary *dic = [parameters mutableCopy];
+    dic[@"appId"] = API_V2_APP_ID;
+    dic[@"unixTimestamp"] = @((NSInteger)[[NSDate date] timeIntervalSince1970]);
+    
+    NSArray <NSString *>*allKeys = [dic allKeysSorted];
+    NSMutableString *str = [[NSMutableString alloc] init];
+    [allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [str appendFormat:@"%@", dic[obj]];
+    }];
+    [str appendString:API_V2_APP_SECRET];
+    
+    dic[@"hash"] = [str md5String];
+    return dic;
 }
 
 @end

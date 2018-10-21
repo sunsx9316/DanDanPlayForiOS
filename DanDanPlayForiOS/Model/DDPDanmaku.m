@@ -17,12 +17,10 @@
     return @{@"time":@"Time",
              @"mode":@"Mode",
              @"color":@"Color",
-             @"message":@"Message",
+             @"message": @[@"Message", @"m"],
              @"timestamp" : @"Timestamp",
-             @"pool" : @"Pool",
-             @"userId" : @"UId",
-             @"identity" : @"CId",
-             @"token" : @"Token"};
+             @"UId" : @"UId",
+             @"identity" : @[@"CId", @"cid"]};
 }
 
 + (NSArray<NSString *> *)modelPropertyBlacklist {
@@ -41,6 +39,35 @@
 
 - (NSUInteger)hash {
     return self.message.hash | self.color | [self timeValue].hash;
+}
+
+- (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic {
+    //"p": "147.32,1,16777215,[BiliBili]d9840c43",
+    NSString *p = dic[@"p"];
+    
+    if ([p isKindOfClass:[NSString class]]) {
+        NSMutableDictionary *mDic = [dic mutableCopy];
+        NSArray <NSString *>*arr = [p componentsSeparatedByString:@","];
+        if (arr.count > 0) {
+            mDic[@"Time"] = arr.firstObject;
+        }
+        
+        if (arr.count > 1) {
+            mDic[@"Mode"] = arr[1];
+        }
+        
+        if (arr.count > 2) {
+            mDic[@"Color"] = arr[2];
+        }
+        
+        if (arr.count > 3) {
+            mDic[@"UId"] = arr[3];
+        }
+        
+        return mDic;
+    }
+    
+    return dic;
 }
 
 #pragma mark - 懒加载

@@ -10,6 +10,7 @@
 #import "DDPQRScannerViewController.h"
 #import "DDPLinkNetManagerOperation.h"
 #import "DDPMediaPlayer.h"
+#import "DDPTransparentNavigationBar.h"
 
 @interface DDPControlVideoViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *mainTitleLabel;
@@ -26,12 +27,6 @@
 @implementation DDPControlVideoViewController
 {
     BOOL _touchSliderDown;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setNavigationBarWithColor:[UIColor clearColor]];
 }
 
 - (void)viewDidLoad {
@@ -59,7 +54,15 @@
     }
 }
 
+- (Class)ddp_navigationBarClass {
+    return [DDPTransparentNavigationBar class];
+}
+
 - (IBAction)touchPlayButton:(UIButton *)sender {
+    if ([self ipAddress].length == 0) {
+        return;
+    }
+    
     sender.selected = !sender.isSelected;
     
     [DDPLinkNetManagerOperation linkControlWithIpAdress:[self ipAddress] method:sender.isSelected ? JHControlVideoMethodPause : JHControlVideoMethodPlay completionHandler:nil];

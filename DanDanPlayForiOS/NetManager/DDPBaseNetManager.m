@@ -19,41 +19,6 @@
 @property (strong, nonatomic) YYReachability *reachability;
 @end
 
-/**
- *  转换错误信息为可读
- *
- *  @param error 错误
- *
- *  @return 可读的错误
- */
-static NSError *ddp_humanReadableError(NSError *error) {
-    return error;
-    
-    
-//    if (error == nil) return nil;
-//    
-//    NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
-//    NSUInteger statusCode = response.statusCode;
-//    NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%lu ", (unsigned long)statusCode];
-//    if (statusCode == 400) {
-//        [str appendString:@"客户端发送的请求有错误"];
-//    }
-//    else if (statusCode == 401) {
-//        [str appendString:@"客户端无权限或token验证失败"];
-//    }
-//    else if (statusCode == 404) {
-//        [str appendString:@"未找到API"];
-//    }
-//    else if (statusCode == 500) {
-//        [str appendString:@"服务器处理请求时发生错误"];
-//    }
-//    
-//    JHLog(@"%@", str);
-//    
-//    NSError *aError = [NSError errorWithDomain:@"网络错误" code:statusCode userInfo:@{NSLocalizedDescriptionKey : @"网络错误"}];
-//    return aError;
-}
-
 static NSString *ddp_jsonString(id obj) {
     if ([obj isKindOfClass:[NSData class]]) {
         return [NSJSONSerialization JSONObjectWithData:obj options:kNilOptions error:nil];
@@ -103,6 +68,15 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     return self;
 }
 
+- (void)resetJWTToken:(NSString *)token {
+    if (token.length) {
+        [self.HTTPSessionManager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", token] forHTTPHeaderField:@"Authorization"];
+    }
+    else {
+        [self.HTTPSessionManager.requestSerializer setValue:nil forHTTPHeaderField:@"Authorization"];
+    }
+}
+
 #pragma mark -
 
 - (NSURLSessionDataTask *)GETWithPath:(NSString*)path
@@ -124,22 +98,13 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         JHLog(@"GET 请求失败：%@ \n\n%@", task.originalRequest.URL, error);
-        NSError *temErr = ddp_humanReadableError(error);
         if (completionHandler) {
-            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:temErr]);
+            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:error]);
         }
     }];
 }
 
 - (NSURLSessionDataTask *)POSTWithPath:(NSString *)path serializerType:(DDPBaseNetManagerSerializerType)serializerType parameters:(id)parameters completionHandler:(DDPResponseCompletionAction)completionHandler {
-    return [self POSTWithPath:path serializerType:serializerType parameters:parameters responseClass:nil completionHandler:completionHandler];
-}
-
-- (NSURLSessionDataTask *)POSTWithPath:(NSString *)path
-                        serializerType:(DDPBaseNetManagerSerializerType)serializerType
-                            parameters:(id)parameters
-                         responseClass:(Class)responseClass
-                     completionHandler:(DDPResponseCompletionAction)completionHandler {
     if (path.length == 0) {
         if (completionHandler) {
             completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:DDPErrorWithCode(DDPErrorCodeParameterNoCompletion)]);
@@ -150,24 +115,15 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     AFHTTPSessionManager *manager = self.HTTPSessionManager;
     
     return [manager POST:path parameters:ddp_requestParameters(serializerType, parameters) progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        JHLog(@"POST 请求成功：%@\n\n%@", path, ddp_jsonString(responseObject));
+        JHLog(@"POST 请求成功：%@\n\n%@\n\n%@", path, ddp_jsonString(parameters) , ddp_jsonString(responseObject));
         
         if (completionHandler) {
-            if ([responseClass isKindOfClass:[DDPResponse class]]) {
-                completionHandler([[responseClass alloc] initWithResponseObject:responseObject error:nil]);
-            }
-            else {
-                completionHandler([[DDPResponse alloc] initWithResponseObject:responseObject error:nil]);
-            }
+            completionHandler([[DDPResponse alloc] initWithResponseObject:responseObject error:nil]);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        JHLog(@"POST 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
-        
-        if ([responseClass isKindOfClass:[DDPResponse class]]) {
-            completionHandler([[responseClass alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
-        }
-        else {
-            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
+        JHLog(@"POST 请求失败：%@ \n\n %@ \n\n%@", path, ddp_jsonString(parameters), error);
+        if (completionHandler) {
+            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:error]);
         }
     }];
 }
@@ -195,7 +151,7 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
         JHLog(@"DELETE 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
         
         if (completionHandler) {
-            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
+            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:error]);
         }
     }];
 }
@@ -222,7 +178,7 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
         JHLog(@"PUT 请求失败：%@ \n\n %@ \n\n%@", path, parameters, error);
         
         if (completionHandler) {
-            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:ddp_humanReadableError(error)]);
+            completionHandler([[DDPResponse alloc] initWithResponseObject:nil error:error]);
         }
     }];
 }

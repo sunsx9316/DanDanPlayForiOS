@@ -41,24 +41,14 @@ typedef NS_ENUM(NSUInteger, DDPDanmakuMode) {
 @property (assign, nonatomic) NSTimeInterval timestamp;
 
 /**
- 弹幕池，目前此数值为0。
- */
-@property (assign, nonatomic) NSUInteger pool;
-
-/**
- 用户编号，匿名用户为0，备份弹幕为-1，注册用户为正整数。
- */
-@property (assign, nonatomic) NSUInteger userId;
-
-/**
  *  Message: 弹幕内容文字。\r和\n不会作为换行转义符。
  */
 @property (nonatomic, strong) NSString* message;
 
 /**
- 用户登录令牌，匿名用户需设置为0。
+ 用户id 可能为第三方弹幕
  */
-@property (copy, nonatomic) NSString *token;
+@property (copy, nonatomic) NSString *UId;
 
 #pragma mark - 自定义属性
 /**

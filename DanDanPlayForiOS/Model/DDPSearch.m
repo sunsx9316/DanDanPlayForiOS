@@ -11,9 +11,9 @@
 @implementation DDPSearch
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"episodes" : @"Episodes",
-             @"name" : @"Title",
-             @"type" : @"Type"};
+    return @{@"name" : @"animeTitle",
+             @"identity" : @"animeId"
+             };
 }
 
 + (NSDictionary<NSString *,id> *)modelContainerPropertyGenericClass {

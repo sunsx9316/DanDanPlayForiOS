@@ -41,6 +41,13 @@
  */
 + (NSString *)historyTimeStyleWithDate:(NSDate *)date;
 
+/**
+ 搜索动画形式
+
+ @return 搜索动画形式
+ */
+- (NSString *)searchAnimeTimeStyle;
+
 
 /**
  上次观看时间

@@ -185,42 +185,45 @@
 #pragma mark - 私有方法
 - (void)startMatchWithHash:(NSString *)hash {
         
-    DDPSMBVideoModel *model = [[DDPSMBVideoModel alloc] initWithFileURL:_selectedFile.sessionFile.fullURL hash:hash length:_selectedFile.sessionFile.fileSize];
+    DDPSMBVideoModel *model = [[DDPSMBVideoModel alloc] initWithFileURL:_selectedFile.sessionFile.fullURL hash:hash length:(NSUInteger)_selectedFile.sessionFile.fileSize];
     model.file = _selectedFile;
     
-    void(^jumpToMatchVCAction)(void) = ^{
-        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-        vc.model = model;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    };
+    [self tryAnalyzeVideo:model];
     
-    if ([DDPCacheManager shareCacheManager].openFastMatch) {
-        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-        [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-            aHUD.progress = progress;
-            aHUD.label.text = ddp_danmakusProgressToString(progress);
-        } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-            model.danmakus = responseObject;
-            [aHUD hideAnimated:NO];
-            
-            if (error) {
-                [self.view showWithError:error];
-            }
-            else {
-                if (responseObject == nil) {
-                    jumpToMatchVCAction();
-                }
-                else {
-                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-                    [self presentViewController:nav animated:YES completion:nil];
-                }
-            }
-        }];
-    }
-    else {
-        jumpToMatchVCAction();
-    }
+//    void(^jumpToMatchVCAction)(void) = ^{
+//        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
+//        vc.model = model;
+//        vc.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    };
+//    
+//    
+//    if ([DDPCacheManager shareCacheManager].openFastMatch) {
+//        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+//        [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
+//            aHUD.progress = progress;
+//            aHUD.label.text = ddp_danmakusProgressToString(progress);
+//        } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
+//            model.danmakus = responseObject;
+//            [aHUD hideAnimated:NO];
+//            
+//            if (error) {
+//                [self.view showWithError:error];
+//            }
+//            else {
+//                if (responseObject == nil) {
+//                    jumpToMatchVCAction();
+//                }
+//                else {
+//                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
+//                    [self presentViewController:nav animated:YES completion:nil];
+//                }
+//            }
+//        }];
+//    }
+//    else {
+//        jumpToMatchVCAction();
+//    }
 }
 
 - (void)configRightItem {
@@ -279,7 +282,7 @@
     aHUD.label.text = @"处理中...";
     NSString *downloadPath = ddp_taskDownloadPath();
     
-    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.download", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    dispatch_queue_t _queue = dispatch_queue_create("com.dandanplay.download", DISPATCH_QUEUE_SERIAL);
     
     [arr enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         DDPSMBFile *file = _file.subFiles[obj.row];
