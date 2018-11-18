@@ -306,7 +306,7 @@
         _button = [[DDPEdgeButton alloc] init];
         _button.titleLabel.font = [UIFont ddp_normalSizeFont];
         _button.inset = CGSizeMake(20, 20);
-        [_button setTitle:@"点我手动输入ip或域名~(￣▽￣)" forState:UIControlStateNormal];
+        [_button setTitle:@"点我手动输入地址~(￣▽￣)" forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(touchButton:) forControlEvents:UIControlEventTouchUpInside];
         [_button setTitleColor:DDPRGBColor(180, 180, 180) forState:UIControlStateNormal];
         [self.view addSubview:_button];

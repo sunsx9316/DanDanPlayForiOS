@@ -40,8 +40,6 @@
     
     _group = dispatch_group_create();
     
-    [self configRightItem];
-    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.equalTo(self.oprationView.mas_top);
@@ -227,6 +225,10 @@
 }
 
 - (void)configRightItem {
+    if (ddp_appType == DDPAppTypeReview) {
+        return;
+    }
+    
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:nil configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
         [aButton setTitle:@"下载" forState:UIControlStateNormal];

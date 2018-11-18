@@ -144,7 +144,7 @@
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"在\"文件\"连接\"远程设备\"或\"我的电脑\"查看" attributes:@{NSFontAttributeName : [UIFont ddp_smallSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"在\"文件\"连接\"局域网设备\"或\"我的电脑\"查看" attributes:@{NSFontAttributeName : [UIFont ddp_smallSizeFont], NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     return str;
 }
 

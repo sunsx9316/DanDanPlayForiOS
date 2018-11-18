@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 @property (assign, nonatomic) BOOL openFastMatch;
 
 /**
- 是否自动下载远程设备字幕
+ 是否自动下载局域网设备字幕
  */
 @property (assign, nonatomic) BOOL openAutoDownloadSubtitle;
 

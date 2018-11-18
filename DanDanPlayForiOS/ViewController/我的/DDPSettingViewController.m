@@ -303,7 +303,7 @@
         [otherSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
             item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
-                cell.titleLabel.text = @"自动加载远程设备字幕";
+                cell.titleLabel.text = @"自动加载局域网设备字幕";
                 cell.detailLabel.text = @"大概没人会关掉";
                 cell.aSwitch.on = [DDPCacheManager shareCacheManager].openAutoDownloadSubtitle;
                 cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {

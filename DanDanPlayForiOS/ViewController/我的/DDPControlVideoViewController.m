@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"PC遥控器";
+    self.title = @"遥控器";
     
     self.view.backgroundColor = [UIColor blackColor];
     

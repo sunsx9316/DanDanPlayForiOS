@@ -4,7 +4,7 @@
 //
 //  Created by JimHuang on 2017/7/2.
 //  Copyright © 2017年 JimHuang. All rights reserved.
-//  远程设备控制器
+//  局域网设备控制器
 
 #import "DDPBaseViewController.h"
 

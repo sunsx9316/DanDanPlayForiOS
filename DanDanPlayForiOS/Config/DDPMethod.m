@@ -10,17 +10,6 @@
 #import "NSURL+Tools.h"
 #import <UMSocialCore/UMSocialCore.h>
 
-DDPProductionType DDPProductionTypeTVSeries = @"tvseries";
-DDPProductionType DDPProductionTypeTVSpecial = @"tvspecial";
-DDPProductionType DDPProductionTypeOVA = @"ova";
-DDPProductionType DDPProductionTypeMovie = @"movie";
-DDPProductionType DDPProductionTypeMusicVideo = @"musicvideo";
-DDPProductionType DDPProductionTypeWeb = @"web";
-DDPProductionType DDPProductionTypeOther = @"other";
-DDPProductionType DDPProductionTypeMusicJPMovie = @"jpmovie";
-DDPProductionType DDPProductionTypeMusicJPDrama = @"jpdrama";
-DDPProductionType DDPProductionTypeMusicUnknown = @"unknown";
-
 static NSArray <NSString *>*ddp_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
     static dispatch_once_t onceToken;

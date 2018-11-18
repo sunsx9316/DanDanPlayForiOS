@@ -16,7 +16,6 @@
 #import "DDPHomeMoreHeaderView.h"
 #import "DDPHomeBangumiIntroHeaderView.h"
 #import "DDPPlayerSelectedIndexView.h"
-#import "DDPHomePageFileLocationView.h"
 
 #define IN_SERIA_TEXT @"连载中"
 
@@ -35,8 +34,6 @@
  追番进度
  */
 @property (strong, nonatomic) DDPBangumiQueueIntroCollection *progressCollection;
-
-@property (strong, nonatomic) DDPHomePageFileLocationView *fileLocationView;
 
 @property (strong, nonatomic) DDPUser *user;
 
@@ -74,7 +71,6 @@
     [self.view addSubview:self.progressHeaderView];
     [self.view addSubview:self.bangumiProgressView];
     [self.view addSubview:self.bangumiIntroHeaderView];
-    [self.view addSubview:self.fileLocationView];
     
     @weakify(self)
     self.contentView.mj_header = [MJRefreshNormalHeader ddp_headerRefreshingCompletionHandler:^{
@@ -92,7 +88,7 @@
             [self.contentView.mj_header endRefreshing];
             
             if (error) {
-//                [self.view showWithError:error];
+                //                [self.view showWithError:error];
             }
             else {
                 self.model = model;
@@ -105,7 +101,7 @@
         if (self.user.isLogin) {
             [DDPPlayHistoryNetManagerOperation playHistoryWithUser:self.user completionHandler:^(DDPBangumiQueueIntroCollection *responseObject, NSError *error) {
                 if (error) {
-//                    [self.view showWithError:error];
+                    //                    [self.view showWithError:error];
                 }
                 else {
                     self.progressCollection = responseObject;
@@ -144,8 +140,7 @@
     let size = self.view.size;
     self.bannerView.frame = CGRectMake(0, 0, size.width, HOME_BANNER_VIEW_HEIGHT);
     
-    self.fileLocationView.frame = CGRectMake(0, self.bannerView.bottom, size.width, [self fileLocationViewHeight]);
-    self.progressHeaderView.frame = CGRectMake(0, self.fileLocationView.bottom, size.width, [self progressHeaderHeight]);
+    self.progressHeaderView.frame = CGRectMake(0, self.bannerView.bottom, size.width, [self progressHeaderHeight]);
     self.bangumiProgressView.frame = CGRectMake(0, self.progressHeaderView.bottom, size.width, [self progressViewHeight]);
     self.bangumiIntroHeaderView.frame = CGRectMake(0, self.bangumiProgressView.bottom, size.width, [self bangumiIntroHeaderHeight]);
 }
@@ -156,9 +151,8 @@
     CGFloat progressHeight = [self progressViewHeight];
     CGFloat progressHeaderHeight = [self progressHeaderHeight];
     CGFloat bangumiIntroHeaderHeight = [self bangumiIntroHeaderHeight];
-    CGFloat fileLocationViewHeight = [self fileLocationViewHeight];
     
-    self.maximumHeaderViewHeight = HOME_BANNER_VIEW_HEIGHT + progressHeight + progressHeaderHeight + bangumiIntroHeaderHeight + fileLocationViewHeight;
+    self.maximumHeaderViewHeight = HOME_BANNER_VIEW_HEIGHT + progressHeight + progressHeaderHeight + bangumiIntroHeaderHeight;
     
     [super reloadData];
 }
@@ -173,10 +167,7 @@
 
 #pragma mark - WMPageControllerDataSource
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    if (ddp_isChatAppInstall()) {
-        return _sortKeys.count;
-    }
-    return 0;
+    return _sortKeys.count;
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
@@ -230,7 +221,7 @@
         self.currentBangumiSeason = self.model.bangumiSeasons[indexPath.row];
     }
     
-     [self.selectedIndexView dismiss];
+    [self.selectedIndexView dismiss];
 }
 
 - (NSIndexPath * _Nullable)selectedIndexPathForIndexView {
@@ -321,21 +312,17 @@
 
 - (CGFloat)progressHeaderHeight {
     CGFloat progressHeaderHeight = 40 * (self.progressCollection.collection.count > 0) * self.user.isLogin;
-    return progressHeaderHeight * ddp_isChatAppInstall();
+    return progressHeaderHeight;
 }
 
 - (CGFloat)progressViewHeight {
     CGFloat progressHeight = (245 + (ddp_isPad() * 40)) * self.user.isLogin * (self.progressCollection.collection.count > 0);
-    return progressHeight * ddp_isChatAppInstall();
+    return progressHeight;
 }
 
 - (CGFloat)bangumiIntroHeaderHeight {
     CGFloat progressHeaderHeight = 40 * (self.bangumiDic.count > 0);
-    return progressHeaderHeight * ddp_isChatAppInstall();
-}
-
-- (CGFloat)fileLocationViewHeight {
-    return 80 * !ddp_isChatAppInstall() * (self.bangumiDic.count > 0);
+    return progressHeaderHeight;
 }
 
 - (void)setCurrentBangumiSeason:(DDPNewBangumiSeason *)currentBangumiSeason {
@@ -438,13 +425,6 @@
         };
     }
     return _bangumiIntroHeaderView;
-}
-
-- (DDPHomePageFileLocationView *)fileLocationView {
-    if (_fileLocationView == nil) {
-        _fileLocationView = [DDPHomePageFileLocationView fromXib];
-    }
-    return _fileLocationView;
 }
 
 @end

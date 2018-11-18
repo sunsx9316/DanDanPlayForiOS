@@ -8,91 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "DDPMacroDefinition.h"
-
-typedef NSString* DDPProductionType;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeTVSeries;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeTVSpecial;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeOVA;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMovie;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicVideo;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeWeb;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeOther;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicJPMovie;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicJPDrama;
-FOUNDATION_EXPORT DDPProductionType DDPProductionTypeMusicUnknown;
-
-
+#import "DDPConstant.h"
 
 @class DDPFile, DDPLinkFile;
 
-/**
- 弹幕类型
-
- - DDPDanmakuTypeUnknow: 未知类型
- - DDPDanmakuTypeOfficial: 官方弹幕
- - DDPDanmakuTypeBiliBili: b站弹幕
- - DDPDanmakuTypeAcfun: a站弹幕
- - DDPDanmakuTypeByUser: 用户发送的弹幕
- */
-typedef NS_ENUM(NSUInteger, DDPDanmakuType) {
-    DDPDanmakuTypeUnknow = 1 << 0,
-    DDPDanmakuTypeOfficial = 1 << 1,
-    DDPDanmakuTypeBiliBili = 1 << 2,
-    DDPDanmakuTypeAcfun = 1 << 3,
-    DDPDanmakuTypeByUser = 1 << 4,
-};
-
-
-/**
- 节目类型
-
- - DDPEpisodeTypeAnimate: TV动画
- - DDPEpisodeTypeAnimateSpecial: TV动画特别放送
- - DDPEpisodeTypeOVA: OVA
- - DDPEpisodeTypePalgantong: 剧场版
- - DDPEpisodeTypeMV: 音乐视频（MV）
- - DDPEpisodeTypeWeb: 网络放送
- - DDPEpisodeTypeOther: 其他分类
- - DDPEpisodeTypeThreeDMovie: 三次元电影
- - DDPEpisodeTypeThreeDTVPlayOrChineseAnimate: 三次元电视剧或国产动画
- - DDPEpisodeTypeUnknow: 未知（尚未分类）
- */
-//typedef NS_ENUM(NSInteger, DDPEpisodeType) {
-//    DDPEpisodeTypeAnimate = 1,
-//    DDPEpisodeTypeAnimateSpecial,
-//    DDPEpisodeTypeOVA,
-//    DDPEpisodeTypePalgantong,
-//    DDPEpisodeTypeMV,
-//    DDPEpisodeTypeWeb,
-//    DDPEpisodeTypeOther,
-//    DDPEpisodeTypeThreeDMovie = 10,
-//    DDPEpisodeTypeThreeDTVPlayOrChineseAnimate = 20,
-//    DDPEpisodeTypeUnknow = 99,
-//};
-
-
-/**
- 错误类型
-
- - DDPErrorCodeParameterNoCompletion: 参数不完整
- - DDPErrorCodeCreatDownloadTaskFail: 下载失败
- - DDPErrorCodeLoginFail: 登录失败
- - DDPErrorCodeRegisterFail: 注册失败
- - DDPErrorCodeUpdateUserNameFail: 更新用户名失败
- - DDPErrorCodeUpdateUserPasswordFail: 更新用户密码失败
- - DDPErrorCodeBindingFail: 绑定失败
- - DDPErrorCodeObjectExist: 对象存在
- */
-typedef NS_ENUM(NSUInteger, DDPErrorCode) {
-    DDPErrorCodeParameterNoCompletion = 10000,
-    DDPErrorCodeCreatDownloadTaskFail,
-    DDPErrorCodeLoginFail,
-    DDPErrorCodeRegisterFail,
-    DDPErrorCodeUpdateUserNameFail,
-    DDPErrorCodeUpdateUserPasswordFail,
-    DDPErrorCodeBindingFail,
-    DDPErrorCodeObjectExist,
-};
 
 CG_INLINE BOOL ddp_isPad() {
     return [UIDevice currentDevice].isPad;

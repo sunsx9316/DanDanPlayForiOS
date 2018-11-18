@@ -21,7 +21,7 @@ CG_INLINE NSString *DDPCollectionCacheTypeStringValue(DDPCollectionCacheType typ
         case DDPCollectionCacheTypeComputer:
             return @"我的电脑";
         case DDPCollectionCacheTypeRemoteEquipment:
-            return @"远程设备";
+            return @"局域网设备";
         default:
             return nil;
     }

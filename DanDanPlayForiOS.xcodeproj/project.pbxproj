@@ -13,6 +13,311 @@
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
 		8905BDA11F32C7EA0055BC84 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
+		8907512921A1171A00D149F3 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18342166051E00AE7484 /* DDPNewBangumiIntro.m */; };
+		8907512A21A1171A00D149F3 /* DDPSearchAnimateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18802168F2F000AE7484 /* DDPSearchAnimateViewController.m */; };
+		8907512B21A1171A00D149F3 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC381FCAABB000E32D54 /* DDPHomePage.m */; };
+		8907512C21A1171A00D149F3 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */; };
+		8907512D21A1171A00D149F3 /* DDPPlayerConfigPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0B3215769EC00D0E17C /* DDPPlayerConfigPanelViewController.m */; };
+		8907512E21A1171A00D149F3 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */; };
+		8907512F21A1171A00D149F3 /* DDPHomeFeatured.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */; };
+		8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0B201C4FA40009A5FF /* DDPCacheManager+multiply.mm */; };
+		8907513121A1171A00D149F3 /* DDPHomeBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC3A1FCAABB000E32D54 /* DDPHomeBangumi.m */; };
+		8907513221A1171A00D149F3 /* DDPHomeBangumiSubtitleGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC391FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.m */; };
+		8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0B721576A6500D0E17C /* DDPPlayerDanmakuControlViewController.m */; };
+		8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8931CDF21F73E1C000F05C1F /* JHQRCodeReader.m */; };
+		8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */; };
+		8907513621A1171A00D149F3 /* DDPHomePageSearchPackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18722168C5E500AE7484 /* DDPHomePageSearchPackageViewController.m */; };
+		8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */; };
+		8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* DDPLinkFile.m */; };
+		8907513921A1171A00D149F3 /* DDPNewBangumiSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1837216606F600AE7484 /* DDPNewBangumiSeason.m */; };
+		8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61B1E5855D2007AB1BD /* MBProgressHUD+Tools.m */; };
+		8907513B21A1171A00D149F3 /* DDPHTTPServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* DDPHTTPServerViewController.m */; };
+		8907513C21A1171A00D149F3 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
+		8907513D21A1171A00D149F3 /* DDPPlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m */; };
+		8907513E21A1171A00D149F3 /* DDPCollectionCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECE201C6F880022DE0D /* DDPCollectionCache+DB.mm */; };
+		8907513F21A1171A00D149F3 /* DDPHttpReceiveTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89929FFA1FBC6903009FDB06 /* DDPHttpReceiveTableViewCell.m */; };
+		8907514021A1171A00D149F3 /* DDPSearchAnimeDetailsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187D2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m */; };
+		8907514121A1171A00D149F3 /* DDPControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07B1F81DE5900D53619 /* DDPControlView.m */; };
+		8907514221A1171A00D149F3 /* DDPCommentNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA71EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m */; };
+		8907514321A1171A00D149F3 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E867252084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.m */; };
+		8907514421A1171A00D149F3 /* DDPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */; };
+		8907514521A1171A00D149F3 /* DDPFeaturedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D471FE6521C00953DA8 /* DDPFeaturedTableViewCell.m */; };
+		8907514621A1171A00D149F3 /* DDPHomePageBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C184D21673F3A00AE7484 /* DDPHomePageBannerView.m */; };
+		8907514721A1171A00D149F3 /* DDPFileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */; };
+		8907514821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8672A2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m */; };
+		8907514921A1171A00D149F3 /* JHFilterMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643531FBB16FE00096F09 /* JHFilterMenuItem.m */; };
+		8907514A21A1171A00D149F3 /* DDPSMBFileManagerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89347AEE1F4BC7FE00914FB6 /* DDPSMBFileManagerPickerViewController.m */; };
+		8907514B21A1171A00D149F3 /* DDPSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7FF1EB0588F009329AA /* DDPSettingViewController.m */; };
+		8907514C21A1171A00D149F3 /* DDPAttentionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C21F628418008D06CF /* DDPAttentionDetailViewController.m */; };
+		8907514D21A1171A00D149F3 /* DDPPlayerVideoControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0BA21576B4100D0E17C /* DDPPlayerVideoControlViewController.m */; };
+		8907514E21A1171A00D149F3 /* DDPLinkNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85A91F68F4B500E7D841 /* DDPLinkNetManagerOperation.m */; };
+		8907514F21A1171A00D149F3 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* DDPOtherSettingTitleSubtitleTableViewCell.m */; };
+		8907515021A1171A00D149F3 /* DDPPlayerSendDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 893166A21F52700300B4A4EE /* DDPPlayerSendDanmakuViewController.m */; };
+		8907515121A1171A00D149F3 /* DDPParseNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C61F6132AD00D40F07 /* DDPParseNetManagerOperation.m */; };
+		8907515221A1171A00D149F3 /* DDPSMBFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F31F0A296000B4661F /* DDPSMBFileViewController.m */; };
+		8907515321A1171A00D149F3 /* DDPDMHYSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C01F612F0F00D40F07 /* DDPDMHYSearchCollection.m */; };
+		8907515421A1171A00D149F3 /* UICollectionView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18472166107300AE7484 /* UICollectionView+DDPTools.m */; };
+		8907515521A1171A00D149F3 /* UIBarButtonItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2A1F7243310003AF96 /* UIBarButtonItem+Tools.m */; };
+		8907515621A1171A00D149F3 /* DDPMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* DDPMatchViewController.m */; };
+		8907515721A1171A00D149F3 /* DDPSMBLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5FA21F2349F20068A1DB /* DDPSMBLoginHeaderView.m */; };
+		8907515821A1171A00D149F3 /* DDPSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5F9C1F22F3100068A1DB /* DDPSMBFile.m */; };
+		8907515921A1171A00D149F3 /* DDPDanmakuCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EAA1EA5E10F00FA0DF3 /* DDPDanmakuCollection.m */; };
+		8907515A21A1171A00D149F3 /* DDPLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD051A1F6AC18C00051A96 /* DDPLibrary.m */; };
+		8907515B21A1171A00D149F3 /* DDPLinkWelcome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AF1F68F62900E7D841 /* DDPLinkWelcome.m */; };
+		8907515C21A1171A00D149F3 /* DDPLinkInfo+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B08201C4D310009A5FF /* DDPLinkInfo+DB.mm */; };
+		8907515D21A1171A00D149F3 /* DDPCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDBA1EA78A10000D5F3F /* DDPCacheManager.m */; };
+		8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m */; };
+		8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623A1FA89FC00054A1F2 /* DDPCollectionCache.m */; };
+		8907516021A1171A00D149F3 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18122164C04400AE7484 /* DDPPlayerSubTitleIndexViewMediator.m */; };
+		8907516121A1171A00D149F3 /* DDPDownloadManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EED1201C78320022DE0D /* DDPDownloadManager.mm */; };
+		8907516221A1171A00D149F3 /* DDPBangumiNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18692168689900AE7484 /* DDPBangumiNetManagerOperation.m */; };
+		8907516321A1171A00D149F3 /* DDPSearchEpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CF1EA8DCFB00A2233D /* DDPSearchEpisodeTableViewCell.m */; };
+		8907516421A1171A00D149F3 /* DDPQRScannerHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B02201C48F50009A5FF /* DDPQRScannerHistoryView.m */; };
+		8907516521A1171A00D149F3 /* DDPMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB01EA5E7D000FA0DF3 /* DDPMatch.m */; };
+		8907516621A1171A00D149F3 /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C184221660BA200AE7484 /* DDPNewHomePageBangumiIntroCollectionViewCell.m */; };
+		8907516721A1171A00D149F3 /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
+		8907516821A1171A00D149F3 /* HomePageSearchFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D81F6159EA00D40F07 /* HomePageSearchFilterView.m */; };
+		8907516921A1171A00D149F3 /* DDPHomePageSearchFilterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8901621D20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.m */; };
+		8907516A21A1171A00D149F3 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
+		8907516B21A1171A00D149F3 /* DDPBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B121EAB0DA000072DA5 /* DDPBlurView.m */; };
+		8907516C21A1171A00D149F3 /* DDPCacheManager+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0E201C51250009A5FF /* DDPCacheManager+DB.mm */; };
+		8907516D21A1171A00D149F3 /* HomePageItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D221F5A6620001413BE /* HomePageItemCollectionViewCell.m */; };
+		8907516E21A1171A00D149F3 /* DDPFileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m */; };
+		8907516F21A1171A00D149F3 /* WMMagicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181C2165028600AE7484 /* WMMagicScrollView.m */; };
+		8907517021A1171A00D149F3 /* DDPOfficialSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C81EA8BB8D00A2233D /* DDPOfficialSearchViewController.m */; };
+		8907517121A1171A00D149F3 /* DDPHomePageFileLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89ED6D43216FAAB400E4B7ED /* DDPHomePageFileLocationView.m */; };
+		8907517221A1171A00D149F3 /* DDPPlayerInterfaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B0F1EAB059000072DA5 /* DDPPlayerInterfaceView.m */; };
+		8907517321A1171A00D149F3 /* DDPLinkDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EEDF201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m */; };
+		8907517421A1171A00D149F3 /* DDPSliderShowAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0C7215771DC00D0E17C /* DDPSliderShowAnimate.m */; };
+		8907517521A1171A00D149F3 /* DDPLinkFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD05201F6AC49500051A96 /* DDPLinkFileTableViewCell.m */; };
+		8907517621A1171A00D149F3 /* DDPMatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* DDPMatchTableViewCell.m */; };
+		8907517721A1171A00D149F3 /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC052053CF08007E378F /* UIImage+Tools.m */; };
+		8907517821A1171A00D149F3 /* NSURL+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69ED1F48085700F69975 /* NSURL+Tools.m */; };
+		8907517921A1171A00D149F3 /* UINavigation+SXFixSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */; };
+		8907517A21A1171A00D149F3 /* DDPPlayerSelectedIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA3331216260F400CC337E /* DDPPlayerSelectedIndexView.m */; };
+		8907517B21A1171A00D149F3 /* DDPForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1850216769AE00AE7484 /* DDPForgetPasswordViewController.m */; };
+		8907517C21A1171A00D149F3 /* DDPEdgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B151EAB125700072DA5 /* DDPEdgeButton.m */; };
+		8907517D21A1171A00D149F3 /* DDPHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D181F5A5D57001413BE /* DDPHomePageViewController.m */; };
+		8907517E21A1171A00D149F3 /* DDPLinkOriginalAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 895824101F938105000CF6D5 /* DDPLinkOriginalAccountViewController.m */; };
+		8907517F21A1171A00D149F3 /* DDPSearchAnimeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CC1EA8DC2C00A2233D /* DDPSearchAnimeTitleTableViewCell.m */; };
+		8907518021A1171A00D149F3 /* DDPDanmakuFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23B1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m */; };
+		8907518121A1171A00D149F3 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C183A2166073700AE7484 /* DDPNewPopularTorrentItem.m */; };
+		8907518221A1171A00D149F3 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
+		8907518321A1171A00D149F3 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81D7203C096900717213 /* UIView+Toast.m */; };
+		8907518421A1171A00D149F3 /* DDPBiliBiliSearchBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61041FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.m */; };
+		8907518521A1171A00D149F3 /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
+		8907518621A1171A00D149F3 /* DDPRegisterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186121676C0600AE7484 /* DDPRegisterResult.m */; };
+		8907518821A1171A00D149F3 /* DDPSMBFileHashCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D9B6F1FC4677900E34275 /* DDPSMBFileHashCache.m */; };
+		8907518921A1171A00D149F3 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
+		8907518A21A1171A00D149F3 /* DDPFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467931F162C31001840C7 /* DDPFileViewController.m */; };
+		8907518B21A1171A00D149F3 /* DDPFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FBDED21F457C7800663865 /* DDPFileManagerViewController.m */; };
+		8907518C21A1171A00D149F3 /* DDPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA31EA5B22A00FA0DF3 /* DDPResponse.m */; };
+		8907518D21A1171A00D149F3 /* DDPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B8E3681F8F690000DA9BEF /* DDPRegisterViewController.m */; };
+		8907518E21A1171A00D149F3 /* MJRefreshHeader+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F60F1E585320007AB1BD /* MJRefreshHeader+Tools.m */; };
+		8907518F21A1171A00D149F3 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D4E1F8CB5930036C0AB /* DDPTextField.m */; };
+		8907519021A1171A00D149F3 /* DDPFileLargeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF001FA3752400C7915D /* DDPFileLargeTitleTableViewCell.m */; };
+		8907519121A1171A00D149F3 /* DDPMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350AFF1EAAFB9900072DA5 /* DDPMediaPlayer.m */; };
+		8907519221A1171A00D149F3 /* DDPMatchTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C11EA89A8A00A2233D /* DDPMatchTitleTableViewCell.m */; };
+		8907519421A1171A00D149F3 /* DDPDMHYParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C91F6132DE00D40F07 /* DDPDMHYParse.m */; };
+		8907519521A1171A00D149F3 /* DDPBaseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D5D1F8D07EE0036C0AB /* DDPBaseScrollView.m */; };
+		8907519621A1171A00D149F3 /* DDPMarqueeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89ADBEA02161FDAF00C8316A /* DDPMarqueeView.m */; };
+		8907519721A1171A00D149F3 /* UIButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6181E58552D007AB1BD /* UIButton+Tools.m */; };
+		8907519821A1171A00D149F3 /* DDPPlayerControlAnimater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0C42157714900D0E17C /* DDPPlayerControlAnimater.m */; };
+		8907519921A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC002053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.m */; };
+		8907519A21A1171A00D149F3 /* DDPSearchAnimeDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187A2168EFCC00AE7484 /* DDPSearchAnimeDetails.m */; };
+		8907519B21A1171A00D149F3 /* DDPBiliBiliBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F001EA6023D00FA0DF3 /* DDPBiliBiliBangumiCollection.m */; };
+		8907519C21A1171A00D149F3 /* HomePageBangumiProgressCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8BE1FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.m */; };
+		8907519D21A1171A00D149F3 /* DDPQRScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85B21F68FB3F00E7D841 /* DDPQRScannerViewController.m */; };
+		8907519E21A1171A00D149F3 /* DDPVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A2A07E1F81F60900D53619 /* DDPVolumeView.m */; };
+		8907519F21A1171A00D149F3 /* HomePageItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D1F1F5A63C1001413BE /* HomePageItemTableViewCell.m */; };
+		890751A021A1171A00D149F3 /* DDPVideoModel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */; };
+		890751A121A1171A00D149F3 /* DDPBaseTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BE1EA8958D00A2233D /* DDPBaseTreeView.m */; };
+		890751A221A1171A00D149F3 /* DDPBaseNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AD2156BCAE00D0E17C /* DDPBaseNavigationBar.m */; };
+		890751A321A1171A00D149F3 /* DDPEdgeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 891EC6BB1F66DA7400431766 /* DDPEdgeTextField.m */; };
+		890751A421A1171A00D149F3 /* DDPBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* DDPBaseDanmaku+Tools.m */; };
+		890751A521A1171A00D149F3 /* DDPBaseWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DDCFB31F2A3EA6007B83CA /* DDPBaseWebViewController.m */; };
+		890751A621A1171A00D149F3 /* DDPHttpReceive.m in Sources */ = {isa = PBXBuildFile; fileRef = 89929FFD1FBC6A76009FDB06 /* DDPHttpReceive.m */; };
+		890751A721A1171A00D149F3 /* DDPHomeMoreHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D551FE6836F00953DA8 /* DDPHomeMoreHeaderView.m */; };
+		890751A821A1171A00D149F3 /* DDPRelatedCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EBC1EA5EDE500FA0DF3 /* DDPRelatedCollection.m */; };
+		890751A921A1171A00D149F3 /* DDPFileManagerVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDE9101F1BA41D00B49EA8 /* DDPFileManagerVideoTableViewCell.m */; };
+		890751AA21A1171A00D149F3 /* DDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D4A1F8CB4480036C0AB /* DDPLoginViewController.m */; };
+		890751AB21A1171A00D149F3 /* HomePageSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D21F61419400D40F07 /* HomePageSearchTableViewCell.m */; };
+		890751AC21A1171A00D149F3 /* DDPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB491EB334520063BBA1 /* DDPFile.m */; };
+		890751AD21A1171A00D149F3 /* DDPBiliBiliBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F031EA6025000FA0DF3 /* DDPBiliBiliBangumi.m */; };
+		890751AE21A1171A00D149F3 /* DDPEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EF11EA5FC3200FA0DF3 /* DDPEpisode.m */; };
+		890751AF21A1171A00D149F3 /* DDPBaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* DDPBaseCollectionView.m */; };
+		890751B021A1171A00D149F3 /* DDPRequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FD3E722001F0B100AF1DBB /* DDPRequestParameters.m */; };
+		890751B121A1171A00D149F3 /* DDPTextHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89993F631F71422D009F5364 /* DDPTextHeaderView.m */; };
+		890751B221A1171A00D149F3 /* DDPSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EEE1EA5FB9000FA0DF3 /* DDPSearch.m */; };
+		890751B321A1171A00D149F3 /* DDPFilterNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F11E585135007AB1BD /* DDPFilterNetManagerOperation.m */; };
+		890751B421A1171A00D149F3 /* DDPLocalFileManagerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69F11F480E6A00F69975 /* DDPLocalFileManagerPickerViewController.m */; };
+		890751B521A1171A00D149F3 /* DDPPlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9FC1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m */; };
+		890751B621A1171A00D149F3 /* DDPMatchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB31EA5E82D00FA0DF3 /* DDPMatchCollection.m */; };
+		890751B721A1171A00D149F3 /* DDPSMBInfo+WCDB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F6B910201DC5210080B5ED /* DDPSMBInfo+WCDB.mm */; };
+		890751B821A1171A00D149F3 /* DDPLinkFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EC1F6BD67B00010690 /* DDPLinkFileManagerViewController.m */; };
+		890751B921A1171A00D149F3 /* DDPRelated.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB91EA5ECC800FA0DF3 /* DDPRelated.m */; };
+		890751BA21A1171A00D149F3 /* DDPSelectedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1C0181EAF7F4000DB9BE9 /* DDPSelectedTableViewCell.m */; };
+		890751BB21A1171A00D149F3 /* DDPSMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* DDPSMBVideoModel.m */; };
+		890751BC21A1171A00D149F3 /* DDPControlVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */; };
+		890751BD21A1171A00D149F3 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
+		890751BE21A1171A00D149F3 /* DDPPlayerAudioChannelViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18152164D4CE00AE7484 /* DDPPlayerAudioChannelViewMediator.m */; };
+		890751BF21A1171A00D149F3 /* DDPDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* DDPDanmaku.m */; };
+		890751C021A1171A00D149F3 /* DDPFavoriteCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B91F626629008D06CF /* DDPFavoriteCollection.m */; };
+		890751C121A1171A00D149F3 /* DDPEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B171EAB125700072DA5 /* DDPEdgeLabel.m */; };
+		890751C221A1171A00D149F3 /* DDPFileManagerSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69F41F480EAB00F69975 /* DDPFileManagerSearchView.m */; };
+		890751C321A1171A00D149F3 /* DDPQRHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E2576C1FB8835800AC075A /* DDPQRHelpViewController.m */; };
+		890751C421A1171A00D149F3 /* TOSMBSessionFile+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */; };
+		890751C521A1171A00D149F3 /* DDPActivityEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D38E541F516591009780A8 /* DDPActivityEdgeLabel.m */; };
+		890751C621A1171A00D149F3 /* DDPHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */; };
+		890751C721A1171A00D149F3 /* DDPBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* DDPBaseTableView.m */; };
+		890751C821A1171A00D149F3 /* DDPPlayerNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 895F322F1ECE9C8900368333 /* DDPPlayerNoticeView.m */; };
+		890751C921A1171A00D149F3 /* DDPDMHYSearchConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D51F6144E300D40F07 /* DDPDMHYSearchConfig.m */; };
+		890751CA21A1171A00D149F3 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182B2165FA0900AE7484 /* DDPNewHomePage.m */; };
+		890751CB21A1171A00D149F3 /* DDPBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E981EA5B0BA00FA0DF3 /* DDPBaseCollection.m */; };
+		890751CC21A1171A00D149F3 /* TOSMBSessionDownloadTask+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EED9201C8A2C0022DE0D /* TOSMBSessionDownloadTask+DB.mm */; };
+		890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2D1F724C570003AF96 /* UINavigationItem+Tools.m */; };
+		890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m */; };
+		890751CF21A1171A00D149F3 /* DDPBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E961EA5B0BA00FA0DF3 /* DDPBase.m */; };
+		890751D021A1171A00D149F3 /* DDPRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */; };
+		890751D121A1171A00D149F3 /* DDPMatchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F31E585135007AB1BD /* DDPMatchNetManagerOperation.m */; };
+		890751D221A1171A00D149F3 /* DDPPlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA0C1EAE1B0500419C78 /* DDPPlayerSendDanmakuConfigView.m */; };
+		890751D321A1171A00D149F3 /* DDPBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0A121568FB200D0E17C /* DDPBaseTableViewCell.m */; };
+		890751D421A1171A00D149F3 /* DDPUser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EEB1EA5F87500FA0DF3 /* DDPUser.mm */; };
+		890751D521A1171A00D149F3 /* DDPSliderDismissAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0CA215771EB00D0E17C /* DDPSliderDismissAnimate.m */; };
+		890751D621A1171A00D149F3 /* DDPExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F271F7237930003AF96 /* DDPExpandView.m */; };
+		890751D821A1171A00D149F3 /* DDPPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8996B9F91EAA28450018E8B0 /* DDPPlayerViewController.m */; };
+		890751D921A1171A00D149F3 /* DDPFileSectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEEFD1FA3738900C7915D /* DDPFileSectionTableViewCell.m */; };
+		890751DA21A1171A00D149F3 /* DDPHomePageItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D1B1F5A6162001413BE /* DDPHomePageItemViewController.m */; };
+		890751DB21A1171A00D149F3 /* DDPFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B61F626531008D06CF /* DDPFavorite.m */; };
+		890751DC21A1171A00D149F3 /* DDPLinkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AC1F68F55B00E7D841 /* DDPLinkInfo.m */; };
+		890751DD21A1171A00D149F3 /* DDPFavoriteNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D2C1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.m */; };
+		890751DE21A1171A00D149F3 /* DDPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* DDPMainViewController.m */; };
+		890751DF21A1171A00D149F3 /* DDPDanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m */; };
+		890751E021A1171A00D149F3 /* DDPBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* DDPBaseNavigationController.m */; };
+		890751E121A1171A00D149F3 /* DDPMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* DDPMineViewController.m */; };
+		890751E221A1171A00D149F3 /* DDPPlayerDanmakuControlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A15BA91F873B9A00FDE80B /* DDPPlayerDanmakuControlModel.m */; };
+		890751E321A1171A00D149F3 /* DDPLibraryCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD051D1F6AC3AB00051A96 /* DDPLibraryCollection.m */; };
+		890751E421A1171A00D149F3 /* DDPAttentionDetailHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C81F6289EE008D06CF /* DDPAttentionDetailHistoryTableViewCell.m */; };
+		890751E521A1171A00D149F3 /* DDPSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */; };
+		890751E621A1171A00D149F3 /* DDPEmailListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B8E36D1F8F702D00DA9BEF /* DDPEmailListView.m */; };
+		890751E721A1171A00D149F3 /* DDPNewHomePageItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C183E21660ABF00AE7484 /* DDPNewHomePageItemViewController.m */; };
+		890751E821A1171A00D149F3 /* UITableView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA33362162647F00CC337E /* UITableView+DDPTools.m */; };
+		890751E921A1171A00D149F3 /* DDPDanmakuSelectedFontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F91EB04DA1009329AA /* DDPDanmakuSelectedFontViewController.m */; };
+		890751EA21A1171A00D149F3 /* DDPPlayerControlHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA011EADFD5400419C78 /* DDPPlayerControlHeaderView.m */; };
+		890751EB21A1171A00D149F3 /* DDPHomePageCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89777C071FDEC5A00047E18F /* DDPHomePageCollectionViewController.m */; };
+		890751EC21A1171A00D149F3 /* DDPBiliBiliSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61071FD6C8D400D62178 /* DDPBiliBiliSearchResult.m */; };
+		890751ED21A1171A00D149F3 /* DDPPlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8341E1F1E1AF700E781EB /* DDPPlayerInterfaceHolderView.m */; };
+		890751EE21A1171A00D149F3 /* DDPBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61F1E58583F007AB1BD /* DDPBaseViewController.m */; };
+		890751EF21A1171A00D149F3 /* DDPTransparentNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AF2156BD9A00D0E17C /* DDPTransparentNavigationBar.m */; };
+		890751F021A1171A00D149F3 /* DDPQRScannerHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9D2036BFA50082FCCC /* DDPQRScannerHistoryTableViewCell.m */; };
+		890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4FC1F77509F00F21E52 /* DDPSearchBar.m */; };
+		890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8031EB05A60009329AA /* DDPOtherSettingSwitchTableViewCell.m */; };
+		890751F321A1171A00D149F3 /* DDPDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DDPDownloadTableViewCell.m */; };
+		890751F421A1171A00D149F3 /* DDPFilterCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9F1EA5B14100FA0DF3 /* DDPFilterCollection.m */; };
+		890751F521A1171A00D149F3 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* DDPPlayerControlPlayModeTableViewCell.m */; };
+		890751F621A1171A00D149F3 /* DDPDanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m */; };
+		890751F721A1171A00D149F3 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
+		890751F821A1171A00D149F3 /* DDPMediaThumbnailer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8990E7E81F85E386001117AD /* DDPMediaThumbnailer.m */; };
+		890751F921A1171A00D149F3 /* DDPToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F861E59CE9B007054CB /* DDPToolsManager.m */; };
+		890751FA21A1171A00D149F3 /* DDPFilter+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B11201C53390009A5FF /* DDPFilter+DB.mm */; };
+		890751FC21A1171A00D149F3 /* DDPHomePageSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74CF1F61341900D40F07 /* DDPHomePageSearchViewController.m */; };
+		890751FD21A1171A00D149F3 /* DDPHomeBangumiIntroHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186F21686CFA00AE7484 /* DDPHomeBangumiIntroHeaderView.m */; };
+		890751FE21A1171A00D149F3 /* UIImageView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6151E5854A2007AB1BD /* UIImageView+Tools.m */; };
+		890751FF21A1171A00D149F3 /* DDPBangumiEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B51FDD0BFB00EF52BB /* DDPBangumiEpisode.m */; };
+		8907520021A1171A00D149F3 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* DDPFileManagerFolderPlayerListViewCell.m */; };
+		8907520121A1171A00D149F3 /* DDPVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EBF1EA5F09500FA0DF3 /* DDPVideoModel.m */; };
+		8907520221A1171A00D149F3 /* DDPDefaultPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */; };
+		8907520321A1171A00D149F3 /* CALayer+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37CB1F628C82008D06CF /* CALayer+Tools.m */; };
+		8907520421A1171A00D149F3 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F911FE4EC6500704F33 /* DDPMethod.m */; };
+		8907520521A1171A00D149F3 /* DDPRelatedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB61EA5EB4500FA0DF3 /* DDPRelatedNetManagerOperation.m */; };
+		8907520621A1171A00D149F3 /* DDPSMBLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81DB203C1D6400717213 /* DDPSMBLoginView.m */; };
+		8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
+		8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* DDPFileManagerFolderLongViewCell.m */; };
+		8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
+		8907520A21A1171A00D149F3 /* DDPRecommedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F51E585135007AB1BD /* DDPRecommedNetManagerOperation.m */; };
+		8907520B21A1171A00D149F3 /* DDPNewSearchAnimateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18752168EBF700AE7484 /* DDPNewSearchAnimateTableViewCell.m */; };
+		8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DDPDanmakuManager.m */; };
+		8907520D21A1171A00D149F3 /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
+		8907520E21A1171A00D149F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
+		8907520F21A1171A00D149F3 /* DDPAttentionDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C51F628576008D06CF /* DDPAttentionDetailTableViewCell.m */; };
+		8907521021A1171A00D149F3 /* MJRefreshFooter+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6121E58539D007AB1BD /* MJRefreshFooter+Tools.m */; };
+		8907521121A1171A00D149F3 /* DDPDMHYSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74BD1F612DD300D40F07 /* DDPDMHYSearch.m */; };
+		8907521221A1171A00D149F3 /* DDPHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D511FE6612500953DA8 /* DDPHTTPResponseSerializer.m */; };
+		8907521321A1171A00D149F3 /* DDPSMBFileHashCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECB201C6CF00022DE0D /* DDPSMBFileHashCache+DB.mm */; };
+		8907521421A1171A00D149F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
+		8907521521A1171A00D149F3 /* DDPFileCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623D1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m */; };
+		8907521621A1171A00D149F3 /* DDPNewBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182E2165FA3200AE7484 /* DDPNewBanner.m */; };
+		8907521721A1171A00D149F3 /* NSDate+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37511F5D127F003D7D59 /* NSDate+Tools.m */; };
+		8907521821A1171A00D149F3 /* DDPLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* DDPLinkDownloadTask.m */; };
+		8907521921A1171A00D149F3 /* DDPMineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1864216783AC00AE7484 /* DDPMineHeadView.m */; };
+		8907521A21A1171A00D149F3 /* DDPBatchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F941FE4F1A700704F33 /* DDPBatchResponse.m */; };
+		8907521B21A1171A00D149F3 /* DDPSMBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B3E1F090EDA00103CFF /* DDPSMBInfo.m */; };
+		8907521C21A1171A00D149F3 /* DDPFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9C1EA5B12700FA0DF3 /* DDPFilter.m */; };
+		8907521D21A1171A00D149F3 /* DDPAttentionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BC1F626AE2008D06CF /* DDPAttentionListTableViewCell.m */; };
+		8907521E21A1171A00D149F3 /* DDPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C41EA8AAB500A2233D /* DDPSearchViewController.m */; };
+		8907521F21A1171A00D149F3 /* DDPAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* DDPAboutUsViewController.m */; };
+		8907522021A1171A00D149F3 /* DDPNewBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1831216603FF00AE7484 /* DDPNewBangumiQueueIntro.m */; };
+		8907522121A1171A00D149F3 /* LAContext+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975F1E51FC86DE700C945EC /* LAContext+Tools.m */; };
+		8907522221A1171A00D149F3 /* UIViewController+FullScreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0A52156BA7000D0E17C /* UIViewController+FullScreenPopGesture.m */; };
+		8907522321A1171A00D149F3 /* HomePageBangumiProgressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8BB1FDD21F900EF52BB /* HomePageBangumiProgressTableViewCell.m */; };
+		8907522421A1171A00D149F3 /* DDPLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */; };
+		8907522521A1171A00D149F3 /* DDPLinkVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858F21F6C136300010690 /* DDPLinkVideoModel.m */; };
+		8907522621A1171A00D149F3 /* UIApplication+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F31EB040E6009329AA /* UIApplication+Tools.m */; };
+		8907522721A1171A00D149F3 /* HomePageSearchFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E4B6191F9CCFF20003E610 /* HomePageSearchFilterModel.m */; };
+		8907522821A1171A00D149F3 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0C021576BE500D0E17C /* DDPPlayerFileManagerPlayerListViewController.m */; };
+		8907522921A1171A00D149F3 /* DDPSearchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F71E585135007AB1BD /* DDPSearchNetManagerOperation.m */; };
+		8907522A21A1171A00D149F3 /* DDPHomePageBannerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37541F5D1FBD003D7D59 /* DDPHomePageBannerCollectionViewCell.m */; };
+		8907522B21A1171A00D149F3 /* DDPFileManagerEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89314B1F1F4690C0002C1AEA /* DDPFileManagerEditView.m */; };
+		8907522C21A1171A00D149F3 /* DDPPlayerMatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCBFD2053B907007E378F /* DDPPlayerMatchView.m */; };
+		8907522D21A1171A00D149F3 /* DDPSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EF71EA5FCA200FA0DF3 /* DDPSearchCollection.m */; };
+		8907522E21A1171A00D149F3 /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */; };
+		8907522F21A1171A00D149F3 /* DDPPlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B1B1EAB44CB00072DA5 /* DDPPlayNavigationController.m */; };
+		8907523121A1171A00D149F3 /* HomePageHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A39E691F9CB2DD00E621E0 /* HomePageHeaderTableViewCell.m */; };
+		8907523221A1171A00D149F3 /* UITableViewCell+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4F91F7747F400F21E52 /* UITableViewCell+Tools.m */; };
+		8907523321A1171A00D149F3 /* DDPPlayHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BF1F6282B2008D06CF /* DDPPlayHistory.m */; };
+		8907523421A1171A00D149F3 /* DDPNewBangumiIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186C2168692F00AE7484 /* DDPNewBangumiIntroCollection.m */; };
+		8907523521A1171A00D149F3 /* DDPRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C185621676A6800AE7484 /* DDPRegisterRequest.m */; };
+		8907523621A1171A00D149F3 /* DDPLoginNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D291F5AB975001413BE /* DDPLoginNetManagerOperation.m */; };
+		8907523721A1171A00D149F3 /* UIViewController+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B381F08FB9A00103CFF /* UIViewController+Tools.m */; };
+		8907523821A1171A00D149F3 /* TOSMBSessionDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */; };
+		8907523921A1171A00D149F3 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AA2156BAA700D0E17C /* UINavigationController+FDFullscreenPopGesture.m */; };
+		8907523A21A1171A00D149F3 /* WMStickyPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181D2165028600AE7484 /* WMStickyPageController.m */; };
+		8907523B21A1171A00D149F3 /* DDPFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* DDPFileTreeNode.m */; };
+		8907523C21A1171A00D149F3 /* UIScrollView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */; };
+		8907523D21A1171A00D149F3 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
+		8907523E21A1171A00D149F3 /* DDPHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DDPHTTPConnection.m */; };
+		8907523F21A1171A00D149F3 /* DDPVideoCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */; };
+		8907524121A1171A00D149F3 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
+		8907524321A1171A00D149F3 /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */; };
+		8907524421A1171A00D149F3 /* HomePageBangumiProgressCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 895CA8BF1FDD23ED00EF52BB /* HomePageBangumiProgressCollectionViewCell.xib */; };
+		8907524521A1171A00D149F3 /* DDPPlayerInterfaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8937D0A32156927C00D0E17C /* DDPPlayerInterfaceView.xib */; };
+		8907524621A1171A00D149F3 /* qr_help2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257731FB8936200AC075A /* qr_help2@2x.png */; };
+		8907524721A1171A00D149F3 /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
+		8907524821A1171A00D149F3 /* qr_help1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257711FB88E6F00AC075A /* qr_help1@2x.png */; };
+		8907524921A1171A00D149F3 /* course in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFB01F2A3DB0007B83CA /* course */; };
+		8907524A21A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC012053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.xib */; };
+		8907524B21A1171A00D149F3 /* DDPSMBLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 896E81DD203C1D6D00717213 /* DDPSMBLoginView.xib */; };
+		8907524C21A1171A00D149F3 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFAE1F2A3DA3007B83CA /* web */; };
+		8907524D21A1171A00D149F3 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
+		8907524E21A1171A00D149F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
+		8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
+		8907525021A1171A00D149F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89BF74B61F60F9A800D40F07 /* InfoPlist.strings */; };
+		8907525121A1171A00D149F3 /* DDPFeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898E2D481FE6521C00953DA8 /* DDPFeaturedTableViewCell.xib */; };
+		8907525221A1171A00D149F3 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8901621E20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib */; };
+		8907525321A1171A00D149F3 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C184321660BA200AE7484 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib */; };
+		8907525421A1171A00D149F3 /* DDPQRScannerHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 894E5D9E2036BFA50082FCCC /* DDPQRScannerHistoryTableViewCell.xib */; };
+		8907525521A1171A00D149F3 /* DDPPlayerSelectedIndexView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89BA33332162610700CC337E /* DDPPlayerSelectedIndexView.xib */; };
+		8907525621A1171A00D149F3 /* DDPControlVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */; };
+		8907525721A1171A00D149F3 /* DDPQRScannerHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89BE4B04201C490F0009A5FF /* DDPQRScannerHistoryView.xib */; };
+		8907525821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */; };
+		8907525921A1171A00D149F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
+		8907525A21A1171A00D149F3 /* DDPHomePageFileLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ED6D45216FAABD00E4B7ED /* DDPHomePageFileLocationView.xib */; };
+		8907525B21A1171A00D149F3 /* email.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89B8E36A1F8F6DD500DA9BEF /* email.plist */; };
+		8907525C21A1171A00D149F3 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E867262084A34C0038C7F2 /* DDPPlayerShieldDanmakuTableViewCell.xib */; };
+		8907525D21A1171A00D149F3 /* DDPNewSearchAnimateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C18762168EBF700AE7484 /* DDPNewSearchAnimateTableViewCell.xib */; };
+		8907526821A1188000D149F3 /* DDPConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8907526721A1188000D149F3 /* DDPConstant.m */; };
+		8907526921A1188000D149F3 /* DDPConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8907526721A1188000D149F3 /* DDPConstant.m */; };
+		8907526C21A11A6800D149F3 /* DDPMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8907526B21A11A6800D149F3 /* DDPMock.m */; };
 		890BEEFE1FA3738900C7915D /* DDPFileSectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEEFD1FA3738900C7915D /* DDPFileSectionTableViewCell.m */; };
 		890BEF011FA3752400C7915D /* DDPFileLargeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF001FA3752400C7915D /* DDPFileLargeTitleTableViewCell.m */; };
 		890BEF051FA37BC300C7915D /* DDPFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* DDPFileTreeNode.m */; };
@@ -317,6 +622,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		8907526021A1171A00D149F3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89409FC51FE518B900704F33 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +655,12 @@
 		8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSMBFileOprationView.m; sourceTree = "<group>"; };
 		8905BDA21F32CEBA0055BC84 /* DDPDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDownloadViewController.h; sourceTree = "<group>"; };
 		8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDownloadViewController.m; sourceTree = "<group>"; };
+		8907526421A1171A00D149F3 /* DDPlay_Review.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlay_Review.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8907526521A1171A00D149F3 /* DDPlay_Review.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = DDPlay_Review.plist; path = /Users/jimhuang/Development/DanDanPlayForiOS/DDPlay_Review.plist; sourceTree = "<absolute>"; };
+		8907526621A1188000D149F3 /* DDPConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPConstant.h; sourceTree = "<group>"; };
+		8907526721A1188000D149F3 /* DDPConstant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPConstant.m; sourceTree = "<group>"; };
+		8907526A21A11A6800D149F3 /* DDPMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMock.h; sourceTree = "<group>"; };
+		8907526B21A11A6800D149F3 /* DDPMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPMock.m; sourceTree = "<group>"; };
 		890BEEFC1FA3738900C7915D /* DDPFileSectionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPFileSectionTableViewCell.h; sourceTree = "<group>"; };
 		890BEEFD1FA3738900C7915D /* DDPFileSectionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPFileSectionTableViewCell.m; sourceTree = "<group>"; };
 		890BEEFF1FA3752400C7915D /* DDPFileLargeTitleTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPFileLargeTitleTableViewCell.h; sourceTree = "<group>"; };
@@ -833,7 +1154,7 @@
 		89E2576C1FB8835800AC075A /* DDPQRHelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPQRHelpViewController.m; sourceTree = "<group>"; };
 		89E257711FB88E6F00AC075A /* qr_help1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr_help1@2x.png"; sourceTree = "<group>"; };
 		89E257731FB8936200AC075A /* qr_help2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr_help2@2x.png"; sourceTree = "<group>"; };
-		89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanDanPlayForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89E3F5B91E5829BD007AB1BD /* DDPlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3F5BD1E5829BD007AB1BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -935,6 +1256,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8907524021A1171A00D149F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8907524121A1171A00D149F3 /* libPods-DanDanPlayForiOS.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89E3F5B61E5829BD007AB1BD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1025,8 +1354,6 @@
 				89E3F61F1E58583F007AB1BD /* DDPBaseViewController.m */,
 				898E74D91EC6F5B3005137B4 /* DDPBaseNavigationController.h */,
 				898E74DA1EC6F5B3005137B4 /* DDPBaseNavigationController.m */,
-				894CBA9B1E6BC8D20021253F /* DDPMainViewController.h */,
-				894CBA9C1E6BC8D20021253F /* DDPMainViewController.m */,
 				89A467951F162DDA001840C7 /* DDPDefaultPageViewController.h */,
 				89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */,
 				89DDCFB21F2A3EA6007B83CA /* DDPBaseWebViewController.h */,
@@ -1768,7 +2095,8 @@
 		89E3F5BA1E5829BD007AB1BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */,
+				89E3F5B91E5829BD007AB1BD /* DDPlay.app */,
+				8907526421A1171A00D149F3 /* DDPlay_Review.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1796,6 +2124,7 @@
 				89E3F5C81E5829BD007AB1BD /* Assets.xcassets */,
 				89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */,
 				89E3F5CD1E5829BD007AB1BD /* Info.plist */,
+				8907526521A1171A00D149F3 /* DDPlay_Review.plist */,
 				89E3F5BD1E5829BD007AB1BD /* main.m */,
 				89BF74B61F60F9A800D40F07 /* InfoPlist.strings */,
 				89A8032D208B1B5200FF6C2B /* Localizable.strings */,
@@ -1845,6 +2174,8 @@
 				89E3F60A1E5851DF007AB1BD /* DDPPrefixHeader.pch */,
 				89E3F6211E5858E2007AB1BD /* DDPMethod.h */,
 				89409F911FE4EC6500704F33 /* DDPMethod.m */,
+				8907526621A1188000D149F3 /* DDPConstant.h */,
+				8907526721A1188000D149F3 /* DDPConstant.m */,
 				89A42EA11EA5B1BF00FA0DF3 /* DDPMacroDefinition.h */,
 				89993B89216D15CE00AD7938 /* APPKey.h */,
 			);
@@ -1863,6 +2194,8 @@
 				89F8CDBA1EA78A10000D5F3F /* DDPCacheManager.m */,
 				89B6EED0201C78320022DE0D /* DDPDownloadManager.h */,
 				89B6EED1201C78320022DE0D /* DDPDownloadManager.mm */,
+				8907526A21A11A6800D149F3 /* DDPMock.h */,
+				8907526B21A11A6800D149F3 /* DDPMock.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -1870,6 +2203,8 @@
 		89E3F61D1E585810007AB1BD /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				894CBA9B1E6BC8D20021253F /* DDPMainViewController.h */,
+				894CBA9C1E6BC8D20021253F /* DDPMainViewController.m */,
 				8931CDCD1F73DE2500F05C1F /* View */,
 				8931CDE11F73E07200F05C1F /* 播放器 */,
 				89753D481F8CB42E0036C0AB /* 登录 */,
@@ -2051,9 +2386,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		89E3F5B81E5829BD007AB1BD /* DanDanPlayForiOS */ = {
+		8907512621A1171A00D149F3 /* DDPlay_Review */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 89E3F5D01E5829BD007AB1BD /* Build configuration list for PBXNativeTarget "DanDanPlayForiOS" */;
+			buildConfigurationList = 8907526121A1171A00D149F3 /* Build configuration list for PBXNativeTarget "DDPlay_Review" */;
+			buildPhases = (
+				8907512721A1171A00D149F3 /* [CP] Check Pods Manifest.lock */,
+				8907512821A1171A00D149F3 /* Sources */,
+				8907524021A1171A00D149F3 /* Frameworks */,
+				8907524221A1171A00D149F3 /* Resources */,
+				8907525E21A1171A00D149F3 /* [CP] Copy Pods Resources */,
+				8907525F21A1171A00D149F3 /* ShellScript */,
+				8907526021A1171A00D149F3 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DDPlay_Review;
+			productName = DanDanPlayForiOS;
+			productReference = 8907526421A1171A00D149F3 /* DDPlay_Review.app */;
+			productType = "com.apple.product-type.application";
+		};
+		89E3F5B81E5829BD007AB1BD /* DDPlay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89E3F5D01E5829BD007AB1BD /* Build configuration list for PBXNativeTarget "DDPlay" */;
 			buildPhases = (
 				7B70B10B3601E6CD33B87633 /* [CP] Check Pods Manifest.lock */,
 				89E3F5B51E5829BD007AB1BD /* Sources */,
@@ -2067,9 +2423,9 @@
 			);
 			dependencies = (
 			);
-			name = DanDanPlayForiOS;
+			name = DDPlay;
 			productName = DanDanPlayForiOS;
-			productReference = 89E3F5B91E5829BD007AB1BD /* DanDanPlayForiOS.app */;
+			productReference = 89E3F5B91E5829BD007AB1BD /* DDPlay.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2082,6 +2438,9 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = JimHuang;
 				TargetAttributes = {
+					8907512621A1171A00D149F3 = {
+						DevelopmentTeam = B2C6Y83F26;
+					};
 					89E3F5B81E5829BD007AB1BD = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = B2C6Y83F26;
@@ -2106,12 +2465,47 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				89E3F5B81E5829BD007AB1BD /* DanDanPlayForiOS */,
+				89E3F5B81E5829BD007AB1BD /* DDPlay */,
+				8907512621A1171A00D149F3 /* DDPlay_Review */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8907524221A1171A00D149F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8907524321A1171A00D149F3 /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */,
+				8907524421A1171A00D149F3 /* HomePageBangumiProgressCollectionViewCell.xib in Resources */,
+				8907524521A1171A00D149F3 /* DDPPlayerInterfaceView.xib in Resources */,
+				8907524621A1171A00D149F3 /* qr_help2@2x.png in Resources */,
+				8907524721A1171A00D149F3 /* RefreshText.plist in Resources */,
+				8907524821A1171A00D149F3 /* qr_help1@2x.png in Resources */,
+				8907524921A1171A00D149F3 /* course in Resources */,
+				8907524A21A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */,
+				8907524B21A1171A00D149F3 /* DDPSMBLoginView.xib in Resources */,
+				8907524C21A1171A00D149F3 /* web in Resources */,
+				8907524D21A1171A00D149F3 /* DDPMineHeadView.xib in Resources */,
+				8907524E21A1171A00D149F3 /* LaunchScreen.storyboard in Resources */,
+				8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */,
+				8907525021A1171A00D149F3 /* InfoPlist.strings in Resources */,
+				8907525121A1171A00D149F3 /* DDPFeaturedTableViewCell.xib in Resources */,
+				8907525221A1171A00D149F3 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */,
+				8907525321A1171A00D149F3 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */,
+				8907525421A1171A00D149F3 /* DDPQRScannerHistoryTableViewCell.xib in Resources */,
+				8907525521A1171A00D149F3 /* DDPPlayerSelectedIndexView.xib in Resources */,
+				8907525621A1171A00D149F3 /* DDPControlVideoViewController.xib in Resources */,
+				8907525721A1171A00D149F3 /* DDPQRScannerHistoryView.xib in Resources */,
+				8907525821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
+				8907525921A1171A00D149F3 /* Localizable.strings in Resources */,
+				8907525A21A1171A00D149F3 /* DDPHomePageFileLocationView.xib in Resources */,
+				8907525B21A1171A00D149F3 /* email.plist in Resources */,
+				8907525C21A1171A00D149F3 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */,
+				8907525D21A1171A00D149F3 /* DDPNewSearchAnimateTableViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89E3F5B71E5829BD007AB1BD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2167,6 +2561,65 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8907512721A1171A00D149F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DanDanPlayForiOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8907525E21A1171A00D149F3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
+				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide@2x.png",
+				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_colormap.png",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nko_brightness_guide.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nko_brightness_guide@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nko_colormap.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKPromptResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8907525F21A1171A00D149F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"5a3d1ad706\"\n# #\nBUGLY_APP_KEY=\"cff908ee-d69a-4e0f-8af4-4dc5592903d1\"\n# #\nBUNDLE_IDENTIFIER=\"com.dandanplay.player\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=1\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
+		};
 		89E5AFAB1F566CBD00CD4334 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2211,6 +2664,289 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8907512821A1171A00D149F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8907512921A1171A00D149F3 /* DDPNewBangumiIntro.m in Sources */,
+				8907512A21A1171A00D149F3 /* DDPSearchAnimateViewController.m in Sources */,
+				8907512B21A1171A00D149F3 /* DDPHomePage.m in Sources */,
+				8907512C21A1171A00D149F3 /* DDPHomeBangumiCollection.m in Sources */,
+				8907512D21A1171A00D149F3 /* DDPPlayerConfigPanelViewController.m in Sources */,
+				8907512E21A1171A00D149F3 /* DDPHomeBanner.m in Sources */,
+				8907512F21A1171A00D149F3 /* DDPHomeFeatured.m in Sources */,
+				8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */,
+				8907513121A1171A00D149F3 /* DDPHomeBangumi.m in Sources */,
+				8907513221A1171A00D149F3 /* DDPHomeBangumiSubtitleGroup.m in Sources */,
+				8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */,
+				8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */,
+				8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */,
+				8907513621A1171A00D149F3 /* DDPHomePageSearchPackageViewController.m in Sources */,
+				8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */,
+				8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */,
+				8907513921A1171A00D149F3 /* DDPNewBangumiSeason.m in Sources */,
+				8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */,
+				8907513B21A1171A00D149F3 /* DDPHTTPServerViewController.m in Sources */,
+				8907513C21A1171A00D149F3 /* DDPBiliBiliSearchVideo.m in Sources */,
+				8907513D21A1171A00D149F3 /* DDPPlayerStepTableViewCell.m in Sources */,
+				8907513E21A1171A00D149F3 /* DDPCollectionCache+DB.mm in Sources */,
+				8907513F21A1171A00D149F3 /* DDPHttpReceiveTableViewCell.m in Sources */,
+				8907514021A1171A00D149F3 /* DDPSearchAnimeDetailsCollection.m in Sources */,
+				8907514121A1171A00D149F3 /* DDPControlView.m in Sources */,
+				8907514221A1171A00D149F3 /* DDPCommentNetManagerOperation.m in Sources */,
+				8907514321A1171A00D149F3 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */,
+				8907514421A1171A00D149F3 /* DDPHelpViewController.m in Sources */,
+				8907514521A1171A00D149F3 /* DDPFeaturedTableViewCell.m in Sources */,
+				8907514621A1171A00D149F3 /* DDPHomePageBannerView.m in Sources */,
+				8907514721A1171A00D149F3 /* DDPFileManagerBaseViewCell.m in Sources */,
+				8907514821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */,
+				8907514921A1171A00D149F3 /* JHFilterMenuItem.m in Sources */,
+				8907514A21A1171A00D149F3 /* DDPSMBFileManagerPickerViewController.m in Sources */,
+				8907514B21A1171A00D149F3 /* DDPSettingViewController.m in Sources */,
+				8907514C21A1171A00D149F3 /* DDPAttentionDetailViewController.m in Sources */,
+				8907514D21A1171A00D149F3 /* DDPPlayerVideoControlViewController.m in Sources */,
+				8907514E21A1171A00D149F3 /* DDPLinkNetManagerOperation.m in Sources */,
+				8907514F21A1171A00D149F3 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */,
+				8907515021A1171A00D149F3 /* DDPPlayerSendDanmakuViewController.m in Sources */,
+				8907515121A1171A00D149F3 /* DDPParseNetManagerOperation.m in Sources */,
+				8907515221A1171A00D149F3 /* DDPSMBFileViewController.m in Sources */,
+				8907515321A1171A00D149F3 /* DDPDMHYSearchCollection.m in Sources */,
+				8907515421A1171A00D149F3 /* UICollectionView+DDPTools.m in Sources */,
+				8907515521A1171A00D149F3 /* UIBarButtonItem+Tools.m in Sources */,
+				8907515621A1171A00D149F3 /* DDPMatchViewController.m in Sources */,
+				8907515721A1171A00D149F3 /* DDPSMBLoginHeaderView.m in Sources */,
+				8907515821A1171A00D149F3 /* DDPSMBFile.m in Sources */,
+				8907515921A1171A00D149F3 /* DDPDanmakuCollection.m in Sources */,
+				8907515A21A1171A00D149F3 /* DDPLibrary.m in Sources */,
+				8907515B21A1171A00D149F3 /* DDPLinkWelcome.m in Sources */,
+				8907515C21A1171A00D149F3 /* DDPLinkInfo+DB.mm in Sources */,
+				8907515D21A1171A00D149F3 /* DDPCacheManager.m in Sources */,
+				8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */,
+				8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */,
+				8907516021A1171A00D149F3 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */,
+				8907516121A1171A00D149F3 /* DDPDownloadManager.mm in Sources */,
+				8907516221A1171A00D149F3 /* DDPBangumiNetManagerOperation.m in Sources */,
+				8907516321A1171A00D149F3 /* DDPSearchEpisodeTableViewCell.m in Sources */,
+				8907516421A1171A00D149F3 /* DDPQRScannerHistoryView.m in Sources */,
+				8907516521A1171A00D149F3 /* DDPMatch.m in Sources */,
+				8907516621A1171A00D149F3 /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */,
+				8907516721A1171A00D149F3 /* DDPPlayHistoryNetManagerOperation.m in Sources */,
+				8907516821A1171A00D149F3 /* HomePageSearchFilterView.m in Sources */,
+				8907516921A1171A00D149F3 /* DDPHomePageSearchFilterCollectionViewCell.m in Sources */,
+				8907516A21A1171A00D149F3 /* UIColor+Tools.m in Sources */,
+				8907516B21A1171A00D149F3 /* DDPBlurView.m in Sources */,
+				8907516C21A1171A00D149F3 /* DDPCacheManager+DB.mm in Sources */,
+				8907516D21A1171A00D149F3 /* HomePageItemCollectionViewCell.m in Sources */,
+				8907516E21A1171A00D149F3 /* DDPFileManagerPlayerListView.m in Sources */,
+				8907516F21A1171A00D149F3 /* WMMagicScrollView.m in Sources */,
+				8907517021A1171A00D149F3 /* DDPOfficialSearchViewController.m in Sources */,
+				8907517121A1171A00D149F3 /* DDPHomePageFileLocationView.m in Sources */,
+				8907517221A1171A00D149F3 /* DDPPlayerInterfaceView.m in Sources */,
+				8907517321A1171A00D149F3 /* DDPLinkDownloadTask+Tools.m in Sources */,
+				8907517421A1171A00D149F3 /* DDPSliderShowAnimate.m in Sources */,
+				8907517521A1171A00D149F3 /* DDPLinkFileTableViewCell.m in Sources */,
+				8907517621A1171A00D149F3 /* DDPMatchTableViewCell.m in Sources */,
+				8907517721A1171A00D149F3 /* UIImage+Tools.m in Sources */,
+				8907517821A1171A00D149F3 /* NSURL+Tools.m in Sources */,
+				8907517921A1171A00D149F3 /* UINavigation+SXFixSpace.m in Sources */,
+				8907517A21A1171A00D149F3 /* DDPPlayerSelectedIndexView.m in Sources */,
+				8907517B21A1171A00D149F3 /* DDPForgetPasswordViewController.m in Sources */,
+				8907517C21A1171A00D149F3 /* DDPEdgeButton.m in Sources */,
+				8907517D21A1171A00D149F3 /* DDPHomePageViewController.m in Sources */,
+				8907517E21A1171A00D149F3 /* DDPLinkOriginalAccountViewController.m in Sources */,
+				8907517F21A1171A00D149F3 /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
+				8907518021A1171A00D149F3 /* DDPDanmakuFilterTableViewCell.m in Sources */,
+				8907518121A1171A00D149F3 /* DDPNewPopularTorrentItem.m in Sources */,
+				8907518221A1171A00D149F3 /* DDPBiliBiliSearchViewController.m in Sources */,
+				8907518321A1171A00D149F3 /* UIView+Toast.m in Sources */,
+				8907518421A1171A00D149F3 /* DDPBiliBiliSearchBangumi.m in Sources */,
+				8907518521A1171A00D149F3 /* DDPBangumiQueueIntro.m in Sources */,
+				8907518621A1171A00D149F3 /* DDPRegisterResult.m in Sources */,
+				8907518821A1171A00D149F3 /* DDPSMBFileHashCache.m in Sources */,
+				8907518921A1171A00D149F3 /* NSString+Tools.m in Sources */,
+				8907518A21A1171A00D149F3 /* DDPFileViewController.m in Sources */,
+				8907518B21A1171A00D149F3 /* DDPFileManagerViewController.m in Sources */,
+				8907518C21A1171A00D149F3 /* DDPResponse.m in Sources */,
+				8907518D21A1171A00D149F3 /* DDPRegisterViewController.m in Sources */,
+				8907518E21A1171A00D149F3 /* MJRefreshHeader+Tools.m in Sources */,
+				8907518F21A1171A00D149F3 /* DDPTextField.m in Sources */,
+				8907519021A1171A00D149F3 /* DDPFileLargeTitleTableViewCell.m in Sources */,
+				8907519121A1171A00D149F3 /* DDPMediaPlayer.m in Sources */,
+				8907519221A1171A00D149F3 /* DDPMatchTitleTableViewCell.m in Sources */,
+				8907519421A1171A00D149F3 /* DDPDMHYParse.m in Sources */,
+				8907519521A1171A00D149F3 /* DDPBaseScrollView.m in Sources */,
+				8907519621A1171A00D149F3 /* DDPMarqueeView.m in Sources */,
+				8907519721A1171A00D149F3 /* UIButton+Tools.m in Sources */,
+				8907519821A1171A00D149F3 /* DDPPlayerControlAnimater.m in Sources */,
+				8907519921A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.m in Sources */,
+				8907519A21A1171A00D149F3 /* DDPSearchAnimeDetails.m in Sources */,
+				8907519B21A1171A00D149F3 /* DDPBiliBiliBangumiCollection.m in Sources */,
+				8907519C21A1171A00D149F3 /* HomePageBangumiProgressCollectionViewCell.m in Sources */,
+				8907519D21A1171A00D149F3 /* DDPQRScannerViewController.m in Sources */,
+				8907519E21A1171A00D149F3 /* DDPVolumeView.m in Sources */,
+				8907519F21A1171A00D149F3 /* HomePageItemTableViewCell.m in Sources */,
+				890751A021A1171A00D149F3 /* DDPVideoModel+Tools.m in Sources */,
+				890751A121A1171A00D149F3 /* DDPBaseTreeView.m in Sources */,
+				8907526C21A11A6800D149F3 /* DDPMock.m in Sources */,
+				890751A221A1171A00D149F3 /* DDPBaseNavigationBar.m in Sources */,
+				890751A321A1171A00D149F3 /* DDPEdgeTextField.m in Sources */,
+				890751A421A1171A00D149F3 /* DDPBaseDanmaku+Tools.m in Sources */,
+				890751A521A1171A00D149F3 /* DDPBaseWebViewController.m in Sources */,
+				890751A621A1171A00D149F3 /* DDPHttpReceive.m in Sources */,
+				890751A721A1171A00D149F3 /* DDPHomeMoreHeaderView.m in Sources */,
+				890751A821A1171A00D149F3 /* DDPRelatedCollection.m in Sources */,
+				890751A921A1171A00D149F3 /* DDPFileManagerVideoTableViewCell.m in Sources */,
+				890751AA21A1171A00D149F3 /* DDPLoginViewController.m in Sources */,
+				890751AB21A1171A00D149F3 /* HomePageSearchTableViewCell.m in Sources */,
+				890751AC21A1171A00D149F3 /* DDPFile.m in Sources */,
+				890751AD21A1171A00D149F3 /* DDPBiliBiliBangumi.m in Sources */,
+				890751AE21A1171A00D149F3 /* DDPEpisode.m in Sources */,
+				890751AF21A1171A00D149F3 /* DDPBaseCollectionView.m in Sources */,
+				890751B021A1171A00D149F3 /* DDPRequestParameters.m in Sources */,
+				890751B121A1171A00D149F3 /* DDPTextHeaderView.m in Sources */,
+				890751B221A1171A00D149F3 /* DDPSearch.m in Sources */,
+				890751B321A1171A00D149F3 /* DDPFilterNetManagerOperation.m in Sources */,
+				890751B421A1171A00D149F3 /* DDPLocalFileManagerPickerViewController.m in Sources */,
+				890751B521A1171A00D149F3 /* DDPPlayerSliderTableViewCell.m in Sources */,
+				890751B621A1171A00D149F3 /* DDPMatchCollection.m in Sources */,
+				890751B721A1171A00D149F3 /* DDPSMBInfo+WCDB.mm in Sources */,
+				890751B821A1171A00D149F3 /* DDPLinkFileManagerViewController.m in Sources */,
+				890751B921A1171A00D149F3 /* DDPRelated.m in Sources */,
+				890751BA21A1171A00D149F3 /* DDPSelectedTableViewCell.m in Sources */,
+				890751BB21A1171A00D149F3 /* DDPSMBVideoModel.m in Sources */,
+				890751BC21A1171A00D149F3 /* DDPControlVideoViewController.m in Sources */,
+				890751BD21A1171A00D149F3 /* YYPhotoBrowseView.m in Sources */,
+				890751BE21A1171A00D149F3 /* DDPPlayerAudioChannelViewMediator.m in Sources */,
+				890751BF21A1171A00D149F3 /* DDPDanmaku.m in Sources */,
+				890751C021A1171A00D149F3 /* DDPFavoriteCollection.m in Sources */,
+				890751C121A1171A00D149F3 /* DDPEdgeLabel.m in Sources */,
+				890751C221A1171A00D149F3 /* DDPFileManagerSearchView.m in Sources */,
+				8907526921A1188000D149F3 /* DDPConstant.m in Sources */,
+				890751C321A1171A00D149F3 /* DDPQRHelpViewController.m in Sources */,
+				890751C421A1171A00D149F3 /* TOSMBSessionFile+Tools.m in Sources */,
+				890751C521A1171A00D149F3 /* DDPActivityEdgeLabel.m in Sources */,
+				890751C621A1171A00D149F3 /* DDPHTTPRequestSerializer.m in Sources */,
+				890751C721A1171A00D149F3 /* DDPBaseTableView.m in Sources */,
+				890751C821A1171A00D149F3 /* DDPPlayerNoticeView.m in Sources */,
+				890751C921A1171A00D149F3 /* DDPDMHYSearchConfig.m in Sources */,
+				890751CA21A1171A00D149F3 /* DDPNewHomePage.m in Sources */,
+				890751CB21A1171A00D149F3 /* DDPBaseCollection.m in Sources */,
+				890751CC21A1171A00D149F3 /* TOSMBSessionDownloadTask+DB.mm in Sources */,
+				890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */,
+				890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */,
+				890751CF21A1171A00D149F3 /* DDPBase.m in Sources */,
+				890751D021A1171A00D149F3 /* DDPRefreshNormalHeader.m in Sources */,
+				890751D121A1171A00D149F3 /* DDPMatchNetManagerOperation.m in Sources */,
+				890751D221A1171A00D149F3 /* DDPPlayerSendDanmakuConfigView.m in Sources */,
+				890751D321A1171A00D149F3 /* DDPBaseTableViewCell.m in Sources */,
+				890751D421A1171A00D149F3 /* DDPUser.mm in Sources */,
+				890751D521A1171A00D149F3 /* DDPSliderDismissAnimate.m in Sources */,
+				890751D621A1171A00D149F3 /* DDPExpandView.m in Sources */,
+				890751D821A1171A00D149F3 /* DDPPlayerViewController.m in Sources */,
+				890751D921A1171A00D149F3 /* DDPFileSectionTableViewCell.m in Sources */,
+				890751DA21A1171A00D149F3 /* DDPHomePageItemViewController.m in Sources */,
+				890751DB21A1171A00D149F3 /* DDPFavorite.m in Sources */,
+				890751DC21A1171A00D149F3 /* DDPLinkInfo.m in Sources */,
+				890751DD21A1171A00D149F3 /* DDPFavoriteNetManagerOperation.m in Sources */,
+				890751DE21A1171A00D149F3 /* DDPMainViewController.m in Sources */,
+				890751DF21A1171A00D149F3 /* DDPDanmakuFilterDetailViewController.m in Sources */,
+				890751E021A1171A00D149F3 /* DDPBaseNavigationController.m in Sources */,
+				890751E121A1171A00D149F3 /* DDPMineViewController.m in Sources */,
+				890751E221A1171A00D149F3 /* DDPPlayerDanmakuControlModel.m in Sources */,
+				890751E321A1171A00D149F3 /* DDPLibraryCollection.m in Sources */,
+				890751E421A1171A00D149F3 /* DDPAttentionDetailHistoryTableViewCell.m in Sources */,
+				890751E521A1171A00D149F3 /* DDPSetting.m in Sources */,
+				890751E621A1171A00D149F3 /* DDPEmailListView.m in Sources */,
+				890751E721A1171A00D149F3 /* DDPNewHomePageItemViewController.m in Sources */,
+				890751E821A1171A00D149F3 /* UITableView+DDPTools.m in Sources */,
+				890751E921A1171A00D149F3 /* DDPDanmakuSelectedFontViewController.m in Sources */,
+				890751EA21A1171A00D149F3 /* DDPPlayerControlHeaderView.m in Sources */,
+				890751EB21A1171A00D149F3 /* DDPHomePageCollectionViewController.m in Sources */,
+				890751EC21A1171A00D149F3 /* DDPBiliBiliSearchResult.m in Sources */,
+				890751ED21A1171A00D149F3 /* DDPPlayerInterfaceHolderView.m in Sources */,
+				890751EE21A1171A00D149F3 /* DDPBaseViewController.m in Sources */,
+				890751EF21A1171A00D149F3 /* DDPTransparentNavigationBar.m in Sources */,
+				890751F021A1171A00D149F3 /* DDPQRScannerHistoryTableViewCell.m in Sources */,
+				890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */,
+				890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */,
+				890751F321A1171A00D149F3 /* DDPDownloadTableViewCell.m in Sources */,
+				890751F421A1171A00D149F3 /* DDPFilterCollection.m in Sources */,
+				890751F521A1171A00D149F3 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */,
+				890751F621A1171A00D149F3 /* DDPDanmakuFilterViewController.m in Sources */,
+				890751F721A1171A00D149F3 /* DDPSMBFileOprationView.m in Sources */,
+				890751F821A1171A00D149F3 /* DDPMediaThumbnailer.m in Sources */,
+				890751F921A1171A00D149F3 /* DDPToolsManager.m in Sources */,
+				890751FA21A1171A00D149F3 /* DDPFilter+DB.mm in Sources */,
+				890751FC21A1171A00D149F3 /* DDPHomePageSearchViewController.m in Sources */,
+				890751FD21A1171A00D149F3 /* DDPHomeBangumiIntroHeaderView.m in Sources */,
+				890751FE21A1171A00D149F3 /* UIImageView+Tools.m in Sources */,
+				890751FF21A1171A00D149F3 /* DDPBangumiEpisode.m in Sources */,
+				8907520021A1171A00D149F3 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */,
+				8907520121A1171A00D149F3 /* DDPVideoModel.m in Sources */,
+				8907520221A1171A00D149F3 /* DDPDefaultPageViewController.m in Sources */,
+				8907520321A1171A00D149F3 /* CALayer+Tools.m in Sources */,
+				8907520421A1171A00D149F3 /* DDPMethod.m in Sources */,
+				8907520521A1171A00D149F3 /* DDPRelatedNetManagerOperation.m in Sources */,
+				8907520621A1171A00D149F3 /* DDPSMBLoginView.m in Sources */,
+				8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */,
+				8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */,
+				8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */,
+				8907520A21A1171A00D149F3 /* DDPRecommedNetManagerOperation.m in Sources */,
+				8907520B21A1171A00D149F3 /* DDPNewSearchAnimateTableViewCell.m in Sources */,
+				8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */,
+				8907520D21A1171A00D149F3 /* DDPBangumiQueueIntroCollection.m in Sources */,
+				8907520E21A1171A00D149F3 /* AppDelegate.mm in Sources */,
+				8907520F21A1171A00D149F3 /* DDPAttentionDetailTableViewCell.m in Sources */,
+				8907521021A1171A00D149F3 /* MJRefreshFooter+Tools.m in Sources */,
+				8907521121A1171A00D149F3 /* DDPDMHYSearch.m in Sources */,
+				8907521221A1171A00D149F3 /* DDPHTTPResponseSerializer.m in Sources */,
+				8907521321A1171A00D149F3 /* DDPSMBFileHashCache+DB.mm in Sources */,
+				8907521421A1171A00D149F3 /* main.m in Sources */,
+				8907521521A1171A00D149F3 /* DDPFileCollectionTableViewCell.m in Sources */,
+				8907521621A1171A00D149F3 /* DDPNewBanner.m in Sources */,
+				8907521721A1171A00D149F3 /* NSDate+Tools.m in Sources */,
+				8907521821A1171A00D149F3 /* DDPLinkDownloadTask.m in Sources */,
+				8907521921A1171A00D149F3 /* DDPMineHeadView.m in Sources */,
+				8907521A21A1171A00D149F3 /* DDPBatchResponse.m in Sources */,
+				8907521B21A1171A00D149F3 /* DDPSMBInfo.m in Sources */,
+				8907521C21A1171A00D149F3 /* DDPFilter.m in Sources */,
+				8907521D21A1171A00D149F3 /* DDPAttentionListTableViewCell.m in Sources */,
+				8907521E21A1171A00D149F3 /* DDPSearchViewController.m in Sources */,
+				8907521F21A1171A00D149F3 /* DDPAboutUsViewController.m in Sources */,
+				8907522021A1171A00D149F3 /* DDPNewBangumiQueueIntro.m in Sources */,
+				8907522121A1171A00D149F3 /* LAContext+Tools.m in Sources */,
+				8907522221A1171A00D149F3 /* UIViewController+FullScreenPopGesture.m in Sources */,
+				8907522321A1171A00D149F3 /* HomePageBangumiProgressTableViewCell.m in Sources */,
+				8907522421A1171A00D149F3 /* DDPLinkDownloadTaskCollection.m in Sources */,
+				8907522521A1171A00D149F3 /* DDPLinkVideoModel.m in Sources */,
+				8907522621A1171A00D149F3 /* UIApplication+Tools.m in Sources */,
+				8907522721A1171A00D149F3 /* HomePageSearchFilterModel.m in Sources */,
+				8907522821A1171A00D149F3 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */,
+				8907522921A1171A00D149F3 /* DDPSearchNetManagerOperation.m in Sources */,
+				8907522A21A1171A00D149F3 /* DDPHomePageBannerCollectionViewCell.m in Sources */,
+				8907522B21A1171A00D149F3 /* DDPFileManagerEditView.m in Sources */,
+				8907522C21A1171A00D149F3 /* DDPPlayerMatchView.m in Sources */,
+				8907522D21A1171A00D149F3 /* DDPSearchCollection.m in Sources */,
+				8907522E21A1171A00D149F3 /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */,
+				8907522F21A1171A00D149F3 /* DDPPlayNavigationController.m in Sources */,
+				8907523121A1171A00D149F3 /* HomePageHeaderTableViewCell.m in Sources */,
+				8907523221A1171A00D149F3 /* UITableViewCell+Tools.m in Sources */,
+				8907523321A1171A00D149F3 /* DDPPlayHistory.m in Sources */,
+				8907523421A1171A00D149F3 /* DDPNewBangumiIntroCollection.m in Sources */,
+				8907523521A1171A00D149F3 /* DDPRegisterRequest.m in Sources */,
+				8907523621A1171A00D149F3 /* DDPLoginNetManagerOperation.m in Sources */,
+				8907523721A1171A00D149F3 /* UIViewController+Tools.m in Sources */,
+				8907523821A1171A00D149F3 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
+				8907523921A1171A00D149F3 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				8907523A21A1171A00D149F3 /* WMStickyPageController.m in Sources */,
+				8907523B21A1171A00D149F3 /* DDPFileTreeNode.m in Sources */,
+				8907523C21A1171A00D149F3 /* UIScrollView+Base.m in Sources */,
+				8907523D21A1171A00D149F3 /* UIView+Tools.m in Sources */,
+				8907523E21A1171A00D149F3 /* DDPHTTPConnection.m in Sources */,
+				8907523F21A1171A00D149F3 /* DDPVideoCache.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89E3F5B51E5829BD007AB1BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2369,6 +3105,7 @@
 				89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */,
 				89350B191EAB125700072DA5 /* DDPEdgeLabel.m in Sources */,
 				891E69F51F480EAB00F69975 /* DDPFileManagerSearchView.m in Sources */,
+				8907526821A1188000D149F3 /* DDPConstant.m in Sources */,
 				89E2576D1FB8835800AC075A /* DDPQRHelpViewController.m in Sources */,
 				891C22F71F0A51E700B4661F /* TOSMBSessionFile+Tools.m in Sources */,
 				89D38E551F516591009780A8 /* DDPActivityEdgeLabel.m in Sources */,
@@ -2530,6 +3267,186 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8907526221A1171A00D149F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = B2C6Y83F26;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LocalVender",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DDPAPPTYPE=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_Review.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCache\"",
+					"-l\"YYCategories\"",
+					"-l\"YYImage\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.player;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8907526321A1171A00D149F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = B2C6Y83F26;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LocalVender",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DDPAPPTYPE=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_Review.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCache\"",
+					"-l\"YYCategories\"",
+					"-l\"YYImage\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.player;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		89E3F5CE1E5829BD007AB1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2805,6 +3722,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8907526121A1171A00D149F3 /* Build configuration list for PBXNativeTarget "DDPlay_Review" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8907526221A1171A00D149F3 /* Debug */,
+				8907526321A1171A00D149F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		89E3F5B41E5829BD007AB1BD /* Build configuration list for PBXProject "DanDanPlayForiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2814,7 +3740,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		89E3F5D01E5829BD007AB1BD /* Build configuration list for PBXNativeTarget "DanDanPlayForiOS" */ = {
+		89E3F5D01E5829BD007AB1BD /* Build configuration list for PBXNativeTarget "DDPlay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				89E3F5D11E5829BD007AB1BD /* Debug */,

@@ -155,7 +155,7 @@
             vc.file = ddp_getANewRootFile();
             [self.navigationController pushViewController:vc animated:YES];
         }
-        else if ([item.name isEqualToString:@"远程设备"]) {
+        else if ([item.name isEqualToString:@"局域网设备"]) {
             DDPSMBViewController *vc = [[DDPSMBViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
@@ -263,13 +263,15 @@
                 node;
             })];
             
-            [node.subItems addObject:({
-                DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
-                node.name = @"远程设备";
-                node.type = DDPFileTreeNodeTypeLocation;
-                node.img = [[UIImage imageNamed:@"file_net_equipment"] yy_imageByTintColor:[UIColor darkGrayColor]];
-                node;
-            })];
+            if (ddp_appType == DDPAppTypeDefault) {
+                [node.subItems addObject:({
+                    DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
+                    node.name = @"局域网设备";
+                    node.type = DDPFileTreeNodeTypeLocation;
+                    node.img = [[UIImage imageNamed:@"file_net_equipment"] yy_imageByTintColor:[UIColor darkGrayColor]];
+                    node;
+                })];
+            }
             
             [node.subItems addObject:({
                 DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];

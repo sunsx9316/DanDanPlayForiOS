@@ -20,11 +20,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UINavigationController *homeVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_bangumi"] selectImg:[UIImage imageNamed:@"main_bangumi"] rootVC:[[DDPNewHomePagePackageViewController alloc] init] title:nil];
+    let arr = [NSMutableArray array];
+    
+    if (ddp_appType == DDPAppTypeDefault) {
+        UINavigationController *homeVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_bangumi"] selectImg:[UIImage imageNamed:@"main_bangumi"] rootVC:[[DDPNewHomePagePackageViewController alloc] init] title:nil];
+        [arr addObject:homeVC];
+    }
+    
     UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_file"] selectImg:[UIImage imageNamed:@"main_file"] rootVC:[[DDPFileViewController alloc] init] title:nil];
     UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_mine"] selectImg:[UIImage imageNamed:@"main_mine"] rootVC:[[DDPMineViewController alloc] init] title:nil];
     
-    self.viewControllers = @[homeVC, fileVC, settingVC];
+    [arr addObjectsFromArray:@[fileVC, settingVC]];
+    
+    
+    self.viewControllers = arr;
     
     self.tabBar.translucent = NO;
     self.delegate = self;
