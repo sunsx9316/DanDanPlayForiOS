@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */; };
+		0E3D93D34AFFEE69E78259F8 /* libPods-DDPlay-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */; };
 		8901621F20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8901621D20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.m */; };
 		8901622020148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8901621E20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib */; };
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
@@ -619,6 +620,7 @@
 		89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
 		8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
+		E8B81B4C1E07D2E25662335A /* libPods-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -645,7 +647,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
+		7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
+		76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
 		8901621C20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomePageSearchFilterCollectionViewCell.h; sourceTree = "<group>"; };
 		8901621D20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomePageSearchFilterCollectionViewCell.m; sourceTree = "<group>"; };
 		8901621E20148D0C00022D22 /* DDPHomePageSearchFilterCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPHomePageSearchFilterCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1252,6 +1258,8 @@
 		8B847BFC216C6A0300DC8623 /* YYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPhotoBrowseView.h; sourceTree = "<group>"; };
 		8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoBrowseView.m; sourceTree = "<group>"; };
 		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
+		C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
+		C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1261,6 +1269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8907524121A1171A00D149F3 /* libPods-DanDanPlayForiOS.a in Frameworks */,
+				0E3D93D34AFFEE69E78259F8 /* libPods-DDPlay-DDPlay_Review.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,6 +1278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				097D8C66D1F1AC182B2914B4 /* libPods-DanDanPlayForiOS.a in Frameworks */,
+				E8B81B4C1E07D2E25662335A /* libPods-DDPlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1279,6 +1289,8 @@
 			isa = PBXGroup;
 			children = (
 				36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */,
+				C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */,
+				1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1288,6 +1300,10 @@
 			children = (
 				DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */,
 				A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */,
+				7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */,
+				65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */,
+				C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */,
+				76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2554,7 +2570,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DanDanPlayForiOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2572,7 +2588,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DanDanPlayForiOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay-DDPlay_Review-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2585,7 +2601,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
@@ -2604,7 +2620,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8907525F21A1171A00D149F3 /* ShellScript */ = {
@@ -2639,7 +2655,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
@@ -2658,7 +2674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3269,7 +3285,7 @@
 /* Begin XCBuildConfiguration section */
 		8907526221A1171A00D149F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */;
+			baseConfigurationReference = C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -3359,7 +3375,7 @@
 		};
 		8907526321A1171A00D149F3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */;
+			baseConfigurationReference = 76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -3551,7 +3567,7 @@
 		};
 		89E3F5D11E5829BD007AB1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */;
+			baseConfigurationReference = 7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -3636,7 +3652,7 @@
 		};
 		89E3F5D21E5829BD007AB1BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */;
+			baseConfigurationReference = 65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;

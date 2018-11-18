@@ -4,7 +4,7 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 use_modular_headers!
 
-target 'DanDanPlayForiOS' do
+target 'DDPlay' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
     # use_frameworks!
     
@@ -51,5 +51,5 @@ target 'DanDanPlayForiOS' do
     pod 'BayMaxProtector'
     #内存泄露检测
     pod 'MLeaksFinder', :configurations => ['Debug'] 
-    
+    target 'DDPlay_Review'
 end
