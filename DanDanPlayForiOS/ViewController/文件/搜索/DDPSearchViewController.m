@@ -47,17 +47,16 @@
 }
 
 - (__kindof UIViewController * _Nonnull)pageController:(WMPageController * _Nonnull)pageController viewControllerAtIndex:(NSInteger)index {
-    if (index == 0) {
+//    if (index == 0) {
         let vc = [[DDPOfficialSearchViewController alloc] init];
         vc.keyword = _keyword;
         vc.model = _model;
         return vc;
-    }
-    
-    let vc = [[DDPBiliBiliSearchViewController alloc] init];
-    vc.keyword = _keyword;
-//    vc.model = _model;
-    return vc;
+//    }
+//
+//    let vc = [[DDPBiliBiliSearchViewController alloc] init];
+//    vc.keyword = _keyword;
+//    return vc;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {

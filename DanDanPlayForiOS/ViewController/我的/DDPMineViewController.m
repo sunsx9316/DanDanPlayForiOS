@@ -131,9 +131,11 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([dic[TITLE_KEY] isEqualToString:@"遥控器"]) {
+#if !DDPAPPTYPE
         DDPControlVideoViewController *vc = [[DDPControlVideoViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+#endif
     }
     else {
         DDPAboutUsViewController *vc = [[DDPAboutUsViewController alloc] init];
@@ -238,10 +240,11 @@
             if ([DDPCacheManager shareCacheManager].linkInfo != nil || [DDPToolsManager shareToolsManager].SMBSession != nil) {
                 [arr addObject:@{TITLE_KEY: @"下载任务"}];
             }
+            
+            [arr addObject:@{TITLE_KEY: @"遥控器"}];
         }
         
         [arr addObjectsFromArray:@[
-                                   @{TITLE_KEY: @"遥控器"},
                                    @{TITLE_KEY: [NSString stringWithFormat:@"关于%@", [UIApplication sharedApplication].appDisplayName]}
                                    ]];
         

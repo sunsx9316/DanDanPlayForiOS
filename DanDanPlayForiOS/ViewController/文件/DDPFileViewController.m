@@ -161,6 +161,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if ([item.name isEqualToString:@"我的电脑"]) {
+#if !DDPAPPTYPE
             //已经登录
             if ([DDPCacheManager shareCacheManager].linkInfo) {
                 DDPLinkFileManagerViewController *vc = [[DDPLinkFileManagerViewController alloc] init];
@@ -189,6 +190,7 @@
                 };
                 [self.navigationController pushViewController:vc animated:YES];
             }
+#endif
         }
     }
     else {
@@ -271,15 +273,16 @@
                     node.img = [[UIImage imageNamed:@"file_net_equipment"] yy_imageByTintColor:[UIColor darkGrayColor]];
                     node;
                 })];
+                
+                [node.subItems addObject:({
+                    DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
+                    node.name = @"我的电脑";
+                    node.type = DDPFileTreeNodeTypeLocation;
+                    node.img = [[UIImage imageNamed:@"file_computer"] yy_imageByTintColor:[UIColor darkGrayColor]];
+                    node;
+                })];
             }
             
-            [node.subItems addObject:({
-                DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
-                node.name = @"我的电脑";
-                node.type = DDPFileTreeNodeTypeLocation;
-                node.img = [[UIImage imageNamed:@"file_computer"] yy_imageByTintColor:[UIColor darkGrayColor]];
-                node;
-            })];
             
             node;
         })];

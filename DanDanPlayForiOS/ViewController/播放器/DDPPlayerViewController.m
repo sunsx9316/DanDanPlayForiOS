@@ -708,6 +708,8 @@
     selectedFileCallBack:(SelectedFileAction)selectedFileCallBack {
     DDPFile *file = self.model.file;
     if ([file isKindOfClass:[DDPSMBFile class]]) {
+        
+#if !DDPAPPTYPE
         NSMutableArray *vcArr = [NSMutableArray array];
         DDPSMBFile *tempFile = file.parentFile;
         do {
@@ -737,6 +739,8 @@
         } while (tempFile != nil);
         [vcArr insertObject:self atIndex:0];
         [self.navigationController setViewControllers:vcArr animated:YES];
+#endif
+        
     }
     else {
         __block DDPFile *tempFile = nil;

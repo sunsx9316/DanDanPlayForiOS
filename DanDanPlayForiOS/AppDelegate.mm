@@ -66,6 +66,7 @@
 
 //唤醒
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+#if !DDPAPPTYPE
     NSString *content = [UIPasteboard generalPasteboard].string;
     
     //系统剪贴板有磁力链并且第一次打开
@@ -130,6 +131,7 @@
             [nav presentViewController:vc animated:YES completion:nil];
         }
     }
+#endif
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
