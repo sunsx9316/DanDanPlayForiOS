@@ -7,7 +7,6 @@
 //
 
 #import "DDPPlayerInterfaceView.h"
-#import "DDPMarqueeView.h"
 #import "DDPPlayerInterfaceHolderView.h"
 #import "DDPVolumeView.h"
 #import "DDPBlurView.h"
@@ -55,11 +54,6 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 
 @property (strong, nonatomic) UIScrollView *titlsScrollView;
 @property (strong, nonatomic) UILabel *titleLabel;
-
-//@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
-
-
-//@property (strong, nonatomic) DDPMarqueeView *titleView;
 
 @property (weak, nonatomic) IBOutlet UIButton *settingButton;
 
@@ -798,7 +792,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 - (UIScrollView *)titlsScrollView {
     if (_titlsScrollView == nil) {
         _titlsScrollView = [[UIScrollView alloc] init];
-        _titlsScrollView.bounces = false;
+//        _titlsScrollView.bounces = false;
+        _titlsScrollView.showsHorizontalScrollIndicator = false;
         [_titlsScrollView addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(0);
