@@ -43,9 +43,11 @@
 
 - (BOOL)showLoginAlert {
     return [self showLoginAlertWithAction:^{
+#if !DDPAPPTYPE
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+#endif
     }];
 }
 

@@ -4,7 +4,7 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 use_modular_headers!
 
-target 'DDPlay' do
+abstract_target 'DDPlay_Target' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
     # use_frameworks!
     
@@ -39,17 +39,23 @@ target 'DDPlay' do
     pod 'IQKeyboardManager'
     pod 'DZNEmptyDataSet'
     pod 'NKOColorPickerView'
-    pod 'CocoaHTTPServer'
     pod 'YYKeyboardManager'
-    pod 'TOSMBClient', '~> 1.0.5'
     pod 'MGSwipeTableCell'
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
     pod 'WCDB'
-    pod 'RTRootNavigationController'
+    pod 'RTRootNavigationController', '0.6.7'
     #防止崩溃
     pod 'BayMaxProtector'
     #内存泄露检测
     pod 'MLeaksFinder', :configurations => ['Debug'] 
-    target 'DDPlay_Review'
+
+    target 'DDPlay' do
+    pod 'TOSMBClient', '~> 1.0.5'
+    pod 'CocoaHTTPServer'
+    end
+
+    target 'DDPlay_Review' do
+    pod 'CocoaLumberjack'
+    end
 end

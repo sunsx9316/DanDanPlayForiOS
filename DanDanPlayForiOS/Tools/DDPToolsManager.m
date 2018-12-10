@@ -353,6 +353,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
     completion(aFile);
 }
 
+
 #pragma mark - SMB
 - (void)startDiscovererSMBFileWithParentFile:(DDPSMBFile *)parentFile
                                   completion:(GetSMBFilesAction)completion {
@@ -362,6 +363,9 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 - (void)startDiscovererSMBFileWithParentFile:(DDPSMBFile *)parentFile
                                     fileType:(PickerFileType)fileType
                                   completion:(GetSMBFilesAction)completion {
+#if !DDPAPPTYPE
+    
+
     TOSMBSession *session = self.SMBSession;
     
     //根目录
@@ -414,9 +418,11 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
             completion(nil, err);
         }
     }];
+#endif
 }
 
 - (void)setSmbInfo:(DDPSMBInfo *)smbInfo {
+#if !DDPAPPTYPE
     [self.SMBSession cancelAllRequests];
     _smbInfo = smbInfo;
     TOSMBSession *session = [[TOSMBSession alloc] init];
@@ -427,6 +433,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
     //最大下载任务数
     session.maxTaskOperationCount = 5;
     self.SMBSession = session;
+#endif
 }
 
 - (void)downloadSMBFile:(DDPSMBFile *)file
@@ -441,6 +448,8 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
                progress:(void(^)(uint64_t totalBytesReceived, int64_t totalBytesToReceive, TOSMBSessionDownloadTask *task))progress
                  cancel:(void(^)(NSString *cachePath))cancel
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion {
+#if !DDPAPPTYPE
+    
     TOSMBSessionDownloadTask *task = [self.SMBSession downloadTaskForFileAtPath:file.sessionFile.filePath destinationPath:destinationPath delegate:self];
     objc_setAssociatedObject(task, &smbProgressBlockKey, progress, OBJC_ASSOCIATION_COPY_NONATOMIC);
     objc_setAssociatedObject(task, &smbCompletionBlockKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
@@ -460,8 +469,10 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
     }];
     
     [task resume];
+#endif
 }
 
+#if !DDPAPPTYPE
 #pragma mark TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
        didWriteBytes:(uint64_t)bytesWritten
@@ -511,6 +522,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     objc_setAssociatedObject(task, &smbCompletionBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(task, &smbProgressBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+#endif
 
 #pragma mark - PC端
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
@@ -626,6 +638,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     
 }
 
+#if !DDPAPPTYPE
 #pragma mark - HTTPServer
 
 + (HTTPServer *)shareHTTPServer {
@@ -648,6 +661,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     [httpServer setInterface:[NSString getIPAddress]];
     [httpServer setPort:23333];
 }
+#endif
 
 
 @end

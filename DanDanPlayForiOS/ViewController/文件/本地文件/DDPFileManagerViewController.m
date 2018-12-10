@@ -26,7 +26,11 @@
 #import "DDPDownloadManager.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 
-@interface DDPFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DDPDownloadManagerObserver, DDPFileManagerSearchViewDelegate>
+@interface DDPFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource,
+#if !DDPAPPTYPE
+DDPDownloadManagerObserver,
+#endif
+DDPFileManagerSearchViewDelegate>
 
 @property (strong, nonatomic) DDPFileManagerEditView *editView;
 @property (strong, nonatomic) DDPFileManagerSearchView *searchView;
@@ -59,7 +63,9 @@
     
     if (ddp_isRootFile(self.file)) {
         self.navigationItem.title = @"根目录";
+#if !DDPAPPTYPE
         [[DDPDownloadManager shareDownloadManager] addObserver:self];
+#endif
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh:) name:WRITE_FILE_SUCCESS_NOTICE object:nil];
         
         [self.tableView.mj_header beginRefreshing];
@@ -71,7 +77,9 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+#if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
+#endif
 }
 
 #pragma mark - UITableViewDataSource
@@ -237,6 +245,7 @@
 //    return YES;
 //}
 
+#if !DDPAPPTYPE
 #pragma mark - DDPDownloadManagerObserver
 - (void)tasksDidChange:(NSArray <id<DDPDownloadTaskProtocol>>*)tasks
                   type:(DDPDownloadTasksChangeType)type
@@ -245,6 +254,7 @@
         self.tableView.mj_header.refreshingBlock();
     }
 }
+#endif
 
 - (void)lastPlayTimeWithVideoModel:(DDPVideoModel *)videoModel time:(NSInteger)time {
     [self.tableView reloadData];
@@ -475,9 +485,6 @@
         [aButton addTarget:self action:@selector(touchSearchButton:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_add_file"] configAction:^(UIButton *aButton) {
-        [aButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
-    }];
     
     UIBarButtonItem *sortItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_sort"] configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchSortButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -487,7 +494,15 @@
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = -10;
     
-    [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, sortItem, addItem, item]];
+    if (ddp_appType == DDPAppTypeDefault) {
+        UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_add_file"] configAction:^(UIButton *aButton) {
+            [aButton addTarget:self action:@selector(touchHttpButton:) forControlEvents:UIControlEventTouchUpInside];
+        }];
+        [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, sortItem, addItem, item]];
+    }
+    else {
+        [self.navigationItem addRightItemsFixedSpace:@[fixedSpace, sortItem, item]];
+    }
 }
 
 - (void)touchSearchButton:(UIButton *)sender {
@@ -496,9 +511,11 @@
 }
 
 - (void)touchHttpButton:(UIButton *)button {
+#if !DDPAPPTYPE
     DDPHTTPServerViewController *vc = [[DDPHTTPServerViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+#endif
 }
 
 - (void)touchSortButton:(UIButton *)button {

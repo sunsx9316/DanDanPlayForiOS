@@ -28,7 +28,12 @@
 
 #define TITLE_VIEW_RATE 0.4
 
-@interface DDPMineViewController ()<UITableViewDelegate, UITableViewDataSource, DDPDownloadManagerObserver, UIScrollViewDelegate, DDPCacheManagerDelagate>
+@interface DDPMineViewController ()<UITableViewDelegate, UITableViewDataSource,
+#if !DDPAPPTYPE
+DDPDownloadManagerObserver,
+#endif
+
+UIScrollViewDelegate, DDPCacheManagerDelagate>
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary *>*dataSourceArr;
 
@@ -52,7 +57,10 @@
         make.edges.mas_equalTo(0);
     }];
     
+#if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] addObserver:self];
+#endif
+    
     [[DDPToolsManager shareToolsManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[DDPCacheManager shareCacheManager] addObserver:self];
     
@@ -60,7 +68,9 @@
 }
 
 - (void)dealloc {
+#if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
+#endif
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], currentUser)];
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)];
 }
@@ -98,7 +108,9 @@
     
     if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
         DDPSettingDownloadTableViewCell *aCell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingDownloadTableViewCell" forIndexPath:indexPath];
+#if !DDPAPPTYPE
         aCell.downLoadCount = [DDPDownloadManager shareDownloadManager].tasks.count;
+#endif
         cell = aCell;
     }
     else {
@@ -156,12 +168,14 @@
     self.blurView.transform = CGAffineTransformMakeScale(y, y);
 }
 
+#if !DDPAPPTYPE
 #pragma mark - DDPDownloadManagerObserver
 - (void)tasksDidChange:(NSArray <id<DDPDownloadTaskProtocol>>*)tasks
                   type:(DDPDownloadTasksChangeType)type
                  error:(NSError *)error {
     [self.tableView reloadData];
 }
+#endif
 
 #pragma mark - DDPCacheManagerDelagate
 - (void)userLoginStatusDidChange:(DDPUser *)user {

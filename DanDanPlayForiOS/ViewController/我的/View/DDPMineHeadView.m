@@ -48,8 +48,8 @@
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+#if !DDPAPPTYPE
     DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
-    
     if (user.isLogin == false) {
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
@@ -81,6 +81,7 @@
         
         [self.viewController presentViewController:vc animated:YES completion:nil];
     }
+#endif
 }
 
 #pragma mark - 私有方法

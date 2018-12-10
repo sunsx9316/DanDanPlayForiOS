@@ -58,6 +58,7 @@
 
 #pragma mark - UITabBarControllerDelegate
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+#if !DDPAPPTYPE
     NSInteger index = [tabBarController.viewControllers indexOfObject:viewController];
     if (index == 2) {
         [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
@@ -65,6 +66,7 @@
     else {
         [[DDPDownloadManager shareDownloadManager] stopObserverTaskInfo];
     }
+#endif
 }
 
 #pragma mark - 私有方法

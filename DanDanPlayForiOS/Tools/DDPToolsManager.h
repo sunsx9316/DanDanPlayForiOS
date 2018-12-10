@@ -99,9 +99,12 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
                            searchKey:(NSString *)key
                           completion:(GetFilesAction)completion;
 
+#if !DDPAPPTYPE
 #pragma mark - HTTPServer
 + (HTTPServer *)shareHTTPServer;
 + (void)resetHTTPServer;
+#endif
+
 
 #pragma mark - SMB
 /**

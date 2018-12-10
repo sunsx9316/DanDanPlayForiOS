@@ -163,6 +163,10 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     self.sendDanmakuButton.layer.masksToBounds = YES;
     self.sendDanmakuButton.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
     
+    if (ddp_appType == DDPAppTypeReview) {
+        self.sendDanmakuButton.hidden = true;
+    }
+    
     self.settingButton.titleLabel.font = [UIFont ddp_bigSizeFont];
     
     self.danmakuHideSwitch.onTintColor = [UIColor ddp_mainColor];

@@ -351,6 +351,7 @@
 #pragma mark - DDPPlayerInterfaceViewDelegate
 - (void)interfaceViewDidTouchSendDanmakuButton {
     
+#if !DDPAPPTYPE
     if ([self showLoginAlertWithAction:^{
         
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
@@ -360,6 +361,7 @@
     }] == false) {
         return;
     }
+#endif
     
     DDPPlayerSendDanmakuViewController *vc = [[DDPPlayerSendDanmakuViewController alloc] init];
     @weakify(self)
