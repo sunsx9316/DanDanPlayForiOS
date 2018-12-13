@@ -32,6 +32,7 @@
                                             episode:(NSUInteger)episode
                                   completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchCollection))completionHandler;
 
+
 /**
  搜索动画
 
@@ -44,7 +45,7 @@
                                             type:(DDPProductionType)type
                                   completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchAnimeDetailsCollection))completionHandler;
 
-
+#if !DDPAPPTYPE
 /**
  *  搜索b站结果
  *
@@ -77,5 +78,6 @@
  */
 + (NSURLSessionDataTask *)searchDMHYWithConfig:(DDPDMHYSearchConfig *)config
                               completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPDMHYSearchCollection))completionHandler;
+#endif
 
 @end

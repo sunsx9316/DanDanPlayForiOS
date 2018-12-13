@@ -37,6 +37,7 @@
     }];
 }
 
+
 + (NSURLSessionDataTask *)searchAnimateWithKeyword:(NSString *)keyword
                                               type:(DDPProductionType)type
                                  completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchAnimeDetailsCollection))completionHandler {
@@ -64,6 +65,7 @@
                                           }];
 }
 
+#if !DDPAPPTYPE
 + (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void (^)(DDPBiliBiliSearchResult *, NSError *))completionHandler {
     if (!keyword.length) {
         if (completionHandler) {
@@ -159,5 +161,7 @@
         }
     }];
 }
+
+#endif
 
 @end

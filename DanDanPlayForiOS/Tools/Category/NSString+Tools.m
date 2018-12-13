@@ -147,7 +147,11 @@
 }
 
 - (BOOL)isMagnet {
+#if !DDPAPPTYPE
     return [self containsString:@"magnet:?xt=urn:btih:"];
+#else
+    return false;
+#endif
 }
 
 - (NSString *)ddp_appendingPathComponent:(NSString *)str {

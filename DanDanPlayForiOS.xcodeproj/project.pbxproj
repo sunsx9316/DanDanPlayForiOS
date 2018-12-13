@@ -11,21 +11,13 @@
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
 		8905BDA11F32C7EA0055BC84 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
-		8907512921A1171A00D149F3 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18342166051E00AE7484 /* DDPNewBangumiIntro.m */; };
-		8907512B21A1171A00D149F3 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC381FCAABB000E32D54 /* DDPHomePage.m */; };
-		8907512C21A1171A00D149F3 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */; };
 		8907512D21A1171A00D149F3 /* DDPPlayerConfigPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0B3215769EC00D0E17C /* DDPPlayerConfigPanelViewController.m */; };
-		8907512E21A1171A00D149F3 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */; };
-		8907512F21A1171A00D149F3 /* DDPHomeFeatured.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */; };
 		8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0B201C4FA40009A5FF /* DDPCacheManager+multiply.mm */; };
-		8907513121A1171A00D149F3 /* DDPHomeBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC3A1FCAABB000E32D54 /* DDPHomeBangumi.m */; };
-		8907513221A1171A00D149F3 /* DDPHomeBangumiSubtitleGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC391FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.m */; };
 		8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0B721576A6500D0E17C /* DDPPlayerDanmakuControlViewController.m */; };
 		8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8931CDF21F73E1C000F05C1F /* JHQRCodeReader.m */; };
 		8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */; };
 		8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */; };
 		8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* DDPLinkFile.m */; };
-		8907513921A1171A00D149F3 /* DDPNewBangumiSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1837216606F600AE7484 /* DDPNewBangumiSeason.m */; };
 		8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61B1E5855D2007AB1BD /* MBProgressHUD+Tools.m */; };
 		8907513C21A1171A00D149F3 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		8907513D21A1171A00D149F3 /* DDPPlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1EA071EAE0DCD00419C78 /* DDPPlayerStepTableViewCell.m */; };
@@ -40,11 +32,9 @@
 		8907514821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8672A2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.m */; };
 		8907514B21A1171A00D149F3 /* DDPSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7FF1EB0588F009329AA /* DDPSettingViewController.m */; };
 		8907514D21A1171A00D149F3 /* DDPPlayerVideoControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0BA21576B4100D0E17C /* DDPPlayerVideoControlViewController.m */; };
-		8907514E21A1171A00D149F3 /* DDPLinkNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85A91F68F4B500E7D841 /* DDPLinkNetManagerOperation.m */; };
 		8907514F21A1171A00D149F3 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* DDPOtherSettingTitleSubtitleTableViewCell.m */; };
 		8907515021A1171A00D149F3 /* DDPPlayerSendDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 893166A21F52700300B4A4EE /* DDPPlayerSendDanmakuViewController.m */; };
 		8907515121A1171A00D149F3 /* DDPParseNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C61F6132AD00D40F07 /* DDPParseNetManagerOperation.m */; };
-		8907515321A1171A00D149F3 /* DDPDMHYSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C01F612F0F00D40F07 /* DDPDMHYSearchCollection.m */; };
 		8907515421A1171A00D149F3 /* UICollectionView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18472166107300AE7484 /* UICollectionView+DDPTools.m */; };
 		8907515521A1171A00D149F3 /* UIBarButtonItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2A1F7243310003AF96 /* UIBarButtonItem+Tools.m */; };
 		8907515621A1171A00D149F3 /* DDPMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* DDPMatchViewController.m */; };
@@ -58,7 +48,6 @@
 		8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m */; };
 		8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623A1FA89FC00054A1F2 /* DDPCollectionCache.m */; };
 		8907516021A1171A00D149F3 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18122164C04400AE7484 /* DDPPlayerSubTitleIndexViewMediator.m */; };
-		8907516221A1171A00D149F3 /* DDPBangumiNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18692168689900AE7484 /* DDPBangumiNetManagerOperation.m */; };
 		8907516321A1171A00D149F3 /* DDPSearchEpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CF1EA8DCFB00A2233D /* DDPSearchEpisodeTableViewCell.m */; };
 		8907516521A1171A00D149F3 /* DDPMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB01EA5E7D000FA0DF3 /* DDPMatch.m */; };
 		8907516721A1171A00D149F3 /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
@@ -69,7 +58,6 @@
 		8907516F21A1171A00D149F3 /* WMMagicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181C2165028600AE7484 /* WMMagicScrollView.m */; };
 		8907517021A1171A00D149F3 /* DDPOfficialSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C81EA8BB8D00A2233D /* DDPOfficialSearchViewController.m */; };
 		8907517221A1171A00D149F3 /* DDPPlayerInterfaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B0F1EAB059000072DA5 /* DDPPlayerInterfaceView.m */; };
-		8907517321A1171A00D149F3 /* DDPLinkDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EEDF201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m */; };
 		8907517421A1171A00D149F3 /* DDPSliderShowAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0C7215771DC00D0E17C /* DDPSliderShowAnimate.m */; };
 		8907517521A1171A00D149F3 /* DDPLinkFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD05201F6AC49500051A96 /* DDPLinkFileTableViewCell.m */; };
 		8907517621A1171A00D149F3 /* DDPMatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* DDPMatchTableViewCell.m */; };
@@ -80,7 +68,6 @@
 		8907517C21A1171A00D149F3 /* DDPEdgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B151EAB125700072DA5 /* DDPEdgeButton.m */; };
 		8907517F21A1171A00D149F3 /* DDPSearchAnimeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CC1EA8DC2C00A2233D /* DDPSearchAnimeTitleTableViewCell.m */; };
 		8907518021A1171A00D149F3 /* DDPDanmakuFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23B1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m */; };
-		8907518121A1171A00D149F3 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C183A2166073700AE7484 /* DDPNewPopularTorrentItem.m */; };
 		8907518321A1171A00D149F3 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81D7203C096900717213 /* UIView+Toast.m */; };
 		8907518421A1171A00D149F3 /* DDPBiliBiliSearchBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61041FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.m */; };
 		8907518521A1171A00D149F3 /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
@@ -137,7 +124,6 @@
 		890751C721A1171A00D149F3 /* DDPBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* DDPBaseTableView.m */; };
 		890751C821A1171A00D149F3 /* DDPPlayerNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 895F322F1ECE9C8900368333 /* DDPPlayerNoticeView.m */; };
 		890751C921A1171A00D149F3 /* DDPDMHYSearchConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D51F6144E300D40F07 /* DDPDMHYSearchConfig.m */; };
-		890751CA21A1171A00D149F3 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182B2165FA0900AE7484 /* DDPNewHomePage.m */; };
 		890751CB21A1171A00D149F3 /* DDPBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E981EA5B0BA00FA0DF3 /* DDPBaseCollection.m */; };
 		890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2D1F724C570003AF96 /* UINavigationItem+Tools.m */; };
 		890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m */; };
@@ -191,20 +177,16 @@
 		8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
 		8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* DDPFileManagerFolderLongViewCell.m */; };
 		8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
-		8907520A21A1171A00D149F3 /* DDPRecommedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F51E585135007AB1BD /* DDPRecommedNetManagerOperation.m */; };
 		8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DDPDanmakuManager.m */; };
 		8907520D21A1171A00D149F3 /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
 		8907520E21A1171A00D149F3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
 		8907520F21A1171A00D149F3 /* DDPAttentionDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C51F628576008D06CF /* DDPAttentionDetailTableViewCell.m */; };
 		8907521021A1171A00D149F3 /* MJRefreshFooter+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6121E58539D007AB1BD /* MJRefreshFooter+Tools.m */; };
-		8907521121A1171A00D149F3 /* DDPDMHYSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74BD1F612DD300D40F07 /* DDPDMHYSearch.m */; };
 		8907521221A1171A00D149F3 /* DDPHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D511FE6612500953DA8 /* DDPHTTPResponseSerializer.m */; };
 		8907521321A1171A00D149F3 /* DDPSMBFileHashCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECB201C6CF00022DE0D /* DDPSMBFileHashCache+DB.mm */; };
 		8907521421A1171A00D149F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
 		8907521521A1171A00D149F3 /* DDPFileCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623D1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m */; };
-		8907521621A1171A00D149F3 /* DDPNewBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182E2165FA3200AE7484 /* DDPNewBanner.m */; };
 		8907521721A1171A00D149F3 /* NSDate+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37511F5D127F003D7D59 /* NSDate+Tools.m */; };
-		8907521821A1171A00D149F3 /* DDPLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* DDPLinkDownloadTask.m */; };
 		8907521921A1171A00D149F3 /* DDPMineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1864216783AC00AE7484 /* DDPMineHeadView.m */; };
 		8907521A21A1171A00D149F3 /* DDPBatchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F941FE4F1A700704F33 /* DDPBatchResponse.m */; };
 		8907521B21A1171A00D149F3 /* DDPSMBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B3E1F090EDA00103CFF /* DDPSMBInfo.m */; };
@@ -212,10 +194,8 @@
 		8907521D21A1171A00D149F3 /* DDPAttentionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BC1F626AE2008D06CF /* DDPAttentionListTableViewCell.m */; };
 		8907521E21A1171A00D149F3 /* DDPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C41EA8AAB500A2233D /* DDPSearchViewController.m */; };
 		8907521F21A1171A00D149F3 /* DDPAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* DDPAboutUsViewController.m */; };
-		8907522021A1171A00D149F3 /* DDPNewBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1831216603FF00AE7484 /* DDPNewBangumiQueueIntro.m */; };
 		8907522121A1171A00D149F3 /* LAContext+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975F1E51FC86DE700C945EC /* LAContext+Tools.m */; };
 		8907522221A1171A00D149F3 /* UIViewController+FullScreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0A52156BA7000D0E17C /* UIViewController+FullScreenPopGesture.m */; };
-		8907522421A1171A00D149F3 /* DDPLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */; };
 		8907522521A1171A00D149F3 /* DDPLinkVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858F21F6C136300010690 /* DDPLinkVideoModel.m */; };
 		8907522621A1171A00D149F3 /* UIApplication+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F31EB040E6009329AA /* UIApplication+Tools.m */; };
 		8907522821A1171A00D149F3 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0C021576BE500D0E17C /* DDPPlayerFileManagerPlayerListViewController.m */; };
@@ -227,7 +207,6 @@
 		8907522F21A1171A00D149F3 /* DDPPlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B1B1EAB44CB00072DA5 /* DDPPlayNavigationController.m */; };
 		8907523221A1171A00D149F3 /* UITableViewCell+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4F91F7747F400F21E52 /* UITableViewCell+Tools.m */; };
 		8907523321A1171A00D149F3 /* DDPPlayHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BF1F6282B2008D06CF /* DDPPlayHistory.m */; };
-		8907523421A1171A00D149F3 /* DDPNewBangumiIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186C2168692F00AE7484 /* DDPNewBangumiIntroCollection.m */; };
 		8907523521A1171A00D149F3 /* DDPRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C185621676A6800AE7484 /* DDPRegisterRequest.m */; };
 		8907523621A1171A00D149F3 /* DDPLoginNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D291F5AB975001413BE /* DDPLoginNetManagerOperation.m */; };
 		8907523721A1171A00D149F3 /* UIViewController+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B381F08FB9A00103CFF /* UIViewController+Tools.m */; };
@@ -370,6 +349,19 @@
 		894CBAAB1E6C073A0021253F /* DDPHTTPServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* DDPHTTPServerViewController.m */; };
 		894CBAAF1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m */; };
 		894E5D9B203698F30082FCCC /* DDPVideoModel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */; };
+		8955063A21C2990D006E35D9 /* DDPNewBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062121C2990D006E35D9 /* DDPNewBanner.m */; };
+		8955063B21C2990D006E35D9 /* DDPNewBangumiIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062321C2990D006E35D9 /* DDPNewBangumiIntroCollection.m */; };
+		8955063C21C2990D006E35D9 /* DDPHomeBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062721C2990D006E35D9 /* DDPHomeBangumi.m */; };
+		8955063D21C2990D006E35D9 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062D21C2990D006E35D9 /* DDPHomeBangumiCollection.m */; };
+		8955063E21C2990D006E35D9 /* DDPHomeFeatured.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062E21C2990D006E35D9 /* DDPHomeFeatured.m */; };
+		8955063F21C2990D006E35D9 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062F21C2990D006E35D9 /* DDPHomeBanner.m */; };
+		8955064021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m */; };
+		8955064121C2990D006E35D9 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063121C2990D006E35D9 /* DDPHomePage.m */; };
+		8955064221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m */; };
+		8955064321C2990D006E35D9 /* DDPNewBangumiSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063321C2990D006E35D9 /* DDPNewBangumiSeason.m */; };
+		8955064421C2990D006E35D9 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063421C2990D006E35D9 /* DDPNewHomePage.m */; };
+		8955064521C2990D006E35D9 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */; };
+		8955064621C2990D006E35D9 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */; };
 		895CA8AD1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
 		895CA8B01FDD069B00EF52BB /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
 		895CA8B31FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
@@ -400,19 +392,12 @@
 		898C18162164D4CE00AE7484 /* DDPPlayerAudioChannelViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18152164D4CE00AE7484 /* DDPPlayerAudioChannelViewMediator.m */; };
 		898C181F2165028600AE7484 /* WMMagicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181C2165028600AE7484 /* WMMagicScrollView.m */; };
 		898C18202165028600AE7484 /* WMStickyPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181D2165028600AE7484 /* WMStickyPageController.m */; };
-		898C182C2165FA0900AE7484 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182B2165FA0900AE7484 /* DDPNewHomePage.m */; };
-		898C182F2165FA3200AE7484 /* DDPNewBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C182E2165FA3200AE7484 /* DDPNewBanner.m */; };
-		898C1832216603FF00AE7484 /* DDPNewBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1831216603FF00AE7484 /* DDPNewBangumiQueueIntro.m */; };
-		898C18352166051E00AE7484 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18342166051E00AE7484 /* DDPNewBangumiIntro.m */; };
-		898C1838216606F600AE7484 /* DDPNewBangumiSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1837216606F600AE7484 /* DDPNewBangumiSeason.m */; };
-		898C183B2166073700AE7484 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C183A2166073700AE7484 /* DDPNewPopularTorrentItem.m */; };
 		898C18482166107300AE7484 /* UICollectionView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18472166107300AE7484 /* UICollectionView+DDPTools.m */; };
 		898C185C21676A6800AE7484 /* DDPRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C185621676A6800AE7484 /* DDPRegisterRequest.m */; };
 		898C186221676C0600AE7484 /* DDPRegisterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186121676C0600AE7484 /* DDPRegisterResult.m */; };
 		898C1865216783AC00AE7484 /* DDPMineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1864216783AC00AE7484 /* DDPMineHeadView.m */; };
 		898C1867216783B600AE7484 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
 		898C186A2168689900AE7484 /* DDPBangumiNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18692168689900AE7484 /* DDPBangumiNetManagerOperation.m */; };
-		898C186D2168692F00AE7484 /* DDPNewBangumiIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186C2168692F00AE7484 /* DDPNewBangumiIntroCollection.m */; };
 		898C187B2168EFCC00AE7484 /* DDPSearchAnimeDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187A2168EFCC00AE7484 /* DDPSearchAnimeDetails.m */; };
 		898C187E2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187D2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m */; };
 		898E2D4F1FE6611500953DA8 /* DDPHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */; };
@@ -538,12 +523,6 @@
 		89E8672D2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E8672B2084A3A20038C7F2 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */; };
 		89E8C9991F3DDEF100CCF4BC /* DDPSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */; };
 		89EC0E5C1F2D812A004D3C12 /* DDPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */; };
-		89F0DC411FCAAE4500E32D54 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC381FCAABB000E32D54 /* DDPHomePage.m */; };
-		89F0DC421FCAAE4500E32D54 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */; };
-		89F0DC431FCAAE4500E32D54 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */; };
-		89F0DC441FCAAE4500E32D54 /* DDPHomeFeatured.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */; };
-		89F0DC451FCAAE4500E32D54 /* DDPHomeBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC3A1FCAABB000E32D54 /* DDPHomeBangumi.m */; };
-		89F0DC461FCAAE4500E32D54 /* DDPHomeBangumiSubtitleGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F0DC391FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.m */; };
 		89F173061EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m */; };
 		89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
 		89F1733B1EB222E0006A2473 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* DDPOtherSettingTitleSubtitleTableViewCell.m */; };
@@ -820,6 +799,32 @@
 		894CBAAE1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFileManagerFileLongViewCell.m; sourceTree = "<group>"; };
 		894E5D99203698F30082FCCC /* DDPVideoModel+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPVideoModel+Tools.h"; sourceTree = "<group>"; };
 		894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DDPVideoModel+Tools.m"; sourceTree = "<group>"; };
+		8955061F21C2990D006E35D9 /* DDPNewHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewHomePage.h; sourceTree = "<group>"; };
+		8955062021C2990D006E35D9 /* DDPNewBangumiSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiSeason.h; sourceTree = "<group>"; };
+		8955062121C2990D006E35D9 /* DDPNewBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewBanner.m; sourceTree = "<group>"; };
+		8955062221C2990D006E35D9 /* DDPNewBangumiIntro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiIntro.h; sourceTree = "<group>"; };
+		8955062321C2990D006E35D9 /* DDPNewBangumiIntroCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiIntroCollection.m; sourceTree = "<group>"; };
+		8955062421C2990D006E35D9 /* DDPNewPopularTorrentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewPopularTorrentItem.h; sourceTree = "<group>"; };
+		8955062621C2990D006E35D9 /* DDPHomeBangumiCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumiCollection.h; sourceTree = "<group>"; };
+		8955062721C2990D006E35D9 /* DDPHomeBangumi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumi.m; sourceTree = "<group>"; };
+		8955062821C2990D006E35D9 /* DDPHomeFeatured.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomeFeatured.h; sourceTree = "<group>"; };
+		8955062921C2990D006E35D9 /* DDPHomeBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomeBanner.h; sourceTree = "<group>"; };
+		8955062A21C2990D006E35D9 /* DDPHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomePage.h; sourceTree = "<group>"; };
+		8955062B21C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumiSubtitleGroup.h; sourceTree = "<group>"; };
+		8955062C21C2990D006E35D9 /* DDPHomeBangumi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumi.h; sourceTree = "<group>"; };
+		8955062D21C2990D006E35D9 /* DDPHomeBangumiCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumiCollection.m; sourceTree = "<group>"; };
+		8955062E21C2990D006E35D9 /* DDPHomeFeatured.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomeFeatured.m; sourceTree = "<group>"; };
+		8955062F21C2990D006E35D9 /* DDPHomeBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBanner.m; sourceTree = "<group>"; };
+		8955063021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumiSubtitleGroup.m; sourceTree = "<group>"; };
+		8955063121C2990D006E35D9 /* DDPHomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomePage.m; sourceTree = "<group>"; };
+		8955063221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiQueueIntro.m; sourceTree = "<group>"; };
+		8955063321C2990D006E35D9 /* DDPNewBangumiSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiSeason.m; sourceTree = "<group>"; };
+		8955063421C2990D006E35D9 /* DDPNewHomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewHomePage.m; sourceTree = "<group>"; };
+		8955063521C2990D006E35D9 /* DDPNewBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewBanner.h; sourceTree = "<group>"; };
+		8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewPopularTorrentItem.m; sourceTree = "<group>"; };
+		8955063721C2990D006E35D9 /* DDPNewBangumiIntroCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiIntroCollection.h; sourceTree = "<group>"; };
+		8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiIntro.m; sourceTree = "<group>"; };
+		8955063921C2990D006E35D9 /* DDPNewBangumiQueueIntro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiQueueIntro.h; sourceTree = "<group>"; };
 		895CA8AB1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayHistoryNetManagerOperation.h; sourceTree = "<group>"; };
 		895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayHistoryNetManagerOperation.m; sourceTree = "<group>"; };
 		895CA8AE1FDD069B00EF52BB /* DDPBangumiQueueIntro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBangumiQueueIntro.h; sourceTree = "<group>"; };
@@ -880,18 +885,6 @@
 		898C181D2165028600AE7484 /* WMStickyPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMStickyPageController.m; sourceTree = "<group>"; };
 		898C181E2165028600AE7484 /* WMMagicScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMagicScrollView.h; sourceTree = "<group>"; };
 		898C18262165E2BD00AE7484 /* DDPUser+WCTTableCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPUser+WCTTableCoding.h"; sourceTree = "<group>"; };
-		898C182A2165FA0900AE7484 /* DDPNewHomePage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewHomePage.h; sourceTree = "<group>"; };
-		898C182B2165FA0900AE7484 /* DDPNewHomePage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewHomePage.m; sourceTree = "<group>"; };
-		898C182D2165FA3200AE7484 /* DDPNewBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewBanner.h; sourceTree = "<group>"; };
-		898C182E2165FA3200AE7484 /* DDPNewBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewBanner.m; sourceTree = "<group>"; };
-		898C1830216603FF00AE7484 /* DDPNewBangumiQueueIntro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiQueueIntro.h; sourceTree = "<group>"; };
-		898C1831216603FF00AE7484 /* DDPNewBangumiQueueIntro.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiQueueIntro.m; sourceTree = "<group>"; };
-		898C18332166051E00AE7484 /* DDPNewBangumiIntro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiIntro.h; sourceTree = "<group>"; };
-		898C18342166051E00AE7484 /* DDPNewBangumiIntro.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiIntro.m; sourceTree = "<group>"; };
-		898C1836216606F600AE7484 /* DDPNewBangumiSeason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiSeason.h; sourceTree = "<group>"; };
-		898C1837216606F600AE7484 /* DDPNewBangumiSeason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiSeason.m; sourceTree = "<group>"; };
-		898C18392166073700AE7484 /* DDPNewPopularTorrentItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewPopularTorrentItem.h; sourceTree = "<group>"; };
-		898C183A2166073700AE7484 /* DDPNewPopularTorrentItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewPopularTorrentItem.m; sourceTree = "<group>"; };
 		898C18462166107300AE7484 /* UICollectionView+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+DDPTools.h"; sourceTree = "<group>"; };
 		898C18472166107300AE7484 /* UICollectionView+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+DDPTools.m"; sourceTree = "<group>"; };
 		898C185421676A6800AE7484 /* DDPErrorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPErrorProtocol.h; sourceTree = "<group>"; };
@@ -904,8 +897,6 @@
 		898C1866216783B600AE7484 /* DDPMineHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPMineHeadView.xib; sourceTree = "<group>"; };
 		898C18682168689900AE7484 /* DDPBangumiNetManagerOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBangumiNetManagerOperation.h; sourceTree = "<group>"; };
 		898C18692168689900AE7484 /* DDPBangumiNetManagerOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBangumiNetManagerOperation.m; sourceTree = "<group>"; };
-		898C186B2168692F00AE7484 /* DDPNewBangumiIntroCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNewBangumiIntroCollection.h; sourceTree = "<group>"; };
-		898C186C2168692F00AE7484 /* DDPNewBangumiIntroCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPNewBangumiIntroCollection.m; sourceTree = "<group>"; };
 		898C18792168EFCC00AE7484 /* DDPSearchAnimeDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPSearchAnimeDetails.h; sourceTree = "<group>"; };
 		898C187A2168EFCC00AE7484 /* DDPSearchAnimeDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPSearchAnimeDetails.m; sourceTree = "<group>"; };
 		898C187C2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPSearchAnimeDetailsCollection.h; sourceTree = "<group>"; };
@@ -1154,18 +1145,6 @@
 		89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSetting.m; sourceTree = "<group>"; };
 		89EC0E5A1F2D812A004D3C12 /* DDPHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPHelpViewController.h; sourceTree = "<group>"; };
 		89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHelpViewController.m; sourceTree = "<group>"; };
-		89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumiCollection.m; sourceTree = "<group>"; };
-		89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBanner.m; sourceTree = "<group>"; };
-		89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeFeatured.m; sourceTree = "<group>"; };
-		89F0DC381FCAABB000E32D54 /* DDPHomePage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomePage.m; sourceTree = "<group>"; };
-		89F0DC391FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumiSubtitleGroup.m; sourceTree = "<group>"; };
-		89F0DC3A1FCAABB000E32D54 /* DDPHomeBangumi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHomeBangumi.m; sourceTree = "<group>"; };
-		89F0DC3B1FCAABB000E32D54 /* DDPHomeBangumiCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumiCollection.h; sourceTree = "<group>"; };
-		89F0DC3C1FCAABB000E32D54 /* DDPHomeBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomeBanner.h; sourceTree = "<group>"; };
-		89F0DC3D1FCAABB000E32D54 /* DDPHomeFeatured.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomeFeatured.h; sourceTree = "<group>"; };
-		89F0DC3E1FCAABB000E32D54 /* DDPHomeBangumi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumi.h; sourceTree = "<group>"; };
-		89F0DC3F1FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomeBangumiSubtitleGroup.h; sourceTree = "<group>"; };
-		89F0DC401FCAABB000E32D54 /* DDPHomePage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHomePage.h; sourceTree = "<group>"; };
 		89F173041EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSettingTitleTableViewCell.h; sourceTree = "<group>"; };
 		89F173051EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSettingTitleTableViewCell.m; sourceTree = "<group>"; };
 		89F173361EB20E4D006A2473 /* UIFont+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Tools.h"; sourceTree = "<group>"; };
@@ -1887,6 +1866,47 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		8955061E21C2990D006E35D9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				8955061F21C2990D006E35D9 /* DDPNewHomePage.h */,
+				8955062021C2990D006E35D9 /* DDPNewBangumiSeason.h */,
+				8955062121C2990D006E35D9 /* DDPNewBanner.m */,
+				8955062221C2990D006E35D9 /* DDPNewBangumiIntro.h */,
+				8955062321C2990D006E35D9 /* DDPNewBangumiIntroCollection.m */,
+				8955062421C2990D006E35D9 /* DDPNewPopularTorrentItem.h */,
+				8955062521C2990D006E35D9 /* Old */,
+				8955063221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m */,
+				8955063321C2990D006E35D9 /* DDPNewBangumiSeason.m */,
+				8955063421C2990D006E35D9 /* DDPNewHomePage.m */,
+				8955063521C2990D006E35D9 /* DDPNewBanner.h */,
+				8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */,
+				8955063721C2990D006E35D9 /* DDPNewBangumiIntroCollection.h */,
+				8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */,
+				8955063921C2990D006E35D9 /* DDPNewBangumiQueueIntro.h */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		8955062521C2990D006E35D9 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				8955062621C2990D006E35D9 /* DDPHomeBangumiCollection.h */,
+				8955062721C2990D006E35D9 /* DDPHomeBangumi.m */,
+				8955062821C2990D006E35D9 /* DDPHomeFeatured.h */,
+				8955062921C2990D006E35D9 /* DDPHomeBanner.h */,
+				8955062A21C2990D006E35D9 /* DDPHomePage.h */,
+				8955062B21C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.h */,
+				8955062C21C2990D006E35D9 /* DDPHomeBangumi.h */,
+				8955062D21C2990D006E35D9 /* DDPHomeBangumiCollection.m */,
+				8955062E21C2990D006E35D9 /* DDPHomeFeatured.m */,
+				8955062F21C2990D006E35D9 /* DDPHomeBanner.m */,
+				8955063021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m */,
+				8955063121C2990D006E35D9 /* DDPHomePage.m */,
+			);
+			path = Old;
+			sourceTree = "<group>";
+		};
 		898C181A2165028600AE7484 /* WMStickyPageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1896,25 +1916,6 @@
 				898C181E2165028600AE7484 /* WMMagicScrollView.h */,
 			);
 			path = WMStickyPageController;
-			sourceTree = "<group>";
-		};
-		898C18292165F9ED00AE7484 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				89F0DC401FCAABB000E32D54 /* DDPHomePage.h */,
-				89F0DC381FCAABB000E32D54 /* DDPHomePage.m */,
-				89F0DC3B1FCAABB000E32D54 /* DDPHomeBangumiCollection.h */,
-				89F0DC351FCAABB000E32D54 /* DDPHomeBangumiCollection.m */,
-				89F0DC3C1FCAABB000E32D54 /* DDPHomeBanner.h */,
-				89F0DC361FCAABB000E32D54 /* DDPHomeBanner.m */,
-				89F0DC3D1FCAABB000E32D54 /* DDPHomeFeatured.h */,
-				89F0DC371FCAABB000E32D54 /* DDPHomeFeatured.m */,
-				89F0DC3E1FCAABB000E32D54 /* DDPHomeBangumi.h */,
-				89F0DC3A1FCAABB000E32D54 /* DDPHomeBangumi.m */,
-				89F0DC3F1FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.h */,
-				89F0DC391FCAABB000E32D54 /* DDPHomeBangumiSubtitleGroup.m */,
-			);
-			path = Old;
 			sourceTree = "<group>";
 		};
 		898C185221676A6800AE7484 /* 请求 */ = {
@@ -2188,10 +2189,10 @@
 		89E3F6221E585B4E007AB1BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8955061E21C2990D006E35D9 /* Home */,
 				898C185221676A6800AE7484 /* 请求 */,
 				89B6EED3201C7D1A0022DE0D /* Protocol */,
 				89BE4B06201C4CF50009A5FF /* Category */,
-				89F0DC341FCAABB000E32D54 /* Home */,
 				89C2D3961FCAAB700021B3B8 /* 视频模型 */,
 				89F5C82E1EAF112200676361 /* DDPHTTPConnection.h */,
 				89F5C82F1EAF112200676361 /* DDPHTTPConnection.m */,
@@ -2291,28 +2292,6 @@
 				898C187D2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		89F0DC341FCAABB000E32D54 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				898C18292165F9ED00AE7484 /* Old */,
-				898C182A2165FA0900AE7484 /* DDPNewHomePage.h */,
-				898C182B2165FA0900AE7484 /* DDPNewHomePage.m */,
-				898C182D2165FA3200AE7484 /* DDPNewBanner.h */,
-				898C182E2165FA3200AE7484 /* DDPNewBanner.m */,
-				898C1830216603FF00AE7484 /* DDPNewBangumiQueueIntro.h */,
-				898C1831216603FF00AE7484 /* DDPNewBangumiQueueIntro.m */,
-				898C18332166051E00AE7484 /* DDPNewBangumiIntro.h */,
-				898C18342166051E00AE7484 /* DDPNewBangumiIntro.m */,
-				898C1836216606F600AE7484 /* DDPNewBangumiSeason.h */,
-				898C1837216606F600AE7484 /* DDPNewBangumiSeason.m */,
-				898C18392166073700AE7484 /* DDPNewPopularTorrentItem.h */,
-				898C183A2166073700AE7484 /* DDPNewPopularTorrentItem.m */,
-				898C186B2168692F00AE7484 /* DDPNewBangumiIntroCollection.h */,
-				898C186C2168692F00AE7484 /* DDPNewBangumiIntroCollection.m */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		89F5C8281EAF104100676361 /* Resource */ = {
@@ -2612,21 +2591,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8907512921A1171A00D149F3 /* DDPNewBangumiIntro.m in Sources */,
-				8907512B21A1171A00D149F3 /* DDPHomePage.m in Sources */,
-				8907512C21A1171A00D149F3 /* DDPHomeBangumiCollection.m in Sources */,
 				8907512D21A1171A00D149F3 /* DDPPlayerConfigPanelViewController.m in Sources */,
-				8907512E21A1171A00D149F3 /* DDPHomeBanner.m in Sources */,
-				8907512F21A1171A00D149F3 /* DDPHomeFeatured.m in Sources */,
 				8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */,
-				8907513121A1171A00D149F3 /* DDPHomeBangumi.m in Sources */,
-				8907513221A1171A00D149F3 /* DDPHomeBangumiSubtitleGroup.m in Sources */,
 				8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */,
 				8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */,
 				8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */,
 				8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */,
 				8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */,
-				8907513921A1171A00D149F3 /* DDPNewBangumiSeason.m in Sources */,
 				8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */,
 				8907513C21A1171A00D149F3 /* DDPBiliBiliSearchVideo.m in Sources */,
 				8907513D21A1171A00D149F3 /* DDPPlayerStepTableViewCell.m in Sources */,
@@ -2641,11 +2612,9 @@
 				8907514821A1171A00D149F3 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */,
 				8907514B21A1171A00D149F3 /* DDPSettingViewController.m in Sources */,
 				8907514D21A1171A00D149F3 /* DDPPlayerVideoControlViewController.m in Sources */,
-				8907514E21A1171A00D149F3 /* DDPLinkNetManagerOperation.m in Sources */,
 				8907514F21A1171A00D149F3 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */,
 				8907515021A1171A00D149F3 /* DDPPlayerSendDanmakuViewController.m in Sources */,
 				8907515121A1171A00D149F3 /* DDPParseNetManagerOperation.m in Sources */,
-				8907515321A1171A00D149F3 /* DDPDMHYSearchCollection.m in Sources */,
 				8907515421A1171A00D149F3 /* UICollectionView+DDPTools.m in Sources */,
 				8907515521A1171A00D149F3 /* UIBarButtonItem+Tools.m in Sources */,
 				8907515621A1171A00D149F3 /* DDPMatchViewController.m in Sources */,
@@ -2659,7 +2628,6 @@
 				8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */,
 				8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */,
 				8907516021A1171A00D149F3 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */,
-				8907516221A1171A00D149F3 /* DDPBangumiNetManagerOperation.m in Sources */,
 				8907516321A1171A00D149F3 /* DDPSearchEpisodeTableViewCell.m in Sources */,
 				8907516521A1171A00D149F3 /* DDPMatch.m in Sources */,
 				8907516721A1171A00D149F3 /* DDPPlayHistoryNetManagerOperation.m in Sources */,
@@ -2670,7 +2638,6 @@
 				8907516F21A1171A00D149F3 /* WMMagicScrollView.m in Sources */,
 				8907517021A1171A00D149F3 /* DDPOfficialSearchViewController.m in Sources */,
 				8907517221A1171A00D149F3 /* DDPPlayerInterfaceView.m in Sources */,
-				8907517321A1171A00D149F3 /* DDPLinkDownloadTask+Tools.m in Sources */,
 				8907517421A1171A00D149F3 /* DDPSliderShowAnimate.m in Sources */,
 				8907517521A1171A00D149F3 /* DDPLinkFileTableViewCell.m in Sources */,
 				8907517621A1171A00D149F3 /* DDPMatchTableViewCell.m in Sources */,
@@ -2681,7 +2648,6 @@
 				8907517C21A1171A00D149F3 /* DDPEdgeButton.m in Sources */,
 				8907517F21A1171A00D149F3 /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
 				8907518021A1171A00D149F3 /* DDPDanmakuFilterTableViewCell.m in Sources */,
-				8907518121A1171A00D149F3 /* DDPNewPopularTorrentItem.m in Sources */,
 				8907518321A1171A00D149F3 /* UIView+Toast.m in Sources */,
 				8907518421A1171A00D149F3 /* DDPBiliBiliSearchBangumi.m in Sources */,
 				8907518521A1171A00D149F3 /* DDPBangumiQueueIntro.m in Sources */,
@@ -2740,7 +2706,6 @@
 				890751C721A1171A00D149F3 /* DDPBaseTableView.m in Sources */,
 				890751C821A1171A00D149F3 /* DDPPlayerNoticeView.m in Sources */,
 				890751C921A1171A00D149F3 /* DDPDMHYSearchConfig.m in Sources */,
-				890751CA21A1171A00D149F3 /* DDPNewHomePage.m in Sources */,
 				890751CB21A1171A00D149F3 /* DDPBaseCollection.m in Sources */,
 				890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */,
 				890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */,
@@ -2794,20 +2759,16 @@
 				8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */,
 				8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */,
 				8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */,
-				8907520A21A1171A00D149F3 /* DDPRecommedNetManagerOperation.m in Sources */,
 				8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */,
 				8907520D21A1171A00D149F3 /* DDPBangumiQueueIntroCollection.m in Sources */,
 				8907520E21A1171A00D149F3 /* AppDelegate.mm in Sources */,
 				8907520F21A1171A00D149F3 /* DDPAttentionDetailTableViewCell.m in Sources */,
 				8907521021A1171A00D149F3 /* MJRefreshFooter+Tools.m in Sources */,
-				8907521121A1171A00D149F3 /* DDPDMHYSearch.m in Sources */,
 				8907521221A1171A00D149F3 /* DDPHTTPResponseSerializer.m in Sources */,
 				8907521321A1171A00D149F3 /* DDPSMBFileHashCache+DB.mm in Sources */,
 				8907521421A1171A00D149F3 /* main.m in Sources */,
 				8907521521A1171A00D149F3 /* DDPFileCollectionTableViewCell.m in Sources */,
-				8907521621A1171A00D149F3 /* DDPNewBanner.m in Sources */,
 				8907521721A1171A00D149F3 /* NSDate+Tools.m in Sources */,
-				8907521821A1171A00D149F3 /* DDPLinkDownloadTask.m in Sources */,
 				8907521921A1171A00D149F3 /* DDPMineHeadView.m in Sources */,
 				8907521A21A1171A00D149F3 /* DDPBatchResponse.m in Sources */,
 				8907521B21A1171A00D149F3 /* DDPSMBInfo.m in Sources */,
@@ -2815,10 +2776,8 @@
 				8907521D21A1171A00D149F3 /* DDPAttentionListTableViewCell.m in Sources */,
 				8907521E21A1171A00D149F3 /* DDPSearchViewController.m in Sources */,
 				8907521F21A1171A00D149F3 /* DDPAboutUsViewController.m in Sources */,
-				8907522021A1171A00D149F3 /* DDPNewBangumiQueueIntro.m in Sources */,
 				8907522121A1171A00D149F3 /* LAContext+Tools.m in Sources */,
 				8907522221A1171A00D149F3 /* UIViewController+FullScreenPopGesture.m in Sources */,
-				8907522421A1171A00D149F3 /* DDPLinkDownloadTaskCollection.m in Sources */,
 				8907522521A1171A00D149F3 /* DDPLinkVideoModel.m in Sources */,
 				8907522621A1171A00D149F3 /* UIApplication+Tools.m in Sources */,
 				8907522821A1171A00D149F3 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */,
@@ -2830,7 +2789,6 @@
 				8907522F21A1171A00D149F3 /* DDPPlayNavigationController.m in Sources */,
 				8907523221A1171A00D149F3 /* UITableViewCell+Tools.m in Sources */,
 				8907523321A1171A00D149F3 /* DDPPlayHistory.m in Sources */,
-				8907523421A1171A00D149F3 /* DDPNewBangumiIntroCollection.m in Sources */,
 				8907523521A1171A00D149F3 /* DDPRegisterRequest.m in Sources */,
 				8907523621A1171A00D149F3 /* DDPLoginNetManagerOperation.m in Sources */,
 				8907523721A1171A00D149F3 /* UIViewController+Tools.m in Sources */,
@@ -2847,24 +2805,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				898C18352166051E00AE7484 /* DDPNewBangumiIntro.m in Sources */,
-				89F0DC411FCAAE4500E32D54 /* DDPHomePage.m in Sources */,
-				89F0DC421FCAAE4500E32D54 /* DDPHomeBangumiCollection.m in Sources */,
 				8937D0B4215769EC00D0E17C /* DDPPlayerConfigPanelViewController.m in Sources */,
-				89F0DC431FCAAE4500E32D54 /* DDPHomeBanner.m in Sources */,
-				89F0DC441FCAAE4500E32D54 /* DDPHomeFeatured.m in Sources */,
 				89BE4B0C201C4FA40009A5FF /* DDPCacheManager+multiply.mm in Sources */,
-				89F0DC451FCAAE4500E32D54 /* DDPHomeBangumi.m in Sources */,
-				89F0DC461FCAAE4500E32D54 /* DDPHomeBangumiSubtitleGroup.m in Sources */,
 				8937D0B821576A6500D0E17C /* DDPPlayerDanmakuControlViewController.m in Sources */,
 				8931CDF31F73E1FB00F05C1F /* JHQRCodeReader.m in Sources */,
 				89F915F2203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm in Sources */,
 				894955EC21BEC01A00C9D923 /* DDPEmailListView.m in Sources */,
 				89E3F5FC1E585135007AB1BD /* DDPBaseNetManager.m in Sources */,
 				897858F01F6BD6AD00010690 /* DDPLinkFile.m in Sources */,
-				898C1838216606F600AE7484 /* DDPNewBangumiSeason.m in Sources */,
 				89E3F61C1E5855D2007AB1BD /* MBProgressHUD+Tools.m in Sources */,
 				894CBAAB1E6C073A0021253F /* DDPHTTPServerViewController.m in Sources */,
+				8955064321C2990D006E35D9 /* DDPNewBangumiSeason.m in Sources */,
 				8928E36021B81B68007BA84C /* DDPHomeMoreHeaderView.m in Sources */,
 				8928E37621B81F3E007BA84C /* DDPLinkFileManagerViewController.m in Sources */,
 				89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */,
@@ -2932,7 +2883,6 @@
 				89350B181EAB125700072DA5 /* DDPEdgeButton.m in Sources */,
 				8916C7CD1EA8DC2C00A2233D /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
 				898AD23C1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m in Sources */,
-				898C183B2166073700AE7484 /* DDPNewPopularTorrentItem.m in Sources */,
 				89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */,
 				896E81D8203C096900717213 /* UIView+Toast.m in Sources */,
 				89FF61051FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.m in Sources */,
@@ -2941,6 +2891,7 @@
 				89AE37B41F6262BD008D06CF /* DDPAttentionListViewController.m in Sources */,
 				890D9B701FC4677900E34275 /* DDPSMBFileHashCache.m in Sources */,
 				89F5C82D1EAF10A500676361 /* NSString+Tools.m in Sources */,
+				8955063A21C2990D006E35D9 /* DDPNewBanner.m in Sources */,
 				89A467941F162C31001840C7 /* DDPFileViewController.m in Sources */,
 				8928E35221B81B68007BA84C /* DDPHomePageFileLocationView.m in Sources */,
 				89FBDED31F457C7800663865 /* DDPFileManagerViewController.m in Sources */,
@@ -2957,6 +2908,7 @@
 				8937D0C52157714900D0E17C /* DDPPlayerControlAnimater.m in Sources */,
 				8928E35821B81B68007BA84C /* HomePageSearchFilterModel.m in Sources */,
 				893BCC022053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.m in Sources */,
+				8955063C21C2990D006E35D9 /* DDPHomeBangumi.m in Sources */,
 				898C187B2168EFCC00AE7484 /* DDPSearchAnimeDetails.m in Sources */,
 				89A42F011EA6023D00FA0DF3 /* DDPBiliBiliBangumiCollection.m in Sources */,
 				89A2A07F1F81F60900D53619 /* DDPVolumeView.m in Sources */,
@@ -2970,6 +2922,7 @@
 				89929FFE1FBC6A76009FDB06 /* DDPHttpReceive.m in Sources */,
 				89A42EBD1EA5EDE500FA0DF3 /* DDPRelatedCollection.m in Sources */,
 				89BDE9111F1BA41D00B49EA8 /* DDPFileManagerVideoTableViewCell.m in Sources */,
+				8955064221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m in Sources */,
 				8939FB4A1EB334520063BBA1 /* DDPFile.m in Sources */,
 				89A42F041EA6025000FA0DF3 /* DDPBiliBiliBangumi.m in Sources */,
 				89A42EF21EA5FC3200FA0DF3 /* DDPEpisode.m in Sources */,
@@ -2996,12 +2949,14 @@
 				891E69F51F480EAB00F69975 /* DDPFileManagerSearchView.m in Sources */,
 				8907526821A1188000D149F3 /* DDPConstant.m in Sources */,
 				891C22F71F0A51E700B4661F /* TOSMBSessionFile+Tools.m in Sources */,
+				8955064421C2990D006E35D9 /* DDPNewHomePage.m in Sources */,
 				89D38E551F516591009780A8 /* DDPActivityEdgeLabel.m in Sources */,
 				898E2D4F1FE6611500953DA8 /* DDPHTTPRequestSerializer.m in Sources */,
 				896F594F1EA710A8004F4313 /* DDPBaseTableView.m in Sources */,
+				8955063E21C2990D006E35D9 /* DDPHomeFeatured.m in Sources */,
+				8955063D21C2990D006E35D9 /* DDPHomeBangumiCollection.m in Sources */,
 				895F32301ECE9C8900368333 /* DDPPlayerNoticeView.m in Sources */,
 				89BF74D61F6144E300D40F07 /* DDPDMHYSearchConfig.m in Sources */,
-				898C182C2165FA0900AE7484 /* DDPNewHomePage.m in Sources */,
 				89A42E9A1EA5B0BA00FA0DF3 /* DDPBaseCollection.m in Sources */,
 				8928E35021B81B68007BA84C /* DDPHomePageBannerView.m in Sources */,
 				89B6EEDA201C8A2C0022DE0D /* TOSMBSessionDownloadTask+DB.mm in Sources */,
@@ -3055,6 +3010,7 @@
 				89E3F6161E5854A2007AB1BD /* UIImageView+Tools.m in Sources */,
 				895CA8B61FDD0BFB00EF52BB /* DDPBangumiEpisode.m in Sources */,
 				89E1E9F71EADA04700419C78 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */,
+				8955064521C2990D006E35D9 /* DDPNewPopularTorrentItem.m in Sources */,
 				89A42EC01EA5F09500FA0DF3 /* DDPVideoModel.m in Sources */,
 				89A467971F162DDA001840C7 /* DDPDefaultPageViewController.m in Sources */,
 				89AE37CC1F628C82008D06CF /* CALayer+Tools.m in Sources */,
@@ -3065,6 +3021,7 @@
 				896E81DC203C1D6400717213 /* DDPSMBLoginView.m in Sources */,
 				8981170F1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m in Sources */,
 				8939FB4D1EB36CF00063BBA1 /* DDPFileManagerFolderLongViewCell.m in Sources */,
+				8955064121C2990D006E35D9 /* DDPHomePage.m in Sources */,
 				89F173381EB20E4D006A2473 /* UIFont+Tools.m in Sources */,
 				89E3F6001E585135007AB1BD /* DDPRecommedNetManagerOperation.m in Sources */,
 				89F8CDB11EA7757F000D5F3F /* DDPDanmakuManager.m in Sources */,
@@ -3078,8 +3035,9 @@
 				898E2D521FE6612500953DA8 /* DDPHTTPResponseSerializer.m in Sources */,
 				89B6EECC201C6CF00022DE0D /* DDPSMBFileHashCache+DB.mm in Sources */,
 				89E3F5BE1E5829BD007AB1BD /* main.m in Sources */,
+				8955063F21C2990D006E35D9 /* DDPHomeBanner.m in Sources */,
 				89C3623E1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m in Sources */,
-				898C182F2165FA3200AE7484 /* DDPNewBanner.m in Sources */,
+				8955064021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m in Sources */,
 				89DA37521F5D127F003D7D59 /* NSDate+Tools.m in Sources */,
 				890DE4861F690CC7002B45EB /* DDPLinkDownloadTask.m in Sources */,
 				8928E35D21B81B68007BA84C /* HomePageItemTableViewCell.m in Sources */,
@@ -3087,10 +3045,10 @@
 				89409F951FE4F1A700704F33 /* DDPBatchResponse.m in Sources */,
 				89681B3F1F090EDA00103CFF /* DDPSMBInfo.m in Sources */,
 				89A42E9D1EA5B12700FA0DF3 /* DDPFilter.m in Sources */,
+				8955063B21C2990D006E35D9 /* DDPNewBangumiIntroCollection.m in Sources */,
 				89AE37BD1F626AE2008D06CF /* DDPAttentionListTableViewCell.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* DDPSearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* DDPAboutUsViewController.m in Sources */,
-				898C1832216603FF00AE7484 /* DDPNewBangumiQueueIntro.m in Sources */,
 				8975F1E61FC86DE700C945EC /* LAContext+Tools.m in Sources */,
 				8928E34821B81B68007BA84C /* DDPHomePageViewController.m in Sources */,
 				8937D0A72156BA7000D0E17C /* UIViewController+FullScreenPopGesture.m in Sources */,
@@ -3111,7 +3069,6 @@
 				8928E35C21B81B68007BA84C /* DDPFeaturedTableViewCell.m in Sources */,
 				8938E4FA1F7747F400F21E52 /* UITableViewCell+Tools.m in Sources */,
 				89AE37C01F6282B2008D06CF /* DDPPlayHistory.m in Sources */,
-				898C186D2168692F00AE7484 /* DDPNewBangumiIntroCollection.m in Sources */,
 				894955EA21BEC01A00C9D923 /* DDPRegisterViewController.m in Sources */,
 				8928E36221B81B68007BA84C /* DDPNewHomePageItemViewController.m in Sources */,
 				898C185C21676A6800AE7484 /* DDPRegisterRequest.m in Sources */,
@@ -3120,6 +3077,7 @@
 				8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
 				8928E34A21B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */,
 				8937D0AB2156BAA700D0E17C /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				8955064621C2990D006E35D9 /* DDPNewBangumiIntro.m in Sources */,
 				898C18202165028600AE7484 /* WMStickyPageController.m in Sources */,
 				890BEF051FA37BC300C7915D /* DDPFileTreeNode.m in Sources */,
 				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,

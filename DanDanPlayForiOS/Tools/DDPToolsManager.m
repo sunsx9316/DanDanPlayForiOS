@@ -522,7 +522,8 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     objc_setAssociatedObject(task, &smbCompletionBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(task, &smbProgressBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-#endif
+
+
 
 #pragma mark - PC端
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
@@ -601,6 +602,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     [self startDiscovererFileWithLinkParentFile:parentFile linkInfo:[DDPCacheManager shareCacheManager].linkInfo completion:completion];
 }
 
+#endif
 #pragma mark - 私有方法
 - (void)sortFiles:(NSMutableArray <DDPFile *>*)files {
     

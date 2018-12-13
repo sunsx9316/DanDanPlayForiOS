@@ -160,8 +160,9 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 
 @property (strong, nonatomic) TOSMBSession *SMBSession;
 
-#pragma mark - PC端
 
+#if !DDPAPPTYPE
+#pragma mark - PC端
 /**
  获取PC文件
 
@@ -174,4 +175,5 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
                                      linkInfo:(DDPLinkInfo *)linkInfo
                                    completion:(GetLinkFilesAction)completion;
+#endif
 @end
