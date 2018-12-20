@@ -26,12 +26,12 @@
         [_database createTableAndIndexesOfName:DDPVideoCache.className withClass:DDPVideoCache.class];
         [_database createTableAndIndexesOfName:DDPSMBFileHashCache.className withClass:DDPSMBFileHashCache.class];
         [_database createTableAndIndexesOfName:DDPCollectionCache.className withClass:DDPCollectionCache.class];
-        [_database createTableAndIndexesOfName:DDPSMBDownloadTaskCache.className withClass:DDPSMBDownloadTaskCache.class];
         [_database createTableAndIndexesOfName:DDPLinkInfo.className withClass:DDPLinkInfo.class];
         [_database createTableAndIndexesOfName:DDPSMBInfo.className withClass:DDPSMBInfo.class];
         [_database createTableAndIndexesOfName:DDPUser.className withClass:DDPUser.class];
         
 #if !DDPAPPTYPE
+        [_database createTableAndIndexesOfName:DDPSMBDownloadTaskCache.className withClass:DDPSMBDownloadTaskCache.class];
         [_database createTableAndIndexesOfName:DDPLinkDownloadTask.className withClass:DDPLinkDownloadTask.class];
 #endif
     });

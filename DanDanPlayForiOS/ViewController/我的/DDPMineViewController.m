@@ -107,11 +107,11 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
     DDPOtherSettingTitleSubtitleTableViewCell *cell = nil;
     
     if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
-        DDPSettingDownloadTableViewCell *aCell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingDownloadTableViewCell" forIndexPath:indexPath];
 #if !DDPAPPTYPE
+        DDPSettingDownloadTableViewCell *aCell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingDownloadTableViewCell" forIndexPath:indexPath];
         aCell.downLoadCount = [DDPDownloadManager shareDownloadManager].tasks.count;
-#endif
         cell = aCell;
+#endif
     }
     else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"DDPSettingTitleTableViewCell" forIndexPath:indexPath];
@@ -137,18 +137,18 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
+#if !DDPAPPTYPE
     else if ([dic[TITLE_KEY] isEqualToString:@"下载任务"]) {
         DDPDownloadViewController *vc = [[DDPDownloadViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([dic[TITLE_KEY] isEqualToString:@"遥控器"]) {
-#if !DDPAPPTYPE
         DDPControlVideoViewController *vc = [[DDPControlVideoViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-#endif
     }
+#endif
     else {
         DDPAboutUsViewController *vc = [[DDPAboutUsViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
@@ -226,7 +226,9 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         [_tableView registerClass:[DDPSettingTitleTableViewCell class] forCellReuseIdentifier:@"DDPSettingTitleTableViewCell"];
+#if !DDPAPPTYPE
         [_tableView registerClass:[DDPSettingDownloadTableViewCell class] forCellReuseIdentifier:@"DDPSettingDownloadTableViewCell"];
+#endif
         _tableView.tableFooterView = [[UIView alloc] init];
         [self.view addSubview:_tableView];
     }

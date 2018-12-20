@@ -15,7 +15,6 @@
 		8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0B201C4FA40009A5FF /* DDPCacheManager+multiply.mm */; };
 		8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0B721576A6500D0E17C /* DDPPlayerDanmakuControlViewController.m */; };
 		8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8931CDF21F73E1C000F05C1F /* JHQRCodeReader.m */; };
-		8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */; };
 		8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */; };
 		8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* DDPLinkFile.m */; };
 		8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61B1E5855D2007AB1BD /* MBProgressHUD+Tools.m */; };
@@ -157,7 +156,6 @@
 		890751EF21A1171A00D149F3 /* DDPTransparentNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AF2156BD9A00D0E17C /* DDPTransparentNavigationBar.m */; };
 		890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4FC1F77509F00F21E52 /* DDPSearchBar.m */; };
 		890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8031EB05A60009329AA /* DDPOtherSettingSwitchTableViewCell.m */; };
-		890751F321A1171A00D149F3 /* DDPDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DDPDownloadTableViewCell.m */; };
 		890751F421A1171A00D149F3 /* DDPFilterCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9F1EA5B14100FA0DF3 /* DDPFilterCollection.m */; };
 		890751F521A1171A00D149F3 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8211EB0B196009329AA /* DDPPlayerControlPlayModeTableViewCell.m */; };
 		890751F621A1171A00D149F3 /* DDPDanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m */; };
@@ -174,7 +172,6 @@
 		8907520421A1171A00D149F3 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F911FE4EC6500704F33 /* DDPMethod.m */; };
 		8907520521A1171A00D149F3 /* DDPRelatedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB61EA5EB4500FA0DF3 /* DDPRelatedNetManagerOperation.m */; };
 		8907520621A1171A00D149F3 /* DDPSMBLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81DB203C1D6400717213 /* DDPSMBLoginView.m */; };
-		8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
 		8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* DDPFileManagerFolderLongViewCell.m */; };
 		8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
 		8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DDPDanmakuManager.m */; };
@@ -221,10 +218,8 @@
 		8907524621A1171A00D149F3 /* qr_help2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257731FB8936200AC075A /* qr_help2@2x.png */; };
 		8907524721A1171A00D149F3 /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
 		8907524821A1171A00D149F3 /* qr_help1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257711FB88E6F00AC075A /* qr_help1@2x.png */; };
-		8907524921A1171A00D149F3 /* course in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFB01F2A3DB0007B83CA /* course */; };
 		8907524A21A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC012053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.xib */; };
 		8907524B21A1171A00D149F3 /* DDPSMBLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 896E81DD203C1D6D00717213 /* DDPSMBLoginView.xib */; };
-		8907524C21A1171A00D149F3 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFAE1F2A3DA3007B83CA /* web */; };
 		8907524D21A1171A00D149F3 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
 		8907524E21A1171A00D149F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
 		8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
@@ -2413,10 +2408,8 @@
 				8907524621A1171A00D149F3 /* qr_help2@2x.png in Resources */,
 				8907524721A1171A00D149F3 /* RefreshText.plist in Resources */,
 				8907524821A1171A00D149F3 /* qr_help1@2x.png in Resources */,
-				8907524921A1171A00D149F3 /* course in Resources */,
 				8907524A21A1171A00D149F3 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */,
 				8907524B21A1171A00D149F3 /* DDPSMBLoginView.xib in Resources */,
-				8907524C21A1171A00D149F3 /* web in Resources */,
 				8907524D21A1171A00D149F3 /* DDPMineHeadView.xib in Resources */,
 				8907524E21A1171A00D149F3 /* LaunchScreen.storyboard in Resources */,
 				8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */,
@@ -2595,7 +2588,6 @@
 				8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */,
 				8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */,
 				8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */,
-				8907513521A1171A00D149F3 /* DDPSMBDownloadTaskCache.mm in Sources */,
 				8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */,
 				8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */,
 				8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */,
@@ -2739,7 +2731,6 @@
 				890751EF21A1171A00D149F3 /* DDPTransparentNavigationBar.m in Sources */,
 				890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */,
 				890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */,
-				890751F321A1171A00D149F3 /* DDPDownloadTableViewCell.m in Sources */,
 				890751F421A1171A00D149F3 /* DDPFilterCollection.m in Sources */,
 				890751F521A1171A00D149F3 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */,
 				890751F621A1171A00D149F3 /* DDPDanmakuFilterViewController.m in Sources */,
@@ -2756,7 +2747,6 @@
 				8907520421A1171A00D149F3 /* DDPMethod.m in Sources */,
 				8907520521A1171A00D149F3 /* DDPRelatedNetManagerOperation.m in Sources */,
 				8907520621A1171A00D149F3 /* DDPSMBLoginView.m in Sources */,
-				8907520721A1171A00D149F3 /* DDPSettingDownloadTableViewCell.m in Sources */,
 				8907520821A1171A00D149F3 /* DDPFileManagerFolderLongViewCell.m in Sources */,
 				8907520921A1171A00D149F3 /* UIFont+Tools.m in Sources */,
 				8907520C21A1171A00D149F3 /* DDPDanmakuManager.m in Sources */,
