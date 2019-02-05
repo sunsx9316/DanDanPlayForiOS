@@ -6,7 +6,6 @@ Pod::Spec.new do |s|
   s.social_media_url = 'http://blog.ibireme.com'
   s.homepage     = 'https://github.com/ibireme/YYKit'
   s.platform     = :ios, '6.0'
-  s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.ios.deployment_target = '6.0'
   s.source       = { :git => 'http://team.aicoin.net.cn/lab/Huangjian/YYKit_modify.git', :tag => s.version.to_s }
   

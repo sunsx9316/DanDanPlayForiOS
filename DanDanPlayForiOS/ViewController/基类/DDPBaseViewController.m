@@ -7,7 +7,7 @@
 //
 
 #import "DDPBaseViewController.h"
-#import <RTRootNavigationController/RTRootNavigationController.h>
+//#import <RTRootNavigationController/RTRootNavigationController.h>
 #import "DDPBaseNavigationBar.h"
 #import "DDPLoginViewController.h"
 
@@ -16,6 +16,14 @@
 @end
 
 @implementation DDPBaseViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setNavigationBarWithColor:[UIColor ddp_mainColor]];
+    
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName : [UIFont ddp_normalSizeFont]};
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

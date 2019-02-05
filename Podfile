@@ -44,9 +44,9 @@ abstract_target 'DDPlay_Target' do
     pod 'UITextView+Placeholder'
     pod 'iCarousel'
     pod 'WCDB'
-    pod 'RTRootNavigationController', '0.6.7'
+    #pod 'RTRootNavigationController', '0.6.7'
     #防止崩溃
-    pod 'BayMaxProtector'
+    #pod 'BayMaxProtector'
     #内存泄露检测
     pod 'MLeaksFinder', :configurations => ['Debug'] 
 

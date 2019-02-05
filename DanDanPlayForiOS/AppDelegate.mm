@@ -19,7 +19,7 @@
 #import "DDPDownloadViewController.h"
 #import "DDPQRScannerViewController.h"
 #import "DDPDownloadManager.h"
-#import <BayMaxProtector.h>
+//#import <BayMaxProtector.h>
 #import <UMMobClick/MobClick.h>
 #import "DDPPlayNavigationController.h"
 
@@ -224,12 +224,12 @@
 }
 
 - (void)configCrash {
-#ifndef DEBUG
-    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
-        NSDictionary *errorInfos = error.errorInfos;
-        [Bugly reportExceptionWithCategory:3 name:errorInfos[BMPErrorUnrecognizedSel_Func] reason:errorInfos[BMPErrorUnrecognizedSel_Reason] callStack:errorInfos[BMPErrorCallStackSymbols] extraInfo:errorInfos terminateApp:false];
-    }];
-#endif
+//#ifndef DEBUG
+//    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
+//        NSDictionary *errorInfos = error.errorInfos;
+//        [Bugly reportExceptionWithCategory:3 name:errorInfos[BMPErrorUnrecognizedSel_Func] reason:errorInfos[BMPErrorUnrecognizedSel_Reason] callStack:errorInfos[BMPErrorCallStackSymbols] extraInfo:errorInfos terminateApp:false];
+//    }];
+//#endif
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {

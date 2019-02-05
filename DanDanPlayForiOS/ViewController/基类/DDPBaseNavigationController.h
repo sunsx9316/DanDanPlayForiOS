@@ -6,8 +6,8 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <RTRootNavigationController/RTRootNavigationController.h>
+#import <UIKit/UIKit.h>
 
-@interface DDPBaseNavigationController : RTRootNavigationController
+@interface DDPBaseNavigationController : UINavigationController
 
 @end

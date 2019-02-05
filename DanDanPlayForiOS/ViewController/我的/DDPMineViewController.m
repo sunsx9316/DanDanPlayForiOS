@@ -48,6 +48,7 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(self.headView.height);
@@ -65,6 +66,12 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
     [[DDPCacheManager shareCacheManager] addObserver:self];
     
     [self reloadUserInfo];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setNavigationBarWithColor: UIColor.clearColor];
 }
 
 - (void)dealloc {

@@ -64,6 +64,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIViewController attemptRotationToDeviceOrientation];
+    [self.navigationController setNavigationBarHidden:true animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -114,8 +115,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.ddp_navigationBarHidden = true;
-    self.ddp_fullScreenPopGestureEnabled = false;
+//    self.ddp_navigationBarHidden = true;
+//    self.ddp_fullScreenPopGestureEnabled = false;
     self.view.backgroundColor = [UIColor blackColor];
     
     _lock = [[NSLock alloc] init];
@@ -361,7 +362,7 @@
     }] == false) {
         return;
     }
-#endif
+
     
     DDPPlayerSendDanmakuViewController *vc = [[DDPPlayerSendDanmakuViewController alloc] init];
     @weakify(self)
@@ -414,6 +415,7 @@
         }
     };
     [self.navigationController pushViewController:vc animated:YES];
+    #endif
 }
 
 - (void)interfaceView:(DDPPlayerInterfaceView *)view touchSliderWithTime:(int)time {
@@ -431,7 +433,9 @@
         if (!self) return;
         
         if ([aFile isKindOfClass:[DDPSMBFile class]]) {
+#if !DDPAPPTYPE
             [self downloadSubtitleFile:aFile];
+#endif
         }
         else {
             [self.player openVideoSubTitlesFromFile:aFile.fileURL];
@@ -504,6 +508,7 @@
 }
 
 - (void)playerConfigPanelViewControllerDidTouchSelectedDanmakuCell {
+#if !DDPAPPTYPE
     @weakify(self)
     [self pickFileWithType:PickerFileTypeDanmaku selectedFileCallBack:^(__kindof DDPFile *aFile) {
         @strongify(self)
@@ -516,13 +521,16 @@
             [self openDanmakuWithURL:aFile.fileURL];
         }
     }];
+#endif
 }
 
 - (void)playerConfigPanelViewControllerDidTouchMatchCell {
+#if !DDPAPPTYPE
     DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
     vc.model = self.model;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+#endif
 }
 
 - (void)playerConfigPanelViewControllerDidTouchFilterCell {
@@ -559,9 +567,9 @@
     
     self.interfaceView.model = _model;
     
+#if !DDPAPPTYPE
     DDPSMBFile *file = _model.file;
     DDPSMBFile *parentFile = file.parentFile;
-    
     //自动下载远程视频字幕
     if ([DDPCacheManager shareCacheManager].openAutoDownloadSubtitle && [_model isKindOfClass:[DDPSMBVideoModel class]]) {
         NSString *videoPath = file.sessionFile.filePath;
@@ -590,7 +598,7 @@
             [self openDanmakuWithURL:subtitles.firstObject];
         }
     }
-    
+#endif
     //添加播放记录
     [DDPFavoriteNetManagerOperation addHistoryWithEpisodeIds:@[@(_model.identity)] addToFavorite:YES completionHandler:^(NSError *error) {
         if (error == nil) {
@@ -599,6 +607,7 @@
     }];
 }
 
+#if !DDPAPPTYPE
 /**
  下载字幕文件
  
@@ -640,7 +649,7 @@
         }];
     }
 }
-
+#endif
 
 /**
  尝试打开本地弹幕文件
@@ -672,6 +681,7 @@
  @param model 视频模型
  */
 - (void)matchVideoWithModel:(DDPVideoModel *)model {
+#if !DDPAPPTYPE
     void(^jumpToMatchVCAction)(void) = ^{
         DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
         vc.model = model;
@@ -700,6 +710,7 @@
     else {
         jumpToMatchVCAction();
     }
+#endif
 }
 
 - (void)configLeftItem {

@@ -28,6 +28,7 @@
 #import "DDPPlayerSelectedIndexView.h"
 #import "DDPPlayerSubTitleIndexViewMediator.h"
 #import "DDPPlayerAudioChannelViewMediator.h"
+#import "UIApplication+Tools.h"
 
 #define AUTO_DISS_MISS_TIME 3.5f
 
@@ -338,7 +339,9 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             _matchNoticeView.title = danmakuCountStr;
         }
         
+#if !DDPAPPTYPE
         [_matchNoticeView show];
+#endif
         
     }
     
@@ -638,7 +641,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         sender.alpha = 1;
         
         if (error) {
-            [self showWithText:@"截图失败!"];
+            [self showWithText:[NSString stringWithFormat:@"截图失败! 请在设置-%@-照片中检查权限是否开启", [UIApplication sharedApplication].appDisplayName] hideAfterDelay:2];
         }
         else {
             [self showWithText:@"截图成功!"];

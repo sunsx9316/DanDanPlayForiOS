@@ -22,7 +22,6 @@
 
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import <objc/runtime.h>
-#import <RTRootNavigationController/RTRootNavigationController.h>
 
 @interface _FDFullscreenPopGestureRecognizerDelegate : NSObject <UIGestureRecognizerDelegate>
 
@@ -35,23 +34,12 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
 {
     // Ignore when no view controller is pushed into the navigation stack.
-    
-    NSArray <UIViewController *>*viewControllers = nil;
-    
-    if ([self.navigationController isKindOfClass:[RTRootNavigationController class]]) {
-        RTRootNavigationController *nav = (RTRootNavigationController *)self.navigationController;
-        viewControllers = nav.rt_viewControllers;
-    }
-    else {
-        viewControllers = self.navigationController.viewControllers;
-    }
-    
-    if (viewControllers.count <= 1) {
+    if (self.navigationController.viewControllers.count <= 1) {
         return NO;
     }
     
     // Ignore when the active view controller doesn't allow interactive pop.
-    UIViewController *topViewController = viewControllers.lastObject;
+    UIViewController *topViewController = self.navigationController.viewControllers.lastObject;
     if (topViewController.fd_interactivePopDisabled) {
         return NO;
     }
@@ -62,7 +50,7 @@
     if (maxAllowedInitialDistance > 0 && beginningLocation.x > maxAllowedInitialDistance) {
         return NO;
     }
-
+    
     // Ignore pan gesture when the navigation controller is currently in transition.
     if ([[self.navigationController valueForKey:@"_isTransitioning"] boolValue]) {
         return NO;
@@ -98,11 +86,10 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
         Method viewWillAppear_originalMethod = class_getInstanceMethod(self, @selector(viewWillAppear:));
         Method viewWillAppear_swizzledMethod = class_getInstanceMethod(self, @selector(fd_viewWillAppear:));
         method_exchangeImplementations(viewWillAppear_originalMethod, viewWillAppear_swizzledMethod);
-    
-        //每个控制器都有独立的导航栏 所以不需要swizzled viewWillDisappear:
-//        Method viewWillDisappear_originalMethod = class_getInstanceMethod(self, @selector(viewWillDisappear:));
-//        Method viewWillDisappear_swizzledMethod = class_getInstanceMethod(self, @selector(fd_viewWillDisappear:));
-//        method_exchangeImplementations(viewWillDisappear_originalMethod, viewWillDisappear_swizzledMethod);
+        
+        Method viewWillDisappear_originalMethod = class_getInstanceMethod(self, @selector(viewWillDisappear:));
+        Method viewWillDisappear_swizzledMethod = class_getInstanceMethod(self, @selector(fd_viewWillDisappear:));
+        method_exchangeImplementations(viewWillDisappear_originalMethod, viewWillDisappear_swizzledMethod);
     });
 }
 
@@ -116,26 +103,18 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
     }
 }
 
-//- (void)fd_viewWillDisappear:(BOOL)animated
-//{
-//    // Forward to primary implementation.
-//    [self fd_viewWillDisappear:animated];
-//
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        UIViewController *viewController = self.rt_navigationController.rt_viewControllers.lastObject;
-//
-//        if (viewController && !viewController.fd_prefersNavigationBarHidden) {
-//            if ([viewController isKindOfClass:[RTContainerController class]]) {
-//                RTContainerController *rvc = (RTContainerController *)viewController;
-//                UIViewController *contentVC = rvc.contentViewController;
-//                [contentVC.navigationController setNavigationBarHidden:NO animated:NO];
-//            }
-//            else {
-//                [self.navigationController setNavigationBarHidden:NO animated:NO];
-//            }
-//        }
-//    });
-//}
+- (void)fd_viewWillDisappear:(BOOL)animated
+{
+    // Forward to primary implementation.
+    [self fd_viewWillDisappear:animated];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        UIViewController *viewController = self.navigationController.viewControllers.lastObject;
+        if (viewController && !viewController.fd_prefersNavigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:NO animated:NO];
+        }
+    });
+}
 
 - (_FDViewControllerWillAppearInjectBlock)fd_willAppearInjectBlock
 {
@@ -146,6 +125,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
 {
     objc_setAssociatedObject(self, @selector(fd_willAppearInjectBlock), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
+
 
 @end
 
@@ -170,6 +150,8 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
         } else {
             method_exchangeImplementations(originalMethod, swizzledMethod);
         }
+        
+        [self swizzleInstanceMethod:@selector(fd_setViewControllers:animated:) with:@selector(setViewControllers:animated:)];
     });
 }
 
@@ -200,6 +182,26 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
     }
 }
 
+- (void)fd_setViewControllers:(NSArray<UIViewController *> *)viewControllers animated:(BOOL)animated {
+    if (![self.interactivePopGestureRecognizer.view.gestureRecognizers containsObject:self.fd_fullscreenPopGestureRecognizer]) {
+        
+        // Add our own gesture recognizer to where the onboard screen edge pan gesture recognizer is attached to.
+        [self.interactivePopGestureRecognizer.view addGestureRecognizer:self.fd_fullscreenPopGestureRecognizer];
+        
+        // Forward the gesture events to the private handler of the onboard gesture recognizer.
+        NSArray *internalTargets = [self.interactivePopGestureRecognizer valueForKey:@"targets"];
+        id internalTarget = [internalTargets.firstObject valueForKey:@"target"];
+        SEL internalAction = NSSelectorFromString(@"handleNavigationTransition:");
+        self.fd_fullscreenPopGestureRecognizer.delegate = self.fd_popGestureRecognizerDelegate;
+        [self.fd_fullscreenPopGestureRecognizer addTarget:internalTarget action:internalAction];
+        
+        // Disable the onboard gesture recognizer.
+        self.interactivePopGestureRecognizer.enabled = NO;
+    }
+    
+    [self fd_setViewControllers:viewControllers animated:animated];
+}
+
 - (void)fd_setupViewControllerBasedNavigationBarAppearanceIfNeeded:(UIViewController *)appearingViewController
 {
     if (!self.fd_viewControllerBasedNavigationBarAppearanceEnabled) {
@@ -210,15 +212,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
     _FDViewControllerWillAppearInjectBlock block = ^(UIViewController *viewController, BOOL animated) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
-            if ([viewController isKindOfClass:[RTContainerController class]]) {
-                RTContainerController *rvc = (RTContainerController *)viewController;
-                UIViewController *contentVC = rvc.contentViewController;
-                UINavigationController *nav = contentVC.navigationController;
-                [nav setNavigationBarHidden:contentVC.fd_prefersNavigationBarHidden animated:false];
-            }
-            else {
-                [strongSelf setNavigationBarHidden:viewController.fd_prefersNavigationBarHidden animated:false];
-            }
+            [strongSelf setNavigationBarHidden:viewController.fd_prefersNavigationBarHidden animated:animated];
         }
     };
     

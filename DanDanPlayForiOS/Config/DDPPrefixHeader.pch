@@ -33,7 +33,7 @@
 #import "UIView+Tools.h"
 #import "NSString+Tools.h"
 #import "DDPBaseTableViewCell.h"
-#import "UIViewController+FullScreenPopGesture.h"
+//#import "UIViewController+FullScreenPopGesture.h"
 #import "UITableView+DDPTools.h"
 #import "UIView+Tools.h"
 #import "UICollectionView+DDPTools.h"

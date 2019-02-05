@@ -435,7 +435,7 @@ DDPFileManagerSearchViewDelegate>
 - (void)matchFile:(DDPFile *)file {
     if (file.type == DDPFileTypeDocument) {
         DDPVideoModel *model = file.videoModel;
-        
+#if !DDPAPPTYPE
         void(^jumpToMatchVCAction)(void) = ^{
             DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
             vc.model = model;
@@ -464,7 +464,10 @@ DDPFileManagerSearchViewDelegate>
         else {
             jumpToMatchVCAction();
         }
-        
+#else
+        DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
+        [self presentViewController:nav animated:YES completion:nil];
+#endif
     }
     else if (file.type == DDPFileTypeFolder) {
         DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];

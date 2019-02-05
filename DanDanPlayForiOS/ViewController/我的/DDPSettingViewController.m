@@ -207,6 +207,7 @@
             return item;
         }()];
         
+#if !DDPAPPTYPE
         [danmakuSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
             item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
@@ -232,6 +233,7 @@
             };
             return item;
         }()];
+#endif
         
         [danmakuSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
@@ -300,6 +302,7 @@
             return item;
         }()];
         
+#if !DDPAPPTYPE
         [otherSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
             item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
@@ -312,6 +315,7 @@
             };
             return item;
         }()];
+#endif
         
         LAContext *laContext = [[LAContext alloc] init];
         //验证touchID是否可用
