@@ -78,6 +78,7 @@
 
 - (void)ddp_showViewWithHolderView:(UIView *)holderView
                         completion:(void(^)(BOOL finished))completion{
+
     if (self.superview == nil) {
         [[UIApplication sharedApplication].keyWindow addSubview:self];
     }

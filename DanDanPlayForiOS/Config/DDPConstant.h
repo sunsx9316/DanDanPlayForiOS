@@ -77,6 +77,15 @@ typedef NS_ENUM(NSUInteger, DDPAppType) {
 
 FOUNDATION_EXPORT DDPAppType ddp_appType;
 
+FOUNDATION_EXPORT NSString *ddp_buglyKey;
+FOUNDATION_EXPORT NSString *ddp_UMShareKey;
+FOUNDATION_EXPORT NSString *ddp_QQAppKey;
+FOUNDATION_EXPORT NSString *ddp_weiboAppKey;
+FOUNDATION_EXPORT NSString *ddp_weiboSecretKey;
+FOUNDATION_EXPORT NSString *ddp_weiboRedirectURL;
+FOUNDATION_EXPORT NSString *ddp_apiV2AppId;
+FOUNDATION_EXPORT NSString *ddp_apiV2AppSecret;
+
 @interface DDPConstant : NSObject
 
 @end

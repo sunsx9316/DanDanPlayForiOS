@@ -236,7 +236,7 @@
 #pragma mark - 私有方法
 + (NSDictionary *)addAuthWithParameters:(NSDictionary *)parameters {
     NSMutableDictionary *dic = [parameters mutableCopy];
-    dic[@"appId"] = API_V2_APP_ID;
+    dic[@"appId"] = ddp_apiV2AppId;
     dic[@"unixTimestamp"] = @((NSInteger)[[NSDate date] timeIntervalSince1970]);
     
     NSArray <NSString *>*allKeys = [dic allKeysSorted];
@@ -244,7 +244,7 @@
     [allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [str appendFormat:@"%@", dic[obj]];
     }];
-    [str appendString:API_V2_APP_SECRET];
+    [str appendString:ddp_apiV2AppSecret];
     
     dic[@"hash"] = [str md5String];
     return dic;

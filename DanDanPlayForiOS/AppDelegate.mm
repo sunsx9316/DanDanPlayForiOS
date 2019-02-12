@@ -193,20 +193,22 @@
 }
 
 - (void)configBugly {
-    [Bugly startWithAppId:BUGLY_KEY];
+    [Bugly startWithAppId:ddp_buglyKey];
 }
 
 - (void)configUM {
-    [[UMSocialManager defaultManager] openLog:YES];
-    [[UMSocialManager defaultManager] setUmSocialAppkey:UM_SHARE_KEY];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APP_KEY appSecret:nil redirectURL:nil];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:WEIBO_APP_KEY appSecret:WEIBO_APP_SECRET redirectURL:WEIBO_REDIRECT_URL];
-    
-    //友盟统计
-    UMConfigInstance.appKey = UM_SHARE_KEY;
-    UMConfigInstance.channelId = @"App Store";
-    [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
-    [MobClick startWithConfigure:UMConfigInstance];
+    if (ddp_UMShareKey.length != 0) {
+        [[UMSocialManager defaultManager] openLog:YES];
+        [[UMSocialManager defaultManager] setUmSocialAppkey:ddp_UMShareKey];
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:ddp_QQAppKey appSecret:nil redirectURL:nil];
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:ddp_weiboAppKey appSecret:ddp_weiboSecretKey redirectURL:ddp_weiboRedirectURL];
+        
+        //友盟统计
+        UMConfigInstance.appKey = ddp_UMShareKey;
+        UMConfigInstance.channelId = @"App Store";
+        [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
+        [MobClick startWithConfigure:UMConfigInstance];        
+    }
 }
 
 - (void)configDDLog {

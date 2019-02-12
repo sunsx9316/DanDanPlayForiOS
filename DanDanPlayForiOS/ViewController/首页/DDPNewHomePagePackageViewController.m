@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"首页";
+    self.navigationItem.title = @"首页";
     [self addChildViewController:self.homePageViewController];
     [self.view addSubview:self.homePageViewController.view];
 }
