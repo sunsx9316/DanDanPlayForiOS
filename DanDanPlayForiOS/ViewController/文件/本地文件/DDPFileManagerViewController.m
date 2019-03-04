@@ -465,8 +465,10 @@ DDPFileManagerSearchViewDelegate>
             jumpToMatchVCAction();
         }
 #else
-        DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-        [self presentViewController:nav animated:YES completion:nil];
+        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
+        vc.model = model;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
 #endif
     }
     else if (file.type == DDPFileTypeFolder) {

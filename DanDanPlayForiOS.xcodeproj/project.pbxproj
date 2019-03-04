@@ -347,6 +347,11 @@
 		8955064421C2990D006E35D9 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063421C2990D006E35D9 /* DDPNewHomePage.m */; };
 		8955064521C2990D006E35D9 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */; };
 		8955064621C2990D006E35D9 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */; };
+		89564175222D7D1E007D173B /* DDPMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* DDPMatchViewController.m */; };
+		89564176222D7D82007D173B /* DDPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C41EA8AAB500A2233D /* DDPSearchViewController.m */; };
+		89564177222D7D91007D173B /* DDPCommentNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA71EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m */; };
+		89564178222D7D9E007D173B /* DDPMatchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F31E585135007AB1BD /* DDPMatchNetManagerOperation.m */; };
+		89564179222D7DAD007D173B /* DDPOfficialSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C81EA8BB8D00A2233D /* DDPOfficialSearchViewController.m */; };
 		895CA8AD1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
 		895CA8B01FDD069B00EF52BB /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
 		895CA8B31FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
@@ -2574,6 +2579,7 @@
 				8907513021A1171A00D149F3 /* DDPCacheManager+multiply.mm in Sources */,
 				8907513321A1171A00D149F3 /* DDPPlayerDanmakuControlViewController.m in Sources */,
 				8907513421A1171A00D149F3 /* JHQRCodeReader.m in Sources */,
+				89564177222D7D91007D173B /* DDPCommentNetManagerOperation.m in Sources */,
 				8907513721A1171A00D149F3 /* DDPBaseNetManager.m in Sources */,
 				8907513821A1171A00D149F3 /* DDPLinkFile.m in Sources */,
 				8907513A21A1171A00D149F3 /* MBProgressHUD+Tools.m in Sources */,
@@ -2609,6 +2615,7 @@
 				8907516B21A1171A00D149F3 /* DDPBlurView.m in Sources */,
 				8907516C21A1171A00D149F3 /* DDPCacheManager+DB.mm in Sources */,
 				8907516E21A1171A00D149F3 /* DDPFileManagerPlayerListView.m in Sources */,
+				89564175222D7D1E007D173B /* DDPMatchViewController.m in Sources */,
 				8907516F21A1171A00D149F3 /* WMMagicScrollView.m in Sources */,
 				8907517221A1171A00D149F3 /* DDPPlayerInterfaceView.m in Sources */,
 				8907517421A1171A00D149F3 /* DDPSliderShowAnimate.m in Sources */,
@@ -2662,6 +2669,7 @@
 				890751B321A1171A00D149F3 /* DDPFilterNetManagerOperation.m in Sources */,
 				890751B421A1171A00D149F3 /* DDPLocalFileManagerPickerViewController.m in Sources */,
 				890751B521A1171A00D149F3 /* DDPPlayerSliderTableViewCell.m in Sources */,
+				89564178222D7D9E007D173B /* DDPMatchNetManagerOperation.m in Sources */,
 				890751B621A1171A00D149F3 /* DDPMatchCollection.m in Sources */,
 				890751B721A1171A00D149F3 /* DDPSMBInfo+WCDB.mm in Sources */,
 				890751B921A1171A00D149F3 /* DDPRelated.m in Sources */,
@@ -2691,6 +2699,7 @@
 				890751D621A1171A00D149F3 /* DDPExpandView.m in Sources */,
 				890751D821A1171A00D149F3 /* DDPPlayerViewController.m in Sources */,
 				890751D921A1171A00D149F3 /* DDPFileSectionTableViewCell.m in Sources */,
+				89564176222D7D82007D173B /* DDPSearchViewController.m in Sources */,
 				890751DB21A1171A00D149F3 /* DDPFavorite.m in Sources */,
 				890751DC21A1171A00D149F3 /* DDPLinkInfo.m in Sources */,
 				890751DD21A1171A00D149F3 /* DDPFavoriteNetManagerOperation.m in Sources */,
@@ -2712,6 +2721,7 @@
 				890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */,
 				890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */,
 				890751F421A1171A00D149F3 /* DDPFilterCollection.m in Sources */,
+				89564179222D7DAD007D173B /* DDPOfficialSearchViewController.m in Sources */,
 				890751F521A1171A00D149F3 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */,
 				890751F621A1171A00D149F3 /* DDPDanmakuFilterViewController.m in Sources */,
 				890751F721A1171A00D149F3 /* DDPSMBFileOprationView.m in Sources */,
