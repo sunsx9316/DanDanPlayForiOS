@@ -206,7 +206,8 @@
 }
 
 - (void)configRightItem {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"file_match_play"] configAction:^(UIButton *aButton) {
+
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"直接播放" configAction:^(UIButton *aButton) {
         [aButton addTarget:self action:@selector(touchRightItem:) forControlEvents:UIControlEventTouchUpInside];
     }];
     
