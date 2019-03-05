@@ -251,6 +251,7 @@
                 else {
                     [self classifyWithColletion:responseObject];
                     [self.treeView reloadData];
+                    [self.treeView expandRowForItem:self->_resortKeys.firstObject expandChildren:true withRowAnimation:RATreeViewRowAnimationNone];
                 }
                 
                 [self.treeView endRefreshing];
