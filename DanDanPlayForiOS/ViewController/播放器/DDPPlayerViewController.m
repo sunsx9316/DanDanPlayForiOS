@@ -352,7 +352,6 @@
 #pragma mark - DDPPlayerInterfaceViewDelegate
 - (void)interfaceViewDidTouchSendDanmakuButton {
     
-#if !DDPAPPTYPE
     if ([self showLoginAlertWithAction:^{
         
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
@@ -415,7 +414,6 @@
         }
     };
     [self.navigationController pushViewController:vc animated:YES];
-    #endif
 }
 
 - (void)interfaceView:(DDPPlayerInterfaceView *)view touchSliderWithTime:(int)time {
