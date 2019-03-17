@@ -373,6 +373,12 @@
 		897858F01F6BD6AD00010690 /* DDPLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* DDPLinkFile.m */; };
 		897858F31F6C136300010690 /* DDPLinkVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858F21F6C136300010690 /* DDPLinkVideoModel.m */; };
 		897F02BC1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m */; };
+		897FCF57223E65D8006ACA24 /* DDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E721BEC01A00C9D923 /* DDPLoginViewController.m */; };
+		897FCF58223E65E0006ACA24 /* DDPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DF21BEC01A00C9D923 /* DDPRegisterViewController.m */; };
+		897FCF59223E65F7006ACA24 /* DDPForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DC21BEC01A00C9D923 /* DDPForgetPasswordViewController.m */; };
+		897FCF5A223E6602006ACA24 /* DDPLinkOriginalAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DE21BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m */; };
+		897FCF5B223E6676006ACA24 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E221BEC01A00C9D923 /* DDPTextField.m */; };
+		897FCF5C223E6680006ACA24 /* DDPEmailListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E421BEC01A00C9D923 /* DDPEmailListView.m */; };
 		8981170C1F3343C700B34352 /* DDPDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DDPDownloadTableViewCell.m */; };
 		8981170F1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
 		8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
@@ -1830,13 +1836,13 @@
 			children = (
 				894955E021BEC01A00C9D923 /* View */,
 				894955DB21BEC01A00C9D923 /* DDPRegisterViewController.h */,
-				894955DC21BEC01A00C9D923 /* DDPForgetPasswordViewController.m */,
-				894955DD21BEC01A00C9D923 /* DDPLoginViewController.h */,
-				894955DE21BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m */,
 				894955DF21BEC01A00C9D923 /* DDPRegisterViewController.m */,
 				894955E521BEC01A00C9D923 /* DDPForgetPasswordViewController.h */,
-				894955E621BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.h */,
+				894955DC21BEC01A00C9D923 /* DDPForgetPasswordViewController.m */,
+				894955DD21BEC01A00C9D923 /* DDPLoginViewController.h */,
 				894955E721BEC01A00C9D923 /* DDPLoginViewController.m */,
+				894955E621BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.h */,
+				894955DE21BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m */,
 			);
 			path = "登录";
 			sourceTree = "<group>";
@@ -1844,9 +1850,9 @@
 		894955E021BEC01A00C9D923 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				894955E121BEC01A00C9D923 /* DDPEmailListView.h */,
-				894955E221BEC01A00C9D923 /* DDPTextField.m */,
 				894955E321BEC01A00C9D923 /* DDPTextField.h */,
+				894955E221BEC01A00C9D923 /* DDPTextField.m */,
+				894955E121BEC01A00C9D923 /* DDPEmailListView.h */,
 				894955E421BEC01A00C9D923 /* DDPEmailListView.m */,
 			);
 			path = View;
@@ -2609,6 +2615,7 @@
 				8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */,
 				8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */,
 				8907516021A1171A00D149F3 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */,
+				897FCF57223E65D8006ACA24 /* DDPLoginViewController.m in Sources */,
 				8907516321A1171A00D149F3 /* DDPSearchEpisodeTableViewCell.m in Sources */,
 				8907516521A1171A00D149F3 /* DDPMatch.m in Sources */,
 				8907516A21A1171A00D149F3 /* UIColor+Tools.m in Sources */,
@@ -2638,6 +2645,7 @@
 				8907518B21A1171A00D149F3 /* DDPFileManagerViewController.m in Sources */,
 				8907518C21A1171A00D149F3 /* DDPResponse.m in Sources */,
 				8907518E21A1171A00D149F3 /* MJRefreshHeader+Tools.m in Sources */,
+				897FCF5A223E6602006ACA24 /* DDPLinkOriginalAccountViewController.m in Sources */,
 				8907519021A1171A00D149F3 /* DDPFileLargeTitleTableViewCell.m in Sources */,
 				8907519121A1171A00D149F3 /* DDPMediaPlayer.m in Sources */,
 				8907519221A1171A00D149F3 /* DDPMatchTitleTableViewCell.m in Sources */,
@@ -2691,6 +2699,7 @@
 				890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */,
 				890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */,
 				890751CF21A1171A00D149F3 /* DDPBase.m in Sources */,
+				897FCF59223E65F7006ACA24 /* DDPForgetPasswordViewController.m in Sources */,
 				890751D021A1171A00D149F3 /* DDPRefreshNormalHeader.m in Sources */,
 				890751D221A1171A00D149F3 /* DDPPlayerSendDanmakuConfigView.m in Sources */,
 				890751D321A1171A00D149F3 /* DDPBaseTableViewCell.m in Sources */,
@@ -2706,6 +2715,7 @@
 				890751DE21A1171A00D149F3 /* DDPMainViewController.m in Sources */,
 				890751DF21A1171A00D149F3 /* DDPDanmakuFilterDetailViewController.m in Sources */,
 				890751E021A1171A00D149F3 /* DDPBaseNavigationController.m in Sources */,
+				897FCF58223E65E0006ACA24 /* DDPRegisterViewController.m in Sources */,
 				890751E121A1171A00D149F3 /* DDPMineViewController.m in Sources */,
 				890751E221A1171A00D149F3 /* DDPPlayerDanmakuControlModel.m in Sources */,
 				890751E321A1171A00D149F3 /* DDPLibraryCollection.m in Sources */,
@@ -2717,6 +2727,7 @@
 				890751EC21A1171A00D149F3 /* DDPBiliBiliSearchResult.m in Sources */,
 				890751ED21A1171A00D149F3 /* DDPPlayerInterfaceHolderView.m in Sources */,
 				890751EE21A1171A00D149F3 /* DDPBaseViewController.m in Sources */,
+				897FCF5C223E6680006ACA24 /* DDPEmailListView.m in Sources */,
 				890751EF21A1171A00D149F3 /* DDPTransparentNavigationBar.m in Sources */,
 				890751F121A1171A00D149F3 /* DDPSearchBar.m in Sources */,
 				890751F221A1171A00D149F3 /* DDPOtherSettingSwitchTableViewCell.m in Sources */,
@@ -2731,6 +2742,7 @@
 				890751FE21A1171A00D149F3 /* UIImageView+Tools.m in Sources */,
 				890751FF21A1171A00D149F3 /* DDPBangumiEpisode.m in Sources */,
 				8907520021A1171A00D149F3 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */,
+				897FCF5B223E6676006ACA24 /* DDPTextField.m in Sources */,
 				8907520121A1171A00D149F3 /* DDPVideoModel.m in Sources */,
 				8907520221A1171A00D149F3 /* DDPDefaultPageViewController.m in Sources */,
 				8907520321A1171A00D149F3 /* CALayer+Tools.m in Sources */,

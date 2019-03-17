@@ -30,6 +30,8 @@
     self.holdViewCenterYConstraint.constant = CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame);
     
     self.autoresizingMask = UIViewAutoresizingNone;
+    
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchesHeader)]];
 }
 
 - (void)setModel:(DDPUser *)model {
@@ -47,8 +49,7 @@
     }
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-#if !DDPAPPTYPE
+- (void)touchesHeader {
     DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
     if (user.isLogin == false) {
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
@@ -81,7 +82,6 @@
         
         [self.viewController presentViewController:vc animated:YES completion:nil];
     }
-#endif
 }
 
 #pragma mark - 私有方法

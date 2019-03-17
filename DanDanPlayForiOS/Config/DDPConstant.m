@@ -7,6 +7,7 @@
 //
 
 #import "DDPConstant.h"
+#import "DDPMacroDefinition.h"
 
 DDPProductionType DDPProductionTypeTVSeries = @"tvseries";
 DDPProductionType DDPProductionTypeTVSpecial = @"tvspecial";
@@ -32,7 +33,7 @@ NSString *ddp_buglyKey = @"";
 #endif
 
 #ifdef UM_SHARE_KEY
-NSString *ddp_UMShareKey = BUGLY_KEY;
+NSString *ddp_UMShareKey = UM_SHARE_KEY;
 #else
 NSString *ddp_UMShareKey = @"";
 #endif
