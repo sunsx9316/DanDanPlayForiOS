@@ -9,6 +9,7 @@
 #import "DDPCommentNetManagerOperation.h"
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
 #import "DDPDanmakuManager.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPCommentNetManagerOperation
 
@@ -57,7 +58,7 @@
     //是否请求第三方弹幕
     let parameters = @{@"withRelated" : [DDPCacheManager shareCacheManager].autoRequestThirdPartyDanmaku ? @"true" : @"false"};
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
         progressAction(1.0f);
         if (responseObj.error) {
             completionAction(nil, responseObj.error);
@@ -153,7 +154,7 @@
     dic[@"comment"] = model.message;
     
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                   parameters:dic
                                            completionHandler:^(DDPResponse *responseObj) {
@@ -178,7 +179,7 @@
         [paths addObject:[NSString stringWithFormat:@"%@/extcomment?url=%@", [DDPMethod apiPath], obj.url]];
     }];
     
-    [[DDPBaseNetManager shareNetManager] batchGETWithPaths:paths serializerType:DDPBaseNetManagerSerializerTypeJSON editResponseBlock:nil progressBlock:nil completionHandler:^(NSArray<DDPBatchResponse *> *responseObjects, NSError *error) {
+    [[DDPSharedNetManager sharedNetManager] batchGETWithPaths:paths serializerType:DDPBaseNetManagerSerializerTypeJSON editResponseBlock:nil progressBlock:nil completionHandler:^(NSArray<DDPBatchResponse *> *responseObjects, NSError *error) {
         DDPDanmakuCollection *responseObject = [[DDPDanmakuCollection alloc] init];
         responseObject.collection = [NSMutableArray array];
         

@@ -11,6 +11,7 @@
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
 #import "DDPCacheManager+multiply.h"
 #import "DDPVideoModel+Tools.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPMatchNetManagerOperation
 
@@ -34,7 +35,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/match", [DDPMethod apiNewPath]];
     NSDictionary *parameters = @{@"fileName":fileName, @"fileHash": hash, @"fileSize": @(length)};
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
         
         DDPMatchCollection *collection = [DDPMatchCollection yy_modelWithDictionary: responseObj.responseObject];
         //精准匹配
@@ -67,7 +68,7 @@
                           @"Hash" : model.fileHash,
                           @"EpisodeId" : @(model.identity)};
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
                                                   parameters:ddplay_encryption(dic)
                                            completionHandler:^(DDPResponse *responseObj) {

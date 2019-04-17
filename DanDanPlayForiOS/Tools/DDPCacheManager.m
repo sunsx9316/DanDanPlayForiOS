@@ -13,6 +13,7 @@
 #import "DDPSMBFileHashCache.h"
 #import "DDPCacheManager+multiply.h"
 #import "DDPBaseNetManager.h"
+#import "DDPSharedNetManager.h"
 
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
@@ -79,7 +80,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 - (void)setCurrentUser:(DDPUser *)currentUser {
     _currentUser = currentUser;
-    [[DDPBaseNetManager shareNetManager] resetJWTToken:_currentUser.JWTToken];
+    [[DDPSharedNetManager sharedNetManager] resetJWTToken:_currentUser.JWTToken];
     [self _saveWithUser:_currentUser];
     
     for (id<DDPCacheManagerDelagate>obj in self.observers) {

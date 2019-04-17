@@ -8,6 +8,7 @@
 
 #import "DDPLoginNetManagerOperation.h"
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
+#import "DDPSharedNetManager.h"
 
 @implementation DDPLoginNetManagerOperation
 
@@ -39,7 +40,7 @@
                                             @"accessToken" : token}];
     }
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
         if (responseObj.error) {
             if (completionHandler) {
                 completionHandler(nil, responseObj.error);
@@ -84,7 +85,7 @@
                                             @"email" : request.email,
                                             @"screenName" : request.name}];
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             if (responseObj.success == false) {
                 completionHandler(nil, responseObj.error);
@@ -121,7 +122,7 @@
     
     DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             if (responseObj.error) {
 //                responseObj.error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:-999 userInfo:@{NSLocalizedDescriptionKey : @"注册失败"}];
@@ -150,7 +151,7 @@
     
     DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:type parameters:ddplay_encryption(dic) completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             if (responseObj.error) {
 //                responseObj.error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:-999 userInfo:@{NSLocalizedDescriptionKey : @"绑定失败"}];
@@ -176,7 +177,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/user/profile", [DDPMethod apiNewPath]];
     NSDictionary *parameters = @{@"screenName" : userName};
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(__kindof DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);
         }
@@ -197,7 +198,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/user/password", [DDPMethod apiNewPath]];
     NSDictionary *parameters = @{@"oldPassword" : oldPassword, @"newPassword" : aNewPassword};
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
         //弹弹的账号 更新密码
         if (responseObj.error == nil) {
             let user = [DDPCacheManager shareCacheManager].currentUser;
@@ -224,7 +225,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/register/resetpassword", [DDPMethod apiNewPath]];
     let parameters = [self addAuthWithParameters:@{@"userName" : account, @"email" : email}];
     
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:parameters completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);
         }

@@ -11,16 +11,12 @@
 #import "YYReachability.h"
 #import "DDPNetManagerDefine.h"
 
-
 @protocol DDPBaseNetManagerObserver<NSObject>
 @optional
 - (void)netStatusChange:(YYReachability *)reachability;
 @end
 
 @interface DDPBaseNetManager : NSObject
-
-
-+ (instancetype)shareNetManager;
 
 /**
  设置JWTToken

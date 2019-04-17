@@ -326,6 +326,8 @@
 		894955EB21BEC01A00C9D923 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E221BEC01A00C9D923 /* DDPTextField.m */; };
 		894955EC21BEC01A00C9D923 /* DDPEmailListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E421BEC01A00C9D923 /* DDPEmailListView.m */; };
 		894955ED21BEC01A00C9D923 /* DDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E721BEC01A00C9D923 /* DDPLoginViewController.m */; };
+		894AC4AE2264C98300BFBB4D /* DDPSharedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC4AD2264C98300BFBB4D /* DDPSharedNetManager.m */; };
+		894AC4AF2264C98300BFBB4D /* DDPSharedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC4AD2264C98300BFBB4D /* DDPSharedNetManager.m */; };
 		894AE14F21172BD90023DED4 /* DDPControlVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */; };
 		894AE15021172BD90023DED4 /* DDPControlVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */; };
 		894C64921F691004003C7888 /* DDPLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */; };
@@ -357,6 +359,8 @@
 		895CA8B31FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
 		895CA8B61FDD0BFB00EF52BB /* DDPBangumiEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B51FDD0BFB00EF52BB /* DDPBangumiEpisode.m */; };
 		895F32301ECE9C8900368333 /* DDPPlayerNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 895F322F1ECE9C8900368333 /* DDPPlayerNoticeView.m */; };
+		8960971122676D1E00673C28 /* Masonry+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8960971022676D1E00673C28 /* Masonry+DDPTools.m */; };
+		8960971222676D1E00673C28 /* Masonry+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8960971022676D1E00673C28 /* Masonry+DDPTools.m */; };
 		89657F281F7237930003AF96 /* DDPExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F271F7237930003AF96 /* DDPExpandView.m */; };
 		89657F2B1F7243310003AF96 /* UIBarButtonItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2A1F7243310003AF96 /* UIBarButtonItem+Tools.m */; };
 		89657F2E1F724C570003AF96 /* UINavigationItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2D1F724C570003AF96 /* UINavigationItem+Tools.m */; };
@@ -454,6 +458,7 @@
 		89B6EEDA201C8A2C0022DE0D /* TOSMBSessionDownloadTask+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EED9201C8A2C0022DE0D /* TOSMBSessionDownloadTask+DB.mm */; };
 		89B6EEE0201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EEDF201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m */; };
 		89B8E36B1F8F6DD500DA9BEF /* email.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89B8E36A1F8F6DD500DA9BEF /* email.plist */; };
+		89B8F90322636E8600E2CF80 /* CALayer+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B8F90222636E8600E2CF80 /* CALayer+Animation.m */; };
 		89BA3332216260F400CC337E /* DDPPlayerSelectedIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA3331216260F400CC337E /* DDPPlayerSelectedIndexView.m */; };
 		89BA33342162610700CC337E /* DDPPlayerSelectedIndexView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89BA33332162610700CC337E /* DDPPlayerSelectedIndexView.xib */; };
 		89BA33372162647F00CC337E /* UITableView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA33362162647F00CC337E /* UITableView+DDPTools.m */; };
@@ -778,6 +783,9 @@
 		894955E521BEC01A00C9D923 /* DDPForgetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPForgetPasswordViewController.h; sourceTree = "<group>"; };
 		894955E621BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkOriginalAccountViewController.h; sourceTree = "<group>"; };
 		894955E721BEC01A00C9D923 /* DDPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLoginViewController.m; sourceTree = "<group>"; };
+		894AC4AC2264C98300BFBB4D /* DDPSharedNetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPSharedNetManager.h; sourceTree = "<group>"; };
+		894AC4AD2264C98300BFBB4D /* DDPSharedNetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPSharedNetManager.m; sourceTree = "<group>"; };
+		894AC4B02264CA7000BFBB4D /* DDPBaseNetManager+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPBaseNetManager+Private.h"; sourceTree = "<group>"; };
 		894AE14C21172BD90023DED4 /* DDPControlVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPControlVideoViewController.h; sourceTree = "<group>"; };
 		894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPControlVideoViewController.m; sourceTree = "<group>"; };
 		894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPControlVideoViewController.xib; sourceTree = "<group>"; };
@@ -829,6 +837,8 @@
 		895CA8B51FDD0BFB00EF52BB /* DDPBangumiEpisode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBangumiEpisode.m; sourceTree = "<group>"; };
 		895F322E1ECE9C8900368333 /* DDPPlayerNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerNoticeView.h; sourceTree = "<group>"; };
 		895F322F1ECE9C8900368333 /* DDPPlayerNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerNoticeView.m; sourceTree = "<group>"; };
+		8960970F22676D1E00673C28 /* Masonry+DDPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Masonry+DDPTools.h"; sourceTree = "<group>"; };
+		8960971022676D1E00673C28 /* Masonry+DDPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Masonry+DDPTools.m"; sourceTree = "<group>"; };
 		89657F261F7237930003AF96 /* DDPExpandView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPExpandView.h; sourceTree = "<group>"; };
 		89657F271F7237930003AF96 /* DDPExpandView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPExpandView.m; sourceTree = "<group>"; };
 		89657F291F7243310003AF96 /* UIBarButtonItem+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Tools.h"; sourceTree = "<group>"; };
@@ -1014,6 +1024,8 @@
 		89B6EEDE201C8B720022DE0D /* DDPLinkDownloadTask+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPLinkDownloadTask+Tools.h"; sourceTree = "<group>"; };
 		89B6EEDF201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DDPLinkDownloadTask+Tools.m"; sourceTree = "<group>"; };
 		89B8E36A1F8F6DD500DA9BEF /* email.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = email.plist; sourceTree = "<group>"; };
+		89B8F90122636E8500E2CF80 /* CALayer+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Animation.h"; sourceTree = "<group>"; };
+		89B8F90222636E8600E2CF80 /* CALayer+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Animation.m"; sourceTree = "<group>"; };
 		89BA3330216260F400CC337E /* DDPPlayerSelectedIndexView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayerSelectedIndexView.h; sourceTree = "<group>"; };
 		89BA3331216260F400CC337E /* DDPPlayerSelectedIndexView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerSelectedIndexView.m; sourceTree = "<group>"; };
 		89BA33332162610700CC337E /* DDPPlayerSelectedIndexView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayerSelectedIndexView.xib; sourceTree = "<group>"; };
@@ -1736,6 +1748,10 @@
 				893BCC052053CF08007E378F /* UIImage+Tools.m */,
 				89BA33352162647F00CC337E /* UITableView+DDPTools.h */,
 				89BA33362162647F00CC337E /* UITableView+DDPTools.m */,
+				89B8F90122636E8500E2CF80 /* CALayer+Animation.h */,
+				89B8F90222636E8600E2CF80 /* CALayer+Animation.m */,
+				8960970F22676D1E00673C28 /* Masonry+DDPTools.h */,
+				8960971022676D1E00673C28 /* Masonry+DDPTools.m */,
 				898C18462166107300AE7484 /* UICollectionView+DDPTools.h */,
 				898C18472166107300AE7484 /* UICollectionView+DDPTools.m */,
 			);
@@ -2100,8 +2116,11 @@
 				890446811FE558D8006872A0 /* Serializer */,
 				89A42EA51EA5B34400FA0DF3 /* DDPNetManagerHeader.h */,
 				898E2D531FE662E000953DA8 /* DDPNetManagerDefine.h */,
+				894AC4B02264CA7000BFBB4D /* DDPBaseNetManager+Private.h */,
 				89E3F5EC1E585135007AB1BD /* DDPBaseNetManager.h */,
 				89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */,
+				894AC4AC2264C98300BFBB4D /* DDPSharedNetManager.h */,
+				894AC4AD2264C98300BFBB4D /* DDPSharedNetManager.m */,
 				89A42EA61EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.h */,
 				89A42EA71EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m */,
 				89E3F5F21E585135007AB1BD /* DDPMatchNetManagerOperation.h */,
@@ -2381,6 +2400,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				"zh-Hans",
 				en,
 			);
@@ -2498,7 +2518,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
@@ -2517,7 +2537,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8907525F21A1171A00D149F3 /* ShellScript */ = {
@@ -2552,7 +2572,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NKOColorPickerView/Assets/nko_brightness_guide.png",
@@ -2571,7 +2591,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2610,7 +2630,9 @@
 				8907515921A1171A00D149F3 /* DDPDanmakuCollection.m in Sources */,
 				8907515A21A1171A00D149F3 /* DDPLibrary.m in Sources */,
 				8907515B21A1171A00D149F3 /* DDPLinkWelcome.m in Sources */,
+				894AC4AF2264C98300BFBB4D /* DDPSharedNetManager.m in Sources */,
 				8907515C21A1171A00D149F3 /* DDPLinkInfo+DB.mm in Sources */,
+				8960971222676D1E00673C28 /* Masonry+DDPTools.m in Sources */,
 				8907515D21A1171A00D149F3 /* DDPCacheManager.m in Sources */,
 				8907515E21A1171A00D149F3 /* DDPFileManagerFileLongViewCell.m in Sources */,
 				8907515F21A1171A00D149F3 /* DDPCollectionCache.m in Sources */,
@@ -2924,6 +2946,7 @@
 				89E1E9FE1EADF13600419C78 /* DDPPlayerSliderTableViewCell.m in Sources */,
 				89A42EB41EA5E82D00FA0DF3 /* DDPMatchCollection.m in Sources */,
 				8928E36321B81B68007BA84C /* DDPHomePageSearchPackageViewController.m in Sources */,
+				8960971122676D1E00673C28 /* Masonry+DDPTools.m in Sources */,
 				89F6B911201DC5210080B5ED /* DDPSMBInfo+WCDB.mm in Sources */,
 				89A42EBA1EA5ECC800FA0DF3 /* DDPRelated.m in Sources */,
 				89A1C0191EAF7F4000DB9BE9 /* DDPSelectedTableViewCell.m in Sources */,
@@ -3035,6 +3058,7 @@
 				89A42E9D1EA5B12700FA0DF3 /* DDPFilter.m in Sources */,
 				8955063B21C2990D006E35D9 /* DDPNewBangumiIntroCollection.m in Sources */,
 				89AE37BD1F626AE2008D06CF /* DDPAttentionListTableViewCell.m in Sources */,
+				89B8F90322636E8600E2CF80 /* CALayer+Animation.m in Sources */,
 				8916C7C51EA8AAB500A2233D /* DDPSearchViewController.m in Sources */,
 				89D8F8191EB09CAC009329AA /* DDPAboutUsViewController.m in Sources */,
 				8975F1E61FC86DE700C945EC /* LAContext+Tools.m in Sources */,
@@ -3058,6 +3082,7 @@
 				89AE37C01F6282B2008D06CF /* DDPPlayHistory.m in Sources */,
 				894955EA21BEC01A00C9D923 /* DDPRegisterViewController.m in Sources */,
 				8928E36221B81B68007BA84C /* DDPNewHomePageItemViewController.m in Sources */,
+				894AC4AE2264C98300BFBB4D /* DDPSharedNetManager.m in Sources */,
 				898C185C21676A6800AE7484 /* DDPRegisterRequest.m in Sources */,
 				89988D2A1F5AB975001413BE /* DDPLoginNetManagerOperation.m in Sources */,
 				89681B391F08FB9A00103CFF /* UIViewController+Tools.m in Sources */,
@@ -3470,7 +3495,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = B2C6Y83F26;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";

@@ -22,4 +22,6 @@
  */
 @property (copy, nonatomic) NSString *selectedIpAdress;
 @property (assign, nonatomic) UInt64 saveTime;
+//api秘钥
+@property (copy, nonatomic) NSString *apiToken;
 @end

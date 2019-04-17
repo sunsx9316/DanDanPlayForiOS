@@ -8,6 +8,7 @@
 
 #import "DDPFavoriteNetManagerOperation.h"
 #import <DanDanPlayEncrypt/DanDanPlayEncrypt.h>
+#import "DDPSharedNetManager.h"
 
 DDPFavoriteStatus DDPFavoriteStatusFavorited = @"favorited";
 DDPFavoriteStatus DDPFavoriteStatusFinished = @"finished";
@@ -32,7 +33,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
         NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
         DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
         
-        return [[DDPBaseNetManager shareNetManager] PUTWithPath:path
+        return [[DDPSharedNetManager sharedNetManager] PUTWithPath:path
                                                  serializerType:type parameters:ddplay_encryption(dic)
                                               completionHandler:^(DDPResponse *responseObj) {
             if (completionHandler) {
@@ -42,7 +43,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    return [[DDPBaseNetManager shareNetManager] DELETEWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] DELETEWithPath:path
                                                 serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                     parameters:dic
                                              completionHandler:^(DDPResponse *responseObj) {
@@ -64,7 +65,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiPath]];
     NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.legacyTokenNumber};
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -87,7 +88,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     NSString *path = [NSString stringWithFormat:@"%@/playhistory/%lu", [DDPMethod apiPath], (unsigned long)animateId];
     NSString *token = user.legacyTokenNumber.length ? user.legacyTokenNumber : @"0";
     NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : token};
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -109,7 +110,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     
     NSString *path = [NSString stringWithFormat:@"%@/playhistory", [DDPMethod apiNewPath]];
     NSDictionary *dic = @{@"episodeIdList" : episodeIds, @"addToFavorite" : @(addToFavorite)};
-    return [[DDPBaseNetManager shareNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(__kindof DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:dic completionHandler:^(__kindof DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);
         }
@@ -130,7 +131,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     if (like) {
         NSDictionary *dic = @{@"animeId" : @(animeId), @"favoriteStatus" : DDPFavoriteStatusFavorited};
         NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiNewPath]];
-        return [[DDPBaseNetManager shareNetManager] POSTWithPath:path
+        return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path
                                                   serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                       parameters:dic
                                                completionHandler:^(DDPResponse *responseObj) {
@@ -142,7 +143,7 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
     
     NSString *path = [NSString stringWithFormat:@"%@/favorite/%lu", [DDPMethod apiNewPath], (unsigned long)animeId];
     NSDictionary *dic = @{@"animeId" : @(animeId)};
-    return [[DDPBaseNetManager shareNetManager] DELETEWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] DELETEWithPath:path
                                               serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                   parameters:dic
                                            completionHandler:^(DDPResponse *responseObj) {

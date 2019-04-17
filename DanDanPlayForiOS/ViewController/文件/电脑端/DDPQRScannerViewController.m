@@ -14,6 +14,7 @@
 #import "DDPCacheManager+multiply.h"
 #import "DDPQRScannerHistoryView.h"
 #import "DDPTransparentNavigationBar.h"
+#import "CALayer+Animation.h"
 
 #define SCANNER_SIZE (MIN([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) * 0.7)
 
@@ -191,17 +192,85 @@
                 [self presentViewController:warningVC animated:YES completion:nil];
             }
             else {
-                info.selectedIpAdress = ipAddress;
-                [DDPCacheManager shareCacheManager].linkInfo = info;
-                
-                [[DDPCacheManager shareCacheManager] addLinkInfo:info];
-                
-                if (self.linkSuccessCallBack) {
-                    self.linkSuccessCallBack(info);
-                }
+                @weakify(self)
+                //先尝试请求 如果返回401 则要求输入密码
+                [DDPLinkNetManagerOperation linkGetVideoInfoWithIpAdress:ipAddress completionHandler:^(DDPLibrary *model, NSError *error) {
+                    @strongify(self)
+                    if (!self) {
+                        return;
+                    }
+                    
+                    if ([error.localizedDescription containsString:@"401"]) {
+                        
+                        [self showInputAPIAlertVCWithInfo:info ip:ipAddress inputNoCorrect:false completion:^{
+                            if (self.linkSuccessCallBack) {
+                                self.linkSuccessCallBack(info);
+                            }
+                        }];
+                        
+                    }
+                    else {
+                        info.selectedIpAdress = ipAddress;
+                        [DDPCacheManager shareCacheManager].linkInfo = info;
+    
+                        [[DDPCacheManager shareCacheManager] addLinkInfo:info];
+    
+                        if (self.linkSuccessCallBack) {
+                            self.linkSuccessCallBack(info);
+                        }
+                    }
+                }];
             }
         }
     }];
+}
+
+//显示输入秘钥弹窗
+- (void)showInputAPIAlertVCWithInfo:(DDPLinkInfo *)info
+                                 ip:(NSString *)ipAddress
+                     inputNoCorrect:(BOOL)inputNoCorrect
+                         completion:(void(^)(void))completion {
+    
+    let title = inputNoCorrect ? @"密码错误! 请重新输入" : @"请输入API秘钥";
+    
+    @weakify(self)
+    UIAlertController *warningVC = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [warningVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        [textField.layer shake];
+    }];
+    __weak UITextField *weakTextField = warningVC.textFields.firstObject;
+    [warningVC addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        info.apiToken = weakTextField.text;
+        info.selectedIpAdress = ipAddress;
+        [DDPCacheManager shareCacheManager].linkInfo = info;
+        
+        [DDPLinkNetManagerOperation linkGetVideoInfoWithIpAdress:ipAddress completionHandler:^(DDPLibrary *model, NSError *error) {
+            if ([error.localizedDescription containsString:@"401"]) {
+                
+                [self showInputAPIAlertVCWithInfo:info ip:ipAddress inputNoCorrect:true completion:completion];
+                
+            }
+            else {
+                [[DDPCacheManager shareCacheManager] addLinkInfo:info];
+                
+                if (completion) {
+                    completion();
+                }
+            }
+        }];
+        
+    }]];
+    
+    [warningVC addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self.QRCodeReader startScanning];
+    }]];
+    
+    [self presentViewController:warningVC animated:YES completion:nil];
 }
 
 - (void)touchHelpButton:(UIButton *)sender {

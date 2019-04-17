@@ -232,7 +232,7 @@
                 @strongify(self)
                 if (!self) return;
                 
-                DDPLinkInfo *info = [DDPCacheManager shareCacheManager].linkInfo ? [DDPCacheManager shareCacheManager].linkInfo : [DDPCacheManager shareCacheManager].lastLinkInfo;
+                DDPLinkInfo *info = [DDPCacheManager shareCacheManager].linkInfo ?: [DDPCacheManager shareCacheManager].lastLinkInfo;
                 
                 [[DDPToolsManager shareToolsManager] startDiscovererFileWithLinkParentFile:self.file linkInfo:info completion:^(DDPLinkFile *file, NSError *error) {
                     if (error) {

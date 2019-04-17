@@ -14,6 +14,7 @@
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "DDPHttpReceive.h"
 #import "DDPTransparentNavigationBar.h"
+#import "DDPSharedNetManager.h"
 
 @interface DDPHTTPServerViewController ()<UITableViewDelegate, UITableViewDataSource, DDPBaseNetManagerObserver>
 @property (strong, nonatomic) UIImageView *wifiImgView;
@@ -69,12 +70,12 @@
     
     [self startHTTPServer];
     
-    [[DDPBaseNetManager shareNetManager] addObserver:self];
+    [[DDPSharedNetManager sharedNetManager] addObserver:self];
 
 }
 
 - (void)dealloc {
-    [[DDPBaseNetManager shareNetManager] removeObserver:self];
+    [[DDPSharedNetManager sharedNetManager] removeObserver:self];
     [[DDPToolsManager shareHTTPServer] stop];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

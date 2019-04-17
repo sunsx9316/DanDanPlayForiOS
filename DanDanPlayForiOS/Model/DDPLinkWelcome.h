@@ -12,4 +12,6 @@
 @property (copy, nonatomic) NSString *message;
 @property (copy, nonatomic) NSString *version;
 @property (copy, nonatomic) NSString *time;
+//是否需要密码
+@property (assign, nonatomic) BOOL tokenRequired;
 @end

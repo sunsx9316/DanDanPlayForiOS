@@ -50,14 +50,6 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     NSHashTable *_observers;
 }
 
-+ (instancetype)shareNetManager {
-    static dispatch_once_t onceToken;
-    static DDPBaseNetManager *manager = nil;
-    dispatch_once(&onceToken, ^{
-        manager = [[DDPBaseNetManager alloc] init];
-    });
-    return manager;
-}
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -68,14 +60,7 @@ static DDPRequestParameters *ddp_requestParameters(DDPBaseNetManagerSerializerTy
     return self;
 }
 
-- (void)resetJWTToken:(NSString *)token {
-    if (token.length) {
-        [self.HTTPSessionManager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", token] forHTTPHeaderField:@"Authorization"];
-    }
-    else {
-        [self.HTTPSessionManager.requestSerializer setValue:nil forHTTPHeaderField:@"Authorization"];
-    }
-}
+
 
 #pragma mark -
 

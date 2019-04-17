@@ -450,7 +450,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     [self addSubview:matchNoticeView];
     
     [matchNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+        if (@available(iOS 11.0, *)) {
+            make.left.mas_equalTo(self.mas_safeAreaLayoutGuideLeft);
+        } else {
+            make.left.mas_equalTo(0);
+        }
         make.centerY.mas_offset(-25);
     }];
     
@@ -462,7 +466,11 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     lastTimeNoticeView.autoDismissTime = 5;
     [self addSubview:lastTimeNoticeView];
     [lastTimeNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+        if (@available(iOS 11.0, *)) {
+            make.left.mas_equalTo(self.mas_safeAreaLayoutGuideLeft);
+        } else {
+            make.left.mas_equalTo(0);
+        }
         make.top.equalTo(self->_matchNoticeView.mas_bottom).mas_offset(15);
     }];
     return lastTimeNoticeView;

@@ -7,6 +7,7 @@
 //
 
 #import "DDPRecommedNetManagerOperation.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPRecommedNetManagerOperation
 + (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(void (^)(DDPHomePage *, NSError *))completionHandler {
@@ -20,7 +21,7 @@
         path = [NSString stringWithFormat:@"%@/homepage?userId=%lu&token=%@", [DDPMethod apiPath], (unsigned long)user.identity, user.legacyTokenNumber];
     }
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeXML
                                                  parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -42,7 +43,7 @@
 + (NSURLSessionTask *)homePageWithCompletionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPNewHomePage))completionHandler {
     NSString *path = [NSString stringWithFormat:@"%@/homepage", [DDPMethod apiNewPath]];
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:nil completionHandler:^(DDPResponse *responseObj) {
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:nil completionHandler:^(DDPResponse *responseObj) {
         if (responseObj.error) {
             if (completionHandler) {
                 completionHandler(nil, responseObj.error);

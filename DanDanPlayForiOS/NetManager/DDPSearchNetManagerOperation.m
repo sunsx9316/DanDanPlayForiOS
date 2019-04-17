@@ -7,6 +7,7 @@
 //
 
 #import "DDPSearchNetManagerOperation.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPSearchNetManagerOperation
 + (NSURLSessionDataTask *)searchOfficialWithKeyword:(NSString *)keyword
@@ -27,7 +28,7 @@
     }
     
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -55,7 +56,7 @@
     dic[@"type"] = type;
     
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -77,7 +78,7 @@
     NSString *path = @"http://biliproxy.chinacloudsites.cn/search";
     NSDictionary *parameters = @{@"keyword" : keyword};
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:parameters
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -152,7 +153,7 @@
     
     NSString *path = [NSString stringWithFormat:@"%@/list", API_DMHY_DOMAIN];
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {

@@ -12,6 +12,7 @@
 #import <YYKeyboardManager.h>
 #import "DDPEdgeButton.h"
 #import "DDPEdgeTextField.h"
+#import "Masonry+DDPTools.h"
 
 @interface DDPDanmakuFilterDetailViewController ()<YYKeyboardObserver, UITextViewDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) DDPEdgeTextField *nameTextField;
@@ -55,14 +56,15 @@
     }
     
     [self.nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.mas_equalTo(10);
-        make.right.mas_offset(-10);
+        make.top.mas_equalTo(10);
+        make.leading.equalTo(self.view.ddp_safeLeading).mas_offset(10);;
+        make.trailing.equalTo(self.view.ddp_safeTrailing).mas_offset(-10);
     }];
     
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameTextField.mas_bottom).mas_offset(10);
-        make.left.mas_equalTo(self.nameTextField);
-        make.bottom.right.mas_offset(-10);
+        make.leading.trailing.equalTo(self.nameTextField);
+        make.bottom.equalTo(self.view.ddp_safeBottom).mas_offset(-10);
     }];
 }
 

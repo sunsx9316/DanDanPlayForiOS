@@ -22,6 +22,7 @@
 //#import <BayMaxProtector.h>
 #import <UMMobClick/MobClick.h>
 #import "DDPPlayNavigationController.h"
+#import "DDPSharedNetManager.h"
 
 @interface AppDelegate ()
 
@@ -222,7 +223,7 @@
     
     [UILabel appearance].font = [UIFont ddp_normalSizeFont];
     
-    [[DDPBaseNetManager shareNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
+    [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
 }
 
 - (void)configCrash {

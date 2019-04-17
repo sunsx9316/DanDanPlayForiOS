@@ -7,6 +7,7 @@
 //
 
 #import "DDPRelatedNetManagerOperation.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPRelatedNetManagerOperation
 
@@ -19,7 +20,7 @@
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/related/%lu", [DDPMethod apiPath], (unsigned long)episodeId];
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {

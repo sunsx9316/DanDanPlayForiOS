@@ -7,6 +7,8 @@
 //
 
 #import "DDPLinkNetManagerOperation.h"
+#import <AFNetworking/AFNetworking.h>
+#import "DDPSharedNetManager.h"
 
 JHControlLinkTaskMethod JHControlLinkTaskMethodStart = @"start";
 JHControlLinkTaskMethod JHControlLinkTaskMethodPause = @"pause";
@@ -21,6 +23,15 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
 
 @implementation DDPLinkNetManagerOperation
 
++ (DDPBaseNetManager *)sharedNetManager {
+    static DDPBaseNetManager *manager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[DDPBaseNetManager alloc] init];
+    });
+    return manager;
+}
+
 + (NSURLSessionDataTask *)linkWithIpAdress:(NSString *)ipAdress
                          completionHandler:(void(^)(DDPLinkWelcome *responseObject, NSError *error))completionHandler {
     
@@ -32,7 +43,7 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/welcome", ipAdress, LINK_API_INDEX];
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -67,9 +78,11 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/download/tasks/add", ipAdress, LINK_API_INDEX];
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    NSMutableDictionary *dic = @{@"magnet" : magnet}.mutableCopy;
+    [dic addEntriesFromDictionary:self.additionParameters];
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:@{@"magnet" : magnet}
+                                                 parameters:dic
                                           completionHandler:^(DDPResponse *responseObj) {
         if (responseObj.error) {
             if (completionHandler) {
@@ -102,9 +115,11 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     }
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/download/tasks/%@/%@", ipAdress, LINK_API_INDEX, taskId, method];
-    NSDictionary *parameters = @{@"remove" : @(forceDelete)};
+    NSMutableDictionary *parameters = @{@"remove" : @(forceDelete)}.mutableCopy;
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    [parameters addEntriesFromDictionary:self.additionParameters];
+    
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:parameters
                                           completionHandler:^(DDPResponse *responseObj) {
@@ -138,9 +153,9 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/download/tasks", ipAdress, LINK_API_INDEX];
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
         DDPLinkDownloadTaskCollection *collection = [[DDPLinkDownloadTaskCollection alloc] init];
         collection.collection = [NSArray yy_modelArrayWithClass:[DDPLinkDownloadTask class] json:responseObj.responseObject].mutableCopy;
@@ -164,9 +179,9 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:serializerType
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
                                               if (completionHandler) {
                                                   completionHandler(responseObj.error);
@@ -188,9 +203,9 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:serializerType
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
                                               if (completionHandler) {
                                                   completionHandler(responseObj.error);
@@ -212,9 +227,9 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:serializerType
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
                                               if (completionHandler) {
                                                   completionHandler(responseObj.error);
@@ -233,11 +248,12 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/current/video", ipAdress, LINK_API_INDEX];
     
+
     DDPBaseNetManagerSerializerType serializerType = DDPBaseNetManagerSerializerTypeJSON;
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:serializerType
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
                                               if (completionHandler) {
                                                   completionHandler([DDPLibrary yy_modelWithJSON:responseObj.responseObject], responseObj.error);
@@ -257,9 +273,9 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
     
     NSString *path = [NSString stringWithFormat:@"%@/%@/library", ipAdress, LINK_API_INDEX];
     
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPLinkNetManagerOperation sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:nil
+                                                 parameters:self.additionParameters
                                           completionHandler:^(DDPResponse *responseObj) {
         DDPLibraryCollection *collection = [[DDPLibraryCollection alloc] init];
         collection.collection = [NSArray yy_modelArrayWithClass:[DDPLibrary class] json:responseObj.responseObject].mutableCopy;
@@ -267,6 +283,13 @@ JHControlVideoMethod JHControlVideoMethodPrevious = @"previous";
             completionHandler(collection, responseObj.error);
         }
     }];
+}
+
++ (NSDictionary *)additionParameters {
+    let dic = [NSMutableDictionary dictionary];
+    let password = [DDPCacheManager shareCacheManager].linkInfo.apiToken;
+    dic[@"token"] = password.length > 0 ? password : nil;
+    return dic;
 }
 
 @end

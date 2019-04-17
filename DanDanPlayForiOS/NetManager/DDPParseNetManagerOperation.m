@@ -7,6 +7,7 @@
 //
 
 #import "DDPParseNetManagerOperation.h"
+#import "DDPSharedNetManager.h"
 
 @implementation DDPParseNetManagerOperation
 
@@ -21,7 +22,7 @@
     
     NSString *path = [NSString stringWithFormat:@"%@/dmhy/parse", API_DMHY_DOMAIN];
     NSDictionary *parameters = @{@"url" : url};
-    return [[DDPBaseNetManager shareNetManager] GETWithPath:path
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
                                                  parameters:parameters
                                           completionHandler:^(DDPResponse *responseObj) {

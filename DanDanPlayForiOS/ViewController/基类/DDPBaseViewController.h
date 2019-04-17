@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "UINavigationItem+Tools.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@class DDPBaseNetManager;
 /**
  *  基类
  */
 @interface DDPBaseViewController : UIViewController
+
 - (void)configLeftItem;
 - (void)configRightItem;
 - (void)touchLeftItem:(UIButton *)button;
 
-- (Class)ddp_navigationBarClass;
+- (_Nullable Class)ddp_navigationBarClass;
 
 
 /**
@@ -32,5 +37,7 @@
  @param action 确认之后的事件
  @return 用户是否登录
  */
-- (BOOL)showLoginAlertWithAction:(void(^)(void))action;
+- (BOOL)showLoginAlertWithAction:(void(^ _Nullable)(void))action;
 @end
+
+NS_ASSUME_NONNULL_END
