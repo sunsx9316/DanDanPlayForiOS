@@ -227,7 +227,6 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
     return [self converDanmakus:danmakus filter:NO];
 }
 
-
 #pragma mark - 私有方法
 + (void)switchParseWithSource:(DDPDanmakuType)source obj:(id)obj block:(CallBackAction)block {
     if (source & DDPDanmakuTypeBiliBili) {
@@ -298,6 +297,11 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 //过滤弹幕
 + (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <DDPFilter *>*)danmakuFilters {
     for (DDPFilter *filter in danmakuFilters) {
+        
+        if (filter.enable == false) {
+            continue;
+        }
+        
         //使用正则表达式
         if (filter.isRegex && filter.content.length > 0) {
             if ([content matchesRegex:filter.content options:NSRegularExpressionCaseInsensitive]) {
@@ -310,6 +314,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
     }
     return NO;
 }
+
 
 #pragma mark - 懒加载
 - (YYCache *)bilibiliDanmakuCache {

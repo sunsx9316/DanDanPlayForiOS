@@ -21,7 +21,8 @@
     DDPLibrary *library = _model.library;
     
     self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", library.animeTitle.length ? library.animeTitle : @"", library.episodeTitle.length ? library.episodeTitle : @""];
-    [self.bgImgView ddp_setImageWithURL:ddp_linkImageURL([DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress, library.md5)];
+    let imgURL = ddp_linkImageURL([DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress, library.playId);
+    [self.bgImgView ddp_setImageWithURL:imgURL];
 //    DDPVideoCache *cache = [[DDPCacheManager shareCacheManager] episodeLinkCacheWithVideoModel:_model.videoModel];
     NSInteger time = _model.videoModel.lastPlayTime;
     if (time > 0) {

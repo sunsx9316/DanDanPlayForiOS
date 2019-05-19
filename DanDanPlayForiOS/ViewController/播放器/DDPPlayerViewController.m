@@ -33,6 +33,7 @@
 #import "YYThreadSafeDictionary.h"
 #import "DDPBaseNavigationController.h"
 #import "DDPLoginViewController.h"
+#import "DDPDanmakuProducer.h"
 
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
@@ -42,9 +43,11 @@
 @property (strong, nonatomic) DDPMediaPlayer *player;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
 
-@property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*>*danmakuDictionary;
+@property (strong, nonatomic) DDPDanmakuProducer *danmakuProducer;
+//已发送的弹幕
+@property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*>*sentDanmakuDic;
 //当前弹幕屏蔽标志 因为可以实时修改屏蔽的弹幕 所以需要设置唯一的标志
-@property (assign, atomic) NSInteger danmakuParseFlag;
+//@property (assign, atomic) NSInteger danmakuParseFlag;
 @end
 
 @implementation DDPPlayerViewController
@@ -122,7 +125,7 @@
     _lock = [[NSLock alloc] init];
     _queue = [[NSOperationQueue alloc] init];
     _currentTime = -1;
-    self.danmakuParseFlag = [NSDate date].hash;
+//    self.danmakuParseFlag = [NSDate date].hash;
     
     [self.view addSubview:self.player.mediaView];
     [self.view insertSubview:self.danmakuEngine.canvas aboveSubview:self.player.mediaView];
@@ -298,7 +301,16 @@
     if (_currentTime == time) return nil;
     
     _currentTime = time;
-    return self.danmakuDictionary[@(time)];
+    
+    //远端弹幕
+    let tempDanmakus = [self.danmakuProducer damakusAtTime:_currentTime];
+    
+    //已发送的弹幕
+    let sentDanmakus = self.sentDanmakuDic[@(_currentTime)];
+    if (sentDanmakus) {
+        return [sentDanmakus arrayByAddingObjectsFromArray:tempDanmakus];
+    }
+    return tempDanmakus;
 }
 
 - (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHBaseDanmaku *)danmaku {
@@ -397,10 +409,12 @@
                     sendDanmaku.sendByUserId = [[NSDate date] timeIntervalSince1970];
                     
                     NSUInteger appearTime = (NSInteger)sendDanmaku.appearTime;
-                    if (self.danmakuDictionary[@(appearTime)] == nil) {
-                        self.danmakuDictionary[@(appearTime)] = [NSMutableArray array];
+                    var sentDanmakus = self.sentDanmakuDic[@(appearTime)];
+                    if (sentDanmakus == nil) {
+                        sentDanmakus = [NSMutableArray array];
+                        self.sentDanmakuDic[@(appearTime)] = sentDanmakus;
                     }
-                    [self.danmakuDictionary[@(appearTime)] appendObject:sendDanmaku];
+                    [sentDanmakus addObject:sendDanmaku];
                     [self.danmakuEngine sendDanmaku:sendDanmaku];
                     
                     //发送成功 缓存弹幕
@@ -417,7 +431,7 @@
 }
 
 - (void)interfaceView:(DDPPlayerInterfaceView *)view touchSliderWithTime:(int)time {
-    [self asynFilterDanmakuWithTime:time];
+    [self.danmakuProducer reloadDataWithTime:time];
 }
 
 - (void)interfaceView:(DDPPlayerInterfaceView *)view touchDanmakuVisiableButton:(BOOL)visiable {
@@ -539,8 +553,7 @@
         @strongify(self)
         if (!self) return;
         
-        self.danmakuParseFlag = [NSDate date].hash;
-        [self asynFilterDanmakuWithTime:self.player.currentTime];
+        [self.danmakuProducer reloadDataWithTime:(NSInteger)self.player.currentTime];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -555,9 +568,9 @@
 - (void)reload {
     //转换弹幕
     NSDictionary *dic = [DDPDanmakuManager converDanmakus:_model.danmakus.collection filter:NO];
-    [self.danmakuDictionary removeAllObjects];
-    [self.danmakuDictionary addEntriesFromDictionary:dic];
-    [self asynFilterDanmakuWithTime:0];
+    _sentDanmakuDic = [NSMutableDictionary dictionary];
+    self.danmakuProducer = [[DDPDanmakuProducer alloc] initWithDamakus:dic];
+    [self.danmakuProducer reloadDataWithTime:0];
     
     //更换视频
     [self.player setMediaURL:_model.fileURL];
@@ -661,12 +674,16 @@
         [self.view showWithText:@"弹幕读取出错!"];
     }
     else {
-        [self.danmakuDictionary removeAllObjects];
+//        [self.danmakuDictionary removeAllObjects];
         NSDictionary *dic = [DDPDanmakuManager parseLocalDanmakuWithSource:DDPDanmakuTypeBiliBili obj:danmaku];
-        [self.danmakuDictionary addEntriesFromDictionary:dic];
+//        [self.danmakuDictionary addEntriesFromDictionary:dic];
         self.danmakuEngine.currentTime = self.player.currentTime;
+        
+        self.danmakuProducer = [[DDPDanmakuProducer alloc] initWithDamakus:dic];
+        [self.danmakuProducer reloadDataWithTime:self.danmakuEngine.currentTime];
+        
         __block NSUInteger danmakuCount = 0;
-        [self.danmakuDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
+        [dic enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, NSMutableArray<JHBaseDanmaku *> * _Nonnull obj, BOOL * _Nonnull stop) {
             danmakuCount += obj.count;
         }];
         [self.view showWithText:[NSString stringWithFormat:@"加载弹幕成功 共%lu条", (unsigned long)danmakuCount]];
@@ -793,58 +810,58 @@
 }
 
 
-- (void)asynFilterDanmakuWithTime:(NSInteger)time {
-    //获取弹幕最大时间
-    NSInteger maxTime = [[self.danmakuDictionary.allKeys valueForKeyPath:@"@max.integerValue"] integerValue];
-    
-    NSArray <DDPFilter *>*danmakuFilters = [DDPCacheManager shareCacheManager].danmakuFilters;
-    
-    [_queue cancelAllOperations];
-    
-    //主线程先分析一部分弹幕
-    
-    for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
-        NSMutableArray<JHBaseDanmaku *>* arr = self.danmakuDictionary[@(i)];
-        //已经分析过
-        if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == self.danmakuParseFlag) continue;
-        
-        [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self setDanmakuFilter:obj filter:[DDPDanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
-        }];
-        
-        [arr setAssociateValue:@(self.danmakuParseFlag) withKey:_cmd];
-    }
-    
-    //子线程继续分析
-    
-    NSBlockOperation *op = [[NSBlockOperation alloc] init];
-    @weakify(op)
-    [op addExecutionBlock:^{
-        @strongify(op)
-        if (!self || !op || op.isCancelled) return;
-        
-        
-        for (NSInteger i = time + PARSE_TIME; i <= maxTime; ++i) {
-            NSMutableArray<JHBaseDanmaku *>* arr = self.danmakuDictionary[@(i)];
-            //已经分析过
-            if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == self.danmakuParseFlag) continue;
-            
-            [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [self setDanmakuFilter:obj filter:[DDPDanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
-            }];
-            [arr setAssociateValue:@(self.danmakuParseFlag) withKey:_cmd];
-        }
-    }];
-    
-    [_queue addOperation:op];
-    
-}
+//- (void)asynFilterDanmakuWithTime:(NSInteger)time {
+//    //获取弹幕最大时间
+//    NSInteger maxTime = [[self.danmakuDictionary.allKeys valueForKeyPath:@"@max.integerValue"] integerValue];
+//
+//    NSArray <DDPFilter *>*danmakuFilters = [DDPCacheManager shareCacheManager].danmakuFilters;
+//
+//    [_queue cancelAllOperations];
+//
+//    //主线程先分析一部分弹幕
+//
+//    for (NSInteger i = time; i < time + PARSE_TIME; ++i) {
+//        NSMutableArray<JHBaseDanmaku *>* arr = self.danmakuDictionary[@(i)];
+//        //已经分析过
+//        if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == self.danmakuParseFlag) continue;
+//
+//        [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            [self setDanmakuFilter:obj filter:[DDPDanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
+//        }];
+//
+//        [arr setAssociateValue:@(self.danmakuParseFlag) withKey:_cmd];
+//    }
+//
+//    //子线程继续分析
+//
+//    NSBlockOperation *op = [[NSBlockOperation alloc] init];
+//    @weakify(op)
+//    [op addExecutionBlock:^{
+//        @strongify(op)
+//        if (!self || !op || op.isCancelled) return;
+//
+//
+//        for (NSInteger i = time + PARSE_TIME; i <= maxTime; ++i) {
+//            NSMutableArray<JHBaseDanmaku *>* arr = self.danmakuDictionary[@(i)];
+//            //已经分析过
+//            if (arr == nil || [[arr getAssociatedValueForKey:_cmd] integerValue] == self.danmakuParseFlag) continue;
+//
+//            [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                [self setDanmakuFilter:obj filter:[DDPDanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters]];
+//            }];
+//            [arr setAssociateValue:@(self.danmakuParseFlag) withKey:_cmd];
+//        }
+//    }];
+//
+//    [_queue addOperation:op];
+//
+//}
 
-- (void)setDanmakuFilter:(JHBaseDanmaku *)danmaku filter:(BOOL)filter {
-    [_lock lock];
-    danmaku.filter = filter;
-    [_lock unlock];
-}
+//- (void)setDanmakuFilter:(JHBaseDanmaku *)danmaku filter:(BOOL)filter {
+//    [_lock lock];
+//    danmaku.filter = filter;
+//    [_lock unlock];
+//}
 
 - (void)addNotice {
     
@@ -943,13 +960,6 @@
         _danmakuEngine.limitCount = [DDPCacheManager shareCacheManager].danmakuLimitCount;
     }
     return _danmakuEngine;
-}
-
-- (NSMutableDictionary<NSNumber *,NSMutableArray<JHBaseDanmaku *> *> *)danmakuDictionary {
-    if (_danmakuDictionary == nil) {
-        _danmakuDictionary = [YYThreadSafeDictionary dictionary];
-    }
-    return _danmakuDictionary;
 }
 
 @end

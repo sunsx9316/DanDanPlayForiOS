@@ -26,7 +26,8 @@
              @"position" : @"Position",
              @"seekable" : @"Seekable",
              @"volume" : @"Volume",
-             @"playing" : @"Playing"
+             @"playing" : @"Playing",
+             @"playId" : @"Id"
              };
 }
 

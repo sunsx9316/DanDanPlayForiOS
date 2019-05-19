@@ -67,6 +67,12 @@
  */
 @property (assign, nonatomic) NSUInteger duration;
 
+
+/**
+ 播放器使用的id
+ */
+@property (copy, nonatomic) NSString *playId;
+
 #pragma mark -  /api/v1/current/video 返回
 /**
  为当前进度，取值范围0-1；
@@ -90,6 +96,6 @@
 @property (strong, nonatomic) NSNumber *playing;
 
 #pragma mark - 自定义属性
-@property (assign, nonatomic) DDPFileType fileType ;
+@property (assign, nonatomic) DDPFileType fileType;
 
 @end

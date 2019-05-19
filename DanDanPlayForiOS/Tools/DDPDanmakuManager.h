@@ -88,4 +88,6 @@
  移除弹幕缓存时间
  */
 + (void)removeAllDanmakuCache;
+
+
 @end

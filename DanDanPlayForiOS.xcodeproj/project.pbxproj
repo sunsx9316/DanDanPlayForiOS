@@ -439,6 +439,8 @@
 		89A42F041EA6025000FA0DF3 /* DDPBiliBiliBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F031EA6025000FA0DF3 /* DDPBiliBiliBangumi.m */; };
 		89A467941F162C31001840C7 /* DDPFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467931F162C31001840C7 /* DDPFileViewController.m */; };
 		89A467971F162DDA001840C7 /* DDPDefaultPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */; };
+		89A6AB9B226CB34500EA3870 /* DDPDanmakuProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A6AB9A226CB34500EA3870 /* DDPDanmakuProducer.m */; };
+		89A6AB9C226CB34500EA3870 /* DDPDanmakuProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A6AB9A226CB34500EA3870 /* DDPDanmakuProducer.m */; };
 		89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
 		89A80334208B331D00FF6C2B /* DDPRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */; };
 		89A80336208B35EA00FF6C2B /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
@@ -985,6 +987,8 @@
 		89A467931F162C31001840C7 /* DDPFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFileViewController.m; sourceTree = "<group>"; };
 		89A467951F162DDA001840C7 /* DDPDefaultPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDefaultPageViewController.h; sourceTree = "<group>"; };
 		89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDefaultPageViewController.m; sourceTree = "<group>"; };
+		89A6AB99226CB34500EA3870 /* DDPDanmakuProducer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuProducer.h; sourceTree = "<group>"; };
+		89A6AB9A226CB34500EA3870 /* DDPDanmakuProducer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuProducer.m; sourceTree = "<group>"; };
 		89A8032C208B1B5200FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		89A8032E208B1B5400FF6C2B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		89A8032F208B1B5C00FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1589,6 +1593,8 @@
 				89350B1B1EAB44CB00072DA5 /* DDPPlayNavigationController.m */,
 				893166A11F52700300B4A4EE /* DDPPlayerSendDanmakuViewController.h */,
 				893166A21F52700300B4A4EE /* DDPPlayerSendDanmakuViewController.m */,
+				89A6AB99226CB34500EA3870 /* DDPDanmakuProducer.h */,
+				89A6AB9A226CB34500EA3870 /* DDPDanmakuProducer.m */,
 			);
 			path = "播放器";
 			sourceTree = "<group>";
@@ -2652,6 +2658,7 @@
 				8907517621A1171A00D149F3 /* DDPMatchTableViewCell.m in Sources */,
 				8907517721A1171A00D149F3 /* UIImage+Tools.m in Sources */,
 				8907517821A1171A00D149F3 /* NSURL+Tools.m in Sources */,
+				89A6AB9C226CB34500EA3870 /* DDPDanmakuProducer.m in Sources */,
 				8907517921A1171A00D149F3 /* UINavigation+SXFixSpace.m in Sources */,
 				8907517A21A1171A00D149F3 /* DDPPlayerSelectedIndexView.m in Sources */,
 				8907517C21A1171A00D149F3 /* DDPEdgeButton.m in Sources */,
@@ -2905,6 +2912,7 @@
 				89A467941F162C31001840C7 /* DDPFileViewController.m in Sources */,
 				8928E35221B81B68007BA84C /* DDPHomePageFileLocationView.m in Sources */,
 				89FBDED31F457C7800663865 /* DDPFileManagerViewController.m in Sources */,
+				89A6AB9B226CB34500EA3870 /* DDPDanmakuProducer.m in Sources */,
 				89A42EA41EA5B22A00FA0DF3 /* DDPResponse.m in Sources */,
 				89E3F6101E585320007AB1BD /* MJRefreshHeader+Tools.m in Sources */,
 				890BEF011FA3752400C7915D /* DDPFileLargeTitleTableViewCell.m in Sources */,

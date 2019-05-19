@@ -29,7 +29,7 @@
         return [NSURL URLWithString:[_library.path stringByURLEncode]];
     }
     
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/stream/%@", [DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress, LINK_API_INDEX, _library.md5]];
+    return ddp_linkVideoURL([DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress, _library.playId);
 }
 
 - (DDPVideoModel *)videoModel {
