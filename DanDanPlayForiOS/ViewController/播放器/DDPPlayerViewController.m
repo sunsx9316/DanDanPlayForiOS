@@ -526,12 +526,12 @@
         @strongify(self)
         if (!self) return;
         
-//        if ([aFile isKindOfClass:[DDPSMBFile class]]) {
-//            [self downloadDanmakuFile:aFile];
-//        }
-//        else {
+        if ([aFile isKindOfClass:[DDPSMBFile class]]) {
+            [self downloadDanmakuFile:aFile];
+        }
+        else {
             [self openDanmakuWithURL:aFile.fileURL];
-//        }
+        }
     }];
 //#endif
 }

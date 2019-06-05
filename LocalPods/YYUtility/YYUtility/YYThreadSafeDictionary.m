@@ -10,7 +10,7 @@
 //
 
 #import "YYThreadSafeDictionary.h"
-#import "NSDictionary+YYAdd.h"
+//#import "NSDictionary+YYAdd.h"
 
 
 #define INIT(...) self = super.init; \
@@ -24,6 +24,57 @@ return self;
 #define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
+
+@implementation NSMutableDictionary (_YYUtility)
+- (NSDictionary *)_entriesForKeys:(NSArray *)keys {
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    for (id key in keys) {
+        id value = self[key];
+        if (value) dic[key] = value;
+    }
+    return dic;
+}
+
+- (NSString *)_jsonStringEncoded {
+    if ([NSJSONSerialization isValidJSONObject:self]) {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
+        NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return json;
+    }
+    return nil;
+}
+
+- (NSString *)_jsonPrettyStringEncoded {
+    if ([NSJSONSerialization isValidJSONObject:self]) {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&error];
+        NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return json;
+    }
+    return nil;
+}
+
+- (id)_popObjectForKey:(id)aKey {
+    if (!aKey) return nil;
+    id value = self[aKey];
+    [self removeObjectForKey:aKey];
+    return value;
+}
+
+- (NSDictionary *)_popEntriesForKeys:(NSArray *)keys {
+    NSMutableDictionary *dic = [NSMutableDictionary new];
+    for (id key in keys) {
+        id value = self[key];
+        if (value) {
+            [self removeObjectForKey:key];
+            dic[key] = value;
+        }
+    }
+    return dic;
+}
+
+@end
 
 
 @implementation YYThreadSafeDictionary {
@@ -232,23 +283,25 @@ dispatch_semaphore_signal(_lock);
 #pragma mark - custom methods for NSDictionary(YYAdd)
 
 - (NSDictionary *)entriesForKeys:(NSArray *)keys {
-    LOCK(NSDictionary * dic = [_dic entriesForKeys:keys]) return dic;
+    LOCK(NSDictionary * dic = [_dic _entriesForKeys:keys]) return dic;
 }
 
 - (NSString *)jsonStringEncoded {
-    LOCK(NSString * s = [_dic jsonStringEncoded]) return s;
+    LOCK(NSString * s = [_dic _jsonStringEncoded]) return s;
 }
 
 - (NSString *)jsonPrettyStringEncoded {
-    LOCK(NSString * s = [_dic jsonPrettyStringEncoded]) return s;
+    LOCK(NSString * s = [_dic _jsonPrettyStringEncoded]) return s;
 }
 
 - (id)popObjectForKey:(id)aKey {
-    LOCK(id o = [_dic popObjectForKey:aKey]) return o;
+    LOCK(id o = [_dic _popObjectForKey:aKey]) return o;
 }
 
 - (NSDictionary *)popEntriesForKeys:(NSArray *)keys {
-    LOCK(NSDictionary * d = [_dic popEntriesForKeys:keys]) return d;
+    LOCK(NSDictionary * d = [_dic _popEntriesForKeys:keys]) return d;
 }
 
 @end
+
+

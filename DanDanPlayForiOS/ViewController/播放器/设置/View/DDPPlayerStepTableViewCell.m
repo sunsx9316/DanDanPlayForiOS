@@ -8,6 +8,7 @@
 
 #import "DDPPlayerStepTableViewCell.h"
 
+
 @interface DDPPlayerStepTableViewCell ()
 @property (strong, nonatomic) UIStepper *stepper;
 @property (strong, nonatomic) UILabel *titleLabel;
@@ -32,15 +33,23 @@
             make.right.mas_offset(-10);
             make.left.equalTo(self.titleLabel.mas_right).mas_offset(10);
         }];
+        
+        [self formatterTextWithValue:DDPCacheManager.shareCacheManager.danmakuOffsetTime];
     }
     return self;
 }
 
 - (void)touchStepper:(UIStepper *)stepper {
-    self.titleLabel.text = [NSString stringWithFormat:@"%lds", (long)stepper.value];
+    
+    [self formatterTextWithValue:stepper.value];
+    
     if (self.touchStepperCallBack) {
         self.touchStepperCallBack(stepper.value);
     }
+}
+
+- (void)formatterTextWithValue:(CGFloat)value {
+    self.titleLabel.text = [NSString stringWithFormat:@"%lds", (long)value];
 }
 
 #pragma mark - 懒加载
@@ -49,6 +58,7 @@
         _stepper = [[UIStepper alloc] init];
         _stepper.minimumValue = -CGFLOAT_MAX;
         _stepper.maximumValue = CGFLOAT_MAX;
+        _stepper.value = DDPCacheManager.shareCacheManager.danmakuOffsetTime;
         _stepper.tintColor = [UIColor ddp_mainColor];
         [_stepper addTarget:self action:@selector(touchStepper:) forControlEvents:UIControlEventValueChanged];
         [self.contentView addSubview:_stepper];

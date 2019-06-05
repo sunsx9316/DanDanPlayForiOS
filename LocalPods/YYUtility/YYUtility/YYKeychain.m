@@ -10,9 +10,17 @@
 //
 
 #import "YYKeychain.h"
-#import "UIDevice+YYAdd.h"
+//#import "UIDevice+YYAdd.h"
 //#import "YYKitMacro.h"
 #import <Security/Security.h>
+
+#ifndef kSystemVersion
+#define kSystemVersion [UIDevice _systemVersion]
+#endif
+
+#ifndef kiOS7Later
+#define kiOS7Later (kSystemVersion >= 7)
+#endif
 
 
 static YYKeychainErrorCode YYKeychainErrorCodeFromOSStatus(OSStatus status) {
@@ -129,6 +137,28 @@ static YYKeychainQuerySynchronizationMode YYKeychainQuerySynchonizationEnum(NSNu
     return YYKeychainQuerySynchronizationModeAny;
 }
 
+@implementation UIDevice(_YYUtility)
+
+- (BOOL)_isSimulator {
+    static dispatch_once_t one;
+    static BOOL simu;
+    dispatch_once(&one, ^{
+        simu = NSNotFound != [[self model] rangeOfString:@"Simulator"].location;
+    });
+    return simu;
+}
+
++ (double)_systemVersion {
+    static double version;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        version = [UIDevice currentDevice].systemVersion.doubleValue;
+    });
+    return version;
+}
+
+@end
+
 @interface YYKeychainItem ()
 @property (nonatomic, readwrite, strong) NSDate *modificationDate;
 @property (nonatomic, readwrite, strong) NSDate *creationDate;
@@ -167,7 +197,7 @@ static YYKeychainQuerySynchronizationMode YYKeychainQuerySynchonizationEnum(NSNu
     if (self.account) dic[(__bridge id)kSecAttrAccount] = self.account;
     if (self.service) dic[(__bridge id)kSecAttrService] = self.service;
     
-    if (![UIDevice currentDevice].isSimulator) {
+    if (![UIDevice currentDevice]._isSimulator) {
         // Remove the access group if running on the iPhone simulator.
         //
         // Apps that are built for the simulator aren't signed, so there's no keychain access group
@@ -198,7 +228,7 @@ static YYKeychainQuerySynchronizationMode YYKeychainQuerySynchonizationEnum(NSNu
     if (self.service) dic[(__bridge id)kSecAttrService] = self.service;
     if (self.label) dic[(__bridge id)kSecAttrLabel] = self.label;
     
-    if (![UIDevice currentDevice].isSimulator) {
+    if (![UIDevice currentDevice]._isSimulator) {
         // Remove the access group if running on the iPhone simulator.
         //
         // Apps that are built for the simulator aren't signed, so there's no keychain access group

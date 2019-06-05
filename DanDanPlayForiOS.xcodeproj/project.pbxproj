@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7AAC10935834A20A6594C5B2 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7582DD6DD6EFF70CEC0E0CF /* libPods-DDPlay_Target-DDPlay.a */; };
+		50E813C76E0C74E1CA5DD5F0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */; };
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
 		8905BDA11F32C7EA0055BC84 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
@@ -542,7 +542,7 @@
 		89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
 		8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
-		A5DD6DB0E70609391BEFCE64 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972DB675B7E1B04F13BDB985 /* libPods-DDPlay_Target-DDPlay_Review.a */; };
+		D28EBD64E5E7155D70C6D5D7 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -575,6 +575,7 @@
 		58102B9BBE5A3F0CA6B8D500 /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
 		60A8179765AB2C3E09CFDC30 /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
 		65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
+		721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
 		76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
 		8904467E1FE55567006872A0 /* UIColor+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tools.h"; sourceTree = "<group>"; };
@@ -1187,11 +1188,10 @@
 		89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchViewController.m; sourceTree = "<group>"; };
 		8B847BFC216C6A0300DC8623 /* YYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPhotoBrowseView.h; sourceTree = "<group>"; };
 		8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoBrowseView.m; sourceTree = "<group>"; };
-		972DB675B7E1B04F13BDB985 /* libPods-DDPlay_Target-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
+		BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
 		C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7582DD6DD6EFF70CEC0E0CF /* libPods-DDPlay_Target-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E2E41E69B0E1D6AFC328E7BC /* Pods-DDPlay_Target-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1201,7 +1201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5DD6DB0E70609391BEFCE64 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */,
+				D28EBD64E5E7155D70C6D5D7 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1209,7 +1209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AAC10935834A20A6594C5B2 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */,
+				50E813C76E0C74E1CA5DD5F0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,8 +1222,8 @@
 				36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */,
 				C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */,
 				1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */,
-				D7582DD6DD6EFF70CEC0E0CF /* libPods-DDPlay_Target-DDPlay.a */,
-				972DB675B7E1B04F13BDB985 /* libPods-DDPlay_Target-DDPlay_Review.a */,
+				721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */,
+				BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

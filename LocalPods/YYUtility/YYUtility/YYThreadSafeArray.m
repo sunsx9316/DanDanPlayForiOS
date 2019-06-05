@@ -10,7 +10,7 @@
 //
 
 #import "YYThreadSafeArray.h"
-#import "NSArray+YYAdd.h"
+//#import "NSArray+YYAdd.h"
 
 
 #define INIT(...) self = super.init; \
@@ -24,6 +24,79 @@ return self;
 #define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
+
+@implementation NSMutableArray (_YYUtility)
+- (id)_randomObject {
+    if (self.count) {
+        return self[arc4random_uniform((u_int32_t)self.count)];
+    }
+    return nil;
+}
+
+- (id)_objectOrNilAtIndex:(NSUInteger)index {
+    return index < self.count ? self[index] : nil;
+}
+
+- (void)_removeFirstObject {
+    if (self.count) {
+        [self removeObjectAtIndex:0];
+    }
+}
+
+- (id)_popFirstObject {
+    id obj = nil;
+    if (self.count) {
+        obj = self.firstObject;
+        [self _removeFirstObject];
+    }
+    return obj;
+}
+
+- (id)_popLastObject {
+    id obj = nil;
+    if (self.count) {
+        obj = self.lastObject;
+        [self removeLastObject];
+    }
+    return obj;
+}
+
+- (void)_appendObjects:(NSArray *)objects {
+    if (!objects) return;
+    [self addObjectsFromArray:objects];
+}
+
+- (void)_prependObjects:(NSArray *)objects {
+    if (!objects) return;
+    NSUInteger i = 0;
+    for (id obj in objects) {
+        [self insertObject:obj atIndex:i++];
+    }
+}
+
+- (void)_insertObjects:(NSArray *)objects atIndex:(NSUInteger)index {
+    NSUInteger i = index;
+    for (id obj in objects) {
+        [self insertObject:obj atIndex:i++];
+    }
+}
+
+- (void)_reverse {
+    NSUInteger count = self.count;
+    int mid = floor(count / 2.0);
+    for (NSUInteger i = 0; i < mid; i++) {
+        [self exchangeObjectAtIndex:i withObjectAtIndex:(count - (i + 1))];
+    }
+}
+
+- (void)_shuffle {
+    for (NSUInteger i = self.count; i > 1; i--) {
+        [self exchangeObjectAtIndex:(i - 1)
+                  withObjectAtIndex:arc4random_uniform((u_int32_t)i)];
+    }
+}
+
+@end
 
 
 @implementation YYThreadSafeArray {
@@ -378,43 +451,43 @@ dispatch_semaphore_signal(_lock);
 #pragma mark - custom methods for NSArray(YYAdd)
 
 - (id)randomObject {
-    LOCK(id o = [_arr randomObject]) return o;
+    LOCK(id o = [_arr _randomObject]) return o;
 }
 
 - (id)objectOrNilAtIndex:(NSUInteger)index {
-    LOCK(id o = [_arr objectOrNilAtIndex:index]) return o;
+    LOCK(id o = [_arr _objectOrNilAtIndex:index]) return o;
 }
 
 - (void)removeFirstObject {
-    LOCK([_arr removeFirstObject]);
+    LOCK([_arr _removeFirstObject]);
 }
 
 - (id)popFirstObject {
-    LOCK(id o = [_arr popFirstObject]) return o;
+    LOCK(id o = [_arr _popFirstObject]) return o;
 }
 
 - (id)popLastObject {
-    LOCK(id o = [_arr popLastObject]) return o;
+    LOCK(id o = [_arr _popLastObject]) return o;
 }
 
 - (void)appendObjects:(NSArray *)objects {
-    LOCK([_arr appendObjects:objects]);
+    LOCK([_arr _appendObjects:objects]);
 }
 
 - (void)prependObjects:(NSArray *)objects {
-    LOCK([_arr prependObjects:objects]);
+    LOCK([_arr _prependObjects:objects]);
 }
 
 - (void)insertObjects:(NSArray *)objects atIndex:(NSUInteger)index {
-    LOCK([_arr insertObjects:objects atIndex:index]);
+    LOCK([_arr _insertObjects:objects atIndex:index]);
 }
 
 - (void)reverse {
-    LOCK([_arr reverse]);
+    LOCK([_arr _reverse]);
 }
 
 - (void)shuffle {
-    LOCK([_arr shuffle]);
+    LOCK([_arr _shuffle]);
 }
 
 @end

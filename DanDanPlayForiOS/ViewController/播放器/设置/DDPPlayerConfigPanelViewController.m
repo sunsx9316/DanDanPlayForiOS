@@ -83,6 +83,8 @@
             @strongify(self)
             if (!self) return;
             
+            DDPCacheManager.shareCacheManager.danmakuOffsetTime = value;
+            
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewController:didTouchStepper:)]) {
                 [self.delegate playerConfigPanelViewController:self didTouchStepper:value];
             }

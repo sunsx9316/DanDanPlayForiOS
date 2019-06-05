@@ -215,5 +215,11 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
  */
 @property (strong, nonatomic) NSMutableArray <NSString *>*refreshTexts;
 
+
+/**
+ 弹幕偏移时间 不进行本地保存
+ */
+@property (assign, nonatomic) CGFloat danmakuOffsetTime;
+
 + (instancetype)shareCacheManager;
 @end
