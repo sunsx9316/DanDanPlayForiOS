@@ -181,8 +181,8 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 
 
 /**
- 同步解析
+ 解析
  */
-- (void)synchronousParse;
+- (void)parseWithCompletion:(void(^)(void))completion;
 
 @end

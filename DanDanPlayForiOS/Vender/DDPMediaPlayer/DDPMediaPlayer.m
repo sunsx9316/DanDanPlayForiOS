@@ -14,7 +14,9 @@
 //最大音量
 #define MAX_VOLUME 200.0
 
-@interface DDPMediaPlayer()<VLCMediaPlayerDelegate>
+static char mediaParsingCompletionKey = '0';
+
+@interface DDPMediaPlayer()<VLCMediaPlayerDelegate, VLCMediaDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
 @property (copy, nonatomic) SnapshotCompleteBlock snapshotCompleteBlock;
 @end
@@ -49,11 +51,14 @@
     self.mediaView = nil;
 }
 
-- (void)synchronousParse {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self.localMediaPlayer.media synchronousParse];    
-#pragma clang diagnostic pop
+- (void)parseWithCompletion:(void(^)(void))completion {
+    objc_setAssociatedObject(self.localMediaPlayer.media, &mediaParsingCompletionKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    let media = self.localMediaPlayer.media;
+    let result = [media parseWithOptions:VLCMediaParseLocal | VLCMediaParseNetwork];
+    
+    if (result != 0) {
+        JHLog(@"%@", @"解析失败");
+    }
 }
 
 
@@ -272,6 +277,7 @@
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
         VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
+        media.delegate = self;
         self.localMediaPlayer.media = media;
     }
     
@@ -306,6 +312,15 @@
         DDPMediaPlayerStatus status = [self status];
         [self.delegate mediaPlayer:self statusChange:status];
     }
+}
+
+- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
+    void(^action)(void) = objc_getAssociatedObject(aMedia, &mediaParsingCompletionKey);
+    if (action) {
+        action();
+    }
+    
+    objc_setAssociatedObject(aMedia, &mediaParsingCompletionKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark - 私有方法

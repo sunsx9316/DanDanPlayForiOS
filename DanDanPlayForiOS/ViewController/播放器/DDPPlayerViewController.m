@@ -885,52 +885,58 @@
     [[DDPCacheManager shareCacheManager] saveLastPlayTime:_currentTime videoModel:self.model];
     
     //本地视频不需要特殊处理
-    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
+//    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
         _isPlay = self.player.isPlaying;
         [self.player pause];
-    }
-    else {
-        _isPlay = self.player.isPlaying;
-        
-        _cacheCurrentTime = self.danmakuEngine.currentTime;
-        DDLogVerbose(@"退到后台保存时间：%@", ddp_mediaFormatterTime(_cacheCurrentTime));
-        [self.player setMediaURL:_model.fileURL];
-        [self.player stop];
-    }
+//    }
+//    else {
+//        _isPlay = self.player.isPlaying;
+//
+//        _cacheCurrentTime = self.danmakuEngine.currentTime;
+//        DDLogVerbose(@"退到后台保存时间：%@", ddp_mediaFormatterTime(_cacheCurrentTime));
+////        [self.player setMediaURL:_model.fileURL];
+//        [self.player stop];
+//    }
 }
 
 - (void)appDidBecomeActive:(NSNotification *)sender {
-    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
+//    if (self.player.mediaType == DDPMediaTypeLocaleMedia) {
         if (_isPlay) {
             [self.player play];
         }
-    }
-    else {
-        NSInteger time = _cacheCurrentTime;
-        
-        DDLogVerbose(@"回到前台获取的时间：%@", ddp_mediaFormatterTime(time));
-        
-        //更换视频
-        [self.player setMediaURL:self.model.fileURL];
-        [self.player synchronousParse];
-        [self.player play];
-        
-        
-        //延迟一会 把时间调整到之前的位置
-        @weakify(self)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            @strongify(self)
-            if (!self) return;
-            
-            [self.player setCurrentTime:(int)time completionHandler:nil];
-            self.danmakuEngine.currentTime = time;
-            
-            if (self->_isPlay == false) {
-                [self.player pause];
-                [self.danmakuEngine pause];
-            }
-        });
-    }
+//    }
+//    else {
+//        NSInteger time = _cacheCurrentTime;
+//
+//        DDLogVerbose(@"回到前台获取的时间：%@", ddp_mediaFormatterTime(time));
+//
+//        //更换视频
+//        [self.player setMediaURL:self.model.fileURL];
+//        @weakify(self)
+//        [self.player parseWithCompletion:^{
+//            @strongify(self)
+//            if (!self) return;
+//
+//
+//            [self.player play];
+//            [self.player setCurrentTime:(int)time completionHandler:nil];
+//            self.danmakuEngine.currentTime = time;
+//
+//            if (self->_isPlay == false) {
+//                [self.player pause];
+//                [self.danmakuEngine pause];
+//            }
+//        }];
+//
+//
+//        //延迟一会 把时间调整到之前的位置
+//
+////        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////
+////
+////
+////        });
+//    }
 }
 
 #pragma mark - 懒加载
