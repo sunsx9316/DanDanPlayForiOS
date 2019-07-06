@@ -51,7 +51,7 @@ typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 #define LINK_API_INDEX @"api/v1"
 
 //动漫花园解析url
-#define API_DMHY_DOMAIN @"https://res.chinacloudsites.cn"
+#define API_DMHY_DOMAIN @"http://res.acplay.net"
 
 //屏幕宽高
 #define DDP_WIDTH [UIScreen mainScreen].bounds.size.width
