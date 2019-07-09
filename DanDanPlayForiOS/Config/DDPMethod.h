@@ -42,7 +42,7 @@ CG_INLINE NSURL *ddp_linkImageURL(NSString *ip, NSString *hash) {
 CG_INLINE NSURL *ddp_linkVideoURL(NSString *ip, NSString *hash) {
     if (hash.length == 0) return nil;
     
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/stream/%@", ip, LINK_API_INDEX, hash]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/stream/id/%@", ip, LINK_API_INDEX, hash]];
 }
 
 CG_INLINE NSString *ddp_taskDownloadPath() {

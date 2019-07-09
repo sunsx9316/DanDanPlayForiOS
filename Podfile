@@ -24,7 +24,7 @@ abstract_target 'DDPlay_Target' do
     pod 'UMengUShare/Social/WeChat'
     
     pod 'Bugly'
-    pod 'MobileVLCKit'
+    pod 'MobileVLCKit', '3.3.0'
     pod 'AFNetworking'
     pod 'Masonry'
     pod 'YYModel'
