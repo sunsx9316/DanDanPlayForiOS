@@ -10,11 +10,11 @@
 
 @implementation DDPSearchBar
 - (UITextField *)textField {
-#if !TARGET_OS_UIKITFORMAC
-    return [self valueForKey:@"_searchField"];
-#else
-    return nil;
-#endif
+    if (@available(iOS 13.0, *)) {
+        return nil;
+    } else {
+        return [self valueForKey:@"_searchField"];
+    }
 }
 
 @end

@@ -10,7 +10,7 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
 
-@interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
+API_AVAILABLE(ios(13.0)) @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 
 @property (strong, nonatomic) UIWindow * window;
 

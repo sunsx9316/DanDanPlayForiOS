@@ -76,7 +76,7 @@ abstract_target 'DDPlay_Target' do
     pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
     end
 
-    # target 'DDPlay_ToMac' do
-    # pod 'CocoaLumberjack'
-    # end
+    target 'DDPlay_ToMac' do
+    pod 'CocoaLumberjack'
+    end
 end
