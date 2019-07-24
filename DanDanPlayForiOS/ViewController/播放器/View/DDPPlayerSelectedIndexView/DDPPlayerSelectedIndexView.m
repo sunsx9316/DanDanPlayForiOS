@@ -13,6 +13,7 @@
 @interface DDPPlayerSelectedIndexView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
 
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
 

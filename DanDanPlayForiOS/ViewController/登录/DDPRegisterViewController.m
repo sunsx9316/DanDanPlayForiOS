@@ -12,10 +12,8 @@
 #import "DDPTextField.h"
 #import "DDPBaseScrollView.h"
 #import "DDPEmailListView.h"
-#import "UIApplication+Tools.h"
 #import "NSString+Tools.h"
 #import "DDPEdgeButton.h"
-#import "UIApplication+Tools.h"
 
 @interface DDPRegisterViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) DDPTextField *accountTextField;

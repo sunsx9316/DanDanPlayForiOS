@@ -10,13 +10,14 @@
 #import "DDPHTTPConnection.h"
 #import "NSString+Tools.h"
 #import <YYCache.h>
-#import <MobileVLCKit/MobileVLCKit.h>
 #import <HTTPServer.h>
 #import <TOSMBClient.h>
 #import "NSURL+Tools.h"
+#import "DDPLoginViewController.h"
+#if !TARGET_OS_UIKITFORMAC
 #import <Bugly/Bugly.h>
 #import "DDPMediaThumbnailer.h"
-#import "DDPLoginViewController.h"
+#endif
 
 static NSString *const tempImageKey = @"temp_image";
 static NSString *const smbProgressBlockKey = @"smb_progress_block";
@@ -59,7 +60,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 }
 
 - (void)videoSnapShotWithModel:(DDPVideoModel *)model completion:(GetSnapshotAction)completion {
-    
+    #if !TARGET_OS_UIKITFORMAC
     //防止重复获取缩略图
     if (model == nil || completion == nil || objc_getAssociatedObject(model, &tempImageKey)) return;
     
@@ -82,6 +83,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
         
         [thumbnailer fetchThumbnail];
     });
+#endif
 }
 
 + (NSArray *)subTitleFileWithLocalURL:(NSURL *)url {

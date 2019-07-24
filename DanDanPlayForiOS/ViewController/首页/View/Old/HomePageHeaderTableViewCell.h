@@ -6,13 +6,13 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 #define BANNER_HEIGHT 180
 #define BANNER_BUTTON_HEIGHT 40
 //#define MENU_VIEW_HEIGHT 44
 #define HOME_PAGE_HEADER_HEIGHT (BANNER_HEIGHT + BANNER_BUTTON_HEIGHT + 20)
 
-@interface HomePageHeaderTableViewCell : UITableViewCell
+@interface HomePageHeaderTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) NSArray <DDPNewBanner *>*dataSource;
 
 @property (copy, nonatomic) void(^didSelctedModelCallBack)(DDPNewBanner *model);

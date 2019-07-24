@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#if DDPAPPTYPE == 2
+#define HOME_BANNER_VIEW_HEIGHT 320
+#else
 #define HOME_BANNER_VIEW_HEIGHT 180
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -11,7 +11,9 @@
 #import "DDPHomePageBannerCollectionViewCell.h"
 #import "DDPBaseWebViewController.h"
 
-#import <iCarousel.h>
+#import <iCarousel/iCarousel.h>
+
+#define SCROLL_TIME_INTERVAL 5
 
 @interface DDPHomePageBannerView ()<iCarouselDelegate, iCarouselDataSource>
 @property (strong, nonatomic) iCarousel *scrollView;
@@ -36,11 +38,21 @@
         }];
         
         [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_offset(-5);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.right.mas_offset(-15);
+            } else {
+                make.right.mas_offset(-5);
+            }
             make.top.mas_offset(-5);
         }];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.scrollView.frame = self.bounds;
 }
 
 - (void)setModels:(NSArray<DDPNewBanner *> *)models {
@@ -49,14 +61,18 @@
     
     [self.scrollView reloadData];
     self.pageControl.numberOfPages = _models.count;
-    
     @weakify(self)
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 block:^(NSTimer * _Nonnull timer) {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:SCROLL_TIME_INTERVAL block:^(NSTimer * _Nonnull timer) {
         @strongify(self)
         if (!self) return;
         
         [self.scrollView scrollToItemAtIndex:self.scrollView.currentItemIndex + 1 duration:0.8];
     } repeats:YES];
+}
+
+#pragma mark - Private Method
+- (void)reloadDate {
+    [self.scrollView reloadData];
 }
 
 
@@ -65,8 +81,16 @@
     if (option == iCarouselOptionWrap) {
         return YES;
     }
+    
     if (option == iCarouselOptionOffsetMultiplier) {
         return carousel.numberOfItems > 1 ? value : 0;
+    }
+    
+    if (option == iCarouselOptionCount) {
+        if (ddp_appType == DDPAppTypeToMac) {
+            return 5;
+        }
+        return value;
     }
     return value;
 }
@@ -76,10 +100,32 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index {
+    
+    if (index != carousel.currentItemIndex) {
+        [carousel scrollToItemAtIndex:index animated:YES];
+        return;
+    }
+    
     let model = self.models[index];
-    DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:model.url];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.viewController.navigationController pushViewController:vc animated:YES];
+    if (ddp_appType == DDPAppTypeToMac) {
+        [[UIApplication sharedApplication] openURL:model.url options:@{} completionHandler:nil];
+    } else {
+        DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:model.url];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.viewController.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (CGFloat)carouselItemWidth:(iCarousel *)carousel {
+    if (ddp_appType == DDPAppTypeToMac) {
+        return floor(carousel.width / 2);
+    } else {
+        return carousel.width;
+    }
+}
+
+- (void)carouselDidScroll:(iCarousel *)carousel {
+    self.timer.fireDate = [NSDate dateWithTimeIntervalSinceNow:SCROLL_TIME_INTERVAL];
 }
 
 #pragma mark - iCarouselDataSource
@@ -89,10 +135,19 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable __kindof UIView *)view {
     DDPHomePageBannerCollectionViewCell *bannerView = view;
-    if (bannerView == nil) {
-        bannerView = [[DDPHomePageBannerCollectionViewCell alloc] initWithFrame:carousel.bounds];
+    CGRect frame = CGRectZero;
+    
+    if (ddp_appType == DDPAppTypeToMac) {
+        frame = CGRectMake(0, 10, floor(carousel.width / 2), carousel.height - 20);
+    } else {
+        frame = carousel.bounds;
     }
     
+    if (bannerView == nil) {
+        bannerView = [[DDPHomePageBannerCollectionViewCell alloc] initWithFrame:frame];
+    }
+    
+    bannerView.frame = frame;
     bannerView.banner = self.models[index];
     return bannerView;
 }
@@ -105,7 +160,12 @@
         _scrollView.dataSource = self;
         _scrollView.delegate = self;
         _scrollView.pagingEnabled = YES;
-        _scrollView.type = iCarouselTypeLinear;
+        if (ddp_appType == DDPAppTypeToMac) {
+            _scrollView.type = iCarouselTypeRotary;
+            _scrollView.perspective = -1.0 / 1500.0;
+        } else {
+            _scrollView.type = iCarouselTypeLinear;
+        }
     }
     return _scrollView;
 }
@@ -115,9 +175,13 @@
         _pageControl = [[UIPageControl alloc] init];
         _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
-        _pageControl.transform = CGAffineTransformMakeScale(0.7, 0.7);
         _pageControl.currentPageIndicatorTintColor = [UIColor ddp_mainColor];
-        _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+        if (ddp_appType == DDPAppTypeToMac) {
+            _pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
+        } else {
+            _pageControl.transform = CGAffineTransformMakeScale(0.7, 0.7);
+            _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+        }
     }
     return _pageControl;
 }

@@ -69,10 +69,12 @@ typedef NS_ENUM(NSUInteger, DDPErrorCode) {
 
  - DDPAppTypeDefault: 默认类型 展示所有功能
  - DDPAppTypeReview: 审核中 隐藏一下功能
+ - DDPAppTypeToMac: iOS to Mac版本
  */
 typedef NS_ENUM(NSUInteger, DDPAppType) {
     DDPAppTypeDefault,
     DDPAppTypeReview,
+    DDPAppTypeToMac,
 };
 
 FOUNDATION_EXPORT DDPAppType ddp_appType;

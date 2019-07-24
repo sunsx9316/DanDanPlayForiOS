@@ -14,7 +14,6 @@
 #import "DDPLoginViewController.h"
 #import "DDPControlVideoViewController.h"
 
-#import "UIApplication+Tools.h"
 #import "DDPSettingTitleTableViewCell.h"
 #import "DDPSettingDownloadTableViewCell.h"
 #import "UIView+Tools.h"
@@ -236,7 +235,6 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 #if !DDPAPPTYPE
         [_tableView registerClass:[DDPSettingDownloadTableViewCell class] forCellReuseIdentifier:@"DDPSettingDownloadTableViewCell"];
 #endif
-        _tableView.tableFooterView = [[UIView alloc] init];
         [self.view addSubview:_tableView];
     }
     return _tableView;
@@ -265,6 +263,10 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
             }
             
             [arr addObject:@{TITLE_KEY: @"遥控器"}];
+        } else if (ddp_appType == DDPAppTypeToMac) {
+            if ([DDPCacheManager shareCacheManager].currentUser.isLogin) {
+                [arr addObject:@{TITLE_KEY: @"我的关注"}];
+            }
         }
         
         [arr addObjectsFromArray:@[

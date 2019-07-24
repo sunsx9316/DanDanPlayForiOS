@@ -10,4 +10,6 @@
 
 @interface UIImage (Tools)
 + (UIImage *)ddp_placeHolder;
+
+- (instancetype)renderByMainColor;
 @end

@@ -19,6 +19,7 @@
 
 @interface DDPLinkFileManagerViewController ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, DDPCacheManagerDelagate>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
+@property (strong, nonatomic) UIImage *folderImg;
 @end
 
 @implementation DDPLinkFileManagerViewController
@@ -75,7 +76,7 @@
     DDPFileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = [NSString stringWithFormat:@"%lu个视频", (unsigned long)file.subFiles.count];
-    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
+    cell.iconImgView.image = self.folderImg;
     return cell;
 }
 
@@ -253,5 +254,11 @@
     return _tableView;
 }
 
+- (UIImage *)folderImg {
+    if (_folderImg == nil) {
+        _folderImg = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+    }
+    return _folderImg;
+}
 
 @end

@@ -17,16 +17,16 @@
 static BOOL sx_disableFixSpace = NO;
 
 @implementation UIImagePickerController (SXFixSpace)
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self swizzleInstanceMethod:@selector(viewWillAppear:)
-                                     with:@selector(sx_viewWillAppear:)];
-        
-        [self swizzleInstanceMethod:@selector(viewWillDisappear:)
-                                     with:@selector(sx_viewWillDisappear:)];
-    });
-}
+//+ (void)load {
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [self swizzleInstanceMethod:@selector(viewWillAppear:)
+//                                     with:@selector(sx_viewWillAppear:)];
+//
+//        [self swizzleInstanceMethod:@selector(viewWillDisappear:)
+//                                     with:@selector(sx_viewWillDisappear:)];
+//    });
+//}
 
 
 - (void)sx_viewWillAppear:(BOOL)animated {
@@ -43,13 +43,13 @@ static BOOL sx_disableFixSpace = NO;
 
 @implementation UINavigationBar (SXFixSpace)
 
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self swizzleInstanceMethod:@selector(layoutSubviews)
-                                     with:@selector(sx_layoutSubviews)];
-    });
-}
+//+ (void)load {
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [self swizzleInstanceMethod:@selector(layoutSubviews)
+//                                     with:@selector(sx_layoutSubviews)];
+//    });
+//}
 
 - (void)sx_layoutSubviews{
     [self sx_layoutSubviews];
@@ -70,23 +70,23 @@ static BOOL sx_disableFixSpace = NO;
 
 @implementation UINavigationItem (SXFixSpace)
 
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self swizzleInstanceMethod:@selector(setLeftBarButtonItem:)
-                                     with:@selector(sx_setLeftBarButtonItem:)];
-        
-//        [self swizzleInstanceMethod:@selector(setLeftBarButtonItems:)
-//                                     with:@selector(sx_setLeftBarButtonItems:)];
-        
-        [self swizzleInstanceMethod:@selector(setRightBarButtonItem:)
-                                     with:@selector(sx_setRightBarButtonItem:)];
-        
-//        [self swizzleInstanceMethod:@selector(setRightBarButtonItems:)
-//                                     with:@selector(sx_setRightBarButtonItems:)];
-    });
-    
-}
+//+ (void)load {
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [self swizzleInstanceMethod:@selector(setLeftBarButtonItem:)
+//                                     with:@selector(sx_setLeftBarButtonItem:)];
+//        
+////        [self swizzleInstanceMethod:@selector(setLeftBarButtonItems:)
+////                                     with:@selector(sx_setLeftBarButtonItems:)];
+//        
+//        [self swizzleInstanceMethod:@selector(setRightBarButtonItem:)
+//                                     with:@selector(sx_setRightBarButtonItem:)];
+//        
+////        [self swizzleInstanceMethod:@selector(setRightBarButtonItems:)
+////                                     with:@selector(sx_setRightBarButtonItems:)];
+//    });
+//    
+//}
 
 - (void)sx_setLeftBarButtonItem:(UIBarButtonItem *)leftBarButtonItem {
     if (@available(iOS 11.0, *)) {

@@ -196,6 +196,7 @@
 #pragma mark - 私有方法
 
 - (void)requestLibrary {
+#if DDPAPPTYPE == 0
     DDPLinkInfo *linkInfo = [DDPCacheManager shareCacheManager].linkInfo ? [DDPCacheManager shareCacheManager].linkInfo : [DDPCacheManager shareCacheManager].lastLinkInfo;
     
     @weakify(self)
@@ -235,6 +236,7 @@
             [self.tableView reloadData];
         }
     }];
+#endif
 }
 
 //- (void)jumpToMatchVCWithModel:(DDPVideoModel *)model {

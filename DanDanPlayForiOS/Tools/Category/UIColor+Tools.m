@@ -11,7 +11,8 @@
 @implementation UIColor (Tools)
 
 + (UIColor *)ddp_mainColor {
-    return DDPRGBColor(51, 151, 252);
+//    return DDPRGBColor(51, 151, 252);
+    return DDPRGBColor(243, 118, 47);
 }
 
 + (UIColor *)ddp_backgroundColor {

@@ -25,6 +25,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.rateLabel.backgroundColor = [UIColor ddp_mainColor];
+    self.rateLabel.textColor = [UIColor whiteColor];
+    self.nameLabel.textColor = [UIColor whiteColor];
     self.rateLabel.text = nil;
     self.nameLabel.text = nil;
     

@@ -7,7 +7,6 @@
 //
 
 #import "DDPFile.h"
-#import "DDPLinkVideoModel.h"
 
 @interface DDPLinkFile : DDPFile
 @property (strong, nonatomic, readonly) DDPLibrary *library;

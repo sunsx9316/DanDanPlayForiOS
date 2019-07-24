@@ -520,7 +520,7 @@
 }
 
 - (void)playerConfigPanelViewControllerDidTouchSelectedDanmakuCell {
-//#if !DDPAPPTYPE
+#if !DDPAPPTYPE
     @weakify(self)
     [self pickFileWithType:PickerFileTypeDanmaku selectedFileCallBack:^(__kindof DDPFile *aFile) {
         @strongify(self)
@@ -533,16 +533,16 @@
             [self openDanmakuWithURL:aFile.fileURL];
         }
     }];
-//#endif
+#endif
 }
 
 - (void)playerConfigPanelViewControllerDidTouchMatchCell {
-//#if !DDPAPPTYPE
+#if !DDPAPPTYPE
     DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
     vc.model = self.model;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
-//#endif
+#endif
 }
 
 - (void)playerConfigPanelViewControllerDidTouchFilterCell {

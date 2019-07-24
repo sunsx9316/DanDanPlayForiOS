@@ -23,7 +23,7 @@
 
  @param token JWTToken
  */
-- (void)resetJWTToken:(NSString *)token;
+//- (void)resetJWTToken:(NSString *)token;
 
 /**
  *  GET封装

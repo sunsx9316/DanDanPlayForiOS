@@ -28,7 +28,7 @@
 #import "DDPPlayerSelectedIndexView.h"
 #import "DDPPlayerSubTitleIndexViewMediator.h"
 #import "DDPPlayerAudioChannelViewMediator.h"
-#import "UIApplication+Tools.h"
+#import "UIApplication+DDPTools.h"
 
 #define AUTO_DISS_MISS_TIME 3.5f
 

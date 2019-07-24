@@ -8,7 +8,10 @@
 
 #import "DDPMethod.h"
 #import "NSURL+Tools.h"
+
+#if !TARGET_OS_UIKITFORMAC
 #import <UMSocialCore/UMSocialCore.h>
+#endif
 
 static NSArray <NSString *>*ddp_danmakuTypes() {
     static NSArray <NSString *>*_danmakuTypes;
@@ -214,6 +217,7 @@ BOOL ddp_isLandscape(void) {
 }
 
 BOOL ddp_isChatAppInstall(void) {
+#if !TARGET_OS_UIKITFORMAC
     if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_QQ]) {
         return true;
     }
@@ -229,7 +233,7 @@ BOOL ddp_isChatAppInstall(void) {
     if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_Tim]) {
         return true;
     }
-    
+#endif
     return false;
 }
 

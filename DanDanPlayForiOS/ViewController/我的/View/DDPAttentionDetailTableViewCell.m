@@ -35,7 +35,11 @@
         
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.width.mas_offset(80 + ddp_isPad() * 30);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.width.mas_offset(180 + ddp_isPad() * 30);
+            } else {
+                make.width.mas_offset(80 + ddp_isPad() * 30);
+            }
             make.height.mas_offset(DETAIL_CELL_HEIGHT);
             make.centerY.mas_equalTo(0);
         }];
@@ -64,7 +68,7 @@
         
         [self.contentView addSubview:self.likeButton];
         [self.likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-10);
+            make.right.mas_lessThanOrEqualTo(-10);
             make.centerY.mas_equalTo(self.nameLabel);
             make.left.mas_equalTo(self.nameLabel.mas_right).mas_equalTo(5);
         }];

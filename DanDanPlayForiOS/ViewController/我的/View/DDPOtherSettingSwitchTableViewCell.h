@@ -6,9 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 
-@interface DDPOtherSettingSwitchTableViewCell : UITableViewCell
+@interface DDPOtherSettingSwitchTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @property (strong, nonatomic) UISwitch *aSwitch;

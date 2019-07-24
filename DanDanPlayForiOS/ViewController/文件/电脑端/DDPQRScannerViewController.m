@@ -9,7 +9,6 @@
 #import "DDPQRScannerViewController.h"
 #import "JHQRCodeReader.h"
 #import "DDPEdgeButton.h"
-#import "UIApplication+Tools.h"
 #import "DDPQRHelpViewController.h"
 #import "DDPCacheManager+multiply.h"
 #import "DDPQRScannerHistoryView.h"

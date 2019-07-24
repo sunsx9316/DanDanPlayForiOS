@@ -28,6 +28,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor ddp_backgroundColor];
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+#endif
+    
     [self configLeftItem];
     [self configRightItem];
 }
@@ -51,7 +56,7 @@
 
 - (BOOL)showLoginAlert {
     return [self showLoginAlertWithAction:^{
-#if !DDPAPPTYPE
+#if DDPAPPTYPE != 1
         DDPLoginViewController *vc = [[DDPLoginViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];

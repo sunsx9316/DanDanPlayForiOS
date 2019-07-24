@@ -118,7 +118,8 @@
         aButton.inset = CGSizeMake(30, 10);
         _enableButton = aButton;
         [_enableButton setImage:[UIImage imageNamed:@"comment_cheak_mark_noselected"] forState:UIControlStateNormal];
-        [_enableButton setImage:[UIImage imageNamed:@"comment_cheak_mark_selected"] forState:UIControlStateSelected];
+        var img = [[UIImage imageNamed:@"comment_cheak_mark_selected"] renderByMainColor];
+        [_enableButton setImage:img forState:UIControlStateSelected];
         [_enableButton addTarget:self action:@selector(touchEnableButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_enableButton];
     }

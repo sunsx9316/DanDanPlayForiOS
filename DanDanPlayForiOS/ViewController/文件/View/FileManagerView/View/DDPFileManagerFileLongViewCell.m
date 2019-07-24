@@ -7,11 +7,11 @@
 //
 
 #import "DDPFileManagerFileLongViewCell.h"
-#import <MobileVLCKit/MobileVLCKit.h>
 #import "UIView+Tools.h"
 #import "DDPEdgeButton.h"
 #import "DDPMediaPlayer.h"
 #import "DDPVideoModel+Tools.h"
+#import "UIImage+Tools.h"
 
 @interface DDPFileManagerFileLongViewCell ()
 //@property (strong, nonatomic) UIView *grayView;
@@ -114,7 +114,9 @@
         _lastPlayTimeButton.hidden = YES;
         _lastPlayTimeButton.titleLabel.font = [UIFont ddp_smallSizeFont];
         [_lastPlayTimeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_lastPlayTimeButton setBackgroundImage:[UIImage imageNamed:@"comment_file_type"] forState:UIControlStateNormal];
+        
+        var img = [[UIImage imageNamed:@"comment_file_type"] renderByMainColor];
+        [_lastPlayTimeButton setBackgroundImage:img forState:UIControlStateNormal];
         [self.contentView addSubview:_lastPlayTimeButton];
     }
     return _lastPlayTimeButton;

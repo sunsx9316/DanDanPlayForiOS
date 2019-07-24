@@ -8,13 +8,15 @@
 
 #import "DDPDownloadManager.h"
 
-#import "DDPCacheManager+DB.h"
-
-#import "TOSMBSessionDownloadTask+DB.h"
 
 #import "DDPLinkDownloadTask+Tools.h"
 #import "DDPMethod.h"
 #import "DDPLinkNetManagerOperation.h"
+
+#if DDPAPPTYPE != 2
+#import "DDPCacheManager+DB.h"
+#import "TOSMBSessionDownloadTask+DB.h"
+#endif
 
 @interface DDPDownloadManager ()<TOSMBSessionDownloadTaskDelegate>
 @property (strong, nonatomic) NSMutableArray <id<DDPDownloadTaskProtocol>>*mTasks;
@@ -64,6 +66,31 @@
     
     [_observers removeObject:observer];
 }
+
+#if DDPAPPTYPE == 2
+- (void)addTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
+    
+}
+
+- (void)addTasks:(NSArray<id<DDPDownloadTaskProtocol>> *)tasks completion:(dispatch_block_t)completion {
+    
+}
+
+- (void)removeTask:(NSObject <DDPDownloadTaskProtocol>*)task force:(BOOL)force completion:(DDPDownloadManagerCompletionAction)completion {
+    
+}
+
+- (void)removeTasks:(NSArray <NSObject <DDPDownloadTaskProtocol>*>*)tasks force:(BOOL)force completion:(DDPDownloadManagerTasksCompletionAction)completion {
+    
+}
+
+- (void)addTask:(NSObject <DDPDownloadTaskProtocol>*)task
+     autoNotice:(BOOL)autoNotice
+     completion:(DDPDownloadManagerCompletionAction)completion {
+    
+}
+
+#else
 
 - (void)addTask:(NSObject <DDPDownloadTaskProtocol, WCTTableCoding>*)task completion:(DDPDownloadManagerCompletionAction)completion {
     if (task == nil) {
@@ -122,10 +149,6 @@
             }
         }
     });
-}
-
-- (void)removeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
-    [self removeTask:task force:NO completion:completion];
 }
 
 - (void)removeTask:(NSObject <DDPDownloadTaskProtocol>*)task force:(BOOL)force completion:(DDPDownloadManagerCompletionAction)completion {
@@ -201,47 +224,6 @@
     });
 }
 
-- (void)resumeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
-    [task ddp_resumeWithCompletion:completion];
-}
-
-- (void)pauseTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
-    [task ddp_suspendWithCompletion:completion];
-}
-
-- (void)startObserverTaskInfo {
-    self.timer.fireDate = [NSDate distantPast];
-}
-
-- (void)stopObserverTaskInfo {
-    self.timer.fireDate = [NSDate distantFuture];
-}
-
-#pragma mark - 私有方法
-- (void)timerStart:(NSTimer *)timer {
-    [DDPLinkNetManagerOperation linkDownloadListWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress completionHandler:^(DDPLinkDownloadTaskCollection *collection, NSError *error) {
-        if (error == nil) {
-            [collection.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (obj.isDeleted) {
-                    [collection.collection removeObjectAtIndex:idx];
-                }
-            }];
-            
-            if (self.linkDownloadTasks.count != collection.collection.count) {
-                self.linkDownloadTasks = collection.collection;
-                for (id<DDPDownloadManagerObserver>obj in _observers.copy) {
-                    if ([obj respondsToSelector:@selector(tasksDidChange:type:error:)]) {
-                        [obj tasksDidChange:collection.collection type:DDPDownloadTasksChangeTypeUpdate error:nil];
-                    }
-                }
-            }
-            else {
-                self.linkDownloadTasks = collection.collection;
-            }
-        }
-    }];
-}
-
 - (void)addTask:(NSObject <DDPDownloadTaskProtocol, WCTTableCoding>*)task
      autoNotice:(BOOL)autoNotice
      completion:(DDPDownloadManagerCompletionAction)completion {
@@ -303,9 +285,57 @@
         }
     }
 }
+#endif
+
+
+- (void)removeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
+    [self removeTask:task force:NO completion:completion];
+}
+
+- (void)resumeTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
+    [task ddp_resumeWithCompletion:completion];
+}
+
+- (void)pauseTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
+    [task ddp_suspendWithCompletion:completion];
+}
+
+- (void)startObserverTaskInfo {
+    self.timer.fireDate = [NSDate distantPast];
+}
+
+- (void)stopObserverTaskInfo {
+    self.timer.fireDate = [NSDate distantFuture];
+}
+
+#pragma mark - 私有方法
+- (void)timerStart:(NSTimer *)timer {
+    [DDPLinkNetManagerOperation linkDownloadListWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress completionHandler:^(DDPLinkDownloadTaskCollection *collection, NSError *error) {
+        if (error == nil) {
+            [collection.collection enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPLinkDownloadTask * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.isDeleted) {
+                    [collection.collection removeObjectAtIndex:idx];
+                }
+            }];
+            
+            if (self.linkDownloadTasks.count != collection.collection.count) {
+                self.linkDownloadTasks = collection.collection;
+                for (id<DDPDownloadManagerObserver>obj in _observers.copy) {
+                    if ([obj respondsToSelector:@selector(tasksDidChange:type:error:)]) {
+                        [obj tasksDidChange:collection.collection type:DDPDownloadTasksChangeTypeUpdate error:nil];
+                    }
+                }
+            }
+            else {
+                self.linkDownloadTasks = collection.collection;
+            }
+        }
+    }];
+}
 
 #pragma mark - TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath {
+    #if DDPAPPTYPE != 2
     if (downloadTask) {
         //移除下载成功的任务
         [self removeTask:downloadTask completion:^(NSError *error) {
@@ -315,11 +345,13 @@
             }
         }];
     }
+    #endif
     
 }
 
 #pragma mark - 懒加载
 - (NSMutableArray<id<DDPDownloadTaskProtocol>> *)mTasks {
+#if DDPAPPTYPE != 2
     if (_mTasks == nil) {
         WCTDatabase *db = [DDPCacheManager shareDB];
         
@@ -339,6 +371,7 @@
             _mTasks = tasks;
         }
     }
+#endif
     return _mTasks;
 }
 

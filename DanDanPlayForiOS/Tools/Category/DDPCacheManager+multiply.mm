@@ -72,6 +72,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 - (NSMutableOrderedSet<DDPFilter *> *)mDanmakuFilters {
     NSMutableOrderedSet<DDPFilter *> *_mDanmakuFilters = objc_getAssociatedObject(self, _cmd);
     if (_mDanmakuFilters == nil) {
+#if !TARGET_OS_UIKITFORMAC
         WCTDatabase *db = [DDPCacheManager shareDB];
         NSArray *datas = [db getAllObjectsOfClass:DDPFilter.class fromTable:DDPFilter.className];
         if (datas) {
@@ -80,7 +81,9 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
         else {
             _mDanmakuFilters = [NSMutableOrderedSet orderedSet];
         }
-        
+#else
+        _mDanmakuFilters = [NSMutableOrderedSet orderedSet];
+#endif
         objc_setAssociatedObject(self, _cmd, _mDanmakuFilters, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
@@ -104,8 +107,10 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     
     [self.mDanmakuFilters addObjectsFromArray:models];
     [self clearFilterHash];
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObjects:models into:DDPFilter.className];
+#endif
 }
 
 - (void)removeFilters:(NSArray<DDPFilter *> *)models {
@@ -113,7 +118,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     
     [self.mDanmakuFilters removeObjectsInArray:models];
     [self clearFilterHash];
-    
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     NSString *tableName = DDPFilter.className;
     [db runTransaction:^BOOL{
@@ -123,6 +128,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
         
         return YES;
     }];
+#endif
 }
 
 #pragma mark -
@@ -133,6 +139,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 - (NSMutableOrderedSet<DDPFilter *> *)mLinkInfoHistorys {
     NSMutableOrderedSet<DDPFilter *> *_mLinkInfoHistorys = objc_getAssociatedObject(self, _cmd);
     if (_mLinkInfoHistorys == nil) {
+#if !TARGET_OS_UIKITFORMAC
         WCTDatabase *db = [DDPCacheManager shareDB];
         NSArray *datas = [db getAllObjectsOfClass:DDPLinkInfo.class fromTable:DDPLinkInfo.className];
         if (datas) {
@@ -141,7 +148,9 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
         else {
             _mLinkInfoHistorys = [NSMutableOrderedSet orderedSet];
         }
-        
+#else
+        _mLinkInfoHistorys = [NSMutableOrderedSet orderedSet];
+#endif
         objc_setAssociatedObject(self, _cmd, _mLinkInfoHistorys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
@@ -149,33 +158,39 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 }
 
 - (DDPLinkInfo *)lastLinkInfo {
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getOneObjectOfClass:DDPLinkInfo.class fromTable:DDPLinkInfo.className orderBy:DDPLinkInfo.saveTime.order(WCTOrderedDescending)];
+#else
+    return nil;
+#endif
 }
 
 - (void)addLinkInfo:(DDPLinkInfo *)linkInfo {
     if (linkInfo == nil) return;
     
     [self.mLinkInfoHistorys addObject:linkInfo];
-    
+    #if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObject:linkInfo into:DDPLinkInfo.className];
+    #endif
 }
 
 - (void)removeLinkInfo:(DDPLinkInfo *)linkInfo {
     if (linkInfo == nil) return;
     
     [self.mLinkInfoHistorys removeObject:linkInfo];
-    
+    #if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db deleteObjectsFromTable:linkInfo.className where:DDPLinkInfo.selectedIpAdress == linkInfo.selectedIpAdress];
+    #endif
 }
 
 #pragma mark -
 
 - (void)saveEpisodeId:(NSUInteger)episodeId episodeName:(NSString *)episodeName videoModel:(DDPVideoModel *)model {
     if (model.fileHash.length == 0 || episodeName.length == 0 || episodeId == 0) return;
-    
+    #if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     DDPVideoCache *cache = [self relevanceCacheWithVideoModel:model];
     if (cache == nil) {
@@ -187,11 +202,12 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     cache.name = episodeName;
     
     [db insertOrReplaceObject:cache into:DDPVideoCache.className];
+    #endif
 }
 
 - (void)saveLastPlayTime:(NSInteger)time videoModel:(DDPVideoModel *)model {
     if (model.fileHash.length == 0) return;
-    
+    #if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     DDPVideoCache *cache = [self relevanceCacheWithVideoModel:model];
     if (cache == nil) {
@@ -202,36 +218,49 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     cache.lastPlayTime = time;
     
     [db insertOrReplaceObject:cache into:DDPVideoCache.className];
+    #endif
 }
 
 - (DDPVideoCache *)relevanceCacheWithVideoModel:(DDPVideoModel *)model {
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getOneObjectOfClass:DDPVideoCache.class fromTable:DDPVideoCache.className where:DDPVideoCache.fileHash == model.fileHash];
+#else
+    return nil;
+#endif
 }
 
 #pragma mark -
 
 - (NSArray<DDPSMBInfo *> *)SMBLinkInfos {
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getAllObjectsOfClass:DDPSMBInfo.class fromTable:DDPSMBInfo.className];
+#else
+    return nil;
+#endif
 }
 
 - (void)saveSMBInfo:(DDPSMBInfo *)info {
     if (info == nil) return;
-    
+    #if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObject:info into:DDPSMBInfo.className];
+    #endif
 }
 
 - (void)removeSMBInfo:(DDPSMBInfo *)info {
     if (info == nil) return;
-     WCTDatabase *db = [DDPCacheManager shareDB];
+    #if !TARGET_OS_UIKITFORMAC
+    WCTDatabase *db = [DDPCacheManager shareDB];
     [db deleteObjectsFromTable:info.className where:DDPSMBInfo.hostName == info.hostName && DDPSMBInfo.userName == info.userName && DDPSMBInfo.password == info.password];
+    #endif
 }
 
 #pragma mark -
 - (void)saveSMBFileHashWithHash:(NSString *)hash file:(TOSMBSessionFile *)file {
     if (file == nil) return;
+    #if !TARGET_OS_UIKITFORMAC
     DDPSMBFileHashCache *cache = [[DDPSMBFileHashCache alloc] init];
     cache.md5 = hash;
     cache.date = [NSDate date];
@@ -239,38 +268,48 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObject:cache into:DDPSMBFileHashCache.className];
+    #endif
 }
 
 - (NSString *)SMBFileHash:(TOSMBSessionFile *)file {
     
+#if !TARGET_OS_UIKITFORMAC
     NSString *key = ddp_cacheKey(file);
-    
     WCTDatabase *db = [DDPCacheManager shareDB];
     DDPSMBFileHashCache *cache = [db getOneObjectOfClass:DDPSMBFileHashCache.class fromTable:DDPSMBFileHashCache.className where:DDPSMBFileHashCache.key == key];
     return cache.md5;
+#else
+    return @"";
+#endif
 }
 
 #pragma mark -
 - (NSArray<DDPCollectionCache *> *)collectors {
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getAllObjectsOfClass:DDPCollectionCache.class fromTable:DDPCollectionCache.className];
+#else
+    return nil;
+#endif
 }
 
 - (void)addCollector:(DDPCollectionCache *)cache {
     if (cache == nil) return;
-    
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db insertOrReplaceObject:cache into:DDPCollectionCache.className];
-    
     for (id<DDPCacheManagerDelagate> observer in self.observers.copy) {
         if ([observer respondsToSelector:@selector(collectionDidHandleCache:operation:)]) {
             [observer collectionDidHandleCache:cache operation:DDPCollectionCacheDidChangeTypeAdd];
         }
     }
+#endif
 }
 
 - (void)removeCollector:(DDPCollectionCache *)cache {
     if (cache == nil) return;
+    
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     [db deleteObjectsFromTable:DDPCollectionCache.className where:DDPCollectionCache.cacheType == cache.cacheType && DDPCollectionCache.filePath == cache.filePath];
     
@@ -279,11 +318,16 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
             [observer collectionDidHandleCache:cache operation:DDPCollectionCacheDidChangeTypeRemove];
         }
     }
+#endif
 }
 
 - (DDPUser *)_currentUser {
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getOneObjectOfClass:DDPUser.class fromTable:DDPUser.className orderBy:DDPUser.lastUpdateTime.order(WCTOrderedDescending)];
+#else
+    return nil;
+#endif
 }
 
 - (BOOL)_saveWithUser:(DDPUser *)user {
@@ -291,8 +335,12 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
         return false;
     }
     
+#if !TARGET_OS_UIKITFORMAC
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db insertOrReplaceObject:user into:DDPUser.className];
+#else
+    return YES;
+#endif
 }
 
 #pragma mark -

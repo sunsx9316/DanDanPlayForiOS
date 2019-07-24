@@ -34,6 +34,7 @@ DDPFileManagerSearchViewDelegate>
 
 @property (strong, nonatomic) DDPFileManagerEditView *editView;
 @property (strong, nonatomic) DDPFileManagerSearchView *searchView;
+@property (strong, nonatomic) UIImage *folderImg;
 @end
 
 @implementation DDPFileManagerViewController
@@ -112,7 +113,7 @@ DDPFileManagerSearchViewDelegate>
     cell.titleLabel.text = file.fileURL.lastPathComponent;
     
     cell.detailLabel.text = [NSString stringWithFormat:@"%@个视频", [NSString numberFormatterWithUpper:0 number:file.subFiles.count]];
-    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
+    cell.iconImgView.image = self.folderImg;
     
 //    NSMutableArray *buttons = [NSMutableArray array];
 //    [buttons addObject:({
@@ -686,6 +687,13 @@ DDPFileManagerSearchViewDelegate>
         _searchView.delegete = self;
     }
     return _searchView;
+}
+
+- (UIImage *)folderImg {
+    if (_folderImg == nil) {
+        _folderImg = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+    }
+    return _folderImg;
 }
 
 @end

@@ -7,16 +7,16 @@
 //
 
 #import "DDPDanmakuFilterDetailViewController.h"
-#import <UITextView+Placeholder.h>
 #import <IQKeyboardManager.h>
 #import <YYKeyboardManager.h>
 #import "DDPEdgeButton.h"
 #import "DDPEdgeTextField.h"
 #import "Masonry+DDPTools.h"
+#import "DDPBaseTextView.h"
 
 @interface DDPDanmakuFilterDetailViewController ()<YYKeyboardObserver, UITextViewDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) DDPEdgeTextField *nameTextField;
-@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) DDPBaseTextView *textView;
 @end
 
 @implementation DDPDanmakuFilterDetailViewController
@@ -147,6 +147,8 @@
         _nameTextField.inset = CGSizeMake(0, 16);
         _nameTextField.backgroundColor = DDPRGBColor(240, 240, 240);
         _nameTextField.text = _model.name.length ? _model.name : FILTER_DEFAULT_NAME;
+        [_nameTextField setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_nameTextField setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         if (_model.identity > 0) {
             //自己创建的才允许改名字
             _nameTextField.userInteractionEnabled = YES;
@@ -165,12 +167,12 @@
     return _nameTextField;
 }
 
-- (UITextView *)textView {
+- (DDPBaseTextView *)textView {
     if (_textView == nil) {
-        _textView = [[UITextView alloc] init];
+        _textView = [[DDPBaseTextView alloc] init];
         _textView.font = [UIFont ddp_normalSizeFont];
-        _textView.placeholderLabel.font = [UIFont ddp_normalSizeFont];
-        _textView.placeholder = @"请输入屏蔽内容";
+        NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"请输入屏蔽内容" attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont]}];
+        _textView.attributedPlaceholder = str;
         _textView.text = self.model.content;
         _textView.returnKeyType = UIReturnKeyDone;
         _textView.delegate = self;

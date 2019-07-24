@@ -6,11 +6,15 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 
+#if DDPAPPTYPE == 2
+#define DETAIL_CELL_HEIGHT (210 + ddp_isPad() * 30)
+#else
 #define DETAIL_CELL_HEIGHT (110 + ddp_isPad() * 30)
+#endif
 
-@interface DDPAttentionDetailTableViewCell : UITableViewCell
+@interface DDPAttentionDetailTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) DDPPlayHistory *model;
 @property (copy, nonatomic) void(^touchSearchButtonCallBack)(DDPPlayHistory *model);
 @property (copy, nonatomic) void(^touchLikeButtonCallBack)(DDPPlayHistory *model);

@@ -6,9 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 
-@interface DDPDanmakuFilterTableViewCell : UITableViewCell
+@interface DDPDanmakuFilterTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) DDPFilter *model;
 @property (copy, nonatomic) void(^touchRegexButtonCallBack)(DDPFilter *aModel);
 @property (copy, nonatomic) void(^touchEnableButtonCallBack)(DDPFilter *aModel);

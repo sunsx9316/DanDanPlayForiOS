@@ -13,8 +13,9 @@
 #import "YYCGUtilities.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
+#if !TARGET_OS_UIKITFORMAC
 #import <AssetsLibrary/AssetsLibrary.h>
-
+#endif
 #define kPadding 20
 
 

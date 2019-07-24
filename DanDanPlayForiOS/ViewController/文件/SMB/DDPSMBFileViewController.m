@@ -27,6 +27,7 @@
 @interface DDPSMBFileViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) DDPSMBFileOprationView *oprationView;
+@property (strong, nonatomic) UIImage *folderImg;
 @end
 
 @implementation DDPSMBFileViewController
@@ -96,7 +97,7 @@
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.detailLabel.textColor = [UIColor blackColor];
-    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
+    cell.iconImgView.image = self.folderImg;
     return cell;
 }
 
@@ -386,6 +387,13 @@
         [self.view addSubview:_oprationView];
     }
     return _oprationView;
+}
+
+- (UIImage *)folderImg {
+    if (_folderImg == nil) {
+        _folderImg = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+    }
+    return _folderImg;
 }
 
 @end

@@ -285,8 +285,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    DDPBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DDPBaseTableViewCell className] forIndexPath:indexPath];
     if (cell.isFromCache == NO) {
+        cell.textLabel.textColor = [UIColor blackColor];
         cell.textLabel.font = [UIFont ddp_normalSizeFont];
         cell.fromCache = YES;
     }
@@ -337,7 +338,8 @@
         _tableView = [[DDPBaseTableView alloc] initWithFrame:CGRectMake(0, 0, self.width, 0) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+        
+        [_tableView registerClass:[DDPBaseTableViewCell class] forCellReuseIdentifier:[DDPBaseTableViewCell className]];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.rowHeight = CELL_HEIGHT;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -9,5 +9,5 @@
 #import "DDPBaseViewController.h"
 
 @interface DDPForgetPasswordViewController : DDPBaseViewController
-
+@property (strong, nonatomic) DDPUser *fillUser;
 @end

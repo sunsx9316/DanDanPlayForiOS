@@ -9,6 +9,8 @@
 #import "DDPBase.h"
 #import "TOSMBSessionFile+Tools.h"
 
+@class DDPVideoModel;
+
 typedef NS_ENUM(NSUInteger, DDPFileType) {
     DDPFileTypeUnknow,
     DDPFileTypeDocument,

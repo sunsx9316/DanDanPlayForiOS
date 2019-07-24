@@ -41,7 +41,8 @@
 
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
-        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_cheak_mark_selected"]];
+        var img = [[UIImage imageNamed:@"comment_cheak_mark_selected"] renderByMainColor];
+        _iconImgView = [[UIImageView alloc] initWithImage:img];
         [_iconImgView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_iconImgView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [self.contentView addSubview:_iconImgView];

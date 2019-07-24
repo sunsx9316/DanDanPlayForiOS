@@ -7,6 +7,7 @@
 //
 
 #import "DDPFileManagerFolderLongViewCell.h"
+#import "UIImage+Tools.h"
 
 @interface DDPFileManagerFolderLongViewCell ()
 
@@ -68,7 +69,8 @@
 
 - (UIImageView *)iconImgView {
     if (_iconImgView == nil) {
-        _iconImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_local_file_folder"]];
+        let img = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+        _iconImgView = [[UIImageView alloc] initWithImage:img];
         _iconImgView.contentMode = UIViewContentModeScaleAspectFit;
         [_iconImgView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_iconImgView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];

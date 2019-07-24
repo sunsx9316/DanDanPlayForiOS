@@ -45,7 +45,7 @@
                                             type:(DDPProductionType)type
                                   completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPSearchAnimeDetailsCollection))completionHandler;
 
-#if !DDPAPPTYPE
+#if DDPAPPTYPE != 1
 /**
  *  搜索b站结果
  *

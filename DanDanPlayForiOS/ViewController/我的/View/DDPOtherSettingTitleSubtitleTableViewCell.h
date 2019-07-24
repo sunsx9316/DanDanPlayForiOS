@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DDPOtherSettingTitleSubtitleTableViewCell : UITableViewCell
+@interface DDPOtherSettingTitleSubtitleTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @end

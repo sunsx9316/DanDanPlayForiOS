@@ -7,7 +7,6 @@
 //
 
 #import "DDPAboutUsViewController.h"
-#import "UIApplication+Tools.h"
 #import "DDPEdgeButton.h"
 
 @interface DDPAboutUsViewController ()
@@ -17,7 +16,7 @@
 @property (strong, nonatomic) UIView *holdView;
 @property (strong, nonatomic) DDPEdgeButton *officialButton;
 @property (strong, nonatomic) DDPEdgeButton *openSourceButton;
-@property (strong, nonatomic) DDPEdgeButton *weiboButton;
+@property (strong, nonatomic) DDPEdgeButton *contentButton;
 @property (strong, nonatomic) UILabel *copyrightLabel;
 
 @end
@@ -59,15 +58,49 @@
 }
 
 - (void)touchOfficialWebsiteButton:(UIButton *)sender {
+#if DDPAPPTYPE == 2
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dandanplay.com"] options:@{} completionHandler:^(BOOL success) {
+        
+    }];
+#else
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dandanplay.com"]];
+#endif
 }
 
 - (void)touchOpenSourceButton:(UIButton *)sender {
+#if DDPAPPTYPE == 2
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/sunsx9316/DanDanPlayForiOS"] options:@{} completionHandler:^(BOOL success) {
+        
+    }];
+#else
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/sunsx9316/DanDanPlayForiOS"]];
+#endif
 }
 
-- (void)touchWeiboButton:(UIButton *)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://weibo.com/u/2996607392"]];
+- (void)touchContentButton:(UIButton *)sender {
+#if DDPAPPTYPE == 2
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"qq://"]];
+#else
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=%@&key=%@&card_type=group&source=external", @"378340187", @"d2b26edf701959915753245605d87e415506cd38e20211d32eb4d43a6106c3c0"]];
+#endif
+    
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        #if DDPAPPTYPE == 2
+        
+        [UIPasteboard generalPasteboard].string = @"378340187";
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"QQ群号已经复制到剪贴板~" preferredStyle:UIAlertControllerStyleAlert];
+        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [vc addAction:[UIAlertAction actionWithTitle:@"打开QQ" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+        }]];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+        #else
+        [[UIApplication sharedApplication] openURL:url];
+        #endif
+    } else {
+        [self.view showWithText:@"请安装QQ"];
+    }
 }
 
 #pragma mark - 私有方法
@@ -81,7 +114,13 @@
 }
 
 - (void)touchRightItem:(UIButton *)button {
+#if DDPAPPTYPE == 2
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK] options:@{} completionHandler:^(BOOL success) {
+        
+    }];
+#else
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK]];
+#endif
 }
 
 #pragma mark - 懒加载
@@ -138,16 +177,16 @@
     return _openSourceButton;
 }
 
-- (DDPEdgeButton *)weiboButton {
-    if (_weiboButton == nil) {
-        _weiboButton = [[DDPEdgeButton alloc] init];
-        _weiboButton.inset = CGSizeMake(10, 10);
-        _weiboButton.titleLabel.font = [UIFont ddp_smallSizeFont];
-        [_weiboButton setTitle:@"@我" forState:UIControlStateNormal];
-        [_weiboButton setTitleColor:[UIColor ddp_mainColor] forState:UIControlStateNormal];
-        [_weiboButton addTarget:self action:@selector(touchWeiboButton:) forControlEvents:UIControlEventTouchUpInside];
+- (DDPEdgeButton *)contentButton {
+    if (_contentButton == nil) {
+        _contentButton = [[DDPEdgeButton alloc] init];
+        _contentButton.inset = CGSizeMake(10, 10);
+        _contentButton.titleLabel.font = [UIFont ddp_smallSizeFont];
+        [_contentButton setTitle:@"联系我们" forState:UIControlStateNormal];
+        [_contentButton setTitleColor:[UIColor ddp_mainColor] forState:UIControlStateNormal];
+        [_contentButton addTarget:self action:@selector(touchContentButton:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _weiboButton;
+    return _contentButton;
 }
 
 - (UIView *)holdView {
@@ -156,7 +195,7 @@
         
         [_holdView addSubview:self.officialButton];
         [_holdView addSubview:self.openSourceButton];
-        [_holdView addSubview:self.weiboButton];
+        [_holdView addSubview:self.contentButton];
         
         UIView *insertView1 = [[UIView alloc] init];
         insertView1.backgroundColor = [UIColor ddp_mainColor];
@@ -187,7 +226,7 @@
             make.size.mas_equalTo(insertView1);
         }];
         
-        [self.weiboButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.contentButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.bottom.mas_equalTo(0);
             make.left.equalTo(insertView2.mas_right);
         }];

@@ -9,9 +9,11 @@
 #import "DDPFile.h"
 
 @implementation DDPFile
+#if !TARGET_OS_UIKITFORMAC
 {
     DDPVideoModel *_videoModel;
 }
+#endif
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL type:(DDPFileType)type {
     if (self = [super init]) {
@@ -26,11 +28,15 @@
 }
 
 - (DDPVideoModel *)videoModel {
+#if !TARGET_OS_UIKITFORMAC
     if (_videoModel == nil) {
         _videoModel = [[DDPVideoModel alloc] initWithFileURL:self.fileURL];
         _videoModel.file = self;
     }
     return _videoModel;
+#else
+    return nil;
+#endif
 }
 
 - (NSMutableArray<DDPFile *> *)subFiles {

@@ -7,8 +7,11 @@
 //
 
 #import "DDPOfficialSearchViewController.h"
+
+#if !TARGET_OS_UIKITFORMAC
 #import "DDPPlayerViewController.h"
 #import "DDPPlayNavigationController.h"
+#endif
 
 #import "DDPSearchAnimeTitleTableViewCell.h"
 #import "DDPSearchEpisodeTableViewCell.h"
@@ -88,6 +91,7 @@
             self.model.matchName = item.name;
             self.model.identity = item.identity;
             
+#if !TARGET_OS_UIKITFORMAC
             __block DDPPlayerViewController *vc = nil;
             [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([obj isKindOfClass:[DDPPlayerViewController class]]) {
@@ -109,6 +113,7 @@
                 DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:self.model];
                 [self presentViewController:nav animated:YES completion:nil];
             }
+#endif
         }];
     }
 }

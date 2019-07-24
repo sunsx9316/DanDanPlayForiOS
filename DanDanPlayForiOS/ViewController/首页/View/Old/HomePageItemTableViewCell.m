@@ -128,7 +128,7 @@
     if (_likeButton == nil) {
         _likeButton = [[DDPEdgeButton alloc] init];
         _likeButton.inset = CGSizeMake(20, 20);
-        [_likeButton setImage:[UIImage imageNamed:@"home_like"] forState:UIControlStateSelected];
+        [_likeButton setImage:[[UIImage imageNamed:@"home_like"] renderByMainColor] forState:UIControlStateSelected];
         [_likeButton setImage:[UIImage imageNamed:@"home_unlike"] forState:UIControlStateNormal];
         [_likeButton setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_likeButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];

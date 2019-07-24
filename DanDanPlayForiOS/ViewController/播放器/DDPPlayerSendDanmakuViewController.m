@@ -7,14 +7,14 @@
 //
 
 #import "DDPPlayerSendDanmakuViewController.h"
-#import <UITextView+Placeholder.h>
 #import "DDPPlayerSendDanmakuConfigView.h"
-#import <YYKeyboardManager.h>
-#import <IQKeyboardManager.h>
+#import <YYKeyboardManager/YYKeyboardManager.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "DDPBaseTextView.h"
 
 @interface DDPPlayerSendDanmakuViewController ()<YYKeyboardObserver, UITextViewDelegate>
 @property (strong, nonatomic) UIButton *pickColorButton;
-@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) DDPBaseTextView *textView;
 @end
 
 @implementation DDPPlayerSendDanmakuViewController
@@ -121,11 +121,11 @@
 }
 
 #pragma mark - 懒加载
-- (UITextView *)textView {
+- (DDPBaseTextView *)textView {
     if (_textView == nil) {
-        _textView = [[UITextView alloc] init];
-        _textView.placeholder = @"吐个槽~";
-        _textView.placeholderLabel.font = [UIFont ddp_normalSizeFont];
+        _textView = [[DDPBaseTextView alloc] init];
+        let attText = [[NSAttributedString alloc] initWithString:@"吐个槽~" attributes:@{NSFontAttributeName : [UIFont ddp_normalSizeFont]}];
+        _textView.attributedPlaceholder = attText;
         _textView.font = [UIFont ddp_normalSizeFont];
         _textView.returnKeyType = UIReturnKeySend;
         _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;

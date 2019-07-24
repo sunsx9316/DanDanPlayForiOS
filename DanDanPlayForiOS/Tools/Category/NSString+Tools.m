@@ -147,7 +147,7 @@
 }
 
 - (BOOL)isMagnet {
-#if !DDPAPPTYPE
+#if DDPAPPTYPE != 1
     return [self containsString:@"magnet:?xt=urn:btih:"];
 #else
     return false;

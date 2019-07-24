@@ -6,9 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 
-@interface HomePageSearchTableViewCell : UITableViewCell
+@interface HomePageSearchTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) DDPDMHYSearch *model;
 @property (copy, nonatomic) void(^touchSubGroupCallBack)(DDPDMHYSearch *model);
 @end

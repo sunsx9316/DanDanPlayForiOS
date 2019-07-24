@@ -81,6 +81,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
 
 + (void)load
 {
+#if DDPAPPTYPE != 2
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Method viewWillAppear_originalMethod = class_getInstanceMethod(self, @selector(viewWillAppear:));
@@ -91,6 +92,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
         Method viewWillDisappear_swizzledMethod = class_getInstanceMethod(self, @selector(fd_viewWillDisappear:));
         method_exchangeImplementations(viewWillDisappear_originalMethod, viewWillDisappear_swizzledMethod);
     });
+#endif
 }
 
 - (void)fd_viewWillAppear:(BOOL)animated
@@ -133,6 +135,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
 
 + (void)load
 {
+#if DDPAPPTYPE != 2
     // Inject "-pushViewController:animated:"
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -153,6 +156,7 @@ typedef void (^_FDViewControllerWillAppearInjectBlock)(UIViewController *viewCon
         
         [self swizzleInstanceMethod:@selector(fd_setViewControllers:animated:) with:@selector(setViewControllers:animated:)];
     });
+#endif
 }
 
 - (void)fd_pushViewController:(UIViewController *)viewController animated:(BOOL)animated

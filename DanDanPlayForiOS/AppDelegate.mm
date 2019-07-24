@@ -9,8 +9,6 @@
 #import "AppDelegate.h"
 #import "DDPMainViewController.h"
 #import <IQKeyboardManager.h>
-#import <Bugly/Bugly.h>
-#import <UMSocialCore/UMSocialCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "DDPMediaPlayer.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -20,15 +18,22 @@
 #import "DDPQRScannerViewController.h"
 #import "DDPDownloadManager.h"
 //#import <BayMaxProtector.h>
-#import <UMMobClick/MobClick.h>
 #import "DDPPlayNavigationController.h"
 #import "DDPSharedNetManager.h"
+
+#if !TARGET_OS_UIKITFORMAC
+#import <Bugly/Bugly.h>
+#import <UMSocialCore/UMSocialCore.h>
+#import <UMMobClick/MobClick.h>
+#endif
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
@@ -39,11 +44,16 @@
     [self configDDLog];
     [self configOther];
     
-    DDPMainViewController *vc = [[DDPMainViewController alloc] init];
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor ddp_backgroundColor];
-    self.window.rootViewController = vc;
-    [self.window makeKeyAndVisible];
+    if (@available(iOS 13.0, *)) {
+        
+    } else {
+        DDPMainViewController *vc = [[DDPMainViewController alloc] init];
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.backgroundColor = [UIColor ddp_backgroundColor];
+        self.window.rootViewController = vc;
+        [self.window makeKeyAndVisible];        
+    }
+    
     
     return YES;
 }
@@ -67,7 +77,7 @@
 
 //唤醒
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-#if !DDPAPPTYPE
+#if DDPAPPTYPE != 1
     NSString *content = [UIPasteboard generalPasteboard].string;
     
     //系统剪贴板有磁力链并且第一次打开
@@ -75,7 +85,7 @@
         //防止重复弹出
         [UIPasteboard generalPasteboard].string = @"";
         
-        UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+        UITabBarController *tabBarController = (UITabBarController *)application.ddp_mainWindow.rootViewController;
         UINavigationController *nav = (UINavigationController *)tabBarController.selectedViewController;
         
         void(^downloadAction)(NSString *) = ^(NSString *magnet){
@@ -153,13 +163,16 @@
 #else
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
+    BOOL result = NO;
+#if !TARGET_OS_UIKITFORMAC
+    result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
+#endif
     
     if (!result) {
         if ([options[UIApplicationOpenURLOptionsSourceApplicationKey] isEqual:@"com.apple.DocumentsApp"]) {
             
-            if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
-                UITabBarController *tabvc = (UITabBarController *)self.window.rootViewController;
+            if ([application.ddp_mainWindow.rootViewController isKindOfClass:[UITabBarController class]]) {
+                UITabBarController *tabvc = (UITabBarController *)application.ddp_mainWindow.rootViewController;
                 
                 UINavigationController *nav = tabvc.selectedViewController;
                 if ([nav isKindOfClass:[UINavigationController class]]) {
@@ -186,6 +199,14 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {
+    // Called when a new scene session is being created.
+    // Use this method to select a configuration to create the new scene with.
+    return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
+}
+#endif
+
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
@@ -194,10 +215,13 @@
 }
 
 - (void)configBugly {
+    #if !TARGET_OS_UIKITFORMAC
     [Bugly startWithAppId:ddp_buglyKey];
+    #endif
 }
 
 - (void)configUM {
+#if !TARGET_OS_UIKITFORMAC
     if (ddp_UMShareKey.length != 0) {
         [[UMSocialManager defaultManager] openLog:YES];
         [[UMSocialManager defaultManager] setUmSocialAppkey:ddp_UMShareKey];
@@ -210,6 +234,7 @@
         [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
         [MobClick startWithConfigure:UMConfigInstance];        
     }
+#endif
 }
 
 - (void)configDDLog {
@@ -222,6 +247,9 @@
     }
     
     [UILabel appearance].font = [UIFont ddp_normalSizeFont];
+    [UILabel appearance].textColor = [UIColor blackColor];
+    [UITextView appearance].tintColor = [UIColor ddp_mainColor];
+    [UITextField appearance].textColor = [UIColor blackColor];
     
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
 }

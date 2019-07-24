@@ -7,8 +7,11 @@
 //
 
 #import "UIViewController+Tools.h"
+
+#if !TARGET_OS_UIKITFORMAC
 #import "DDPPlayNavigationController.h"
 #import "DDPMatchViewController.h"
+#endif
 
 @implementation UIViewController (Tools)
 - (void)setNavigationBarWithColor:(UIColor *)color {
@@ -72,8 +75,12 @@
         jumpToMatchVCAction();
     }
 #else
+    
+#if !TARGET_OS_UIKITFORMAC
     DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
     [self presentViewController:nav animated:YES completion:nil];
+#endif
+    
 #endif
 }
 

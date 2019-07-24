@@ -66,7 +66,7 @@
                                           }];
 }
 
-#if !DDPAPPTYPE
+#if DDPAPPTYPE != 1
 + (NSURLSessionDataTask *)searchBiliBiliWithkeyword:(NSString *)keyword completionHandler:(void (^)(DDPBiliBiliSearchResult *, NSError *))completionHandler {
     if (!keyword.length) {
         if (completionHandler) {

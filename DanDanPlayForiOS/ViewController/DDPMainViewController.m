@@ -7,10 +7,13 @@
 //
 
 #import "DDPMainViewController.h"
-#import "DDPFileViewController.h"
 #import "DDPMineViewController.h"
 #import "DDPNewHomePagePackageViewController.h"
 #import "DDPBaseNavigationController.h"
+
+#if !TARGET_OS_UIKITFORMAC
+#import "DDPFileViewController.h"
+#endif
 
 @interface DDPMainViewController ()<UITabBarControllerDelegate>
 @end
@@ -21,16 +24,21 @@
     [super viewDidLoad];
     
     let arr = [NSMutableArray array];
-    
-    if (ddp_appType == DDPAppTypeDefault) {
+    if (ddp_appType != DDPAppTypeReview) {
         UINavigationController *homeVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_bangumi"] selectImg:[UIImage imageNamed:@"main_bangumi"] rootVC:[[DDPNewHomePagePackageViewController alloc] init] title:nil];
         [arr addObject:homeVC];
     }
     
-    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_file"] selectImg:[UIImage imageNamed:@"main_file"] rootVC:[[DDPFileViewController alloc] init] title:nil];
-    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_mine"] selectImg:[UIImage imageNamed:@"main_mine"] rootVC:[[DDPMineViewController alloc] init] title:nil];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+    self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+#endif
     
-    [arr addObjectsFromArray:@[fileVC, settingVC]];
+#if !TARGET_OS_UIKITFORMAC
+    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_file"] selectImg:[UIImage imageNamed:@"main_file"] rootVC:[[DDPFileViewController alloc] init] title:nil];
+    [arr addObject:fileVC];
+#endif
+    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_mine"] selectImg:[UIImage imageNamed:@"main_mine"] rootVC:[[DDPMineViewController alloc] init] title:nil];
+    [arr addObject:settingVC];
     
     
     self.viewControllers = arr;
@@ -71,7 +79,13 @@
 
 #pragma mark - 私有方法
 - (UINavigationController *)navigationControllerWithNormalImg:(UIImage *)normalImg selectImg:(UIImage *)selectImg rootVC:(UIViewController *)rootVC title:(NSString *)title {
-    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:title image:normalImg selectedImage:[[selectImg imageByTintColor:[UIColor ddp_mainColor]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
+    normalImg = [normalImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    selectImg = [[selectImg imageByTintColor:[UIColor ddp_mainColor]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:title
+                                                       image:normalImg
+                                               selectedImage:selectImg];
     UINavigationController *navVC = [[DDPBaseNavigationController alloc] initWithRootViewController:rootVC];
     navVC.tabBarItem = item;
     if (ddp_isPad() == NO) {

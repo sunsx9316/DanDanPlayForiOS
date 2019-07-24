@@ -1,0 +1,6 @@
+framework module DanDanPlayEncrypt {
+  umbrella header "DanDanPlayEncrypt.h"
+
+  export *
+  module * { export * }
+}

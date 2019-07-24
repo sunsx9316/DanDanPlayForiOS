@@ -31,14 +31,18 @@
         make.edges.mas_equalTo(0);
     }];
     
-    DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
+    if (_fillUser == nil) {
+        _fillUser = [DDPCacheManager shareCacheManager].currentUser;
+    }
+    
+    DDPUser *user = self.fillUser;
     self.accountField.textField.text = user.account;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
+    DDPUser *user = self.fillUser;
     if (user.account.length) {
         [self.emailTextField becomeFirstResponder];
     }

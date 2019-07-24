@@ -24,7 +24,9 @@
     self.iconImgView.layer.masksToBounds = true;
     self.iconImgView.layer.borderWidth = 5;
     self.iconImgView.layer.borderColor = DDPRGBAColor(255, 255, 255, 0.6).CGColor;
+    self.nameLabel.textColor = [UIColor whiteColor];
     self.nameLabel.font = [UIFont ddp_normalSizeFont];
+    self.idLabel.textColor = [UIColor lightGrayColor];
     self.idLabel.font = [UIFont ddp_verySmallSizeFont];
     
     self.holdViewCenterYConstraint.constant = CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame);

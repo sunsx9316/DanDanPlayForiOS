@@ -15,6 +15,7 @@
 
 @interface DDPSMBFileManagerPickerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
+@property (strong, nonatomic) UIImage *folderImg;
 @end
 
 @implementation DDPSMBFileManagerPickerViewController
@@ -98,7 +99,7 @@
     cell.detailLabel.text = nil;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.detailLabel.textColor = [UIColor blackColor];
-    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
+    cell.iconImgView.image = self.folderImg;
     return cell;
 }
 
@@ -188,6 +189,13 @@
         [self.view addSubview:_tableView];
     }
     return _tableView;
+}
+
+- (UIImage *)folderImg {
+    if (_folderImg == nil) {
+        _folderImg = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+    }
+    return _folderImg;
 }
 
 @end

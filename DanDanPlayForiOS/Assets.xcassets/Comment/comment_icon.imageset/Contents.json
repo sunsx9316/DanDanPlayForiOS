@@ -16,12 +16,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "icon~ipad.png",
+      "filename" : "icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "icon@2x~ipad.png",
+      "filename" : "icon@2x-1.png",
       "scale" : "2x"
     }
   ],

@@ -6,10 +6,10 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "DDPBaseTableViewCell.h"
 #import "DDPEdgeLabel.h"
 
-@interface DDPAttentionListTableViewCell : UITableViewCell
+@interface DDPAttentionListTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) DDPFavorite *model;
 @property (strong, nonatomic) DDPBangumiQueueIntro *infoModel;
 @end

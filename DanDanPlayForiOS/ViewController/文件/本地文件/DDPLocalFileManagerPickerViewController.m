@@ -18,6 +18,7 @@
 
 @interface DDPLocalFileManagerPickerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
+@property (strong, nonatomic) UIImage *folderImg;
 @end
 
 @implementation DDPLocalFileManagerPickerViewController
@@ -61,7 +62,7 @@
     DDPFileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerFolderLongViewCell" forIndexPath:indexPath];
     cell.titleLabel.text = file.name;
     cell.detailLabel.text = [NSString stringWithFormat:@"%@个%@文件", [NSString numberFormatterWithUpper:0 number:file.subFiles.count], self.fileType == PickerFileTypeSubtitle ? @"字幕" : @"弹幕"];
-    cell.iconImgView.image = [UIImage imageNamed:@"comment_local_file_folder"];
+    cell.iconImgView.image = self.folderImg;
     return cell;
 }
 
@@ -113,6 +114,13 @@
         [self.view addSubview:_tableView];
     }
     return _tableView;
+}
+
+- (UIImage *)folderImg {
+    if (_folderImg == nil) {
+        _folderImg = [[UIImage imageNamed:@"comment_local_file_folder"] renderByMainColor];
+    }
+    return _folderImg;
 }
 
 @end

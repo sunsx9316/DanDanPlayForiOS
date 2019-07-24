@@ -14,10 +14,11 @@
 #import "DDPEdgeButton.h"
 #import "DDPBaseScrollView.h"
 #import "UIView+Tools.h"
+#if !TARGET_OS_UIKITFORMAC
 #import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
+#endif
 #import "LAContext+Tools.h"
-#import "UIApplication+Tools.h"
 #import "DDPBaseNavigationController.h"
 
 @interface DDPLoginViewController ()<UITextFieldDelegate>
@@ -108,6 +109,7 @@
  @param sender 按钮
  */
 - (void)touchThirdPartyBotton:(UIButton *)sender {
+    #if !TARGET_OS_UIKITFORMAC
     UMSocialPlatformType platformType = sender.tag;
     
     @weakify(self)
@@ -142,6 +144,7 @@
             }];
         }
     }];
+#endif
 }
 
 - (void)touchRegisterButton:(UIButton *)sender {
@@ -161,6 +164,13 @@
 
 - (void)touchForgetButton:(UIButton *)sender {
     DDPForgetPasswordViewController *vc = [[DDPForgetPasswordViewController alloc] init];
+    DDPUser *user = [DDPCacheManager shareCacheManager].currentUser;
+    if (user == nil) {
+        user = [[DDPUser alloc] init];
+        user.account = self.userNameTextField.textField.text;
+    }
+    
+    vc.fillUser = user;
     [self.navigationController pushViewController:vc animated:true];
 }
 
@@ -192,6 +202,7 @@
 }
 
 - (NSString *)UMErrorStringWithError:(NSError *)error {
+    #if !TARGET_OS_UIKITFORMAC
     switch (error.code) {
         case UMSocialPlatformErrorType_NotSupport:
             return @"客户端不支持该操作";
@@ -220,6 +231,9 @@
             return @"未知错误";
             break;
     }
+#else
+    return @"";
+#endif
 }
 
 - (void)fillUserInfo {
@@ -340,6 +354,7 @@
 - (UIView *)thirdLoginHolderView {
     if (_thirdLoginHolderView == nil) {
         _thirdLoginHolderView = [[UIView alloc] init];
+        _thirdLoginHolderView.hidden = YES;
         
         UIView *leftLineView = [[UIView alloc] init];
         leftLineView.backgroundColor = DDPRGBColor(230, 230, 230);
@@ -405,7 +420,9 @@
     if (_qqButton == nil) {
         _qqButton = [[DDPEdgeButton alloc] init];
         _qqButton.inset = CGSizeMake(20, 20);
+#if !TARGET_OS_UIKITFORMAC
         _qqButton.tag = UMSocialPlatformType_QQ;
+#endif
         [_qqButton setImage:[UIImage imageNamed:@"login_qq"] forState:UIControlStateNormal];
         [_qqButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
         [_qqButton setRequiredContentVerticalResistancePriority];
@@ -418,7 +435,9 @@
     if (_weiboButton == nil) {
         _weiboButton = [[DDPEdgeButton alloc] init];
         _weiboButton.inset = CGSizeMake(20, 20);
+#if !TARGET_OS_UIKITFORMAC
         _weiboButton.tag = UMSocialPlatformType_Sina;
+#endif
         [_weiboButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];
         [_weiboButton setImage:[UIImage imageNamed:@"login_weibo"] forState:UIControlStateNormal];
         [_weiboButton setRequiredContentVerticalResistancePriority];

@@ -37,5 +37,6 @@
 #import "UITableView+DDPTools.h"
 #import "UIView+Tools.h"
 #import "UICollectionView+DDPTools.h"
+#import "UIApplication+DDPTools.h"
 
 #endif /* DDPPrefixHeader_pch */

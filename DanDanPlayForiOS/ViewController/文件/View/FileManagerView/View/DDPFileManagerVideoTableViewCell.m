@@ -8,6 +8,7 @@
 
 #import "DDPFileManagerVideoTableViewCell.h"
 #import "DDPEdgeLabel.h"
+#import "UIImage+Tools.h"
 
 @interface DDPFileManagerVideoTableViewCell ()
 @property (strong, nonatomic) UIImageView *imgView;
@@ -67,7 +68,8 @@
 #pragma mark - 懒加载
 - (UIImageView *)imgView {
     if (_imgView == nil) {
-        _imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_file_type"]];
+        var img = [[UIImage imageNamed:@"comment_file_type"] renderByMainColor];
+        _imgView = [[UIImageView alloc] initWithImage:img];
         [self.contentView addSubview:_imgView];
     }
     return _imgView;

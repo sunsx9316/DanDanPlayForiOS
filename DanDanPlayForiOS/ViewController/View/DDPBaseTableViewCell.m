@@ -12,9 +12,22 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectedBackgroundView = [[UIView alloc] init];
-        self.selectedBackgroundView.backgroundColor = [UIColor ddp_cellHighlightColor];
+        [self setup];
     }
     return self;
 }
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self setup];
+}
+
+#pragma mark - Private Method
+- (void)setup {
+    self.selectedBackgroundView = [[UIView alloc] init];
+    self.selectedBackgroundView.backgroundColor = [UIColor ddp_cellHighlightColor];
+    
+    self.backgroundColor = [UIColor ddp_backgroundColor];
+}
+
 @end

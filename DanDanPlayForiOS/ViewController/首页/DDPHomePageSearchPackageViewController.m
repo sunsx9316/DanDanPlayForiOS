@@ -13,6 +13,7 @@
 #import "DDPHomePageSearchViewController.h"
 #import "DDPSearchBar.h"
 #import "DDPExpandView.h"
+#import "CALayer+Animation.h"
 
 @interface DDPHomePageSearchPackageViewController ()<WMPageControllerDataSource, WMPageControllerDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) DDPDefaultPageViewController *pageViewController;
@@ -79,12 +80,17 @@
 
 - (void)touchRightItem:(UIButton *)sender {
     if (self.searchBar.text.length == 0) {
+        [self.searchBar.layer shake];
+        [self.view showWithText:@"还没输入关键字哦~"];
         return;
     }
     
     NSString *link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.searchBar.text stringByURLEncode]];
     [self.searchBar resignFirstResponder];
-    
+
+#if DDPAPPTYPE == 2
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link] options:@{} completionHandler:nil];
+#else
     DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
     @weakify(self)
     vc.clickMagnetCallBack = ^(NSString *url) {
@@ -94,6 +100,7 @@
         [self.dmhySearchResultVC downloadVideoWithMagnet:url];
     };
     [self.navigationController pushViewController:vc animated:YES];
+#endif
 }
 
 #pragma mark - WMPageControllerDataSource
@@ -162,7 +169,13 @@
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = [UIColor ddp_mainColor];
+#if DDPAPPTYPE == 2
+        _searchBar.backgroundColor = [UIColor whiteColor];
+        _searchBar.layer.cornerRadius = 6;
+        _searchBar.layer.masksToBounds = YES;
+#else
         _searchBar.backgroundColor = [UIColor clearColor];
+#endif
         _searchBar.textField.font = [UIFont ddp_normalSizeFont];
     }
     return _searchBar;

@@ -12,4 +12,14 @@
 + (UIImage *)ddp_placeHolder {
     return [UIImage imageNamed:@"comment_place_holder"];
 }
+
+- (instancetype)renderByMainColor {
+    let inset = self.capInsets;
+    let img = [self imageByTintColor:UIColor.ddp_mainColor];
+    if (UIEdgeInsetsEqualToEdgeInsets(inset, UIEdgeInsetsZero)) {
+        return img;
+    }
+    return [img resizableImageWithCapInsets:inset];
+}
+
 @end
