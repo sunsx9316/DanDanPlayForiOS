@@ -21,7 +21,7 @@
 #import "DDPPlayNavigationController.h"
 #import "DDPSharedNetManager.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import <Bugly/Bugly.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import <UMMobClick/MobClick.h>
@@ -164,7 +164,8 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
     BOOL result = NO;
-#if !TARGET_OS_UIKITFORMAC
+    
+#if !DDPAPPTYPEISMAC
     result = [[UMSocialManager defaultManager] handleOpenURL:url options:options];
 #endif
     
@@ -215,13 +216,13 @@
 }
 
 - (void)configBugly {
-    #if !TARGET_OS_UIKITFORMAC
+    #if !DDPAPPTYPEISMAC
     [Bugly startWithAppId:ddp_buglyKey];
     #endif
 }
 
 - (void)configUM {
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     if (ddp_UMShareKey.length != 0) {
         [[UMSocialManager defaultManager] openLog:YES];
         [[UMSocialManager defaultManager] setUmSocialAppkey:ddp_UMShareKey];

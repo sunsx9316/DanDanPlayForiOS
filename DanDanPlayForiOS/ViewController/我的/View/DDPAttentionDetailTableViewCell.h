@@ -8,7 +8,7 @@
 
 #import "DDPBaseTableViewCell.h"
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
 #define DETAIL_CELL_HEIGHT (210 + ddp_isPad() * 30)
 #else
 #define DETAIL_CELL_HEIGHT (110 + ddp_isPad() * 30)

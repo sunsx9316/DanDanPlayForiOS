@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
 #define HOME_BANNER_VIEW_HEIGHT 320
 #else
 #define HOME_BANNER_VIEW_HEIGHT 180

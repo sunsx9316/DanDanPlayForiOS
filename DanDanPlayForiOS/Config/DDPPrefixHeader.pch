@@ -10,7 +10,7 @@
 #define DDPPrefixHeader_pch
 
 #import <YYCategories/YYCategories.h>
-#import <YYWebImage/YYWebImage.h>
+#import <YYWebImage.h>
 #import <Masonry/Masonry.h>
 #import "MJRefreshFooter+Tools.h"
 #import "MJRefreshHeader+Tools.h"

@@ -8,12 +8,12 @@
 
 #import "DDPLinkFile.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import "DDPLinkVideoModel.h"
 #endif
 
 @implementation DDPLinkFile
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 {
     DDPLinkVideoModel *_videoModel;
 }
@@ -39,7 +39,7 @@
 }
 
 - (DDPVideoModel *)videoModel {
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     if (_videoModel == nil) {
         _videoModel = [[DDPLinkVideoModel alloc] initWithName:self.name fileURL:self.fileURL hash:_library.md5 length:_library.size];
         _videoModel.file = self;

@@ -8,7 +8,7 @@
 
 #import "DDPOfficialSearchViewController.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import "DDPPlayerViewController.h"
 #import "DDPPlayNavigationController.h"
 #endif
@@ -91,7 +91,7 @@
             self.model.matchName = item.name;
             self.model.identity = item.identity;
             
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
             __block DDPPlayerViewController *vc = nil;
             [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([obj isKindOfClass:[DDPPlayerViewController class]]) {

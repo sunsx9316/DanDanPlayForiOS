@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DDPMainVCItem.h"
 
 @interface DDPMainViewController : UITabBarController
-
+@property (strong, nonatomic, class, readonly) NSArray <DDPMainVCItem *>*items;
 @end

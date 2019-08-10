@@ -9,7 +9,7 @@
 #import "DDPFile.h"
 
 @implementation DDPFile
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 {
     DDPVideoModel *_videoModel;
 }
@@ -28,7 +28,7 @@
 }
 
 - (DDPVideoModel *)videoModel {
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     if (_videoModel == nil) {
         _videoModel = [[DDPVideoModel alloc] initWithFileURL:self.fileURL];
         _videoModel.file = self;

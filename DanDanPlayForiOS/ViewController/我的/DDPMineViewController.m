@@ -47,7 +47,6 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     [self.blurView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(self.headView.height);
@@ -71,6 +70,22 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
     [super viewWillAppear:animated];
     
     [self setNavigationBarWithColor: UIColor.clearColor];
+    
+    NSURLComponents *com = [[NSURLComponents alloc] initWithString:@"ddplaymac://"];
+    com.host = @"player";
+    
+    NSMutableArray <NSURLQueryItem *>*arr = [NSMutableArray array];
+    let dic = @{@"path" : @"/Users/jimhuang/Desktop/test.mp4"};
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        let item = [NSURLQueryItem queryItemWithName:key value:obj];
+        [arr addObject:item];
+    }];
+    
+    com.queryItems = arr;
+    
+    [[UIApplication sharedApplication] openURL:com.URL options:@{} completionHandler:^(BOOL success) {
+        
+    }];
 }
 
 - (void)dealloc {

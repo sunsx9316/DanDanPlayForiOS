@@ -38,7 +38,7 @@
 }
 
 - (DDPVideoModel *)videoModel {
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     if (_videoModel == nil) {
         _videoModel = [[DDPSMBVideoModel alloc] initWithFileURL:self.fileURL];
         _videoModel.file = self;

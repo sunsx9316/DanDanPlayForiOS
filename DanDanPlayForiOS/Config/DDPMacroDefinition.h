@@ -91,5 +91,8 @@ typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 //系统最低支持版本
 #define MINI_SUPPORT_VERTSION @"9.0"
 
+#if DDPAPPTYPE == 2
+#define DDPAPPTYPEISMAC 1
+#endif
 
 #endif /* DDPMacroDefinition_h */

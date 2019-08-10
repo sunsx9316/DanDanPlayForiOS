@@ -58,7 +58,7 @@
 }
 
 - (void)touchOfficialWebsiteButton:(UIButton *)sender {
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dandanplay.com"] options:@{} completionHandler:^(BOOL success) {
         
     }];
@@ -68,7 +68,7 @@
 }
 
 - (void)touchOpenSourceButton:(UIButton *)sender {
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/sunsx9316/DanDanPlayForiOS"] options:@{} completionHandler:^(BOOL success) {
         
     }];
@@ -78,14 +78,14 @@
 }
 
 - (void)touchContentButton:(UIButton *)sender {
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"qq://"]];
 #else
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=%@&key=%@&card_type=group&source=external", @"378340187", @"d2b26edf701959915753245605d87e415506cd38e20211d32eb4d43a6106c3c0"]];
 #endif
     
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
-        #if DDPAPPTYPE == 2
+        #if DDPAPPTYPEISMAC
         
         [UIPasteboard generalPasteboard].string = @"378340187";
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"QQ群号已经复制到剪贴板~" preferredStyle:UIAlertControllerStyleAlert];
@@ -114,7 +114,7 @@
 }
 
 - (void)touchRightItem:(UIButton *)button {
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_LINK] options:@{} completionHandler:^(BOOL success) {
         
     }];

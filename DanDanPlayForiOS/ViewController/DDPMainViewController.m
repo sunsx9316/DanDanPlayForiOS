@@ -10,8 +10,9 @@
 #import "DDPMineViewController.h"
 #import "DDPNewHomePagePackageViewController.h"
 #import "DDPBaseNavigationController.h"
+#import "DDPTabBar.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import "DDPFileViewController.h"
 #endif
 
@@ -20,30 +21,78 @@
 
 @implementation DDPMainViewController
 
++ (NSArray<DDPMainVCItem *> *)items {
+    static dispatch_once_t onceToken;
+    static NSArray<DDPMainVCItem *>*_items = nil;
+    dispatch_once(&onceToken, ^{
+        let arr = [NSMutableArray array];
+        if (ddp_appType != DDPAppTypeReview) {
+            DDPMainVCItem *item = [[DDPMainVCItem alloc] init];
+            item.normalImage = [UIImage imageNamed:@"main_bangumi"];
+            item.selectedImage = [UIImage imageNamed:@"main_bangumi"];
+            item.name = @"首页";
+            item.vcClassName = [DDPNewHomePagePackageViewController className];
+            [arr addObject:item];
+        }
+#if !DDPAPPTYPEISMAC
+        {
+            DDPMainVCItem *item = [[DDPMainVCItem alloc] init];
+            item.normalImage = [UIImage imageNamed:@"main_file"];
+            item.selectedImage = [UIImage imageNamed:@"main_file"];
+            item.name = @"文件";
+            item.vcClassName = [DDPFileViewController className];
+            [arr addObject:item];
+        }
+#endif
+        
+        {
+            DDPMainVCItem *item = [[DDPMainVCItem alloc] init];
+            item.normalImage = [UIImage imageNamed:@"main_mine"];
+            item.selectedImage = [UIImage imageNamed:@"main_mine"];
+            item.name = @"我的";
+            item.vcClassName = [DDPMineViewController className];
+            [arr addObject:item];
+        }
+        
+        _items = arr;
+    });
+    return _items;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        if (ddp_appType == DDPAppTypeToMac) {
+            object_setClass(self.tabBar, [DDPTabBar class]);            
+        }
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    let arr = [NSMutableArray array];
-    if (ddp_appType != DDPAppTypeReview) {
-        UINavigationController *homeVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_bangumi"] selectImg:[UIImage imageNamed:@"main_bangumi"] rootVC:[[DDPNewHomePagePackageViewController alloc] init] title:nil];
-        [arr addObject:homeVC];
-    }
+    
+    let items = [self.class items];
+    let arr = [NSMutableArray arrayWithCapacity:items.count];
+    
+    [items enumerateObjectsUsingBlock:^(DDPMainVCItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UINavigationController *vc = [self navigationControllerWithNormalImg:obj.normalImage selectImg:obj.selectedImage rootVC:[[NSClassFromString(obj.vcClassName) alloc] init] title:nil];
+        [arr addObject:vc];
+    }];
+    
+    self.viewControllers = arr;
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
     self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
 #endif
     
-#if !TARGET_OS_UIKITFORMAC
-    UINavigationController *fileVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_file"] selectImg:[UIImage imageNamed:@"main_file"] rootVC:[[DDPFileViewController alloc] init] title:nil];
-    [arr addObject:fileVC];
-#endif
-    UINavigationController *settingVC = [self navigationControllerWithNormalImg:[UIImage imageNamed:@"main_mine"] selectImg:[UIImage imageNamed:@"main_mine"] rootVC:[[DDPMineViewController alloc] init] title:nil];
-    [arr addObject:settingVC];
+    if (ddp_appType == DDPAppTypeToMac) {
+        self.tabBar.alpha = 0;
+    } else {
+        self.tabBar.translucent = NO;
+    }
     
-    
-    self.viewControllers = arr;
-    
-    self.tabBar.translucent = NO;
     self.delegate = self;
 }
 

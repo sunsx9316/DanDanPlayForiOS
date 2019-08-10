@@ -22,7 +22,7 @@ DDPProductionType DDPProductionTypeMusicUnknown = @"unknown";
 
 #if DDPAPPTYPE == 1
 DDPAppType ddp_appType = DDPAppTypeReview;
-#elif DDPAPPTYPE == 2
+#elif DDPAPPTYPEISMAC
 DDPAppType ddp_appType = DDPAppTypeToMac;
 #else
 DDPAppType ddp_appType = DDPAppTypeDefault;

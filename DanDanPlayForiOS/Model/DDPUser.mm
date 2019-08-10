@@ -9,7 +9,7 @@
 #import "DDPUser.h"
 #import "DDPCacheManager+DB.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import <WCDB/WCDB.h>
 #import "DDPUser+WCTTableCoding.h"
 #endif
@@ -42,7 +42,7 @@ DDPUserLoginType DDPUserLoginTypeDefault = @"dandanplay";
     }
 }
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 WCDB_IMPLEMENTATION(DDPUser)
 WCDB_SYNTHESIZE(DDPUser, name)
 WCDB_SYNTHESIZE(DDPUser, identity)

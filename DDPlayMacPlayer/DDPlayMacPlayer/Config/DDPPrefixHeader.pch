@@ -1,0 +1,15 @@
+//
+//  DDPPrefixHeader.pch
+//  DanDanPlayForiOS
+//
+//  Created by JimHuang on 17/2/18.
+//  Copyright © 2017年 JimHuang. All rights reserved.
+//
+
+#ifndef DDPPrefixHeader_pch
+#define DDPPrefixHeader_pch
+
+#import "DDPMacroDefinition.h"
+#import "NSControl+DDPTools.h"
+
+#endif /* DDPPrefixHeader_pch */

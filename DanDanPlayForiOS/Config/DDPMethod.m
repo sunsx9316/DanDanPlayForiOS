@@ -9,7 +9,7 @@
 #import "DDPMethod.h"
 #import "NSURL+Tools.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import <UMSocialCore/UMSocialCore.h>
 #endif
 
@@ -217,7 +217,7 @@ BOOL ddp_isLandscape(void) {
 }
 
 BOOL ddp_isChatAppInstall(void) {
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     if ([[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_QQ]) {
         return true;
     }

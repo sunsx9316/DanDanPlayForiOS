@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 #import "DDPMainViewController.h"
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
 #import <UIKit/NSToolbar+UIKitAdditions.h>
 #import <AppKit/NSToolbarItemGroup.h>
 
@@ -26,12 +26,10 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
 
-    
-    
     DDPMainViewController *vc = [[DDPMainViewController alloc] init];
     self.window.backgroundColor = [UIColor ddp_backgroundColor];
     self.window.rootViewController = vc;
-#if TARGET_OS_UIKITFORMAC
+#if DDPAPPTYPEISMAC
     UIWindowScene *windowScene = (UIWindowScene *)scene;
     let titlebar = windowScene.titlebar;
     let toolbar = [[NSToolbar alloc] initWithIdentifier: @"NSToolbar"];
@@ -80,11 +78,21 @@
     // to restore the scene back to its current state.
 }
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
 #pragma mark - NSToolbarDelegate
 - (nullable NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
     if ([itemIdentifier isEqualToString:@"main"]) {
-        NSToolbarItemGroup *group = [NSToolbarItemGroup groupWithItemIdentifier:itemIdentifier titles:@[@"首页", @"我的"] selectionMode:NSToolbarItemGroupSelectionModeSelectOne labels:@[@"label1", @"label2"] target:self action:@selector(toolbarGroupSelectionChanged:)];
+        let items = [DDPMainViewController items];
+        
+        NSMutableArray <NSString *>*titles = [NSMutableArray arrayWithCapacity:items.count];
+        NSMutableArray <NSString *>*labels = [NSMutableArray arrayWithCapacity:items.count];
+        
+        [items enumerateObjectsUsingBlock:^(DDPMainVCItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [titles addObject:obj.name];
+            [labels addObject:obj.vcClassName];
+        }];
+        
+        NSToolbarItemGroup *group = [NSToolbarItemGroup groupWithItemIdentifier:itemIdentifier titles:titles selectionMode:NSToolbarItemGroupSelectionModeSelectOne labels:labels target:self action:@selector(toolbarGroupSelectionChanged:)];
         group.selectedIndex = 0;
         return group;
     }

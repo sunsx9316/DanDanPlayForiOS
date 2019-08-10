@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		50E813C76E0C74E1CA5DD5F0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */; };
-		6B88B6441155282C65D624BC /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9130F1D07B3F2AF888C689C7 /* libPods-DDPlay_Target-DDPlay_ToMac.a */; };
+		3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */; };
+		4869704A890C631CD495B5AF /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */; };
+		5659EBF407404F5F4B8634FA /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */; };
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
 		8905BDA11F32C7EA0055BC84 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
@@ -186,7 +187,6 @@
 		8907524D21A1171A00D149F3 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
 		8907524E21A1171A00D149F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
 		8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
-		8907525021A1171A00D149F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89BF74B61F60F9A800D40F07 /* InfoPlist.strings */; };
 		8907525921A1171A00D149F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
 		8907525B21A1171A00D149F3 /* email.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89B8E36A1F8F6DD500DA9BEF /* email.plist */; };
 		8907526821A1188000D149F3 /* DDPConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8907526721A1188000D149F3 /* DDPConstant.m */; };
@@ -368,7 +368,6 @@
 		891137F722E35C7E00ED15E3 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
 		891137F822E35C7E00ED15E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
 		891137F922E35C7E00ED15E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
-		891137FA22E35C7E00ED15E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89BF74B61F60F9A800D40F07 /* InfoPlist.strings */; };
 		891137FD22E35C7E00ED15E3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
 		891137FE22E35C7E00ED15E3 /* email.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89B8E36A1F8F6DD500DA9BEF /* email.plist */; };
 		8911384E22E3665600ED15E3 /* DDPDanmakuProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911380B22E3665600ED15E3 /* DDPDanmakuProducer.m */; };
@@ -724,13 +723,18 @@
 		89BE4B0F201C51250009A5FF /* DDPCacheManager+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0E201C51250009A5FF /* DDPCacheManager+DB.mm */; };
 		89BE4B12201C53390009A5FF /* DDPFilter+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B11201C53390009A5FF /* DDPFilter+DB.mm */; };
 		89BE4B15201C58D70009A5FF /* DDPVideoCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */; };
-		89BF74B41F60F9A800D40F07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89BF74B61F60F9A800D40F07 /* InfoPlist.strings */; };
 		89BF74BE1F612DD300D40F07 /* DDPDMHYSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74BD1F612DD300D40F07 /* DDPDMHYSearch.m */; };
 		89BF74C11F612F0F00D40F07 /* DDPDMHYSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C01F612F0F00D40F07 /* DDPDMHYSearchCollection.m */; };
 		89BF74CA1F6132DE00D40F07 /* DDPDMHYParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C91F6132DE00D40F07 /* DDPDMHYParse.m */; };
 		89BF74D61F6144E300D40F07 /* DDPDMHYSearchConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D51F6144E300D40F07 /* DDPDMHYSearchConfig.m */; };
 		89C3623B1FA89FC00054A1F2 /* DDPCollectionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623A1FA89FC00054A1F2 /* DDPCollectionCache.m */; };
 		89C3623E1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623D1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m */; };
+		89C7A38122EC4CE1006AF0CC /* DDPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38022EC4CE1006AF0CC /* DDPTabBar.m */; };
+		89C7A38222EC4CE1006AF0CC /* DDPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38022EC4CE1006AF0CC /* DDPTabBar.m */; };
+		89C7A38322EC4CE1006AF0CC /* DDPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38022EC4CE1006AF0CC /* DDPTabBar.m */; };
+		89C7A38622EC5047006AF0CC /* DDPMainVCItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38522EC5047006AF0CC /* DDPMainVCItem.m */; };
+		89C7A38722EC5047006AF0CC /* DDPMainVCItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38522EC5047006AF0CC /* DDPMainVCItem.m */; };
+		89C7A38822EC5047006AF0CC /* DDPMainVCItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C7A38522EC5047006AF0CC /* DDPMainVCItem.m */; };
 		89CD85AA1F68F4B500E7D841 /* DDPLinkNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85A91F68F4B500E7D841 /* DDPLinkNetManagerOperation.m */; };
 		89CD85AD1F68F55B00E7D841 /* DDPLinkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AC1F68F55B00E7D841 /* DDPLinkInfo.m */; };
 		89CD85B01F68F62900E7D841 /* DDPLinkWelcome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AF1F68F62900E7D841 /* DDPLinkWelcome.m */; };
@@ -787,8 +791,6 @@
 		89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
 		8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
-		AA2D30C9B908F269DB9EE98D /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */; };
-		D28EBD64E5E7155D70C6D5D7 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -826,14 +828,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32488E7C94DE33DD000C655F /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
-		36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DanDanPlayForiOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		505E27DB6DD424ED267052F2 /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
-		65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
-		721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay/Pods-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
-		76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
+		1D64E2391276E65AC4B7DCB6 /* Pods-DDPlay_Target-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
+		59F03C0BA3C8C1BB4328C21D /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
+		7A14D6F9D890E98ACA5906CE /* Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
+		80FE956B11883BA0A808C7C2 /* Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
 		8904467E1FE55567006872A0 /* UIColor+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tools.h"; sourceTree = "<group>"; };
 		8904467F1FE55567006872A0 /* UIColor+Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tools.m"; sourceTree = "<group>"; };
 		8905BD9F1F32C7EA0055BC84 /* DDPSMBFileOprationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBFileOprationView.h; sourceTree = "<group>"; };
@@ -841,7 +839,6 @@
 		8905BDA21F32CEBA0055BC84 /* DDPDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDownloadViewController.h; sourceTree = "<group>"; };
 		8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDownloadViewController.m; sourceTree = "<group>"; };
 		8907526421A1171A00D149F3 /* DDPlay_Review.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlay_Review.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8907526521A1171A00D149F3 /* DDPlay_Review.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = DDPlay_Review.plist; path = /Users/jimhuang/Development/DanDanPlayForiOS/DDPlay_Review.plist; sourceTree = "<absolute>"; };
 		8907526621A1188000D149F3 /* DDPConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPConstant.h; sourceTree = "<group>"; };
 		8907526721A1188000D149F3 /* DDPConstant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPConstant.m; sourceTree = "<group>"; };
 		8907526A21A11A6800D149F3 /* DDPMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMock.h; sourceTree = "<group>"; };
@@ -857,8 +854,6 @@
 		890DE4841F690CC7002B45EB /* DDPLinkDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkDownloadTask.h; sourceTree = "<group>"; };
 		890DE4851F690CC7002B45EB /* DDPLinkDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLinkDownloadTask.m; sourceTree = "<group>"; };
 		8911380622E35C7E00ED15E3 /* DDPlay_ToMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlay_ToMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8911380722E35C7E00ED15E3 /* DDPlay_ToMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = DDPlay_ToMac.plist; path = /Users/jimhuang/Development/DanDanPlayForiOS/DDPlay_ToMac.plist; sourceTree = "<absolute>"; };
-		8911380822E35C9000ED15E3 /* DDPlay_ToMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DDPlay_ToMac.entitlements; sourceTree = "<group>"; };
 		8911380A22E3665600ED15E3 /* DDPPlayNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayNavigationController.h; sourceTree = "<group>"; };
 		8911380B22E3665600ED15E3 /* DDPDanmakuProducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuProducer.m; sourceTree = "<group>"; };
 		8911380C22E3665600ED15E3 /* DDPPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerViewController.m; sourceTree = "<group>"; };
@@ -1276,7 +1271,6 @@
 		89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDefaultPageViewController.m; sourceTree = "<group>"; };
 		89A8032C208B1B5200FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		89A8032E208B1B5400FF6C2B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		89A8032F208B1B5C00FF6C2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		89A80332208B331D00FF6C2B /* DDPRefreshNormalHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPRefreshNormalHeader.h; sourceTree = "<group>"; };
 		89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPRefreshNormalHeader.m; sourceTree = "<group>"; };
 		89A80335208B35EA00FF6C2B /* RefreshText.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RefreshText.plist; sourceTree = "<group>"; };
@@ -1330,7 +1324,6 @@
 		89BE4B13201C58D70009A5FF /* DDPVideoCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPVideoCache.h; sourceTree = "<group>"; };
 		89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DDPVideoCache.mm; sourceTree = "<group>"; };
 		89BE4B16201C59930009A5FF /* DDPVideoCache+DB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPVideoCache+DB.h"; sourceTree = "<group>"; };
-		89BF74B51F60F9A800D40F07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		89BF74BC1F612DD300D40F07 /* DDPDMHYSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDMHYSearch.h; sourceTree = "<group>"; };
 		89BF74BD1F612DD300D40F07 /* DDPDMHYSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDMHYSearch.m; sourceTree = "<group>"; };
 		89BF74BF1F612F0F00D40F07 /* DDPDMHYSearchCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDMHYSearchCollection.h; sourceTree = "<group>"; };
@@ -1345,6 +1338,20 @@
 		89C3623A1FA89FC00054A1F2 /* DDPCollectionCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPCollectionCache.m; sourceTree = "<group>"; };
 		89C3623C1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPFileCollectionTableViewCell.h; sourceTree = "<group>"; };
 		89C3623D1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPFileCollectionTableViewCell.m; sourceTree = "<group>"; };
+		89C7A37F22EC4CE1006AF0CC /* DDPTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DDPTabBar.h; path = ../../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/ViewController/View/DDPTabBar.h; sourceTree = "<group>"; };
+		89C7A38022EC4CE1006AF0CC /* DDPTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DDPTabBar.m; path = ../../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/ViewController/View/DDPTabBar.m; sourceTree = "<group>"; };
+		89C7A38422EC5047006AF0CC /* DDPMainVCItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DDPMainVCItem.h; path = ../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/Model/DDPMainVCItem.h; sourceTree = "<group>"; };
+		89C7A38522EC5047006AF0CC /* DDPMainVCItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DDPMainVCItem.m; path = ../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/Model/DDPMainVCItem.m; sourceTree = "<group>"; };
+		89C7A40622EC56DE006AF0CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89C7A40B22EC56F8006AF0CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		89C7A40D22EC56F9006AF0CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89C7A40F22EC5767006AF0CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89C7A41422EC5786006AF0CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		89C7A41622EC5787006AF0CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89C7A41822EC581E006AF0CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89C7A41D22EC5831006AF0CC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		89C7A41F22EC5833006AF0CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89C7A42022EC588B006AF0CC /* DDPlay_ToMac.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = DDPlay_ToMac.entitlements; sourceTree = "<group>"; };
 		89CD85A81F68F4B500E7D841 /* DDPLinkNetManagerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkNetManagerOperation.h; sourceTree = "<group>"; };
 		89CD85A91F68F4B500E7D841 /* DDPLinkNetManagerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLinkNetManagerOperation.m; sourceTree = "<group>"; };
 		89CD85AB1F68F55B00E7D841 /* DDPLinkInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkInfo.h; sourceTree = "<group>"; };
@@ -1382,7 +1389,6 @@
 		89E3F5BF1E5829BD007AB1BD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		89E3F5C81E5829BD007AB1BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		89E3F5CD1E5829BD007AB1BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89E3F5EC1E585135007AB1BD /* DDPBaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPBaseNetManager.h; sourceTree = "<group>"; };
 		89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPBaseNetManager.m; sourceTree = "<group>"; };
 		89E3F5F01E585135007AB1BD /* DDPFilterNetManagerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFilterNetManagerOperation.h; sourceTree = "<group>"; };
@@ -1449,16 +1455,15 @@
 		89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchViewController.m; sourceTree = "<group>"; };
 		8B847BFC216C6A0300DC8623 /* YYPhotoBrowseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPhotoBrowseView.h; sourceTree = "<group>"; };
 		8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoBrowseView.m; sourceTree = "<group>"; };
-		9130F1D07B3F2AF888C689C7 /* libPods-DDPlay_Target-DDPlay_ToMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_ToMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9BC7EC2E70E5D1503EE674DC /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; sourceTree = "<group>"; };
-		A5E6516C70DE3CF1C31190C3 /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; sourceTree = "<group>"; };
-		A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.release.xcconfig"; sourceTree = "<group>"; };
-		BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay-DDPlay_Review.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay-DDPlay_Review/Pods-DDPlay-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
-		C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2A120C9999393FD6CC0A737 /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
-		DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DanDanPlayForiOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DanDanPlayForiOS/Pods-DanDanPlayForiOS.debug.xcconfig"; sourceTree = "<group>"; };
-		E2E41E69B0E1D6AFC328E7BC /* Pods-DDPlay_Target-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
+		9D8024BA789C7E0A62E672E2 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
+		AB35A10C39832B613F53300A /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; sourceTree = "<group>"; };
+		B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-iOS_Only-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_ToMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8EC29B0550E4251CB4B7D8C /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
+		E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E222C27FFD44CC18AC2D0A96 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
+		E93BA740538F81BABBC04D4A /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
+		EFDBB67CB10F5B35CC5B825B /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1466,8 +1471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D28EBD64E5E7155D70C6D5D7 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */,
-				AA2D30C9B908F269DB9EE98D /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */,
+				4869704A890C631CD495B5AF /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,7 +1480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8911389522E371A200ED15E3 /* DanDanPlayEncrypt.xcframework in Frameworks */,
-				6B88B6441155282C65D624BC /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */,
+				5659EBF407404F5F4B8634FA /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1484,45 +1488,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E813C76E0C74E1CA5DD5F0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */,
+				3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3AD96E0796DE3E6E6535D44F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				36A166589B264235C74ED33D /* libPods-DanDanPlayForiOS.a */,
-				C0AA28BDE60FD45810D9AF3F /* libPods-DDPlay.a */,
-				1A23AE9E1815099883741195 /* libPods-DDPlay-DDPlay_Review.a */,
-				721AF60666F919C4AD9DE559 /* libPods-DDPlay_Target-DDPlay.a */,
-				BE78F96E1D2C592F4EBFA4CC /* libPods-DDPlay_Target-DDPlay_Review.a */,
-				9130F1D07B3F2AF888C689C7 /* libPods-DDPlay_Target-DDPlay_ToMac.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		432286200E25B50DCB7E2D69 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DDD0864A30EFB169B3DFCCE9 /* Pods-DanDanPlayForiOS.debug.xcconfig */,
-				A6C24A9958BEF6A3CEC6498F /* Pods-DanDanPlayForiOS.release.xcconfig */,
-				7548458B0CC340C463A13340 /* Pods-DDPlay.debug.xcconfig */,
-				65DA5A5EBF9DCC01649BA1EE /* Pods-DDPlay.release.xcconfig */,
-				C07E4671031C8FA9E8CD75D7 /* Pods-DDPlay-DDPlay_Review.debug.xcconfig */,
-				76577B00EF75C7351B20F03B /* Pods-DDPlay-DDPlay_Review.release.xcconfig */,
-				505E27DB6DD424ED267052F2 /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */,
-				E2E41E69B0E1D6AFC328E7BC /* Pods-DDPlay_Target-DDPlay.release.xcconfig */,
-				D2A120C9999393FD6CC0A737 /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */,
-				32488E7C94DE33DD000C655F /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */,
-				A5E6516C70DE3CF1C31190C3 /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */,
-				9BC7EC2E70E5D1503EE674DC /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		890446811FE558D8006872A0 /* Serializer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1805,6 +1777,8 @@
 				8937D0AF2156BD9A00D0E17C /* DDPTransparentNavigationBar.m */,
 				891138AA22E4151600ED15E3 /* DDPBaseTextView.h */,
 				891138AB22E4151600ED15E3 /* DDPBaseTextView.m */,
+				89C7A37F22EC4CE1006AF0CC /* DDPTabBar.h */,
+				89C7A38022EC4CE1006AF0CC /* DDPTabBar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2312,6 +2286,44 @@
 			path = "视频模型";
 			sourceTree = "<group>";
 		};
+		89C7A3DF22EC54A1006AF0CC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				89C7A41722EC57A8006AF0CC /* AppStore */,
+				89C7A40E22EC5744006AF0CC /* Review */,
+				89C7A3F322EC5679006AF0CC /* ToMac */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89C7A3F322EC5679006AF0CC /* ToMac */ = {
+			isa = PBXGroup;
+			children = (
+				89C7A42022EC588B006AF0CC /* DDPlay_ToMac.entitlements */,
+				89C7A40622EC56DE006AF0CC /* Info.plist */,
+				89C7A40C22EC56F8006AF0CC /* InfoPlist.strings */,
+			);
+			path = ToMac;
+			sourceTree = "<group>";
+		};
+		89C7A40E22EC5744006AF0CC /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				89C7A40F22EC5767006AF0CC /* Info.plist */,
+				89C7A41522EC5786006AF0CC /* InfoPlist.strings */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		89C7A41722EC57A8006AF0CC /* AppStore */ = {
+			isa = PBXGroup;
+			children = (
+				89C7A41822EC581E006AF0CC /* Info.plist */,
+				89C7A41E22EC5831006AF0CC /* InfoPlist.strings */,
+			);
+			path = AppStore;
+			sourceTree = "<group>";
+		};
 		89D8F8441EB0F5FB009329AA /* Vender */ = {
 			isa = PBXGroup;
 			children = (
@@ -2338,11 +2350,10 @@
 		89E3F5B01E5829BD007AB1BD = {
 			isa = PBXGroup;
 			children = (
-				8911380822E35C9000ED15E3 /* DDPlay_ToMac.entitlements */,
 				89E3F5BB1E5829BD007AB1BD /* DanDanPlayForiOS */,
 				89E3F5BA1E5829BD007AB1BD /* Products */,
-				432286200E25B50DCB7E2D69 /* Pods */,
-				3AD96E0796DE3E6E6535D44F /* Frameworks */,
+				B6C75ADF2C49705250A0E91E /* Pods */,
+				ED7A1E1B342C39B400A4933F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2370,6 +2381,7 @@
 				89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */,
 				89A1BF5622E4BD75000149CF /* SceneDelegate.h */,
 				89A1BF5522E4BD75000149CF /* SceneDelegate.m */,
+				89C7A3DF22EC54A1006AF0CC /* Supporting Files */,
 				89E3F5BC1E5829BD007AB1BD /* Supporting Files */,
 			);
 			path = DanDanPlayForiOS;
@@ -2381,11 +2393,7 @@
 				89E3F5C81E5829BD007AB1BD /* Assets.xcassets */,
 				89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */,
 				8999D08622E4CBF400B77F60 /* Main.storyboard */,
-				89E3F5CD1E5829BD007AB1BD /* Info.plist */,
-				8907526521A1171A00D149F3 /* DDPlay_Review.plist */,
-				8911380722E35C7E00ED15E3 /* DDPlay_ToMac.plist */,
 				89E3F5BD1E5829BD007AB1BD /* main.m */,
-				89BF74B61F60F9A800D40F07 /* InfoPlist.strings */,
 				89A8032D208B1B5200FF6C2B /* Localizable.strings */,
 			);
 			name = "Supporting Files";
@@ -2582,6 +2590,8 @@
 				898C187A2168EFCC00AE7484 /* DDPSearchAnimeDetails.m */,
 				898C187C2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.h */,
 				898C187D2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m */,
+				89C7A38422EC5047006AF0CC /* DDPMainVCItem.h */,
+				89C7A38522EC5047006AF0CC /* DDPMainVCItem.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2607,6 +2617,33 @@
 			path = YYPhotoBrowseView;
 			sourceTree = "<group>";
 		};
+		B6C75ADF2C49705250A0E91E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				59F03C0BA3C8C1BB4328C21D /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */,
+				1D64E2391276E65AC4B7DCB6 /* Pods-DDPlay_Target-DDPlay.release.xcconfig */,
+				E93BA740538F81BABBC04D4A /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */,
+				D8EC29B0550E4251CB4B7D8C /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */,
+				EFDBB67CB10F5B35CC5B825B /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */,
+				AB35A10C39832B613F53300A /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */,
+				7A14D6F9D890E98ACA5906CE /* Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig */,
+				80FE956B11883BA0A808C7C2 /* Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig */,
+				E222C27FFD44CC18AC2D0A96 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig */,
+				9D8024BA789C7E0A62E672E2 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		ED7A1E1B342C39B400A4933F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */,
+				B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */,
+				E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2614,13 +2651,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8907526121A1171A00D149F3 /* Build configuration list for PBXNativeTarget "DDPlay_Review" */;
 			buildPhases = (
-				8907512721A1171A00D149F3 /* [CP] Check Pods Manifest.lock */,
+				7F8F40A67F52E72C332974FB /* [CP] Check Pods Manifest.lock */,
 				8907512821A1171A00D149F3 /* Sources */,
 				8907524021A1171A00D149F3 /* Frameworks */,
 				8907524221A1171A00D149F3 /* Resources */,
-				8907525E21A1171A00D149F3 /* [CP] Copy Pods Resources */,
 				8907525F21A1171A00D149F3 /* ShellScript */,
 				8907526021A1171A00D149F3 /* Embed Frameworks */,
+				992F82BC2E6FE9C4BFD5778B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2635,13 +2672,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8911380322E35C7E00ED15E3 /* Build configuration list for PBXNativeTarget "DDPlay_ToMac" */;
 			buildPhases = (
-				956A461FC6DD97346477D123 /* [CP] Check Pods Manifest.lock */,
+				490CA3915A6F31B9620FB571 /* [CP] Check Pods Manifest.lock */,
 				8911371B22E35C7E00ED15E3 /* Sources */,
 				891137ED22E35C7E00ED15E3 /* Frameworks */,
 				891137EF22E35C7E00ED15E3 /* Resources */,
 				8911380122E35C7E00ED15E3 /* ShellScript */,
 				8911380222E35C7E00ED15E3 /* Embed Frameworks */,
-				1E26999FE4542FCBC5F56EC0 /* [CP] Copy Pods Resources */,
+				276F7DEB7D2A2DD6BDA2384C /* [CP] Embed Pods Frameworks */,
+				527227A73ED40D62FAD377BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2656,13 +2694,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89E3F5D01E5829BD007AB1BD /* Build configuration list for PBXNativeTarget "DDPlay" */;
 			buildPhases = (
-				7B70B10B3601E6CD33B87633 /* [CP] Check Pods Manifest.lock */,
+				EC0F983C240126E30C0DF224 /* [CP] Check Pods Manifest.lock */,
 				89E3F5B51E5829BD007AB1BD /* Sources */,
 				89E3F5B61E5829BD007AB1BD /* Frameworks */,
 				89E3F5B71E5829BD007AB1BD /* Resources */,
-				DB42375BBB4B96942128B566 /* [CP] Copy Pods Resources */,
 				89E5AFAB1F566CBD00CD4334 /* ShellScript */,
 				89409FC51FE518B900704F33 /* Embed Frameworks */,
+				E7770F7AE732DB9BF27F2CDD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2738,7 +2776,6 @@
 				8911386722E3665600ED15E3 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
 				8907524F21A1171A00D149F3 /* Assets.xcassets in Resources */,
 				8911388722E3665600ED15E3 /* DDPPlayerInterfaceView.xib in Resources */,
-				8907525021A1171A00D149F3 /* InfoPlist.strings in Resources */,
 				8999D08822E4CBF400B77F60 /* Main.storyboard in Resources */,
 				8907525921A1171A00D149F3 /* Localizable.strings in Resources */,
 				8907525B21A1171A00D149F3 /* email.plist in Resources */,
@@ -2762,7 +2799,6 @@
 				891137F922E35C7E00ED15E3 /* Assets.xcassets in Resources */,
 				891138E722E41DE600ED15E3 /* HomePageBangumiProgressCollectionViewCell.xib in Resources */,
 				891138C022E41A3E00ED15E3 /* DDPQRScannerHistoryView.xib in Resources */,
-				891137FA22E35C7E00ED15E3 /* InfoPlist.strings in Resources */,
 				891138BB22E41A0C00ED15E3 /* DDPNewSearchAnimateTableViewCell.xib in Resources */,
 				891137FD22E35C7E00ED15E3 /* Localizable.strings in Resources */,
 				891138D622E41CEC00ED15E3 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */,
@@ -2793,7 +2829,6 @@
 				898C1867216783B600AE7484 /* DDPMineHeadView.xib in Resources */,
 				89E3F5CC1E5829BD007AB1BD /* LaunchScreen.storyboard in Resources */,
 				89E3F5C91E5829BD007AB1BD /* Assets.xcassets in Resources */,
-				89BF74B41F60F9A800D40F07 /* InfoPlist.strings in Resources */,
 				8928E37A21B81F3E007BA84C /* DDPQRScannerHistoryView.xib in Resources */,
 				8928E34E21B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */,
 				894AE15021172BD90023DED4 /* DDPControlVideoViewController.xib in Resources */,
@@ -2810,7 +2845,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1E26999FE4542FCBC5F56EC0 /* [CP] Copy Pods Resources */ = {
+		276F7DEB7D2A2DD6BDA2384C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		490CA3915A6F31B9620FB571 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay_ToMac-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		527227A73ED40D62FAD377BB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2827,57 +2901,26 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7B70B10B3601E6CD33B87633 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8907512721A1171A00D149F3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay_Review-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8907525E21A1171A00D149F3 /* [CP] Copy Pods Resources */ = {
+		7F8F40A67F52E72C332974FB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8907525F21A1171A00D149F3 /* ShellScript */ = {
@@ -2919,7 +2962,41 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"5a3d1ad706\"\n# #\nBUGLY_APP_KEY=\"cff908ee-d69a-4e0f-8af4-4dc5592903d1\"\n# #\nBUNDLE_IDENTIFIER=\"com.dandanplay.player\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=1\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
 		};
-		956A461FC6DD97346477D123 /* [CP] Check Pods Manifest.lock */ = {
+		992F82BC2E6FE9C4BFD5778B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7770F7AE732DB9BF27F2CDD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC0F983C240126E30C0DF224 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2934,28 +3011,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay_ToMac-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-iOS_Only-DDPlay-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DB42375BBB4B96942128B566 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3091,6 +3151,7 @@
 				890751CD21A1171A00D149F3 /* UINavigationItem+Tools.m in Sources */,
 				8911387122E3665600ED15E3 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */,
 				890751CE21A1171A00D149F3 /* DDPSettingTitleTableViewCell.m in Sources */,
+				89C7A38722EC5047006AF0CC /* DDPMainVCItem.m in Sources */,
 				8911386922E3665600ED15E3 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */,
 				890751CF21A1171A00D149F3 /* DDPBase.m in Sources */,
 				897FCF59223E65F7006ACA24 /* DDPForgetPasswordViewController.m in Sources */,
@@ -3175,6 +3236,7 @@
 				8907523921A1171A00D149F3 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				8907523A21A1171A00D149F3 /* WMStickyPageController.m in Sources */,
 				8907523B21A1171A00D149F3 /* DDPFileTreeNode.m in Sources */,
+				89C7A38222EC4CE1006AF0CC /* DDPTabBar.m in Sources */,
 				8907523C21A1171A00D149F3 /* UIScrollView+Base.m in Sources */,
 				8907523D21A1171A00D149F3 /* UIView+Tools.m in Sources */,
 				8907523F21A1171A00D149F3 /* DDPVideoCache.mm in Sources */,
@@ -3353,6 +3415,7 @@
 				891137C422E35C7E00ED15E3 /* DDPMethod.m in Sources */,
 				891137C522E35C7E00ED15E3 /* DDPSMBLoginView.m in Sources */,
 				891138E622E41DD700ED15E3 /* HomePageBangumiProgressTableViewCell.m in Sources */,
+				89C7A38322EC4CE1006AF0CC /* DDPTabBar.m in Sources */,
 				891138DD22E41D5000ED15E3 /* DDPHomeBangumiCollection.m in Sources */,
 				891137C622E35C7E00ED15E3 /* DDPFileManagerFolderLongViewCell.m in Sources */,
 				8999D08522E4C48700B77F60 /* UIApplication+DDPTools.m in Sources */,
@@ -3377,6 +3440,7 @@
 				891137D422E35C7E00ED15E3 /* DDPSMBInfo.m in Sources */,
 				891138BF22E41A3C00ED15E3 /* DDPQRScannerHistoryView.m in Sources */,
 				891137D522E35C7E00ED15E3 /* DDPFilter.m in Sources */,
+				89C7A38822EC5047006AF0CC /* DDPMainVCItem.m in Sources */,
 				891137D622E35C7E00ED15E3 /* DDPAttentionListTableViewCell.m in Sources */,
 				891137D722E35C7E00ED15E3 /* DDPAboutUsViewController.m in Sources */,
 				891137D822E35C7E00ED15E3 /* LAContext+Tools.m in Sources */,
@@ -3547,6 +3611,7 @@
 				89E834291F1E5A5400E781EB /* DDPSMBVideoModel.m in Sources */,
 				894AE14F21172BD90023DED4 /* DDPControlVideoViewController.m in Sources */,
 				8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */,
+				89C7A38622EC5047006AF0CC /* DDPMainVCItem.m in Sources */,
 				8911385622E3665600ED15E3 /* DDPPlayerDanmakuControlViewController.m in Sources */,
 				89E3F6281E585C17007AB1BD /* DDPDanmaku.m in Sources */,
 				89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */,
@@ -3684,6 +3749,7 @@
 				8911385E22E3665600ED15E3 /* DDPSliderShowAnimate.m in Sources */,
 				8955064621C2990D006E35D9 /* DDPNewBangumiIntro.m in Sources */,
 				8972779C22099D680071028D /* DDPParseNetManagerOperation.m in Sources */,
+				89C7A38122EC4CE1006AF0CC /* DDPTabBar.m in Sources */,
 				898C18202165028600AE7484 /* WMStickyPageController.m in Sources */,
 				890BEF051FA37BC300C7915D /* DDPFileTreeNode.m in Sources */,
 				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,
@@ -3705,13 +3771,34 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		89BF74B61F60F9A800D40F07 /* InfoPlist.strings */ = {
+		89C7A40C22EC56F8006AF0CC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				89BF74B51F60F9A800D40F07 /* zh-Hans */,
-				89A8032F208B1B5C00FF6C2B /* en */,
+				89C7A40B22EC56F8006AF0CC /* zh-Hans */,
+				89C7A40D22EC56F9006AF0CC /* en */,
 			);
 			name = InfoPlist.strings;
+			path = "../../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/Supporting Files/ToMac";
+			sourceTree = "<group>";
+		};
+		89C7A41522EC5786006AF0CC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89C7A41422EC5786006AF0CC /* zh-Hans */,
+				89C7A41622EC5787006AF0CC /* en */,
+			);
+			name = InfoPlist.strings;
+			path = "../../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/Supporting Files/Review";
+			sourceTree = "<group>";
+		};
+		89C7A41E22EC5831006AF0CC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89C7A41D22EC5831006AF0CC /* zh-Hans */,
+				89C7A41F22EC5833006AF0CC /* en */,
+			);
+			name = InfoPlist.strings;
+			path = "../../../../../../../System/Volumes/Data/Users/jimhuang/Development/DanDanPlayForiOS/DanDanPlayForiOS/Supporting Files/AppStore";
 			sourceTree = "<group>";
 		};
 		89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */ = {
@@ -3728,7 +3815,7 @@
 /* Begin XCBuildConfiguration section */
 		8907526221A1171A00D149F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D2A120C9999393FD6CC0A737 /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */;
+			baseConfigurationReference = E222C27FFD44CC18AC2D0A96 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -3743,7 +3830,7 @@
 					"COCOAPODS=1",
 					"DDPAPPTYPE=1",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_Review.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/Review/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3764,9 +3851,7 @@
 					"-l\"RATreeView\"",
 					"-l\"UITableView+FDTemplateLayoutCell\"",
 					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
 					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
 					"-l\"YYModel\"",
 					"-l\"YYWebImage\"",
 					"-l\"bz2\"",
@@ -3816,7 +3901,7 @@
 		};
 		8907526321A1171A00D149F3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32488E7C94DE33DD000C655F /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */;
+			baseConfigurationReference = 9D8024BA789C7E0A62E672E2 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -3832,7 +3917,7 @@
 					"COCOAPODS=1",
 					"DDPAPPTYPE=1",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_Review.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/Review/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3853,9 +3938,7 @@
 					"-l\"RATreeView\"",
 					"-l\"UITableView+FDTemplateLayoutCell\"",
 					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
 					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
 					"-l\"YYModel\"",
 					"-l\"YYWebImage\"",
 					"-l\"bz2\"",
@@ -3907,11 +3990,11 @@
 		};
 		8911380422E35C7E00ED15E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5E6516C70DE3CF1C31190C3 /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */;
+			baseConfigurationReference = EFDBB67CB10F5B35CC5B825B /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
-				CODE_SIGN_ENTITLEMENTS = DDPlay_ToMac.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/ToMac/DDPlay_ToMac.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 201907201;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
@@ -3924,7 +4007,7 @@
 					"COCOAPODS=1",
 					"DDPAPPTYPE=2",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_ToMac.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/ToMac/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3934,22 +4017,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-l\"AFNetworking\"",
 					"-l\"CocoaLumberjack\"",
-					"-l\"DZNEmptyDataSet\"",
-					"-l\"IQKeyboardManager\"",
-					"-l\"MBProgressHUD\"",
-					"-l\"MJRefresh\"",
-					"-l\"Masonry\"",
-					"-l\"NKOColorPickerView\"",
-					"-l\"RATreeView\"",
-					"-l\"UITableView+FDTemplateLayoutCell\"",
-					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
-					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
-					"-l\"YYModel\"",
-					"-l\"YYWebImage\"",
 					"-l\"bz2\"",
 					"-l\"iconv\"",
 					"-l\"sqlite3\"",
@@ -3996,11 +4064,11 @@
 		};
 		8911380522E35C7E00ED15E3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BC7EC2E70E5D1503EE674DC /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */;
+			baseConfigurationReference = AB35A10C39832B613F53300A /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
-				CODE_SIGN_ENTITLEMENTS = DDPlay_ToMac.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/ToMac/DDPlay_ToMac.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 201907201;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -4014,7 +4082,7 @@
 					"COCOAPODS=1",
 					"DDPAPPTYPE=2",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/DDPlay_ToMac.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/ToMac/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4035,9 +4103,7 @@
 					"-l\"RATreeView\"",
 					"-l\"UITableView+FDTemplateLayoutCell\"",
 					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
 					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
 					"-l\"YYModel\"",
 					"-l\"YYWebImage\"",
 					"-l\"bz2\"",
@@ -4188,7 +4254,7 @@
 		};
 		89E3F5D11E5829BD007AB1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 505E27DB6DD424ED267052F2 /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */;
+			baseConfigurationReference = 7A14D6F9D890E98ACA5906CE /* Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4199,7 +4265,7 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
-				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/AppStore/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4222,9 +4288,7 @@
 					"-l\"RATreeView\"",
 					"-l\"UITableView+FDTemplateLayoutCell\"",
 					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
 					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
 					"-l\"YYModel\"",
 					"-l\"YYWebImage\"",
 					"-l\"bz2\"",
@@ -4277,7 +4341,7 @@
 		};
 		89E3F5D21E5829BD007AB1BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2E41E69B0E1D6AFC328E7BC /* Pods-DDPlay_Target-DDPlay.release.xcconfig */;
+			baseConfigurationReference = 80FE956B11883BA0A808C7C2 /* Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4289,7 +4353,7 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
-				INFOPLIST_FILE = DanDanPlayForiOS/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/DanDanPlayForiOS/Supporting Files/AppStore/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4312,9 +4376,7 @@
 					"-l\"RATreeView\"",
 					"-l\"UITableView+FDTemplateLayoutCell\"",
 					"-l\"WMPageController\"",
-					"-l\"YYCache\"",
 					"-l\"YYCategories\"",
-					"-l\"YYImage\"",
 					"-l\"YYModel\"",
 					"-l\"YYWebImage\"",
 					"-l\"bz2\"",

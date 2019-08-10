@@ -7,8 +7,8 @@
 //
 
 #import "DDPBaseNetManager.h"
-#import <AFNetworking.h>
-#import <AFNetworkActivityIndicatorManager.h>
+#import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import "DDPHTTPRequestSerializer.h"
 #import "DDPHTTPResponseSerializer.h"
 

@@ -8,7 +8,7 @@
 
 #import "UIViewController+Tools.h"
 
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import "DDPPlayNavigationController.h"
 #import "DDPMatchViewController.h"
 #endif
@@ -76,7 +76,7 @@
     }
 #else
     
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
     DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
     [self presentViewController:nav animated:YES completion:nil];
 #endif

@@ -2,22 +2,17 @@
 platform :ios, '9.0'
 
 inhibit_all_warnings!
-use_modular_headers!
+install! 'cocoapods', generate_multiple_pod_projects: true
 
 abstract_target 'DDPlay_Target' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
     # use_frameworks!
     
-    # Pods for DanDanPlayForiOS
-    
-    
     # pod 'JHDanmakuRender', :path => 'LocalPods/JHDanmakuRender'
     pod 'YYUtility', :path => 'LocalPods/YYUtility'
-    
-    pod 'AFNetworking'
+
     pod 'Masonry'
     pod 'YYModel'
-    pod 'YYWebImage'
     pod 'YYCategories'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
@@ -30,53 +25,42 @@ abstract_target 'DDPlay_Target' do
     pod 'NKOColorPickerView'
     pod 'YYKeyboardManager'
     pod 'MGSwipeTableCell'
-    # pod 'UITextView+Placeholder'
     pod 'iCarousel'
-    
-    
+
+    pod 'AFNetworking', :git => 'https://github.com/sunsx9316/AFNetworking_UIKitForMac.git'
+    pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
+
+abstract_target 'iOS_Only' do
+    # 集成新浪微博
+    pod 'UMengUShare/Social/ReducedSina'
+    # 集成QQ
+    pod 'UMengUShare/Social/ReducedQQ'
+    # 集成微信
+    pod 'UMengUShare/Social/WeChat'
+
+    # 友盟统计
+    pod 'UMengAnalytics'
+    pod 'Bugly'
+    #内存泄露检测
+    pod 'MLeaksFinder', :configurations => ['Debug'] 
+    pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
+    pod 'WCDB'
+    pod 'MobileVLCKit', '3.3.0'
 
     target 'DDPlay' do
     pod 'TOSMBClient', '~> 1.0.5'
     pod 'CocoaHTTPServer'
-    pod 'MobileVLCKit', '3.3.0'
-    pod 'WCDB'
-
-    # 集成新浪微博
-    pod 'UMengUShare/Social/ReducedSina'
-    # 集成QQ
-    pod 'UMengUShare/Social/ReducedQQ'
-    # 集成微信
-    pod 'UMengUShare/Social/WeChat'
-
-    # 友盟统计
-    pod 'UMengAnalytics'
-    pod 'Bugly'
-    #内存泄露检测
-    pod 'MLeaksFinder', :configurations => ['Debug'] 
-    pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
     end
 
     target 'DDPlay_Review' do
     pod 'CocoaLumberjack'
-    pod 'MobileVLCKit', '3.3.0'
-    pod 'WCDB'
-
-    # 集成新浪微博
-    pod 'UMengUShare/Social/ReducedSina'
-    # 集成QQ
-    pod 'UMengUShare/Social/ReducedQQ'
-    # 集成微信
-    pod 'UMengUShare/Social/WeChat'
-
-    # 友盟统计
-    pod 'UMengAnalytics'
-    pod 'Bugly'
-    #内存泄露检测
-    pod 'MLeaksFinder', :configurations => ['Debug'] 
-    pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
     end
+end
+
 
     target 'DDPlay_ToMac' do
     pod 'CocoaLumberjack'
+    pod 'DDPShare', :path => 'LocalPods/DDPShare'
+    pod 'WCDB_UIKitForMac', :path => 'LocalPods/WCDB'
     end
 end

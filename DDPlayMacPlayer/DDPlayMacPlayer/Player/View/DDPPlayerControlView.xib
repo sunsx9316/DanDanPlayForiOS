@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="GA7-fJ-Fr8" customClass="DDPPlayerControlView">
+            <rect key="frame" x="0.0" y="0.0" width="542" height="75"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K64-ka-10e">
+                    <rect key="frame" x="20" y="5" width="45" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="45" id="8Uv-ca-kNR"/>
+                        <constraint firstAttribute="height" constant="45" id="OVY-aw-U7u"/>
+                    </constraints>
+                    <buttonCell key="cell" type="squareTextured" bezelStyle="texturedSquare" image="play" imagePosition="only" alignment="center" alternateImage="pause" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" inset="2" id="lOx-a3-ozA">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="Gnk-fK-IV8">
+                    <rect key="frame" x="376" y="19" width="88" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00 / 00:00" id="FaW-3q-3SR">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-7R-PtZ">
+                    <rect key="frame" x="85" y="17" width="283" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="回车发送弹幕" usesSingleLineMode="YES" bezelStyle="round" id="wN2-WO-J0L">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TwC-4c-56B">
+                    <rect key="frame" x="472" y="18" width="20" height="20"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="volume" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" inset="2" id="Hgv-Iv-frL">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1kj-Qs-tKu">
+                    <rect key="frame" x="502" y="18" width="20" height="20"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="danmaku_show" imagePosition="only" alignment="center" alternateImage="danmaku_hide" lineBreakMode="truncatingTail" inset="2" id="i4p-vg-xcP">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oSS-5W-doL" customClass="DDPPlayerSlider">
+                    <rect key="frame" x="-2" y="53" width="546" height="19"/>
+                    <sliderCell key="cell" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="15q-Ep-QO1"/>
+                </slider>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Gnk-fK-IV8" firstAttribute="centerY" secondItem="TwC-4c-56B" secondAttribute="centerY" id="24Y-HJ-kjQ"/>
+                <constraint firstItem="AfF-7R-PtZ" firstAttribute="centerY" secondItem="K64-ka-10e" secondAttribute="centerY" id="Bxd-Ib-12i"/>
+                <constraint firstItem="1kj-Qs-tKu" firstAttribute="leading" secondItem="TwC-4c-56B" secondAttribute="trailing" constant="10" id="ELj-pg-y6J"/>
+                <constraint firstAttribute="bottom" secondItem="K64-ka-10e" secondAttribute="bottom" constant="5" id="MrQ-lW-qT3"/>
+                <constraint firstItem="AfF-7R-PtZ" firstAttribute="leading" secondItem="K64-ka-10e" secondAttribute="trailing" constant="20" id="VIN-AZ-a1G"/>
+                <constraint firstAttribute="trailing" secondItem="oSS-5W-doL" secondAttribute="trailing" id="WkJ-iR-Rfq"/>
+                <constraint firstItem="K64-ka-10e" firstAttribute="top" secondItem="oSS-5W-doL" secondAttribute="bottom" constant="5" id="XNh-Ui-zZn"/>
+                <constraint firstItem="1kj-Qs-tKu" firstAttribute="centerY" secondItem="TwC-4c-56B" secondAttribute="centerY" id="cGu-OM-0Sb"/>
+                <constraint firstItem="oSS-5W-doL" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" id="eL1-l8-ssB"/>
+                <constraint firstAttribute="trailing" secondItem="1kj-Qs-tKu" secondAttribute="trailing" constant="20" id="exi-uz-wcS"/>
+                <constraint firstItem="K64-ka-10e" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" constant="20" id="fkC-PX-6j9"/>
+                <constraint firstItem="oSS-5W-doL" firstAttribute="top" secondItem="GA7-fJ-Fr8" secondAttribute="top" constant="5" id="iMu-3f-j8h"/>
+                <constraint firstItem="TwC-4c-56B" firstAttribute="leading" secondItem="Gnk-fK-IV8" secondAttribute="trailing" constant="10" id="nrd-we-r64"/>
+                <constraint firstItem="Gnk-fK-IV8" firstAttribute="centerY" secondItem="K64-ka-10e" secondAttribute="centerY" id="rM9-aD-uNr"/>
+                <constraint firstItem="Gnk-fK-IV8" firstAttribute="leading" secondItem="AfF-7R-PtZ" secondAttribute="trailing" constant="10" id="xJO-Am-wcs"/>
+            </constraints>
+            <connections>
+                <outlet property="danmakuButton" destination="1kj-Qs-tKu" id="6T4-WU-Mc2"/>
+                <outlet property="inputTextField" destination="AfF-7R-PtZ" id="ejT-3S-7z7"/>
+                <outlet property="playButton" destination="K64-ka-10e" id="uG0-8z-CSc"/>
+                <outlet property="progressSlider" destination="oSS-5W-doL" id="A1R-Gd-lFE"/>
+                <outlet property="timeLabel" destination="Gnk-fK-IV8" id="VBl-RG-S2W"/>
+                <outlet property="volumeButton" destination="TwC-4c-56B" id="3Ou-cj-5g0"/>
+            </connections>
+            <point key="canvasLocation" x="50" y="-12"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="danmaku_hide" width="20" height="20"/>
+        <image name="danmaku_show" width="20" height="20"/>
+        <image name="pause" width="40" height="40"/>
+        <image name="play" width="40" height="40"/>
+        <image name="volume" width="20" height="20"/>
+    </resources>
+</document>

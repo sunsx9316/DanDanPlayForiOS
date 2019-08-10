@@ -13,7 +13,7 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
         
-#if TARGET_OS_UIKITFORMAC
+#if DDPAPPTYPEISMAC
         self.contentView.backgroundColor = [UIColor colorWithWhite:0.75 alpha:1];
         [self.contentView.layer setLayerShadow:DDPRGBAColor(20, 20, 20, 0.15) offset:CGSizeMake(0, 1) radius:1.5];
 #else        

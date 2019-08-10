@@ -14,7 +14,7 @@
 #import "DDPEdgeButton.h"
 #import "DDPBaseScrollView.h"
 #import "UIView+Tools.h"
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
 #import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
 #endif
@@ -109,7 +109,7 @@
  @param sender 按钮
  */
 - (void)touchThirdPartyBotton:(UIButton *)sender {
-    #if !TARGET_OS_UIKITFORMAC
+    #if !DDPAPPTYPEISMAC
     UMSocialPlatformType platformType = sender.tag;
     
     @weakify(self)
@@ -202,7 +202,7 @@
 }
 
 - (NSString *)UMErrorStringWithError:(NSError *)error {
-    #if !TARGET_OS_UIKITFORMAC
+    #if !DDPAPPTYPEISMAC
     switch (error.code) {
         case UMSocialPlatformErrorType_NotSupport:
             return @"客户端不支持该操作";
@@ -420,7 +420,7 @@
     if (_qqButton == nil) {
         _qqButton = [[DDPEdgeButton alloc] init];
         _qqButton.inset = CGSizeMake(20, 20);
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
         _qqButton.tag = UMSocialPlatformType_QQ;
 #endif
         [_qqButton setImage:[UIImage imageNamed:@"login_qq"] forState:UIControlStateNormal];
@@ -435,7 +435,7 @@
     if (_weiboButton == nil) {
         _weiboButton = [[DDPEdgeButton alloc] init];
         _weiboButton.inset = CGSizeMake(20, 20);
-#if !TARGET_OS_UIKITFORMAC
+#if !DDPAPPTYPEISMAC
         _weiboButton.tag = UMSocialPlatformType_Sina;
 #endif
         [_weiboButton addTarget:self action:@selector(touchThirdPartyBotton:) forControlEvents:UIControlEventTouchUpInside];

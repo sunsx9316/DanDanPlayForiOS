@@ -6,8 +6,7 @@
 //  Copyright © 2018 AICoin. All rights reserved.
 //
 
-//#import <Masonry/Masonry.h>
-@import Masonry;
+#import <Masonry/Masonry.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

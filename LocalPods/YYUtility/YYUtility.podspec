@@ -14,6 +14,6 @@ Pod::Spec.new do |s|
   s.public_header_files = 'YYUtility/**/*.{h}'
 
   s.libraries = 'z', 'sqlite3'
-  s.frameworks = 'UIKit', 'CoreFoundation', 'CoreText', 'CoreGraphics', 'CoreImage', 'QuartzCore', 'ImageIO', 'AssetsLibrary', 'Accelerate', 'MobileCoreServices', 'SystemConfiguration'
+  s.frameworks = 'UIKit', 'CoreFoundation', 'CoreText', 'CoreGraphics', 'CoreImage', 'QuartzCore', 'ImageIO', 'Accelerate', 'MobileCoreServices', 'SystemConfiguration'
 
 end

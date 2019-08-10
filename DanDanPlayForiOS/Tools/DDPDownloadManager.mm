@@ -67,7 +67,7 @@
     [_observers removeObject:observer];
 }
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
 - (void)addTask:(id<DDPDownloadTaskProtocol>)task completion:(DDPDownloadManagerCompletionAction)completion {
     
 }

@@ -88,7 +88,7 @@
     NSString *link = [NSString stringWithFormat:@"https://share.dmhy.org/topics/list?keyword=%@", [self.searchBar.text stringByURLEncode]];
     [self.searchBar resignFirstResponder];
 
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link] options:@{} completionHandler:nil];
 #else
     DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
@@ -169,7 +169,7 @@
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = [UIColor ddp_mainColor];
-#if DDPAPPTYPE == 2
+#if DDPAPPTYPEISMAC
         _searchBar.backgroundColor = [UIColor whiteColor];
         _searchBar.layer.cornerRadius = 6;
         _searchBar.layer.masksToBounds = YES;
