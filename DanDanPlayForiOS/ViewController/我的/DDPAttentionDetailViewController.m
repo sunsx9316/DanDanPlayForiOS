@@ -105,31 +105,6 @@
         DDPVideoModel *model = file.videoModel;
         
         [self tryAnalyzeVideo:model];
-        
-//        if ([DDPCacheManager shareCacheManager].openFastMatch) {
-//            MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-//            [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-//                aHUD.progress = progress;
-//                aHUD.label.text = ddp_danmakusProgressToString(progress);
-//            } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-//                @strongify(self)
-//                if (!self) return;
-//
-//                model.danmakus = responseObject;
-//                [aHUD hideAnimated:NO];
-//
-//                if (responseObject == nil) {
-//                    [self jumpToMatchVCWithModel:model];
-//                }
-//                else {
-//                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-//                    [self presentViewController:nav animated:YES completion:nil];
-//                }
-//            }];
-//        }
-//        else {
-//            [self jumpToMatchVCWithModel:model];
-//        }
     };
     return cell;
 }
@@ -238,13 +213,6 @@
     }];
 #endif
 }
-
-//- (void)jumpToMatchVCWithModel:(DDPVideoModel *)model {
-//    DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-//    vc.model = model;
-//    vc.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
 
 #pragma mark - 懒加载
 - (DDPBaseTableView *)tableView {

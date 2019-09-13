@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="mac" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14806.4"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,32 +11,32 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="HomePageBangumiProgressCollectionViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="221" height="294"/>
+            <rect key="frame" x="0.0" y="0.0" width="293" height="330"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="221" height="294"/>
+                <rect key="frame" x="0.0" y="0.0" width="293" height="330"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="252" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="YY2-fy-wps">
-                        <rect key="frame" x="0.0" y="0.0" width="221" height="150"/>
+                        <rect key="frame" x="0.0" y="5" width="293" height="150"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="150" id="MMQ-CF-9Ra"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabelLabel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVr-Cb-BTP">
-                        <rect key="frame" x="5" y="155" width="211" height="21"/>
+                        <rect key="frame" x="5" y="160" width="283" height="40"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabelLabel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drz-Qz-SqI">
-                        <rect key="frame" x="5" y="181" width="211" height="36"/>
+                        <rect key="frame" x="5" y="205" width="283" height="19"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqx-JH-mRy">
-                        <rect key="frame" x="5" y="222" width="211" height="18"/>
+                        <rect key="frame" x="5" y="229" width="283" height="19"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -54,21 +52,22 @@
                 <constraint firstItem="uVr-Cb-BTP" firstAttribute="top" secondItem="YY2-fy-wps" secondAttribute="bottom" constant="5" id="Hpd-o9-Tvu"/>
                 <constraint firstAttribute="trailing" secondItem="YY2-fy-wps" secondAttribute="trailing" id="Igb-Ir-gEl"/>
                 <constraint firstItem="YY2-fy-wps" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="NdO-5b-DCE"/>
-                <constraint firstItem="YY2-fy-wps" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="WVW-1O-KTU"/>
+                <constraint firstItem="YY2-fy-wps" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="WVW-1O-KTU"/>
                 <constraint firstItem="uVr-Cb-BTP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="fsf-tu-GgD"/>
                 <constraint firstItem="nqx-JH-mRy" firstAttribute="top" secondItem="drz-Qz-SqI" secondAttribute="bottom" constant="5" id="mla-D0-cYr"/>
                 <constraint firstAttribute="trailing" secondItem="nqx-JH-mRy" secondAttribute="trailing" constant="5" id="tOa-TM-Dhc"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="nqx-JH-mRy" secondAttribute="bottom" constant="5" id="x5N-O9-8fF"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
-            <size key="customSize" width="221" height="294"/>
+            <size key="customSize" width="293" height="330"/>
             <connections>
                 <outlet property="descLabel" destination="nqx-JH-mRy" id="Lri-7n-zzO"/>
                 <outlet property="iconImgView" destination="YY2-fy-wps" id="BeZ-0D-Gdb"/>
+                <outlet property="imgViewHeight" destination="MMQ-CF-9Ra" id="PuY-xl-quU"/>
                 <outlet property="nameLabel" destination="uVr-Cb-BTP" id="Aql-V4-KUh"/>
                 <outlet property="progressLabel" destination="drz-Qz-SqI" id="9y0-qJ-phJ"/>
             </connections>
-            <point key="canvasLocation" x="-178.5" y="78"/>
+            <point key="canvasLocation" x="-122.40000000000001" y="93.553223388305852"/>
         </collectionViewCell>
     </objects>
 </document>

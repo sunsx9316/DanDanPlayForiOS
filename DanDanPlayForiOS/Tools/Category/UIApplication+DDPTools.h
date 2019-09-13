@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) UIWindow *ddp_mainWindow;
 @property (strong, nonatomic, readonly) NSString *appDisplayName;
+@property (strong, nonatomic, readonly) UINavigationController * _Nullable topNavigationController;
 @end
 
 NS_ASSUME_NONNULL_END

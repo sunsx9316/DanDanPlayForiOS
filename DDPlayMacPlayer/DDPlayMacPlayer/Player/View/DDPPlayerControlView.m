@@ -19,9 +19,25 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.wantsLayer = YES;
+    self.layer.backgroundColor = [NSColor colorWithWhite:0 alpha:0.8].CGColor;
+    
     self.progressSlider.continuous = YES;
     [self.progressSlider addTarget:self action:@selector(onSliderChange:)];
-    [self.playButton addTarget:self action:@selector(onButtonDidClick:)];
+    [self.playButton addTarget:self action:@selector(onPlayButtonDidClick:)];
+    [self.danmakuButton addTarget:self action:@selector(onDanmakuButtonDidClick:)];
+    @weakify(self)
+    self.inputTextField.keyUpCallBack = ^(NSEvent * _Nonnull event) {
+        @strongify(self)
+        if (!self.sendDanmakuCallBack) {
+            return;
+        }
+        
+        if ([event.charactersIgnoringModifiers isEqualToString:@"\r"]) {
+            self.sendDanmakuCallBack(self.inputTextField.stringValue);
+            self.inputTextField.stringValue = @"";
+        }
+    };
 }
 
 - (void)updateCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime {
@@ -49,31 +65,37 @@
 
 - (void)onSliderChange:(DDPPlayerSlider *)sender {
     NSEvent *event = [[NSApplication sharedApplication] currentEvent];
-    
     switch (event.type) {
-        case NSLeftMouseDown:
-        case NSLeftMouseDragged: {
+        case NSEventTypeLeftMouseDown:
+        case NSEventTypeLeftMouseDragged: {
             _isTracking = YES;
             [self updateLabelWithCurrentTime:_totalTime * sender.doubleValue totalTime:_totalTime];
         }
             break;
-        case NSLeftMouseUp: {
+        case NSEventTypeLeftMouseUp: {
             _isTracking = NO;
             if (self.sliderDidChangeCallBack) {
                 self.sliderDidChangeCallBack(sender.doubleValue);
             }
         }
             break;
-        default: {
-            _isTracking = NO;            
-        }
+        default:
+//        {
+//            _isTracking = NO;            
+//        }
             break;
     }
 }
 
-- (void)onButtonDidClick:(NSButton *)button {
-    if (self.buttonDidClickCallBack) {
-        self.buttonDidClickCallBack(button.state == NSControlStateValueOn);
+- (void)onPlayButtonDidClick:(NSButton *)button {
+    if (self.playButtonDidClickCallBack) {
+        self.playButtonDidClickCallBack(button.state == NSControlStateValueOn);
+    }
+}
+
+- (void)onDanmakuButtonDidClick:(NSButton *)button {
+    if (self.danmakuButtonDidClickCallBack) {
+        self.danmakuButtonDidClickCallBack(button.state == NSControlStateValueOn);
     }
 }
 

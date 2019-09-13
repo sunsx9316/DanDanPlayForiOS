@@ -8,6 +8,7 @@
 
 #import "DDPWindowController.h"
 #import "DDPPlayViewController.h"
+#import <Masonry/Masonry.h>
 
 @interface DDPWindowController ()
 
@@ -18,6 +19,7 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     
+    self.window.movableByWindowBackground = YES;
     self.contentViewController = [[DDPPlayViewController alloc] init];
 }
 

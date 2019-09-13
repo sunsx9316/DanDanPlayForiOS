@@ -393,7 +393,7 @@
             DDPDanmaku *danmaku = [[DDPDanmaku alloc] init];
             
             danmaku.color = ddp_danmakuColor(color);
-            danmaku.time = self.player.currentTime;
+            danmaku.time = self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime;
             danmaku.mode = mode;
             danmaku.message = text;
             //隐藏UI
@@ -697,34 +697,16 @@
  */
 - (void)matchVideoWithModel:(DDPVideoModel *)model {
 #if !DDPAPPTYPE
-    void(^jumpToMatchVCAction)(void) = ^{
-        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-        vc.model = model;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    };
-    
-    if ([DDPCacheManager shareCacheManager].openFastMatch) {
-        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-        [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-            aHUD.progress = progress;
-            aHUD.label.text = ddp_danmakusProgressToString(progress);
-        } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-            model.danmakus = responseObject;
-            [aHUD hideAnimated:NO];
-            
-            if (responseObject == nil) {
-                jumpToMatchVCAction();
-            }
-            else {
-                [self.interfaceView dismissWithAnimate:YES];
-                self.model = model;
-            }
-        }];
-    }
-    else {
-        jumpToMatchVCAction();
-    }
+    @weakify(self)
+    [DDPMethod matchVideoModel:model completion:^(DDPDanmakuCollection *collection) {
+        @strongify(self)
+        if (self) {
+            return;
+        }
+        
+        [self.interfaceView dismissWithAnimate:YES];
+        self.model = model;
+    }];
 #endif
 }
 

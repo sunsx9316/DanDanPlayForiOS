@@ -55,15 +55,20 @@ static char mediaParsingCompletionKey = '0';
 - (void)parseWithCompletion:(void(^)(void))completion {
     objc_setAssociatedObject(self.localMediaPlayer.media, &mediaParsingCompletionKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
     let media = self.localMediaPlayer.media;
-    let result = [media parseWithOptions:VLCMediaParseLocal | VLCMediaParseNetwork];
+    media.delegate = self;
+    [media synchronousParse];
     
-    if (result != 0) {
-        JHLog(@"%@", @"解析失败");
-    }
+//    if (result != 0) {
+//        JHLog(@"%@", @"解析失败");
+//    }
 }
 
 
 #pragma mark 属性
+- (CGSize)videoSize {
+    return self.localMediaPlayer.videoSize;
+}
+
 - (DDPMediaType)mediaType {
     return [self.mediaURL isFileURL] ? DDPMediaTypeLocaleMedia : DDPMediaTypeNetMedia;
 }
@@ -271,7 +276,6 @@ static char mediaParsingCompletionKey = '0';
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
         VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
-        media.delegate = self;
         self.localMediaPlayer.media = media;
     }
     

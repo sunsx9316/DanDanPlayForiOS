@@ -8,9 +8,15 @@
 
 #import "DDPMethod.h"
 #import "NSURL+Tools.h"
-
+#import "DDPMatchViewController.h"
+#import "DDPFileManagerViewController.h"
+#import "UIApplication+DDPTools.h"
+#import "DDPVideoModel+Tools.h"
 #if !DDPAPPTYPEISMAC
 #import <UMSocialCore/UMSocialCore.h>
+#import "DDPPlayNavigationController.h"
+#else
+#import <DDPShare/DDPShare.h>
 #endif
 
 static NSArray <NSString *>*ddp_danmakuTypes() {
@@ -236,5 +242,75 @@ BOOL ddp_isChatAppInstall(void) {
 #endif
     return false;
 }
+
++ (void)matchVideoModel:(DDPVideoModel *)model completion:(void(^)(DDPDanmakuCollection *collection))completion {
+    
+    void(^jumpToMatchVCAction)(void) = ^{
+        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
+        vc.model = model;
+        vc.hidesBottomBarWhenPushed = YES;
+        UINavigationController *nav = UIApplication.sharedApplication.topNavigationController;
+        [nav pushViewController:vc animated:YES];
+    };
+    
+    if ([DDPCacheManager shareCacheManager].openFastMatch) {
+        UIViewController *vc = UIApplication.sharedApplication.topNavigationController.topViewController;
+        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:vc.view];
+        [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
+            aHUD.progress = progress;
+            aHUD.label.text = ddp_danmakusProgressToString(progress);
+        } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
+            model.danmakus = responseObject;
+            [aHUD hideAnimated:NO];
+            
+            if (completion) {
+                completion(responseObject);
+            }
+            
+            if (responseObject == nil) {
+                jumpToMatchVCAction();
+            }
+            else {
+#if DDPAPPTYPEISMAC
+                [DDPMethod sendMatchedModelMessage:model];
+#else
+                let nav = [[DDPPlayNavigationController alloc] initWithModel:model];
+                UIViewController *vc = UIApplication.sharedApplication.topNavigationController.topViewController;
+                [vc presentViewController:nav animated:YES completion:nil];
+#endif
+            }
+        }];
+    }
+    else {
+        jumpToMatchVCAction();
+    }
+}
+
++ (void)matchFile:(DDPFile *)file completion:(void (^)(DDPDanmakuCollection *))completion {
+    if (file.type == DDPFileTypeDocument) {
+        DDPVideoModel *model = file.videoModel;
+        [self matchVideoModel:model completion:completion];
+    }
+    else if (file.type == DDPFileTypeFolder) {
+        if (completion) {
+            completion(nil);
+        }
+        DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];
+        vc.file = file;
+        UINavigationController *nav = UIApplication.sharedApplication.topNavigationController;
+        [nav pushViewController:vc animated:YES];
+    }
+}
+
+#if DDPAPPTYPEISMAC
++ (void)sendMatchedModelMessage:(DDPVideoModel *)model {
+    DDPPlayerMessage *message = [[DDPPlayerMessage alloc] init];
+    message.path = model.fileURL.path;
+    message.danmaku = model.danmakus.collection;
+    message.matchName = model.matchName;
+    message.episodeId = model.relevanceEpisodeId;
+    [[DDPMessageManager sharedManager] sendMessage:message];
+}
+#endif
 
 @end

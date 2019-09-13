@@ -15,4 +15,5 @@ pod 'JHDanmakuRender'
 pod 'VLCKit'
 pod 'CocoaLumberjack'
 pod 'DDPShare', :path => '../LocalPods/DDPShare'
+pod 'DDPCategory', :path => '../LocalPods/DDPCategory'
 end

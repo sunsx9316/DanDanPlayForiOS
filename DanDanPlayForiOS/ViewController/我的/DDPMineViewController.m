@@ -23,6 +23,11 @@
 #import "DDPMineHeadView.h"
 #import "DDPTransparentNavigationBar.h"
 
+#if DDPAPPTYPEISMAC
+//#import <DDPShare/DDPMessageManager.h>
+#import <DDPShare/DDPShare.h>
+#endif
+
 #define TITLE_KEY @"titleLabel.text"
 
 #define TITLE_VIEW_RATE 0.4
@@ -31,8 +36,8 @@
 #if !DDPAPPTYPE
 DDPDownloadManagerObserver,
 #endif
-
 UIScrollViewDelegate, DDPCacheManagerDelagate>
+
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray <NSDictionary *>*dataSourceArr;
 
@@ -70,22 +75,6 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
     [super viewWillAppear:animated];
     
     [self setNavigationBarWithColor: UIColor.clearColor];
-    
-    NSURLComponents *com = [[NSURLComponents alloc] initWithString:@"ddplaymac://"];
-    com.host = @"player";
-    
-    NSMutableArray <NSURLQueryItem *>*arr = [NSMutableArray array];
-    let dic = @{@"path" : @"/Users/jimhuang/Desktop/test.mp4"};
-    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        let item = [NSURLQueryItem queryItemWithName:key value:obj];
-        [arr addObject:item];
-    }];
-    
-    com.queryItems = arr;
-    
-    [[UIApplication sharedApplication] openURL:com.URL options:@{} completionHandler:^(BOOL success) {
-        
-    }];
 }
 
 - (void)dealloc {

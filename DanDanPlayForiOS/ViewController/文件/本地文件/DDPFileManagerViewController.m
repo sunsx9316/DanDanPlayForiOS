@@ -434,49 +434,7 @@ DDPFileManagerSearchViewDelegate>
 }
 
 - (void)matchFile:(DDPFile *)file {
-    if (file.type == DDPFileTypeDocument) {
-        DDPVideoModel *model = file.videoModel;
-#if !DDPAPPTYPE
-        void(^jumpToMatchVCAction)(void) = ^{
-            DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-            vc.model = model;
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        };
-        
-        if ([DDPCacheManager shareCacheManager].openFastMatch) {
-            MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-            [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-                aHUD.progress = progress;
-                aHUD.label.text = ddp_danmakusProgressToString(progress);
-            } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-                model.danmakus = responseObject;
-                [aHUD hideAnimated:NO];
-                
-                if (responseObject == nil) {
-                    jumpToMatchVCAction();
-                }
-                else {
-                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-                    [self presentViewController:nav animated:YES completion:nil];
-                }
-            }];
-        }
-        else {
-            jumpToMatchVCAction();
-        }
-#else
-        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-        vc.model = model;
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-#endif
-    }
-    else if (file.type == DDPFileTypeFolder) {
-        DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];
-        vc.file = file;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    [DDPMethod matchFile:file completion:nil];
 }
 
 - (void)refresh:(NSNotification *)aSender {

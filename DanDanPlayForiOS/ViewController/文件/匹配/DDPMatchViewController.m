@@ -8,8 +8,6 @@
 
 #import "DDPMatchViewController.h"
 #import "DDPSearchViewController.h"
-#import "DDPPlayNavigationController.h"
-#import "DDPPlayerViewController.h"
 
 #import "DDPMatchTableViewCell.h"
 #import "DDPMatchTitleTableViewCell.h"
@@ -19,6 +17,13 @@
 #import "DDPEdgeButton.h"
 #import "DDPSearchBar.h"
 #import "DDPExpandView.h"
+
+#if !DDPAPPTYPEISMAC
+#import "DDPPlayNavigationController.h"
+#import "DDPPlayerViewController.h"
+#else
+#import <DDPShare/DDPShare.h>
+#endif
 
 @interface DDPMatchViewController ()<RATreeViewDelegate, RATreeViewDataSource, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property (strong, nonatomic) DDPBaseTreeView *treeView;
@@ -181,6 +186,7 @@
 }
 
 - (void)jumpToPlayVC {
+#if !DDPAPPTYPEISMAC
     __block DDPPlayerViewController *vc = nil;
     [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[DDPPlayerViewController class]]) {
@@ -202,7 +208,14 @@
         DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:self.model];
         [self presentViewController:nav animated:YES completion:nil];
     }
-
+#else
+    //更改匹配信息
+    [DDPMatchNetManagerOperation matchEditMatchVideoModel:self.model user:[DDPCacheManager shareCacheManager].currentUser completionHandler:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
+    [DDPMethod sendMatchedModelMessage:self.model];
+#endif
 }
 
 - (void)configRightItem {

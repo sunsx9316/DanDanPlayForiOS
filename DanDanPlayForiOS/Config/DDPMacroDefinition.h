@@ -93,6 +93,10 @@ typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 
 #if DDPAPPTYPE == 2
 #define DDPAPPTYPEISMAC 1
+#elif DDPAPPTYPE == 1
+#define DDPAPPTYPEISREVIEW 1
+#elif DDPAPPTYPE == 0
+#define DDPAPPTYPEIOS 1
 #endif
 
 #endif /* DDPMacroDefinition_h */

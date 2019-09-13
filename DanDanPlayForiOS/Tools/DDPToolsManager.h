@@ -99,7 +99,7 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
                            searchKey:(NSString *)key
                           completion:(GetFilesAction)completion;
 
-#if !DDPAPPTYPE
+#if !DDPAPPTYPEISREVIEW
 #pragma mark - HTTPServer
 + (HTTPServer *)shareHTTPServer;
 + (void)resetHTTPServer;
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
 @property (strong, nonatomic) TOSMBSession *SMBSession;
 
 
-#if !DDPAPPTYPE
+#if !DDPAPPTYPEISREVIEW
 #pragma mark - PC端
 /**
  获取PC文件

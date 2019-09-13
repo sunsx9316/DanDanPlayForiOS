@@ -26,4 +26,16 @@
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 }
 
+- (UINavigationController *)topNavigationController {
+    UINavigationController *nav = nil;
+    UITabBarController *tabbarVC = (UITabBarController *)self.ddp_mainWindow.rootViewController;
+    if ([tabbarVC isKindOfClass:[UITabBarController class]]) {
+        UINavigationController *aNav = tabbarVC.selectedViewController;
+        if ([aNav isKindOfClass:[UINavigationController class]]) {
+            nav = aNav;
+        }
+    }
+    return nav;
+}
+
 @end

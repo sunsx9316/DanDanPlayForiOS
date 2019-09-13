@@ -23,9 +23,14 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(10);
-            make.width.mas_offset(60);
-            make.height.mas_offset(80);
             make.centerY.mas_equalTo(0);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.width.mas_offset(120);
+                make.height.mas_offset(140);
+            } else {
+                make.width.mas_offset(60);
+                make.height.mas_offset(80);
+            }
         }];
         
         [self.onAirLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -33,22 +38,35 @@
         }];
         
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_offset(10);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.top.mas_offset(20);
+            } else {
+                make.top.mas_offset(10);
+            }
             make.left.equalTo(self.iconImgView.mas_right).mas_offset(10);
             make.right.mas_offset(-10);
         }];
         
         [self.viewLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.nameLabel.mas_bottom).mas_offset(10);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.top.equalTo(self.nameLabel.mas_bottom).mas_offset(30);
+            } else {
+                make.top.equalTo(self.nameLabel.mas_bottom).mas_offset(10);
+            }
             make.left.equalTo(self.nameLabel);
             make.right.mas_offset(-10);
         }];
         
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.viewLabel.mas_bottom).mas_offset(10);
+            if (ddp_appType == DDPAppTypeToMac) {
+                make.top.equalTo(self.viewLabel.mas_bottom).mas_offset(30);
+                make.bottom.mas_offset(-20);
+            } else {
+                make.top.equalTo(self.viewLabel.mas_bottom).mas_offset(10);
+                make.bottom.mas_offset(-10);
+            }
             make.left.equalTo(self.nameLabel);
             make.right.mas_offset(-10);
-            make.bottom.mas_offset(-10);
         }];
     }
     return self;

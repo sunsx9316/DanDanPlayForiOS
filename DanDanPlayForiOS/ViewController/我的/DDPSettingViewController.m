@@ -207,7 +207,7 @@
             return item;
         }()];
         
-#if DDPAPPTYPE != 1
+#if !DDPAPPTYPEISREVIEW
         [danmakuSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
             item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {

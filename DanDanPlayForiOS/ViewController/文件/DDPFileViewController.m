@@ -7,11 +7,14 @@
 //
 
 #import "DDPFileViewController.h"
-#import "DDPSMBViewController.h"
 #import "DDPHTTPServerViewController.h"
 #import "DDPFileManagerViewController.h"
 #import "DDPLinkFileManagerViewController.h"
 #import "DDPQRScannerViewController.h"
+
+#if !DDPAPPTYPEISMAC
+#import "DDPSMBViewController.h"
+#endif
 
 #import "DDPBaseTreeView.h"
 #import "DDPFileLargeTitleTableViewCell.h"
@@ -156,9 +159,11 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if ([item.name isEqualToString:@"局域网设备"]) {
+#if !DDPAPPTYPEISMAC
             DDPSMBViewController *vc = [[DDPSMBViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+#endif
         }
         else if ([item.name isEqualToString:@"我的电脑"]) {
 #if !DDPAPPTYPE

@@ -8,13 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		4D63158C62FBBC243569B75C /* libPods-DDPlayMacPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD2F1606BF4F85631B52385 /* libPods-DDPlayMacPlayer.a */; };
-		891116BB22EF28E400D545A5 /* DDPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 891116B922EF28E400D545A5 /* DDPSessionManager.m */; };
 		891116C322EF294B00D545A5 /* NSView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891116C122EF294B00D545A5 /* NSView+DDPTools.m */; };
 		891116C422EF294B00D545A5 /* NSControl+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891116C222EF294B00D545A5 /* NSControl+DDPTools.m */; };
+		89148686232B79A4000A5CD5 /* DDPPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89148685232B79A4000A5CD5 /* DDPPlayView.m */; };
+		8914868C232B8619000A5CD5 /* DDPPlayTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8914868B232B8619000A5CD5 /* DDPPlayTopBar.m */; };
+		8914868E232B8622000A5CD5 /* DDPPlayTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8914868D232B8622000A5CD5 /* DDPPlayTopBar.xib */; };
+		89261D6D23238E4D00A0C372 /* DDPDanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89261D6C23238E4D00A0C372 /* DDPDanmakuManager.m */; };
+		89352C2E232011DD00399F33 /* DDPBaseMessage+Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = 89352C2D232011DD00399F33 /* DDPBaseMessage+Hook.m */; };
 		893596AD22EF2C1200F3CA1E /* DDPPlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 893596AC22EF2C1200F3CA1E /* DDPPlayerSlider.m */; };
 		893596B122EF2E1000F3CA1E /* DDPPlayerControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893596B022EF2E1000F3CA1E /* DDPPlayerControlView.xib */; };
 		897B4A6E22ED716400B910BD /* DDPPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B4A6B22ED716400B910BD /* DDPPlayerControlView.m */; };
 		897B4A9722ED749500B910BD /* DDPMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B4A9522ED749500B910BD /* DDPMediaPlayer.m */; };
+		89881620232BCF4A0003D159 /* DDPHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988161F232BCF4A0003D159 /* DDPHUD.m */; };
+		89881622232BCF590003D159 /* DDPHUD.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89881621232BCF590003D159 /* DDPHUD.xib */; };
+		8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988168E232BDE9C0003D159 /* DDPTextField.m */; };
 		898F403122ECA5A800C082BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F403022ECA5A800C082BF /* AppDelegate.m */; };
 		898F403622ECA5A900C082BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 898F403522ECA5A900C082BF /* Assets.xcassets */; };
 		898F403922ECA5A900C082BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 898F403722ECA5A900C082BF /* Main.storyboard */; };
@@ -22,17 +29,24 @@
 		898F404622ECA5C700C082BF /* DDPPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F404422ECA5C700C082BF /* DDPPlayViewController.m */; };
 		898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898F404522ECA5C700C082BF /* DDPPlayViewController.xib */; };
 		898F404B22ECA5EB00C082BF /* DDPWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F404A22ECA5EB00C082BF /* DDPWindowController.m */; };
+		89A8E2072324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4FD2F1606BF4F85631B52385 /* libPods-DDPlayMacPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlayMacPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		891116B922EF28E400D545A5 /* DDPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPSessionManager.m; sourceTree = "<group>"; };
-		891116BC22EF290500D545A5 /* DDPSessionManagerPrivateHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPSessionManagerPrivateHeader.h; sourceTree = "<group>"; };
-		891116BD22EF290500D545A5 /* DDPSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPSessionManager.h; sourceTree = "<group>"; };
 		891116BF22EF294B00D545A5 /* NSView+DDPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+DDPTools.h"; sourceTree = "<group>"; };
 		891116C022EF294B00D545A5 /* NSControl+DDPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+DDPTools.h"; sourceTree = "<group>"; };
 		891116C122EF294B00D545A5 /* NSView+DDPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+DDPTools.m"; sourceTree = "<group>"; };
 		891116C222EF294B00D545A5 /* NSControl+DDPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+DDPTools.m"; sourceTree = "<group>"; };
+		89148684232B79A4000A5CD5 /* DDPPlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayView.h; sourceTree = "<group>"; };
+		89148685232B79A4000A5CD5 /* DDPPlayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayView.m; sourceTree = "<group>"; };
+		8914868A232B8619000A5CD5 /* DDPPlayTopBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayTopBar.h; sourceTree = "<group>"; };
+		8914868B232B8619000A5CD5 /* DDPPlayTopBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayTopBar.m; sourceTree = "<group>"; };
+		8914868D232B8622000A5CD5 /* DDPPlayTopBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayTopBar.xib; sourceTree = "<group>"; };
+		89261D6B23238E4D00A0C372 /* DDPDanmakuManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuManager.h; sourceTree = "<group>"; };
+		89261D6C23238E4D00A0C372 /* DDPDanmakuManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuManager.m; sourceTree = "<group>"; };
+		89352C2C232011DD00399F33 /* DDPBaseMessage+Hook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPBaseMessage+Hook.h"; sourceTree = "<group>"; };
+		89352C2D232011DD00399F33 /* DDPBaseMessage+Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DDPBaseMessage+Hook.m"; sourceTree = "<group>"; };
 		893596AB22EF2C1200F3CA1E /* DDPPlayerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerSlider.h; sourceTree = "<group>"; };
 		893596AC22EF2C1200F3CA1E /* DDPPlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerSlider.m; sourceTree = "<group>"; };
 		893596B022EF2E1000F3CA1E /* DDPPlayerControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDPPlayerControlView.xib; sourceTree = "<group>"; };
@@ -42,6 +56,11 @@
 		897B4A9622ED749500B910BD /* DDPMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPMediaPlayer.h; sourceTree = "<group>"; };
 		897B4A9922ED74E900B910BD /* DDPMacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMacroDefinition.h; sourceTree = "<group>"; };
 		897B4A9A22ED74FE00B910BD /* DDPPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPrefixHeader.pch; sourceTree = "<group>"; };
+		8988161E232BCF4A0003D159 /* DDPHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHUD.h; sourceTree = "<group>"; };
+		8988161F232BCF4A0003D159 /* DDPHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHUD.m; sourceTree = "<group>"; };
+		89881621232BCF590003D159 /* DDPHUD.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPHUD.xib; sourceTree = "<group>"; };
+		8988168D232BDE9C0003D159 /* DDPTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPTextField.h; sourceTree = "<group>"; };
+		8988168E232BDE9C0003D159 /* DDPTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPTextField.m; sourceTree = "<group>"; };
 		898F402C22ECA5A800C082BF /* DDPlayMacPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlayMacPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		898F402F22ECA5A800C082BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		898F403022ECA5A800C082BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -55,6 +74,8 @@
 		898F404522ECA5C700C082BF /* DDPPlayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayViewController.xib; sourceTree = "<group>"; };
 		898F404922ECA5EB00C082BF /* DDPWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPWindowController.h; sourceTree = "<group>"; };
 		898F404A22ECA5EB00C082BF /* DDPWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPWindowController.m; sourceTree = "<group>"; };
+		89A8E2052324BA2000F8F161 /* JHBaseDanmaku+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHBaseDanmaku+DDPTools.h"; sourceTree = "<group>"; };
+		89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JHBaseDanmaku+DDPTools.m"; sourceTree = "<group>"; };
 		D3A35742521675DE861CFF85 /* Pods-DDPlayMacPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.debug.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		F7FF4D5D244459881C8E8735 /* Pods-DDPlayMacPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.release.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +108,8 @@
 				891116C222EF294B00D545A5 /* NSControl+DDPTools.m */,
 				891116BF22EF294B00D545A5 /* NSView+DDPTools.h */,
 				891116C122EF294B00D545A5 /* NSView+DDPTools.m */,
+				89A8E2052324BA2000F8F161 /* JHBaseDanmaku+DDPTools.h */,
+				89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -106,6 +129,16 @@
 				897B4A6C22ED716400B910BD /* DDPPlayerControlView.h */,
 				897B4A6B22ED716400B910BD /* DDPPlayerControlView.m */,
 				893596B022EF2E1000F3CA1E /* DDPPlayerControlView.xib */,
+				89148684232B79A4000A5CD5 /* DDPPlayView.h */,
+				89148685232B79A4000A5CD5 /* DDPPlayView.m */,
+				8914868A232B8619000A5CD5 /* DDPPlayTopBar.h */,
+				8914868B232B8619000A5CD5 /* DDPPlayTopBar.m */,
+				8914868D232B8622000A5CD5 /* DDPPlayTopBar.xib */,
+				8988161E232BCF4A0003D159 /* DDPHUD.h */,
+				8988161F232BCF4A0003D159 /* DDPHUD.m */,
+				89881621232BCF590003D159 /* DDPHUD.xib */,
+				8988168D232BDE9C0003D159 /* DDPTextField.h */,
+				8988168E232BDE9C0003D159 /* DDPTextField.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,6 +164,7 @@
 		897B4AF322EDF25A00B910BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				897DEFEA231EB91800F1424E /* ToiOS */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -139,11 +173,19 @@
 			isa = PBXGroup;
 			children = (
 				891116BE22EF294B00D545A5 /* Category */,
-				891116BD22EF290500D545A5 /* DDPSessionManager.h */,
-				891116B922EF28E400D545A5 /* DDPSessionManager.m */,
-				891116BC22EF290500D545A5 /* DDPSessionManagerPrivateHeader.h */,
+				89261D6B23238E4D00A0C372 /* DDPDanmakuManager.h */,
+				89261D6C23238E4D00A0C372 /* DDPDanmakuManager.m */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		897DEFEA231EB91800F1424E /* ToiOS */ = {
+			isa = PBXGroup;
+			children = (
+				89352C2C232011DD00399F33 /* DDPBaseMessage+Hook.h */,
+				89352C2D232011DD00399F33 /* DDPBaseMessage+Hook.m */,
+			);
+			path = ToiOS;
 			sourceTree = "<group>";
 		};
 		898F402322ECA5A800C082BF = {
@@ -269,8 +311,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89881622232BCF590003D159 /* DDPHUD.xib in Resources */,
 				898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */,
 				898F403622ECA5A900C082BF /* Assets.xcassets in Resources */,
+				8914868E232B8622000A5CD5 /* DDPPlayTopBar.xib in Resources */,
 				893596B122EF2E1000F3CA1E /* DDPPlayerControlView.xib in Resources */,
 				898F403922ECA5A900C082BF /* Main.storyboard in Resources */,
 			);
@@ -326,15 +370,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				898F404B22ECA5EB00C082BF /* DDPWindowController.m in Sources */,
+				89A8E2072324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m in Sources */,
 				893596AD22EF2C1200F3CA1E /* DDPPlayerSlider.m in Sources */,
 				898F403C22ECA5A900C082BF /* main.m in Sources */,
 				897B4A9722ED749500B910BD /* DDPMediaPlayer.m in Sources */,
 				898F403122ECA5A800C082BF /* AppDelegate.m in Sources */,
+				8914868C232B8619000A5CD5 /* DDPPlayTopBar.m in Sources */,
 				891116C422EF294B00D545A5 /* NSControl+DDPTools.m in Sources */,
 				897B4A6E22ED716400B910BD /* DDPPlayerControlView.m in Sources */,
-				891116BB22EF28E400D545A5 /* DDPSessionManager.m in Sources */,
+				89148686232B79A4000A5CD5 /* DDPPlayView.m in Sources */,
+				8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */,
+				89352C2E232011DD00399F33 /* DDPBaseMessage+Hook.m in Sources */,
 				898F404622ECA5C700C082BF /* DDPPlayViewController.m in Sources */,
+				89261D6D23238E4D00A0C372 /* DDPDanmakuManager.m in Sources */,
 				891116C322EF294B00D545A5 /* NSView+DDPTools.m in Sources */,
+				89881620232BCF4A0003D159 /* DDPHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,7 +453,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -456,7 +506,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

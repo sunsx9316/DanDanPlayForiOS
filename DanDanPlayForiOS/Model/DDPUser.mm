@@ -9,10 +9,8 @@
 #import "DDPUser.h"
 #import "DDPCacheManager+DB.h"
 
-#if !DDPAPPTYPEISMAC
 #import <WCDB/WCDB.h>
 #import "DDPUser+WCTTableCoding.h"
-#endif
 
 DDPUserLoginType DDPUserLoginTypeWeibo = @"weibo";
 DDPUserLoginType DDPUserLoginTypeQQ = @"qq";
@@ -42,7 +40,6 @@ DDPUserLoginType DDPUserLoginTypeDefault = @"dandanplay";
     }
 }
 
-#if !DDPAPPTYPEISMAC
 WCDB_IMPLEMENTATION(DDPUser)
 WCDB_SYNTHESIZE(DDPUser, name)
 WCDB_SYNTHESIZE(DDPUser, identity)
@@ -59,6 +56,5 @@ WCDB_SYNTHESIZE(DDPUser, legacyTokenNumber)
 WCDB_SYNTHESIZE(DDPUser, thirdPartyUserId)
 
 WCDB_PRIMARY(DDPUser, identity)
-#endif
 
 @end

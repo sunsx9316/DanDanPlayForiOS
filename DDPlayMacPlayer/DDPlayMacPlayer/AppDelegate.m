@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "DDPSessionManagerPrivateHeader.h"
+#import <DDPShare/DDPShare.h>
+#import "DDPDanmakuManager.h"
 
 @interface AppDelegate ()
 
@@ -16,13 +17,19 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
-    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:[DDPSessionManager sharedManager] andSelector:@selector(handleAppleEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleAppleEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+    [[DDPDanmakuManager shared] syncDanmakuSetting];
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+
+- (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+    NSString *urlString = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+    id<DDPMessageProtocol>message = [[NSURL URLWithString:urlString] makeMessage];
+    [[DDPMessageManager sharedManager] receiveMessage:message];
 }
 
 @end

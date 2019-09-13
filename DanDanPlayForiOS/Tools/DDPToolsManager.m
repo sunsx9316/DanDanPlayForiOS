@@ -11,10 +11,10 @@
 #import "NSString+Tools.h"
 #import <YYCache.h>
 #import <HTTPServer.h>
-#import <TOSMBClient.h>
 #import "NSURL+Tools.h"
 #import "DDPLoginViewController.h"
 #if !DDPAPPTYPEISMAC
+#import <TOSMBClient.h>
 #import <Bugly/Bugly.h>
 #import "DDPMediaThumbnailer.h"
 #endif
@@ -365,7 +365,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 - (void)startDiscovererSMBFileWithParentFile:(DDPSMBFile *)parentFile
                                     fileType:(PickerFileType)fileType
                                   completion:(GetSMBFilesAction)completion {
-#if !DDPAPPTYPE
+#if DDPAPPTYPEIOS
     
 
     TOSMBSession *session = self.SMBSession;
@@ -424,7 +424,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 }
 
 - (void)setSmbInfo:(DDPSMBInfo *)smbInfo {
-#if !DDPAPPTYPE
+#if DDPAPPTYPEIOS
     [self.SMBSession cancelAllRequests];
     _smbInfo = smbInfo;
     TOSMBSession *session = [[TOSMBSession alloc] init];
@@ -450,7 +450,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
                progress:(void(^)(uint64_t totalBytesReceived, int64_t totalBytesToReceive, TOSMBSessionDownloadTask *task))progress
                  cancel:(void(^)(NSString *cachePath))cancel
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion {
-#if !DDPAPPTYPE
+#if DDPAPPTYPEIOS
     
     TOSMBSessionDownloadTask *task = [self.SMBSession downloadTaskForFileAtPath:file.sessionFile.filePath destinationPath:destinationPath delegate:self];
     objc_setAssociatedObject(task, &smbProgressBlockKey, progress, OBJC_ASSOCIATION_COPY_NONATOMIC);
@@ -474,7 +474,7 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
 #endif
 }
 
-#if !DDPAPPTYPE
+#if DDPAPPTYPEIOS
 #pragma mark TOSMBSessionDownloadTaskDelegate
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
        didWriteBytes:(uint64_t)bytesWritten
@@ -525,7 +525,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     objc_setAssociatedObject(task, &smbProgressBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-
+#endif
 
 #pragma mark - PC端
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
@@ -604,7 +604,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     [self startDiscovererFileWithLinkParentFile:parentFile linkInfo:[DDPCacheManager shareCacheManager].linkInfo completion:completion];
 }
 
-#endif
+
 #pragma mark - 私有方法
 - (void)sortFiles:(NSMutableArray <DDPFile *>*)files {
     
@@ -642,7 +642,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
     
 }
 
-#if !DDPAPPTYPE
+#if !DDPAPPTYPEISREVIEW
 #pragma mark - HTTPServer
 
 + (HTTPServer *)shareHTTPServer {

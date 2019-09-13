@@ -188,41 +188,6 @@
     model.file = _selectedFile;
     
     [self tryAnalyzeVideo:model];
-    
-//    void(^jumpToMatchVCAction)(void) = ^{
-//        DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
-//        vc.model = model;
-//        vc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    };
-//    
-//    
-//    if ([DDPCacheManager shareCacheManager].openFastMatch) {
-//        MBProgressHUD *aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
-//        [DDPMatchNetManagerOperation fastMatchVideoModel:model progressHandler:^(float progress) {
-//            aHUD.progress = progress;
-//            aHUD.label.text = ddp_danmakusProgressToString(progress);
-//        } completionHandler:^(DDPDanmakuCollection *responseObject, NSError *error) {
-//            model.danmakus = responseObject;
-//            [aHUD hideAnimated:NO];
-//            
-//            if (error) {
-//                [self.view showWithError:error];
-//            }
-//            else {
-//                if (responseObject == nil) {
-//                    jumpToMatchVCAction();
-//                }
-//                else {
-//                    DDPPlayNavigationController *nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-//                    [self presentViewController:nav animated:YES completion:nil];
-//                }
-//            }
-//        }];
-//    }
-//    else {
-//        jumpToMatchVCAction();
-//    }
 }
 
 - (void)configRightItem {

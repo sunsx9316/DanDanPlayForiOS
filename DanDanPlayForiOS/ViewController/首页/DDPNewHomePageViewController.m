@@ -317,6 +317,9 @@
 
 - (CGFloat)progressViewHeight {
     CGFloat progressHeight = (245 + (ddp_isPad() * 40)) * self.user.isLogin * (self.progressCollection.collection.count > 0);
+    if (ddp_appType == DDPAppTypeToMac) {
+        return progressHeight + 50;
+    }
     return progressHeight;
 }
 

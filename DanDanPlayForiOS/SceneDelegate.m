@@ -15,6 +15,7 @@
 #if DDPAPPTYPEISMAC
 #import <UIKit/NSToolbar+UIKitAdditions.h>
 #import <AppKit/NSToolbarItemGroup.h>
+#import <DDPShare/DDPShare.h>
 
 @interface SceneDelegate ()<NSToolbarDelegate>
 @end
@@ -31,6 +32,7 @@
     self.window.rootViewController = vc;
 #if DDPAPPTYPEISMAC
     UIWindowScene *windowScene = (UIWindowScene *)scene;
+    windowScene.sizeRestrictions.maximumSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
     let titlebar = windowScene.titlebar;
     let toolbar = [[NSToolbar alloc] initWithIdentifier: @"NSToolbar"];
     titlebar.toolbar = toolbar;
@@ -55,8 +57,7 @@
 
 
 - (void)sceneDidBecomeActive:(UIScene *)scene {
-    // Called when the scene has moved from an inactive state to an active state.
-    // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+
 }
 
 
@@ -67,8 +68,7 @@
 
 
 - (void)sceneWillEnterForeground:(UIScene *)scene {
-    // Called as the scene transitions from the background to the foreground.
-    // Use this method to undo the changes made on entering the background.
+
 }
 
 
@@ -79,6 +79,13 @@
 }
 
 #if DDPAPPTYPEISMAC
+- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
+    let context = URLContexts.anyObject;
+    id<DDPMessageProtocol>model = [context.URL makeMessage];
+    [[DDPMessageManager sharedManager] receiveMessage:model];
+}
+
+
 #pragma mark - NSToolbarDelegate
 - (nullable NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSToolbarItemIdentifier)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
     if ([itemIdentifier isEqualToString:@"main"]) {
@@ -111,6 +118,7 @@
     UITabBarController *vc = (UITabBarController *)self.window.rootViewController;
     vc.selectedIndex = sender.selectedIndex;
 }
+
 #endif
 
 @end

@@ -10,7 +10,7 @@
 #import "DDPMacroDefinition.h"
 #import "DDPConstant.h"
 
-@class DDPFile, DDPLinkFile;
+@class DDPFile, DDPLinkFile, DDPVideoModel, DDPDanmakuCollection;
 
 
 CG_INLINE BOOL ddp_isPad() {
@@ -203,4 +203,20 @@ UIKIT_EXTERN BOOL ddp_isChatAppInstall(void);
  */
 + (NSString *)apiNewPath;
 
+
+/// 匹配文件/文件夹
+/// @param file 文件
++ (void)matchFile:(DDPFile *)file
+       completion:(void(^)(DDPDanmakuCollection *collection))completion;
+
+///  匹配视频模型
+/// @param model 视频模型
++ (void)matchVideoModel:(DDPVideoModel *)model
+             completion:(void(^)(DDPDanmakuCollection *collection))completion;
+
+#if DDPAPPTYPEISMAC
+///  发送匹配成功消息
+/// @param model 消息
++ (void)sendMatchedModelMessage:(DDPVideoModel *)model;
+#endif
 @end

@@ -514,6 +514,7 @@
 		891E69F51F480EAB00F69975 /* DDPFileManagerSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69F41F480EAB00F69975 /* DDPFileManagerSearchView.m */; };
 		891EC6BC1F66DA7400431766 /* DDPEdgeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 891EC6BB1F66DA7400431766 /* DDPEdgeTextField.m */; };
 		8920A2E21F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */; };
+		89261CAB232015E100A0C372 /* DDPBaseMessage+Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = 89261CAA232015E100A0C372 /* DDPBaseMessage+Hook.m */; };
 		8928E34521B81B68007BA84C /* DDPHomePageSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E30721B81B67007BA84C /* DDPHomePageSearchViewController.m */; };
 		8928E34921B81B68007BA84C /* DDPNewHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31221B81B68007BA84C /* DDPNewHomePageViewController.m */; };
 		8928E34A21B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31421B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.m */; };
@@ -572,6 +573,25 @@
 		893BCC062053CF08007E378F /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC052053CF08007E378F /* UIImage+Tools.m */; };
 		893BCC0A2053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */; };
 		893BCC0B2053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */; };
+		893F1CB723001D9300986BF3 /* DDPFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467931F162C31001840C7 /* DDPFileViewController.m */; };
+		893F1CB823001D9600986BF3 /* DDPHTTPServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* DDPHTTPServerViewController.m */; };
+		893F1CBA23001DA300986BF3 /* DDPSMBFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F31F0A296000B4661F /* DDPSMBFileViewController.m */; };
+		893F1CBB23001DA500986BF3 /* DDPSMBFileManagerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89347AEE1F4BC7FE00914FB6 /* DDPSMBFileManagerPickerViewController.m */; };
+		893F1CBC23001DA900986BF3 /* DDPFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FBDED21F457C7800663865 /* DDPFileManagerViewController.m */; };
+		893F1CBD23001DB000986BF3 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
+		893F1CBE23001DBB00986BF3 /* DDPMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* DDPMatchViewController.m */; };
+		893F1CBF23001DC700986BF3 /* DDPLinkFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E36921B81F3E007BA84C /* DDPLinkFileManagerViewController.m */; };
+		893F1CC023001DDE00986BF3 /* DDPFilter+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B11201C53390009A5FF /* DDPFilter+DB.mm */; };
+		893F1CC123001DE000986BF3 /* DDPCacheManager+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0E201C51250009A5FF /* DDPCacheManager+DB.mm */; };
+		893F1CC223001DE100986BF3 /* DDPSMBFileHashCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECB201C6CF00022DE0D /* DDPSMBFileHashCache+DB.mm */; };
+		893F1CC323001DE300986BF3 /* DDPCollectionCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECE201C6F880022DE0D /* DDPCollectionCache+DB.mm */; };
+		893F1CC523001DE700986BF3 /* DDPSMBInfo+WCDB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F6B910201DC5210080B5ED /* DDPSMBInfo+WCDB.mm */; };
+		893F1CC623001EC600986BF3 /* DDPHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DDPHTTPConnection.m */; };
+		893F1CC723001EE000986BF3 /* DDPSMBDownloadTaskCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */; };
+		893F1CC823001EE600986BF3 /* DDPVideoCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */; };
+		893F1CC923001F0000986BF3 /* DDPSMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* DDPSMBVideoModel.m */; };
+		893F1CCA23001F0E00986BF3 /* DDPVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EBF1EA5F09500FA0DF3 /* DDPVideoModel.m */; };
+		893F1CCB23001F1000986BF3 /* DDPVideoModel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */; };
 		89409F921FE4EC6500704F33 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F911FE4EC6500704F33 /* DDPMethod.m */; };
 		89409F951FE4F1A700704F33 /* DDPBatchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F941FE4F1A700704F33 /* DDPBatchResponse.m */; };
 		8946D52B1EB6D38800161833 /* DDPFileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */; };
@@ -951,6 +971,8 @@
 		891EC6BB1F66DA7400431766 /* DDPEdgeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPEdgeTextField.m; sourceTree = "<group>"; };
 		8920A2E01F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TOSMBSessionDownloadTask+Tools.h"; sourceTree = "<group>"; };
 		8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TOSMBSessionDownloadTask+Tools.m"; sourceTree = "<group>"; };
+		89261CA9232015E100A0C372 /* DDPBaseMessage+Hook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPBaseMessage+Hook.h"; sourceTree = "<group>"; };
+		89261CAA232015E100A0C372 /* DDPBaseMessage+Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DDPBaseMessage+Hook.m"; sourceTree = "<group>"; };
 		8928E30521B81B67007BA84C /* DDPNewHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewHomePageViewController.h; sourceTree = "<group>"; };
 		8928E30621B81B67007BA84C /* DDPNewHomePageItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPNewHomePageItemViewController.h; sourceTree = "<group>"; };
 		8928E30721B81B67007BA84C /* DDPHomePageSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPHomePageSearchViewController.m; sourceTree = "<group>"; };
@@ -2226,6 +2248,15 @@
 			path = "请求";
 			sourceTree = "<group>";
 		};
+		899426172307D07400E8403A /* ToMac */ = {
+			isa = PBXGroup;
+			children = (
+				89261CA9232015E100A0C372 /* DDPBaseMessage+Hook.h */,
+				89261CAA232015E100A0C372 /* DDPBaseMessage+Hook.m */,
+			);
+			path = ToMac;
+			sourceTree = "<group>";
+		};
 		89A80331208B330600FF6C2B /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -2489,6 +2520,7 @@
 		89E3F6221E585B4E007AB1BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				899426172307D07400E8403A /* ToMac */,
 				8955061E21C2990D006E35D9 /* Home */,
 				898C185221676A6800AE7484 /* 请求 */,
 				89B6EED3201C7D1A0022DE0D /* Protocol */,
@@ -3273,6 +3305,7 @@
 				8911373822E35C7E00ED15E3 /* DDPLinkWelcome.m in Sources */,
 				8911373922E35C7E00ED15E3 /* DDPSharedNetManager.m in Sources */,
 				891138B422E4190A00ED15E3 /* DDPDMHYSearchCollection.m in Sources */,
+				893F1CBD23001DB000986BF3 /* DDPBiliBiliSearchViewController.m in Sources */,
 				8911373B22E35C7E00ED15E3 /* Masonry+DDPTools.m in Sources */,
 				8911373C22E35C7E00ED15E3 /* DDPCacheManager.m in Sources */,
 				8911373D22E35C7E00ED15E3 /* DDPFileManagerFileLongViewCell.m in Sources */,
@@ -3287,6 +3320,7 @@
 				891138B222E418AA00ED15E3 /* DDPSearchAnimateViewController.m in Sources */,
 				8911374822E35C7E00ED15E3 /* WMMagicScrollView.m in Sources */,
 				891138B522E4191A00ED15E3 /* DDPDownloadManager.mm in Sources */,
+				893F1CC723001EE000986BF3 /* DDPSMBDownloadTaskCache.mm in Sources */,
 				8911374B22E35C7E00ED15E3 /* DDPLinkFileTableViewCell.m in Sources */,
 				8911374C22E35C7E00ED15E3 /* DDPMatchTableViewCell.m in Sources */,
 				8911374D22E35C7E00ED15E3 /* UIImage+Tools.m in Sources */,
@@ -3295,7 +3329,9 @@
 				891138CD22E41C7E00ED15E3 /* DDPBangumiNetManagerOperation.m in Sources */,
 				8911375222E35C7E00ED15E3 /* DDPEdgeButton.m in Sources */,
 				8911375322E35C7E00ED15E3 /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
+				893F1CBA23001DA300986BF3 /* DDPSMBFileViewController.m in Sources */,
 				8911375422E35C7E00ED15E3 /* DDPDanmakuFilterTableViewCell.m in Sources */,
+				893F1CCB23001F1000986BF3 /* DDPVideoModel+Tools.m in Sources */,
 				8911375522E35C7E00ED15E3 /* UIView+Toast.m in Sources */,
 				891138B922E419E700ED15E3 /* DDPLinkDownloadTask+Tools.m in Sources */,
 				8911375622E35C7E00ED15E3 /* DDPBiliBiliSearchBangumi.m in Sources */,
@@ -3323,9 +3359,12 @@
 				891138D722E41CF900ED15E3 /* DDPPlayHistoryNetManagerOperation.m in Sources */,
 				8911376822E35C7E00ED15E3 /* DDPSearchAnimeDetails.m in Sources */,
 				8911376922E35C7E00ED15E3 /* DDPBiliBiliBangumiCollection.m in Sources */,
+				893F1CBF23001DC700986BF3 /* DDPLinkFileManagerViewController.m in Sources */,
 				8911376C22E35C7E00ED15E3 /* DDPBaseTreeView.m in Sources */,
+				893F1CC123001DE000986BF3 /* DDPCacheManager+DB.mm in Sources */,
 				8911376E22E35C7E00ED15E3 /* DDPBaseNavigationBar.m in Sources */,
 				8911376F22E35C7E00ED15E3 /* DDPEdgeTextField.m in Sources */,
+				893F1CCA23001F0E00986BF3 /* DDPVideoModel.m in Sources */,
 				8911377022E35C7E00ED15E3 /* DDPBaseDanmaku+Tools.m in Sources */,
 				8911377122E35C7E00ED15E3 /* DDPBaseWebViewController.m in Sources */,
 				8911377222E35C7E00ED15E3 /* DDPHttpReceive.m in Sources */,
@@ -3358,7 +3397,9 @@
 				891138A122E377E000ED15E3 /* DDPLinkFile.m in Sources */,
 				8911378B22E35C7E00ED15E3 /* DDPConstant.m in Sources */,
 				891138CF22E41C9C00ED15E3 /* DDPHomeBangumiIntroHeaderView.m in Sources */,
+				893F1CBB23001DA500986BF3 /* DDPSMBFileManagerPickerViewController.m in Sources */,
 				8911378C22E35C7E00ED15E3 /* DDPActivityEdgeLabel.m in Sources */,
+				893F1CC623001EC600986BF3 /* DDPHTTPConnection.m in Sources */,
 				891138E422E41DA300ED15E3 /* DDPNewBanner.m in Sources */,
 				8911378D22E35C7E00ED15E3 /* DDPHTTPRequestSerializer.m in Sources */,
 				8911378E22E35C7E00ED15E3 /* DDPBaseTableView.m in Sources */,
@@ -3383,6 +3424,7 @@
 				891137A322E35C7E00ED15E3 /* DDPDanmakuFilterDetailViewController.m in Sources */,
 				891137A422E35C7E00ED15E3 /* DDPBaseNavigationController.m in Sources */,
 				891137A522E35C7E00ED15E3 /* DDPRegisterViewController.m in Sources */,
+				893F1CBC23001DA900986BF3 /* DDPFileManagerViewController.m in Sources */,
 				891137A622E35C7E00ED15E3 /* DDPMineViewController.m in Sources */,
 				891137A822E35C7E00ED15E3 /* DDPLibraryCollection.m in Sources */,
 				891137A922E35C7E00ED15E3 /* DDPAttentionDetailHistoryTableViewCell.m in Sources */,
@@ -3401,12 +3443,15 @@
 				891137B522E35C7E00ED15E3 /* DDPFilterCollection.m in Sources */,
 				891137B622E35C7E00ED15E3 /* DDPOfficialSearchViewController.m in Sources */,
 				891137B822E35C7E00ED15E3 /* DDPDanmakuFilterViewController.m in Sources */,
+				893F1CC823001EE600986BF3 /* DDPVideoCache.mm in Sources */,
+				893F1CC923001F0000986BF3 /* DDPSMBVideoModel.m in Sources */,
 				891137B922E35C7E00ED15E3 /* DDPSMBFileOprationView.m in Sources */,
 				891137BB22E35C7E00ED15E3 /* DDPToolsManager.m in Sources */,
 				891138B122E4189B00ED15E3 /* DDPHomePageSearchViewController.m in Sources */,
 				891137BD22E35C7E00ED15E3 /* UIImageView+Tools.m in Sources */,
 				891137BE22E35C7E00ED15E3 /* DDPBangumiEpisode.m in Sources */,
 				891138C322E41BBF00ED15E3 /* HomePageSearchFilterModel.m in Sources */,
+				893F1CC023001DDE00986BF3 /* DDPFilter+DB.mm in Sources */,
 				891137BF22E35C7E00ED15E3 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */,
 				891137C022E35C7E00ED15E3 /* DDPTextField.m in Sources */,
 				891137C222E35C7E00ED15E3 /* DDPDefaultPageViewController.m in Sources */,
@@ -3417,6 +3462,7 @@
 				891138E622E41DD700ED15E3 /* HomePageBangumiProgressTableViewCell.m in Sources */,
 				89C7A38322EC4CE1006AF0CC /* DDPTabBar.m in Sources */,
 				891138DD22E41D5000ED15E3 /* DDPHomeBangumiCollection.m in Sources */,
+				893F1CC523001DE700986BF3 /* DDPSMBInfo+WCDB.mm in Sources */,
 				891137C622E35C7E00ED15E3 /* DDPFileManagerFolderLongViewCell.m in Sources */,
 				8999D08522E4C48700B77F60 /* UIApplication+DDPTools.m in Sources */,
 				891137C722E35C7E00ED15E3 /* UIFont+Tools.m in Sources */,
@@ -3428,11 +3474,14 @@
 				891138B822E419E300ED15E3 /* DDPLinkDownloadTask.m in Sources */,
 				891138B322E418FA00ED15E3 /* DDPAttentionDetailViewController.m in Sources */,
 				891138CA22E41C5800ED15E3 /* DDPDownloadViewController.m in Sources */,
+				89261CAB232015E100A0C372 /* DDPBaseMessage+Hook.m in Sources */,
 				891137CC22E35C7E00ED15E3 /* MJRefreshFooter+Tools.m in Sources */,
+				893F1CC323001DE300986BF3 /* DDPCollectionCache+DB.mm in Sources */,
 				891137CD22E35C7E00ED15E3 /* DDPHTTPResponseSerializer.m in Sources */,
 				891138C722E41BEA00ED15E3 /* HomePageSearchTableViewCell.m in Sources */,
 				891137CF22E35C7E00ED15E3 /* main.m in Sources */,
 				891137D022E35C7E00ED15E3 /* DDPFileCollectionTableViewCell.m in Sources */,
+				893F1CC223001DE100986BF3 /* DDPSMBFileHashCache+DB.mm in Sources */,
 				891137D122E35C7E00ED15E3 /* NSDate+Tools.m in Sources */,
 				891138BA22E419FB00ED15E3 /* DDPLinkDownloadTaskCollection.m in Sources */,
 				891137D222E35C7E00ED15E3 /* DDPMineHeadView.m in Sources */,
@@ -3441,13 +3490,16 @@
 				891138BF22E41A3C00ED15E3 /* DDPQRScannerHistoryView.m in Sources */,
 				891137D522E35C7E00ED15E3 /* DDPFilter.m in Sources */,
 				89C7A38822EC5047006AF0CC /* DDPMainVCItem.m in Sources */,
+				893F1CBE23001DBB00986BF3 /* DDPMatchViewController.m in Sources */,
 				891137D622E35C7E00ED15E3 /* DDPAttentionListTableViewCell.m in Sources */,
 				891137D722E35C7E00ED15E3 /* DDPAboutUsViewController.m in Sources */,
+				893F1CB723001D9300986BF3 /* DDPFileViewController.m in Sources */,
 				891137D822E35C7E00ED15E3 /* LAContext+Tools.m in Sources */,
 				891137DC22E35C7E00ED15E3 /* DDPSearchNetManagerOperation.m in Sources */,
 				891137DD22E35C7E00ED15E3 /* DDPFileManagerEditView.m in Sources */,
 				891138B622E4197800ED15E3 /* DDPLinkNetManagerOperation.m in Sources */,
 				891137DF22E35C7E00ED15E3 /* DDPSearchCollection.m in Sources */,
+				893F1CB823001D9600986BF3 /* DDPHTTPServerViewController.m in Sources */,
 				891138DC22E41D4400ED15E3 /* DDPHomePage.m in Sources */,
 				891137E022E35C7E00ED15E3 /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */,
 				891138DB22E41D3400ED15E3 /* DDPRecommedNetManagerOperation.m in Sources */,

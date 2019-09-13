@@ -153,6 +153,8 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
     
     self.currentTimeLabel.font = [UIFont ddp_smallSizeFont];
     self.totalTimeLabel.font = [UIFont ddp_smallSizeFont];
+    self.currentTimeLabel.textColor = [UIColor whiteColor];
+    self.totalTimeLabel.textColor = [UIColor whiteColor];
     
     self.progressSlider.minimumTrackTintColor = [UIColor ddp_mainColor];
     

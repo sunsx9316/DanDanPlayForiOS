@@ -30,6 +30,8 @@ abstract_target 'DDPlay_Target' do
     pod 'AFNetworking', :git => 'https://github.com/sunsx9316/AFNetworking_UIKitForMac.git'
     pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
 
+    pod 'DDPShare', :path => 'LocalPods/DDPShare'
+
 abstract_target 'iOS_Only' do
     # 集成新浪微博
     pod 'UMengUShare/Social/ReducedSina'
@@ -60,7 +62,9 @@ end
 
     target 'DDPlay_ToMac' do
     pod 'CocoaLumberjack'
-    pod 'DDPShare', :path => 'LocalPods/DDPShare'
+    # pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'WCDB_UIKitForMac', :path => 'LocalPods/WCDB'
+    pod 'CocoaHTTPServer'
+    # pod 'TOSMBClient', '~> 1.0.5'
     end
 end

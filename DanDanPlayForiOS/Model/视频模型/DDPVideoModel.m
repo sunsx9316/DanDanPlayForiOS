@@ -7,7 +7,9 @@
 //
 
 #import "DDPVideoModel.h"
+#if !DDPAPPTYPEISMAC
 #import <MobileVLCKit/MobileVLCKit.h>
+#endif
 
 @implementation DDPVideoModel
 {
@@ -17,7 +19,9 @@
     NSString *_fileHash;
     NSUInteger _length;
     NSString *_quickHash;
+#if !DDPAPPTYPEISMAC
     VLCMedia *_media;
+#endif
 }
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL {
@@ -64,12 +68,14 @@
     return _quickHash;
 }
 
+#if !DDPAPPTYPEISMAC
 - (VLCMedia *)media {
     if (_media == nil) {
         _media = [[VLCMedia alloc] initWithURL:_fileURL];
     }
     return _media;
 }
+#endif
 
 + (NSArray<NSString *> *)modelPropertyWhitelist {
     return @[@"fileURL"];

@@ -110,6 +110,8 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  宽高比
  */
 @property (assign, nonatomic) CGSize videoAspectRatio;
+
+@property (assign, readonly) CGSize videoSize;
 /**
  *  位置 0 ~ 1
  */

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)configLeftItem;
 - (void)configRightItem;
-- (void)touchLeftItem:(UIButton *)button;
+- (void)touchLeftItem:(UIButton * _Nullable)button;
 
 - (_Nullable Class)ddp_navigationBarClass;
 

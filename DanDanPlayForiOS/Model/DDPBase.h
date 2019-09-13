@@ -7,10 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <YYModel.h>
+#import <DDPShare/DDPBridgeBase.h>
 
-@interface DDPBase : NSObject<YYModel, NSCoding, NSCopying>
-@property (assign, nonatomic) NSUInteger identity;
-@property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *desc;
+@interface DDPBase : DDPBridgeBase
+
 @end

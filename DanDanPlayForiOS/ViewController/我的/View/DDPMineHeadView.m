@@ -183,12 +183,14 @@
         textField.font = [UIFont ddp_normalSizeFont];
         textField.placeholder = @"原密码";
         textField.secureTextEntry = YES;
+        textField.textColor = nil;
     }];
     
     [avc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.font = [UIFont ddp_normalSizeFont];
         textField.placeholder = @"新密码";
         textField.secureTextEntry = YES;
+        textField.textColor = nil;
     }];
     
     [self.viewController presentViewController:avc animated:YES completion:nil];

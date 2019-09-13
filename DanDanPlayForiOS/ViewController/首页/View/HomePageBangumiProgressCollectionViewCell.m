@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgViewHeight;
 
 @end
 
@@ -31,6 +32,10 @@
     
     let ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
     [self addGestureRecognizer:ges];
+    
+    if (ddp_appType == DDPAppTypeToMac) {
+        self.imgViewHeight.constant = 200;
+    }
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)ges {

@@ -55,10 +55,12 @@
  */
 @property (copy, nonatomic, readonly) NSString *quickHash;
 
+#if !DDPAPPTYPEISMAC
 /**
  视频模型
  */
 @property (strong, nonatomic, readonly) VLCMedia *media;
+#endif
 
 /**
  弹幕

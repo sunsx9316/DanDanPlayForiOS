@@ -6,23 +6,9 @@
 //  Copyright © 2017年 JimHuang. All rights reserved.
 //
 
-#import "DDPBase.h"
+#import <DDPShare/DDPBridgeFilter.h>
 
-@interface DDPFilter : DDPBase
+@interface DDPFilter : DDPBridgeFilter
 
-/*
-  name 屏蔽规则名称
- */
 
-/**
- 是否为正则表达式
- */
-@property (assign, nonatomic) BOOL isRegex;
-
-/**
- 内容
- */
-@property (copy, nonatomic) NSString *content;
-
-@property (assign, nonatomic) BOOL enable;
 @end

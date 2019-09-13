@@ -10,13 +10,22 @@
 #import "DDPMineViewController.h"
 #import "DDPNewHomePagePackageViewController.h"
 #import "DDPBaseNavigationController.h"
+#import "DDPMatchViewController.h"
 #import "DDPTabBar.h"
 
 #if !DDPAPPTYPEISMAC
 #import "DDPFileViewController.h"
+#else
+#import <DDPShare/DDPShare.h>
+#import "DDPCommentNetManagerOperation.h"
+#import "DDPDanmakuManager.h"
 #endif
 
-@interface DDPMainViewController ()<UITabBarControllerDelegate>
+@interface DDPMainViewController ()<UITabBarControllerDelegate, UIDropInteractionDelegate
+#if DDPAPPTYPEISMAC
+, DDPMessageManagerObserver
+#endif
+>
 @end
 
 @implementation DDPMainViewController
@@ -87,11 +96,13 @@
     self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
 #endif
     
-    if (ddp_appType == DDPAppTypeToMac) {
+#if DDPAPPTYPEISMAC
         self.tabBar.alpha = 0;
-    } else {
+        [[DDPMessageManager sharedManager] addObserver:self];
+        [self addDragAndDrop];
+#else
         self.tabBar.translucent = NO;
-    }
+#endif
     
     self.delegate = self;
 }
@@ -126,6 +137,76 @@
 #endif
 }
 
+#pragma mark - UIDropInteractionDelegate
+- (BOOL)dropInteraction:(UIDropInteraction *)interaction canHandleSession:(id<UIDropSession>)session {
+    BOOL flag = [session hasItemsConformingToTypeIdentifiers:@[(__bridge NSString *)kUTTypeMovie]];
+    return flag;
+}
+
+- (void)dropInteraction:(UIDropInteraction *)interaction performDrop:(id<UIDropSession>)session {
+    [session.items.firstObject.itemProvider loadInPlaceFileRepresentationForTypeIdentifier:(__bridge NSString *)kUTTypeMovie completionHandler:^(NSURL * _Nullable url, BOOL isInPlace, NSError * _Nullable error) {
+        [self parseWithURL:url];
+    }];
+}
+
+- (UIDropProposal *)dropInteraction:(UIDropInteraction *)interaction sessionDidUpdate:(id<UIDropSession>)session {
+    let dropLocation = [session locationInView:self.view];
+    UIDropOperation operation = UIDropOperationCancel;
+    
+    if (CGRectContainsPoint(self.view.frame, dropLocation)) {
+        operation = session.localDragSession == nil ? UIDropOperationCopy : UIDropOperationMove;
+    }
+    return [[UIDropProposal alloc] initWithDropOperation:operation];
+}
+
+#if DDPAPPTYPEISMAC
+#pragma mark - DDPMessageManagerObserver
+- (void)dispatchManager:(DDPMessageManager *)manager didReceiveMessages:(NSArray <id<DDPMessageProtocol>>*)messages {
+    for (id<DDPMessageProtocol> message in messages) {
+        if ([message.messageType isEqualToString:DDPParseMessage.messageType]) {
+            DDPParseMessage *aMessage = [[DDPParseMessage alloc] initWithObj:message];
+            NSURL *url = [NSURL fileURLWithPath:aMessage.path];
+            [self parseWithURL:url];
+        } else if ([message.messageType isEqualToString:DDPDanmakuSettingMessage.messageType]) {
+            DDPDanmakuSettingMessage *aMessage = [[DDPDanmakuSettingMessage alloc] init];
+            DDPCacheManager *cache = DDPCacheManager.shareCacheManager;
+            UIFont *font = cache.danmakuFont;
+            aMessage.fontName = font.fontName;
+            aMessage.fontSize = font.pointSize;
+            aMessage.effectStyle = cache.danmakuEffectStyle;
+            aMessage.filters = cache.danmakuFilters;
+            aMessage.danmakuOpacity = cache.danmakuOpacity;
+            aMessage.danmakuSpeed = cache.danmakuSpeed;
+            aMessage.danmakuLimitCount = cache.danmakuLimitCount;
+            aMessage.danmakuShieldType = cache.danmakuShieldType;
+            
+            [[DDPMessageManager sharedManager] sendMessage:aMessage];
+        } else if ([message.messageType isEqualToString:DDPSendDanmakuMessage.messageType]) {
+            DDPSendDanmakuMessage *aMessage = [[DDPSendDanmakuMessage alloc] initWithObj:message];
+            
+            let episodeId = aMessage.episodeId;
+            DDPDanmaku *danmaku = (DDPDanmaku *)aMessage.danmaku;
+            
+            [DDPCommentNetManagerOperation launchDanmakuWithModel:danmaku episodeId:episodeId completionHandler:^(NSError *error) {
+                if (error) {
+                    aMessage.danmaku = nil;
+                    [[DDPMessageManager sharedManager] sendMessage:aMessage];
+                }
+                else {
+                    [[DDPMessageManager sharedManager] sendMessage:aMessage];
+                    
+                    //发送成功 缓存弹幕
+                    NSMutableArray <DDPDanmaku *>*danmakus = [DDPDanmakuManager danmakuCacheWithEpisodeId:episodeId source:DDPDanmakuTypeByUser].mutableCopy;
+                    [danmakus addObject:danmaku];
+                    
+                    [DDPDanmakuManager saveDanmakuWithObj:danmakus episodeId:episodeId source:DDPDanmakuTypeByUser];
+                }
+            }];
+        }
+    }
+}
+#endif
+
 #pragma mark - 私有方法
 - (UINavigationController *)navigationControllerWithNormalImg:(UIImage *)normalImg selectImg:(UIImage *)selectImg rootVC:(UIViewController *)rootVC title:(NSString *)title {
     
@@ -142,6 +223,18 @@
     }
     
     return navVC;
+}
+
+- (void)addDragAndDrop {
+    let dropInteraction = [[UIDropInteraction alloc] initWithDelegate:self];
+    [self.view addInteraction:dropInteraction];
+}
+
+- (void)parseWithURL:(NSURL *)url {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DDPFile *file = [[DDPFile alloc] initWithFileURL:url type:DDPFileTypeDocument];
+        [DDPMethod matchFile:file completion:nil];      
+    });
 }
 
 @end

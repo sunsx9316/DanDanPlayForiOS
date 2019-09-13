@@ -13,5 +13,4 @@
 @property (strong, nonatomic) DDPFile *file;
 @property (strong, nonatomic) DDPBaseTableView *tableView;
 @property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
-//- (void)matchFile:(DDPFile *)file;
 @end
