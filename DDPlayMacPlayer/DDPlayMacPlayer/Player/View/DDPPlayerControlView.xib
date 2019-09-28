@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14865.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,7 +9,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="GA7-fJ-Fr8" customClass="DDPPlayerControlView">
-            <rect key="frame" x="0.0" y="0.0" width="772" height="75"/>
+            <rect key="frame" x="0.0" y="0.0" width="772" height="70"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K64-ka-10e">
@@ -25,8 +24,11 @@
                     </buttonCell>
                 </button>
                 <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="Gnk-fK-IV8">
-                    <rect key="frame" x="636" y="20" width="88" height="16"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00 / 00:00" id="FaW-3q-3SR">
+                    <rect key="frame" x="610" y="20" width="124" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="VCC-3H-U90"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="00:00 / 00:00" id="FaW-3q-3SR">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -39,42 +41,69 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
-                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oSS-5W-doL" customClass="DDPPlayerSlider">
-                    <rect key="frame" x="18" y="53" width="736" height="19"/>
-                    <sliderCell key="cell" state="on" alignment="left" maxValue="1" tickMarkPosition="above" sliderType="linear" id="15q-Ep-QO1"/>
-                </slider>
                 <textField focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-7R-PtZ" customClass="DDPTextField">
-                    <rect key="frame" x="75" y="17" width="553" height="22"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="回车发送弹幕" usesSingleLineMode="YES" bezelStyle="round" id="wN2-WO-J0L">
+                    <rect key="frame" x="75" y="17" width="461" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="回车发送弹幕" usesSingleLineMode="YES" bezelStyle="round" id="wN2-WO-J0L">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YX9-G2-2My">
+                    <rect key="frame" x="539" y="14" width="38" height="25"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FT9-EX-Qpo">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <menu key="menu" id="IwW-ld-UqC"/>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="onClickColorButton:" target="GA7-fJ-Fr8" id="fv8-Kh-XQO"/>
+                    </connections>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="00a-sk-eU3">
+                    <rect key="frame" x="577" y="14" width="38" height="25"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="kpq-Yq-w7c">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <menu key="menu" id="uFG-GH-BA5"/>
+                    </popUpButtonCell>
+                </popUpButton>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="gTz-5W-g2W" customClass="DDPPlayerSlider">
+                    <rect key="frame" x="5" y="55" width="762" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="WtK-yt-ad3"/>
+                    </constraints>
+                </customView>
             </subviews>
             <constraints>
-                <constraint firstItem="K64-ka-10e" firstAttribute="leading" secondItem="oSS-5W-doL" secondAttribute="leading" id="Ajx-rD-0Bx"/>
                 <constraint firstItem="AfF-7R-PtZ" firstAttribute="leading" secondItem="K64-ka-10e" secondAttribute="trailing" constant="10" id="ArR-7B-Cbr"/>
+                <constraint firstItem="gTz-5W-g2W" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" constant="5" id="DoG-iJ-uyV"/>
+                <constraint firstAttribute="trailing" secondItem="gTz-5W-g2W" secondAttribute="trailing" constant="5" id="HeH-oS-1dm"/>
+                <constraint firstItem="K64-ka-10e" firstAttribute="top" secondItem="gTz-5W-g2W" secondAttribute="bottom" constant="5" id="HiQ-Th-8Bp"/>
                 <constraint firstAttribute="bottom" secondItem="K64-ka-10e" secondAttribute="bottom" constant="5" id="I30-n8-gIO"/>
+                <constraint firstItem="YX9-G2-2My" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="KGD-Wx-Zoc"/>
+                <constraint firstItem="00a-sk-eU3" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="LYy-wc-GZh"/>
+                <constraint firstItem="gTz-5W-g2W" firstAttribute="top" secondItem="GA7-fJ-Fr8" secondAttribute="top" id="MXE-jb-r9T"/>
                 <constraint firstItem="Gnk-fK-IV8" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="McP-xA-e9N"/>
                 <constraint firstItem="K64-ka-10e" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" constant="20" id="RVc-PL-8pd"/>
-                <constraint firstItem="K64-ka-10e" firstAttribute="top" secondItem="oSS-5W-doL" secondAttribute="bottom" constant="5" id="RyU-5q-br4"/>
-                <constraint firstItem="1kj-Qs-tKu" firstAttribute="trailing" secondItem="oSS-5W-doL" secondAttribute="trailing" id="YeU-Tp-6Es"/>
                 <constraint firstAttribute="trailing" secondItem="1kj-Qs-tKu" secondAttribute="trailing" constant="20" id="ax2-rZ-GiF"/>
                 <constraint firstItem="AfF-7R-PtZ" firstAttribute="centerY" secondItem="K64-ka-10e" secondAttribute="centerY" id="dLW-yN-vkH"/>
+                <constraint firstItem="00a-sk-eU3" firstAttribute="leading" secondItem="YX9-G2-2My" secondAttribute="trailing" constant="5" id="eZ1-Ae-oxq"/>
                 <constraint firstItem="1kj-Qs-tKu" firstAttribute="centerY" secondItem="Gnk-fK-IV8" secondAttribute="centerY" id="fbI-jO-SVI"/>
-                <constraint firstItem="oSS-5W-doL" firstAttribute="top" secondItem="GA7-fJ-Fr8" secondAttribute="top" constant="5" id="hK5-kc-skd"/>
-                <constraint firstItem="1kj-Qs-tKu" firstAttribute="leading" secondItem="Gnk-fK-IV8" secondAttribute="trailing" constant="10" id="hw1-Af-9rd"/>
-                <constraint firstItem="Gnk-fK-IV8" firstAttribute="leading" secondItem="AfF-7R-PtZ" secondAttribute="trailing" constant="10" id="xJO-Am-wcs"/>
+                <constraint firstItem="Gnk-fK-IV8" firstAttribute="leading" secondItem="00a-sk-eU3" secondAttribute="trailing" id="gAL-p8-UZ1"/>
+                <constraint firstItem="1kj-Qs-tKu" firstAttribute="leading" secondItem="Gnk-fK-IV8" secondAttribute="trailing" id="hw1-Af-9rd"/>
+                <constraint firstItem="YX9-G2-2My" firstAttribute="leading" secondItem="AfF-7R-PtZ" secondAttribute="trailing" constant="5" id="r9d-xp-UrJ"/>
             </constraints>
             <connections>
                 <outlet property="danmakuButton" destination="1kj-Qs-tKu" id="6T4-WU-Mc2"/>
+                <outlet property="danmakuColorPopUpButton" destination="YX9-G2-2My" id="sFc-Rk-8ML"/>
+                <outlet property="danmakuStylePopUpButton" destination="00a-sk-eU3" id="3Tk-oB-VJT"/>
                 <outlet property="inputTextField" destination="AfF-7R-PtZ" id="ejT-3S-7z7"/>
                 <outlet property="playButton" destination="K64-ka-10e" id="uG0-8z-CSc"/>
-                <outlet property="progressSlider" destination="oSS-5W-doL" id="A1R-Gd-lFE"/>
+                <outlet property="progressSlider" destination="gTz-5W-g2W" id="y3V-8U-g86"/>
                 <outlet property="timeLabel" destination="Gnk-fK-IV8" id="VBl-RG-S2W"/>
             </connections>
-            <point key="canvasLocation" x="79" y="29"/>
+            <point key="canvasLocation" x="79" y="28.5"/>
         </customView>
     </objects>
     <resources>

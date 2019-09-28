@@ -25,6 +25,7 @@
         self.automaticallyCalculatesItemWidths = YES;
         self.menuViewStyle = WMMenuViewStyleLine;
         self.menuViewLayoutMode = WMMenuViewLayoutModeLeft;
+        self.modalPresentationStyle = UIModalPresentationFullScreen;
     }
     return self;
 }

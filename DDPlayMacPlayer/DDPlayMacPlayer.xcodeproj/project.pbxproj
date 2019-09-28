@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D63158C62FBBC243569B75C /* libPods-DDPlayMacPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD2F1606BF4F85631B52385 /* libPods-DDPlayMacPlayer.a */; };
 		891116C322EF294B00D545A5 /* NSView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891116C122EF294B00D545A5 /* NSView+DDPTools.m */; };
 		891116C422EF294B00D545A5 /* NSControl+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891116C222EF294B00D545A5 /* NSControl+DDPTools.m */; };
 		89148686232B79A4000A5CD5 /* DDPPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89148685232B79A4000A5CD5 /* DDPPlayView.m */; };
@@ -17,10 +16,15 @@
 		89352C2E232011DD00399F33 /* DDPBaseMessage+Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = 89352C2D232011DD00399F33 /* DDPBaseMessage+Hook.m */; };
 		893596AD22EF2C1200F3CA1E /* DDPPlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 893596AC22EF2C1200F3CA1E /* DDPPlayerSlider.m */; };
 		893596B122EF2E1000F3CA1E /* DDPPlayerControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893596B022EF2E1000F3CA1E /* DDPPlayerControlView.xib */; };
+		897803D82336046200B38ACE /* DDPProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 897803D72336046200B38ACE /* DDPProgressIndicator.m */; };
+		8978044123368E8300B38ACE /* DDPHUD.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8978044023368E8300B38ACE /* DDPHUD.xib */; };
 		897B4A6E22ED716400B910BD /* DDPPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B4A6B22ED716400B910BD /* DDPPlayerControlView.m */; };
 		897B4A9722ED749500B910BD /* DDPMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B4A9522ED749500B910BD /* DDPMediaPlayer.m */; };
+		897B5F3223325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B5F3023325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m */; };
+		897B5F3523325F8D00BAAB6F /* NSColor+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B5F3423325F8D00BAAB6F /* NSColor+DDPTools.m */; };
+		897B5F382332634C00BAAB6F /* danmaku_color.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897B5F372332634C00BAAB6F /* danmaku_color.plist */; };
+		897B5F3B2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B5F3A2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m */; };
 		89881620232BCF4A0003D159 /* DDPHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988161F232BCF4A0003D159 /* DDPHUD.m */; };
-		89881622232BCF590003D159 /* DDPHUD.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89881621232BCF590003D159 /* DDPHUD.xib */; };
 		8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988168E232BDE9C0003D159 /* DDPTextField.m */; };
 		898F403122ECA5A800C082BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F403022ECA5A800C082BF /* AppDelegate.m */; };
 		898F403622ECA5A900C082BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 898F403522ECA5A900C082BF /* Assets.xcassets */; };
@@ -30,10 +34,11 @@
 		898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898F404522ECA5C700C082BF /* DDPPlayViewController.xib */; };
 		898F404B22ECA5EB00C082BF /* DDPWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F404A22ECA5EB00C082BF /* DDPWindowController.m */; };
 		89A8E2072324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */; };
+		C929D88E7B569BE22F239896 /* libPods-DDPlayMacPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD686B6BE03AD278E5241266 /* libPods-DDPlayMacPlayer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4FD2F1606BF4F85631B52385 /* libPods-DDPlayMacPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlayMacPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		57485024FC38AE686741EC55 /* Pods-DDPlayMacPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.release.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		891116BF22EF294B00D545A5 /* NSView+DDPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+DDPTools.h"; sourceTree = "<group>"; };
 		891116C022EF294B00D545A5 /* NSControl+DDPTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+DDPTools.h"; sourceTree = "<group>"; };
 		891116C122EF294B00D545A5 /* NSView+DDPTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+DDPTools.m"; sourceTree = "<group>"; };
@@ -50,15 +55,24 @@
 		893596AB22EF2C1200F3CA1E /* DDPPlayerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerSlider.h; sourceTree = "<group>"; };
 		893596AC22EF2C1200F3CA1E /* DDPPlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerSlider.m; sourceTree = "<group>"; };
 		893596B022EF2E1000F3CA1E /* DDPPlayerControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDPPlayerControlView.xib; sourceTree = "<group>"; };
+		897803D62336046200B38ACE /* DDPProgressIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPProgressIndicator.h; sourceTree = "<group>"; };
+		897803D72336046200B38ACE /* DDPProgressIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPProgressIndicator.m; sourceTree = "<group>"; };
+		8978044023368E8300B38ACE /* DDPHUD.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDPHUD.xib; sourceTree = "<group>"; };
 		897B4A6B22ED716400B910BD /* DDPPlayerControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerControlView.m; sourceTree = "<group>"; };
 		897B4A6C22ED716400B910BD /* DDPPlayerControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPPlayerControlView.h; sourceTree = "<group>"; };
 		897B4A9522ED749500B910BD /* DDPMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPMediaPlayer.m; sourceTree = "<group>"; };
 		897B4A9622ED749500B910BD /* DDPMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPMediaPlayer.h; sourceTree = "<group>"; };
 		897B4A9922ED74E900B910BD /* DDPMacroDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMacroDefinition.h; sourceTree = "<group>"; };
 		897B4A9A22ED74FE00B910BD /* DDPPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPrefixHeader.pch; sourceTree = "<group>"; };
+		897B5F3023325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuColorMenuItem.m; sourceTree = "<group>"; };
+		897B5F3123325F5D00BAAB6F /* DDPDanmakuColorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuColorMenuItem.h; sourceTree = "<group>"; };
+		897B5F3323325F8D00BAAB6F /* NSColor+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSColor+DDPTools.h"; sourceTree = "<group>"; };
+		897B5F3423325F8D00BAAB6F /* NSColor+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSColor+DDPTools.m"; sourceTree = "<group>"; };
+		897B5F372332634C00BAAB6F /* danmaku_color.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmaku_color.plist; sourceTree = "<group>"; };
+		897B5F392332652B00BAAB6F /* DDPDanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuModeMenuItem.h; sourceTree = "<group>"; };
+		897B5F3A2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuModeMenuItem.m; sourceTree = "<group>"; };
 		8988161E232BCF4A0003D159 /* DDPHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHUD.h; sourceTree = "<group>"; };
 		8988161F232BCF4A0003D159 /* DDPHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHUD.m; sourceTree = "<group>"; };
-		89881621232BCF590003D159 /* DDPHUD.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPHUD.xib; sourceTree = "<group>"; };
 		8988168D232BDE9C0003D159 /* DDPTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPTextField.h; sourceTree = "<group>"; };
 		8988168E232BDE9C0003D159 /* DDPTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPTextField.m; sourceTree = "<group>"; };
 		898F402C22ECA5A800C082BF /* DDPlayMacPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlayMacPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +90,8 @@
 		898F404A22ECA5EB00C082BF /* DDPWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPWindowController.m; sourceTree = "<group>"; };
 		89A8E2052324BA2000F8F161 /* JHBaseDanmaku+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHBaseDanmaku+DDPTools.h"; sourceTree = "<group>"; };
 		89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JHBaseDanmaku+DDPTools.m"; sourceTree = "<group>"; };
-		D3A35742521675DE861CFF85 /* Pods-DDPlayMacPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.debug.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.debug.xcconfig"; sourceTree = "<group>"; };
-		F7FF4D5D244459881C8E8735 /* Pods-DDPlayMacPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.release.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		AF5E03536CF8487F6EF66DD2 /* Pods-DDPlayMacPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.debug.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		BD686B6BE03AD278E5241266 /* libPods-DDPlayMacPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlayMacPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D63158C62FBBC243569B75C /* libPods-DDPlayMacPlayer.a in Frameworks */,
+				C929D88E7B569BE22F239896 /* libPods-DDPlayMacPlayer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +109,8 @@
 		77F9EB2CBB9C6CE498C62D5E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D3A35742521675DE861CFF85 /* Pods-DDPlayMacPlayer.debug.xcconfig */,
-				F7FF4D5D244459881C8E8735 /* Pods-DDPlayMacPlayer.release.xcconfig */,
+				AF5E03536CF8487F6EF66DD2 /* Pods-DDPlayMacPlayer.debug.xcconfig */,
+				57485024FC38AE686741EC55 /* Pods-DDPlayMacPlayer.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -110,6 +124,8 @@
 				891116C122EF294B00D545A5 /* NSView+DDPTools.m */,
 				89A8E2052324BA2000F8F161 /* JHBaseDanmaku+DDPTools.h */,
 				89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */,
+				897B5F3323325F8D00BAAB6F /* NSColor+DDPTools.h */,
+				897B5F3423325F8D00BAAB6F /* NSColor+DDPTools.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -124,6 +140,10 @@
 		897B4A6A22ED716400B910BD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				897B5F3123325F5D00BAAB6F /* DDPDanmakuColorMenuItem.h */,
+				897B5F3023325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m */,
+				897B5F392332652B00BAAB6F /* DDPDanmakuModeMenuItem.h */,
+				897B5F3A2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m */,
 				893596AB22EF2C1200F3CA1E /* DDPPlayerSlider.h */,
 				893596AC22EF2C1200F3CA1E /* DDPPlayerSlider.m */,
 				897B4A6C22ED716400B910BD /* DDPPlayerControlView.h */,
@@ -136,9 +156,11 @@
 				8914868D232B8622000A5CD5 /* DDPPlayTopBar.xib */,
 				8988161E232BCF4A0003D159 /* DDPHUD.h */,
 				8988161F232BCF4A0003D159 /* DDPHUD.m */,
-				89881621232BCF590003D159 /* DDPHUD.xib */,
+				8978044023368E8300B38ACE /* DDPHUD.xib */,
 				8988168D232BDE9C0003D159 /* DDPTextField.h */,
 				8988168E232BDE9C0003D159 /* DDPTextField.m */,
+				897803D62336046200B38ACE /* DDPProgressIndicator.h */,
+				897803D72336046200B38ACE /* DDPProgressIndicator.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -179,6 +201,14 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		897B5F362332634200BAAB6F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				897B5F372332634C00BAAB6F /* danmaku_color.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		897DEFEA231EB91800F1424E /* ToiOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,7 +224,7 @@
 				898F402E22ECA5A800C082BF /* DDPlayMacPlayer */,
 				898F402D22ECA5A800C082BF /* Products */,
 				77F9EB2CBB9C6CE498C62D5E /* Pods */,
-				98E2F609FF6C0D45F5C6EEED /* Frameworks */,
+				C8B90D97E31AE4419B510A96 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,8 +244,9 @@
 				897B4AF322EDF25A00B910BD /* Model */,
 				897B4A9822ED74E100B910BD /* Config */,
 				898F404822ECA5CB00C082BF /* Player */,
-				898F402F22ECA5A800C082BF /* AppDelegate.h */,
+				897B5F362332634200BAAB6F /* Resource */,
 				898F403022ECA5A800C082BF /* AppDelegate.m */,
+				898F402F22ECA5A800C082BF /* AppDelegate.h */,
 				898F403522ECA5A900C082BF /* Assets.xcassets */,
 				898F403722ECA5A900C082BF /* Main.storyboard */,
 				898F403A22ECA5A900C082BF /* Info.plist */,
@@ -239,10 +270,10 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		98E2F609FF6C0D45F5C6EEED /* Frameworks */ = {
+		C8B90D97E31AE4419B510A96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4FD2F1606BF4F85631B52385 /* libPods-DDPlayMacPlayer.a */,
+				BD686B6BE03AD278E5241266 /* libPods-DDPlayMacPlayer.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -254,11 +285,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 898F404022ECA5A900C082BF /* Build configuration list for PBXNativeTarget "DDPlayMacPlayer" */;
 			buildPhases = (
-				FD20771EAC92700BD46A2CCB /* [CP] Check Pods Manifest.lock */,
+				5BAC324596204B43CB02912F /* [CP] Check Pods Manifest.lock */,
 				898F402822ECA5A800C082BF /* Sources */,
 				898F402922ECA5A800C082BF /* Frameworks */,
 				898F402A22ECA5A800C082BF /* Resources */,
-				36BB50BFC46D8A0EEBECC9B6 /* [CP] Embed Pods Frameworks */,
+				C0FBFDB9FBA52C179CD9DA0A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -275,7 +306,7 @@
 		898F402422ECA5A800C082BF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = JimHuang;
 				TargetAttributes = {
 					898F402B22ECA5A800C082BF = {
@@ -311,36 +342,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89881622232BCF590003D159 /* DDPHUD.xib in Resources */,
 				898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */,
 				898F403622ECA5A900C082BF /* Assets.xcassets in Resources */,
 				8914868E232B8622000A5CD5 /* DDPPlayTopBar.xib in Resources */,
+				8978044123368E8300B38ACE /* DDPHUD.xib in Resources */,
 				893596B122EF2E1000F3CA1E /* DDPPlayerControlView.xib in Resources */,
 				898F403922ECA5A900C082BF /* Main.storyboard in Resources */,
+				897B5F382332634C00BAAB6F /* danmaku_color.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		36BB50BFC46D8A0EEBECC9B6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FD20771EAC92700BD46A2CCB /* [CP] Check Pods Manifest.lock */ = {
+		5BAC324596204B43CB02912F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -362,6 +377,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C0FBFDB9FBA52C179CD9DA0A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -374,17 +406,21 @@
 				893596AD22EF2C1200F3CA1E /* DDPPlayerSlider.m in Sources */,
 				898F403C22ECA5A900C082BF /* main.m in Sources */,
 				897B4A9722ED749500B910BD /* DDPMediaPlayer.m in Sources */,
+				897B5F3B2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m in Sources */,
 				898F403122ECA5A800C082BF /* AppDelegate.m in Sources */,
 				8914868C232B8619000A5CD5 /* DDPPlayTopBar.m in Sources */,
 				891116C422EF294B00D545A5 /* NSControl+DDPTools.m in Sources */,
 				897B4A6E22ED716400B910BD /* DDPPlayerControlView.m in Sources */,
+				897B5F3523325F8D00BAAB6F /* NSColor+DDPTools.m in Sources */,
 				89148686232B79A4000A5CD5 /* DDPPlayView.m in Sources */,
 				8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */,
 				89352C2E232011DD00399F33 /* DDPBaseMessage+Hook.m in Sources */,
 				898F404622ECA5C700C082BF /* DDPPlayViewController.m in Sources */,
+				897B5F3223325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m in Sources */,
 				89261D6D23238E4D00A0C372 /* DDPDanmakuManager.m in Sources */,
 				891116C322EF294B00D545A5 /* NSView+DDPTools.m in Sources */,
 				89881620232BCF4A0003D159 /* DDPHUD.m in Sources */,
+				897803D82336046200B38ACE /* DDPProgressIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,9 +551,10 @@
 		};
 		898F404122ECA5A900C082BF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3A35742521675DE861CFF85 /* Pods-DDPlayMacPlayer.debug.xcconfig */;
+			baseConfigurationReference = AF5E03536CF8487F6EF66DD2 /* Pods-DDPlayMacPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
@@ -534,9 +571,10 @@
 		};
 		898F404222ECA5A900C082BF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7FF4D5D244459881C8E8735 /* Pods-DDPlayMacPlayer.release.xcconfig */;
+			baseConfigurationReference = 57485024FC38AE686741EC55 /* Pods-DDPlayMacPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Q35T78D2D5;

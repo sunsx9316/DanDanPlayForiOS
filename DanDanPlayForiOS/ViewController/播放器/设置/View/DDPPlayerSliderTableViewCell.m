@@ -105,7 +105,7 @@
 
 - (void)touchSliderUp:(UISlider *)sender {
     if (_type == DDPPlayerSliderTableViewCellTypeRate) {
-        [DDPCacheManager shareCacheManager].mediaPlayer.speed = sender.value;
+        [DDPCacheManager shareCacheManager].playerSpeed = sender.value;
     }
     else if (_type == DDPPlayerSliderTableViewCellTypeDanmakuLimit) {
         NSInteger value = sender.value;

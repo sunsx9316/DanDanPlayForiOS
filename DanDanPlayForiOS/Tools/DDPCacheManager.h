@@ -221,5 +221,14 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
  */
 @property (assign, nonatomic) CGFloat danmakuOffsetTime;
 
+/// 视频比例
+@property (assign, nonatomic) CGSize videoAspectRatio;
+
+/// 播放速率
+@property (assign, nonatomic) float playerSpeed;
+
+/// 上次忽略的版本
+@property (copy, nonatomic) NSString *ignoreVersion;
+
 + (instancetype)shareCacheManager;
 @end

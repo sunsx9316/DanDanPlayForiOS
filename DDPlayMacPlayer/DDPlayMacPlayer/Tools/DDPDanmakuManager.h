@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @class JHBaseDanmaku, DDPBridgeDanmaku, DDPDanmakuSettingMessage;
 
 @interface DDPDanmakuManager : NSObject
@@ -18,7 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, class, readonly) DDPDanmakuManager *shared;
 
-- (void)syncDanmakuSetting;
+@property (copy, nonatomic) void(^settingDidChangeCallBack)(DDPDanmakuSettingMessage *setting);
+
+- (void)syncSetting;
 
 - (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <DDPBridgeDanmaku *>*)danmakus filter:(BOOL)filter;
 

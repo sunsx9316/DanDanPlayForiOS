@@ -8,24 +8,46 @@
 
 #import "DDPHUD.h"
 #import <Masonry/Masonry.h>
+#import "NSView+DDPTools.h"
 
 @interface DDPHUD ()
 @property (weak) IBOutlet NSTextField *label;
 @property (strong, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) BOOL showing;
+
+@property (weak) IBOutlet NSLayoutConstraint *topConstraint;
+@property (weak) IBOutlet NSLayoutConstraint *bottomConstraint;
+@property (weak) IBOutlet NSLayoutConstraint *leftConstraint;
+@property (weak) IBOutlet NSLayoutConstraint *rightConstraint;
+
 @end
 
 @implementation DDPHUD
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self setupInit];
-}
-
-- (instancetype)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
+- (instancetype)initWithStyle:(DDPHUDStyle)style {
+    self = [DDPHUD loadFromNib];
     if (self) {
         [self setupInit];
+        
+        switch (style) {
+            case DDPHUDStyleNormal: {
+                self.topConstraint.constant = 12;
+                self.bottomConstraint.constant = 12;
+                self.leftConstraint.constant = 20;
+                self.rightConstraint.constant = 20;
+            }
+                break;
+            case DDPHUDStyleCompact:
+                self.topConstraint.constant = 5;
+                self.bottomConstraint.constant = 5;
+                self.leftConstraint.constant = 5;
+                self.rightConstraint.constant = 5;
+                break;
+            default:
+                break;
+        }
+        
+        _autoHidden = YES;
     }
     return self;
 }
@@ -40,7 +62,9 @@
 }
 
 - (void)showAtView:(NSView *)view position:(DDPHUDPosition)position {
-    [self startTimer];
+    if (_autoHidden) {
+        [self startTimer];
+    }
     
     if (_showing == NO) {
         self.alphaValue = 0;
@@ -91,8 +115,11 @@
     self.wantsLayer = YES;
     self.layer.cornerRadius = 8;
     self.layer.allowsGroupOpacity = YES;
+    
+    [self addSubview:self.label];
 }
 
+#pragma mark - 懒加载
 - (void)startTimer {
     @weakify(self)
     [self.timer invalidate];

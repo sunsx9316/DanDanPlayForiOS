@@ -6,8 +6,6 @@
 //  Copyright © 2019 jim. All rights reserved.
 //
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-
 #import "SceneDelegate.h"
 #import <Foundation/Foundation.h>
 #import "DDPMainViewController.h"
@@ -16,6 +14,7 @@
 #import <UIKit/NSToolbar+UIKitAdditions.h>
 #import <AppKit/NSToolbarItemGroup.h>
 #import <DDPShare/DDPShare.h>
+#import "DDPUpdateNetManagerOperation.h"
 
 @interface SceneDelegate ()<NSToolbarDelegate>
 @end
@@ -40,6 +39,18 @@
     toolbar.allowsUserCustomization = false;
     toolbar.centeredItemIdentifier = @"main";
     titlebar.titleVisibility = UITitlebarTitleVisibilityHidden;
+    
+    @weakify(self)
+    [DDPUpdateNetManagerOperation checkUpdateInfoWithCompletionHandler:^(DDPVersion * _Nonnull model, NSError * _Nonnull error) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        if (model.shouldUpdate) {
+            [self showUpdateAlertWithModel:model force:model.forceUpdate];
+        }
+    }];
 #endif
     
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -119,8 +130,45 @@
     vc.selectedIndex = sender.selectedIndex;
 }
 
+- (void)showUpdateAlertWithModel:(DDPVersion *)model force:(BOOL)force {
+    
+    let ignoreVersion = DDPCacheManager.shareCacheManager.ignoreVersion;
+    if ([ignoreVersion isEqualToString:model.version] && force == NO) {
+        return;
+    }
+    
+    let title = [NSString stringWithFormat:@"检测到新版本 %@", model.shortVersion];
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:title message:model.desc preferredStyle:UIAlertControllerStyleAlert];
+    
+    if (model.forceUpdate == NO) {
+        [vc addAction:[UIAlertAction actionWithTitle:@"忽略" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            DDPCacheManager.shareCacheManager.ignoreVersion = model.version;
+        }]];
+    }
+    
+    let view = UIApplication.sharedApplication.ddp_mainWindow.rootViewController.view;
+    
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"确定升级" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        MBProgressHUD *progressHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeDeterminateHorizontalBar InView:view];
+        [progressHUD showAnimated:YES];
+        
+        [DDPUpdateNetManagerOperation downloadLatestAppWithURL:model.url progressHandler:^(NSProgress * _Nonnull downloadProgress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressHUD.progress = downloadProgress.fractionCompleted;
+            });
+        } completionHandler:^(NSURL * _Nonnull model, NSError * _Nonnull error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [progressHUD hideAnimated:YES];
+            });
+            
+            JHLog(@"下载路径：%@", model);
+        }];
+    }]];
+    
+    [UIApplication.sharedApplication.ddp_mainWindow.rootViewController presentViewController:vc animated:YES completion:nil];
+}
+
 #endif
 
 @end
-
-#endif

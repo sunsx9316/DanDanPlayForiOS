@@ -142,6 +142,7 @@
         _collectionView.descriptionForEmptyView = @"";
         _collectionView.verticalOffsetForEmptyDataSet = -50;
         _collectionView.showEmptyView = true;
+        _collectionView.showsVerticalScrollIndicator = NO;
         
         [_collectionView registerCellFromXib:[DDPNewHomePageBangumiIntroCollectionViewCell class]];
     }

@@ -11,7 +11,7 @@
 @implementation DDPSearchBar
 - (UITextField *)textField {
     if (@available(iOS 13.0, *)) {
-        return nil;
+        return self.searchTextField;
     } else {
         return [self valueForKey:@"_searchField"];
     }

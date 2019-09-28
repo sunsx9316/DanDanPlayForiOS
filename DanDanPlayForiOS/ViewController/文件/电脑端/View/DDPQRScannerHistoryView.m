@@ -69,10 +69,12 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     DDPLinkInfo *info = [DDPCacheManager shareCacheManager].linkInfoHistorys[indexPath.row];
-    
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定删除吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     _selectedInfo = info;
     [view show];
+    #pragma clang diagnostic pop
 }
 
 #pragma mark - UITableViewDelegate
@@ -103,9 +105,13 @@
 }
 
 #pragma mark - UIAlertViewDelegate
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     [[DDPCacheManager shareCacheManager] removeLinkInfo:_selectedInfo];
     [self.tableView reloadData];
 }
-
+#pragma clang diagnostic pop
 @end

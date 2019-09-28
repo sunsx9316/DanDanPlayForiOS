@@ -11,13 +11,13 @@
 @implementation UIApplication (DDPTools)
 
 - (UIWindow *)ddp_mainWindow {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-    UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.anyObject;
-    if (windowScene != nil) {
-        UIWindow *aWindow = windowScene.windows.firstObject;
-        return aWindow;
+    if (@available(iOS 13.0, *)) {
+        UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.anyObject;
+        if (windowScene != nil) {
+            UIWindow *aWindow = windowScene.windows.firstObject;
+            return aWindow;
+        }
     }
-#endif
     
     return [UIApplication sharedApplication].delegate.window;
 }

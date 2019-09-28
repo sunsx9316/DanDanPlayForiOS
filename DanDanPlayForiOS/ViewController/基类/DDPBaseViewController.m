@@ -21,17 +21,13 @@
     [super viewWillAppear:animated];
     
     [self setNavigationBarWithColor:[UIColor ddp_mainColor]];
-    
+    self.modalPresentationStyle = UIModalPresentationFullScreen;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName : [UIFont ddp_normalSizeFont]};
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor ddp_backgroundColor];
-    
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-#endif
     
     [self configLeftItem];
     [self configRightItem];

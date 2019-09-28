@@ -17,6 +17,7 @@
 
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithNavigationBarClass:[DDPBaseNavigationBar class] toolbarClass:nil]) {
+        self.modalPresentationStyle = UIModalPresentationFullScreen;
         [self pushViewController:rootViewController animated:false];
     }
     return self;

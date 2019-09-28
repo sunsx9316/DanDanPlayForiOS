@@ -19,6 +19,8 @@
 #import "DDPPlayTopBar.h"
 #import "DDPHUD.h"
 #import "JHBaseDanmaku+DDPTools.h"
+#import "NSColor+DDPTools.h"
+#import <Carbon/Carbon.h>
 
 typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     DDPDanmakuShieldTypeNone = kNilOptions,
@@ -41,6 +43,10 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     DDPDanmakuShieldTypeFloatAtBottom,
 };
 
+//短跳转时长
+static int kShortJumpValue = 5;
+static int kVolumeAddingValue = 20;
+
 @interface DDPPlayViewController ()<DDPMediaPlayerDelegate, DDPMessageManagerObserver, JHDanmakuEngineDelegate>
 @property (strong, nonatomic) DDPPlayerControlView *controlView;
 @property (strong, nonatomic) DDPPlayTopBar *topBar;
@@ -56,6 +62,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 
 @property (weak, nonatomic) DDPHUD *volumeHUD;
 @property (assign, nonatomic) NSInteger episodeId;
+@property (strong, nonatomic) NSSet *colorSet;
 @end
 
 @implementation DDPPlayViewController {
@@ -72,12 +79,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     [self.view addSubview:self.controlView];
     [self.view addSubview:self.topBar];
     
-    [self autoShowControlView];
+    [self autoShowControlViewWithCompletion:nil];
     
     [self.player.mediaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.mas_equalTo(0);
-        make.trailing.mas_equalTo(0);
-        make.center.mas_equalTo(self.view);
+        make.leading.trailing.mas_equalTo(0);
+        make.centerY.mas_equalTo(self.view);
         make.height.mas_lessThanOrEqualTo(self.view);
     }];
 
@@ -108,6 +114,30 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
         [self keyDown:event];
     };
     
+    DDPDanmakuManager.shared.settingDidChangeCallBack = ^(DDPDanmakuSettingMessage * _Nonnull setting) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        if (setting.danmakuFont) {
+            let font = setting.danmakuFont;
+            self.danmakuEngine.globalFont = font;
+        } else if (setting.danmakuSpeed) {
+            self.danmakuEngine.speed = setting.danmakuSpeed.floatValue;
+        } else if (setting.danmakuOpacity) {
+            self.danmakuEngine.canvas.alphaValue = setting.danmakuOpacity.doubleValue;
+        } else if (setting.danmakuEffectStyle) {
+            self.danmakuEngine.globalEffectStyle = setting.danmakuEffectStyle.integerValue;
+        } else if (setting.danmakuOffsetTime) {
+            self.danmakuEngine.offsetTime = setting.danmakuOffsetTime.doubleValue;
+        } else if (setting.danmakuLimitCount) {
+            self.danmakuEngine.limitCount = setting.danmakuLimitCount.integerValue;
+        } else if (setting.playerSpeed) {
+            self.player.speed = setting.playerSpeed.floatValue;
+        }
+    };
+    
     [[DDPMessageManager sharedManager] addObserver:self];
     
     
@@ -116,7 +146,6 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 - (void)viewDidAppear {
     [super viewDidAppear];
     [self.view.window makeFirstResponder:self.view];
-    self.view.window.title = @"2333\n55555";
 }
 
 - (void)dealloc {
@@ -124,7 +153,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 }
 
 - (void)mouseUp:(NSEvent *)event {
-    [self.view becomeFirstResponder];
+    
+    let position = event.locationInWindow;
+    if (CGRectContainsPoint(self.topBar.frame, position) || CGRectContainsPoint(self.controlView.frame, position)) {
+        return;
+    }
     
     if (event.clickCount == 1) {
         [self performSelector:@selector(onClickPlayButton) withObject:nil afterDelay:[NSEvent doubleClickInterval]];
@@ -136,13 +169,36 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-    [self autoShowControlView];
+    [self autoShowControlViewWithCompletion:^{
+        let position = theEvent.locationInWindow;
+        if (CGRectContainsPoint(self.topBar.frame, position) || CGRectContainsPoint(self.controlView.frame, position)) {
+            [self.autoHiddenTimer invalidate];
+        }
+    }];
+    
 }
 
 - (void)scrollWheel:(NSEvent *)event {
     //判断是否为apple的破鼠标
     if (event.hasPreciseScrollingDeltas) {
-        [self volumeValueAddBy:-event.deltaY];
+        //不响应手离开鼠标的事件
+        if (event.momentumPhase == NSEventPhaseNone) {
+            //让步长为2的倍数
+            var deltaY = (NSInteger)event.deltaY;
+            var absDeltaY = labs(deltaY);
+            if (absDeltaY != 0) {
+                let remainder = absDeltaY % 2;
+                if (remainder == 1) {
+                    absDeltaY = absDeltaY - remainder;
+                }
+            }
+            
+            deltaY = deltaY > 0 ? -absDeltaY : absDeltaY;
+            if (event.directionInvertedFromDevice == NO) {
+                deltaY *= -1;
+            }
+            [self volumeValueAddBy:deltaY];
+        }
     }
     else {
         [self volumeValueAddBy:event.scrollingDeltaY];
@@ -158,7 +214,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     [self.player volumeJump:addBy];
     DDPHUD *hud = self.volumeHUD;
     if (hud == nil) {
-        hud = [DDPHUD loadFromNib];
+        hud = [[DDPHUD alloc] initWithStyle:DDPHUDStyleNormal];
         self.volumeHUD = hud;
     }
     
@@ -167,12 +223,46 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
 }
 
 - (void)keyDown:(NSEvent *)event {
-    NSString *key = event.charactersIgnoringModifiers;
-    if ([key isEqualToString:@" "]) {
-        [self onClickPlayButton];
-    } else if ([key isEqualToString:@"\r"]) {
-        [self onToggleFullScreen];
+    let keyCode = event.keyCode;
+    
+    @weakify(self)
+    switch (keyCode) {
+        case kVK_Tab: {
+            [self.controlView.inputTextField becomeFirstResponder];
+            [self autoShowControlViewWithCompletion:^{
+                [self.autoHiddenTimer invalidate];
+            }];
+        }
+            break;
+        case kVK_Space:
+            [self onClickPlayButton];
+            break;
+        case kVK_Return:
+            [self onToggleFullScreen];
+            break;
+        case kVK_LeftArrow:
+        case kVK_RightArrow: {
+            let jumpTime = keyCode == kVK_LeftArrow ? -kShortJumpValue : kShortJumpValue;
+            [self.player jump: jumpTime completionHandler:^(NSTimeInterval time) {
+                @strongify(self)
+                if (!self) {
+                    return;
+                }
+                
+                self.danmakuEngine.currentTime = time;
+            }];
+        }
+            break;
+        case kVK_UpArrow:
+        case kVK_DownArrow: {
+            let volumeValue = keyCode == kVK_DownArrow ? -kVolumeAddingValue : kVolumeAddingValue;
+            [self volumeValueAddBy:volumeValue];
+        }
+            break;
+        default:
+            break;
     }
+    
 }
 
 
@@ -228,7 +318,12 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
         return YES;
     }
     
-    DDPDanmakuShieldType danmakuShieldType = DDPDanmakuManager.shared.setting.danmakuShieldType;
+    DDPDanmakuShieldType danmakuShieldType = (DDPDanmakuShieldType)DDPDanmakuManager.shared.setting.danmakuShieldType.integerValue;
+    
+    if (danmakuShieldType == DDPDanmakuShieldTypeNone) {
+        return YES;
+    }
+    
     //屏蔽滚动弹幕
     if ((danmakuShieldType & DDPDanmakuShieldTypeScrollToLeft) && [danmaku isKindOfClass:[JHScrollDanmaku class]]) {
         return false;
@@ -249,8 +344,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     //屏蔽彩色弹幕
     if (danmakuShieldType & DDPDanmakuShieldTypeColor) {
         let color = danmaku.textColor;
-        
-        if ([color isEqual:[NSColor whiteColor]] || [color isEqual:[NSColor blackColor]]) {
+        if ([self.colorSet containsObject:color]) {
             return true;
         }
         return false;
@@ -275,9 +369,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
             
             NSURL *url = [NSURL fileURLWithPath:aMessage.path];
             
-            self.danmakuEngine.speed = DDPDanmakuManager.shared.setting.danmakuSpeed;
-            self.danmakuEngine.canvas.alphaValue = DDPDanmakuManager.shared.setting.danmakuOpacity;
-            self.danmakuEngine.limitCount = DDPDanmakuManager.shared.setting.danmakuLimitCount;
+            let setting = DDPDanmakuManager.shared.setting;
+             
+            self.danmakuEngine.speed = setting.danmakuSpeed.doubleValue;
+            self.danmakuEngine.canvas.alphaValue = setting.danmakuOpacity.doubleValue;
+            self.danmakuEngine.limitCount = setting.danmakuLimitCount.integerValue;
             
             if (url) {
                 NSString *fileName = url.lastPathComponent;
@@ -292,6 +388,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
             
             self.danmakuEngine.currentTime = 0;
             [self.player setMediaURL:url];
+            
             @weakify(self)
             [self.player parseWithCompletion:^{
                 @strongify(self)
@@ -301,7 +398,11 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
                 
                 
                 CGSize size = self.player.videoSize;
-                CGFloat radio = size.width / size.height;
+                float radio = size.width / size.height;
+                if (isnan(radio) || radio <= 0) {
+                    radio = 16.0 / 9;
+                }
+                
                 [self.player.mediaView mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.width.equalTo(self.player.mediaView.mas_height).multipliedBy(radio);
                 }];
@@ -313,7 +414,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
         
         let danmaku = aMessage.danmaku;
         
-        DDPHUD *tips = [DDPHUD loadFromNib];
+        DDPHUD *tips = [[DDPHUD alloc] initWithStyle:DDPHUDStyleNormal];
         if (danmaku == nil) {
             tips.title = @"发送弹幕失败";
         } else {
@@ -343,14 +444,17 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     [[DDPMessageManager sharedManager] sendMessage:model];
 }
 
-- (void)autoShowControlView {
-    
+- (void)autoShowControlViewWithCompletion:(void(^)(void))completion {
     
     void(^startHiddenTimerAction)(void) = ^{
         //显示状态 开启倒计时
         [self.autoHiddenTimer invalidate];
         self.autoHiddenTimer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(autoHideMouseControlView) userInfo:nil repeats:NO];
         self.autoHiddenTimer.fireDate = [NSDate dateWithTimeIntervalSinceNow:4];
+        
+        if (completion) {
+            completion();
+        }
     };
     
     if (_hiddenControlView) {
@@ -359,6 +463,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
             context.duration = 0.2;
             self.playerViewBottomConstraint.animator.offset(0);
             self.topBarTopConstraint.animator.offset(0);
+            self.controlView.animator.topProgressAlpha = 0;
         } completionHandler:^{
             startHiddenTimerAction();
         }];
@@ -377,6 +482,7 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
             context.duration = 0.2;
             self.playerViewBottomConstraint.animator.offset(CGRectGetHeight(self.controlView.frame));
             self.topBarTopConstraint.animator.offset(-CGRectGetHeight(self.topBar.frame));
+            self.controlView.animator.topProgressAlpha = 1;
         } completionHandler:nil];
     }
 }
@@ -401,14 +507,9 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     
     let danmaku = [[DDPBridgeDanmaku alloc] init];
     danmaku.time = self.danmakuEngine.currentTime + self.danmakuEngine.offsetTime;
-    danmaku.mode = DDPDanmakuModeNormal;
-    
-    let color = [NSColor colorWithRed:1 green:1 blue:1 alpha:1];
-    
-    let colorValue = (uint32_t)(color.redComponent * 256 * 256 * 255 + color.greenComponent * 256 * 255 + color.blueComponent * 255);
-    
+    danmaku.mode = self.controlView.sendanmakuStyle;
     danmaku.message = danmakuString;
-    danmaku.color = colorValue;
+    danmaku.color = self.controlView.sendanmakuColor;
     message.danmaku = danmaku;
     
     [[DDPMessageManager sharedManager] sendMessage:message];
@@ -487,6 +588,16 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
         
     }
     return _controlView;
+}
+
+- (NSSet *)colorSet {
+    if (_colorSet == nil) {
+        let whiletColor = [NSColor colorWithRed:1 green:1 blue:1 alpha:1];
+        let blackColor = [NSColor colorWithRed:0 green:0 blue:0 alpha:1];
+        
+        _colorSet = [NSSet setWithArray:@[whiletColor, blackColor]];
+    }
+    return _colorSet;
 }
 
 @end

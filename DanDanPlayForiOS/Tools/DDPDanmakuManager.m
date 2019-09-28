@@ -213,8 +213,11 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 
 + (void)removeAllDanmakuCache {
     DDPDanmakuManager *manager = [DDPDanmakuManager shareDanmakuManager];
+    [manager.bilibiliDanmakuCache.memoryCache removeAllObjects];
     [manager.bilibiliDanmakuCache.diskCache removeAllObjects];
+    [manager.acfunDanmakuCache.memoryCache removeAllObjects];
     [manager.acfunDanmakuCache.diskCache removeAllObjects];
+    [manager.officialDanmakuCache.memoryCache removeAllObjects];
     [manager.officialDanmakuCache.diskCache removeAllObjects];
 }
 

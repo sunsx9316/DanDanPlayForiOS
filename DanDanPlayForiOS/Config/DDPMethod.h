@@ -12,6 +12,7 @@
 
 @class DDPFile, DDPLinkFile, DDPVideoModel, DDPDanmakuCollection;
 
+typedef void(^DDPFastMatchAction)(DDPDanmakuCollection *collection, NSError *error);
 
 CG_INLINE BOOL ddp_isPad() {
     return [UIDevice currentDevice].isPad;
@@ -203,20 +204,35 @@ UIKIT_EXTERN BOOL ddp_isChatAppInstall(void);
  */
 + (NSString *)apiNewPath;
 
+/// 检查更新地址
++ (NSString *)checkVersionPath;
+
 
 /// 匹配文件/文件夹
 /// @param file 文件
 + (void)matchFile:(DDPFile *)file
-       completion:(void(^)(DDPDanmakuCollection *collection))completion;
+       completion:(DDPFastMatchAction)completion;
 
-///  匹配视频模型
+/// 匹配视频模型
 /// @param model 视频模型
+/// @param completion 完成回调
 + (void)matchVideoModel:(DDPVideoModel *)model
-             completion:(void(^)(DDPDanmakuCollection *collection))completion;
+             completion:(DDPFastMatchAction)completion;
+
+/// 匹配视频模型
+/// @param model 视频模型
+/// @param useDefaultMode 使用默认处理方式
+/// @param completion 完成回调
++ (void)matchVideoModel:(DDPVideoModel *)model
+         useDefaultMode:(BOOL)useDefaultMode
+             completion:(DDPFastMatchAction)completion;
 
 #if DDPAPPTYPEISMAC
 ///  发送匹配成功消息
 /// @param model 消息
 + (void)sendMatchedModelMessage:(DDPVideoModel *)model;
+
+/// 同步全量配置消息
++ (void)sendConfigMessage;
 #endif
 @end

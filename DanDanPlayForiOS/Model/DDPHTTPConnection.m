@@ -15,8 +15,10 @@
 
 // Log levels : off, error, warn, info, verbose
 // Other flags: trace
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
 static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE;
-
+#pragma clang diagnostic pop
 
 /**
  * All we have to do is override appropriate methods in HTTPConnection.

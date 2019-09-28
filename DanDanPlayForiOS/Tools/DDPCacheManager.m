@@ -14,6 +14,7 @@
 #import "DDPCacheManager+multiply.h"
 #import "DDPBaseNetManager.h"
 #import "DDPSharedNetManager.h"
+#import "DDPMediaPlayer.h"
 
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
 static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
@@ -28,6 +29,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 @property (strong, nonatomic) NSTimer *timer;
 
 @property (strong, nonatomic) NSHashTable *observers;
+@property (strong, nonatomic) NSArray <NSString *>*dynamicChangeKeys;
 @end
 
 @implementation DDPCacheManager
@@ -35,6 +37,8 @@ static NSString *const collectionCacheKey = @"collection_cache";
     //已经接收的大小
     NSUInteger _totalAlreadyReceive;
     DDPUser *_currentUser;
+    CGSize _videoAspectRatio;
+    float _playerSpeed;
 }
 
 + (instancetype)shareCacheManager {
@@ -343,6 +347,26 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 #pragma mark -
+- (void)setVideoAspectRatio:(CGSize)videoAspectRatio {
+    _videoAspectRatio = videoAspectRatio;
+    self.mediaPlayer.videoAspectRatio = videoAspectRatio;
+}
+
+- (CGSize)videoAspectRatio {
+    return _videoAspectRatio;
+}
+
+#pragma mark -
+- (void)setPlayerSpeed:(float)playerSpeed {
+    _playerSpeed = playerSpeed;
+    self.mediaPlayer.speed = playerSpeed;
+}
+
+- (float)playerSpeed {
+    return _playerSpeed;
+}
+
+#pragma mark -
 - (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {
     [self.cache setObject:@(playInterfaceOrientation) forKey:[self keyWithSEL:_cmd]];
 }
@@ -410,6 +434,16 @@ static NSString *const collectionCacheKey = @"collection_cache";
     return _refreshTexts;
 }
 
+#pragma mark -
+- (void)setIgnoreVersion:(NSString *)ignoreVersion {
+    [self.cache setObject:ignoreVersion forKey:[self keyWithSEL:_cmd]];
+}
+
+- (NSString *)ignoreVersion {
+    NSString *version = (NSString *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    return version;
+}
+
 #pragma mark - 私有方法
 - (NSString *)keyWithSEL:(SEL)aSEL {
     if (aSEL == nil) return nil;
@@ -422,6 +456,25 @@ static NSString *const collectionCacheKey = @"collection_cache";
         return tempStr;
     }
     return NSStringFromSelector(aSEL);
+}
+
+#pragma mark - 懒加载
+- (NSArray<NSString *> *)dynamicChangeKeys {
+    if (_dynamicChangeKeys == nil) {
+        
+        _dynamicChangeKeys = @[DDP_KEYPATH(self, danmakuFont),
+                               DDP_KEYPATH(self, danmakuSpeed),
+                               DDP_KEYPATH(self, danmakuEffectStyle),
+                               DDP_KEYPATH(self, danmakuOpacity),
+                               DDP_KEYPATH(self, danmakuLimitCount),
+                               DDP_KEYPATH(self, danmakuShieldType),
+                               DDP_KEYPATH(self, danmakuOffsetTime),
+                               DDP_KEYPATH(self, playerSpeed),
+                               DDP_KEYPATH(self, subtitleProtectArea)];
+        
+        
+    }
+    return _dynamicChangeKeys;
 }
 
 @end

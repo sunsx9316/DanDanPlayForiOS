@@ -33,24 +33,24 @@
         make.edges.mas_equalTo(0);
     }];
     
-//    [self.pageController.view mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.bottom.right.mas_equalTo(0);
-//        make.width.mas_equalTo(self.view).multipliedBy(0.5);
-//    }];
-    
-    self.view.backgroundColor = [UIColor clearColor];
+    if (ddp_appType != DDPAppTypeToMac) {
+        self.view.backgroundColor = [UIColor clearColor];
+    } else {
+        self.title = @"播放器设置";
+    }
     self.pageController.view.backgroundColor = DDPRGBAColor(0, 0, 0, 0.8);
     self.pageController.scrollView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
-    var frame = self.view.bounds;
-    
-    CGFloat width = frame.size.width * 0.5;
-    
-    self.pageController.view.frame = CGRectMake(width, 0, width, frame.size.height);
+    if (ddp_appType != DDPAppTypeToMac) {
+        var frame = self.view.bounds;
+        
+        CGFloat width = frame.size.width * 0.5;
+        
+        self.pageController.view.frame = CGRectMake(width, 0, width, frame.size.height);        
+    }
 }
 
 #pragma mark - WMPageControllerDataSource
@@ -146,7 +146,12 @@
 
 
 - (CGRect)pageController:(nonnull WMPageController *)pageController preferredFrameForMenuView:(nonnull WMMenuView *)menuView {
-    let width = self.view.width * 0.5;
+    CGFloat width = 0;
+    if (ddp_appType == DDPAppTypeToMac) {
+        width = self.view.width;
+    } else {
+        width = self.view.width * 0.5;
+    }
     return CGRectMake(0, CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame), width, 40);
 }
 
@@ -167,7 +172,11 @@
 
 - (NSArray<NSString *> *)dataSources {
     if (_dataSources == nil) {
-        _dataSources = @[@"播放列表", @"弹幕", @"播放器"];
+        if (ddp_appType == DDPAppTypeToMac) {
+            _dataSources = @[@"弹幕", @"播放器"];
+        } else {
+            _dataSources = @[@"播放列表", @"弹幕", @"播放器"];
+        }
     }
     return _dataSources;
 }

@@ -42,6 +42,9 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (ddp_appType == DDPAppTypeToMac) {
+        return 1;
+    }
     return 3;
 }
 
@@ -114,7 +117,7 @@
         if (index != NSNotFound) {
             index = (index + 1) % self.videoAspectRatios.count;
             _selectedVideoAspectRatio = self.videoAspectRatios[index];
-            [DDPCacheManager shareCacheManager].mediaPlayer.videoAspectRatio = _selectedVideoAspectRatio.CGSizeValue;
+            [DDPCacheManager shareCacheManager].videoAspectRatio = _selectedVideoAspectRatio.CGSizeValue;
             [tableView reloadSection:1 withRowAnimation:UITableViewRowAnimationNone];
         }
     }

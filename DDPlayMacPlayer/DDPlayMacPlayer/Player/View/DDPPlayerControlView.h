@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DDPPlayerSlider.h"
 #import "DDPTextField.h"
+#import <DDPShare/DDPBridgeDanmaku.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,12 +20,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (unsafe_unretained) IBOutlet NSTextField *timeLabel;
 @property (unsafe_unretained) IBOutlet NSButton *danmakuButton;
 
-- (void)updateCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime;
+@property (assign, nonatomic, readonly) uint32_t sendanmakuColor;
+@property (assign, nonatomic, readonly) DDPDanmakuMode sendanmakuStyle;
+
+@property (weak) IBOutlet NSPopUpButton *danmakuColorPopUpButton;
+@property (weak) IBOutlet NSPopUpButton *danmakuStylePopUpButton;
+
+@property (assign, nonatomic) float topProgressAlpha;
 
 @property (copy, nonatomic) void(^sliderDidChangeCallBack)(CGFloat progress);
 @property (copy, nonatomic) void(^playButtonDidClickCallBack)(BOOL selected);
 @property (copy, nonatomic) void(^danmakuButtonDidClickCallBack)(BOOL selected);
 @property (copy, nonatomic) void(^sendDanmakuCallBack)(NSString *danmaku);
+
+- (void)updateCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime;
 @end
 
 NS_ASSUME_NONNULL_END

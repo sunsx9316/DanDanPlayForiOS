@@ -183,13 +183,11 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
 - (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options API_AVAILABLE(ios(13.0)) {
     // Called when a new scene session is being created.
     // Use this method to select a configuration to create the new scene with.
     return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
 }
-#endif
 
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {
@@ -231,9 +229,7 @@
     }
     
     [UILabel appearance].font = [UIFont ddp_normalSizeFont];
-    [UILabel appearance].textColor = [UIColor blackColor];
     [UITextView appearance].tintColor = [UIColor ddp_mainColor];
-    [UITextField appearance].textColor = [UIColor blackColor];
     
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
 }

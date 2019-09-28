@@ -19,6 +19,7 @@
 #import <DDPShare/DDPShare.h>
 #import "DDPCommentNetManagerOperation.h"
 #import "DDPDanmakuManager.h"
+#import "DDPCacheManager+MacObserver.h"
 #endif
 
 @interface DDPMainViewController ()<UITabBarControllerDelegate, UIDropInteractionDelegate
@@ -28,7 +29,11 @@
 >
 @end
 
-@implementation DDPMainViewController
+@implementation DDPMainViewController {
+#if DDPAPPTYPEISMAC
+    NSArray <NSString *>*_addKeyPaths;
+#endif
+}
 
 + (NSArray<DDPMainVCItem *> *)items {
     static dispatch_once_t onceToken;
@@ -92,16 +97,13 @@
     
     self.viewControllers = arr;
     
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-    self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-#endif
-    
 #if DDPAPPTYPEISMAC
-        self.tabBar.alpha = 0;
-        [[DDPMessageManager sharedManager] addObserver:self];
-        [self addDragAndDrop];
+    self.tabBar.alpha = 0;
+    [[DDPMessageManager sharedManager] addObserver:self];
+    [self addDragAndDrop];
+    [self addNotice];
 #else
-        self.tabBar.translucent = NO;
+    self.tabBar.translucent = NO;
 #endif
     
     self.delegate = self;
@@ -138,18 +140,18 @@
 }
 
 #pragma mark - UIDropInteractionDelegate
-- (BOOL)dropInteraction:(UIDropInteraction *)interaction canHandleSession:(id<UIDropSession>)session {
+- (BOOL)dropInteraction:(UIDropInteraction *)interaction canHandleSession:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)){
     BOOL flag = [session hasItemsConformingToTypeIdentifiers:@[(__bridge NSString *)kUTTypeMovie]];
     return flag;
 }
 
-- (void)dropInteraction:(UIDropInteraction *)interaction performDrop:(id<UIDropSession>)session {
+- (void)dropInteraction:(UIDropInteraction *)interaction performDrop:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)) {
     [session.items.firstObject.itemProvider loadInPlaceFileRepresentationForTypeIdentifier:(__bridge NSString *)kUTTypeMovie completionHandler:^(NSURL * _Nullable url, BOOL isInPlace, NSError * _Nullable error) {
         [self parseWithURL:url];
     }];
 }
 
-- (UIDropProposal *)dropInteraction:(UIDropInteraction *)interaction sessionDidUpdate:(id<UIDropSession>)session {
+- (UIDropProposal *)dropInteraction:(UIDropInteraction *)interaction sessionDidUpdate:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)) {
     let dropLocation = [session locationInView:self.view];
     UIDropOperation operation = UIDropOperationCancel;
     
@@ -168,19 +170,7 @@
             NSURL *url = [NSURL fileURLWithPath:aMessage.path];
             [self parseWithURL:url];
         } else if ([message.messageType isEqualToString:DDPDanmakuSettingMessage.messageType]) {
-            DDPDanmakuSettingMessage *aMessage = [[DDPDanmakuSettingMessage alloc] init];
-            DDPCacheManager *cache = DDPCacheManager.shareCacheManager;
-            UIFont *font = cache.danmakuFont;
-            aMessage.fontName = font.fontName;
-            aMessage.fontSize = font.pointSize;
-            aMessage.effectStyle = cache.danmakuEffectStyle;
-            aMessage.filters = cache.danmakuFilters;
-            aMessage.danmakuOpacity = cache.danmakuOpacity;
-            aMessage.danmakuSpeed = cache.danmakuSpeed;
-            aMessage.danmakuLimitCount = cache.danmakuLimitCount;
-            aMessage.danmakuShieldType = cache.danmakuShieldType;
-            
-            [[DDPMessageManager sharedManager] sendMessage:aMessage];
+            [DDPMethod sendConfigMessage];
         } else if ([message.messageType isEqualToString:DDPSendDanmakuMessage.messageType]) {
             DDPSendDanmakuMessage *aMessage = [[DDPSendDanmakuMessage alloc] initWithObj:message];
             
@@ -226,9 +216,39 @@
 }
 
 - (void)addDragAndDrop {
-    let dropInteraction = [[UIDropInteraction alloc] initWithDelegate:self];
-    [self.view addInteraction:dropInteraction];
+    if (@available(iOS 11.0, *)) {
+        let dropInteraction = [[UIDropInteraction alloc] initWithDelegate:self];
+        [self.view addInteraction:dropInteraction];
+    }
 }
+
+#if DDPAPPTYPEISMAC
+- (void)addNotice {
+    
+    _addKeyPaths = DDPCacheManager.shareCacheManager.dynamicChangeKeys;
+    
+    [_addKeyPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[DDPCacheManager shareCacheManager] addObserver:self forKeyPath:obj options:NSKeyValueObservingOptionNew context:nil];
+    }];
+}
+
+- (void)dealloc {
+    [_addKeyPaths enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:obj];
+    }];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([_addKeyPaths containsObject:keyPath]) {
+        let message = [[DDPDanmakuSettingMessage alloc] init];
+        let dic = [NSMutableDictionary dictionary];
+        dic[keyPath] = change[NSKeyValueChangeNewKey];
+        
+        [message yy_modelSetWithDictionary:dic];
+        [[DDPMessageManager sharedManager] sendMessage:message];
+    }
+}
+#endif
 
 - (void)parseWithURL:(NSURL *)url {
     dispatch_async(dispatch_get_main_queue(), ^{

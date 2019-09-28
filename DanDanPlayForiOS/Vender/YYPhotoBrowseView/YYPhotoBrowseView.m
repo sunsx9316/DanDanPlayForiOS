@@ -18,17 +18,15 @@
 #endif
 #define kPadding 20
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 static char saveImageKey = '\0';
-static char scanQRKey = '\0';
-
-//#define kSystemVersion [[UIDevice currentDevice].systemVersion doubleValue]
 
 #ifndef YY_CLAMP // return the clamped value
 #define YY_CLAMP(_x_, _low_, _high_)  (((_x_) > (_high_)) ? (_high_) : (((_x_) < (_low_)) ? (_low_) : (_x_)))
 #endif
-
-//#define kHiColor [UIColor colorWithRGBHex:0x2dd6b8]
 
 #ifndef weakify
 #if DEBUG
@@ -492,8 +490,10 @@ static char scanQRKey = '\0';
     
     [UIView setAnimationsEnabled:YES];
     _fromNavigationBarHidden = [UIApplication sharedApplication].statusBarHidden;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone];
-    
+    #pragma clang diagnostic pop
     
     YYPhotoGroupCell *cell = [self cellForPage:self.currentPage];
     YYPhotoGroupItem *item = _groupItems[self.currentPage];
@@ -977,4 +977,6 @@ static char scanQRKey = '\0';
 }
 
 @end
+
+#pragma clang diagnostic pop
 

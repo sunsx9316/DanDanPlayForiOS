@@ -245,7 +245,7 @@
             
             [arr addObject:model];
         }
-        
+#if !DDPAPPTYPEISMAC
         //屏蔽弹幕
         {
             DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
@@ -275,7 +275,7 @@
             [arr addObject:model];
         }
         
-#if !DDPAPPTYPE
+
         //手动匹配视频
         {
             DDPPlayerDanmakuControlModel *model = [[DDPPlayerDanmakuControlModel alloc] init];
@@ -289,7 +289,6 @@
             model.didSelectedRowCallBack = self.touchMatchVideoCellCallBack;
             [arr addObject:model];
         }
-#endif
         
         //其它设置
         {
@@ -304,6 +303,7 @@
             model.didSelectedRowCallBack = self.touchOtherSettingCellCallBack;
             [arr addObject:model];
         }
+#endif
         
         _dataSource = arr;
     }

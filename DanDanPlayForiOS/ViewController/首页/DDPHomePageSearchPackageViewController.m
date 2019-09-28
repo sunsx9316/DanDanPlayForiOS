@@ -169,13 +169,7 @@
         _searchBar.delegate = self;
         _searchBar.backgroundImage = [[UIImage alloc] init];
         _searchBar.tintColor = [UIColor ddp_mainColor];
-#if DDPAPPTYPEISMAC
-        _searchBar.backgroundColor = [UIColor whiteColor];
-        _searchBar.layer.cornerRadius = 6;
-        _searchBar.layer.masksToBounds = YES;
-#else
-        _searchBar.backgroundColor = [UIColor clearColor];
-#endif
+        _searchBar.textField.backgroundColor = [UIColor whiteColor];
         _searchBar.textField.font = [UIFont ddp_normalSizeFont];
     }
     return _searchBar;

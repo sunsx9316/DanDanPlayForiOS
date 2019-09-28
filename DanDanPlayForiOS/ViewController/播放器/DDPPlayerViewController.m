@@ -697,15 +697,24 @@
  */
 - (void)matchVideoWithModel:(DDPVideoModel *)model {
 #if !DDPAPPTYPE
+    
     @weakify(self)
-    [DDPMethod matchVideoModel:model completion:^(DDPDanmakuCollection *collection) {
+    [DDPMethod matchVideoModel:model useDefaultMode:NO completion:^(DDPDanmakuCollection *collection, NSError *error) {
         @strongify(self)
-        if (self) {
+        if (!self) {
             return;
         }
         
-        [self.interfaceView dismissWithAnimate:YES];
-        self.model = model;
+        if (error != nil) {
+            DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
+            vc.model = model;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else {
+            [self.interfaceView dismissWithAnimate:YES];
+            self.model = model;
+        }
     }];
 #endif
 }

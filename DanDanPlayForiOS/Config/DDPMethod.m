@@ -17,6 +17,7 @@
 #import "DDPPlayNavigationController.h"
 #else
 #import <DDPShare/DDPShare.h>
+#import "DDPCacheManager+MacObserver.h"
 #endif
 
 static NSArray <NSString *>*ddp_danmakuTypes() {
@@ -209,6 +210,10 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path) {
     return [[self apiDomain] ddp_appendingPathComponent:@"/api/v2"];
 }
 
++ (NSString *)checkVersionPath {
+    return @"http://dandanmac.acplay.net";
+}
+
 BOOL ddp_isSmallDevice(void) {
     let height = [UIScreen mainScreen].bounds.size.height;
     if (ddp_isLandscape()) {
@@ -243,7 +248,9 @@ BOOL ddp_isChatAppInstall(void) {
     return false;
 }
 
-+ (void)matchVideoModel:(DDPVideoModel *)model completion:(void(^)(DDPDanmakuCollection *collection))completion {
++ (void)matchVideoModel:(DDPVideoModel *)model
+        useDefaultMode:(BOOL)useDefaultMode
+             completion:(DDPFastMatchAction)completion {
     
     void(^jumpToMatchVCAction)(void) = ^{
         DDPMatchViewController *vc = [[DDPMatchViewController alloc] init];
@@ -263,38 +270,43 @@ BOOL ddp_isChatAppInstall(void) {
             model.danmakus = responseObject;
             [aHUD hideAnimated:NO];
             
-            if (completion) {
-                completion(responseObject);
+            if (useDefaultMode) {
+                if (responseObject == nil) {
+                    jumpToMatchVCAction();
+                }
+                else {
+#if DDPAPPTYPEISMAC
+                    [DDPMethod sendMatchedModelMessage:model];
+#else
+                    let nav = [[DDPPlayNavigationController alloc] initWithModel:model];
+                    UIViewController *vc = UIApplication.sharedApplication.topNavigationController.topViewController;
+                    [vc presentViewController:nav animated:YES completion:nil];
+#endif
+                }
             }
             
-            if (responseObject == nil) {
-                jumpToMatchVCAction();
-            }
-            else {
-#if DDPAPPTYPEISMAC
-                [DDPMethod sendMatchedModelMessage:model];
-#else
-                let nav = [[DDPPlayNavigationController alloc] initWithModel:model];
-                UIViewController *vc = UIApplication.sharedApplication.topNavigationController.topViewController;
-                [vc presentViewController:nav animated:YES completion:nil];
-#endif
+            if (completion) {
+                completion(responseObject, error);
             }
         }];
     }
     else {
-        jumpToMatchVCAction();
+        if (useDefaultMode) {
+            jumpToMatchVCAction();            
+        }
     }
 }
 
-+ (void)matchFile:(DDPFile *)file completion:(void (^)(DDPDanmakuCollection *))completion {
++ (void)matchVideoModel:(DDPVideoModel *)model completion:(DDPFastMatchAction)completion {
+    [self matchVideoModel:model useDefaultMode:YES completion:completion];
+}
+
++ (void)matchFile:(DDPFile *)file completion:(DDPFastMatchAction)completion {
     if (file.type == DDPFileTypeDocument) {
         DDPVideoModel *model = file.videoModel;
         [self matchVideoModel:model completion:completion];
     }
     else if (file.type == DDPFileTypeFolder) {
-        if (completion) {
-            completion(nil);
-        }
         DDPFileManagerViewController *vc = [[DDPFileManagerViewController alloc] init];
         vc.file = file;
         UINavigationController *nav = UIApplication.sharedApplication.topNavigationController;
@@ -310,6 +322,22 @@ BOOL ddp_isChatAppInstall(void) {
     message.matchName = model.matchName;
     message.episodeId = model.relevanceEpisodeId;
     [[DDPMessageManager sharedManager] sendMessage:message];
+}
+
++ (void)sendConfigMessage {
+    DDPDanmakuSettingMessage *aMessage = [[DDPDanmakuSettingMessage alloc] init];
+    DDPCacheManager *cache = DDPCacheManager.shareCacheManager;
+    
+    let dynamicChangeKeys = cache.dynamicChangeKeys;
+    let dic = [NSMutableDictionary dictionary];
+    [dynamicChangeKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        dic[obj] = [cache valueForKey:obj];
+    }];
+    
+    [aMessage yy_modelSetWithDictionary:dic];
+    aMessage.filters = cache.danmakuFilters;
+    
+    [[DDPMessageManager sharedManager] sendMessage:aMessage];
 }
 #endif
 

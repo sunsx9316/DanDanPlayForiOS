@@ -80,6 +80,19 @@
                              parameters:(id)parameters
                     completionHandler:(DDPResponseCompletionAction)completionHandler;
 
+#if DDPAPPTYPEISMAC
+
+/// 下载封装
+/// @param path 路径
+/// @param downloadProgressBlock 进度回调
+/// @param destination 写入路径回调
+/// @param completionHandler 完成回调
+- (NSURLSessionDownloadTask *)downloadTaskWithPath:(NSString *)path
+                                          progress:(void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                                       destination:(NSURL *(^)(NSURL *targetPath, NSURLResponse *response))destination
+                                 completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+#endif
+
 /**
  *  批量GET任务
  *

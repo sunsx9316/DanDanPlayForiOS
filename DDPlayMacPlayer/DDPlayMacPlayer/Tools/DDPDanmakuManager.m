@@ -14,11 +14,10 @@
 #import <DDPShare/DDPShare.h>
 #import <YYModel/YYModel.h>
 #import "JHBaseDanmaku+DDPTools.h"
+#import "NSColor+DDPTools.h"
 
 @interface DDPDanmakuManager ()<DDPMessageManagerObserver>
 @property (strong, nonatomic) DDPDanmakuSettingMessage *setting;
-
-@property (strong, nonatomic) NSFont *font;
 @end
 
 @implementation DDPDanmakuManager
@@ -52,8 +51,8 @@
 - (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)converDanmakus:(NSArray <DDPBridgeDanmaku *>*)danmakus filter:(BOOL)filter {
     
     NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *> *> *dic = [NSMutableDictionary dictionary];
-    NSFont *font = self.font;
-    JHDanmakuEffectStyle shadowStyle = self.setting.effectStyle;
+    let font = self.setting.danmakuFont;
+    JHDanmakuEffectStyle shadowStyle = (JHDanmakuEffectStyle)self.setting.danmakuEffectStyle.integerValue;
     let danmakuFilters = self.setting.filters;
     
     [danmakus enumerateObjectsUsingBlock:^(DDPBridgeDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -67,7 +66,7 @@
         JHBaseDanmaku *tempDanmaku = nil;
         if (obj.mode == DDPDanmakuModeBottom || obj.mode == DDPDanmakuModeTop) {
             
-            tempDanmaku = [[JHFloatDanmaku alloc] initWithFont:font text:obj.message textColor:[self colorWithRGB:obj.color] effectStyle:shadowStyle during:3 position:obj.mode == DDPDanmakuModeBottom ? JHFloatDanmakuPositionAtBottom : JHFloatDanmakuPositionAtTop];
+            tempDanmaku = [[JHFloatDanmaku alloc] initWithFont:font text:obj.message textColor:[NSColor colorWithRGB:obj.color] effectStyle:shadowStyle during:3 position:obj.mode == DDPDanmakuModeBottom ? JHFloatDanmakuPositionAtBottom : JHFloatDanmakuPositionAtTop];
         }
         else {
             CGFloat speed = 130 - obj.message.length * 2.5;
@@ -77,7 +76,7 @@
             }
             
             speed += arc4random() % 20;
-            tempDanmaku = [[JHScrollDanmaku alloc] initWithFont:font text:obj.message textColor:[self colorWithRGB:obj.color] effectStyle:shadowStyle speed:speed direction:JHScrollDanmakuDirectionR2L];
+            tempDanmaku = [[JHScrollDanmaku alloc] initWithFont:font text:obj.message textColor:[NSColor colorWithRGB:obj.color] effectStyle:shadowStyle speed:speed direction:JHScrollDanmakuDirectionR2L];
         }
         tempDanmaku.appearTime = obj.time;
         if (filter) {
@@ -94,30 +93,22 @@
 - (void)dispatchManager:(DDPMessageManager *)manager didReceiveMessages:(NSArray <id<DDPMessageProtocol>>*)messages {
     for (id<DDPMessageProtocol>message in messages) {
         if ([message.messageType isEqualToString:DDPDanmakuSettingMessage.messageType]) {
-            self.setting = [[DDPDanmakuSettingMessage alloc] initWithObj:message];
+            let dic = message.messageParameter;
+            [self.setting yy_modelSetWithJSON:dic];
+            
+            DDPDanmakuSettingMessage *aNewSetting = [DDPDanmakuSettingMessage yy_modelWithJSON:dic];
+            if (self.settingDidChangeCallBack) {
+                self.settingDidChangeCallBack(aNewSetting);
+            }
         }
     }
 }
 
 #pragma mark - Private
-- (void)setSetting:(DDPDanmakuSettingMessage *)setting {
-    _setting = setting;
-    _font = [NSFont fontWithName:_setting.fontName size:_setting.fontSize];
-    if (_font == nil) {
-        _font = [NSFont systemFontOfSize:_setting.fontSize];
-    }
-}
 
-- (void)syncDanmakuSetting {
+- (void)syncSetting {
     DDPDanmakuSettingMessage *message = [[DDPDanmakuSettingMessage alloc] init];
     [[DDPMessageManager sharedManager] sendMessage:message];
-}
-
-- (NSColor *)colorWithRGB:(uint32_t)rgbValue {
-    return [NSColor colorWithRed:((rgbValue & 0xFF0000) >> 16) / 255.0f
-                           green:((rgbValue & 0xFF00) >> 8) / 255.0f
-                            blue:(rgbValue & 0xFF) / 255.0f
-                           alpha:1];
 }
 
 //过滤弹幕
@@ -145,6 +136,14 @@
     NSRegularExpression *pattern = [NSRegularExpression regularExpressionWithPattern:regex options:options error:NULL];
     if (!pattern) return NO;
     return ([pattern numberOfMatchesInString:str options:0 range:NSMakeRange(0, str.length)] > 0);
+}
+
+#pragma mark - 懒加载
+- (DDPDanmakuSettingMessage *)setting {
+    if (_setting == nil) {
+        _setting = [[DDPDanmakuSettingMessage alloc] init];
+    }
+    return _setting;
 }
 
 @end

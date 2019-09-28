@@ -2,7 +2,7 @@
 platform :ios, '9.0'
 
 inhibit_all_warnings!
-install! 'cocoapods', generate_multiple_pod_projects: true
+# install! 'cocoapods', generate_multiple_pod_projects: true
 
 abstract_target 'DDPlay_Target' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -67,4 +67,13 @@ end
     pod 'CocoaHTTPServer'
     # pod 'TOSMBClient', '~> 1.0.5'
     end
+end
+
+
+post_install do |pi|
+   pi.pods_project.targets.each do |t|
+       t.build_configurations.each do |bc|
+           bc.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+       end
+   end
 end
