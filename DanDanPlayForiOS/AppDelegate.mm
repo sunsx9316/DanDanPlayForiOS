@@ -228,7 +228,7 @@
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
-    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
+//    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
     [UITextView appearance].tintColor = [UIColor ddp_mainColor];
     
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];

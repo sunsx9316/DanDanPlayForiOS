@@ -11,7 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DDPPlayView : NSView
-@property (copy, nonatomic) void(^keyDownCallBack)(NSEvent *event);
+@property (copy, nonatomic) void(^ _Nullable keyDownCallBack)(NSEvent *event);
+
+@property (nonatomic, copy) void(^ _Nullable didDragItemCallBack)(NSArray <NSString *>* paths);
 @end
 
 NS_ASSUME_NONNULL_END

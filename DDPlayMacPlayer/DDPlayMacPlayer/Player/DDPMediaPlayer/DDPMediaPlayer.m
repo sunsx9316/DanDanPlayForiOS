@@ -9,60 +9,54 @@
 #import "DDPMediaPlayer.h"
 #import <VLCKit/VLCKit.h>
 #import <objc/runtime.h>
-//#import <Photos/Photos.h>
-//#import "NSString+Tools.h"
+#import <Foundation/Foundation.h>
+#import <DDPCategory/NSObject+DDPAddForKVO.h>
+
+@interface VLCMedia(_Private)<DDPMediaItemProtocol>
+
+@end
+
+@implementation VLCMedia(_Private)
+
+- (NSString *)path {
+    return self.url.path;
+}
+
+- (NSString *)name {
+    return [self.path lastPathComponent];
+}
+
+@end
+
 
 //最大音量
 #define MAX_VOLUME 200.0
 
-static char mediaParsingCompletionKey = '0';
-
-@interface DDPMediaPlayer()<VLCMediaPlayerDelegate, VLCMediaDelegate>
-@property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
+@interface DDPMediaPlayer()<VLCMediaPlayerDelegate, VLCMediaDelegate, VLCMediaListPlayerDelegate>
+@property (strong, nonatomic) VLCMediaListPlayer *mediaListPlayer;
+@property (nonatomic, strong, readonly) VLCMediaPlayer *localMediaPlayer;
+@property (strong, nonatomic) NSView *mediaView;
 @property (copy, nonatomic) SnapshotCompleteBlock snapshotCompleteBlock;
+
+@property (nonatomic, strong) NSMutableArray <id<DDPMediaItemProtocol>>*medias;
 @end
 
-@implementation DDPMediaPlayer
-{
+@implementation DDPMediaPlayer {
     NSTimeInterval _length;
     NSTimeInterval _currentTime;
     DDPMediaPlayerStatus _status;
-}
-
-- (instancetype)initWithMediaURL:(NSURL *)mediaURL {
-    if (self = [self init]) {
-        [self setMediaURL:mediaURL];
-    }
-    return self;
-}
-
-- (instancetype)init {
-    if (self = [super init]) {
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-    }
-    return self;
+    BOOL _pauseByUser;
 }
 
 - (void)dealloc {
-    [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.mediaListPlayer.mediaPlayer removeObserverBlocks];
+    [self.mediaView removeFromSuperview];
 //    free(_localMediaPlayer.videoAspectRatio);
-    _localMediaPlayer.drawable = nil;
-    _localMediaPlayer = nil;
+    self.localMediaPlayer.drawable = nil;
+    self.mediaListPlayer = nil;
     self.mediaView = nil;
 }
-
-- (void)parseWithCompletion:(void(^)(void))completion {
-    objc_setAssociatedObject(self.localMediaPlayer.media, &mediaParsingCompletionKey, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    let media = self.localMediaPlayer.media;
-    media.delegate = self;
-    [media synchronousParse];
-    
-//    if (result != 0) {
-//        JHLog(@"%@", @"解析失败");
-//    }
-}
-
 
 #pragma mark 属性
 - (CGSize)videoSize {
@@ -70,22 +64,22 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (DDPMediaType)mediaType {
-    return [self.mediaURL isFileURL] ? DDPMediaTypeLocaleMedia : DDPMediaTypeNetMedia;
+    return [self.localMediaPlayer.media.url isFileURL] ? DDPMediaTypeLocaleMedia : DDPMediaTypeNetMedia;
 }
 
 - (NSTimeInterval)length {
     if (_length > 0) return _length;
     
-    _length = _localMediaPlayer.media.length.value.floatValue / 1000.0f;
+    _length = self.localMediaPlayer.media.length.value.floatValue / 1000.0f;
     return _length;
 }
 
 - (NSTimeInterval)currentTime {
-    return _localMediaPlayer.time.value.floatValue / 1000.0f;
+    return self.localMediaPlayer.time.value.floatValue / 1000.0f;
 }
 
 - (DDPMediaPlayerStatus)status {
-    switch (_localMediaPlayer.state) {
+    switch (self.localMediaPlayer.state) {
         case VLCMediaPlayerStateStopped:
             if (self.localMediaPlayer.position >= 0.999) {
                 _status = DDPMediaPlayerStatusNextEpisode;
@@ -95,7 +89,12 @@ static char mediaParsingCompletionKey = '0';
             }
             break;
         case VLCMediaPlayerStatePaused:
-            _status = DDPMediaPlayerStatusPause;
+            if (!_pauseByUser && self.localMediaPlayer.position >= 0.999) {
+                _status = DDPMediaPlayerStatusNextEpisode;
+            }
+            else {
+                _status = DDPMediaPlayerStatusPause;
+            }
             break;
         case VLCMediaPlayerStatePlaying:
             _status = DDPMediaPlayerStatusPlaying;
@@ -109,10 +108,44 @@ static char mediaParsingCompletionKey = '0';
             }
             break;
         default:
-            _status = DDPMediaPlayerStatusPause;
+            _status = DDPMediaPlayerStatusUnknow;
             break;
     }
     return _status;
+}
+
+- (void)setRepeatMode:(DDPMediaPlayerRepeatMode)repeatMode {
+    switch (repeatMode) {
+        case DDPMediaPlayerRepeatModeDoNotRepeat:
+            self.mediaListPlayer.repeatMode = VLCDoNotRepeat;
+            break;
+        case DDPMediaPlayerRepeatModeRepeatAllItems:
+            self.mediaListPlayer.repeatMode = VLCRepeatAllItems;
+            break;
+        case DDPMediaPlayerRepeatModeRepeatCurrentItem:
+            self.mediaListPlayer.repeatMode = VLCRepeatCurrentItem;
+            break;
+        default:
+            break;
+    }
+}
+
+- (DDPMediaPlayerRepeatMode)repeatMode {
+    switch (self.mediaListPlayer.repeatMode) {
+        case VLCDoNotRepeat:
+            return DDPMediaPlayerRepeatModeDoNotRepeat;
+        case VLCRepeatAllItems:
+            return DDPMediaPlayerRepeatModeRepeatAllItems;
+        case VLCRepeatCurrentItem:
+            return DDPMediaPlayerRepeatModeRepeatCurrentItem;
+        default:
+            break;
+    }
+    return DDPMediaPlayerRepeatModeDoNotRepeat;
+}
+
+- (id<DDPMediaItemProtocol>)currentPlayItem {
+    return self.localMediaPlayer.media;
 }
 
 #pragma mark 音量
@@ -121,14 +154,14 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (CGFloat)volume {
-    return _localMediaPlayer.audio.volume;
+    return self.localMediaPlayer.audio.volume;
 }
 
 - (void)setVolume:(CGFloat)volume {
     if (volume < 0) volume = 0;
     if (volume > MAX_VOLUME) volume = MAX_VOLUME;
     
-    _localMediaPlayer.audio.volume = volume;
+    self.localMediaPlayer.audio.volume = volume;
 }
 
 #pragma mark 播放位置
@@ -144,7 +177,7 @@ static char mediaParsingCompletionKey = '0';
     if (position < 0) position = 0;
     if (position > 1) position = 1;
     
-    _localMediaPlayer.position = position;
+    self.localMediaPlayer.position = position;
     NSTimeInterval jumpTime = [self length] * position;
     
     if (completionHandler) completionHandler(jumpTime);
@@ -154,61 +187,61 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (CGFloat)position {
-    return _localMediaPlayer.position;
+    return self.localMediaPlayer.position;
 }
 
 #pragma mark 字幕
 - (void)setSubtitleDelay:(NSInteger)subtitleDelay {
-    _localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
+    self.localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
 }
 
 - (NSInteger)subtitleDelay {
-    return _localMediaPlayer.currentVideoSubTitleDelay;
+    return self.localMediaPlayer.currentVideoSubTitleDelay;
 }
 
 - (NSArray *)subtitleIndexs {
-    return _localMediaPlayer.videoSubTitlesIndexes;
+    return self.localMediaPlayer.videoSubTitlesIndexes;
 }
 
 - (NSArray *)subtitleTitles {
-    return _localMediaPlayer.videoSubTitlesNames;
+    return self.localMediaPlayer.videoSubTitlesNames;
 }
 
 - (void)setCurrentSubtitleIndex:(int)currentSubtitleIndex {
-    _localMediaPlayer.currentVideoSubTitleIndex = currentSubtitleIndex;
+    self.localMediaPlayer.currentVideoSubTitleIndex = currentSubtitleIndex;
 }
 
 - (int)currentSubtitleIndex {
-    return _localMediaPlayer.currentVideoSubTitleIndex;
+    return self.localMediaPlayer.currentVideoSubTitleIndex;
 }
 
 
 - (NSArray<NSNumber *> *)audioChannelIndexs {
-    return _localMediaPlayer.audioTrackIndexes;
+    return self.localMediaPlayer.audioTrackIndexes;
 }
 
 - (NSArray<NSString *> *)audioChannelTitles {
-    return _localMediaPlayer.audioTrackIndexes;
+    return self.localMediaPlayer.audioTrackIndexes;
 }
 
 - (void)setCurrentAudioChannelIndex:(int)currentAudioChannelIndex {
-    _localMediaPlayer.audioChannel = currentAudioChannelIndex;
+    self.localMediaPlayer.audioChannel = currentAudioChannelIndex;
 }
 
 - (int)currentAudioChannelIndex {
-    return _localMediaPlayer.audioChannel;
+    return self.localMediaPlayer.audioChannel;
 }
 
 
 - (void)setSpeed:(float)speed {
-    _localMediaPlayer.rate = speed;
+    self.localMediaPlayer.rate = speed;
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:rateChange:)]) {
-        [self.delegate mediaPlayer:self rateChange:_localMediaPlayer.rate];
+        [self.delegate mediaPlayer:self rateChange:self.localMediaPlayer.rate];
     }
 }
 
 - (float)speed {
-    return _localMediaPlayer.rate;
+    return self.localMediaPlayer.rate;
 }
 
 - (void)setVideoAspectRatio:(CGSize)videoAspectRatio {
@@ -222,19 +255,33 @@ static char mediaParsingCompletionKey = '0';
 
 #pragma mark 播放器控制
 - (BOOL)isPlaying {
-    return [_localMediaPlayer isPlaying];
+    return [self.localMediaPlayer isPlaying];
 }
 
 - (void)play {
-    [_localMediaPlayer play];
+    [self.mediaListPlayer play];
+}
+
+- (void)playNext {
+    var index = [self indexWithItem:self.currentPlayItem];
+    if (index != NSNotFound && index + 1 < self.playerLists.count) {
+        index = index + 1;
+    } else {
+        index = 0;
+    }
+    
+    if (index < self.playerLists.count) {
+        [self playWithItem:self.playerLists[index]];
+    }
 }
 
 - (void)pause {
-    [_localMediaPlayer pause];
+    _pauseByUser = YES;
+    [self.mediaListPlayer pause];
 }
 
 - (void)stop {
-    [_localMediaPlayer stop];
+    [self.mediaListPlayer stop];
 }
 
 
@@ -263,23 +310,99 @@ static char mediaParsingCompletionKey = '0';
 
 - (int)openVideoSubTitlesFromFile:(NSURL *)path {
     //    if (self.mediaType == DDPMediaTypeLocaleMedia) {
-    return [_localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
+    return [self.localMediaPlayer addPlaybackSlave:path type:VLCMediaPlaybackSlaveTypeSubtitle enforce:YES];
     //    }
     
     //    return [_localMediaPlayer openVideoSubTitlesFromFile:a];
 }
 
-- (void)setMediaURL:(NSURL *)mediaURL {
-    if (!mediaURL) return;
+- (void)setPlayerLists:(NSArray<id<DDPMediaItemProtocol>> *)playerLists {
     
-    _mediaURL = mediaURL;
+    NSMutableArray <VLCMedia *>*arr = [NSMutableArray arrayWithCapacity:playerLists.count];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
-        VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
-        self.localMediaPlayer.media = media;
+    [playerLists enumerateObjectsUsingBlock:^(id<DDPMediaItemProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        let m = [VLCMedia mediaWithPath:obj.path];
+        [arr addObject:m];
+    }];
+    
+    self.medias = [playerLists mutableCopy];
+    
+    self.mediaListPlayer.mediaList = [[VLCMediaList alloc] initWithArray:arr];
+    _length = -1;
+}
+
+- (NSArray<id<DDPMediaItemProtocol>> *)playerLists {
+    return self.medias;
+}
+
+- (void)addMediaItems:(NSArray <id<DDPMediaItemProtocol>>*)items {
+    
+    let mediaList = self.mediaListPlayer.mediaList;
+    __block NSInteger index = NSNotFound;
+    [items enumerateObjectsUsingBlock:^(id<DDPMediaItemProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        index = [self indexWithItem:obj];
+        
+        if (index == NSNotFound) {
+            let m = [VLCMedia mediaWithPath:obj.path];
+            [self.medias addObject:m];
+            [mediaList addMedia:m];
+        }
+        
+    }];
+    
+}
+
+- (void)removeMediaItem:(id<DDPMediaItemProtocol>)item {
+    let index = [self indexWithItem:item];
+    if (index != NSNotFound) {
+        let mediaList = self.mediaListPlayer.mediaList;
+        [mediaList removeMediaAtIndex:index];
+        [self.medias removeObjectAtIndex:index];
+    }
+}
+
+- (void)removeMediaAtIndex:(NSInteger)index {
+    if (index >= 0 && index < self.medias.count) {
+        let mediaList = self.mediaListPlayer.mediaList;
+        [mediaList removeMediaAtIndex:index];
+        [self.medias removeObjectAtIndex:index];
+    }
+}
+
+- (void)removeMediaWithIndexSet:(NSIndexSet *)indexSet {
+    NSMutableArray <id<DDPMediaItemProtocol>>*arr = [NSMutableArray arrayWithCapacity:indexSet.count];
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx >= 0 && idx < self.medias.count) {
+            [arr addObject:self.medias[idx]];
+        }
+    }];
+    
+    [arr enumerateObjectsUsingBlock:^(id<DDPMediaItemProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self removeMediaItem:obj];
+    }];
+}
+
+- (void)playWithItem:(id<DDPMediaItemProtocol>)item {
+    VLCMedia *media = [self mediaWithItem:item];
+    if (media == nil) {
+        media = [VLCMedia mediaWithPath:item.path];
+        [self addMediaItems:@[media]];
     }
     
-    _length = -1;
+    [self.mediaListPlayer playMedia:media];
+}
+
+- (NSInteger)indexWithItem:(id<DDPMediaItemProtocol>)item {
+    __block NSInteger index = NSNotFound;
+    [self.playerLists enumerateObjectsUsingBlock:^(id<DDPMediaItemProtocol>  _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+        if ([obj1.path isEqualTo:item.path]) {
+            index = idx1;
+            *stop1 = YES;
+        }
+    }];
+    
+    return index;
 }
 
 #pragma mark - VLCMediaPlayerDelegate
@@ -297,26 +420,29 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-//    DDLogVerbose(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
-    
+    JHLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
+        if (self.localMediaPlayer.state == VLCMediaPlayerStatePaused) {
+            _pauseByUser = NO;
+        }
         DDPMediaPlayerStatus status = [self status];
         [self.delegate mediaPlayer:self statusChange:status];
     }
 }
 
-- (void)mediaDidFinishParsing:(VLCMedia *)aMedia {
-    void(^action)(void) = objc_getAssociatedObject(aMedia, &mediaParsingCompletionKey);
-    if (action) {
-        action();
-    }
-    
-    objc_setAssociatedObject(aMedia, &mediaParsingCompletionKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 
 #pragma mark - 私有方法
 - (void)saveImage:(NSImage *)image {
     
+}
+
+- (VLCMedia *)mediaWithItem:(id<DDPMediaItemProtocol>)item {
+    NSInteger index = [self indexWithItem:item];
+    if (index != NSNotFound) {
+        return [self.mediaListPlayer.mediaList mediaAtIndex:index];
+    }
+    return nil;
 }
 
 #pragma mark 播放结束
@@ -330,13 +456,24 @@ static char mediaParsingCompletionKey = '0';
 }
 
 #pragma mark - 懒加载
-- (VLCMediaPlayer *)localMediaPlayer {
-    if(_localMediaPlayer == nil) {
-        _localMediaPlayer = [[VLCMediaPlayer alloc] init];
-        _localMediaPlayer.drawable = self.mediaView;
-        _localMediaPlayer.delegate = self;
+- (VLCMediaListPlayer *)mediaListPlayer {
+    if(_mediaListPlayer == nil) {
+        _mediaListPlayer = [[VLCMediaListPlayer alloc] initWithDrawable:self.mediaView];
+        _mediaListPlayer.delegate = self;
+        _mediaListPlayer.mediaList = [[VLCMediaList alloc] init];
+        _mediaListPlayer.mediaPlayer.drawable = self.mediaView;
+        _mediaListPlayer.mediaPlayer.delegate = self;
+        @weakify(self)
+        [_mediaListPlayer.mediaPlayer addObserverBlockForKeyPath:DDP_KEYPATH(_mediaListPlayer.mediaPlayer, media) block:^(id  _Nonnull obj, id  _Nonnull oldVal, VLCMedia * _Nonnull newVal) {
+            @strongify(self)
+            if (![self.delegate respondsToSelector:@selector(mediaPlayer:mediaDidChange:)]) {
+                return;
+            }
+            
+            [self.delegate mediaPlayer:self mediaDidChange:newVal];
+        }];
     }
-    return _localMediaPlayer;
+    return _mediaListPlayer;
 }
 
 - (NSView *)mediaView {
@@ -347,6 +484,17 @@ static char mediaParsingCompletionKey = '0';
         _mediaView = mediaView;
     }
     return _mediaView;
+}
+
+- (VLCMediaPlayer *)localMediaPlayer {
+    return self.mediaListPlayer.mediaPlayer;
+}
+
+- (NSMutableArray *)medias {
+    if (_medias == nil) {
+        _medias = [NSMutableArray array];
+    }
+    return _medias;
 }
 
 @end

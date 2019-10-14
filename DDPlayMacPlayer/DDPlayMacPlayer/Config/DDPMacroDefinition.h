@@ -13,7 +13,7 @@
 static const int ddLogLevel = DDLogLevelVerbose;
 
 #ifdef DEBUG
-#define JHLog(format, ...) DDLogDebug(format, __VA_ARGS__)
+#define JHLog(format, ...) NSLog(format, __VA_ARGS__)
 #else
 #define JHLog(format, ...)
 #endif

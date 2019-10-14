@@ -327,4 +327,9 @@
  *  @return 是否为整型
  */
 - (BOOL)isPureInt;
+
+- (CGFloat)heightForFont:(NSFont *)font width:(CGFloat)width;
+- (CGFloat)widthForFont:(NSFont *)font;
+- (CGSize)sizeForFont:(NSFont *)font size:(CGSize)size mode:(NSLineBreakMode)lineBreakMode;
+
 @end

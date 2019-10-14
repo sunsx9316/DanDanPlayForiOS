@@ -369,4 +369,31 @@
     return [scan scanInteger:&val] && [scan isAtEnd];
 }
 
+- (CGSize)sizeForFont:(NSFont *)font size:(CGSize)size mode:(NSLineBreakMode)lineBreakMode {
+    CGSize result;
+    if (!font) font = [NSFont systemFontOfSize:NSFont.systemFontSize];
+    NSMutableDictionary *attr = [NSMutableDictionary new];
+    attr[NSFontAttributeName] = font;
+    if (lineBreakMode != NSLineBreakByWordWrapping) {
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.lineBreakMode = lineBreakMode;
+        attr[NSParagraphStyleAttributeName] = paragraphStyle;
+    }
+    CGRect rect = [self boundingRectWithSize:size
+                                     options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                  attributes:attr context:nil];
+    result = rect.size;
+    return result;
+}
+
+- (CGFloat)widthForFont:(NSFont *)font {
+    CGSize size = [self sizeForFont:font size:CGSizeMake(HUGE, HUGE) mode:NSLineBreakByWordWrapping];
+    return size.width;
+}
+
+- (CGFloat)heightForFont:(NSFont *)font width:(CGFloat)width {
+    CGSize size = [self sizeForFont:font size:CGSizeMake(width, HUGE) mode:NSLineBreakByWordWrapping];
+    return size.height;
+}
+
 @end

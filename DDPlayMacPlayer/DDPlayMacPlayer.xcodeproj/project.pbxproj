@@ -24,6 +24,10 @@
 		897B5F3523325F8D00BAAB6F /* NSColor+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B5F3423325F8D00BAAB6F /* NSColor+DDPTools.m */; };
 		897B5F382332634C00BAAB6F /* danmaku_color.plist in Resources */ = {isa = PBXBuildFile; fileRef = 897B5F372332634C00BAAB6F /* danmaku_color.plist */; };
 		897B5F3B2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 897B5F3A2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m */; };
+		8985822A23530D43005D5BA5 /* DDPPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8985822923530D43005D5BA5 /* DDPPlayerListView.m */; };
+		8985822C23530D4C005D5BA5 /* DDPPlayerListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8985822B23530D4C005D5BA5 /* DDPPlayerListView.xib */; };
+		8985823123530E24005D5BA5 /* DDPPlayerTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8985823023530E24005D5BA5 /* DDPPlayerTableCellView.m */; };
+		8985823323530E40005D5BA5 /* DDPPlayerTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8985823223530E40005D5BA5 /* DDPPlayerTableCellView.xib */; };
 		89881620232BCF4A0003D159 /* DDPHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988161F232BCF4A0003D159 /* DDPHUD.m */; };
 		8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8988168E232BDE9C0003D159 /* DDPTextField.m */; };
 		898F403122ECA5A800C082BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F403022ECA5A800C082BF /* AppDelegate.m */; };
@@ -34,6 +38,7 @@
 		898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898F404522ECA5C700C082BF /* DDPPlayViewController.xib */; };
 		898F404B22ECA5EB00C082BF /* DDPWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F404A22ECA5EB00C082BF /* DDPWindowController.m */; };
 		89A8E2072324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */; };
+		89E86DDE234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E86DDD234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.m */; };
 		C929D88E7B569BE22F239896 /* libPods-DDPlayMacPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD686B6BE03AD278E5241266 /* libPods-DDPlayMacPlayer.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +76,12 @@
 		897B5F372332634C00BAAB6F /* danmaku_color.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = danmaku_color.plist; sourceTree = "<group>"; };
 		897B5F392332652B00BAAB6F /* DDPDanmakuModeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPDanmakuModeMenuItem.h; sourceTree = "<group>"; };
 		897B5F3A2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPDanmakuModeMenuItem.m; sourceTree = "<group>"; };
+		8985822823530D43005D5BA5 /* DDPPlayerListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayerListView.h; sourceTree = "<group>"; };
+		8985822923530D43005D5BA5 /* DDPPlayerListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerListView.m; sourceTree = "<group>"; };
+		8985822B23530D4C005D5BA5 /* DDPPlayerListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayerListView.xib; sourceTree = "<group>"; };
+		8985822F23530E24005D5BA5 /* DDPPlayerTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayerTableCellView.h; sourceTree = "<group>"; };
+		8985823023530E24005D5BA5 /* DDPPlayerTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayerTableCellView.m; sourceTree = "<group>"; };
+		8985823223530E40005D5BA5 /* DDPPlayerTableCellView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPPlayerTableCellView.xib; sourceTree = "<group>"; };
 		8988161E232BCF4A0003D159 /* DDPHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHUD.h; sourceTree = "<group>"; };
 		8988161F232BCF4A0003D159 /* DDPHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPHUD.m; sourceTree = "<group>"; };
 		8988168D232BDE9C0003D159 /* DDPTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPTextField.h; sourceTree = "<group>"; };
@@ -90,6 +101,8 @@
 		898F404A22ECA5EB00C082BF /* DDPWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPWindowController.m; sourceTree = "<group>"; };
 		89A8E2052324BA2000F8F161 /* JHBaseDanmaku+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JHBaseDanmaku+DDPTools.h"; sourceTree = "<group>"; };
 		89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JHBaseDanmaku+DDPTools.m"; sourceTree = "<group>"; };
+		89E86DDC234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDPPlayerMessage+DDPTools.h"; sourceTree = "<group>"; };
+		89E86DDD234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DDPPlayerMessage+DDPTools.m"; sourceTree = "<group>"; };
 		AF5E03536CF8487F6EF66DD2 /* Pods-DDPlayMacPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlayMacPlayer.debug.xcconfig"; path = "Target Support Files/Pods-DDPlayMacPlayer/Pods-DDPlayMacPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		BD686B6BE03AD278E5241266 /* libPods-DDPlayMacPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlayMacPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -126,6 +139,8 @@
 				89A8E2062324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m */,
 				897B5F3323325F8D00BAAB6F /* NSColor+DDPTools.h */,
 				897B5F3423325F8D00BAAB6F /* NSColor+DDPTools.m */,
+				89E86DDC234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.h */,
+				89E86DDD234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -140,6 +155,7 @@
 		897B4A6A22ED716400B910BD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8985822D23530E07005D5BA5 /* PlayerList */,
 				897B5F3123325F5D00BAAB6F /* DDPDanmakuColorMenuItem.h */,
 				897B5F3023325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m */,
 				897B5F392332652B00BAAB6F /* DDPDanmakuModeMenuItem.h */,
@@ -218,6 +234,27 @@
 			path = ToiOS;
 			sourceTree = "<group>";
 		};
+		8985822D23530E07005D5BA5 /* PlayerList */ = {
+			isa = PBXGroup;
+			children = (
+				8985822E23530E10005D5BA5 /* View */,
+				8985822823530D43005D5BA5 /* DDPPlayerListView.h */,
+				8985822923530D43005D5BA5 /* DDPPlayerListView.m */,
+				8985822B23530D4C005D5BA5 /* DDPPlayerListView.xib */,
+			);
+			path = PlayerList;
+			sourceTree = "<group>";
+		};
+		8985822E23530E10005D5BA5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8985822F23530E24005D5BA5 /* DDPPlayerTableCellView.h */,
+				8985823023530E24005D5BA5 /* DDPPlayerTableCellView.m */,
+				8985823223530E40005D5BA5 /* DDPPlayerTableCellView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		898F402322ECA5A800C082BF = {
 			isa = PBXGroup;
 			children = (
@@ -239,21 +276,21 @@
 		898F402E22ECA5A800C082BF /* DDPlayMacPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				893596A722EF2BE400F3CA1E /* View */,
-				897B4AF722EDF39B00B910BD /* Tools */,
-				897B4AF322EDF25A00B910BD /* Model */,
-				897B4A9822ED74E100B910BD /* Config */,
-				898F404822ECA5CB00C082BF /* Player */,
-				897B5F362332634200BAAB6F /* Resource */,
-				898F403022ECA5A800C082BF /* AppDelegate.m */,
 				898F402F22ECA5A800C082BF /* AppDelegate.h */,
+				898F403022ECA5A800C082BF /* AppDelegate.m */,
 				898F403522ECA5A900C082BF /* Assets.xcassets */,
-				898F403722ECA5A900C082BF /* Main.storyboard */,
-				898F403A22ECA5A900C082BF /* Info.plist */,
-				898F403B22ECA5A900C082BF /* main.m */,
+				897B4A9822ED74E100B910BD /* Config */,
 				898F403D22ECA5A900C082BF /* DDPlayMacPlayer.entitlements */,
 				898F404922ECA5EB00C082BF /* DDPWindowController.h */,
 				898F404A22ECA5EB00C082BF /* DDPWindowController.m */,
+				898F403A22ECA5A900C082BF /* Info.plist */,
+				898F403B22ECA5A900C082BF /* main.m */,
+				898F403722ECA5A900C082BF /* Main.storyboard */,
+				897B4AF322EDF25A00B910BD /* Model */,
+				898F404822ECA5CB00C082BF /* Player */,
+				897B5F362332634200BAAB6F /* Resource */,
+				897B4AF722EDF39B00B910BD /* Tools */,
+				893596A722EF2BE400F3CA1E /* View */,
 			);
 			path = DDPlayMacPlayer;
 			sourceTree = "<group>";
@@ -344,6 +381,8 @@
 			files = (
 				898F404722ECA5C700C082BF /* DDPPlayViewController.xib in Resources */,
 				898F403622ECA5A900C082BF /* Assets.xcassets in Resources */,
+				8985823323530E40005D5BA5 /* DDPPlayerTableCellView.xib in Resources */,
+				8985822C23530D4C005D5BA5 /* DDPPlayerListView.xib in Resources */,
 				8914868E232B8622000A5CD5 /* DDPPlayTopBar.xib in Resources */,
 				8978044123368E8300B38ACE /* DDPHUD.xib in Resources */,
 				893596B122EF2E1000F3CA1E /* DDPPlayerControlView.xib in Resources */,
@@ -404,6 +443,8 @@
 				898F404B22ECA5EB00C082BF /* DDPWindowController.m in Sources */,
 				89A8E2072324BA2000F8F161 /* JHBaseDanmaku+DDPTools.m in Sources */,
 				893596AD22EF2C1200F3CA1E /* DDPPlayerSlider.m in Sources */,
+				89E86DDE234E2FA5008B9409 /* DDPPlayerMessage+DDPTools.m in Sources */,
+				8985823123530E24005D5BA5 /* DDPPlayerTableCellView.m in Sources */,
 				898F403C22ECA5A900C082BF /* main.m in Sources */,
 				897B4A9722ED749500B910BD /* DDPMediaPlayer.m in Sources */,
 				897B5F3B2332652B00BAAB6F /* DDPDanmakuModeMenuItem.m in Sources */,
@@ -416,6 +457,7 @@
 				8988168F232BDE9C0003D159 /* DDPTextField.m in Sources */,
 				89352C2E232011DD00399F33 /* DDPBaseMessage+Hook.m in Sources */,
 				898F404622ECA5C700C082BF /* DDPPlayViewController.m in Sources */,
+				8985822A23530D43005D5BA5 /* DDPPlayerListView.m in Sources */,
 				897B5F3223325F5D00BAAB6F /* DDPDanmakuColorMenuItem.m in Sources */,
 				89261D6D23238E4D00A0C372 /* DDPDanmakuManager.m in Sources */,
 				891116C322EF294B00D545A5 /* NSView+DDPTools.m in Sources */,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +24,7 @@
                     </buttonCell>
                 </button>
                 <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="748" translatesAutoresizingMaskIntoConstraints="NO" id="Gnk-fK-IV8">
-                    <rect key="frame" x="610" y="20" width="124" height="16"/>
+                    <rect key="frame" x="570" y="20" width="124" height="16"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="VCC-3H-U90"/>
                     </constraints>
@@ -34,15 +34,18 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1kj-Qs-tKu">
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PzF-Zs-php">
                     <rect key="frame" x="732" y="18" width="20" height="20"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="danmaku_show" imagePosition="only" alignment="center" alternateImage="danmaku_hide" lineBreakMode="truncatingTail" inset="2" id="i4p-vg-xcP">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="player_list" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" inset="2" id="Feb-a3-m9t">
                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="onClickPlayListButton:" target="GA7-fJ-Fr8" id="0YG-wk-Zww"/>
+                    </connections>
                 </button>
                 <textField focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfF-7R-PtZ" customClass="DDPTextField">
-                    <rect key="frame" x="75" y="17" width="461" height="22"/>
+                    <rect key="frame" x="105" y="17" width="391" height="22"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="回车发送弹幕" usesSingleLineMode="YES" bezelStyle="round" id="wN2-WO-J0L">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -50,7 +53,7 @@
                     </textFieldCell>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YX9-G2-2My">
-                    <rect key="frame" x="539" y="14" width="38" height="25"/>
+                    <rect key="frame" x="499" y="14" width="38" height="25"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="FT9-EX-Qpo">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -61,7 +64,7 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="00a-sk-eU3">
-                    <rect key="frame" x="577" y="14" width="38" height="25"/>
+                    <rect key="frame" x="537" y="14" width="38" height="25"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="kpq-Yq-w7c">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -74,24 +77,45 @@
                         <constraint firstAttribute="height" constant="15" id="WtK-yt-ad3"/>
                     </constraints>
                 </customView>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1kj-Qs-tKu">
+                    <rect key="frame" x="692" y="18" width="20" height="20"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="danmaku_show" imagePosition="only" alignment="center" alternateImage="danmaku_hide" lineBreakMode="truncatingTail" inset="2" id="i4p-vg-xcP">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uvW-dd-9uF">
+                    <rect key="frame" x="75" y="18" width="20" height="20"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="next" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" inset="2" id="VoV-uZ-VKC">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="onClickNextButton:" target="GA7-fJ-Fr8" id="CmU-oK-wyb"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstItem="AfF-7R-PtZ" firstAttribute="leading" secondItem="K64-ka-10e" secondAttribute="trailing" constant="10" id="ArR-7B-Cbr"/>
+                <constraint firstAttribute="trailing" secondItem="PzF-Zs-php" secondAttribute="trailing" constant="20" id="734-wj-8Nf"/>
                 <constraint firstItem="gTz-5W-g2W" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" constant="5" id="DoG-iJ-uyV"/>
+                <constraint firstItem="PzF-Zs-php" firstAttribute="leading" secondItem="1kj-Qs-tKu" secondAttribute="trailing" constant="20" id="HC0-74-zqb"/>
                 <constraint firstAttribute="trailing" secondItem="gTz-5W-g2W" secondAttribute="trailing" constant="5" id="HeH-oS-1dm"/>
                 <constraint firstItem="K64-ka-10e" firstAttribute="top" secondItem="gTz-5W-g2W" secondAttribute="bottom" constant="5" id="HiQ-Th-8Bp"/>
                 <constraint firstAttribute="bottom" secondItem="K64-ka-10e" secondAttribute="bottom" constant="5" id="I30-n8-gIO"/>
+                <constraint firstItem="AfF-7R-PtZ" firstAttribute="leading" secondItem="uvW-dd-9uF" secondAttribute="trailing" constant="10" id="JXl-Jx-HS9"/>
+                <constraint firstItem="uvW-dd-9uF" firstAttribute="leading" secondItem="K64-ka-10e" secondAttribute="trailing" constant="10" id="Jkh-Oq-JqO"/>
                 <constraint firstItem="YX9-G2-2My" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="KGD-Wx-Zoc"/>
                 <constraint firstItem="00a-sk-eU3" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="LYy-wc-GZh"/>
                 <constraint firstItem="gTz-5W-g2W" firstAttribute="top" secondItem="GA7-fJ-Fr8" secondAttribute="top" id="MXE-jb-r9T"/>
                 <constraint firstItem="Gnk-fK-IV8" firstAttribute="centerY" secondItem="AfF-7R-PtZ" secondAttribute="centerY" id="McP-xA-e9N"/>
                 <constraint firstItem="K64-ka-10e" firstAttribute="leading" secondItem="GA7-fJ-Fr8" secondAttribute="leading" constant="20" id="RVc-PL-8pd"/>
-                <constraint firstAttribute="trailing" secondItem="1kj-Qs-tKu" secondAttribute="trailing" constant="20" id="ax2-rZ-GiF"/>
+                <constraint firstItem="uvW-dd-9uF" firstAttribute="centerY" secondItem="K64-ka-10e" secondAttribute="centerY" id="b8N-pd-Fn0"/>
                 <constraint firstItem="AfF-7R-PtZ" firstAttribute="centerY" secondItem="K64-ka-10e" secondAttribute="centerY" id="dLW-yN-vkH"/>
                 <constraint firstItem="00a-sk-eU3" firstAttribute="leading" secondItem="YX9-G2-2My" secondAttribute="trailing" constant="5" id="eZ1-Ae-oxq"/>
                 <constraint firstItem="1kj-Qs-tKu" firstAttribute="centerY" secondItem="Gnk-fK-IV8" secondAttribute="centerY" id="fbI-jO-SVI"/>
                 <constraint firstItem="Gnk-fK-IV8" firstAttribute="leading" secondItem="00a-sk-eU3" secondAttribute="trailing" id="gAL-p8-UZ1"/>
-                <constraint firstItem="1kj-Qs-tKu" firstAttribute="leading" secondItem="Gnk-fK-IV8" secondAttribute="trailing" id="hw1-Af-9rd"/>
+                <constraint firstItem="PzF-Zs-php" firstAttribute="centerY" secondItem="1kj-Qs-tKu" secondAttribute="centerY" id="lQx-Be-hqG"/>
+                <constraint firstItem="1kj-Qs-tKu" firstAttribute="leading" secondItem="Gnk-fK-IV8" secondAttribute="trailing" id="o2h-4X-EmU"/>
                 <constraint firstItem="YX9-G2-2My" firstAttribute="leading" secondItem="AfF-7R-PtZ" secondAttribute="trailing" constant="5" id="r9d-xp-UrJ"/>
             </constraints>
             <connections>
@@ -103,13 +127,15 @@
                 <outlet property="progressSlider" destination="gTz-5W-g2W" id="y3V-8U-g86"/>
                 <outlet property="timeLabel" destination="Gnk-fK-IV8" id="VBl-RG-S2W"/>
             </connections>
-            <point key="canvasLocation" x="79" y="28.5"/>
+            <point key="canvasLocation" x="79" y="28"/>
         </customView>
     </objects>
     <resources>
         <image name="danmaku_hide" width="20" height="20"/>
         <image name="danmaku_show" width="20" height="20"/>
+        <image name="next" width="20" height="20"/>
         <image name="pause" width="40" height="40"/>
         <image name="play" width="40" height="40"/>
+        <image name="player_list" width="20" height="20"/>
     </resources>
 </document>

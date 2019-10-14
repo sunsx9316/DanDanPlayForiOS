@@ -90,7 +90,10 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    let width = self.view.width;
+    CGFloat width = self.view.width;
+    if (ddp_appType == DDPAppTypeToMac && width == 0) {
+        width = 60;
+    }
     
     let spacing = [self collectionView:collectionView layout:collectionView.collectionViewLayout minimumLineSpacingForSectionAtIndex:indexPath.section];
     let insetForSection = [self collectionView:collectionView layout:collectionView.collectionViewLayout insetForSectionAtIndex:indexPath.section];

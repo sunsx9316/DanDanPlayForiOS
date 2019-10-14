@@ -32,18 +32,20 @@
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+    NSMutableArray <NSString *>*paths = [NSMutableArray array];
     [sender enumerateDraggingItemsWithOptions:kNilOptions forView:nil classes:@[NSURL.class] searchOptions:@{NSPasteboardURLReadingFileURLsOnlyKey : @(YES)} usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
         NSURL *url = draggingItem.item;
-        [self sendParseMessageWithURL:url];
-        *stop = YES;
+        [paths addObject:url.path];
     }];
+    
+    [self sendParseMessageWithURL:paths];
     return YES;
 }
 
-- (void)sendParseMessageWithURL:(NSURL *)url {
-    DDPParseMessage *message = [[DDPParseMessage alloc] init];
-    message.path = url.path;
-    [[DDPMessageManager sharedManager] sendMessage:message];
+- (void)sendParseMessageWithURL:(NSArray <NSString *>*)urls {
+    if (self.didDragItemCallBack) {
+        self.didDragItemCallBack(urls);
+    }
 }
 
 @end

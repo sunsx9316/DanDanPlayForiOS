@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) void(^sliderDidChangeCallBack)(CGFloat progress);
 @property (copy, nonatomic) void(^playButtonDidClickCallBack)(BOOL selected);
 @property (copy, nonatomic) void(^danmakuButtonDidClickCallBack)(BOOL selected);
+@property (copy, nonatomic) void(^onClickPlayListButtonCallBack)(void);
+@property (copy, nonatomic) void(^onClickPlayNextButtonCallBack)(void);
 @property (copy, nonatomic) void(^sendDanmakuCallBack)(NSString *danmaku);
 
 - (void)updateCurrentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime;

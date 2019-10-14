@@ -19,6 +19,8 @@
 @property (strong, nonatomic) iCarousel *scrollView;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) UIPageControl *pageControl;
+
+@property (strong, nonatomic) NSTimer *reloadTimer;
 @end
 
 @implementation DDPHomePageBannerView
@@ -53,6 +55,17 @@
     [super layoutSubviews];
     
     self.scrollView.frame = self.bounds;
+    
+#if DDPAPPTYPEISMAC
+    [self.reloadTimer invalidate];
+    @weakify(self)
+    self.reloadTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 block:^(NSTimer * _Nonnull timer) {
+        @strongify(self)
+        if (!self) return;
+        
+        [self.scrollView reloadData];
+    } repeats:NO];
+#endif
 }
 
 - (void)setModels:(NSArray<DDPNewBanner *> *)models {

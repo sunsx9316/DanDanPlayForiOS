@@ -11,6 +11,7 @@
 #import <JHDanmakuRender/JHDanmakuRender.h>
 #import <DDPShare/DDPShare.h>
 #import <DDPCategory/DDPCategory.h>
+#import <Carbon/Carbon.h>
 #import "DDPPlayerControlView.h"
 #import "NSView+DDPTools.h"
 #import "DDPMediaPlayer.h"
@@ -20,7 +21,8 @@
 #import "DDPHUD.h"
 #import "JHBaseDanmaku+DDPTools.h"
 #import "NSColor+DDPTools.h"
-#import <Carbon/Carbon.h>
+#import "DDPPlayerMessage+DDPTools.h"
+#import "DDPPlayerListView.h"
 
 typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     DDPDanmakuShieldTypeNone = kNilOptions,
@@ -43,11 +45,27 @@ typedef NS_OPTIONS(NSUInteger, DDPDanmakuShieldType) {
     DDPDanmakuShieldTypeFloatAtBottom,
 };
 
+
+BOOL ddp_isVideoFile(NSString *aURL) {
+    NSString *pathExtension = [aURL pathExtension];
+    
+    if ([pathExtension compare:@"mkv" options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+        return true;
+    }
+    
+    
+    CFStringRef fileExtension = (__bridge CFStringRef) [aURL pathExtension];
+    CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, NULL);
+    BOOL flag = UTTypeConformsTo(fileUTI, kUTTypeMovie);
+    CFRelease(fileUTI);
+    return flag;
+};
+
 //短跳转时长
 static int kShortJumpValue = 5;
 static int kVolumeAddingValue = 20;
 
-@interface DDPPlayViewController ()<DDPMediaPlayerDelegate, DDPMessageManagerObserver, JHDanmakuEngineDelegate>
+@interface DDPPlayViewController ()<DDPMediaPlayerDelegate, DDPMessageManagerObserver, JHDanmakuEngineDelegate, DDPPlayerListViewDelegate>
 @property (strong, nonatomic) DDPPlayerControlView *controlView;
 @property (strong, nonatomic) DDPPlayTopBar *topBar;
 @property (strong, nonatomic) JHDanmakuEngine *danmakuEngine;
@@ -63,6 +81,8 @@ static int kVolumeAddingValue = 20;
 @property (weak, nonatomic) DDPHUD *volumeHUD;
 @property (assign, nonatomic) NSInteger episodeId;
 @property (strong, nonatomic) NSSet *colorSet;
+
+@property (nonatomic, weak) DDPPlayerListView *playerListView;
 @end
 
 @implementation DDPPlayViewController {
@@ -82,9 +102,7 @@ static int kVolumeAddingValue = 20;
     [self autoShowControlViewWithCompletion:nil];
     
     [self.player.mediaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.mas_equalTo(0);
-        make.centerY.mas_equalTo(self.view);
-        make.height.mas_lessThanOrEqualTo(self.view);
+        make.leading.trailing.top.bottom.mas_equalTo(0);
     }];
 
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -114,6 +132,18 @@ static int kVolumeAddingValue = 20;
         [self keyDown:event];
     };
     
+    playView.didDragItemCallBack = ^(NSArray<NSString *> * _Nonnull paths) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        let items = [self addMeidaToPlayerListWithPaths:paths];
+        if (self.player.isPlaying == NO) {
+            [self sendParseMessageWithPath:items.firstObject.path];
+        }
+    };
+    
     DDPDanmakuManager.shared.settingDidChangeCallBack = ^(DDPDanmakuSettingMessage * _Nonnull setting) {
         @strongify(self)
         if (!self) {
@@ -139,8 +169,6 @@ static int kVolumeAddingValue = 20;
     };
     
     [[DDPMessageManager sharedManager] addObserver:self];
-    
-    
 }
 
 - (void)viewDidAppear {
@@ -280,11 +308,31 @@ static int kVolumeAddingValue = 20;
             self.controlView.playButton.state = NSControlStateValueOn;
         }
             break;
-        case DDPMediaPlayerStatusNextEpisode:
+        case DDPMediaPlayerStatusNextEpisode: {
+            let currentPlayItem = player.currentPlayItem;
+            let index = [player indexWithItem:currentPlayItem];
+            if (index != NSNotFound) {
+                var nextIndex = index + 1;
+                if (nextIndex >= player.playerLists.count) {
+                    nextIndex = 0;
+                }
+                
+                let nextPlayItem = player.playerLists[nextIndex];
+                [self requestDanmakuWithPath:nextPlayItem.path];
+            }
+        }
             break;
-        default:
+        case DDPMediaPlayerStatusPause: {
             [self.danmakuEngine pause];
             self.controlView.playButton.state = NSControlStateValueOff;
+        }
+            break;
+        case DDPMediaPlayerStatusStop: {
+            [player stop];
+            self.controlView.playButton.state = NSControlStateValueOff;
+        }
+            break;
+        case DDPMediaPlayerStatusUnknow:
             break;
     }
 }
@@ -387,27 +435,8 @@ static int kVolumeAddingValue = 20;
             }
             
             self.danmakuEngine.currentTime = 0;
-            [self.player setMediaURL:url];
+            [self.player playWithItem:aMessage];
             
-            @weakify(self)
-            [self.player parseWithCompletion:^{
-                @strongify(self)
-                if (!self) {
-                    return;
-                }
-                
-                
-                CGSize size = self.player.videoSize;
-                float radio = size.width / size.height;
-                if (isnan(radio) || radio <= 0) {
-                    radio = 16.0 / 9;
-                }
-                
-                [self.player.mediaView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.width.equalTo(self.player.mediaView.mas_height).multipliedBy(radio);
-                }];
-                [self.player play];
-            }];
         }
     } else if ([message.messageType isEqualToString:DDPSendDanmakuMessage.messageType]) {
         DDPSendDanmakuMessage *aMessage = [[DDPSendDanmakuMessage alloc] initWithObj:message];
@@ -434,7 +463,43 @@ static int kVolumeAddingValue = 20;
         }
         
         [tips showAtView:self.view position:DDPHUDPositionCenter];
+    } else if ([message.messageType isEqualToString:DDPPlayerListMessage.messageType]) {
+        let aMessage = [[DDPPlayerListMessage alloc] initWithObj:message];
+        
+        let items = [self addMeidaToPlayerListWithPaths:aMessage.paths];
+        if (self.player.isPlaying == NO) {
+            [self sendParseMessageWithPath:items.firstObject.path];
+        }
     }
+}
+
+#pragma mark - DDPPlayerListViewDelegate
+- (NSInteger)numberOfRowAtPlayerListView:(DDPPlayerListView *)view {
+    return self.player.playerLists.count;
+}
+
+- (NSString *)playerListView:(DDPPlayerListView *)view titleAtRow:(NSInteger)row {
+    let item = self.player.playerLists[row];
+    return item.path;
+}
+
+- (void)playerListView:(DDPPlayerListView *)view didSelectedRow:(NSInteger)row {
+    let item = self.player.playerLists[row];
+    [self sendParseMessageWithPath:item.path];
+}
+
+- (void)playerListView:(DDPPlayerListView *)view didDeleteWithIndexSet:(NSIndexSet *)indexSet {
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.player removeMediaAtIndex:idx];
+    }];
+}
+
+- (NSInteger)currentPlayIndexAtPlayerListView:(DDPPlayerListView *)view {
+    return [self.player indexWithItem:self.player.currentPlayItem];
+}
+
+- (void)mediaPlayer:(DDPMediaPlayer *)player mediaDidChange:(id<DDPMediaItemProtocol>)media {
+    [self.playerListView reloadData];
 }
 
 #pragma mark - 私有方法
@@ -515,6 +580,38 @@ static int kVolumeAddingValue = 20;
     [[DDPMessageManager sharedManager] sendMessage:message];
 }
 
+- (void)sendParseMessageWithPath:(NSString *)path {
+    DDPParseMessage *message = [[DDPParseMessage alloc] init];
+    message.path = path;
+    [[DDPMessageManager sharedManager] sendMessage:message];
+}
+
+- (NSArray <DDPPlayerMessage *>*)addMeidaToPlayerListWithPaths:(NSArray <NSString *>*)paths {
+    NSMutableArray <DDPPlayerMessage *>*arr = [NSMutableArray arrayWithCapacity:paths.count];
+    [paths enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSURL *url = [NSURL fileURLWithPath:obj];
+        
+        if (url.hasDirectoryPath) {
+            let contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            [contents enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+                if (obj1.isFileURL && ddp_isVideoFile(obj1.path)) {
+                    DDPPlayerMessage *m = [[DDPPlayerMessage alloc] init];
+                    m.path = obj1.path;
+                    [arr addObject:m];
+                }
+            }];
+        } else {
+            DDPPlayerMessage *m = [[DDPPlayerMessage alloc] init];
+            m.path = obj;
+            [arr addObject:m];
+        }
+        
+    }];
+    
+    [self.player addMediaItems:arr];
+    return arr;
+}
+
 #pragma mark - Lazy load
 - (JHDanmakuEngine *)danmakuEngine {
     if (_danmakuEngine == nil) {
@@ -586,6 +683,39 @@ static int kVolumeAddingValue = 20;
             [self sendDanmakuWithString:danmaku];
         };
         
+        _controlView.onClickPlayListButtonCallBack = ^{
+            @strongify(self)
+            if (!self) {
+                return;
+            }
+            
+            var view = self.playerListView;
+            
+            if (view) {
+                [view removeFromSuperview];
+            } else {
+                view = [DDPPlayerListView loadFromNib];
+                self.playerListView = view;
+                view.delegate = self;
+                [self.view addSubview:view];
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.trailing.mas_equalTo(0);
+                    make.bottom.equalTo(self.controlView.mas_top);
+                    make.top.equalTo(self.topBar.mas_bottom);
+                    make.width.mas_greaterThanOrEqualTo(250);
+                    make.width.equalTo(self.view).multipliedBy(0.2);
+                }];
+            }
+        };
+        
+        _controlView.onClickPlayNextButtonCallBack = ^{
+            @strongify(self)
+            if (!self) {
+                return;
+            }
+            
+            [self.player playNext];
+        };
     }
     return _controlView;
 }

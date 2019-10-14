@@ -35,6 +35,11 @@
     [self.collectionView reloadData];
 }
 
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    [self.collectionView.collectionViewLayout invalidateLayout];
+//}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.collection.collection.count;
@@ -49,7 +54,20 @@
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger width = (NSInteger)((kScreenWidth - 40) / 2.5);
+    
+    CGFloat count = 2.5;
+    if (collectionView.width < 1000) {
+        count = 3.5;
+    } else if (collectionView.width >= 1000 && collectionView.width < 1500) {
+        count = 5.5;
+    } else if (collectionView.width >= 1500) {
+        count = 8.5;
+    }
+    
+    NSInteger width = (NSInteger)((collectionView.width - 40) / count);
+    if (ddp_appType == DDPAppTypeToMac && collectionView.width == 0) {
+        width = 60;
+    }
     return CGSizeMake(width, self.height);
 }
 

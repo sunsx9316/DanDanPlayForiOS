@@ -27,6 +27,8 @@
 , DDPMessageManagerObserver
 #endif
 >
+
+@property (nonatomic, strong) NSArray <NSString *>*registerTypes;
 @end
 
 @implementation DDPMainViewController {
@@ -141,14 +143,40 @@
 
 #pragma mark - UIDropInteractionDelegate
 - (BOOL)dropInteraction:(UIDropInteraction *)interaction canHandleSession:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)){
-    BOOL flag = [session hasItemsConformingToTypeIdentifiers:@[(__bridge NSString *)kUTTypeMovie]];
+    BOOL flag = [session hasItemsConformingToTypeIdentifiers:self.registerTypes];
     return flag;
 }
 
 - (void)dropInteraction:(UIDropInteraction *)interaction performDrop:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)) {
-    [session.items.firstObject.itemProvider loadInPlaceFileRepresentationForTypeIdentifier:(__bridge NSString *)kUTTypeMovie completionHandler:^(NSURL * _Nullable url, BOOL isInPlace, NSError * _Nullable error) {
-        [self parseWithURL:url];
+    
+#if DDPAPPTYPEISMAC
+    
+    NSMutableArray <NSString *>*paths = [NSMutableArray arrayWithCapacity:session.items.count];
+    let group = dispatch_group_create();
+    [session.items enumerateObjectsUsingBlock:^(UIDragItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.registerTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
+            let itemProvider = obj.itemProvider;
+            BOOL success = [itemProvider hasItemConformingToTypeIdentifier:obj1];
+            if (success) {
+                dispatch_group_enter(group);
+                [itemProvider loadInPlaceFileRepresentationForTypeIdentifier:obj1 completionHandler:^(NSURL * _Nullable url, BOOL isInPlace, NSError * _Nullable error) {
+                    if (url.path) {
+                        [paths addObject:url.path];
+                    }
+                    
+                    dispatch_group_leave(group);
+                }];
+            }
+        }];
     }];
+    
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        DDPPlayerListMessage *message = [[DDPPlayerListMessage alloc] init];
+        message.paths = paths;
+        [[DDPMessageManager sharedManager] sendMessage:message];
+    });
+#endif
 }
 
 - (UIDropProposal *)dropInteraction:(UIDropInteraction *)interaction sessionDidUpdate:(id<UIDropSession>)session API_AVAILABLE(ios(11.0)) {
@@ -255,6 +283,13 @@
         DDPFile *file = [[DDPFile alloc] initWithFileURL:url type:DDPFileTypeDocument];
         [DDPMethod matchFile:file completion:nil];      
     });
+}
+
+- (NSArray<NSString *> *)registerTypes {
+    if (_registerTypes == nil) {
+        _registerTypes = @[(__bridge NSString *)kUTTypeMovie, (__bridge NSString *)kUTTypeFolder];
+    }
+    return _registerTypes;
 }
 
 @end

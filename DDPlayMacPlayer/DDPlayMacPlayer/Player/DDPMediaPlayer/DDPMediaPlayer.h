@@ -7,7 +7,10 @@
 //
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, DDPMediaPlayerStatus) {
+    DDPMediaPlayerStatusUnknow,
     DDPMediaPlayerStatusPlaying,
     DDPMediaPlayerStatusPause,
     DDPMediaPlayerStatusStop,
@@ -27,8 +30,13 @@ typedef NS_ENUM(NSUInteger, DDPSnapshotType) {
     DDPSnapshotTypeTIFF
 };
 
+typedef NS_ENUM(NSUInteger, DDPMediaPlayerRepeatMode) {
+    DDPMediaPlayerRepeatModeDoNotRepeat,
+    DDPMediaPlayerRepeatModeRepeatCurrentItem,
+    DDPMediaPlayerRepeatModeRepeatAllItems
+};
 
-typedef void(^SnapshotCompleteBlock)(NSImage *image, NSError *error);
+typedef void(^SnapshotCompleteBlock)(NSImage * _Nullable image, NSError * _Nullable error);
 
 
 /**
@@ -45,6 +53,13 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 }
 
 @class DDPMediaPlayer;
+
+@protocol DDPMediaItemProtocol <NSObject>
+
+@property (nonatomic, strong, readonly) NSString * _Nullable path;
+
+@end
+
 @protocol DDPMediaPlayerDelegate <NSObject>
 @optional
 /**
@@ -61,14 +76,18 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 - (void)mediaPlayer:(DDPMediaPlayer *)player rateChange:(float)rate;
 
 - (void)mediaPlayer:(DDPMediaPlayer *)player userJumpWithTime:(NSTimeInterval)time;
+
+- (void)mediaPlayer:(DDPMediaPlayer *)player mediaDidChange:(id<DDPMediaItemProtocol>)media;
 @end
 
-
 @interface DDPMediaPlayer : NSObject
-@property (strong, nonatomic) NSView *mediaView;
-@property (strong, nonatomic) NSURL *mediaURL;
+@property (strong, nonatomic, readonly) NSView * _Nullable mediaView;
+@property (nonatomic, assign) DDPMediaPlayerRepeatMode repeatMode;
 @property (assign, nonatomic) CGFloat volume;
 @property (assign, nonatomic) NSInteger subtitleDelay;
+
+@property (nonatomic, strong) NSArray <id<DDPMediaItemProtocol>>*playerLists;
+@property (nonatomic, strong, readonly) id<DDPMediaItemProtocol> _Nullable currentPlayItem;
 
 /**
  字幕索引
@@ -122,12 +141,12 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  *  @param position          位置 0 ~ 1
  *  @param completionHandler 完成之后的回调
  */
-- (void)setPosition:(CGFloat)position completionHandler:(void(^)(NSTimeInterval time))completionHandler;
+- (void)setPosition:(CGFloat)position completionHandler:(void(^ _Nullable)(NSTimeInterval time))completionHandler;
 /**
  *  协议返回的时间格式 默认"mm:ss"
  */
 @property (strong, nonatomic) NSString *timeFormat;
-@property (weak, nonatomic) id <DDPMediaPlayerDelegate>delegate;
+@property (weak, nonatomic) id <DDPMediaPlayerDelegate> _Nullable delegate;
 - (DDPMediaPlayerStatus)status;
 - (NSTimeInterval)length;
 - (NSTimeInterval)currentTime;
@@ -137,7 +156,7 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  *
  *  @param value 增加的值
  */
-- (void)jump:(int)value completionHandler:(void(^)(NSTimeInterval time))completionHandler;
+- (void)jump:(int)value completionHandler:(void(^ _Nullable)(NSTimeInterval time))completionHandler;
 
 /**
  设置播放时间
@@ -145,7 +164,7 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  @param time 播放时间
  @param completionHandler 完成回调
  */
-- (void)setCurrentTime:(int)time completionHandler:(void(^)(NSTimeInterval time))completionHandler;
+- (void)setCurrentTime:(int)time completionHandler:(void(^ _Nullable)(NSTimeInterval time))completionHandler;
 
 /**
  *  音量增加
@@ -163,7 +182,7 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  *  @param size  宽 如果为 CGSizeZero则为原视频的宽高
  *  @param completion 高 如果填0则为原视频高
  */
-- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(SnapshotCompleteBlock)completion;
+- (void)saveVideoSnapshotwithSize:(CGSize)size completionHandler:(SnapshotCompleteBlock _Nullable)completion;
 /**
  *  加载字幕文件
  *
@@ -179,12 +198,16 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
  *
  *  @return self
  */
-- (instancetype)initWithMediaURL:(NSURL *)mediaURL;
+//- (instancetype)initWithMediaURL:(NSURL *)mediaURL;
 
-
-/**
- 解析
- */
-- (void)parseWithCompletion:(void(^)(void))completion;
+- (void)addMediaItems:(NSArray <id<DDPMediaItemProtocol>>*)items;
+- (void)removeMediaItem:(id<DDPMediaItemProtocol>)item;
+- (void)removeMediaAtIndex:(NSInteger)index;
+- (void)removeMediaWithIndexSet:(NSIndexSet *)indexSet;
+- (void)playWithItem:(id<DDPMediaItemProtocol>)item;
+- (NSInteger)indexWithItem:(id<DDPMediaItemProtocol>)item;
+- (void)playNext;
 
 @end
+
+NS_ASSUME_NONNULL_END

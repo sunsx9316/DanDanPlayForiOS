@@ -175,6 +175,18 @@
     }
 }
 
+- (IBAction)onClickPlayListButton:(NSButton *)sender {
+    if (self.onClickPlayListButtonCallBack) {
+        self.onClickPlayListButtonCallBack();
+    }
+}
+
+- (IBAction)onClickNextButton:(NSButton *)sender {
+    if (self.onClickPlayNextButtonCallBack) {
+        self.onClickPlayNextButtonCallBack();
+    }
+}
+
 - (void)changeDanmakuColor:(NSNotification *)sender {
     NSColorPanel *panel = sender.object;
     DDPDanmakuColorMenuItem *item = (DDPDanmakuColorMenuItem *)[self.danmakuColorPopUpButton itemWithTitle:@"其它"];

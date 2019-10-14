@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15504"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DDPPlayerListView">
+            <connections>
+                <outlet property="column" destination="W5u-LA-jgO" id="KaW-1b-Sra"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="DDPPlayerListView">
+            <rect key="frame" x="0.0" y="0.0" width="500" height="286"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHx-qd-whP">
+                    <rect key="frame" x="0.0" y="0.0" width="500" height="286"/>
+                    <clipView key="contentView" drawsBackground="NO" id="PVs-eR-YVS">
+                        <rect key="frame" x="1" y="0.0" width="498" height="285"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" rowHeight="24" rowSizeStyle="systemDefault" headerView="Ldf-ie-FzZ" viewBased="YES" id="GOF-FQ-GHh">
+                                <rect key="frame" x="0.0" y="0.0" width="498" height="260"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <size key="intercellSpacing" width="3" height="2"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn editable="NO" width="488" minWidth="40" maxWidth="99999" id="W5u-LA-jgO">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="视频路径">
+                                            <font key="font" metaFont="controlContent" size="11"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="dFj-Ge-ppM">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
+                                    </tableColumn>
+                                </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="c22-O7-iKe" id="NL8-eu-oD1"/>
+                                    <outlet property="delegate" destination="c22-O7-iKe" id="RSd-0I-OYZ"/>
+                                    <outlet property="menu" destination="eUl-C7-3Mc" id="dQU-5y-78d"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <nil key="backgroundColor"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="qnF-Mf-JWS">
+                        <rect key="frame" x="1" y="269" width="498" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="s8E-Jm-PO1">
+                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <tableHeaderView key="headerView" id="Ldf-ie-FzZ">
+                        <rect key="frame" x="0.0" y="0.0" width="498" height="25"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </tableHeaderView>
+                </scrollView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="IHx-qd-whP" secondAttribute="trailing" id="JvB-O8-dJi"/>
+                <constraint firstItem="IHx-qd-whP" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="P66-Qx-gkh"/>
+                <constraint firstAttribute="bottom" secondItem="IHx-qd-whP" secondAttribute="bottom" id="Y3F-cf-17f"/>
+                <constraint firstItem="IHx-qd-whP" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="ieP-gQ-88K"/>
+            </constraints>
+            <connections>
+                <outlet property="tableMenu" destination="eUl-C7-3Mc" id="5DO-s1-urK"/>
+                <outlet property="tableView" destination="GOF-FQ-GHh" id="7al-G4-4jM"/>
+            </connections>
+            <point key="canvasLocation" x="-145" y="91"/>
+        </customView>
+        <menu id="eUl-C7-3Mc">
+            <connections>
+                <outlet property="delegate" destination="c22-O7-iKe" id="idr-9V-N1h"/>
+            </connections>
+            <point key="canvasLocation" x="272" y="4"/>
+        </menu>
+    </objects>
+</document>

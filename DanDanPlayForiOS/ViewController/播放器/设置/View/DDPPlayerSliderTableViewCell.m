@@ -57,7 +57,12 @@
         {
             NSInteger value = sender.value;
             UIFont *danmakuFont = [DDPCacheManager shareCacheManager].danmakuFont;
-            UIFont *tempFont = [danmakuFont fontWithSize:value];
+            UIFont *tempFont = nil;
+            if (danmakuFont.isSystemFont) {
+                tempFont = [UIFont systemFontOfSize:value];
+            } else {
+                tempFont = [danmakuFont fontWithSize:value];
+            }
             tempFont.isSystemFont = danmakuFont.isSystemFont;
             [DDPCacheManager shareCacheManager].danmakuFont = tempFont;
             self.currentValueLabel.text = [NSString stringWithFormat:@"%ld", (long)value];
