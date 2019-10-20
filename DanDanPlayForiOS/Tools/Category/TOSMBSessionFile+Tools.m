@@ -26,7 +26,7 @@
         [path appendString:session.ipAddress];
     }
     
-    [path appendFormat:@"%@", [[self.filePath stringByURLEncode] stringByURLEncode]];
+    [path appendFormat:@"%@", [self.filePath stringByURLEncode]];
 
     return [NSURL URLWithString:path];
 }

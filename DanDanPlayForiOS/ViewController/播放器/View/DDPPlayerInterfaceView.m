@@ -786,6 +786,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
                 [self.delegate interfaceViewDidTapSubTitleIndexEmptyView];
             }
         };
+        _subTitleIndexViewMediator.player = [DDPCacheManager shareCacheManager].mediaPlayer;
     }
     return _subTitleIndexViewMediator;
 }
@@ -793,6 +794,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
 - (DDPPlayerAudioChannelViewMediator *)audioChannelViewMediator {
     if (_audioChannelViewMediator == nil) {
         _audioChannelViewMediator = [[DDPPlayerAudioChannelViewMediator alloc] init];
+        _audioChannelViewMediator.player = [DDPCacheManager shareCacheManager].mediaPlayer;
     }
     return _audioChannelViewMediator;
 }

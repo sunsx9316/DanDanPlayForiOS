@@ -8,7 +8,6 @@
 
 #import "DDPPlayerSliderTableViewCell.h"
 #import "UIFont+Tools.h"
-#import "DDPMediaPlayer.h"
 
 @interface DDPPlayerSliderTableViewCell ()
 

@@ -232,6 +232,14 @@
     [UITextView appearance].tintColor = [UIColor ddp_mainColor];
     
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
+    
+#if DDPAPPTYPEISMAC
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"ddplaymac://"]]) {
+        let appPathInBundle = [[NSBundle mainBundle] pathForResource:@"弹弹Play播放器" ofType:@"app"];
+        let applicationDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSUserDomainMask] lastObject].path;
+        [[NSFileManager defaultManager] copyItemAtPath:appPathInBundle toPath:applicationDirectory error:nil];
+    }
+#endif
 }
 
 - (void)configCrash {

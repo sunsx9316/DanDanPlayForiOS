@@ -225,11 +225,11 @@
 }
 
 - (void)setCurrentAudioChannelIndex:(int)currentAudioChannelIndex {
-    self.localMediaPlayer.audioChannel = currentAudioChannelIndex;
+    self.localMediaPlayer.currentAudioTrackIndex = currentAudioChannelIndex;
 }
 
 - (int)currentAudioChannelIndex {
-    return self.localMediaPlayer.audioChannel;
+    return self.localMediaPlayer.currentAudioTrackIndex;
 }
 
 

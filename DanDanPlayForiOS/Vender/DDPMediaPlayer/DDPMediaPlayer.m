@@ -182,15 +182,15 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (NSArray<NSString *> *)audioChannelTitles {
-    return _localMediaPlayer.audioTrackIndexes;
+    return _localMediaPlayer.audioTrackNames;
 }
 
 - (void)setCurrentAudioChannelIndex:(int)currentAudioChannelIndex {
-    _localMediaPlayer.audioChannel = currentAudioChannelIndex;
+    _localMediaPlayer.currentAudioTrackIndex = currentAudioChannelIndex;
 }
 
 - (int)currentAudioChannelIndex {
-    return _localMediaPlayer.audioChannel;
+    return _localMediaPlayer.currentAudioTrackIndex;
 }
 
 
@@ -306,7 +306,7 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-//    DDLogVerbose(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+    JHLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
     
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         DDPMediaPlayerStatus status = [self status];

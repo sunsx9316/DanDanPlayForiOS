@@ -11,7 +11,6 @@
 #import "DDPSelectedTableViewCell.h"
 #import "DDPPlayerSliderTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
-#import "DDPMediaPlayer.h"
 #import "DDPBaseTableView.h"
 
 @interface DDPPlayerVideoControlViewController ()<UITableViewDataSource, UITableViewDelegate>

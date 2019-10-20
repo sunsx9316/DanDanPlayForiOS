@@ -596,10 +596,12 @@
 			baseConfigurationReference = AF5E03536CF8487F6EF66DD2 /* Pods-DDPlayMacPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 201910141;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "${SRCROOT}/DDPlayMacPlayer/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DDPlayMacPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -608,6 +610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.DDPlayMacPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -616,10 +619,12 @@
 			baseConfigurationReference = 57485024FC38AE686741EC55 /* Pods-DDPlayMacPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 201910141;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREFIX_HEADER = "${SRCROOT}/DDPlayMacPlayer/Config/DDPPrefixHeader.pch";
 				INFOPLIST_FILE = DDPlayMacPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -628,6 +633,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.DDPlayMacPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

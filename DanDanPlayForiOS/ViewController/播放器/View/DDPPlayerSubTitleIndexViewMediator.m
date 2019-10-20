@@ -32,7 +32,9 @@
     if (indexPath.section == 0) {
         return @"选择字幕...";
     }
-    return self.player.subtitleTitles[indexPath.row];
+    
+    NSString *name = [NSString stringWithFormat:@"%@", self.player.subtitleTitles[indexPath.row]];
+    return name;
 }
 
 - (NSString * _Nullable)emptyTitleInIndexView:(DDPPlayerSelectedIndexView *)view {

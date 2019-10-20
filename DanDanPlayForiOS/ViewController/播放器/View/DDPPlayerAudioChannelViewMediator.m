@@ -17,7 +17,8 @@
 }
 
 - (NSString * _Nullable)indexView:(DDPPlayerSelectedIndexView *)view titleAtIndexPath:(NSIndexPath *)indexPath {
-    return self.player.audioChannelTitles[indexPath.row];
+    NSString *name = [NSString stringWithFormat:@"%@", self.player.audioChannelTitles[indexPath.row]];
+    return name;
 }
 
 - (NSString * _Nullable)emptyTitleInIndexView:(DDPPlayerSelectedIndexView *)view {
