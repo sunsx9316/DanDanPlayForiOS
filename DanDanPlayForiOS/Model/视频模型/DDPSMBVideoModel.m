@@ -7,7 +7,6 @@
 //
 
 #import "DDPSMBVideoModel.h"
-#import <MobileVLCKit/MobileVLCKit.h>
 
 @implementation DDPSMBVideoModel
 {
@@ -36,12 +35,5 @@
 - (BOOL)isCacheHash {
     return _fileHash != nil;
 }
-
-//- (VLCMedia *)media {
-//    VLCMedia *media = [super media];
-//    TOSMBSession *session = [DDPToolsManager shareToolsManager].SMBSession;
-//    [media setMetadata:<#(nonnull NSString *)#> forKey:<#(nonnull NSString *)#>]
-//    return media;
-//}
 
 @end
