@@ -28,6 +28,17 @@
 
 @end
 
+@interface _DDPlayerView : VLCVideoView
+
+@end
+
+@implementation _DDPlayerView
+
+- (BOOL)mouseDownCanMoveWindow {
+    return YES;
+}
+
+@end
 
 //最大音量
 #define MAX_VOLUME 200.0
@@ -263,6 +274,13 @@
 }
 
 - (void)playNext {
+    let item = [self nextItem];
+    if (item) {
+        [self playWithItem:item];
+    }
+}
+
+- (id<DDPMediaItemProtocol>)nextItem {
     var index = [self indexWithItem:self.currentPlayItem];
     if (index != NSNotFound && index + 1 < self.playerLists.count) {
         index = index + 1;
@@ -271,8 +289,9 @@
     }
     
     if (index < self.playerLists.count) {
-        [self playWithItem:self.playerLists[index]];
+        return self.playerLists[index];
     }
+    return nil;
 }
 
 - (void)pause {
@@ -478,9 +497,9 @@
 
 - (NSView *)mediaView {
     if (_mediaView == nil) {
-        VLCVideoView *mediaView = [[VLCVideoView alloc] init];
+        VLCVideoView *mediaView = [[_DDPlayerView alloc] init];
         mediaView.fillScreen = YES;
-        
+        mediaView.wantsLayer = YES;
         _mediaView = mediaView;
     }
     return _mediaView;

@@ -197,7 +197,7 @@
     
     //更改匹配信息
     [DDPMatchNetManagerOperation matchEditMatchVideoModel:self.model user:[DDPCacheManager shareCacheManager].currentUser completionHandler:^(NSError *error) {
-        NSLog(@"%@", error);
+        LOG_ERROR(DDPLogModuleFile, @"匹配失败 %@", error);
     }];
     
     if (vc) {

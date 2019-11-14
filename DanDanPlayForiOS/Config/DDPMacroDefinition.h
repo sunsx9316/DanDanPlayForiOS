@@ -7,17 +7,15 @@
 //
 
 #import "APPKey.h"
-#import <CocoaLumberjack.h>
+#import "LogUtil.h"
 
 #ifndef DDPMacroDefinition_h
 #define DDPMacroDefinition_h
 
-static const int ddLogLevel = DDLogLevelVerbose;
-
 #ifdef DEBUG
-#define JHLog(format, ...) DDLogDebug(format, __VA_ARGS__)
+
 #else
-#define JHLog(format, ...)
+#define NSLog(format, ...)
 #endif
 
 #if defined(__cplusplus)
@@ -93,6 +91,7 @@ typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 
 #if DDPAPPTYPE == 2
 #define DDPAPPTYPEISMAC 1
+
 #elif DDPAPPTYPE == 1
 #define DDPAPPTYPEISREVIEW 1
 #elif DDPAPPTYPE == 0

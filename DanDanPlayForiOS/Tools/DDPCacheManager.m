@@ -367,6 +367,15 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 #pragma mark -
+- (void)setGuildViewIsShow:(BOOL)guildViewIsShow {
+    [[NSUserDefaults standardUserDefaults] setBool:guildViewIsShow forKey:[self keyWithSEL:_cmd]];
+}
+
+- (BOOL)guildViewIsShow {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:[self keyWithSEL:_cmd]];
+}
+
+#pragma mark -
 - (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {
     [self.cache setObject:@(playInterfaceOrientation) forKey:[self keyWithSEL:_cmd]];
 }

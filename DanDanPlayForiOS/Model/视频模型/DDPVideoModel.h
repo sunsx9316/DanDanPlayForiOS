@@ -7,14 +7,15 @@
 //
 
 #import "DDPBase.h"
+#import "DDPMediaItemProtocal.h"
 
 //匹配的长度 16M
 #define MEDIA_MATCH_LENGTH 16777216
 
 
-@class VLCMedia, DDPFile;
+@class DDPFile;
 
-@interface DDPVideoModel : DDPBase
+@interface DDPVideoModel : DDPBase<DDPMediaItemProtocol>
 
 /*
  文件名 :name
@@ -54,13 +55,6 @@
  快速hash 文件名的hash值
  */
 @property (copy, nonatomic, readonly) NSString *quickHash;
-
-#if !DDPAPPTYPEISMAC
-/**
- 视频模型
- */
-@property (strong, nonatomic, readonly) VLCMedia *media;
-#endif
 
 /**
  弹幕

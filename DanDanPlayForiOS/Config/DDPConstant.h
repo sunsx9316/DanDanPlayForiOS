@@ -77,6 +77,15 @@ typedef NS_ENUM(NSUInteger, DDPAppType) {
     DDPAppTypeToMac,
 };
 
+typedef char * DDPLogModule;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleHomePage;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleNetwork;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleLogin;
+FOUNDATION_EXPORT DDPLogModule DDPLogModulePlayer;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleFile;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleMine;
+FOUNDATION_EXPORT DDPLogModule DDPLogModuleOther;
+
 FOUNDATION_EXPORT DDPAppType ddp_appType;
 
 FOUNDATION_EXPORT NSString *ddp_buglyKey;

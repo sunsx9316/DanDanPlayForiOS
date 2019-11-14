@@ -28,9 +28,9 @@ static char mediaParsingCompletionKey = '0';
     DDPMediaPlayerStatus _status;
 }
 
-- (instancetype)initWithMediaURL:(NSURL *)mediaURL {
+- (instancetype)initWithMedia:(id<DDPMediaItemProtocol>)media {
     if (self = [self init]) {
-        [self setMediaURL:mediaURL];
+        [self setMedia:media];
     }
     return self;
 }
@@ -57,14 +57,14 @@ static char mediaParsingCompletionKey = '0';
     let result = [media parseWithOptions:VLCMediaParseLocal | VLCMediaParseNetwork];
     
     if (result != 0) {
-        JHLog(@"%@", @"解析失败");
+        LOG_ERROR(DDPLogModulePlayer, @"%@ 解析失败", media.url);
     }
 }
 
 
 #pragma mark 属性
 - (DDPMediaType)mediaType {
-    return [self.mediaURL isFileURL] ? DDPMediaTypeLocaleMedia : DDPMediaTypeNetMedia;
+    return [self.media.url isFileURL] ? DDPMediaTypeLocaleMedia : DDPMediaTypeNetMedia;
 }
 
 - (NSTimeInterval)length {
@@ -252,7 +252,7 @@ static char mediaParsingCompletionKey = '0';
     self.snapshotCompleteBlock = completion;
     
     NSString *aPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)[NSDate date].hash]];
-    if ([_mediaURL.absoluteString containsString:@"smb"]) {
+    if ([self.media.url.absoluteString containsString:@"smb"]) {
         UIView *aView = self.localMediaPlayer.drawable;
         UIImage *tempImage = [aView snapshotImageAfterScreenUpdates:YES];
         [self saveImage:tempImage];
@@ -270,16 +270,18 @@ static char mediaParsingCompletionKey = '0';
     //    return [_localMediaPlayer openVideoSubTitlesFromFile:a];
 }
 
-- (void)setMediaURL:(NSURL *)mediaURL {
-    if (!mediaURL) return;
+- (void)setMedia:(id<DDPMediaItemProtocol>)media {
+    if (!media) return;
     
-    _mediaURL = mediaURL;
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_mediaURL.path] || [_mediaURL.scheme isEqualToString:@"smb"] || [_mediaURL.scheme isEqualToString:@"http"]) {
-        VLCMedia *media = [[VLCMedia alloc] initWithURL:mediaURL];
-        media.delegate = self;
-        self.localMediaPlayer.media = media;
+    _media = media;
+    VLCMedia *vlcMedia = [[VLCMedia alloc] initWithURL:_media.url];
+    vlcMedia.delegate = self;
+    if (media.mediaOptions) {
+        [vlcMedia addOptions:media.mediaOptions];
     }
+    self.localMediaPlayer.media = vlcMedia;
+    
+    LOG_INFO(DDPLogModulePlayer, @"设置播放路径：%@", _media.url);
     
     _length = -1;
 }
@@ -306,7 +308,7 @@ static char mediaParsingCompletionKey = '0';
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification {
-    JHLog(@"状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
+    LOG_INFO(DDPLogModulePlayer, @"播放器状态 %@", VLCMediaPlayerStateToString(self.localMediaPlayer.state));
     
     if ([self.delegate respondsToSelector:@selector(mediaPlayer:statusChange:)]) {
         DDPMediaPlayerStatus status = [self status];

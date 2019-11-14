@@ -152,13 +152,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE
         //        _writePath = nil;
     }
     
-    DDLogVerbose(@"Saving file to %@", filePath);
+    LOG_INFO(DDPLogModuleOther, @"Saving file to %@", filePath);
     if(![[NSFileManager defaultManager] createDirectoryAtPath:uploadDirPath withIntermediateDirectories:true attributes:nil error:nil]) {
-        DDLogError(@"Could not create directory at path: %@", filePath);
+        LOG_INFO(DDPLogModuleOther, @"Could not create directory at path: %@", filePath);
     }
     
     if(![[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil]) {
-        DDLogError(@"Could not create file at path: %@", filePath);
+        LOG_INFO(DDPLogModuleOther, @"Could not create file at path: %@", filePath);
     }
     _writePath = filePath;
     _storeFile = [NSFileHandle fileHandleForWritingAtPath:filePath];

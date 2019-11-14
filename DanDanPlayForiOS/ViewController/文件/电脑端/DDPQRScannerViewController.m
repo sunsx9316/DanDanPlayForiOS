@@ -100,7 +100,7 @@
 
 #pragma mark - 私有方法
 - (void)scanResultWithText:(NSString *)text {
-    NSLog(@"%@", text);
+    LOG_INFO(DDPLogModuleFile, @"搜索 %@", text);
     
     NSDictionary *dic = [text jsonValueDecoded];
     if (dic) {
@@ -183,7 +183,8 @@
         }
         else {
             //PC端版本满足
-            if ([responseObject.version compare:WIN_MINI_LINK_VERSION] == NSOrderedAscending) {
+            
+            if ([responseObject.version compare:WIN_MINI_LINK_VERSION options:NSNumericSearch] == NSOrderedAscending) {
                 UIAlertController *warningVC = [UIAlertController alertControllerWithTitle:@"当前电脑版版本过旧，请更新到最新版后使用" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [warningVC addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                     [self.QRCodeReader startScanning];

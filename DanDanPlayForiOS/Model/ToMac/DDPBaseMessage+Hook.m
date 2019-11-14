@@ -11,6 +11,10 @@
 
 @implementation DDPBaseMessage (Hook)
 
++ (NSString *)toApp {
+    return @"ddplaymac";
+}
+
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -19,6 +23,6 @@
 }
 
 - (NSString *)ddp_messageTo {
-    return @"ddplaymac";
+    return [self.class toApp];
 }
 @end

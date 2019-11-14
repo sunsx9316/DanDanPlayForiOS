@@ -161,8 +161,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [progressHUD hideAnimated:YES];
             });
-            
-            JHLog(@"下载路径：%@", model);
         }];
     }]];
     

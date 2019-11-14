@@ -70,8 +70,7 @@
 
 #pragma mark - YYKeyboardObserver
 - (void)keyboardChangedWithTransition:(YYKeyboardTransition)transition {
-    NSLog(@"%d %d", transition.toVisible, transition.fromVisible);
-    
+    LOG_DEBUG(DDPLogModuleMine, @"键盘参数 toVisible: %d fromVisible: %d", transition.toVisible, transition.fromVisible);
     if (transition.toVisible) {
         float offset = transition.toFrame.size.height;
         [UIView animateWithDuration:transition.animationDuration delay:0 options:transition.animationOption animations:^{

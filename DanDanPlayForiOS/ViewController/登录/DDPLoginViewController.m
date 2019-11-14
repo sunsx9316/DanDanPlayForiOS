@@ -75,13 +75,13 @@
                           }
                           
                           if (error) {
-                              NSLog(@"---failed to evaluate---error: %@---", error.description);
+                              LOG_ERROR(DDPLogModuleLogin, @"---failed to evaluate---error: %@---", error.description);
                           }
                       }];
         }
     }
     else {
-        NSLog(@"touchID不可用");
+         LOG_ERROR(DDPLogModuleLogin, @"touchID不可用");
     }
 }
 

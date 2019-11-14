@@ -36,4 +36,12 @@
     return _fileHash != nil;
 }
 
+- (NSDictionary *)mediaOptions {
+    let SMBSession = DDPToolsManager.shareToolsManager.SMBSession;
+    let smbInfo = [DDPToolsManager shareToolsManager].smbInfo;
+    return @{@"smb-user" : SMBSession.userName ?: @"",
+             @"smb-pwd" : SMBSession.password ?: @"",
+             @"smb-domain" : smbInfo.workGroup ?: @"WORKGROUP"};
+}
+
 @end

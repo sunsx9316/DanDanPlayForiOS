@@ -35,7 +35,7 @@
 
 - (void)dealloc {
     [self.view hideAllHUD];
-    NSLog(@"%@ dealloc", NSStringFromClass(self.class));
+    LOG_DEBUG(DDPLogModuleOther, @"%@ dealloc", NSStringFromClass(self.class));
 }
 
 - (Class)ddp_navigationBarClass {

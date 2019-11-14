@@ -18,6 +18,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.helpButton.backgroundColor = nil;
     self.holdView.layer.cornerRadius = 6;
     self.holdView.layer.masksToBounds = YES;
     self.titleLabel.font = [UIFont ddp_normalSizeFont];

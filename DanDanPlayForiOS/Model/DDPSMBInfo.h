@@ -13,4 +13,5 @@
 @property (nonatomic, copy) NSString *ipAddress;
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic, copy) NSString *password;
+@property (nonatomic, copy) NSString *workGroup;
 @end

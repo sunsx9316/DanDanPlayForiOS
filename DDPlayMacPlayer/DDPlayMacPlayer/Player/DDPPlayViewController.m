@@ -102,7 +102,7 @@ static int kVolumeAddingValue = 20;
     [self autoShowControlViewWithCompletion:nil];
     
     [self.player.mediaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.top.bottom.mas_equalTo(0);
+        make.edges.mas_equalTo(0);
     }];
 
     [self.danmakuEngine.canvas mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,9 +139,8 @@ static int kVolumeAddingValue = 20;
         }
         
         let items = [self addMeidaToPlayerListWithPaths:paths];
-        if (self.player.isPlaying == NO) {
-            [self sendParseMessageWithPath:items.firstObject.path];
-        }
+        [self.playerListView reloadData];
+        [self sendParseMessageWithPath:items.firstObject.path];
     };
     
     DDPDanmakuManager.shared.settingDidChangeCallBack = ^(DDPDanmakuSettingMessage * _Nonnull setting) {
@@ -187,13 +186,21 @@ static int kVolumeAddingValue = 20;
         return;
     }
     
+    
     if (event.clickCount == 1) {
+        if (self.playerListView) {
+            [self hidePlayerList];
+            return;
+        }
+        
         [self performSelector:@selector(onClickPlayButton) withObject:nil afterDelay:[NSEvent doubleClickInterval]];
     }
     else if (event.clickCount == 2) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(onClickPlayButton) object:nil];
         [self onToggleFullScreen];
+        [self hidePlayerList];
     }
+    
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
@@ -437,6 +444,12 @@ static int kVolumeAddingValue = 20;
             self.danmakuEngine.currentTime = 0;
             [self.player playWithItem:aMessage];
             
+            //vlc神奇的bug...
+            let frame = self.view.window.frame;
+            [self.view.window setFrame:CGRectInset(frame, 1, 1) display:YES];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.view.window setFrame:frame display:YES];
+            });
         }
     } else if ([message.messageType isEqualToString:DDPSendDanmakuMessage.messageType]) {
         DDPSendDanmakuMessage *aMessage = [[DDPSendDanmakuMessage alloc] initWithObj:message];
@@ -470,6 +483,8 @@ static int kVolumeAddingValue = 20;
         if (self.player.isPlaying == NO) {
             [self sendParseMessageWithPath:items.firstObject.path];
         }
+    }  else if ([message.messageType isEqualToString:DDPExitMessage.messageType]) {
+        exit(0);
     }
 }
 
@@ -612,6 +627,28 @@ static int kVolumeAddingValue = 20;
     return arr;
 }
 
+- (void)showPlayerList {
+    var view = self.playerListView;
+    
+    if (!view) {
+        view = [DDPPlayerListView loadFromNib];
+        self.playerListView = view;
+        view.delegate = self;
+        [self.view addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.mas_equalTo(0);
+            make.bottom.equalTo(self.controlView.mas_top);
+            make.top.equalTo(self.topBar.mas_bottom);
+            make.width.mas_greaterThanOrEqualTo(250);
+            make.width.equalTo(self.view).multipliedBy(0.2);
+        }];
+    }
+}
+
+- (void)hidePlayerList {
+    [self.playerListView removeFromSuperview];
+}
+
 #pragma mark - Lazy load
 - (JHDanmakuEngine *)danmakuEngine {
     if (_danmakuEngine == nil) {
@@ -690,21 +727,10 @@ static int kVolumeAddingValue = 20;
             }
             
             var view = self.playerListView;
-            
             if (view) {
-                [view removeFromSuperview];
+                [self hidePlayerList];
             } else {
-                view = [DDPPlayerListView loadFromNib];
-                self.playerListView = view;
-                view.delegate = self;
-                [self.view addSubview:view];
-                [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.trailing.mas_equalTo(0);
-                    make.bottom.equalTo(self.controlView.mas_top);
-                    make.top.equalTo(self.topBar.mas_bottom);
-                    make.width.mas_greaterThanOrEqualTo(250);
-                    make.width.equalTo(self.view).multipliedBy(0.2);
-                }];
+                [self showPlayerList];
             }
         };
         
@@ -714,7 +740,10 @@ static int kVolumeAddingValue = 20;
                 return;
             }
             
-            [self.player playNext];
+            let item = [self.player nextItem];
+            if (item) {
+                [self sendParseMessageWithPath:item.path];
+            }
         };
     }
     return _controlView;

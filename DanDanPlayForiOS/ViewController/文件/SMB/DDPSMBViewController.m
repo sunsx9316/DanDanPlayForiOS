@@ -232,6 +232,7 @@
         
         model.userName = aView.userNameTextField.text;
         model.password = aView.passwordTextField.text;
+        model.workGroup = aView.workGroupTextField.text.length > 0 ? aView.workGroupTextField.text : @"WORKGROUP";
         [self loginWithModel:model completion:^(BOOL success) {
             if (success) {
                 [aView dismiss];
@@ -308,12 +309,11 @@
                 [self.nameServiceEntries addObject:entry];
                 [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
                 
-                NSLog(@"连接成功 %@", entry.name);
-                
+                LOG_INFO(DDPLogModuleFile, @"连接成功 %@", entry.name);
             } removed:^(TONetBIOSNameServiceEntry *entry) {
                 [self.nameServiceEntries removeObject:entry];
                 [self.tableView reloadSection:0 withRowAnimation:UITableViewRowAnimationAutomatic];
-                NSLog(@"连接失败 %@", entry.name);
+                LOG_ERROR(DDPLogModuleFile, @"连接失败 %@", entry.name);
             }];
             
             [self.tableView.mj_header endRefreshing];

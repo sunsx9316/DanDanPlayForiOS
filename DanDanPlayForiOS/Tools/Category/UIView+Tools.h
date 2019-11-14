@@ -44,8 +44,8 @@
 /**
  在一个半透明视图上显示自己
 
- @param holderView <#holderView description#>
- @param completion <#completion description#>
+ @param holderView holderView
+ @param completion completion
  */
 - (void)ddp_showViewWithHolderView:(UIView *)holderView
                         completion:(void(^)(BOOL finished))completion;

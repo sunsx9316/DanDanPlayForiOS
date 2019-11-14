@@ -180,7 +180,7 @@
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed)]) {
         float speed = [change[NSKeyValueChangeNewKey] floatValue];
         [self.danmakuEngine setSpeed:speed];
-        NSLog(@"弹幕速度 %f", speed);
+        LOG_DEBUG(DDPLogModulePlayer, @"设置弹幕速度 %f", speed);
     }
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuEffectStyle)]) {
         JHDanmakuEffectStyle style = [change[NSKeyValueChangeNewKey] integerValue];
@@ -571,9 +571,8 @@
     _sentDanmakuDic = [NSMutableDictionary dictionary];
     self.danmakuProducer = [[DDPDanmakuProducer alloc] initWithDamakus:dic];
     [self.danmakuProducer reloadDataWithTime:0];
-    
     //更换视频
-    [self.player setMediaURL:_model.fileURL];
+    self.player.media = _model;
     self.danmakuEngine.currentTime = 0;
     
     self.interfaceView.model = _model;

@@ -65,10 +65,10 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
     if (model == nil || completion == nil || objc_getAssociatedObject(model, &tempImageKey)) return;
     
     objc_setAssociatedObject(model, &tempImageKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
+    let aMedia = [[VLCMedia alloc] initWithURL:model.fileURL];
     dispatch_group_async(_parseVideoGroup, _queue, ^{
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-        DDPMediaThumbnailer *thumbnailer = [[DDPMediaThumbnailer alloc] initWithMedia:model.media block:^(UIImage *image) {
+        DDPMediaThumbnailer *thumbnailer = [[DDPMediaThumbnailer alloc] initWithMedia:aMedia block:^(UIImage *image) {
             [[YYWebImageManager sharedManager].cache setImage:image forKey:model.quickHash];
             
             dispatch_async(dispatch_get_main_queue(), ^{

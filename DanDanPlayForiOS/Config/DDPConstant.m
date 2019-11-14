@@ -20,6 +20,14 @@ DDPProductionType DDPProductionTypeMusicJPMovie = @"jpmovie";
 DDPProductionType DDPProductionTypeMusicJPDrama = @"jpdrama";
 DDPProductionType DDPProductionTypeMusicUnknown = @"unknown";
 
+DDPLogModule DDPLogModuleHomePage = "首页";
+DDPLogModule DDPLogModuleNetwork = "网络";
+DDPLogModule DDPLogModuleLogin = "登录";
+DDPLogModule DDPLogModulePlayer = "播放器";
+DDPLogModule DDPLogModuleFile = "文件";
+DDPLogModule DDPLogModuleMine = "我的";
+DDPLogModule DDPLogModuleOther = "其它";
+
 #if DDPAPPTYPE == 1
 DDPAppType ddp_appType = DDPAppTypeReview;
 #elif DDPAPPTYPEISMAC

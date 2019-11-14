@@ -140,7 +140,7 @@
     NSError *error = nil;
     BOOL success = [[DDPToolsManager shareHTTPServer] start:&error];
     if(success == NO) {
-        NSLog(@"Error starting HTTP Server: %@", error);
+        LOG_ERROR(DDPLogModuleFile, @"Error starting HTTP Server: %@", error);
         [self showErrorUI];
     }
     else {

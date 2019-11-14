@@ -20,6 +20,7 @@
 #import "DDPCommentNetManagerOperation.h"
 #import "DDPDanmakuManager.h"
 #import "DDPCacheManager+MacObserver.h"
+#import "DDPGuildView.h"
 #endif
 
 @interface DDPMainViewController ()<UITabBarControllerDelegate, UIDropInteractionDelegate
@@ -88,7 +89,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     let items = [self.class items];
     let arr = [NSMutableArray arrayWithCapacity:items.count];
     
@@ -104,6 +104,12 @@
     [[DDPMessageManager sharedManager] addObserver:self];
     [self addDragAndDrop];
     [self addNotice];
+    
+    if (!DDPCacheManager.shareCacheManager.guildViewIsShow) {
+        DDPGuildView *view = [DDPGuildView fromXib];
+        [self.view addSubview:view];
+        [view show];
+    }
 #else
     self.tabBar.translucent = NO;
 #endif
@@ -220,6 +226,8 @@
                     [DDPDanmakuManager saveDanmakuWithObj:danmakus episodeId:episodeId source:DDPDanmakuTypeByUser];
                 }
             }];
+        } else if ([message.messageType isEqualToString:DDPExitMessage.messageType]) {
+            exit(0);
         }
     }
 }

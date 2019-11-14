@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *holdViewCenterYLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *helpButton;
+@property (weak, nonatomic) IBOutlet UITextField *workGroupTextField;
 
 @property (copy, nonatomic) void(^touchLoginButtonCallBack)(DDPSMBLoginView *aView);
 @property (copy, nonatomic) void(^touchHelpButtonCallBack)(void);

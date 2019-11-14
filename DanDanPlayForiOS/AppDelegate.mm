@@ -20,11 +20,16 @@
 //#import <BayMaxProtector.h>
 #import "DDPPlayNavigationController.h"
 #import "DDPSharedNetManager.h"
+#import <YYCategories/NSData+YYAdd.h>
 
 #if !DDPAPPTYPEISMAC
 #import <Bugly/Bugly.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import <UMMobClick/MobClick.h>
+#else
+#import <SSZipArchive/SSZipArchive.h>
+#import <DDPShare/DDPShare.h>
+#import "DDPBaseMessage+Hook.h"
 #endif
 
 @interface AppDelegate ()
@@ -34,12 +39,11 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSLog(@"%@", [UIApplication sharedApplication].documentsURL);
+    LOG_DEBUG(DDPLogModuleOther, @"documentsURL: %@", [UIApplication sharedApplication].documentsURL);
     
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUM];
-    [self configDDLog];
     [self configOther];
     
     if (@available(iOS 13.0, *)) {
@@ -65,8 +69,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [LogHelper flush];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -144,7 +147,7 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [LogHelper deinitLog];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
@@ -189,6 +192,26 @@
     return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
 }
 
+- (void)buildMenuWithBuilder:(id<UIMenuBuilder>)builder {
+    [super buildMenuWithBuilder:builder];
+    [builder removeMenuForIdentifier:UIMenuFormat];
+    [builder removeMenuForIdentifier:UIMenuFile];
+    
+    let helpCommad = [UIKeyCommand keyCommandWithInput:@"" modifierFlags:kNilOptions action:@selector(showHelpGuild)];
+    helpCommad.title = @"FAQ";
+
+    [builder replaceChildrenOfMenuForIdentifier:UIMenuHelp fromChildrenBlock:^NSArray<UIMenuElement *> * _Nonnull(NSArray<UIMenuElement *> * _Nonnull) {
+        return @[helpCommad];
+    }];
+}
+
+- (void)showHelpGuild {
+    let path = [[NSBundle mainBundle] pathForResource:@"FAQ" ofType:@"html"];
+    if (path) {
+        [UIApplication.sharedApplication openURL:[NSURL fileURLWithPath:path] options:@{} completionHandler:nil];
+    }
+}
+
 #pragma mark - 私有方法
 - (void)configIQKeyboardManager {
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
@@ -219,10 +242,6 @@
 #endif
 }
 
-- (void)configDDLog {
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-}
-
 - (void)configOther {
     if (@available(iOS 11.0, *)) {
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -234,11 +253,30 @@
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
     
 #if DDPAPPTYPEISMAC
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"ddplaymac://"]]) {
-        let appPathInBundle = [[NSBundle mainBundle] pathForResource:@"弹弹Play播放器" ofType:@"app"];
-        let applicationDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSUserDomainMask] lastObject].path;
-        [[NSFileManager defaultManager] copyItemAtPath:appPathInBundle toPath:applicationDirectory error:nil];
+    let applicationDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationDirectory inDomains:NSUserDomainMask] lastObject].path;
+    let tempPath = [applicationDirectory stringByAppendingPathComponent:@"弹弹Play播放器.app"];
+    
+    void(^copyAction)(void) = ^{
+        let appPathInBundle = [[NSBundle mainBundle] pathForResource:@"inner_player" ofType:@"zip"];
+        [SSZipArchive unzipFileAtPath:appPathInBundle toDestination:applicationDirectory];
+    };
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
+        copyAction();
+    } else {
+        let plistPath = [tempPath stringByAppendingPathComponent:@"Contents/Info.plist"];
+        let plistDic = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+        NSString *localVersion = plistDic[@"CFBundleVersion"];
+        NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"InnerPlayerVersion"];
+        if ([localVersion compare:currentVersion options:NSNumericSearch] == NSOrderedAscending) {
+            [NSFileManager.defaultManager removeItemAtPath:tempPath error:nil];
+            copyAction();
+        }
     }
+#else
+    
+    [LogHelper setupLog];
+    
 #endif
 }
 

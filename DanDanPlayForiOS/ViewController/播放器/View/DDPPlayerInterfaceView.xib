@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -164,26 +161,24 @@
                         <constraint firstAttribute="trailing" secondItem="FKI-KS-ftV" secondAttribute="trailing" id="BaZ-fk-OLi"/>
                         <constraint firstAttribute="bottom" secondItem="jaG-43-GFw" secondAttribute="bottom" id="DM7-IU-Ay8"/>
                         <constraint firstItem="jaG-43-GFw" firstAttribute="leading" secondItem="5iR-IC-U7o" secondAttribute="leading" id="LIS-Kv-GGD"/>
-                        <constraint firstItem="tdX-Ja-k7R" firstAttribute="trailing" secondItem="jaG-43-GFw" secondAttribute="trailing" id="VLs-Yl-3me"/>
+                        <constraint firstAttribute="trailing" secondItem="jaG-43-GFw" secondAttribute="trailing" id="VLs-Yl-3me"/>
                         <constraint firstItem="O0E-o7-f1Q" firstAttribute="leading" secondItem="Q7N-FY-be7" secondAttribute="leading" id="sdK-vn-1rG"/>
                         <constraint firstItem="fQh-Ph-228" firstAttribute="trailing" secondItem="BpW-XW-sj0" secondAttribute="trailing" id="ufl-74-bfb"/>
                     </constraints>
-                    <viewLayoutGuide key="safeArea" id="tdX-Ja-k7R"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IaV-TY-F1C" secondAttribute="trailing" id="5d8-JN-AgS"/>
-                <constraint firstItem="5iR-IC-U7o" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6sc-4q-FDp"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="5iR-IC-U7o" secondAttribute="trailing" id="LHc-qa-h5b"/>
-                <constraint firstItem="IaV-TY-F1C" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Ym7-rb-FYW"/>
+                <constraint firstAttribute="trailing" secondItem="5iR-IC-U7o" secondAttribute="trailing" id="3iC-K1-xEY"/>
+                <constraint firstItem="5iR-IC-U7o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6sc-4q-FDp"/>
+                <constraint firstItem="IaV-TY-F1C" firstAttribute="bottom" secondItem="5iR-IC-U7o" secondAttribute="bottom" id="IMK-7i-3So"/>
+                <constraint firstItem="IaV-TY-F1C" firstAttribute="top" secondItem="5iR-IC-U7o" secondAttribute="top" id="MFh-Ub-9Ra"/>
                 <constraint firstItem="5iR-IC-U7o" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="dPH-gp-uYd"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="IaV-TY-F1C" secondAttribute="bottom" id="giQ-7K-wmN"/>
                 <constraint firstAttribute="bottom" secondItem="5iR-IC-U7o" secondAttribute="bottom" id="owo-FL-vC5"/>
-                <constraint firstItem="IaV-TY-F1C" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pob-Qu-IeS"/>
+                <constraint firstItem="IaV-TY-F1C" firstAttribute="leading" secondItem="5iR-IC-U7o" secondAttribute="leading" id="ylU-i1-OdD"/>
+                <constraint firstItem="IaV-TY-F1C" firstAttribute="trailing" secondItem="5iR-IC-U7o" secondAttribute="trailing" id="ytq-Ae-ILa"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="audioChannelIndexButton" destination="9rY-Z3-h5g" id="SAk-Cd-foY"/>
                 <outlet property="backButton" destination="Q7N-FY-be7" id="v7K-O4-vIi"/>

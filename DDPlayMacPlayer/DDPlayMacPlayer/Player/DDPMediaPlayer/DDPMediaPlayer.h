@@ -206,7 +206,8 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 - (void)removeMediaWithIndexSet:(NSIndexSet *)indexSet;
 - (void)playWithItem:(id<DDPMediaItemProtocol>)item;
 - (NSInteger)indexWithItem:(id<DDPMediaItemProtocol>)item;
-- (void)playNext;
+//- (void)playNext;
+- (id<DDPMediaItemProtocol> _Nullable)nextItem;
 
 @end
 

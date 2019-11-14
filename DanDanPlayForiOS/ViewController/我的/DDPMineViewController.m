@@ -81,7 +81,7 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 #if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
 #endif
-    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], currentUser)];
+//    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], currentUser)];
     [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)];
 }
 

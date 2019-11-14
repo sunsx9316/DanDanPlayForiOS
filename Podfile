@@ -65,6 +65,7 @@ end
     # pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'WCDB_UIKitForMac', :path => 'LocalPods/WCDB'
     pod 'CocoaHTTPServer'
+    pod 'SSZipArchive'
     # pod 'TOSMBClient', '~> 1.0.5'
     end
 end

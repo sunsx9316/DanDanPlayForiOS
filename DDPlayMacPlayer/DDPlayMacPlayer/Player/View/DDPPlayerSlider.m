@@ -106,6 +106,9 @@
     [self layoutSubView];
 }
 
+- (BOOL)mouseDownCanMoveWindow {
+    return NO;
+}
 
 #pragma mark - 私有方法
 - (void)layoutSubView {

@@ -26,7 +26,7 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+//    [[DDPMessageManager sharedManager] sendMessage:[DDPExitMessage new]];
 }
 
 - (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {

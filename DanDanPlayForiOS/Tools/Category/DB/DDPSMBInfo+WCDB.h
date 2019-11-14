@@ -15,5 +15,6 @@ WCDB_PROPERTY(hostName)
 WCDB_PROPERTY(ipAddress)
 WCDB_PROPERTY(userName)
 WCDB_PROPERTY(password)
+WCDB_PROPERTY(workGroup)
 
 @end

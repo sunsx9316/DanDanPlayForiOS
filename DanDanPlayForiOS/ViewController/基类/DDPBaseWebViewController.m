@@ -60,7 +60,7 @@
         if (_showProgressView) {
             float progress = [change[NSKeyValueChangeNewKey] floatValue];
             self.progressLayer.frame = CGRectMake(0, 0, self.view.width * progress, 3);
-            NSLog(@"%f", progress);
+            LOG_DEBUG(DDPLogModuleOther, @"网页加载百分比 %f", progress);
         }
     }
     else if ([keyPath isEqualToString:@"title"]) {

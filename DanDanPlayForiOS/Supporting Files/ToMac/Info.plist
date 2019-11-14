@@ -149,6 +149,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>InnerPlayerVersion</key>
+	<string>201911101</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.video</string>
 	<key>LSApplicationQueriesSchemes</key>

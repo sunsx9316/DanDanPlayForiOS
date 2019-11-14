@@ -230,5 +230,8 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 /// 上次忽略的版本
 @property (copy, nonatomic) NSString *ignoreVersion;
 
+/// 引导视图是否显示过
+@property (nonatomic, assign) BOOL guildViewIsShow;
+
 + (instancetype)shareCacheManager;
 @end
