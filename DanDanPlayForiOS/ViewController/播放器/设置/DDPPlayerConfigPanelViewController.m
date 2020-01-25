@@ -12,7 +12,7 @@
 #import "DDPPlayerVideoControlViewController.h"
 #import "DDPPlayerFileManagerPlayerListViewController.h"
 
-@interface DDPPlayerConfigPanelViewController ()<WMPageControllerDelegate, WMPageControllerDataSource>
+@interface DDPPlayerConfigPanelViewController ()<WMPageControllerDelegate, WMPageControllerDataSource, UIDocumentPickerDelegate>
 @property (strong, nonatomic) DDPDefaultPageViewController *pageController;
 @property (strong, nonatomic) NSArray <NSString *>*dataSources;
 
@@ -97,6 +97,7 @@
             if ([self.delegate respondsToSelector:@selector(playerConfigPanelViewControllerDidTouchSelectedDanmakuCell)]) {
                 [self.delegate playerConfigPanelViewControllerDidTouchSelectedDanmakuCell];
             }
+            
         }];
         
         [vc setTouchMatchVideoCellCallBack:^{
@@ -154,8 +155,6 @@
     }
     return CGRectMake(0, CGRectGetMaxY([UIApplication sharedApplication].statusBarFrame), width, 40);
 }
-
-
 
 #pragma mark - 懒加载
 

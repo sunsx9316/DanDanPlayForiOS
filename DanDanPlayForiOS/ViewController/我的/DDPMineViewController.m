@@ -26,6 +26,9 @@
 #if DDPAPPTYPEISMAC
 //#import <DDPShare/DDPMessageManager.h>
 #import <DDPShare/DDPShare.h>
+#else
+#import "LogHelper.h"
+#import <SSZipArchive/SSZipArchive.h>
 #endif
 
 #define TITLE_KEY @"titleLabel.text"
@@ -158,6 +161,18 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
+    else if ([dic[TITLE_KEY] isEqual:@"分享日志给开发者"]) {
+        let path = [LogHelper logPath];
+        
+        NSString *zipPath = [path stringByAppendingPathComponent:@"log.zip"];
+        if ([SSZipArchive createZipFileAtPath:zipPath withContentsOfDirectory:path]) {
+            NSURL *url = [NSURL fileURLWithPath:zipPath];
+            if (url) {
+                UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+        }
+    }
 #endif
     else {
         DDPAboutUsViewController *vc = [[DDPAboutUsViewController alloc] init];
@@ -267,6 +282,8 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
             }
             
             [arr addObject:@{TITLE_KEY: @"遥控器"}];
+            
+            [arr addObject:@{TITLE_KEY: @"分享日志给开发者"}];
         } else if (ddp_appType == DDPAppTypeToMac) {
             if ([DDPCacheManager shareCacheManager].currentUser.isLogin) {
                 [arr addObject:@{TITLE_KEY: @"我的关注"}];

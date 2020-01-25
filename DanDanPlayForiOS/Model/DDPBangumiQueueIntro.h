@@ -9,7 +9,7 @@
 #import "DDPBase.h"
 #import "DDPBangumiEpisode.h"
 
-@interface DDPBangumiQueueIntro : DDPBaseCollection
+@interface DDPBangumiQueueIntro : DDPBaseCollection<DDPBangumiEpisode *>
 /*
  identity -> AnimeId
  name -> AnimeTitle

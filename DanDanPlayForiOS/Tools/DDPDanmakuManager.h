@@ -75,6 +75,11 @@
  */
 + (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)parseLocalDanmakuWithSource:(DDPDanmakuType)source obj:(id)obj;
 
+/// 转换弹幕为数组
+/// @param source 弹幕来源
+/// @param obj 弹幕对象
++ (NSArray <DDPDanmaku *>*)parseLocalDanmakuToArrayWithSource:(DDPDanmakuType)source obj:(id)obj;
+
 + (BOOL)filterWithDanmakuContent:(NSString *)content danmakuFilters:(NSArray <DDPFilter *>*)danmakuFilters;
 
 /**

@@ -222,12 +222,17 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
 }
 
 + (NSMutableDictionary <NSNumber *, NSMutableArray <JHBaseDanmaku *>*>*)parseLocalDanmakuWithSource:(DDPDanmakuType)source obj:(id)obj {
-    NSMutableArray *danmakus = [NSMutableArray array];
+    let danmakus = [self parseLocalDanmakuToArrayWithSource:source obj:obj];
+    return [self converDanmakus:danmakus filter:NO];
+}
+
++ (NSArray <DDPDanmaku *>*)parseLocalDanmakuToArrayWithSource:(DDPDanmakuType)source obj:(id)obj {
+    NSMutableArray <DDPDanmaku *>*danmakus = [NSMutableArray array];
     [self switchParseWithSource:source obj:obj block:^(DDPDanmaku *model) {
         [danmakus addObject:model];
     }];
     
-    return [self converDanmakus:danmakus filter:NO];
+    return danmakus;
 }
 
 #pragma mark - 私有方法

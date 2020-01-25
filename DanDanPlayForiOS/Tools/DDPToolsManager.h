@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
  @param url 路径
  @return 字幕数组
  */
-+ (NSArray *)subTitleFileWithLocalURL:(NSURL *)url;
++ (NSArray <NSURL *>*)subTitleFileWithLocalURL:(NSURL *)url;
 
 #pragma mark - 本地文件
 

@@ -1,8 +1,8 @@
 {
-  "url": "http://dandanmac.acplay.net/dandanplay_1.4.dmg",
-  "version": "201909261",
-  "shortVersion": "3.0",
-  "desc": "提供基本播放功能\n原生iOS体验",
+  "url": "http://dandanmac.acplay.net/iOS2Mac/app/ddplay_4.1.dmg",
+  "version": "201912162",
+  "shortVersion": "4.1",
+  "desc": "1. 新增加载本地xml弹幕功能（默认自动加载同名弹幕，可在设置中关闭）\n2. 修复长时间不登录，登录信息失效的问题。\n3. 播放器目录按文件名排序。\n4. 一些小问题的修复。",
   "hash": "",
   "forceUpdate": false
 }

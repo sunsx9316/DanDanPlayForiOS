@@ -28,28 +28,24 @@
         self.selectedBackgroundView = [[UIView alloc] init];
         
         [self.bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.mas_equalTo(0);
-            make.top.left.mas_equalTo(10);
-//            make.bottom.mas_offset(-10);
+            make.centerY.mas_equalTo(10);
             make.height.mas_equalTo(80);
             make.width.equalTo(self.bgImgView.mas_height).mas_offset(30);
+            make.leading.mas_equalTo(10);
+            make.top.equalTo(self.contentView).offset(10);
+            make.bottom.mas_lessThanOrEqualTo(self.contentView).offset(10);
         }];
         
         [self.lastPlayTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.right.equalTo(self.bgImgView).mas_offset(-5);
+            make.bottom.trailing.equalTo(self.bgImgView).mas_offset(-5);
         }];
         
-//        [self.grayView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.bottom.mas_equalTo(0);
-////            make.height.mas_equalTo(60);
-//        }];
-        
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.bgImgView);
-            make.left.equalTo(self.bgImgView.mas_right).mas_offset(10);
-            make.right.mas_offset(-10);
-            make.bottom.mas_offset(-10);
-//            make.edges.equalTo(self.grayView).mas_equalTo(UIEdgeInsetsMake(10, 5, 5, 5));
+            make.leading.equalTo(self.bgImgView.mas_trailing).mas_offset(10);
+            make.trailing.mas_offset(-10);
+            
+            make.top.equalTo(self.bgImgView).offset(10);
+            make.bottom.mas_lessThanOrEqualTo(self.contentView).offset(10);
         }];
         
     }

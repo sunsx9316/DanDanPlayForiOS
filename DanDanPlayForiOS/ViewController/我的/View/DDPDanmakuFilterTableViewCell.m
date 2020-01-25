@@ -50,9 +50,16 @@
 - (void)setModel:(DDPFilter *)model {
     _model = model;
     self.nameLabel.text = _model.name.length ? _model.name : @"未命名规则";
-    self.titleLabel.text = _model.content;
     self.regexButton.selected = _model.isRegex;
     self.enableButton.selected = _model.enable;
+    
+    if (_model.isCloudRule) {
+        self.titleLabel.text = @"内容是秘密🤓";
+        self.regexButton.hidden = YES;
+    } else {
+        self.titleLabel.text = _model.content;
+        self.regexButton.hidden = NO;
+    }
 }
 
 #pragma mark - 私有方法

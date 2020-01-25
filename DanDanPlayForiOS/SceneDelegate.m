@@ -160,8 +160,29 @@
         } completionHandler:^(NSURL * _Nonnull model, NSError * _Nonnull error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [progressHUD hideAnimated:YES];
+                if (model) {
+                    [[UIApplication sharedApplication] openURL:model options:@{} completionHandler:nil];
+                } else {
+                    [self showUpdateFaileAlert];
+                }
             });
         }];
+    }]];
+    
+    [UIApplication.sharedApplication.ddp_mainWindow.rootViewController presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)showUpdateFaileAlert {
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"下载失败，是否前往官网下载？" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:DDPLAY_OFFICIAL_SITE] options:@{} completionHandler:^(BOOL success) {
+            
+        }];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+
     }]];
     
     [UIApplication.sharedApplication.ddp_mainWindow.rootViewController presentViewController:vc animated:YES completion:nil];

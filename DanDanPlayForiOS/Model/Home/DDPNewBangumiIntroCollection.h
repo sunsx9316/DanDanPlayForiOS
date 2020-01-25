@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DDPNewBangumiIntroCollection : DDPBaseCollection
+@interface DDPNewBangumiIntroCollection : DDPBaseCollection<DDPNewBangumiIntro *>
 
 @end
 

@@ -20,9 +20,9 @@
 
 #import "LogHelper.h"
 #if !DDPAPPTYPEISMAC
-#import <mars/xlog/xloggerbase.h>
-#import <mars/xlog/xlogger.h>
-#import <mars/xlog/appender.h>
+#import "mars/xlog/xloggerbase.h"
+#import "mars/xlog/xlogger.h"
+#import "mars/xlog/appender.h"
 #import <sys/xattr.h>
 
 static NSUInteger g_processID = 0;
@@ -59,9 +59,14 @@ static NSUInteger g_processID = 0;
     }
 }
 
++ (NSString *)logPath {
+    NSString *documentsPath = [UIApplication.sharedApplication.documentsPath stringByAppendingPathComponent:@"log"];
+    return documentsPath;
+}
+
 + (void)setupLog {
 #if !DDPAPPTYPEISMAC
-    NSString *documentsPath = [UIApplication.sharedApplication.documentsPath stringByAppendingPathComponent:@"log"];
+    NSString *documentsPath = [self logPath];
     let attrName = "com.apple.MobileBackup";
     size_t attrValue = 1;
     setxattr(documentsPath.UTF8String, attrName, &attrValue, sizeof(attrValue), 0, 0);

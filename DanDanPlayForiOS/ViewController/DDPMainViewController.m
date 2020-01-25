@@ -16,6 +16,7 @@
 #if !DDPAPPTYPEISMAC
 #import "DDPFileViewController.h"
 #else
+#import "DDPDanmakuManager.h"
 #import <DDPShare/DDPShare.h>
 #import "DDPCommentNetManagerOperation.h"
 #import "DDPDanmakuManager.h"
@@ -114,6 +115,8 @@
     self.tabBar.translucent = NO;
 #endif
     
+    [self renewToken];
+    
     self.delegate = self;
 }
 
@@ -158,29 +161,47 @@
 #if DDPAPPTYPEISMAC
     
     NSMutableArray <NSString *>*paths = [NSMutableArray arrayWithCapacity:session.items.count];
+    NSMutableArray <NSString *>*danmakuPaths = [NSMutableArray arrayWithCapacity:session.items.count];
+    
     let group = dispatch_group_create();
+    let xmlType = (__bridge NSString *)kUTTypeXML;
+    
     [session.items enumerateObjectsUsingBlock:^(UIDragItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        let itemProvider = obj.itemProvider;
+        //弹幕和视频路径
         [self.registerTypes enumerateObjectsUsingBlock:^(NSString * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
-            let itemProvider = obj.itemProvider;
             BOOL success = [itemProvider hasItemConformingToTypeIdentifier:obj1];
             if (success) {
                 dispatch_group_enter(group);
                 [itemProvider loadInPlaceFileRepresentationForTypeIdentifier:obj1 completionHandler:^(NSURL * _Nullable url, BOOL isInPlace, NSError * _Nullable error) {
                     if (url.path) {
-                        [paths addObject:url.path];
+                        //弹幕
+                        if ([obj1 isEqualToString:xmlType]) {
+                            [danmakuPaths addObject:url.path];
+                        } else {
+                            [paths addObject:url.path];
+                        }
+                        
                     }
                     
                     dispatch_group_leave(group);
                 }];
             }
         }];
+        
     }];
     
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        DDPPlayerListMessage *message = [[DDPPlayerListMessage alloc] init];
-        message.paths = paths;
-        [[DDPMessageManager sharedManager] sendMessage:message];
+        if (paths.count > 0) {
+            DDPPlayerListMessage *message = [[DDPPlayerListMessage alloc] init];
+            message.paths = paths;
+            [[DDPMessageManager sharedManager] sendMessage:message];
+        }
+        
+        if (danmakuPaths.count > 0) {
+            [self sendLoadLocalDanmakuMessageWithPaths:danmakuPaths];
+        }
     });
 #endif
 }
@@ -202,7 +223,15 @@
         if ([message.messageType isEqualToString:DDPParseMessage.messageType]) {
             DDPParseMessage *aMessage = [[DDPParseMessage alloc] initWithObj:message];
             NSURL *url = [NSURL fileURLWithPath:aMessage.path];
-            [self parseWithURL:url];
+            
+            [self parseWithURL:url completion:^(DDPDanmakuCollection *collection, NSError *error) {
+                if (DDPCacheManager.shareCacheManager.loadLocalDanmaku) {
+                    let subtitleURL = [DDPToolsManager subTitleFileWithLocalURL:url].firstObject;
+                    if (subtitleURL) {
+                        [self sendLoadLocalDanmakuMessageWithPaths:@[subtitleURL.path]];
+                    }
+                }
+            }];
         } else if ([message.messageType isEqualToString:DDPDanmakuSettingMessage.messageType]) {
             [DDPMethod sendConfigMessage];
         } else if ([message.messageType isEqualToString:DDPSendDanmakuMessage.messageType]) {
@@ -226,14 +255,30 @@
                     [DDPDanmakuManager saveDanmakuWithObj:danmakus episodeId:episodeId source:DDPDanmakuTypeByUser];
                 }
             }];
-        } else if ([message.messageType isEqualToString:DDPExitMessage.messageType]) {
-            exit(0);
         }
     }
 }
 #endif
 
 #pragma mark - 私有方法
+
+- (void)renewToken {
+    let user = DDPCacheManager.shareCacheManager.currentUser;
+    //当前未登录 不请求
+    if (user.isLogin == NO) {
+        return;
+    }
+    //启动时默认为登出状态 强制请求token
+    [user updateLoginStatus:NO];
+    [DDPLoginNetManagerOperation renewWithCompletionHandler:^(DDPUser *model, NSError *error) {
+        if (model) {
+            DDPCacheManager.shareCacheManager.currentUser = model;
+        } else {
+            [self.view showWithError:error];
+        }
+    }];
+}
+
 - (UINavigationController *)navigationControllerWithNormalImg:(UIImage *)normalImg selectImg:(UIImage *)selectImg rootVC:(UIViewController *)rootVC title:(NSString *)title {
     
     normalImg = [normalImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -284,18 +329,28 @@
         [[DDPMessageManager sharedManager] sendMessage:message];
     }
 }
+
+- (void)sendLoadLocalDanmakuMessageWithPaths:(NSArray <NSString *>*)danmakuPaths {
+    let data = [[NSData alloc] initWithContentsOfFile:danmakuPaths.firstObject];
+    if (data) {
+        DDPLoalLocalDanmakuMessage *msg = [[DDPLoalLocalDanmakuMessage alloc] init];
+        let damakus = [DDPDanmakuManager parseLocalDanmakuToArrayWithSource:DDPDanmakuTypeBiliBili obj:data];
+        msg.danmaku = damakus;
+        [[DDPMessageManager sharedManager] sendMessage:msg];
+    }
+}
 #endif
 
-- (void)parseWithURL:(NSURL *)url {
+- (void)parseWithURL:(NSURL *)url completion:(DDPFastMatchAction)completion {
     dispatch_async(dispatch_get_main_queue(), ^{
         DDPFile *file = [[DDPFile alloc] initWithFileURL:url type:DDPFileTypeDocument];
-        [DDPMethod matchFile:file completion:nil];      
+        [DDPMethod matchFile:file completion:completion];
     });
 }
 
 - (NSArray<NSString *> *)registerTypes {
     if (_registerTypes == nil) {
-        _registerTypes = @[(__bridge NSString *)kUTTypeMovie, (__bridge NSString *)kUTTypeFolder];
+        _registerTypes = @[(__bridge NSString *)kUTTypeMovie, (__bridge NSString *)kUTTypeFolder, (__bridge NSString *)kUTTypeXML];
     }
     return _registerTypes;
 }

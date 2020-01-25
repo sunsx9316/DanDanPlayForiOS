@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPFilter.h"
 
-@interface DDPFilterCollection : DDPBaseCollection
+@interface DDPFilterCollection : DDPBaseCollection<DDPFilter *>
 
 @end

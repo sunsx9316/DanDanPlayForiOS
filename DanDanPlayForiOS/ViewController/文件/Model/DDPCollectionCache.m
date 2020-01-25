@@ -12,7 +12,7 @@
 @implementation DDPCollectionCache
 
 - (NSUInteger)hash {
-    return self.cacheType | self.filePath.hash;
+    return self.cacheType ^ self.filePath.hash;
 }
 
 - (BOOL)isEqual:(DDPCollectionCache *)object {

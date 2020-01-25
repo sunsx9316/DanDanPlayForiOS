@@ -93,7 +93,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.0</string>
+	<string>4.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -146,12 +146,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>201911249</string>
+	<string>201912162</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>InnerPlayerVersion</key>
-	<string>[32m/Users/jimhuang/Development/DanDanPlayForiOS/DDPlayMacPlayer/DDPlayMacPlayer/Info.plist 自增 appVersion = 2.0 buildNumber = 2019112423[0m
-2019112423</string>
+	<string>201912161</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.video</string>
 	<key>LSApplicationQueriesSchemes</key>

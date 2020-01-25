@@ -167,10 +167,6 @@
         _searchBar = [[DDPSearchBar alloc] init];
         _searchBar.placeholder = @"搜索资源";
         _searchBar.delegate = self;
-        _searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchBar.tintColor = [UIColor ddp_mainColor];
-        _searchBar.textField.backgroundColor = [UIColor whiteColor];
-        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
     }
     return _searchBar;
 }

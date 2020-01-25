@@ -171,11 +171,6 @@
         _searchBar.placeholder = @"搜索文件名";
         _searchBar.delegate = self;
         _searchBar.showsCancelButton = YES;
-        _searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchBar.barTintColor = [UIColor whiteColor];
-        _searchBar.tintColor = [UIColor ddp_mainColor];
-        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
-        _searchBar.backgroundColor = [UIColor clearColor];
         [self addSubview:_searchBar];
     }
     return _searchBar;

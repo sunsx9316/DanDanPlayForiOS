@@ -59,11 +59,11 @@
 
 - (void)touchOfficialWebsiteButton:(UIButton *)sender {
 #if DDPAPPTYPEISMAC
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dandanplay.com"] options:@{} completionHandler:^(BOOL success) {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:DDPLAY_OFFICIAL_SITE] options:@{} completionHandler:^(BOOL success) {
         
     }];
 #else
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dandanplay.com"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:DDPLAY_OFFICIAL_SITE]];
 #endif
 }
 

@@ -89,6 +89,9 @@ typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 //系统最低支持版本
 #define MINI_SUPPORT_VERTSION @"9.0"
 
+//弹弹官网
+#define DDPLAY_OFFICIAL_SITE @"http://www.dandanplay.com"
+
 #if DDPAPPTYPE == 2
 #define DDPAPPTYPEISMAC 1
 

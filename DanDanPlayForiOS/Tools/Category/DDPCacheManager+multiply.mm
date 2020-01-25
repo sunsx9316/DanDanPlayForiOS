@@ -56,7 +56,7 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
         }];
         
         [arr enumerateObjectsUsingBlock:^(DDPFilter * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            flag = flag | obj.content.hash;
+            flag = flag ^ obj.content.hash;
         }];
         
         value = @(flag);

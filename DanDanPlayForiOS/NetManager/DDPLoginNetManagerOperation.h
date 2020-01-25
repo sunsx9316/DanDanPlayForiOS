@@ -27,6 +27,10 @@
                                     token:(NSString *)token
                         completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler;
 
+/// 刷新token、长时间未登录会返回失败
+/// @param completionHandler 完成回调
++ (NSURLSessionDataTask *)renewWithCompletionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler;
+
 /**
  注册
 

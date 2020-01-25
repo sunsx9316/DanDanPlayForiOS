@@ -317,6 +317,13 @@
     
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
+        let attStr = danmaku.attributedString;
+        if (attStr) {
+            let mAttStr = [[NSMutableAttributedString alloc] initWithAttributedString:attStr];
+            [mAttStr addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : UIColor.greenColor} range:NSMakeRange(0, mAttStr.length)];
+            danmaku.attributedString = mAttStr;
+        }
+        
         return YES;
     }
     
@@ -603,9 +610,12 @@
         }];
     }
     else {
-        NSArray *subtitles = [DDPToolsManager subTitleFileWithLocalURL:file.fileURL];
-        if (subtitles.count) {
-            [self openDanmakuWithURL:subtitles.firstObject];
+        //加载同名弹幕文件
+        if ([DDPCacheManager shareCacheManager].loadLocalDanmaku) {
+            NSArray *subtitles = [DDPToolsManager subTitleFileWithLocalURL:file.fileURL];
+            if (subtitles.count) {
+                [self openDanmakuWithURL:subtitles.firstObject];
+            }            
         }
     }
 #endif

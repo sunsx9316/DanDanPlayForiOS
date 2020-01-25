@@ -14,4 +14,5 @@ WCDB_PROPERTY(name)
 WCDB_PROPERTY(isRegex)
 WCDB_PROPERTY(content)
 WCDB_PROPERTY(enable)
+WCDB_PROPERTY(cloudRule)
 @end

@@ -155,7 +155,7 @@
     }
     else if (_type == DDPPlayerSliderTableViewCellTypeRate) {
         self.currentValueLabel.textColor = [UIColor whiteColor];
-        self.slider.value = 1;
+        self.slider.value = [DDPCacheManager shareCacheManager].playerSpeed;
         self.slider.minimumValue = 0.5f;
         self.slider.maximumValue = 2.0f;
         self.totalValueLabel.text = [NSString stringWithFormat:@"%.1f", self.slider.maximumValue];

@@ -152,17 +152,29 @@ static int kVolumeAddingValue = 20;
         if (setting.danmakuFont) {
             let font = setting.danmakuFont;
             self.danmakuEngine.globalFont = font;
-        } else if (setting.danmakuSpeed) {
+        }
+        
+        if (setting.danmakuSpeed) {
             self.danmakuEngine.speed = setting.danmakuSpeed.floatValue;
-        } else if (setting.danmakuOpacity) {
+        }
+        
+        if (setting.danmakuOpacity) {
             self.danmakuEngine.canvas.alphaValue = setting.danmakuOpacity.doubleValue;
-        } else if (setting.danmakuEffectStyle) {
+        }
+        
+        if (setting.danmakuEffectStyle) {
             self.danmakuEngine.globalEffectStyle = setting.danmakuEffectStyle.integerValue;
-        } else if (setting.danmakuOffsetTime) {
+        }
+        
+        if (setting.danmakuOffsetTime) {
             self.danmakuEngine.offsetTime = setting.danmakuOffsetTime.doubleValue;
-        } else if (setting.danmakuLimitCount) {
+        }
+        
+        if (setting.danmakuLimitCount) {
             self.danmakuEngine.limitCount = setting.danmakuLimitCount.integerValue;
-        } else if (setting.playerSpeed) {
+        }
+        
+        if (setting.playerSpeed) {
             self.player.speed = setting.playerSpeed.floatValue;
         }
     };
@@ -210,8 +222,12 @@ static int kVolumeAddingValue = 20;
             [self.autoHiddenTimer invalidate];
         }
     }];
-    
 }
+
+- (void)mouseExited:(NSEvent *)event {
+    [self mouseMoved:event];
+}
+
 
 - (void)scrollWheel:(NSEvent *)event {
     //判断是否为apple的破鼠标
@@ -370,6 +386,12 @@ static int kVolumeAddingValue = 20;
     
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
+        let attStr = danmaku.attributedString;
+        if (attStr) {
+            let mAttStr = [[NSMutableAttributedString alloc] initWithAttributedString:attStr];
+            [mAttStr addAttributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle), NSUnderlineColorAttributeName : NSColor.greenColor} range:NSMakeRange(0, mAttStr.length)];
+            danmaku.attributedString = mAttStr;
+        }
         return YES;
     }
     
@@ -414,21 +436,21 @@ static int kVolumeAddingValue = 20;
     id<DDPMessageProtocol>message = messages.firstObject;
     if ([message.messageType isEqualToString:DDPPlayerMessage.messageType]) {
         DDPPlayerMessage *aMessage = [[DDPPlayerMessage alloc] initWithObj:message];
-        let danmaku = aMessage.danmaku;
+        let danmakus = aMessage.danmaku;
         //没有弹幕 请求弹幕
-        if (danmaku == nil) {
+        if (danmakus == nil) {
             [self requestDanmakuWithPath:aMessage.path];
         } else {
-            self.danmakuDic = [DDPDanmakuManager.shared converDanmakus:danmaku filter:YES];
+            self.danmakuDic = [DDPDanmakuManager.shared converDanmakus:danmakus filter:YES];
             self.episodeId = aMessage.episodeId;
             
             NSURL *url = [NSURL fileURLWithPath:aMessage.path];
             
-            let setting = DDPDanmakuManager.shared.setting;
-             
-            self.danmakuEngine.speed = setting.danmakuSpeed.doubleValue;
-            self.danmakuEngine.canvas.alphaValue = setting.danmakuOpacity.doubleValue;
-            self.danmakuEngine.limitCount = setting.danmakuLimitCount.integerValue;
+//            let setting = DDPDanmakuManager.shared.setting;
+//
+//            self.danmakuEngine.speed = setting.danmakuSpeed.doubleValue;
+//            self.danmakuEngine.canvas.alphaValue = setting.danmakuOpacity.doubleValue;
+//            self.danmakuEngine.limitCount = setting.danmakuLimitCount.integerValue;
             
             if (url) {
                 NSString *fileName = url.lastPathComponent;
@@ -483,8 +505,11 @@ static int kVolumeAddingValue = 20;
         if (self.player.isPlaying == NO) {
             [self sendParseMessageWithPath:items.firstObject.path];
         }
-    }  else if ([message.messageType isEqualToString:DDPExitMessage.messageType]) {
-        exit(0);
+    }  else if ([message.messageType isEqualToString:DDPLoalLocalDanmakuMessage.messageType]) {
+        if (self.player.currentPlayItem) {
+            DDPLoalLocalDanmakuMessage *msg = [[DDPLoalLocalDanmakuMessage alloc] initWithObj:message];
+            self.danmakuDic = [DDPDanmakuManager.shared converDanmakus:msg.danmaku filter:YES];
+        }
     }
 }
 
@@ -525,7 +550,6 @@ static int kVolumeAddingValue = 20;
 }
 
 - (void)autoShowControlViewWithCompletion:(void(^)(void))completion {
-    
     void(^startHiddenTimerAction)(void) = ^{
         //显示状态 开启倒计时
         [self.autoHiddenTimer invalidate];
@@ -537,34 +561,40 @@ static int kVolumeAddingValue = 20;
         }
     };
     
-    if (_hiddenControlView) {
-        _hiddenControlView = NO;
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-            context.duration = 0.2;
-            self.playerViewBottomConstraint.animator.offset(0);
-            self.topBarTopConstraint.animator.offset(0);
-            self.controlView.animator.topProgressAlpha = 0;
-        } completionHandler:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        if (self.hiddenControlView) {
+            self.hiddenControlView = NO;
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+                context.duration = 0.2;
+                self.playerViewBottomConstraint.animator.offset(0);
+                self.topBarTopConstraint.animator.offset(0);
+                self.controlView.animator.topProgressAlpha = 0;
+            } completionHandler:^{
+                startHiddenTimerAction();
+            }];
+        } else {
             startHiddenTimerAction();
-        }];
-    } else {
-        startHiddenTimerAction();
-    }
+        }
+    });
+    
 }
 
 - (void)autoHideMouseControlView {
-    //显示状态 隐藏
-    if (_hiddenControlView == NO) {
-        _hiddenControlView = YES;
-        [_autoHiddenTimer invalidate];
-        [NSCursor setHiddenUntilMouseMoves:YES];
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-            context.duration = 0.2;
-            self.playerViewBottomConstraint.animator.offset(CGRectGetHeight(self.controlView.frame));
-            self.topBarTopConstraint.animator.offset(-CGRectGetHeight(self.topBar.frame));
-            self.controlView.animator.topProgressAlpha = 1;
-        } completionHandler:nil];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //显示状态 隐藏
+        if (self.hiddenControlView == NO) {
+            self.hiddenControlView = YES;
+            [self.autoHiddenTimer invalidate];
+            [NSCursor setHiddenUntilMouseMoves:YES];
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
+                context.duration = 0.2;
+                self.playerViewBottomConstraint.animator.offset(CGRectGetHeight(self.controlView.frame));
+                self.topBarTopConstraint.animator.offset(-CGRectGetHeight(self.topBar.frame));
+                self.controlView.animator.topProgressAlpha = 1;
+            } completionHandler:nil];
+        }
+    });
 }
 
 - (void)onClickPlayButton {
@@ -607,7 +637,12 @@ static int kVolumeAddingValue = 20;
         NSURL *url = [NSURL fileURLWithPath:obj];
         
         if (url.hasDirectoryPath) {
-            let contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            var contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+            //排序文件名
+            contents = [contents sortedArrayUsingComparator:^NSComparisonResult(NSURL * _Nonnull obj1, NSURL * _Nonnull obj2) {
+                return [obj1.absoluteString compare:obj2.absoluteString];
+            }];
+            
             [contents enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj1, NSUInteger idx1, BOOL * _Nonnull stop1) {
                 if (obj1.isFileURL && ddp_isVideoFile(obj1.path)) {
                     DDPPlayerMessage *m = [[DDPPlayerMessage alloc] init];
@@ -668,7 +703,7 @@ static int kVolumeAddingValue = 20;
 
 - (NSTrackingArea *)trackingArea {
     if(_trackingArea == nil) {
-        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect owner:self userInfo:nil];
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:self.view.frame options:NSTrackingActiveInKeyWindow | NSTrackingMouseMoved | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited owner:self userInfo:nil];
     }
     return _trackingArea;
 }

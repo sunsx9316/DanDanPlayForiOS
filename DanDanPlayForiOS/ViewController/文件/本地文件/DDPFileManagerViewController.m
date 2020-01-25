@@ -136,20 +136,7 @@ DDPFileManagerSearchViewDelegate>
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DDPFile *file = _file.subFiles[indexPath.row];
-    if (file.type == DDPFileTypeFolder) {
-//        return 80 + 40 * ddp_isPad();
-        return UITableViewAutomaticDimension;
-    }
-    
-    CGFloat height = [tableView fd_heightForCellWithIdentifier:@"DDPFileManagerFileLongViewCell" cacheByIndexPath:indexPath configuration:^(DDPFileManagerFileLongViewCell *cell) {
-        cell.model = file.videoModel;
-    }];
-    
-    
-    return MAX(100, height);
-    
-//    return 100 + 40 * ddp_isPad();
+    return UITableViewAutomaticDimension;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

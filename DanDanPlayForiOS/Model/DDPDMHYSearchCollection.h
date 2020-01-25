@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPDMHYSearch.h"
 
-@interface DDPDMHYSearchCollection : DDPBaseCollection
+@interface DDPDMHYSearchCollection : DDPBaseCollection<DDPDMHYSearch *>
 @property (assign, nonatomic) BOOL hasMore;
 @end

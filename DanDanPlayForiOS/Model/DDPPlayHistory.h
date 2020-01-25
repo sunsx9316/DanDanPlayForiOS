@@ -9,7 +9,7 @@
 #import "DDPBase.h"
 #import "DDPEpisode.h"
 
-@interface DDPPlayHistory : DDPBaseCollection
+@interface DDPPlayHistory : DDPBaseCollection<DDPEpisode *>
 /*
  identity -> AnimeId
  name -> AnimeTitle

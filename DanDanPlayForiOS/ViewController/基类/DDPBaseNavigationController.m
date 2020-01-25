@@ -27,4 +27,14 @@
     return UIStatusBarStyleLightContent;
 }
 
+#if DDPAPPTYPEISMAC
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [super pushViewController:viewController animated:NO];
+}
+
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated {
+    return [super popViewControllerAnimated:NO];
+}
+#endif
+
 @end

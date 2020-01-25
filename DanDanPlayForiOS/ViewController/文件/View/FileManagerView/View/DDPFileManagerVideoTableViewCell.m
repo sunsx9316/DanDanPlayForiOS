@@ -21,6 +21,8 @@
         [self.imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_offset(15);
             make.centerY.mas_equalTo(0);
+            make.top.greaterThanOrEqualTo(self.contentView).offset(10);
+            make.bottom.lessThanOrEqualTo(self.contentView).offset(-10);
         }];
         
         [self.fileTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {

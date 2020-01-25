@@ -14,6 +14,9 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UIButton *playButton;
+@property (strong, nonatomic) UIButton *tagButton;
+
+@property (nonatomic, strong) UIStackView *stackView;
 @end
 
 @implementation DDPAttentionDetailHistoryTableViewCell
@@ -23,20 +26,24 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.mas_offset(10);
+            make.top.leading.mas_offset(10);
         }];
         
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_offset(10);
+            make.leading.mas_offset(10);
             make.top.equalTo(self.titleLabel.mas_bottom);
-            make.bottom.mas_equalTo(0);
+            make.bottom.mas_lessThanOrEqualTo(0);
         }];
         
-        [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(0);
-            make.right.mas_offset(-10);
-            make.left.equalTo(self.titleLabel.mas_right).mas_offset(5);
-            make.left.equalTo(self.timeLabel.mas_right).mas_offset(5);
+        [self.contentView addSubview:self.stackView];
+        [self.stackView addArrangedSubview:self.tagButton];
+        [self.stackView addArrangedSubview:self.playButton];
+        
+        [self.stackView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.trailing.mas_offset(-5);
+            make.centerY.mas_equalTo(self.contentView);
+            make.leading.mas_greaterThanOrEqualTo(self.timeLabel.mas_trailing).offset(5);
+            make.leading.mas_greaterThanOrEqualTo(self.titleLabel.mas_trailing).offset(5);
         }];
     }
     return self;
@@ -52,13 +59,29 @@
         self.timeLabel.text = nil;
     }
     
-    self.playButton.hidden = _model.linkFile == nil;
+    if (_model.linkFile == nil) {
+        if ([self.stackView.arrangedSubviews containsObject:self.playButton]) {
+            [self.stackView removeArrangedSubview:self.playButton];
+        }
+        self.playButton.hidden = YES;
+    } else {
+        if (![self.stackView.arrangedSubviews containsObject:self.playButton]) {
+            [self.stackView insertArrangedSubview:self.playButton atIndex:0];
+        }
+        self.playButton.hidden = NO;
+    }
 }
 
 #pragma mark - 私有方法
 - (void)touchPlayButton:(UIButton *)sender {
     if (self.touchPlayButtonCallBack) {
         self.touchPlayButtonCallBack(_model.linkFile);
+    }
+}
+
+- (void)touchTagButton:(UIButton *)button {
+    if (self.touchTagButtonCallBack) {
+        self.touchTagButtonCallBack(_model.linkFile);
     }
 }
 
@@ -95,9 +118,32 @@
         [_playButton setRequiredContentHorizontalResistancePriority];
         [_playButton addTarget:self action:@selector(touchPlayButton:) forControlEvents:UIControlEventTouchUpInside];
         [_playButton setImage:[UIImage imageNamed:@"bungumi_info_play_icon"] forState:UIControlStateNormal];
-        [self.contentView addSubview:_playButton];
     }
     return _playButton;
+}
+
+- (UIButton *)tagButton {
+    if (_tagButton == nil) {
+        _tagButton = [[UIButton alloc] init];
+        _tagButton.titleLabel.font = [UIFont ddp_normalSizeFont];
+        _tagButton.ddp_hitTestSlop = UIEdgeInsetsMake(-10, -10, -10, -10);
+        [_tagButton setTitleColor:UIColor.ddp_mainColor forState:UIControlStateNormal];
+        [_tagButton setRequiredContentVerticalResistancePriority];
+        [_tagButton setRequiredContentHorizontalResistancePriority];
+        [_tagButton addTarget:self action:@selector(touchTagButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_tagButton setTitle:@"标记已看" forState:UIControlStateNormal];
+    }
+    return _tagButton;
+}
+
+- (UIStackView *)stackView {
+    if (_stackView == nil) {
+        _stackView = [[UIStackView alloc] init];
+        _stackView.spacing = 5;
+        _stackView.axis = UILayoutConstraintAxisHorizontal;
+        _stackView.alignment = UIStackViewAlignmentCenter;
+    }
+    return _stackView;
 }
 
 @end

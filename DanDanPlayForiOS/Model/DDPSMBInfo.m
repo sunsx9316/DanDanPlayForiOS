@@ -26,7 +26,7 @@
 }
 
 - (NSUInteger)hash {
-    return self.hostName.hash | self.userName.hash | self.password.hash;
+    return self.hostName.hash ^ self.userName.hash ^ self.password.hash;
 }
 
 @end

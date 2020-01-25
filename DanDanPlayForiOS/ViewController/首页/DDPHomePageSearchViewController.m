@@ -107,8 +107,8 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    [self downloadVideoWithMagnet:self.dataSource[indexPath.row].magnet];
+    let model = self.dataSource[indexPath.row];
+    [self downloadVideoWithMagnet:model.magnet pageUrl:model.pageUrl];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -183,47 +183,90 @@
 }
 
 #pragma mark - 私有方法
-- (void)downloadVideoWithMagnet:(NSString *)magnet {
-    if (magnet.length == 0) return;
+- (void)downloadVideoWithMagnet:(NSString *)magnet pageUrl:(NSURL *)pageUrl {
     
-    @weakify(self)
-    void(^downloadAction)(NSString *magnet) = ^(NSString *magnet){
-        @strongify(self)
-        if (!self) return;
+    if (ddp_appType == DDPAppTypeToMac) {
+        if (pageUrl) {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"查看下载页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [UIApplication.sharedApplication openURL:pageUrl options:@{} completionHandler:nil];
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"使用软件下载" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [UIPasteboard generalPasteboard].string = magnet;
+                
+                NSURL *aURL = [NSURL URLWithString:magnet];
+                [UIApplication.sharedApplication openURL:aURL options:@{} completionHandler:nil];
+            }]];
+            
+            [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+            
+            [self presentViewController:vc animated:YES completion:nil];
+        } else {
+            [UIPasteboard generalPasteboard].string = magnet;
+            
+            NSURL *aURL = [NSURL URLWithString:magnet];
+            [UIApplication.sharedApplication openURL:aURL options:@{} completionHandler:nil];
+        }
         
-        [self.view showLoadingWithText:@"创建下载任务中..."];
-        [DDPLinkNetManagerOperation linkAddDownloadWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(DDPLinkDownloadTask *responseObject, NSError *error) {
+    } else {
+        if (magnet.length == 0) return;
+        
+        @weakify(self)
+        void(^downloadAction)(NSString *magnet) = ^(NSString *magnet){
             @strongify(self)
             if (!self) return;
             
-            [self.view hideLoading];
-            
-            if (error) {
-                [self.view showWithError:error];
-            }
-            else {
-                [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
+            [self.view showLoadingWithText:@"创建下载任务中..."];
+            [DDPLinkNetManagerOperation linkAddDownloadWithIpAdress:[DDPCacheManager shareCacheManager].linkInfo.selectedIpAdress magnet:magnet completionHandler:^(DDPLinkDownloadTask *responseObject, NSError *error) {
+                @strongify(self)
+                if (!self) return;
                 
-                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    DDPDownloadViewController *vc = [[DDPDownloadViewController alloc] init];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }]];
+                [self.view hideLoading];
                 
-                [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
-                
-                [self presentViewController:vc animated:YES completion:nil];
-            }
-        }];
-    };
-    
+                if (error) {
+                    [self.view showWithError:error];
+                }
+                else {
+                    [[DDPDownloadManager shareDownloadManager] startObserverTaskInfo];
+                    
+                    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"创建下载任务成功！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [vc addAction:[UIAlertAction actionWithTitle:@"下载列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        DDPDownloadViewController *vc = [[DDPDownloadViewController alloc] init];
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }]];
+                    
+                    [vc addAction:[UIAlertAction actionWithTitle:@"返回" style:UIAlertActionStyleCancel handler:nil]];
+                    
+                    [self presentViewController:vc animated:YES completion:nil];
+                }
+            }];
+        };
+        
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"选择操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    
+        
         [vc addAction:[UIAlertAction actionWithTitle:@"复制磁力链" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [UIPasteboard generalPasteboard].string = magnet;
             [self.view showWithText:@"复制成功"];
         }]];
-    
+        
+        if (pageUrl) {
+            [vc addAction:[UIAlertAction actionWithTitle:@"查看下载页面" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                DDPBaseWebViewController *vc = [[DDPBaseWebViewController alloc] initWithURL:pageUrl];
+                @weakify(self)
+                vc.clickMagnetCallBack = ^(NSString *url) {
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    [self downloadVideoWithMagnet:url];
+                };
+                [self.navigationController pushViewController:vc animated:YES];
+                
+            }]];
+        }
+        
         [vc addAction:[UIAlertAction actionWithTitle:@"使用电脑端下载" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             if ([DDPCacheManager shareCacheManager].linkInfo == nil) {
@@ -242,10 +285,15 @@
                 downloadAction(magnet);
             }
         }]];
-    
+        
         [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    
+        
         [self presentViewController:vc animated:YES completion:nil];
+    }
+}
+
+- (void)downloadVideoWithMagnet:(NSString *)magnet {
+    [self downloadVideoWithMagnet:magnet pageUrl:nil];
 }
 
 //- (void)configRightItem {

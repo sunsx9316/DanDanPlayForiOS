@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPRelated.h"
 
-@interface DDPRelatedCollection : DDPBaseCollection
+@interface DDPRelatedCollection : DDPBaseCollection<DDPRelated *>
 
 @end

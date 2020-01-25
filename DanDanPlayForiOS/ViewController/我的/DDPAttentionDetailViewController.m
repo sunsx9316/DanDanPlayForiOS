@@ -97,7 +97,8 @@
     }
     
     DDPAttentionDetailHistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DDPAttentionDetailHistoryTableViewCell.className forIndexPath:indexPath];
-    cell.model = self.historyModel.collection[indexPath.row];
+    let model = self.historyModel.collection[indexPath.row];
+    cell.model = model;
     cell.touchPlayButtonCallBack = ^(DDPLinkFile *file) {
         @strongify(self)
         if (!self) return;
@@ -105,6 +106,13 @@
         DDPVideoModel *model = file.videoModel;
         
         [self tryAnalyzeVideo:model];
+    };
+    
+    cell.touchTagButtonCallBack = ^(DDPLinkFile *file) {
+        @strongify(self)
+        if (!self) return;
+        
+        [self touchTagWithModel:model];
     };
     return cell;
 }
@@ -121,41 +129,39 @@
     }];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section != 0) {
-        //未登录
-        
-        if ([self showLoginAlert] == false) {
-            return;
-        }
-        
-        DDPEpisode *model = self.historyModel.collection[indexPath.row];
-        //已观看
-        if (model.time.length != 0) return;
-        
-        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
-        [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self.view showLoadingWithText:@"添加中..."];
-            [DDPFavoriteNetManagerOperation addHistoryWithEpisodeIds:@[@(model.identity)] addToFavorite:YES completionHandler:^(NSError *error) {
-                [self.view hideLoading];
-                
-                if (error) {
-                    [self.view showWithError:error];
-                }
-                else {
-                    model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
-                    self.historyModel.isFavorite = true;
-                    if (self.attentionCallBack) {
-                        self.attentionCallBack(self.animateId);
-                    }
-                    [self.tableView reloadData];
-                }
-            }];
-        }]];
-        
-        [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-        [self presentViewController:vc animated:YES completion:nil];
+- (void)touchTagWithModel:(DDPEpisode *)model {
+   //未登录
+    
+    if ([self showLoginAlert] == false) {
+        return;
     }
+    
+//    DDPEpisode *model = self.historyModel.collection[indexPath.row];
+    //已观看
+    if (model.time.length != 0) return;
+    
+    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
+    [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.view showLoadingWithText:@"添加中..."];
+        [DDPFavoriteNetManagerOperation addHistoryWithEpisodeIds:@[@(model.identity)] addToFavorite:YES completionHandler:^(NSError *error) {
+            [self.view hideLoading];
+            
+            if (error) {
+                [self.view showWithError:error];
+            }
+            else {
+                model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
+                self.historyModel.isFavorite = true;
+                if (self.attentionCallBack) {
+                    self.attentionCallBack(self.animateId);
+                }
+                [self.tableView reloadData];
+            }
+        }];
+    }]];
+    
+    [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

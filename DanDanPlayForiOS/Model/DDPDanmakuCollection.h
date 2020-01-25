@@ -9,7 +9,7 @@
 #import "DDPBaseCollection.h"
 #import "DDPDanmaku.h"
 
-@interface DDPDanmakuCollection : DDPBaseCollection
+@interface DDPDanmakuCollection : DDPBaseCollection<DDPDanmaku *>
 
 #pragma mark - 自定义属性
 @property (strong, nonatomic) NSDate *saveTime;

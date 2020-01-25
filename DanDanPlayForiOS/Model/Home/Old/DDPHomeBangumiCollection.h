@@ -9,7 +9,7 @@
 #import "DDPBaseCollection.h"
 #import "DDPHomeBangumi.h"
 
-@interface DDPHomeBangumiCollection : DDPBaseCollection
+@interface DDPHomeBangumiCollection : DDPBaseCollection<DDPHomeBangumi *>
 @property (assign, nonatomic) NSInteger weekDay;
 @property (strong, nonatomic, readonly) NSString *weekDayStringValue;
 @end

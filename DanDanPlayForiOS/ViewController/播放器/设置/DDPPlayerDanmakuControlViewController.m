@@ -116,9 +116,9 @@
         NSMutableArray *arr = [NSMutableArray array];
         
         CGFloat rowHeight1 = 44 + ddp_isPad() * 20;
-        CGFloat rowHeight2 = 64 + ddp_isPad() * 20;
+        __unused CGFloat rowHeight2 = 64 + ddp_isPad() * 20;
         CGFloat heightHeight1 = 30;
-        CGFloat heightHeight2 = CGFLOAT_MIN;
+        __unused CGFloat heightHeight2 = CGFLOAT_MIN;
         
         @weakify(self)
         

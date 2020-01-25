@@ -214,6 +214,10 @@
         NSLog(@"%@", error);
     }];
     
+    if (self.model.danmakus == nil) {
+        self.model.danmakus = [[DDPDanmakuCollection alloc] init];
+        self.model.danmakus.collection = [NSMutableArray array];
+    }
     [DDPMethod sendMatchedModelMessage:self.model];
 #endif
 }
@@ -282,9 +286,6 @@
         _searchBar.delegate = self;
         _searchBar.placeholder = @"试试手动♂搜索";
         _searchBar.returnKeyType = UIReturnKeySearch;
-        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
-        _searchBar.tintColor = [UIColor ddp_mainColor];
-        _searchBar.backgroundColor = [UIColor clearColor];
         [self.view addSubview:_searchBar];
     }
     return _searchBar;

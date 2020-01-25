@@ -12,4 +12,5 @@
 @interface DDPAttentionDetailHistoryTableViewCell : DDPBaseTableViewCell
 @property (strong, nonatomic) DDPEpisode *model;
 @property (copy, nonatomic) void(^touchPlayButtonCallBack)(DDPLinkFile *file);
+@property (copy, nonatomic) void(^touchTagButtonCallBack)(DDPLinkFile *file);
 @end

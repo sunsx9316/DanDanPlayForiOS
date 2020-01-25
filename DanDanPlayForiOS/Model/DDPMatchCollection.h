@@ -9,7 +9,7 @@
 #import "DDPBaseCollection.h"
 #import "DDPMatch.h"
 
-@interface DDPMatchCollection : DDPBaseCollection
+@interface DDPMatchCollection : DDPBaseCollection<DDPMatch *>
 
 /**
  是否已精确关联到某个弹幕库

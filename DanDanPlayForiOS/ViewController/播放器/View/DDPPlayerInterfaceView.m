@@ -677,7 +677,7 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
             CGPoint tempPoint = CGPointMake(point.x - _panGestureTouchPoint.x, point.y - _panGestureTouchPoint.y);
 
             //横向移动
-            if (fabs(tempPoint.y) < 10) {
+            if (panGesture.numberOfTouches > 1 || (fabs(tempPoint.y) < 10)) {
                 //让slider不响应进度更新
                 _panType = InterfaceViewPanTypeProgress;
                 [self touchSliderDown:self.progressSlider];
@@ -706,15 +706,27 @@ typedef NS_ENUM(NSUInteger, InterfaceViewPanType) {
         }
         //进度调节
         else if (_panType == InterfaceViewPanTypeProgress) {
-            float y = [panGesture locationInView:self].y;
-            if (y >= 0 && y <= self.height / 3) {
-                _sliderRate = slowRate;
-            }
-            else if (y >= self.height / 3 && y <= self.height * 2 / 3) {
-                _sliderRate = normalRate;
-            }
-            else {
-                _sliderRate = fastRate;
+            
+            let numberOfTouches = panGesture.numberOfTouches;
+            if (numberOfTouches > 1) {
+                if (numberOfTouches <= 1) {
+                    _sliderRate = slowRate;
+                } else if (numberOfTouches > 1 && numberOfTouches <= 2) {
+                    _sliderRate = normalRate;
+                } else {
+                    _sliderRate = fastRate;
+                }
+            } else {
+                float y = [panGesture locationInView:self].y;
+                if (y >= 0 && y <= self.height / 3) {
+                    _sliderRate = slowRate;
+                }
+                else if (y >= self.height / 3 && y <= self.height * 2 / 3) {
+                    _sliderRate = normalRate;
+                }
+                else {
+                    _sliderRate = fastRate;
+                }
             }
             
             float x = self.player.position + ([panGesture translationInView:nil].x / self.width) * _sliderRate;

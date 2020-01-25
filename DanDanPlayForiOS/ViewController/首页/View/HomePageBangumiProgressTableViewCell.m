@@ -9,6 +9,7 @@
 #import "HomePageBangumiProgressTableViewCell.h"
 #import "HomePageBangumiProgressCollectionViewCell.h"
 #import "DDPAttentionDetailViewController.h"
+#import "DDPNewHomePageViewController.h"
 
 @interface HomePageBangumiProgressTableViewCell ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -54,23 +55,31 @@
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    var width = UIApplication.sharedApplication.ddp_mainWindow.width;
     CGFloat count = 2.5;
-    if (collectionView.width < 1000) {
+    if (width < 1000) {
         count = 3.5;
-    } else if (collectionView.width >= 1000 && collectionView.width < 1500) {
+    } else if (width >= 1000 && width < 1500) {
         count = 5.5;
-    } else if (collectionView.width >= 1500) {
+    } else if (width >= 1500) {
         count = 8.5;
     }
     
-    NSInteger width = (NSInteger)((collectionView.width - 40) / count);
+    width = (NSInteger)((width - 40) / count);
+    
     if (ddp_appType == DDPAppTypeToMac && collectionView.width == 0) {
         width = 60;
     }
+    
+    if (ddp_appType == DDPAppTypeToMac) {
+        DDPNewHomePageViewController *vc = (DDPNewHomePageViewController *)self.viewController;
+        if ([vc isKindOfClass:[DDPNewHomePageViewController class]]) {
+            return CGSizeMake(width, vc.progressViewHeight);
+        }
+    }
+    
     return CGSizeMake(width, self.height);
 }
-
 
 
 #pragma mark - 懒加载

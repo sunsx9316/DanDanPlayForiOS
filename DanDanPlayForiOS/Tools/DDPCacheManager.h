@@ -233,5 +233,8 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
 /// 引导视图是否显示过
 @property (nonatomic, assign) BOOL guildViewIsShow;
 
+/// 自动加载本地弹幕
+@property (nonatomic, assign) BOOL loadLocalDanmaku;
+
 + (instancetype)shareCacheManager;
 @end

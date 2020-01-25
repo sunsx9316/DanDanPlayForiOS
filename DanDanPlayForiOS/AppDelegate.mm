@@ -192,7 +192,7 @@
     return [[UISceneConfiguration alloc] initWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
 }
 
-- (void)buildMenuWithBuilder:(id<UIMenuBuilder>)builder {
+- (void)buildMenuWithBuilder:(id<UIMenuBuilder>)builder API_AVAILABLE(ios(13.0)) {
     [super buildMenuWithBuilder:builder];
     [builder removeMenuForIdentifier:UIMenuFormat];
     [builder removeMenuForIdentifier:UIMenuFile];

@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPFavorite.h"
 
-@interface DDPFavoriteCollection : DDPBaseCollection
+@interface DDPFavoriteCollection : DDPBaseCollection<DDPFavorite *>
 
 @end

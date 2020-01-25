@@ -19,7 +19,11 @@
                                                  parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
-            completionHandler([DDPFilterCollection yy_modelWithJSON:responseObj.responseObject], responseObj.error);
+            let collection = [DDPFilterCollection yy_modelWithJSON:responseObj.responseObject];
+            [collection.collection enumerateObjectsUsingBlock:^(DDPFilter * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj.cloudRule = YES;
+            }];
+            completionHandler(collection, responseObj.error);
         }
     }];
 }

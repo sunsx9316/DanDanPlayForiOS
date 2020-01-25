@@ -449,10 +449,6 @@
         _searchBar = [[DDPSearchBar alloc] init];
         _searchBar.placeholder = @"搜索番剧";
         _searchBar.delegate = self;
-        _searchBar.backgroundImage = [[UIImage alloc] init];
-        _searchBar.tintColor = [UIColor ddp_mainColor];
-        _searchBar.backgroundColor = [UIColor clearColor];
-        _searchBar.textField.font = [UIFont ddp_normalSizeFont];
     }
     return _searchBar;
 }

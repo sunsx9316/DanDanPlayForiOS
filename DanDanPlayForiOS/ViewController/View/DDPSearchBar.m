@@ -17,4 +17,15 @@
     }
 }
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundImage = [[UIImage alloc] init];
+        self.tintColor = [UIColor ddp_mainColor];
+        self.textField.backgroundColor = [UIColor whiteColor];
+        self.textField.font = [UIFont ddp_normalSizeFont];
+    }
+    return self;
+}
+
 @end

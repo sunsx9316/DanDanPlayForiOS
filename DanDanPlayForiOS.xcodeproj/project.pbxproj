@@ -598,6 +598,7 @@
 		893F1CCB23001F1000986BF3 /* DDPVideoModel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */; };
 		89409F921FE4EC6500704F33 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F911FE4EC6500704F33 /* DDPMethod.m */; };
 		89409F951FE4F1A700704F33 /* DDPBatchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F941FE4F1A700704F33 /* DDPBatchResponse.m */; };
+		89426C23239EAB35000FC640 /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595AA2371D0F900AC092F /* mars.framework */; };
 		8946D52B1EB6D38800161833 /* DDPFileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */; };
 		894955E821BEC01A00C9D923 /* DDPForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DC21BEC01A00C9D923 /* DDPForgetPasswordViewController.m */; };
 		894955E921BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DE21BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m */; };
@@ -628,7 +629,6 @@
 		8955064421C2990D006E35D9 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063421C2990D006E35D9 /* DDPNewHomePage.m */; };
 		8955064521C2990D006E35D9 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */; };
 		8955064621C2990D006E35D9 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */; };
-		895595AB2371D0F900AC092F /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595AA2371D0F900AC092F /* mars.framework */; };
 		895595B12371D10800AC092F /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 895595AD2371D10800AC092F /* LogUtil.m */; };
 		895595B22371D10800AC092F /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 895595AE2371D10800AC092F /* LogHelper.mm */; };
 		895595B42371D14F00AC092F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595B32371D14F00AC092F /* CoreTelephony.framework */; };
@@ -1074,7 +1074,6 @@
 		8928E37221B81F3E007BA84C /* DDPQRScannerHistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDPQRScannerHistoryView.xib; sourceTree = "<group>"; };
 		8928E37321B81F3E007BA84C /* DDPQRHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPQRHelpViewController.m; sourceTree = "<group>"; };
 		8928E37421B81F3E007BA84C /* DDPLinkFileManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPLinkFileManagerViewController.h; sourceTree = "<group>"; };
-		892BC3371F8E5BE8006C8DA9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		892BC3381F8E5C99006C8DA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89314B1E1F4690C0002C1AEA /* DDPFileManagerEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFileManagerEditView.h; sourceTree = "<group>"; };
 		89314B1F1F4690C0002C1AEA /* DDPFileManagerEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFileManagerEditView.m; sourceTree = "<group>"; };
@@ -1527,6 +1526,7 @@
 		89FBDED21F457C7800663865 /* DDPFileManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFileManagerViewController.m; sourceTree = "<group>"; };
 		89FD3E712001F0B100AF1DBB /* DDPRequestParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPRequestParameters.h; sourceTree = "<group>"; };
 		89FD3E722001F0B100AF1DBB /* DDPRequestParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPRequestParameters.m; sourceTree = "<group>"; };
+		89FF2E3B239B76A6004B8BC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89FF61031FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBiliBiliSearchBangumi.h; sourceTree = "<group>"; };
 		89FF61041FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchBangumi.m; sourceTree = "<group>"; };
 		89FF61061FD6C8D400D62178 /* DDPBiliBiliSearchResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBiliBiliSearchResult.h; sourceTree = "<group>"; };
@@ -1573,7 +1573,7 @@
 				895595B62371D16200AC092F /* libresolv.9.tbd in Frameworks */,
 				3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */,
 				895595B42371D14F00AC092F /* CoreTelephony.framework in Frameworks */,
-				895595AB2371D0F900AC092F /* mars.framework in Frameworks */,
+				89426C23239EAB35000FC640 /* mars.framework in Frameworks */,
 				895595BA2371D17900AC092F /* SystemConfiguration.framework in Frameworks */,
 				895595B82371D17300AC092F /* libz.tbd in Frameworks */,
 			);
@@ -2313,10 +2313,10 @@
 		898C181A2165028600AE7484 /* WMStickyPageController */ = {
 			isa = PBXGroup;
 			children = (
+				898C181E2165028600AE7484 /* WMMagicScrollView.h */,
+				898C181C2165028600AE7484 /* WMMagicScrollView.m */,
 				898C181B2165028600AE7484 /* WMStickyPageController.h */,
 				898C181D2165028600AE7484 /* WMStickyPageController.m */,
-				898C181C2165028600AE7484 /* WMMagicScrollView.m */,
-				898C181E2165028600AE7484 /* WMMagicScrollView.h */,
 			);
 			path = WMStickyPageController;
 			sourceTree = "<group>";
@@ -2861,9 +2861,6 @@
 					8907512621A1171A00D149F3 = {
 						DevelopmentTeam = Q35T78D2D5;
 					};
-					8911371922E35C7E00ED15E3 = {
-						DevelopmentTeam = Q35T78D2D5;
-					};
 					89E3F5B81E5829BD007AB1BD = {
 						CreatedOnToolsVersion = 7.2.1;
 						SystemCapabilities = {
@@ -2876,12 +2873,12 @@
 			};
 			buildConfigurationList = 89E3F5B41E5829BD007AB1BD /* Build configuration list for PBXProject "DanDanPlayForiOS" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				"zh-Hans",
 				en,
+				Base,
 			);
 			mainGroup = 89E3F5B01E5829BD007AB1BD;
 			productRefGroup = 89E3F5BA1E5829BD007AB1BD /* Products */;
@@ -3978,8 +3975,8 @@
 		89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				892BC3371F8E5BE8006C8DA9 /* zh-Hans */,
 				892BC3381F8E5C99006C8DA9 /* en */,
+				89FF2E3B239B76A6004B8BC8 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -4189,7 +4186,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4267,7 +4264,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4440,14 +4437,50 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 201911061;
+				CURRENT_PROJECT_VERSION = 202001251;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
+					"$(PROJECT_NAME)/Vender",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaHTTPServer\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/DDPShare\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/FBRetainCycleDetector\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/JHDanmakuRender\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MGSwipeTableCell\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/MLeaksFinder\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NKOColorPickerView\"",
+					"\"${PODS_ROOT}/Headers/Public/RATreeView\"",
+					"\"${PODS_ROOT}/Headers/Public/SQLiteRepairKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/Public/TOSMBClient\"",
+					"\"${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengUShare\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDB\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDBOptimizedSQLCipher\"",
+					"\"${PODS_ROOT}/Headers/Public/WMPageController\"",
+					"\"${PODS_ROOT}/Headers/Public/YYCategories\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/YYModel\"",
+					"\"${PODS_ROOT}/Headers/Public/YYUtility\"",
+					"\"${PODS_ROOT}/Headers/Public/YYWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/iCarousel\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "$(PROJECT_NAME)/AppStore/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4530,15 +4563,51 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 201911061;
+				CURRENT_PROJECT_VERSION = 202001251;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/DanDanPlayForiOS/Vender",
+					"$(PROJECT_NAME)/Vender",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/DanDanPlayForiOS/Config/DDPPrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaHTTPServer\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/DDPShare\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/FBRetainCycleDetector\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/JHDanmakuRender\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MGSwipeTableCell\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/MLeaksFinder\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NKOColorPickerView\"",
+					"\"${PODS_ROOT}/Headers/Public/RATreeView\"",
+					"\"${PODS_ROOT}/Headers/Public/SQLiteRepairKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/Public/TOSMBClient\"",
+					"\"${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengUShare\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDB\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDBOptimizedSQLCipher\"",
+					"\"${PODS_ROOT}/Headers/Public/WMPageController\"",
+					"\"${PODS_ROOT}/Headers/Public/YYCategories\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/YYModel\"",
+					"\"${PODS_ROOT}/Headers/Public/YYUtility\"",
+					"\"${PODS_ROOT}/Headers/Public/YYWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/iCarousel\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "$(PROJECT_NAME)/AppStore/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

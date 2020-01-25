@@ -16,6 +16,9 @@ WCDB_SYNTHESIZE(DDPFilter, name)
 WCDB_SYNTHESIZE(DDPFilter, isRegex)
 WCDB_SYNTHESIZE(DDPFilter, content)
 WCDB_SYNTHESIZE(DDPFilter, enable)
+WCDB_SYNTHESIZE(DDPFilter, cloudRule)
+
+
 
 WCDB_PRIMARY(DDPFilter, name)
 

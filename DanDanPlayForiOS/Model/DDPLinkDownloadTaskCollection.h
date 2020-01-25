@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPLinkDownloadTask.h"
 
-@interface DDPLinkDownloadTaskCollection : DDPBaseCollection
+@interface DDPLinkDownloadTaskCollection : DDPBaseCollection<DDPLinkDownloadTask *>
 
 @end

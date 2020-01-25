@@ -9,6 +9,6 @@
 #import "DDPBaseCollection.h"
 #import "DDPLibrary.h"
 
-@interface DDPLibraryCollection : DDPBaseCollection
+@interface DDPLibraryCollection : DDPBaseCollection<DDPLibrary *>
 
 @end

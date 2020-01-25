@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DDPSearchAnimeDetailsCollection : DDPBaseCollection
+@interface DDPSearchAnimeDetailsCollection : DDPBaseCollection<DDPSearchAnimeDetails *>
 
 @end
 

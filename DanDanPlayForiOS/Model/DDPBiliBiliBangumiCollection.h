@@ -9,7 +9,7 @@
 #import "DDPBaseCollection.h"
 #import "DDPBiliBiliBangumi.h"
 
-@interface DDPBiliBiliBangumiCollection : DDPBaseCollection
+@interface DDPBiliBiliBangumiCollection : DDPBaseCollection<DDPBiliBiliBangumi *>
 /**
  *  name 标题
     collection 分集

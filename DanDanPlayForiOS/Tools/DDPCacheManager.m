@@ -38,7 +38,6 @@ static NSString *const collectionCacheKey = @"collection_cache";
     NSUInteger _totalAlreadyReceive;
     DDPUser *_currentUser;
     CGSize _videoAspectRatio;
-    float _playerSpeed;
 }
 
 + (instancetype)shareCacheManager {
@@ -358,12 +357,18 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setPlayerSpeed:(float)playerSpeed {
-    _playerSpeed = playerSpeed;
+    [self.cache setObject:@(playerSpeed) forKey:[self keyWithSEL:_cmd]];
     self.mediaPlayer.speed = playerSpeed;
 }
 
 - (float)playerSpeed {
-    return _playerSpeed;
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    if (num == nil) {
+        num = @(1.0f);
+        self.playerSpeed = 1.0f;
+    }
+    
+    return num.floatValue;
 }
 
 #pragma mark -
@@ -374,6 +379,21 @@ static NSString *const collectionCacheKey = @"collection_cache";
 - (BOOL)guildViewIsShow {
     return [[NSUserDefaults standardUserDefaults] boolForKey:[self keyWithSEL:_cmd]];
 }
+
+- (void)setLoadLocalDanmaku:(BOOL)loadLocalDanmaku {
+    [self.cache setObject:@(loadLocalDanmaku) forKey:[self keyWithSEL:_cmd]];
+}
+
+- (BOOL)loadLocalDanmaku {
+    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    if (num == nil) {
+        num = @(YES);
+        self.loadLocalDanmaku = YES;
+    }
+    
+    return num.boolValue;
+}
+
 
 #pragma mark -
 - (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {

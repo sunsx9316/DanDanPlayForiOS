@@ -332,6 +332,19 @@
             };
             return item;
         }()];
+        
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingSwitchTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingSwitchTableViewCell *cell) {
+                cell.titleLabel.text = @"自动加载同名弹幕";
+                cell.detailLabel.text = @"目前支持 XML 格式弹幕";
+                cell.aSwitch.on = [DDPCacheManager shareCacheManager].loadLocalDanmaku;
+                cell.touchSwitchCallBack = ^(UISwitch *aSwitch) {
+                    [DDPCacheManager shareCacheManager].loadLocalDanmaku = ![DDPCacheManager shareCacheManager].loadLocalDanmaku;
+                };
+            };
+            return item;
+        }()];
 
 #if DDPAPPTYPEIOS
         [otherSetting.items addObject:^{

@@ -65,6 +65,28 @@
     
 }
 
++ (NSURLSessionDataTask *)renewWithCompletionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler {
+    let path = [NSString stringWithFormat:@"%@/login/renew", [DDPMethod apiNewPath]];
+    return [[DDPSharedNetManager sharedNetManager] GETWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:nil completionHandler:^(__kindof DDPResponse *responseObj) {
+        id res = responseObj.responseObject;
+        if (res) {
+            let user = DDPCacheManager.shareCacheManager.currentUser;
+            [user yy_modelSetWithJSON:res];
+            [user updateLoginStatus:YES];
+            completionHandler(user, nil);
+        } else {
+            var error = responseObj.error;
+            if (error.code == 401) {
+                let dic = [NSMutableDictionary dictionary];
+                dic[NSLocalizedDescriptionKey] = @"token失效，请重新登录！";
+                error = [NSError errorWithDomain:error.domain code:error.code userInfo:dic];
+            }
+            
+            completionHandler(nil, error);
+        }
+    }];
+}
+
 + (NSURLSessionDataTask *)registerWithRequest:(DDPRegisterRequest *)request
                             completionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPUser))completionHandler {
     if (request.name.length == 0 ||

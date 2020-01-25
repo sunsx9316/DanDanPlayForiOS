@@ -42,6 +42,8 @@ typedef NS_ENUM(NSUInteger, DDPLogLevel) {
 + (void)deinitLog;
 + (void)flush;
 
++ (NSString *)logPath;
+
 @end
 
 #define LogInternal(level, module, file, line, func, prefix, format, ...) \
