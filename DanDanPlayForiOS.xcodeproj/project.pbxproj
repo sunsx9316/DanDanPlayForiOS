@@ -653,6 +653,7 @@
 		89564177222D7D91007D173B /* DDPCommentNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA71EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m */; };
 		89564178222D7D9E007D173B /* DDPMatchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F31E585135007AB1BD /* DDPMatchNetManagerOperation.m */; };
 		89564179222D7DAD007D173B /* DDPOfficialSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C81EA8BB8D00A2233D /* DDPOfficialSearchViewController.m */; };
+		89582E2E23EAD02B00468D36 /* TOSMBSession+Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = 89582E2D23EAD02B00468D36 /* TOSMBSession+Hook.m */; };
 		895CA8AD1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
 		895CA8B01FDD069B00EF52BB /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
 		895CA8B31FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
@@ -1198,6 +1199,8 @@
 		895595B52371D15700AC092F /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
 		895595B72371D16900AC092F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		895595B92371D17900AC092F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		89582E2C23EAD02B00468D36 /* TOSMBSession+Hook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TOSMBSession+Hook.h"; sourceTree = "<group>"; };
+		89582E2D23EAD02B00468D36 /* TOSMBSession+Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TOSMBSession+Hook.m"; sourceTree = "<group>"; };
 		895CA8AB1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPPlayHistoryNetManagerOperation.h; sourceTree = "<group>"; };
 		895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPPlayHistoryNetManagerOperation.m; sourceTree = "<group>"; };
 		895CA8AE1FDD069B00EF52BB /* DDPBangumiQueueIntro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBangumiQueueIntro.h; sourceTree = "<group>"; };
@@ -2165,6 +2168,8 @@
 				8930348623E08DF700BE1049 /* UIApplication+DDPTools.m */,
 				898C18462166107300AE7484 /* UICollectionView+DDPTools.h */,
 				898C18472166107300AE7484 /* UICollectionView+DDPTools.m */,
+				89582E2C23EAD02B00468D36 /* TOSMBSession+Hook.h */,
+				89582E2D23EAD02B00468D36 /* TOSMBSession+Hook.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -3924,6 +3929,7 @@
 				890BEF051FA37BC300C7915D /* DDPFileTreeNode.m in Sources */,
 				898AD23F1F57A7460040B7C4 /* UIScrollView+Base.m in Sources */,
 				8930348323E08D9900BE1049 /* DDPTabBar.m in Sources */,
+				89582E2E23EAD02B00468D36 /* TOSMBSession+Hook.m in Sources */,
 				8987C1221F2ED964005BC154 /* UIView+Tools.m in Sources */,
 				89F5C8301EAF112200676361 /* DDPHTTPConnection.m in Sources */,
 				89BE4B15201C58D70009A5FF /* DDPVideoCache.mm in Sources */,
@@ -4437,7 +4443,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202001251;
+				CURRENT_PROJECT_VERSION = 202002051;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4563,7 +4569,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202001251;
+				CURRENT_PROJECT_VERSION = 202002051;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
