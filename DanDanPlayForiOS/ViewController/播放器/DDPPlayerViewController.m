@@ -179,7 +179,7 @@
     }
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuSpeed)]) {
         float speed = [change[NSKeyValueChangeNewKey] floatValue];
-        [self.danmakuEngine setSpeed:speed];
+        [self.danmakuEngine setUserInfoWithKey:JHScrollDanmakuExtraSpeedKey value:@(speed)];
         LOG_DEBUG(DDPLogModulePlayer, @"设置弹幕速度 %f", speed);
     }
     else if ([keyPath isEqualToString:DDP_KEYPATH([DDPCacheManager shareCacheManager], danmakuEffectStyle)]) {
@@ -297,7 +297,7 @@
 }
 
 #pragma mark - DDPDanmakuEngineDelegate
-- (NSArray <__kindof JHBaseDanmaku*>*)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time {
+- (NSArray<id<JHDanmakuProtocol>> *)danmakuEngine:(JHDanmakuEngine *)danmakuEngine didSendDanmakuAtTime:(NSUInteger)time {
     if (_currentTime == time) return nil;
     
     _currentTime = time;
@@ -313,7 +313,7 @@
     return tempDanmakus;
 }
 
-- (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(__kindof JHBaseDanmaku *)danmaku {
+- (BOOL)danmakuEngine:(JHDanmakuEngine *)danmakuEngine shouldSendDanmaku:(JHBaseDanmaku *)danmaku {
     
     //自己发的忽略屏蔽规则
     if (danmaku.sendByUserId != 0) {
@@ -347,11 +347,19 @@
     
     //屏蔽彩色弹幕
     if (danmakuShieldType & DDPDanmakuShieldTypeColor) {
-        UIColor *color = danmaku.textColor;
-        
-        if ([color isEqual:[UIColor whiteColor]] || [color isEqual:[UIColor blackColor]]) {
-            return true;
+        UIColor *color = nil;
+        if (danmaku.attributedString.length) {
+            color = [danmaku.attributedString attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:nil];
+            let r = color.red;
+            let g = color.green;
+            let b = color.blue;
+            BOOL isWhite = r == 1 && g == 1 && b == 1;
+            BOOL isBlack = r == 0 && g == 0 && b == 0;
+            if (isWhite || isBlack) {
+                return true;
+            }
         }
+        
         return false;
     }
     
@@ -961,7 +969,7 @@
     if (_danmakuEngine == nil) {
         _danmakuEngine = [[JHDanmakuEngine alloc] init];
         _danmakuEngine.delegate = self;
-        [_danmakuEngine setSpeed:[DDPCacheManager shareCacheManager].danmakuSpeed];
+        [_danmakuEngine setUserInfoWithKey:JHScrollDanmakuExtraSpeedKey value:@([DDPCacheManager shareCacheManager].danmakuSpeed)];
         _danmakuEngine.canvas.alpha = [DDPCacheManager shareCacheManager].danmakuOpacity;
         _danmakuEngine.limitCount = [DDPCacheManager shareCacheManager].danmakuLimitCount;
     }

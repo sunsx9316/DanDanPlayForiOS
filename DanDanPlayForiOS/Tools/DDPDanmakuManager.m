@@ -177,14 +177,7 @@ typedef void(^CallBackAction)(DDPDanmaku *model);
             tempDanmaku = [[JHFloatDanmaku alloc] initWithFont:font text:obj.message textColor:[UIColor colorWithRGB:obj.color] effectStyle:shadowStyle during:3 position:obj.mode == DDPDanmakuModeBottom ? JHFloatDanmakuPositionAtBottom : JHFloatDanmakuPositionAtTop];
         }
         else {
-            CGFloat speed = 130 - obj.message.length * 2.5;
-            
-            if (speed < 50) {
-                speed = 50;
-            }
-            
-            speed += arc4random() % 20;
-            tempDanmaku = [[JHScrollDanmaku alloc] initWithFont:font text:obj.message textColor:[UIColor colorWithRGB:obj.color] effectStyle:shadowStyle speed:speed direction:JHScrollDanmakuDirectionR2L];
+            tempDanmaku = [[JHScrollDanmaku alloc] initWithFont:font text:obj.message textColor:[UIColor colorWithRGB:obj.color] effectStyle:shadowStyle direction:JHScrollDanmakuDirectionR2L];
         }
         tempDanmaku.appearTime = obj.time;
         if (filter) {

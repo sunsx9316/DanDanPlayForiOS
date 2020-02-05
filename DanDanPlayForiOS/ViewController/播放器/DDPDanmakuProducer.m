@@ -66,7 +66,7 @@
     if (arr == nil || self.filterFlagDic[timeIndex]) return;
     
     [arr enumerateObjectsUsingBlock:^(JHBaseDanmaku * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.filter = [DDPDanmakuManager filterWithDanmakuContent:obj.text danmakuFilters:danmakuFilters];
+        obj.filter = [DDPDanmakuManager filterWithDanmakuContent:obj.attributedString.string danmakuFilters:danmakuFilters];
     }];
     
     self.filterFlagDic[timeIndex] = @(true);
