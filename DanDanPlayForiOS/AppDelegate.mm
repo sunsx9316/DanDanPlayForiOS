@@ -250,6 +250,17 @@
 //    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
     [UITextView appearance].tintColor = [UIColor ddp_mainColor];
     
+    if (@available(iOS 13.0, *)) {
+        UIImage *normalBgImage = [[UIImage imageWithColor:UIColor.lightGrayColor size:CGSizeMake(10, 10)] imageByRoundCornerRadius:4];
+        normalBgImage = [normalBgImage resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+        [UIStepper.appearance setBackgroundImage:normalBgImage forState:UIControlStateNormal];
+        
+        UIImage *selectedBgImage = [[UIImage imageWithColor:UIColor.grayColor size:CGSizeMake(10, 10)] imageByRoundCornerRadius:4];
+        selectedBgImage = [selectedBgImage resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+        [UIStepper.appearance setBackgroundImage:selectedBgImage forState:UIControlStateHighlighted];        
+    }
+    
+    
     [[DDPSharedNetManager sharedNetManager] resetJWTToken:[DDPCacheManager shareCacheManager].currentUser.JWTToken];
     
 #if DDPAPPTYPEISMAC
