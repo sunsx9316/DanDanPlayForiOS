@@ -221,6 +221,9 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
  */
 @property (assign, nonatomic) CGFloat danmakuOffsetTime;
 
+/// 字幕偏移 单位秒
+@property (nonatomic, assign) CGFloat subtitleDelay;
+
 /// 视频比例
 @property (assign, nonatomic) CGSize videoAspectRatio;
 

@@ -152,12 +152,12 @@ static char mediaParsingCompletionKey = '0';
 }
 
 #pragma mark 字幕
-- (void)setSubtitleDelay:(NSInteger)subtitleDelay {
-    _localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay;
+- (void)setSubtitleDelay:(CGFloat)subtitleDelay {
+    _localMediaPlayer.currentVideoSubTitleDelay = subtitleDelay * 1000000.0;
 }
 
-- (NSInteger)subtitleDelay {
-    return _localMediaPlayer.currentVideoSubTitleDelay;
+- (CGFloat)subtitleDelay {
+    return _localMediaPlayer.currentVideoSubTitleDelay / 1000000.0;
 }
 
 - (NSArray *)subtitleIndexs {

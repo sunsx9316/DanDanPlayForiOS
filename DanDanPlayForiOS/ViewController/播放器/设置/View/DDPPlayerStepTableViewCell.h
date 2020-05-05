@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DDPPlayerStepTableViewCell : UITableViewCell
-@property (copy, nonatomic) void(^touchStepperCallBack)(CGFloat value);
+@property (copy, nonatomic) void(^touchStepperCallBack)(DDPPlayerStepTableViewCell *cell, CGFloat value);
+@property (strong, nonatomic, readonly) UIStepper *stepper;
+@property (strong, nonatomic, readonly) UILabel *titleLabel;
 @end

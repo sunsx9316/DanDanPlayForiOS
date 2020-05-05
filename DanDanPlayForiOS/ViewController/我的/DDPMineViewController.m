@@ -30,6 +30,7 @@
 #import "LogHelper.h"
 #import <SSZipArchive/SSZipArchive.h>
 #endif
+#import <BlocksKit/BlocksKit.h>
 
 #define TITLE_KEY @"titleLabel.text"
 
@@ -67,8 +68,15 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 #if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] addObserver:self];
 #endif
+    @weakify(self)
+    [[DDPToolsManager shareToolsManager] bk_addObserverForKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld task:^(id  _Nonnull obj, NSDictionary * _Nonnull change) {
+        @strongify(self)
+        if (self) {
+            self.dataSourceArr = nil;
+            [self.tableView reloadData];
+        }
+    }];
     
-    [[DDPToolsManager shareToolsManager] addObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [[DDPCacheManager shareCacheManager] addObserver:self];
     
     [self reloadUserInfo];
@@ -84,15 +92,6 @@ UIScrollViewDelegate, DDPCacheManagerDelagate>
 #if !DDPAPPTYPE
     [[DDPDownloadManager shareDownloadManager] removeObserver:self];
 #endif
-//    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPCacheManager shareCacheManager], currentUser)];
-    [[DDPCacheManager shareCacheManager] removeObserver:self forKeyPath:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:DDP_KEYPATH([DDPToolsManager shareToolsManager], SMBSession)]) {
-        self.dataSourceArr = nil;
-        [self.tableView reloadData];
-    }
 }
 
 - (void)configRightItem {

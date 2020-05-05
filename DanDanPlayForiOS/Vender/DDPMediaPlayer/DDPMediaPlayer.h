@@ -69,7 +69,9 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 @property (strong, nonatomic) UIView * _Nullable mediaView;
 @property (strong, nonatomic) id<DDPMediaItemProtocol> _Nullable media;
 @property (assign, nonatomic) CGFloat volume;
-@property (assign, nonatomic) NSInteger subtitleDelay;
+
+/// 字母偏移 单位秒
+@property (assign, nonatomic) CGFloat subtitleDelay;
 
 /**
  字幕索引

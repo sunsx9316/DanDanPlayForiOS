@@ -11,7 +11,9 @@
 #import "DDPSelectedTableViewCell.h"
 #import "DDPPlayerSliderTableViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
+#import "DDPPlayerStepTableViewCell.h"
 #import "DDPBaseTableView.h"
+#import "DDPMediaPlayer.h"
 
 @interface DDPPlayerVideoControlViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
@@ -44,14 +46,14 @@
     if (ddp_appType == DDPAppTypeToMac) {
         return 1;
     }
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 || section == 1) {
-        return 1;
+    if (section == 3) {
+        return 4;
     }
-    return 4;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,6 +78,27 @@
             cell.titleLabel.text = [NSString stringWithFormat:@"%ld : %ld", (long)size.width, (long)size.height];
         }
         cell.iconImgView.hidden = YES;
+        return cell;
+    }
+    
+    if (indexPath.section == 2) {
+        DDPPlayerStepTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPPlayerStepTableViewCell" forIndexPath:indexPath];
+        CGFloat value = DDPCacheManager.shareCacheManager.subtitleDelay;
+        cell.stepper.maximumValue = CGFLOAT_MAX;
+        cell.stepper.minimumValue = -CGFLOAT_MAX;
+        cell.stepper.value = value;
+        cell.stepper.stepValue = 0.5;
+        cell.titleLabel.text = [NSString stringWithFormat:@"%.2lfs", value];
+        @weakify(self)
+        cell.touchStepperCallBack = ^(DDPPlayerStepTableViewCell *aCell, CGFloat aValue) {
+            @strongify(self)
+            if (!self) {
+                return;
+            }
+            
+            DDPCacheManager.shareCacheManager.subtitleDelay = aValue;
+            aCell.titleLabel.text = [NSString stringWithFormat:@"%.2lfs", aValue];
+        };
         return cell;
     }
     
@@ -120,7 +143,7 @@
             [tableView reloadSection:1 withRowAnimation:UITableViewRowAnimationNone];
         }
     }
-    else if (indexPath.section == 2) {
+    else if (indexPath.section == 3) {
         [DDPCacheManager shareCacheManager].playMode = indexPath.row;
         [tableView reloadData];
     }
@@ -134,11 +157,11 @@
     DDPPlayerControlHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"DDPPlayerControlHeaderView"];
     if (section == 0) {
         view.titleLabel.text = @"播放速度";
-    }
-    else if (section == 1) {
+    } else if (section == 1) {
         view.titleLabel.text = @"视频比例";
-    }
-    else {
+    } else if (section == 2) {
+        view.titleLabel.text = @"字幕偏移";
+    } else if (section == 3) {
         view.titleLabel.text = @"播放模式";
     }
     return view;
@@ -163,6 +186,7 @@
         [_tableView registerClass:[DDPSelectedTableViewCell class] forCellReuseIdentifier:@"DDPSelectedTableViewCell"];
         [_tableView registerClass:[DDPPlayerSliderTableViewCell class] forCellReuseIdentifier:@"DDPPlayerSliderTableViewCell"];
         [_tableView registerClass:[DDPPlayerControlHeaderView class] forHeaderFooterViewReuseIdentifier:@"DDPPlayerControlHeaderView"];
+        [_tableView registerClass:[DDPPlayerStepTableViewCell class] forCellReuseIdentifier:@"DDPPlayerStepTableViewCell"];
     }
     return _tableView;
 }

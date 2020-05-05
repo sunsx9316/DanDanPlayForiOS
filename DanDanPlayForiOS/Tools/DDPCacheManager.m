@@ -17,12 +17,11 @@
 #import "DDPMediaPlayer.h"
 
 static NSString *const danmakuFiltersKey = @"danmaku_filters";
-static NSString *const danmakuFontIsSystemFontKey = @"danmaku_font_is_system_font";
 static NSString *const collectionCacheKey = @"collection_cache";
 
 
 @interface DDPCacheManager ()<TOSMBSessionDownloadTaskDelegate>
-@property (strong, nonatomic) YYCache *cache;
+//@property (strong, nonatomic) YYCache *cache;
 
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, YYWebImageManager *>*imageManagerDic;
 @property (strong, nonatomic) NSMutableArray <DDPFilter *>*aFilterCollection;
@@ -51,14 +50,14 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 #pragma mark - 懒加载
-- (YYCache *)cache {
-    if (_cache == nil) {
-        _cache = [[YYCache alloc] initWithName:@"dandanplay_cache"];
-        _cache.memoryCache.shouldRemoveAllObjectsOnMemoryWarning = false;
-        _cache.memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = false;
-    }
-    return _cache;
-}
+//- (YYCache *)cache {
+//    if (_cache == nil) {
+//        _cache = [[YYCache alloc] initWithName:@"dandanplay_cache"];
+//        _cache.memoryCache.shouldRemoveAllObjectsOnMemoryWarning = false;
+//        _cache.memoryCache.shouldRemoveAllObjectsWhenEnteringBackground = false;
+//    }
+//    return _cache;
+//}
 
 - (NSMutableDictionary<NSNumber *,YYWebImageManager *> *)imageManagerDic {
     if (_imageManagerDic == nil) {
@@ -95,20 +94,39 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark - 
 - (void)setDanmakuFont:(UIFont *)danmakuFont {
-    [self.cache setObject:danmakuFont forKey:[self keyWithSEL:_cmd] withBlock:nil];
-    [self.cache setObject:@(danmakuFont.isSystemFont) forKey:danmakuFontIsSystemFontKey withBlock:nil];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    dic[@"name"] = danmakuFont.fontName;
+    dic[@"size"] = @(danmakuFont.pointSize);
+    dic[@"isSystemFont"] = @(danmakuFont.isSystemFont);
+    [NSUserDefaults.standardUserDefaults setObject:dic forKey:[self keyWithSEL:_cmd]];
 }
 
 - (UIFont *)danmakuFont {
-    UIFont *font = (UIFont *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
-    if (font == nil) {
+    NSDictionary *fontDic = [NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
+    UIFont *font = nil;
+    if ([fontDic isKindOfClass:[NSDictionary class]]) {
+        NSString *name = fontDic[@"name"];
+        NSNumber *size = fontDic[@"size"];
+        NSNumber *isSystemFont = fontDic[@"isSystemFont"];
+        
+        if (isSystemFont.boolValue) {
+            UIFont *font = [UIFont systemFontOfSize:size.doubleValue];
+            font.isSystemFont = YES;
+            return font;
+        }
+        
+        font = [UIFont fontWithName:name size:size.doubleValue];
+        font.isSystemFont = isSystemFont.boolValue;
+        
+        if (!font) {
+            font = [UIFont systemFontOfSize:size.doubleValue];
+            font.isSystemFont = YES;
+            self.danmakuFont = font;
+        }
+    } else {
         font = [UIFont ddp_normalSizeFont];
         font.isSystemFont = YES;
         self.danmakuFont = font;
-    }
-    else {
-        NSNumber *num = (NSNumber *)[self.cache objectForKey:danmakuFontIsSystemFontKey];
-        font.isSystemFont = num.boolValue;
     }
     
     return font;
@@ -116,11 +134,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark - 
 - (void)setDanmakuEffectStyle:(JHDanmakuEffectStyle)danmakuEffectStyle {
-    [self.cache setObject:@(danmakuEffectStyle) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setInteger:danmakuEffectStyle forKey:[self keyWithSEL:_cmd]];
 }
 
 - (JHDanmakuEffectStyle)danmakuEffectStyle {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(JHDanmakuEffectStyleGlow);
         self.danmakuEffectStyle = JHDanmakuEffectStyleGlow;
@@ -130,11 +148,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark - 
 - (void)setSubtitleProtectArea:(BOOL)subtitleProtectArea {
-    [self.cache setObject:@(subtitleProtectArea) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:subtitleProtectArea forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)subtitleProtectArea {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.subtitleProtectArea = YES;
@@ -144,11 +162,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setDanmakuCacheTime:(NSUInteger)danmakuCacheTime {
-    [self.cache setObject:@(danmakuCacheTime) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setInteger:danmakuCacheTime forKey:[self keyWithSEL:_cmd]];
 }
 
 - (NSUInteger)danmakuCacheTime {
-    NSNumber *time = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *time = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (time == nil) {
         time = @(7);
         self.danmakuCacheTime = 7;
@@ -159,11 +177,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setAutoRequestThirdPartyDanmaku:(BOOL)autoRequestThirdPartyDanmaku {
-    [self.cache setObject:@(autoRequestThirdPartyDanmaku) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:autoRequestThirdPartyDanmaku forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)autoRequestThirdPartyDanmaku {
-    NSNumber *autoRequestThirdPartyDanmaku = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *autoRequestThirdPartyDanmaku = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (autoRequestThirdPartyDanmaku == nil) {
         autoRequestThirdPartyDanmaku = @(YES);
         self.autoRequestThirdPartyDanmaku = YES;
@@ -174,11 +192,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setOpenFastMatch:(BOOL)openFastMatch {
-    [self.cache setObject:@(openFastMatch) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:openFastMatch forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)openFastMatch {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber * num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.openFastMatch = YES;
@@ -188,11 +206,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setOpenAutoDownloadSubtitle:(BOOL)openAutoDownloadSubtitle {
-    [self.cache setObject:@(openAutoDownloadSubtitle) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:openAutoDownloadSubtitle forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)openAutoDownloadSubtitle {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber * num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.openAutoDownloadSubtitle = YES;
@@ -202,11 +220,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setUseTouchIdLogin:(BOOL)useTouchIdLogin {
-    [self.cache setObject:@(useTouchIdLogin) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:useTouchIdLogin forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)useTouchIdLogin {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber * num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.useTouchIdLogin = YES;
@@ -216,11 +234,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setPriorityLoadLocalDanmaku:(BOOL)priorityLoadLocalDanmaku {
-    [self.cache setObject:@(priorityLoadLocalDanmaku) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setBool:priorityLoadLocalDanmaku forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)priorityLoadLocalDanmaku {
-    NSNumber * num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber * num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.priorityLoadLocalDanmaku = YES;
@@ -243,11 +261,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setPlayMode:(DDPPlayerPlayMode)playMode {
-    [self.cache setObject:@(playMode) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setInteger:playMode forKey:[self keyWithSEL:_cmd]];
 }
 
 - (DDPPlayerPlayMode)playMode {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(DDPPlayerPlayModeOrder);
         self.playMode = DDPPlayerPlayModeOrder;
@@ -258,7 +276,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark - 
 - (float)danmakuSpeed {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @1;
         self.danmakuSpeed = 1;
@@ -268,12 +286,12 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setDanmakuSpeed:(float)danmakuSpeed {
-    [self.cache setObject:@(danmakuSpeed) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setFloat:danmakuSpeed forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
 - (float)danmakuOpacity {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @1;
         self.danmakuOpacity = 1;
@@ -283,16 +301,16 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setDanmakuOpacity:(float)danmakuOpacity {
-    [self.cache setObject:@(danmakuOpacity) forKey:[self keyWithSEL:_cmd] withBlock:nil];
+    [NSUserDefaults.standardUserDefaults setFloat:danmakuOpacity forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
 - (void)setFileSortType:(DDPFileSortType)fileSortType {
-    [self.cache setObject:@(fileSortType) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setInteger:fileSortType forKey:[self keyWithSEL:_cmd]];
 }
 
 - (DDPFileSortType)fileSortType {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(DDPFileSortTypeAsc);
         self.fileSortType = DDPFileSortTypeAsc;
@@ -303,7 +321,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (UIColor *)sendDanmakuColor {
-    UIColor *color = (UIColor *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    UIColor *color = (UIColor *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (color == nil) {
         color = [UIColor whiteColor];
         self.sendDanmakuColor = color;
@@ -312,12 +330,12 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setSendDanmakuColor:(UIColor *)sendDanmakuColor {
-    [self.cache setObject:sendDanmakuColor forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:sendDanmakuColor forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
 - (DDPDanmakuMode)sendDanmakuMode {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(DDPDanmakuModeNormal);
         self.sendDanmakuMode = DDPDanmakuModeNormal;
@@ -327,12 +345,12 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setSendDanmakuMode:(DDPDanmakuMode)sendDanmakuMode {
-    [self.cache setObject:@(sendDanmakuMode) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(sendDanmakuMode) forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
 - (NSUInteger)danmakuLimitCount {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(14);
         self.danmakuLimitCount = 14;
@@ -342,7 +360,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setDanmakuLimitCount:(NSUInteger)danmakuLimitCount {
-    [self.cache setObject:@(danmakuLimitCount) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(danmakuLimitCount) forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
@@ -357,12 +375,12 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setPlayerSpeed:(float)playerSpeed {
-    [self.cache setObject:@(playerSpeed) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(playerSpeed) forKey:[self keyWithSEL:_cmd]];
     self.mediaPlayer.speed = playerSpeed;
 }
 
 - (float)playerSpeed {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(1.0f);
         self.playerSpeed = 1.0f;
@@ -381,11 +399,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setLoadLocalDanmaku:(BOOL)loadLocalDanmaku {
-    [self.cache setObject:@(loadLocalDanmaku) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(loadLocalDanmaku) forKey:[self keyWithSEL:_cmd]];
 }
 
 - (BOOL)loadLocalDanmaku {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(YES);
         self.loadLocalDanmaku = YES;
@@ -397,11 +415,11 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setPlayInterfaceOrientation:(UIInterfaceOrientation)playInterfaceOrientation {
-    [self.cache setObject:@(playInterfaceOrientation) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(playInterfaceOrientation) forKey:[self keyWithSEL:_cmd]];
 }
 
 - (UIInterfaceOrientation)playInterfaceOrientation {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(UIInterfaceOrientationLandscapeRight);
         self.playInterfaceOrientation = UIInterfaceOrientationLandscapeRight;
@@ -411,7 +429,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (DDPDanmakuShieldType)danmakuShieldType {
-    NSNumber *num = (NSNumber *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSNumber *num = (NSNumber *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     if (num == nil) {
         num = @(DDPDanmakuShieldTypeNone);
         self.danmakuShieldType = DDPDanmakuShieldTypeNone;
@@ -421,21 +439,21 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setDanmakuShieldType:(DDPDanmakuShieldType)danmakuShieldType {
-    [self.cache setObject:@(danmakuShieldType) forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:@(danmakuShieldType) forKey:[self keyWithSEL:_cmd]];
 }
 
 - (void)setUserDefineRequestDomain:(NSString *)userDefineRequestDomain {
-    [self.cache setObject:userDefineRequestDomain forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:userDefineRequestDomain forKey:[self keyWithSEL:_cmd]];
 }
 
 - (NSString *)userDefineRequestDomain {
-    NSString *path = (NSString *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSString *path = (NSString *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     return path;
 }
 
 #pragma mark -
 - (NSMutableDictionary *)folderCache {
-    NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
@@ -451,7 +469,7 @@ static NSString *const collectionCacheKey = @"collection_cache";
 }
 
 - (void)setFolderCache:(NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *)folderCache {
-    [self.cache setObject:folderCache forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:folderCache forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
@@ -465,12 +483,20 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (void)setIgnoreVersion:(NSString *)ignoreVersion {
-    [self.cache setObject:ignoreVersion forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:ignoreVersion forKey:[self keyWithSEL:_cmd]];
 }
 
 - (NSString *)ignoreVersion {
-    NSString *version = (NSString *)[self.cache objectForKey:[self keyWithSEL:_cmd]];
+    NSString *version = (NSString *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
     return version;
+}
+
+- (void)setSubtitleDelay:(CGFloat)subtitleDelay {
+    self.mediaPlayer.subtitleDelay = subtitleDelay;
+}
+
+- (CGFloat)subtitleDelay {
+    return self.mediaPlayer.subtitleDelay;
 }
 
 #pragma mark - 私有方法

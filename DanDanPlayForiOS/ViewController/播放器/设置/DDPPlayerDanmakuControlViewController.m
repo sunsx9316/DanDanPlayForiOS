@@ -235,8 +235,22 @@
             model.dequeueReuseCellCallBack = ^(DDPPlayerStepTableViewCell *cell) {
                 @strongify(self)
                 if (!self) return;
-                
-                cell.touchStepperCallBack = self.touchStepperCallBack;
+                cell.stepper.maximumValue = CGFLOAT_MAX;
+                cell.stepper.minimumValue = -CGFLOAT_MAX;
+                CGFloat value = DDPCacheManager.shareCacheManager.danmakuOffsetTime;
+                cell.stepper.value = value;
+                cell.titleLabel.text = [NSString stringWithFormat:@"%lds", (long)value];
+                cell.touchStepperCallBack = ^(DDPPlayerStepTableViewCell *cell, CGFloat value) {
+                    @strongify(self)
+                    if (!self) return;
+                    
+                    DDPCacheManager.shareCacheManager.danmakuOffsetTime = value;
+                    cell.titleLabel.text = [NSString stringWithFormat:@"%lds", (long)value];
+                    
+                    if (self.touchStepperCallBack) {
+                        self.touchStepperCallBack(value);
+                    }
+                };
             };
             
             model.dequeueReuseHeaderCallBack = ^(DDPPlayerControlHeaderView *view) {
