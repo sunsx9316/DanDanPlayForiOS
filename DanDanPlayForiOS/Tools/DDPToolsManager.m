@@ -528,6 +528,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 #endif
 
 #pragma mark - PC端
+#if !DDPAPPTYPEISREVIEW
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
                                      linkInfo:(DDPLinkInfo *)linkInfo
                                    completion:(GetLinkFilesAction)completion {
@@ -603,7 +604,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
                                    completion:(GetLinkFilesAction)completion {
     [self startDiscovererFileWithLinkParentFile:parentFile linkInfo:[DDPCacheManager shareCacheManager].linkInfo completion:completion];
 }
-
+#endif
 
 #pragma mark - 私有方法
 - (void)sortFiles:(NSMutableArray <DDPFile *>*)files {

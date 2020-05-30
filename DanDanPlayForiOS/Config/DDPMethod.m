@@ -13,7 +13,7 @@
 #import "UIApplication+DDPTools.h"
 #import "DDPVideoModel+Tools.h"
 #if !DDPAPPTYPEISMAC
-#import <UMSocialCore/UMSocialCore.h>
+#import <UMShare/UMShare.h>
 #import "DDPPlayNavigationController.h"
 #else
 #import <DDPShare/DDPShare.h>

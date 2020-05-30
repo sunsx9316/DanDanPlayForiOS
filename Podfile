@@ -28,22 +28,24 @@ abstract_target 'DDPlay_Target' do
     pod 'iCarousel'
     pod 'BlocksKit', :path => 'LocalPods/BlocksKit'
 
-    pod 'AFNetworking', :git => 'https://github.com/sunsx9316/AFNetworking_UIKitForMac.git'
     pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
 
     pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'SSZipArchive'
+    pod 'AFNetworking'
 
 abstract_target 'iOS_Only' do
+    pod 'UMCCommon'
+    pod 'UMCSecurityPlugins'
     # 集成新浪微博
-    pod 'UMengUShare/Social/ReducedSina'
+    pod 'UMCShare/Social/ReducedSina'
     # 集成QQ
-    pod 'UMengUShare/Social/ReducedQQ'
+    pod 'UMCShare/Social/ReducedQQ'
     # 集成微信
-    pod 'UMengUShare/Social/WeChat'
+    pod 'UMCShare/Social/ReducedWeChat'
 
     # 友盟统计
-    pod 'UMengAnalytics'
+    pod 'UMCAnalytics'
     pod 'Bugly'
     #内存泄露检测
     pod 'MLeaksFinder', :configurations => ['Debug'] 
@@ -57,12 +59,14 @@ abstract_target 'iOS_Only' do
     end
 
     target 'DDPlay_Review' do
-    pod 'CocoaLumberjack'
+    pod 'TOSMBClient', '~> 1.0.5'
+    pod 'CocoaHTTPServer'
     end
 end
 
 
     target 'DDPlay_ToMac' do
+    # pod 'AFNetworking', :git => 'https://github.com/sunsx9316/AFNetworking_UIKitForMac.git'
     pod 'CocoaLumberjack'
     # pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'WCDB_UIKitForMac', :path => 'LocalPods/WCDB'

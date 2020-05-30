@@ -37,7 +37,8 @@ static NSString *ddp_jsonString(id obj) {
 
 CG_INLINE NSDictionary *ddp_defaultHTTPHeaderField() {
     return @{@"X-Client-Name" : @"iOS",
-             @"X-Client-Version" : [UIApplication sharedApplication].appVersion
+             @"X-Client-Version" : [UIApplication sharedApplication].appVersion,
+             @"User-Agent": [NSString stringWithFormat:@"dandanplay/ios %@", UIApplication.sharedApplication.appVersion]
              };
 };
 

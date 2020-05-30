@@ -15,7 +15,7 @@
 #import "DDPBaseScrollView.h"
 #import "UIView+Tools.h"
 #if !DDPAPPTYPEISMAC
-#import <UMSocialCore/UMSocialCore.h>
+#import <UMShare/UMShare.h>
 #import <Bugly/Bugly.h>
 #endif
 #import "LAContext+Tools.h"

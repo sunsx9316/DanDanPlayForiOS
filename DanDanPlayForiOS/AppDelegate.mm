@@ -24,8 +24,8 @@
 
 #if !DDPAPPTYPEISMAC
 #import <Bugly/Bugly.h>
-#import <UMSocialCore/UMSocialCore.h>
-#import <UMMobClick/MobClick.h>
+#import <UMShare/UMShare.h>
+#import <UMCommon/UMCommon.h>
 #else
 #import <SSZipArchive/SSZipArchive.h>
 #import <DDPShare/DDPShare.h>
@@ -228,16 +228,10 @@
 - (void)configUM {
 #if !DDPAPPTYPEISMAC
     if (ddp_UMShareKey.length != 0) {
-        [[UMSocialManager defaultManager] openLog:YES];
-        [[UMSocialManager defaultManager] setUmSocialAppkey:ddp_UMShareKey];
+        [UMConfigure initWithAppkey:ddp_UMShareKey channel:nil];
+        [UMConfigure setLogEnabled:YES];
         [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:ddp_QQAppKey appSecret:nil redirectURL:nil];
-        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:ddp_weiboAppKey appSecret:ddp_weiboSecretKey redirectURL:ddp_weiboRedirectURL];
-        
-        //友盟统计
-        UMConfigInstance.appKey = ddp_UMShareKey;
-        UMConfigInstance.channelId = @"App Store";
-        [MobClick setAppVersion:[UIApplication sharedApplication].appVersion];
-        [MobClick startWithConfigure:UMConfigInstance];        
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:ddp_weiboAppKey appSecret:ddp_weiboSecretKey redirectURL:ddp_weiboRedirectURL];       
     }
 #endif
 }
