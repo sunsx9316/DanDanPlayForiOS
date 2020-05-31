@@ -10,7 +10,7 @@
 #import "DDPRefreshNormalHeader.h"
 
 @implementation MJRefreshHeader (Tools)
-+ (instancetype)ddp_headerRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler {
++ (instancetype)ddp_headerRefreshingCompletionHandler:(MJRefreshComponentAction)completionHandler {
     MJRefreshNormalHeader *header = [DDPRefreshNormalHeader headerWithRefreshingBlock:completionHandler];
     
     [header setTitle:@"" forState:MJRefreshStateIdle];

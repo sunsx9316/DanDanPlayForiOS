@@ -51,7 +51,7 @@ abstract_target 'iOS_Only' do
     pod 'MLeaksFinder', :configurations => ['Debug'] 
     pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
     pod 'WCDB'
-    pod 'MobileVLCKit'#, '3.3.0'
+    pod 'MobileVLCKit', :path => 'LocalPods/MobileVLCKit'
 
     target 'DDPlay' do
     pod 'TOSMBClient', '~> 1.0.5'

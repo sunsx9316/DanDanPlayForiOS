@@ -584,7 +584,6 @@
 		893BCC062053CF08007E378F /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC052053CF08007E378F /* UIImage+Tools.m */; };
 		893BCC0A2053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */; };
 		893BCC0B2053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */; };
-		893BDFC624697A7600AC8424 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893BDFC524697A7600AC8424 /* AuthenticationServices.framework */; };
 		893D71E92377D2F7004FF7F5 /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 895595AE2371D10800AC092F /* LogHelper.mm */; };
 		893D71EA2377D2F9004FF7F5 /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 895595AE2371D10800AC092F /* LogHelper.mm */; };
 		893D71EB2377D2FB004FF7F5 /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 895595AD2371D10800AC092F /* LogUtil.m */; };
@@ -1127,7 +1126,6 @@
 		893BCC072053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPBiliBiliSearchVideoTableViewCell.h; sourceTree = "<group>"; };
 		893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchVideoTableViewCell.m; sourceTree = "<group>"; };
 		893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPBiliBiliSearchVideoTableViewCell.xib; sourceTree = "<group>"; };
-		893BDFC424697A2700AC8424 /* DDPlay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DDPlay.entitlements; sourceTree = "<group>"; };
 		893BDFC524697A7600AC8424 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		893D71EE2377ECDD004FF7F5 /* DDPGuildView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPGuildView.h; sourceTree = "<group>"; };
 		893D71EF2377ECDD004FF7F5 /* DDPGuildView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPGuildView.m; sourceTree = "<group>"; };
@@ -1579,7 +1577,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				895595B62371D16200AC092F /* libresolv.9.tbd in Frameworks */,
-				893BDFC624697A7600AC8424 /* AuthenticationServices.framework in Frameworks */,
 				3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */,
 				895595B42371D14F00AC092F /* CoreTelephony.framework in Frameworks */,
 				89426C23239EAB35000FC640 /* mars.framework in Frameworks */,
@@ -2472,7 +2469,6 @@
 		89E3F5B01E5829BD007AB1BD = {
 			isa = PBXGroup;
 			children = (
-				893BDFC424697A2700AC8424 /* DDPlay.entitlements */,
 				89E3F5BB1E5829BD007AB1BD /* DanDanPlayForiOS */,
 				89E3F5BA1E5829BD007AB1BD /* Products */,
 				B6C75ADF2C49705250A0E91E /* Pods */,
@@ -4458,7 +4454,7 @@
 				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202005331;
+				CURRENT_PROJECT_VERSION = 202006011;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4585,7 +4581,7 @@
 				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202005331;
+				CURRENT_PROJECT_VERSION = 202006011;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;

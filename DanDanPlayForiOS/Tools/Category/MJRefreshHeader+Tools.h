@@ -17,5 +17,5 @@
  *
  *  @return self
  */
-+ (instancetype)ddp_headerRefreshingCompletionHandler:(MJRefreshComponentRefreshingBlock)completionHandler;
++ (instancetype)ddp_headerRefreshingCompletionHandler:(MJRefreshComponentAction)completionHandler;
 @end
