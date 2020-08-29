@@ -15,11 +15,14 @@
 #import "DDPSMBFile.h"
 #import "DDPSMBInfo.h"
 #import "DDPLinkFile.h"
+#import "DDPWebDAVFile.h"
+#import "DDPWebDAVLoginInfo.h"
 
 typedef void(^GetSnapshotAction)(UIImage *image);
 typedef void(^GetFilesAction)(DDPFile *aFile);
 typedef void(^GetSMBFilesAction)(DDPSMBFile *aFile, NSError *error);
-typedef void(^GetLinkFilesAction)(DDPLinkFile *aDile, NSError *error);
+typedef void(^GetLinkFilesAction)(DDPLinkFile *aFile, NSError *error);
+typedef void(^GetWebDAVFileAction)(DDPWebDAVFile *aFile, NSError *error);
 
 typedef NS_ENUM(NSUInteger, PickerFileType) {
     PickerFileTypeVideo = 1 << 0,
@@ -159,6 +162,21 @@ typedef NS_ENUM(NSUInteger, PickerFileType) {
              completion:(void(^)(NSString *destinationFilePath, NSError *error))completion;
 
 @property (strong, nonatomic) TOSMBSession *SMBSession;
+
+#pragma mark - WebDAV
+@property (nonatomic, strong) DDPWebDAVLoginInfo *webDAVLoginInfo;
+- (void)startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)parentFile
+                                     completion:(GetWebDAVFileAction)completion;
+
+- (void)startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)parentFile
+                                       fileType:(PickerFileType)fileType
+                                     completion:(GetWebDAVFileAction)completion;
+
+- (NSURLSessionDataTask *)downloadWebDAVFile:(DDPWebDAVFile *)file
+                             destinationPath:(NSString *)destinationPath
+                            progressCallBack:(void(^)(NSProgress *progress))progressCallBack
+                              cancelCallBack:(void(^)(NSData *data))cancelCallBack
+                                  completion:(void(^)(NSString *destinationFilePath, NSError *error))completion;
 
 
 #if !DDPAPPTYPEISREVIEW

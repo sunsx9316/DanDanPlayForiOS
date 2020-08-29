@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DDPSMBLoginViewItem <NSObject>
+
+@property (nonatomic, strong, readonly) NSString *itemHostName;
+@property (nonatomic, strong, readonly) NSString *itemUserName;
+@property (nonatomic, strong, readonly) NSString *itemPasword;
+
+@end
+
 @interface DDPSMBLoginView : UIView
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *holdView;
@@ -23,6 +31,6 @@
 @property (copy, nonatomic) void(^touchLoginButtonCallBack)(DDPSMBLoginView *aView);
 @property (copy, nonatomic) void(^touchHelpButtonCallBack)(void);
 
-- (void)showAtView:(UIView *)view info:(DDPSMBInfo *)info;
+- (void)showAtView:(UIView *)view info:(id<DDPSMBLoginViewItem>)info;
 - (void)dismiss;
 @end

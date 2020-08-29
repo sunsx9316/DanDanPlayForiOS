@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor ddp_backgroundColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self configLeftItem];
     [self configRightItem];

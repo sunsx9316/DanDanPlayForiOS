@@ -145,13 +145,6 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
-		893596A722EF2BE400F3CA1E /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		897B4A6A22ED716400B910BD /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,7 +283,6 @@
 				898F404822ECA5CB00C082BF /* Player */,
 				897B5F362332634200BAAB6F /* Resource */,
 				897B4AF722EDF39B00B910BD /* Tools */,
-				893596A722EF2BE400F3CA1E /* View */,
 			);
 			path = DDPlayMacPlayer;
 			sourceTree = "<group>";

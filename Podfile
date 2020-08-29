@@ -27,12 +27,12 @@ abstract_target 'DDPlay_Target' do
     pod 'MGSwipeTableCell'
     pod 'iCarousel'
     pod 'BlocksKit', :path => 'LocalPods/BlocksKit'
-
     pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
 
     pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'SSZipArchive'
     pod 'AFNetworking'
+    pod 'Ono'
 
 abstract_target 'iOS_Only' do
     pod 'UMCCommon'
@@ -48,10 +48,11 @@ abstract_target 'iOS_Only' do
     pod 'UMCAnalytics'
     pod 'Bugly'
     #内存泄露检测
-    pod 'MLeaksFinder', :configurations => ['Debug'] 
+    # pod 'MLeaksFinder', :configurations => ['Debug'] 
     pod 'DDPEncrypt', :path => 'LocalPods/Encrypt'
     pod 'WCDB'
-    pod 'MobileVLCKit', :path => 'LocalPods/MobileVLCKit'
+    pod 'MobileVLCKit', '3.3.10'#:path => 'LocalPods/MobileVLCKit'
+    pod 'Ono'
 
     target 'DDPlay' do
     pod 'TOSMBClient', '~> 1.0.5'

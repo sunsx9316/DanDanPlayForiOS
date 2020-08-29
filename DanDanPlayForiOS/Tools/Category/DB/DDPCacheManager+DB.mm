@@ -14,6 +14,7 @@
 #import "DDPLinkInfo.h"
 #import "DDPSMBDownloadTaskCache.h"
 #import "DDPUser+WCTTableCoding.h"
+#import "DDPWebDAVHasnCache+WCTTableCoding.h"
 
 @implementation DDPCacheManager (DB)
 
@@ -29,7 +30,8 @@
         [_database createTableAndIndexesOfName:DDPLinkInfo.className withClass:DDPLinkInfo.class];
         [_database createTableAndIndexesOfName:DDPSMBInfo.className withClass:DDPSMBInfo.class];
         [_database createTableAndIndexesOfName:DDPUser.className withClass:DDPUser.class];
-        
+        [_database createTableAndIndexesOfName:DDPWebDAVLoginInfo.className withClass:DDPWebDAVLoginInfo.class];
+        [_database createTableAndIndexesOfName:DDPWebDAVHasnCache.className withClass:DDPWebDAVHasnCache.class];
 #if !DDPAPPTYPE
         [_database createTableAndIndexesOfName:DDPSMBDownloadTaskCache.className withClass:DDPSMBDownloadTaskCache.class];
         [_database createTableAndIndexesOfName:DDPLinkDownloadTask.className withClass:DDPLinkDownloadTask.class];

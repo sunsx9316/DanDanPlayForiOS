@@ -8,6 +8,8 @@
 
 #import "DDPCacheManager.h"
 #import "DDPVideoCache.h"
+#import "DDPWebDAVLoginInfo.h"
+#import "DDPWebDAVFile.h"
 
 @interface DDPCacheManager (multiply)
 
@@ -60,6 +62,16 @@
 - (void)saveSMBInfo:(DDPSMBInfo *)info;
 - (void)removeSMBInfo:(DDPSMBInfo *)info;
 
+
+/**
+ webdav登录信息
+ */
+@property (strong, nonatomic, readonly) NSArray <DDPWebDAVLoginInfo *>*webDAVInfos;
+- (void)saveWebDAVInfo:(DDPWebDAVLoginInfo *)info;
+- (void)removeWebDAVInfo:(DDPWebDAVLoginInfo *)info;
+
+- (void)saveWebDAVFileHashWithHash:(NSString *)hash file:(DDPWebDAVFile *)file;
+- (NSString *)webDAVHash:(DDPWebDAVFile *)file;
 
 /**
  保存smb文件Hash

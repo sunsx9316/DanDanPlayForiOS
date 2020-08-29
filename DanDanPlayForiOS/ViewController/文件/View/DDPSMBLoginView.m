@@ -42,12 +42,12 @@
     [self endEditing:YES];
 }
 
-- (void)showAtView:(UIView *)view info:(DDPSMBInfo *)info {
+- (void)showAtView:(UIView *)view info:(id<DDPSMBLoginViewItem>)info {
     [[YYKeyboardManager defaultManager] addObserver:self];
     if (view) {
         [view addSubview:self];
     }
-    self.addressTextField.text = info.hostName.length ? info.hostName : info.ipAddress;
+    self.addressTextField.text = info.itemHostName;
     [self ddp_showViewWithHolderView:self.holdView completion:^(BOOL finished) {
         if (self.addressTextField.text.length > 0) {
             [self.userNameTextField becomeFirstResponder];

@@ -483,6 +483,7 @@
         _mediaListPlayer.mediaPlayer.drawable = self.mediaView;
         _mediaListPlayer.mediaPlayer.delegate = self;
         @weakify(self)
+        
         [_mediaListPlayer.mediaPlayer addObserverBlockForKeyPath:DDP_KEYPATH(_mediaListPlayer.mediaPlayer, media) block:^(id  _Nonnull obj, id  _Nonnull oldVal, VLCMedia * _Nonnull newVal) {
             @strongify(self)
             if (![self.delegate respondsToSelector:@selector(mediaPlayer:mediaDidChange:)]) {

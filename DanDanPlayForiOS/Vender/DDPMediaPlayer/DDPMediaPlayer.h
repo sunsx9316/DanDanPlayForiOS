@@ -62,6 +62,8 @@ CG_INLINE NSString *ddp_mediaFormatterTime(NSInteger totalSeconds) {
 
 - (void)mediaPlayer:(DDPMediaPlayer *)player rateChange:(float)rate;
 
+- (void)mediaPlayer:(DDPMediaPlayer *)player downloadProgress:(float)downloadProgress;
+
 - (void)mediaPlayer:(DDPMediaPlayer *)player userJumpWithTime:(NSTimeInterval)time;
 @end
 

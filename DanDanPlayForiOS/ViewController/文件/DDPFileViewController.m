@@ -11,6 +11,7 @@
 #import "DDPFileManagerViewController.h"
 #import "DDPLinkFileManagerViewController.h"
 #import "DDPQRScannerViewController.h"
+#import "DDPWebDAVViewController.h"
 
 #if !DDPAPPTYPEISMAC
 #import "DDPSMBViewController.h"
@@ -165,6 +166,11 @@
             [self.navigationController pushViewController:vc animated:YES];
 #endif
         }
+        else if ([item.name isEqual:@"WebDAV"]) {
+            DDPWebDAVViewController *vc = [[DDPWebDAVViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         else if ([item.name isEqualToString:@"我的电脑"]) {
 #if !DDPAPPTYPE
             //已经登录
@@ -276,6 +282,14 @@
                     node.name = @"局域网设备";
                     node.type = DDPFileTreeNodeTypeLocation;
                     node.img = [[UIImage imageNamed:@"file_net_equipment"] yy_imageByTintColor:[UIColor darkGrayColor]];
+                    node;
+                })];
+                
+                [node.subItems addObject:({
+                    DDPFileTreeNode *node = [[DDPFileTreeNode alloc] init];
+                    node.name = @"WebDAV";
+                    node.type = DDPFileTreeNodeTypeLocation;
+                    node.img = [[UIImage imageNamed:@"file_web_dav"] yy_imageByTintColor:[UIColor darkGrayColor]];
                     node;
                 })];
                 

@@ -9,16 +9,55 @@
 #import "DDPMediaPlayer.h"
 #import <MobileVLCKit/MobileVLCKit.h>
 #import <Photos/Photos.h>
+#import <BlocksKit/BlocksKit.h>
 #import "NSString+Tools.h"
+#import "DDPWebDAVInputStream.h"
+
+@interface DDPMediaStreamDelegate : NSObject<NSStreamDelegate>
+@property (nonatomic, strong) NSMutableSet <NSStream *>*inputStreams;
+
+@property (nonatomic, copy) void(^progressCallBack)(CGFloat progress);
+@end
+
+@implementation DDPMediaStreamDelegate
+
+- (NSMutableSet<NSStream *> *)inputStreams {
+    if (_inputStreams == nil) {
+        _inputStreams = [NSMutableSet set];
+    }
+    return _inputStreams;
+}
+
+#pragma mark - Protocol (NSStreamDelegate)
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+    if (eventCode == NSStreamEventEndEncountered) {
+        [self.inputStreams removeObject:aStream];
+    }
+}
+
+- (void)inputStream:(DDPWebDAVInputStream *)stream downloadProgress:(CGFloat)downloadProgress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.progressCallBack) {
+            self.progressCallBack(downloadProgress);
+        }
+    });
+}
+
+@end
 
 //最大音量
 #define MAX_VOLUME 200.0
 
 static char mediaParsingCompletionKey = '0';
+//static char mediaStreamKey = '0';
 
 @interface DDPMediaPlayer()<VLCMediaPlayerDelegate, VLCMediaDelegate>
 @property (strong, nonatomic) VLCMediaPlayer *localMediaPlayer;
 @property (copy, nonatomic) SnapshotCompleteBlock snapshotCompleteBlock;
+@property (nonatomic, strong, readonly, class) DDPMediaStreamDelegate *streamDelegate;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) BOOL timeIsUpdate;
+//@property (nonatomic, strong) UIProgressView *progressView;
 @end
 
 @implementation DDPMediaPlayer
@@ -38,17 +77,24 @@ static char mediaParsingCompletionKey = '0';
 - (instancetype)init {
     if (self = [super init]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterreption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+
+        @weakify(self)
+        self.class.streamDelegate.progressCallBack = ^(CGFloat progress) {
+            @strongify(self)
+
+            if ([self.delegate respondsToSelector:@selector(mediaPlayer:downloadProgress:)]) {
+                [self.delegate mediaPlayer:self downloadProgress:progress];
+            }
+        };
     }
     return self;
 }
 
 - (void)dealloc {
+    self.class.streamDelegate.progressCallBack = nil;
     [_mediaView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    free(_localMediaPlayer.videoAspectRatio);
-    _localMediaPlayer.drawable = nil;
-    _localMediaPlayer = nil;
-    self.mediaView = nil;
+    [self.timer invalidate];
 }
 
 - (void)parseWithCompletion:(void(^)(void))completion {
@@ -95,7 +141,7 @@ static char mediaParsingCompletionKey = '0';
             _status = DDPMediaPlayerStatusPlaying;
             break;
         case VLCMediaPlayerStateBuffering:
-            if (self.localMediaPlayer.isPlaying) {
+            if (self.timeIsUpdate) {
                 _status = DDPMediaPlayerStatusPlaying;
             }
             else {
@@ -274,12 +320,25 @@ static char mediaParsingCompletionKey = '0';
     if (!media) return;
     
     _media = media;
-    VLCMedia *vlcMedia = [[VLCMedia alloc] initWithURL:_media.url];
-    vlcMedia.delegate = self;
-    if (media.mediaOptions) {
-        [vlcMedia addOptions:media.mediaOptions];
+    NSDictionary *mediaOptions = media.mediaOptions;
+    if ([mediaOptions[@"isWebDav"] isEqual:@(YES)]) {
+        NSNumber *fileSize = mediaOptions[@"fileSize"];
+        DDPWebDAVInputStream *stream = [[DDPWebDAVInputStream alloc] initWithURL:_media.url fileLength:fileSize.integerValue];
+        stream.delegate = self.class.streamDelegate;
+        [stream open];
+        [self.class.streamDelegate.inputStreams addObject:stream];
+        VLCMedia *vlcMedia = [[VLCMedia alloc] initWithStream:stream];
+        vlcMedia.delegate = self;
+        self.localMediaPlayer.media = vlcMedia;
+    } else {
+        VLCMedia *vlcMedia = [[VLCMedia alloc] initWithURL:_media.url];
+        vlcMedia.delegate = self;
+        if (media.mediaOptions) {
+            [vlcMedia addOptions:media.mediaOptions];
+        }
+        self.localMediaPlayer.media = vlcMedia;
     }
-    self.localMediaPlayer.media = vlcMedia;
+    
     
     LOG_INFO(DDPLogModulePlayer, @"设置播放路径：%@", _media.url);
     
@@ -299,6 +358,18 @@ static char mediaParsingCompletionKey = '0';
         
         if (!(videoDateTime && nowDateTime)) return;
         [self.delegate mediaPlayer:self progress:progress currentTime:nowDateTime totalTime:videoDateTime];
+    }
+    
+    @weakify(self)
+    [self.timer invalidate];
+    self.timer = [NSTimer bk_scheduleTimerWithTimeInterval:1 repeats:NO usingBlock:^(NSTimer * _Nonnull timer) {
+        @strongify(self)
+        self.timeIsUpdate = NO;
+    }];
+    
+    if (self.timeIsUpdate == NO) {
+        self.timeIsUpdate = YES;
+        [self mediaPlayerStateChanged:nil];
     }
 }
 
@@ -390,6 +461,15 @@ static char mediaParsingCompletionKey = '0';
         _mediaView = [[UIView alloc] init];
     }
     return _mediaView;
+}
+
++ (DDPMediaStreamDelegate *)streamDelegate {
+    static DDPMediaStreamDelegate *streamDelegate = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        streamDelegate = [DDPMediaStreamDelegate new];
+    });
+    return streamDelegate;
 }
 
 @end

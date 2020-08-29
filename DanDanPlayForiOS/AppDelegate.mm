@@ -241,6 +241,10 @@
         [UITableView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
+    if (@available(iOS 13.0, *)) {
+        [UIScrollView appearance].automaticallyAdjustsScrollIndicatorInsets = NO;
+    }
+    
 //    [UILabel appearance].font = [UIFont ddp_normalSizeFont];
     [UITextView appearance].tintColor = [UIColor ddp_mainColor];
     

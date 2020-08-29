@@ -11,8 +11,10 @@
 #import "NSString+Tools.h"
 #import <YYCache.h>
 #import <HTTPServer.h>
+#import <BlocksKit/BlocksKit.h>
 #import "NSURL+Tools.h"
 #import "DDPLoginViewController.h"
+#import "AFWebDAVManager.h"
 #if !DDPAPPTYPEISMAC
 #import <TOSMBClient.h>
 #import <Bugly/Bugly.h>
@@ -25,7 +27,9 @@ static NSString *const smbCompletionBlockKey = @"smb_completion_block";
 static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_block";
 
 @interface DDPToolsManager ()<TOSMBSessionDownloadTaskDelegate>
+@property (nonatomic, strong) AFWebDAVManager *webDAVManager;
 
+@property (nonatomic, strong) NSMutableDictionary *webDAVTaskBlock;
 @end
 
 @implementation DDPToolsManager
@@ -49,14 +53,28 @@ static NSString *const parseMediaCompletionBlockKey = @"parse_media_completion_b
         _parseVideoGroup = dispatch_group_create();
         _semaphore = dispatch_semaphore_create(2);
         _queue = dispatch_queue_create("com.dandanplay.parseVideo", nil);
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(taskDidCompleteNotification:) name:AFNetworkingTaskDidCompleteNotification object:nil];
     }
     return self;
+}
+
+- (void)taskDidCompleteNotification:(NSNotification *)aNotification {
+    NSURLSessionDataTask *task = aNotification.object;
+    if (task) {
+        void(^callBack)(NSData *) = self.webDAVTaskBlock[task];
+        if (callBack) {
+            NSData *data = aNotification.userInfo[AFNetworkingTaskDidCompleteResponseDataKey];
+            callBack(data);
+            self.webDAVTaskBlock[task] = nil;
+        }
+    }
 }
 
 - (void)dealloc {
     _parseVideoGroup = nil;
     _semaphore = nil;
     _queue = nil;
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)videoSnapShotWithModel:(DDPVideoModel *)model completion:(GetSnapshotAction)completion {
@@ -527,6 +545,133 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 
 #endif
 
+#pragma mark - WebDAV
+
+- (void)startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)parentFile
+                                     completion:(GetWebDAVFileAction)completion {
+    [self startDiscovererWebDevFileWithParentFile:parentFile fileType:PickerFileTypeAll completion:completion];
+}
+
+- (void)startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)parentFile
+                                       fileType:(PickerFileType)fileType
+                                     completion:(GetWebDAVFileAction)completion {
+    if (!self.webDAVLoginInfo.url) {
+        NSAssert(NO, @"参数为空！");
+        return;
+    }
+    
+    if (!parentFile) {
+        parentFile = [[DDPWebDAVFile alloc] initWithFileURL:[NSURL URLWithString:@"/" relativeToURL:self.webDAVLoginInfo.url] type:DDPFileTypeFolder];
+    }
+    
+    [self.webDAVManager contentsOfDirectoryAtURLString:parentFile.fileURL.absoluteString recursive:NO completionHandler:^(NSArray<AFWebDAVMultiStatusResponse *> *items, NSError *error) {
+        if (completion) {
+            
+            NSMutableArray <DDPFile *>*files = [NSMutableArray arrayWithCapacity:items.count];
+            NSURL *baseURL = self.webDAVLoginInfo.url;
+            [items enumerateObjectsUsingBlock:^(AFWebDAVMultiStatusResponse * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                DDPFileType type = DDPFileTypeUnknow;
+                
+                NSURL *fileURL = [NSURL URLWithString:obj.URL.absoluteString relativeToURL:baseURL];
+                
+                if ([fileURL isEqual:parentFile.fileURL]) {
+                    return;
+                }
+                
+                if (obj.collection) {
+                    type = DDPFileTypeFolder;
+                } else {
+                    type = DDPFileTypeDocument;
+                }
+                
+                
+                DDPWebDAVFile *file = [[DDPWebDAVFile alloc] initWithFileURL:fileURL type:type];
+                file.parentFile = parentFile;
+                if (file.type == DDPFileTypeDocument) {
+                    file.fileSize = obj.contentLength;
+                    if (fileType == PickerFileTypeAll) {
+                        [files addObject:file];
+                    } else {
+                        if (fileType & PickerFileTypeVideo && ddp_isVideoFile(fileURL.path)) {
+                            [files addObject:file];
+                        }
+                        else if(fileType & PickerFileTypeSubtitle && ddp_isSubTitleFile(fileURL.path)) {
+                            [files addObject:file];
+                        }
+                        else if(fileType & PickerFileTypeDanmaku && ddp_isDanmakuFile(fileURL.path)) {
+                            [files addObject:file];
+                        }
+                    }
+                } else {
+                    [files addObject:file];
+                }
+            }];
+            
+            [files sortUsingComparator:^NSComparisonResult(DDPFile * _Nonnull obj1, DDPFile * _Nonnull obj2) {
+                if (obj1.type > obj2.type) {
+                    return NSOrderedAscending;
+                } else if (obj1.type < obj2.type) {
+                    return NSOrderedDescending;
+                }
+                
+                return [obj1.fileURL.absoluteString compare:obj2.fileURL.absoluteString];
+            }];
+            
+            parentFile.subFiles = files;
+            completion(parentFile, error);
+        }
+    }];
+}
+
+- (NSURLSessionDataTask *)downloadWebDAVFile:(DDPWebDAVFile *)file
+                             destinationPath:(NSString *)destinationPath
+                            progressCallBack:(void(^)(NSProgress *progress))progressCallBack
+                              cancelCallBack:(void(^)(NSData *data))cancelCallBack
+                                  completion:(void(^)(NSString *destinationFilePath, NSError *error))completion {
+    
+    if (!file.fileURL) {
+        NSAssert(NO, @"参数为空！");
+        return nil;
+    }
+
+    NSURL *url = file.fileURL;
+    
+    if (!destinationPath) {
+        destinationPath = [UIApplication.sharedApplication cachesPath];
+    }
+    
+    NSURLSessionDataTask *task = nil;
+    
+    @weakify(self)
+    task = [self.webDAVManager dataTaskWithRequest:[NSURLRequest requestWithURL:url] uploadProgress:nil downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+        @strongify(self)
+        if (!self) {
+            return;
+        }
+        
+        if (progressCallBack) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressCallBack(downloadProgress);
+            });
+        }
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSData * _Nullable responseObject, NSError * _Nullable error) {
+        
+        NSString *path = [destinationPath stringByAppendingPathComponent:response.suggestedFilename];
+        if (!error) {
+            [responseObject writeToFile:path atomically:YES];
+        }
+        
+        if (completion) {
+            completion(path, error);
+        }
+    }];
+    
+    [task resume];
+    
+    self.webDAVTaskBlock[task] = cancelCallBack;
+    return task;
+}
+
 #pragma mark - PC端
 #if !DDPAPPTYPEISREVIEW
 - (void)startDiscovererFileWithLinkParentFile:(DDPLinkFile *)parentFile
@@ -668,6 +813,39 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive {
 }
 #endif
 
+- (AFWebDAVManager *)webDAVManager {
+    if (_webDAVManager == nil) {
+        _webDAVManager = [[AFWebDAVManager alloc] init];
+        @weakify(self)
+        [_webDAVManager setAuthenticationChallengeHandler:^id _Nonnull(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSURLAuthenticationChallenge * _Nonnull challenge, void (^ _Nonnull completionHandler)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable)) {
+            @strongify(self)
+            if (!self) {
+                return @(NSURLSessionAuthChallengePerformDefaultHandling);
+            }
+            
+            if (challenge.previousFailureCount > 0) {
+                return @(NSURLSessionAuthChallengePerformDefaultHandling);
+            }
+            
+            if (self.webDAVLoginInfo) {
+                return [NSURLCredential credentialWithUser:self.webDAVLoginInfo.userName ?: @""
+                                                  password:self.webDAVLoginInfo.userPassword ?: @""
+                                               persistence:NSURLCredentialPersistenceForSession];
+            }
+            
+            return @(NSURLSessionAuthChallengePerformDefaultHandling);
+        }];
+            
+    }
+    return _webDAVManager;
+}
+
+- (NSMutableDictionary *)webDAVTaskBlock {
+    if (_webDAVTaskBlock == nil) {
+        _webDAVTaskBlock = [NSMutableDictionary dictionary];
+    }
+    return _webDAVTaskBlock;
+}
 
 @end
 

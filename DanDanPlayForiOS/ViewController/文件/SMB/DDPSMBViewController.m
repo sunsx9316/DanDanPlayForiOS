@@ -17,6 +17,7 @@
 #import <TOSMBClient.h>
 #import "DDPBaseTableView.h"
 #import "NSString+Tools.h"
+#import "DDPSMBInfo+Tools.h"
 
 @interface DDPSMBViewController ()<UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
 @property (strong, nonatomic) DDPBaseTableView *tableView;

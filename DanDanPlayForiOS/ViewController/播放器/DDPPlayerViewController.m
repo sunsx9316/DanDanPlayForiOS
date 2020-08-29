@@ -34,6 +34,8 @@
 #import "DDPBaseNavigationController.h"
 #import "DDPLoginViewController.h"
 #import "DDPDanmakuProducer.h"
+#import "DDPWebDAVVideoModel.h"
+#import "DDPWebDAVFilePickerViewController.h"
 
 //在主线程分析弹幕的时间
 #define PARSE_TIME 10
@@ -46,6 +48,8 @@
 @property (strong, nonatomic) DDPDanmakuProducer *danmakuProducer;
 //已发送的弹幕
 @property (strong, nonatomic) NSMutableDictionary <NSNumber *, NSMutableArray<JHBaseDanmaku *>*>*sentDanmakuDic;
+
+@property (nonatomic, strong) UIProgressView *progressView;
 //当前弹幕屏蔽标志 因为可以实时修改屏蔽的弹幕 所以需要设置唯一的标志
 //@property (assign, atomic) NSInteger danmakuParseFlag;
 @end
@@ -128,6 +132,7 @@
 //    self.danmakuParseFlag = [NSDate date].hash;
     
     [self.view addSubview:self.player.mediaView];
+    [self.view addSubview:self.progressView];
     [self.view insertSubview:self.danmakuEngine.canvas aboveSubview:self.player.mediaView];
     [self.view addSubview:self.interfaceView];
     
@@ -147,6 +152,17 @@
     
     [self.interfaceView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
+    }];
+    
+    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(50, 5));
+        if (@available(iOS 11.0, *)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.right.mas_equalTo(self.view.mas_safeAreaLayoutGuideRight);
+        } else {
+            make.top.mas_equalTo(self.view).offset(5);
+            make.right.mas_equalTo(self.view).offset(-5);
+        }
     }];
     
     //添加一堆监听
@@ -243,37 +259,30 @@
                 self.model = self.model;
             }
             //列表循环
-            else if (mode == DDPPlayerPlayModeCircle) {
+            else if (mode == DDPPlayerPlayModeCircle || mode == DDPPlayerPlayModeOrder) {
                 DDPFile *currentFile = self.model.file;
                 DDPFile *parentFile = currentFile.parentFile;
-                NSInteger index = [parentFile.subFiles indexOfObject:currentFile];
+                
+                NSMutableArray <DDPFile *>*canPlayItems = [NSMutableArray array];
+                [parentFile.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if (obj.type == DDPFileTypeDocument && ddp_isVideoFile(obj.fileURL.absoluteString)) {
+                        [canPlayItems addObject:obj];
+                    }
+                }];
+                
+                NSInteger index = [canPlayItems indexOfObject:currentFile];
                 
                 if (index != NSNotFound) {
-                    NSInteger count = parentFile.subFiles.count;
-                    //找到下一个是视频的模型
-                    for (NSInteger i = 0; i < count; ++i) {
-                        currentFile = parentFile.subFiles[(i + 1 + index) % count];
-                        if (currentFile.type == DDPFileTypeDocument && ddp_isVideoFile(currentFile.fileURL.absoluteString)) {
-                            [self playerConfigPanelViewController:nil didSelectedModel:currentFile.videoModel];
+                    NSInteger nextIndex = index + 1;
+                    
+                    if (mode == DDPPlayerPlayModeOrder) {
+                        if (nextIndex > canPlayItems.count - 1) {
                             return;
                         }
-                    }
-                }
-            }
-            else if (mode == DDPPlayerPlayModeOrder) {
-                DDPFile *currentFile = self.model.file;
-                DDPFile *parentFile = currentFile.parentFile;
-                NSInteger index = [parentFile.subFiles indexOfObject:currentFile];
-                if (index != NSNotFound) {
-                    NSInteger count = parentFile.subFiles.count;
-                    //找到下一个是视频的模型
-                    for (NSInteger i = index + 1; i < count; ++i) {
-                        currentFile = parentFile.subFiles[i];
-                        NSString *path = currentFile.fileURL.absoluteString;
-                        if (currentFile.type == DDPFileTypeDocument && (ddp_isVideoFile(path) || [path hasPrefix:@"http"])) {
-                            [self playerConfigPanelViewController:nil didSelectedModel:currentFile.videoModel];
-                            return;
-                        }
+                        
+                        [self playerConfigPanelViewController:nil didSelectedModel:canPlayItems[nextIndex].videoModel];
+                    } else {
+                        [self playerConfigPanelViewController:nil didSelectedModel:canPlayItems[nextIndex % canPlayItems.count].videoModel];
                     }
                 }
             }
@@ -293,6 +302,15 @@
     [self.danmakuEngine setCurrentTime:time];
     if (player.isPlaying == NO) {
         [self.danmakuEngine pause];
+    }
+}
+
+- (void)mediaPlayer:(DDPMediaPlayer *)player downloadProgress:(float)downloadProgress {
+    if (downloadProgress == 1) {
+        self.progressView.hidden = YES;
+    } else {
+        self.progressView.hidden = NO;
+        self.progressView.progress = downloadProgress;
     }
 }
 
@@ -459,7 +477,7 @@
         @strongify(self)
         if (!self) return;
         
-        if ([aFile isKindOfClass:[DDPSMBFile class]]) {
+        if ([aFile isKindOfClass:[DDPSMBFile class]] || [aFile isKindOfClass:[DDPWebDAVFile class]]) {
 #if !DDPAPPTYPE
             [self downloadSubtitleFile:aFile];
 #endif
@@ -522,6 +540,66 @@
                 }];
             }
         }
+    } else if ([model isKindOfClass:[DDPWebDAVVideoModel class]]) {
+        DDPWebDAVVideoModel *aVideoModel = (DDPWebDAVVideoModel *)model;
+        DDPWebDAVFile *file = aVideoModel.file;
+        
+        if (ddp_isVideoFile(file.fileURL.absoluteString)) {
+            void(^matchVideoAction)(NSString *) = ^(NSString *path) {
+                NSString *hash = [[[NSFileHandle fileHandleForReadingAtPath:path] readDataOfLength: MEDIA_MATCH_LENGTH] md5String];
+                [[DDPCacheManager shareCacheManager] saveWebDAVFileHashWithHash:hash file:file];
+                DDPWebDAVVideoModel *model = [[DDPWebDAVVideoModel alloc] initWithFileURL:file.fileURL hash:hash length:file.fileSize];
+                model.file = file;
+                [self matchVideoWithModel:model];
+            };
+            
+            //查找是否获取过文件hash
+            NSString *hash = [[DDPCacheManager shareCacheManager] webDAVHash:file];
+            if (hash.length) {
+                DDPWebDAVVideoModel *model = [[DDPWebDAVVideoModel alloc] initWithFileURL:file.fileURL hash:hash length:file.fileSize];
+                model.file = file;
+                
+                [self matchVideoWithModel:model];
+            }
+            else {
+                MBProgressHUD *_aHUD = [MBProgressHUD defaultTypeHUDWithMode:MBProgressHUDModeAnnularDeterminate InView:self.view];
+                _aHUD.label.text = @"分析视频中...";
+                @weakify(self)
+                [[DDPToolsManager shareToolsManager] downloadWebDAVFile:file destinationPath:nil progressCallBack:^(NSProgress *progress) {
+                    @strongify(self)
+                    if (!self) {
+                        return;
+                    }
+                    
+                    _aHUD.progress = progress.completedUnitCount * 1.0 / MIN(progress.totalUnitCount, MEDIA_MATCH_LENGTH);
+                    
+                    if (progress.completedUnitCount >= MEDIA_MATCH_LENGTH) {
+                        [progress cancel];
+                    }
+                } cancelCallBack:^(NSData *data) {
+                    [_aHUD hideAnimated:YES];
+                    
+                    if (data.length > MEDIA_MATCH_LENGTH) {
+                        data = [data subdataWithRange:NSMakeRange(0, MEDIA_MATCH_LENGTH)];
+                    }
+                    NSString *hash = [data md5String];
+                    
+                    [[DDPCacheManager shareCacheManager] saveWebDAVFileHashWithHash:hash file:file];
+                    DDPWebDAVVideoModel *model = [[DDPWebDAVVideoModel alloc] initWithFileURL:file.fileURL hash:hash length:file.fileSize];
+                    model.file = file;
+                    [self matchVideoWithModel:model];
+                } completion:^(NSString *destinationFilePath, NSError *error) {
+                    [_aHUD hideAnimated:YES];
+                    
+                    if (error) {
+//                        [self.view showWithError:error];
+                    }
+                    else {
+                        matchVideoAction(destinationFilePath);
+                    }
+                }];
+            }
+        }
     }
     else {
         [self matchVideoWithModel:model];
@@ -541,7 +619,7 @@
         @strongify(self)
         if (!self) return;
         
-        if ([aFile isKindOfClass:[DDPSMBFile class]]) {
+        if ([aFile isKindOfClass:[DDPSMBFile class]] || [aFile isKindOfClass:[DDPWebDAVFile class]]) {
             [self downloadDanmakuFile:aFile];
         }
         else {
@@ -591,15 +669,27 @@
     self.danmakuEngine.currentTime = 0;
     
     self.interfaceView.model = _model;
+    self.progressView.hidden = YES;
     
 #if !DDPAPPTYPE
-    DDPSMBFile *file = _model.file;
-    DDPSMBFile *parentFile = file.parentFile;
+    DDPFile *file = _model.file;
+    DDPFile *parentFile = file.parentFile;
     //自动下载远程视频字幕
-    if ([DDPCacheManager shareCacheManager].openAutoDownloadSubtitle && [_model isKindOfClass:[DDPSMBVideoModel class]]) {
-        NSString *videoPath = file.sessionFile.filePath;
+    if ([DDPCacheManager shareCacheManager].openAutoDownloadSubtitle && [file isKindOfClass:[DDPSMBFile class]]) {
+        DDPSMBFile *smbFile = (DDPSMBFile *)file;
+        NSString *videoPath = smbFile.sessionFile.filePath;
         [parentFile.subFiles enumerateObjectsUsingBlock:^(DDPSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *path = obj.sessionFile.filePath;
+            if ([path isSubtileFileWithVideoPath:videoPath]) {
+                *stop = YES;
+                [self downloadSubtitleFile:obj];
+            }
+        }];
+    } else if ([DDPCacheManager shareCacheManager].openAutoDownloadSubtitle && [file isKindOfClass:[DDPWebDAVFile class]]) {
+        DDPWebDAVFile *aFile = (DDPWebDAVFile *)file;
+        NSString *videoPath = aFile.fileURL.path;
+        [parentFile.subFiles enumerateObjectsUsingBlock:^(DDPWebDAVFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *path = obj.fileURL.path;;
             if ([path isSubtileFileWithVideoPath:videoPath]) {
                 *stop = YES;
                 [self downloadSubtitleFile:obj];
@@ -608,10 +698,20 @@
     }
     
     //弹幕
-    if ([_model isKindOfClass:[DDPSMBVideoModel class]]) {
-        NSString *videoPath = file.sessionFile.filePath;
+    if ([file isKindOfClass:[DDPSMBFile class]]) {
+        DDPSMBFile *smbFile = (DDPSMBFile *)file;
+        NSString *videoPath = smbFile.sessionFile.filePath;
         [parentFile.subFiles enumerateObjectsUsingBlock:^(DDPSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj.sessionFile.filePath isDanmakuFileWithVideoPath:videoPath]) {
+                *stop = YES;
+                [self downloadDanmakuFile:obj];
+            }
+        }];
+    } else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+        DDPWebDAVFile *webDavFile = (DDPWebDAVFile *)file;
+        NSString *videoPath = webDavFile.fileURL.path;
+        [parentFile.subFiles enumerateObjectsUsingBlock:^(DDPWebDAVFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.fileURL.path isDanmakuFileWithVideoPath:videoPath]) {
                 *stop = YES;
                 [self downloadDanmakuFile:obj];
             }
@@ -641,14 +741,19 @@
  
  @param file 字幕文件
  */
-- (void)downloadSubtitleFile:(DDPSMBFile *)file {
+- (void)downloadSubtitleFile:(DDPFile *)file {
     NSString *downloadPath = ddp_subtitleDownloadPath();
     NSString *cachePath = [downloadPath stringByAppendingPathComponent:file.name];
     if ([[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
         [self.player openVideoSubTitlesFromFile:[NSURL fileURLWithPath:cachePath]];
     }
-    else {
-        [[DDPToolsManager shareToolsManager] downloadSMBFile:file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+    else if ([file isKindOfClass:[DDPSMBFile class]]) {
+        [[DDPToolsManager shareToolsManager] downloadSMBFile:(DDPSMBFile *)file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+            [self.player openVideoSubTitlesFromFile:[NSURL fileURLWithPath:destinationFilePath]];
+        }];
+    }
+    else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+        [[DDPToolsManager shareToolsManager] downloadWebDAVFile:(DDPWebDAVFile *)file destinationPath:downloadPath progressCallBack:nil cancelCallBack:nil completion:^(NSString *destinationFilePath, NSError *error) {
             [self.player openVideoSubTitlesFromFile:[NSURL fileURLWithPath:destinationFilePath]];
         }];
     }
@@ -660,14 +765,24 @@
  
  @param file 弹幕文件
  */
-- (void)downloadDanmakuFile:(DDPSMBFile *)file {
+- (void)downloadDanmakuFile:(DDPFile *)file {
     NSString *downloadPath = ddp_danmakuDownloadPath();
     NSString *cachePath = [downloadPath stringByAppendingPathComponent:file.name];
     if ([[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
         [self openDanmakuWithURL:[NSURL fileURLWithPath:cachePath]];
     }
-    else {
-        [[DDPToolsManager shareToolsManager] downloadSMBFile:file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+    else if ([file isKindOfClass:[DDPSMBFile class]]) {
+        [[DDPToolsManager shareToolsManager] downloadSMBFile:(DDPSMBFile *)file destinationPath:downloadPath progress:nil cancel:nil completion:^(NSString *destinationFilePath, NSError *error) {
+            if (error) {
+                [self.view showWithError:error];
+            }
+            else {
+                [self openDanmakuWithURL:[NSURL fileURLWithPath:destinationFilePath]];
+            }
+        }];
+    }
+    else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+        [[DDPToolsManager shareToolsManager] downloadWebDAVFile:(DDPWebDAVFile *)file destinationPath:downloadPath progressCallBack:nil cancelCallBack:nil completion:^(NSString *destinationFilePath, NSError *error) {
             if (error) {
                 [self.view showWithError:error];
             }
@@ -777,6 +892,36 @@
         [self.navigationController setViewControllers:vcArr animated:YES];
 #endif
         
+    } else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+        NSMutableArray *vcArr = [NSMutableArray array];
+        DDPWebDAVFile *tempFile = file.parentFile;
+        do {
+            DDPWebDAVFilePickerViewController *vc = [[DDPWebDAVFilePickerViewController alloc] init];
+            vc.fileType = type;
+            vc.selectedFileCallBack = selectedFileCallBack;
+            
+            NSMutableArray *tempArr = [NSMutableArray arrayWithArray:tempFile.subFiles];
+            [tempArr enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(DDPSMBFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.type == DDPFileTypeDocument) {
+                    if ((type & PickerFileTypeDanmaku) && ddp_isDanmakuFile(obj.fileURL.absoluteString) == NO) {
+                        [tempArr removeObject:obj];
+                    }
+                    else if ((type & PickerFileTypeSubtitle) && ddp_isSubTitleFile(obj.fileURL.absoluteString) == NO) {
+                        [tempArr removeObject:obj];
+                    }
+                }
+            }];
+            
+            DDPWebDAVFile *aFile = [tempFile mutableCopy];
+            aFile.subFiles = tempArr;
+            
+            vc.file = aFile;
+            
+            tempFile = tempFile.parentFile;
+            [vcArr insertObject:vc atIndex:0];
+        } while (tempFile != nil);
+        [vcArr insertObject:self atIndex:0];
+        [self.navigationController setViewControllers:vcArr animated:YES];
     }
     else {
         __block DDPFile *tempFile = nil;
@@ -974,6 +1119,15 @@
         _danmakuEngine.limitCount = [DDPCacheManager shareCacheManager].danmakuLimitCount;
     }
     return _danmakuEngine;
+}
+
+- (UIProgressView *)progressView {
+    if (_progressView == nil) {
+        _progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _progressView.transform = CGAffineTransformMakeScale(1, 0.5);
+        _progressView.progressTintColor = UIColor.ddp_mainColor;
+    }
+    return _progressView;
 }
 
 @end

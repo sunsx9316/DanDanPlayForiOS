@@ -15,6 +15,7 @@
 #import "DDPFileManagerFileLongViewCell.h"
 #import <UITableView+FDTemplateLayoutCell.h>
 #import "UIImage+Tools.h"
+#import "DDPWebDAVFile.h"
 
 @interface DDPFileManagerPlayerListView ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource>
 @property (strong, nonatomic) DDPBaseTableView *tableView;
@@ -95,11 +96,22 @@
     }
 }
 
-- (DDPSMBFile *)filterWithFile:(DDPSMBFile *)file {
+- (DDPFile *)filterWithFile:(DDPSMBFile *)file {
     if ([file isKindOfClass:[DDPSMBFile class]]) {
         DDPSMBFile *tempParentFile = [[DDPSMBFile alloc] initWithSMBSessionFile:file.sessionFile];
         tempParentFile.parentFile = file.parentFile;
         tempParentFile.type = file.type;
+        
+        [file.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.type == DDPFileTypeFolder || ddp_isVideoFile(obj.fileURL.absoluteString)) {
+                [tempParentFile.subFiles addObject:obj];
+            }
+        }];
+        
+        return tempParentFile;
+    } else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+        DDPWebDAVFile *tempParentFile = [[DDPWebDAVFile alloc] initWithFileURL:file.fileURL type:file.type];
+        tempParentFile.parentFile = file.parentFile;
         
         [file.subFiles enumerateObjectsUsingBlock:^(__kindof DDPFile * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.type == DDPFileTypeFolder || ddp_isVideoFile(obj.fileURL.absoluteString)) {
@@ -142,7 +154,7 @@
     //文件
     if (file.type == DDPFileTypeDocument) {
         //远程文件
-        if ([file isKindOfClass:[DDPSMBFile class]]) {
+        if ([file isKindOfClass:[DDPSMBFile class]] || [file isKindOfClass:[DDPWebDAVFile class]]) {
             
             DDPFileManagerVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerVideoTableViewCell" forIndexPath:indexPath];
             cell.model = (DDPSMBFile *)file;
@@ -165,7 +177,7 @@
     //文件夹
     DDPFileManagerFolderLongViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DDPFileManagerFolderLongViewCell" forIndexPath:indexPath];
     //远程文件
-    if ([file isKindOfClass:[DDPSMBFile class]]) {
+    if ([file isKindOfClass:[DDPSMBFile class]] || [file isKindOfClass:[DDPWebDAVFile class]]) {
         cell.titleLabel.text = file.name;
         cell.detailLabel.text = nil;
     }
@@ -263,6 +275,21 @@
                 }
             }];
             
+        } else if ([file isKindOfClass:[DDPWebDAVFile class]]) {
+            [self showLoading];
+            
+            [[DDPToolsManager shareToolsManager] startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)file completion:^(DDPWebDAVFile *aFile, NSError *error) {
+                [self hideLoading];
+                if (error) {
+                    [self showWithError:error];
+                }
+                else {
+                    self.currentFile = file;
+                    [self reloadDataWithAnimate:YES];
+                    [self viewScrollToTop:NO];
+                }
+            }];
+            
         }
         else {
             self.currentFile = file;
@@ -306,40 +333,24 @@
                     
                     [self.tableView endRefreshing];
                 }];
+            }];
+        } else if ([self.currentFile isKindOfClass:[DDPWebDAVFile class]]) {
+            @weakify(self)
+            _tableView.mj_header = [MJRefreshHeader ddp_headerRefreshingCompletionHandler:^{
+                @strongify(self)
+                if (!self) return;
                 
-//                if ([self.currentFile isKindOfClass:[DDPSMBFile class]]) {
-//                    [[DDPToolsManager shareToolsManager] startDiscovererSMBFileWithParentFile:(DDPSMBFile *)self.currentFile fileType:PickerFileTypeAll completion:^(DDPSMBFile *file, NSError *error) {
-//                        if (error) {
-//                            [self.view showWithError:error];
-//                        }
-//                        else {
-//                            self.currentFile = file;
-//                            [self.tableView reloadData];
-//                        }
-//                        
-//                        [self.tableView endRefreshing];
-//                    }];
-//                }
-//                else if ([self.currentFile isKindOfClass:[DDPLinkFile class]]) {
-//                    [[DDPToolsManager shareToolsManager] startDiscovererFileWithLinkParentFile:(DDPLinkFile *)self.currentFile completion:^(DDPLinkFile *file, NSError *error) {
-//                        if (error) {
-//                            [self.view showWithError:error];
-//                        }
-//                        else {
-//                            self.currentFile = file;
-//                            [self.tableView reloadData];
-//                        }
-//                        
-//                        [self.tableView endRefreshing];
-//                    }];
-//                }
-//                else {
-//                    [[DDPToolsManager shareToolsManager] startDiscovererVideoWithFile:self.currentFile type:PickerFileTypeVideo completion:^(DDPFile *file) {
-//                        self.currentFile = file;
-//                        [self.tableView reloadData];
-//                        [self.tableView endRefreshing];
-//                    }];
-//                }
+                [[DDPToolsManager shareToolsManager] startDiscovererWebDevFileWithParentFile:(DDPWebDAVFile *)self.currentFile completion:^(DDPWebDAVFile *aFile, NSError *error) {
+                    if (error) {
+                        [self showWithError:error];
+                    }
+                    else {
+                        self.currentFile = aFile;
+                        [self.tableView reloadData];
+                    }
+                    
+                    [self.tableView endRefreshing];
+                }];
             }];
         }
     }

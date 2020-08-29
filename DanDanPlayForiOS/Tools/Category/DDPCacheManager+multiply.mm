@@ -14,12 +14,18 @@
 #import "DDPVideoCache+DB.h"
 #import "DDPSMBFileHashCache+DB.h"
 #import "DDPCollectionCache+DB.h"
+#import "DDPWebDAVLoginInfo+DB.h"
 #import "DDPSMBInfo+WCDB.h"
 #import "DDPLinkInfo+DB.h"
 #import "DDPUser+WCTTableCoding.h"
+#import "DDPWebDAVHasnCache+WCTTableCoding.h"
 
 NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
     return [NSString stringWithFormat:@"%@_%llu", file.name, file.fileSize];
+};
+
+NS_INLINE NSString *ddp_webDAVCacheKey(DDPWebDAVFile *file) {
+    return [NSString stringWithFormat:@"%@_%ld", file.name, (long)file.fileSize];
 };
 
 @interface DDPCacheManager ()<TOSMBSessionTaskDelegate>
@@ -202,6 +208,44 @@ NS_INLINE NSString *ddp_cacheKey(TOSMBSessionFile *file) {
 - (DDPVideoCache *)relevanceCacheWithVideoModel:(DDPVideoModel *)model {
     WCTDatabase *db = [DDPCacheManager shareDB];
     return [db getOneObjectOfClass:DDPVideoCache.class fromTable:DDPVideoCache.className where:DDPVideoCache.fileHash == model.fileHash];
+}
+
+#pragma mark -
+
+- (NSArray<DDPWebDAVLoginInfo *> *)webDAVInfos {
+    WCTDatabase *db = [DDPCacheManager shareDB];
+    return [db getAllObjectsOfClass:DDPWebDAVLoginInfo.class fromTable:DDPWebDAVLoginInfo.className];
+}
+
+- (void)saveWebDAVInfo:(DDPWebDAVLoginInfo *)info {
+    if (info == nil) return;
+    WCTDatabase *db = [DDPCacheManager shareDB];
+    [db insertOrReplaceObject:info into:DDPWebDAVLoginInfo.className];
+}
+
+- (void)removeWebDAVInfo:(DDPWebDAVLoginInfo *)info {
+    if (info == nil) return;
+    WCTDatabase *db = [DDPCacheManager shareDB];
+    [db deleteObjectsFromTable:info.className where:DDPWebDAVLoginInfo.path == info.path];
+}
+
+#pragma mark -
+- (void)saveWebDAVFileHashWithHash:(NSString *)hash file:(DDPWebDAVFile *)file {
+    if (file == nil) return;
+    DDPWebDAVHasnCache *cache = [[DDPWebDAVHasnCache alloc] init];
+    cache.md5 = hash;
+    cache.date = [NSDate date];
+    cache.key = ddp_webDAVCacheKey(file);
+    
+    WCTDatabase *db = [DDPCacheManager shareDB];
+    [db insertOrReplaceObject:cache into:DDPWebDAVHasnCache.className];
+}
+
+- (NSString *)webDAVHash:(DDPWebDAVFile *)file {
+    NSString *key = ddp_webDAVCacheKey(file);
+    WCTDatabase *db = [DDPCacheManager shareDB];
+    DDPSMBFileHashCache *cache = [db getOneObjectOfClass:DDPWebDAVHasnCache.class fromTable:DDPWebDAVHasnCache.className where:DDPWebDAVHasnCache.key == key];
+    return cache.md5;
 }
 
 #pragma mark -
