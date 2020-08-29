@@ -321,16 +321,19 @@ static NSString *const collectionCacheKey = @"collection_cache";
 
 #pragma mark -
 - (UIColor *)sendDanmakuColor {
-    UIColor *color = (UIColor *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
-    if (color == nil) {
+    NSData *colorData = (NSData *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
+    UIColor *color = nil;
+    if (![colorData isKindOfClass:[NSData class]]) {
         color = [UIColor whiteColor];
         self.sendDanmakuColor = color;
+    } else {
+        color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
     }
     return color;
 }
 
 - (void)setSendDanmakuColor:(UIColor *)sendDanmakuColor {
-    [NSUserDefaults.standardUserDefaults setObject:sendDanmakuColor forKey:[self keyWithSEL:_cmd]];
+    [NSUserDefaults.standardUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:sendDanmakuColor] forKey:[self keyWithSEL:_cmd]];
 }
 
 #pragma mark -
