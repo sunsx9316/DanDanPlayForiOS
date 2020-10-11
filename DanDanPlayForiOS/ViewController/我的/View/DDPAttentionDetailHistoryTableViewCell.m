@@ -52,8 +52,8 @@
 - (void)setModel:(DDPEpisode *)model {
     _model = model;
     self.titleLabel.text = _model.name;
-    if (_model.time.length) {
-        self.timeLabel.text = [NSString stringWithFormat:@"上次观看时间: %@", _model.time];
+    if (_model.lastWatchDate) {
+        self.timeLabel.text = [NSString stringWithFormat:@"上次观看时间: %@", _model.lastWatchDateString];
     }
     else {
         self.timeLabel.text = nil;
@@ -70,6 +70,8 @@
         }
         self.playButton.hidden = NO;
     }
+    
+    self.tagButton.hidden = _model.lastWatchDate ? YES : NO;
 }
 
 #pragma mark - 私有方法

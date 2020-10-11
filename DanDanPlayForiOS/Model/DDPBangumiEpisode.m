@@ -11,9 +11,9 @@
 @implementation DDPBangumiEpisode
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"identity" : @"EpisodeId",
-             @"name" : @"EpisodeTitle",
-             @"airDate" : @"AirDate"
+    return @{@"identity" : @[@"EpisodeId", @"episodeId"],
+             @"name" : @[@"EpisodeTitle", @"episodeTitle"],
+             @"airDate" : @[@"AirDate", @"airDate"]
              };
 }
 

@@ -54,23 +54,21 @@
 + (NSURLSessionDataTask *)matchEditMatchVideoModel:(DDPVideoModel *)model
                                               user:(DDPUser *)user
                                  completionHandler:(void(^)(NSError *error))completionHandler {
-    if (user.identity == 0 || user.legacyTokenNumber.length == 0 || model.name.length == 0 || model.fileHash.length == 0 || model.identity == 0) {
+    if (user.isLogin == NO || model.name.length == 0 || model.fileHash.length == 0 || model.identity == 0) {
         if (completionHandler) {
             completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/match?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    NSDictionary *dic = @{@"UserId" : @(user.identity),
-                          @"Token" : user.legacyTokenNumber,
-                          @"FileName" : model.name,
-                          @"Hash" : model.fileHash,
-                          @"EpisodeId" : @(model.identity)};
+    NSString *path = [NSString stringWithFormat:@"%@/match/%ld", [DDPMethod apiNewPath], model.identity];
+    NSDictionary *dic = @{@"fileName" : model.name,
+                          @"hash" : model.fileHash,
+                          @"episodeId" : @(model.identity)};
     
     return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path
-                                              serializerType:DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON
-                                                  parameters:ddplay_encryption(dic)
+                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
+                                                  parameters:dic
                                            completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler(responseObj.error);

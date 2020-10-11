@@ -40,11 +40,6 @@ typedef struct __attribute__((objc_boxable)) CGAffineTransform CGAffineTransform
 typedef struct __attribute__((objc_boxable)) UIEdgeInsets UIEdgeInsets;
 typedef struct __attribute__((objc_boxable)) _NSRange NSRange;
 
-
-//#define API_DOMAIN @"https://api.acplay.net"
-//#define API_INDEX @"api/v1"
-//#define [DDPMethod apiPath] [NSString stringWithFormat:@"%@/%@", API_DOMAIN, API_INDEX]
-
 //连接PC的api路径
 #define LINK_API_INDEX @"api/v1"
 

@@ -12,15 +12,9 @@
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
     NSMutableDictionary *dic = [[super modelCustomPropertyMapper] mutableCopy];
-    [dic addEntriesFromDictionary:@{@"identity" : @"AnimeId",
-                                    @"name" : @"AnimeTitle",
+    [dic addEntriesFromDictionary:@{@"identity" : @"animeId",
+                                    @"name" : @"animeTitle",
                                     @"desc" : @"Description",
-                                    @"episodeTitle" : @"EpisodeTitle",
-                                    @"airDate" : @"AirDate",
-                                    @"imageUrl" : @"ImageUrl",
-                                    @"isOnAir" : @"IsOnAir",
-                                    @"searchKeyword" : @"SearchKeyword",
-                                    @"lastWatched" : @"LastWatched"
                                     }];
     return dic;
 }
@@ -30,7 +24,7 @@
 }
 
 + (NSString *)collectionKey {
-    return @"Episodes";
+    return @"episodes";
 }
 
 @end

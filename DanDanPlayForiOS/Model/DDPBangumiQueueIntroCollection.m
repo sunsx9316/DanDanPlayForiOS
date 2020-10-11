@@ -11,9 +11,8 @@
 @implementation DDPBangumiQueueIntroCollection
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"unwatchedBangumiList" : @"UnwatchedBangumiList",
-             @"collection" : @"BangumiList",
-             @"hasMore" : @"HasMore"};
+    return @{@"unwatchedBangumiList" : @"unwatchedBangumiList",
+             @"collection" : @"bangumiList"};
 }
 
 + (NSDictionary<NSString *,id> *)modelContainerPropertyGenericClass {

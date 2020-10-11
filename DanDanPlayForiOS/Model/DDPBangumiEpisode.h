@@ -15,5 +15,5 @@
  */
 
 @property (copy, nonatomic) NSString *airDate;
- 
+
 @end

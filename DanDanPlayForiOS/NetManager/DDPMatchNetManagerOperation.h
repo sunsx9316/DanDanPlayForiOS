@@ -30,7 +30,7 @@
                         completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPMatchCollection))completionHandler;
 
 /**
- 更改匹配模型
+ 提交文件匹配关联
 
  @param model 视频模型
  @param user 用户

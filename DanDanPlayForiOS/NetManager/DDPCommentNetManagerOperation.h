@@ -53,14 +53,4 @@ CG_INLINE NSString *ddp_danmakusProgressToString(float progress) {
                                        episodeId:(NSUInteger)episodeId
                                completionHandler:(DDPErrorCompletionAction)completionHandler;
 
-
-/**
- 批量下载弹幕
-
- @param relatedCollection 匹配到的弹幕
- @param completionHandler 回调
- */
-+ (void)danmakuWithRelatedCollection:(DDPRelatedCollection *)relatedCollection
-                                    completionHandler:(void(^)(DDPDanmakuCollection *responseObject, NSError *error))completionHandler;
-
 @end

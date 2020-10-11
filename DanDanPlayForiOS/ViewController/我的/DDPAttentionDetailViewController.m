@@ -138,7 +138,7 @@
     
 //    DDPEpisode *model = self.historyModel.collection[indexPath.row];
     //已观看
-    if (model.time.length != 0) return;
+    if (model.lastWatchDate != nil) return;
     
     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"是否标记为已看过？" message:@"将会自动关注这个动画" preferredStyle:UIAlertControllerStyleAlert];
     [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -150,7 +150,7 @@
                 [self.view showWithError:error];
             }
             else {
-                model.time = [NSDate historyTimeStyleWithDate:[NSDate date]];
+                model.lastWatchDate = [NSDate date];
                 self.historyModel.isFavorite = true;
                 if (self.attentionCallBack) {
                     self.attentionCallBack(self.animateId);

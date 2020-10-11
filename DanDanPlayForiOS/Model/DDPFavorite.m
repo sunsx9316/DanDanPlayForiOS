@@ -11,13 +11,13 @@
 @implementation DDPFavorite
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"identity" : @"AnimeId",
-             @"name" : @"AnimeTitle",
-             @"attentionTime" : @"LastUpdate",
-             @"imageUrl" : @"ImageUrl",
-             @"episodeTotal" : @"EpisodeTotal",
-             @"episodeWatched" : @"EpisodeWatched",
-             @"isOnAir" : @"IsOnAir"};
+    return @{@"identity" : @"animeId",
+             @"name" : @"animeTitle",
+             @"attentionTime" : @"lastFavoriteTime",
+             @"imageUrl" : @"imageUrl",
+             @"episodeTotal" : @"episodeTotal",
+             @"episodeWatched" : @"episodeWatched",
+             @"isOnAir" : @"isOnAir"};
 }
 
 @end

@@ -11,16 +11,5 @@
 
 @interface DDPRelatedNetManagerOperation : NSObject
 
-/**
- 获取指定节目编号对应的所有第三方弹幕源信息
-
- @param episodeId 节目编号
- @param completionHandler 回调
- @return 任务
- */
-+ (NSURLSessionDataTask *)relatedDanmakuWithEpisodeId:(NSUInteger)episodeId
-                                             completionHandler:(DDP_COLLECTION_RESPONSE_ACTION(DDPRelatedCollection))completionHandler;
-
-
 
 @end

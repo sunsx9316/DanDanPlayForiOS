@@ -10,6 +10,5 @@
 #import "DDPBangumiQueueIntro.h"
 
 @interface DDPBangumiQueueIntroCollection : DDPBaseCollection<DDPBangumiQueueIntro *>
-@property (assign, nonatomic) BOOL hasMore;
 @property (strong, nonatomic) NSArray <DDPBangumiQueueIntro *>*unwatchedBangumiList;
 @end

@@ -11,12 +11,10 @@
 @implementation DDPPlayHistory
 
 + (NSDictionary<NSString *,id> *)modelCustomPropertyMapper {
-    return @{@"identity" : @"AnimeId",
-             @"name" : @"AnimeTitle",
-             @"collection" : @"Episodes",
-             @"imageUrl" : @"ImageUrl",
-             @"isFavorite" : @"IsFavorite",
-             @"searchKeyword" : @"SearchKeyword"};
+    return @{@"identity" : @"animeId",
+             @"name" : @"animeTitle",
+             @"collection" : @"episodes",
+             @"isFavorite" : @"isFavorited"};
 }
 
 + (Class)entityClass {
@@ -28,7 +26,7 @@
         __block BOOL seeOver = YES;
         [self.collection enumerateObjectsUsingBlock:^(DDPEpisode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             //没看过
-            if (obj.time.length == 0) {
+            if (obj.lastWatchDate == nil) {
                 seeOver = NO;
                 *stop = YES;
             }

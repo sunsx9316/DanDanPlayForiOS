@@ -12,14 +12,6 @@
 
 
 @interface DDPRecommedNetManagerOperation : NSObject
-/**
- *  获取首页推荐信息
- *
- *  @param complete 回调
- *
- *  @return 任务
- */
-+ (NSURLSessionDataTask *)recommedInfoWithCompletionHandler:(DDP_ENTITY_RESPONSE_ACTION(DDPHomePage))completionHandler;
 
 /**
  新版首页

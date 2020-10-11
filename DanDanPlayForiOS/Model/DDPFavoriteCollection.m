@@ -15,7 +15,7 @@
 }
 
 + (NSString *)collectionKey {
-    return @"Favorites";
+    return @"favorites";
 }
 
 @end

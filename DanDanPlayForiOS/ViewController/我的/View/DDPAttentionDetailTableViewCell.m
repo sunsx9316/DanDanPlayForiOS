@@ -88,7 +88,7 @@
     
     __block NSUInteger episodeWatched = 0;
     [_model.collection enumerateObjectsUsingBlock:^(DDPEpisode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.time.length) {
+        if (obj.lastWatchDate) {
             episodeWatched++;
         }
     }];

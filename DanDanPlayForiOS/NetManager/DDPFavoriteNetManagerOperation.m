@@ -20,37 +20,37 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
                                        animeId:(NSUInteger)animeId
                                           like:(BOOL)like
                              completionHandler:(void(^)(NSError *error))completionHandler {
-    if (user.identity == 0 || animeId == 0 || user.legacyTokenNumber.length == 0){
+    if (user.isLogin == NO || animeId == 0){
         if (completionHandler) {
             completionHandler(DDPErrorWithCode(DDPErrorCodeParameterNoCompletion));
         }
         return nil;
     }
     
-    NSDictionary *dic = @{@"UserId" : @(user.identity), @"Token" : user.legacyTokenNumber, @"AnimeId" : @(animeId)};
     
     if (like) {
-        NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-        DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerRequestNoParse | DDPBaseNetManagerSerializerResponseParseToJSON;
+        NSDictionary *dic = @{@"favoriteStatus" : @"favorited",
+                              @"animeId" : @(animeId),
+                              @"rating" : @0};
         
-        return [[DDPSharedNetManager sharedNetManager] PUTWithPath:path
-                                                 serializerType:type parameters:ddplay_encryption(dic)
+        NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiNewPath]];
+        DDPBaseNetManagerSerializerType type = DDPBaseNetManagerSerializerTypeJSON;
+        
+        return [[DDPSharedNetManager sharedNetManager] POSTWithPath:path
+                                                 serializerType:type parameters:dic
                                               completionHandler:^(DDPResponse *responseObj) {
             if (completionHandler) {
                 completionHandler(responseObj.error);
             }
         }];
+    } else {
+        NSString *path = [NSString stringWithFormat:@"%@/favorite/%lu", [DDPMethod apiNewPath], (unsigned long)animeId];
+        return [[DDPSharedNetManager sharedNetManager] DELETEWithPath:path serializerType:DDPBaseNetManagerSerializerTypeJSON parameters:nil completionHandler:^(__kindof DDPResponse *responseObj) {
+            if (completionHandler) {
+                completionHandler(responseObj.error);
+            }
+        }];
     }
-    
-    NSString *path = [NSString stringWithFormat:@"%@/favorite?clientId=%@", [DDPMethod apiPath], CLIENT_ID];
-    return [[DDPSharedNetManager sharedNetManager] DELETEWithPath:path
-                                                serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                    parameters:dic
-                                             completionHandler:^(DDPResponse *responseObj) {
-        if (completionHandler) {
-            completionHandler(responseObj.error);
-        }
-    }];
 }
 
 + (NSURLSessionDataTask *)favoriteAnimateWithUser:(DDPUser *)user
@@ -62,12 +62,11 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiPath]];
-    NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : user.legacyTokenNumber};
+    NSString *path = [NSString stringWithFormat:@"%@/favorite", [DDPMethod apiNewPath]];
     
     return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:dic
+                                                 parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
             completionHandler([DDPFavoriteCollection yy_modelWithJSON:responseObj.responseObject], responseObj.error);
@@ -85,15 +84,19 @@ DDPFavoriteStatus DDPFavoriteStatusAbandoned = @"abandoned";
         return nil;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/playhistory/%lu", [DDPMethod apiPath], (unsigned long)animateId];
-    NSString *token = user.legacyTokenNumber.length ? user.legacyTokenNumber : @"0";
-    NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : token};
+    NSString *path = [NSString stringWithFormat:@"%@/bangumi/%lu", [DDPMethod apiNewPath], (unsigned long)animateId];
+//    NSString *token = user.legacyTokenNumber.length ? user.legacyTokenNumber : @"0";
+//    NSDictionary *dic = @{@"userId" : @(user.identity), @"token" : token};
     return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON
-                                                 parameters:dic
+                                                 parameters:nil
                                           completionHandler:^(DDPResponse *responseObj) {
         if (completionHandler) {
-            completionHandler([DDPPlayHistory yy_modelWithJSON:responseObj.responseObject], responseObj.error);
+            NSDictionary *responseObject = responseObj.responseObject;
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                responseObject = responseObject[@"bangumi"];
+            }
+            completionHandler([DDPPlayHistory yy_modelWithJSON:responseObject], responseObj.error);
         }
     }];
 }

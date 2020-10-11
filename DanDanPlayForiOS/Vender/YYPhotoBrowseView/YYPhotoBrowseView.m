@@ -101,7 +101,7 @@ static char saveImageKey = '\0';
 
 @interface YYPhotoGroupCell : UIScrollView <UIScrollViewDelegate>
 @property (nonatomic, strong) UIView *imageContainerView;
-@property (nonatomic, strong) YYAnimatedImageView *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, assign) NSInteger page;
 
 @property (nonatomic, assign) BOOL showProgress;
@@ -131,7 +131,7 @@ static char saveImageKey = '\0';
     _imageContainerView.clipsToBounds = YES;
     [self addSubview:_imageContainerView];
     
-    _imageView = [YYAnimatedImageView new];
+    _imageView = [UIImageView new];
     _imageView.clipsToBounds = YES;
     _imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
     [_imageContainerView addSubview:_imageView];
