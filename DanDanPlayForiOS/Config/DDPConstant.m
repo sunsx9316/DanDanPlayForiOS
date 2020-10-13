@@ -8,6 +8,7 @@
 
 #import "DDPConstant.h"
 #import "DDPMacroDefinition.h"
+#import "APPKey.h"
 
 DDPProductionType DDPProductionTypeTVSeries = @"tvseries";
 DDPProductionType DDPProductionTypeTVSpecial = @"tvspecial";
@@ -36,10 +37,10 @@ DDPAppType ddp_appType = DDPAppTypeToMac;
 DDPAppType ddp_appType = DDPAppTypeDefault;
 #endif
 
-#ifdef BUGLY_KEY
-NSString *ddp_buglyKey = BUGLY_KEY;
+#ifdef BUGLY_APPID
+NSString *ddp_buglyAppId = BUGLY_APPID;
 #else
-NSString *ddp_buglyKey = @"";
+NSString *ddp_buglyAppId = @"";
 #endif
 
 #ifdef UM_SHARE_KEY

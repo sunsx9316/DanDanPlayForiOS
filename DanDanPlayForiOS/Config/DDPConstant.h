@@ -88,7 +88,7 @@ FOUNDATION_EXPORT DDPLogModule DDPLogModuleOther;
 
 FOUNDATION_EXPORT DDPAppType ddp_appType;
 
-FOUNDATION_EXPORT NSString *ddp_buglyKey;
+FOUNDATION_EXPORT NSString *ddp_buglyAppId;
 FOUNDATION_EXPORT NSString *ddp_UMShareKey;
 FOUNDATION_EXPORT NSString *ddp_QQAppKey;
 FOUNDATION_EXPORT NSString *ddp_weiboAppKey;

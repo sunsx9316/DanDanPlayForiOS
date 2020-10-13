@@ -40,7 +40,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     LOG_DEBUG(DDPLogModuleOther, @"documentsURL: %@", [UIApplication sharedApplication].documentsURL);
-    
     [self configIQKeyboardManager];
     [self configBugly];
     [self configUM];
@@ -221,7 +220,7 @@
 
 - (void)configBugly {
     #if !DDPAPPTYPEISMAC
-    [Bugly startWithAppId:ddp_buglyKey];
+    [Bugly startWithAppId:ddp_buglyAppId];
     #endif
 }
 

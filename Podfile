@@ -27,14 +27,15 @@ abstract_target 'DDPlay_Target' do
     pod 'MGSwipeTableCell'
     pod 'iCarousel'
     pod 'BlocksKit', :path => 'LocalPods/BlocksKit'
-    pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
+    pod 'YYWebImage'
+    # pod 'YYWebImage', :git => 'https://github.com/sunsx9316/YYWebImage_UIKitForMac.git'
 
     pod 'DDPShare', :path => 'LocalPods/DDPShare'
     pod 'SSZipArchive'
     pod 'AFNetworking'
     pod 'Ono'
 
-abstract_target 'iOS_Only' do
+# abstract_target 'iOS_Only' do
     pod 'UMCCommon'
     pod 'UMCSecurityPlugins'
     # 集成新浪微博
@@ -45,7 +46,7 @@ abstract_target 'iOS_Only' do
     pod 'UMCShare/Social/ReducedWeChat'
 
     # 友盟统计
-    pod 'UMCAnalytics'
+#    pod 'UMCAnalytics'
     pod 'Bugly'
     #内存泄露检测
     # pod 'MLeaksFinder', :configurations => ['Debug'] 
@@ -59,11 +60,17 @@ abstract_target 'iOS_Only' do
     pod 'CocoaHTTPServer'
     end
 
+    target 'DDPlay_Concept2' do
+    pod 'TOSMBClient', '~> 1.0.5'
+    pod 'CocoaHTTPServer'
+    end
+
     target 'DDPlay_Review' do
     pod 'TOSMBClient', '~> 1.0.5'
     pod 'CocoaHTTPServer'
     end
-end
+    
+# end
 
 
     target 'DDPlay_ToMac' do
@@ -81,6 +88,7 @@ post_install do |pi|
    pi.pods_project.targets.each do |t|
        t.build_configurations.each do |bc|
            bc.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+           bc.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
        end
    end
 end

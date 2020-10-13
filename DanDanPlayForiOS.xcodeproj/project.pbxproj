@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */; };
-		4869704A890C631CD495B5AF /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */; };
-		552C79F315DD304E88F174EC /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */; };
-		5659EBF407404F5F4B8634FA /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */; };
-		5733D0A7833907D032837357 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */; };
+		01C02F5C198A06B9529C35D0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0914A2054B9DFC46D679FB68 /* libPods-DDPlay_Target-DDPlay.a */; };
+		54E49B1A300A707C5B44B344 /* libPods-DDPlay_Target-DDPlay_Concept2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893D14924BCAC924FDA34548 /* libPods-DDPlay_Target-DDPlay_Concept2.a */; };
+		7EA7BC907443110ECD15E6E4 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F3031E6CA29FFE8A95A087 /* libPods-DDPlay_Target-DDPlay_Review.a */; };
 		890446801FE55567006872A0 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
 		8905BDA11F32C7EA0055BC84 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
 		8905BDA41F32CEBA0055BC84 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
@@ -757,6 +755,337 @@
 		89A8032B208B1B5200FF6C2B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
 		89A80334208B331D00FF6C2B /* DDPRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */; };
 		89A80336208B35EA00FF6C2B /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
+		89AD2F1325336E01008CD1E9 /* DDPPlayerInterfaceHolderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384722E3665600ED15E3 /* DDPPlayerInterfaceHolderView.m */; };
+		89AD2F1425336E01008CD1E9 /* DDPCacheManager+multiply.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0B201C4FA40009A5FF /* DDPCacheManager+multiply.mm */; };
+		89AD2F1525336E01008CD1E9 /* JHQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8931CDF21F73E1C000F05C1F /* JHQRCodeReader.m */; };
+		89AD2F1625336E01008CD1E9 /* DDPSMBDownloadTaskCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F915F1203E7B1700A7D5CD /* DDPSMBDownloadTaskCache.mm */; };
+		89AD2F1725336E01008CD1E9 /* DDPEmailListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E421BEC01A00C9D923 /* DDPEmailListView.m */; };
+		89AD2F1825336E01008CD1E9 /* DDPBaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5ED1E585135007AB1BD /* DDPBaseNetManager.m */; };
+		89AD2F1925336E01008CD1E9 /* DDPLinkFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858EF1F6BD6AD00010690 /* DDPLinkFile.m */; };
+		89AD2F1A25336E01008CD1E9 /* DDPSMBInfo+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B45426248D282B00D3BFD1 /* DDPSMBInfo+Tools.m */; };
+		89AD2F1B25336E01008CD1E9 /* DDPMainVCItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8930349123E08E8800BE1049 /* DDPMainVCItem.m */; };
+		89AD2F1C25336E01008CD1E9 /* MBProgressHUD+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61B1E5855D2007AB1BD /* MBProgressHUD+Tools.m */; };
+		89AD2F1D25336E01008CD1E9 /* DDPHTTPServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAA1E6C073A0021253F /* DDPHTTPServerViewController.m */; };
+		89AD2F1E25336E01008CD1E9 /* DDPNewBangumiSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063321C2990D006E35D9 /* DDPNewBangumiSeason.m */; };
+		89AD2F1F25336E01008CD1E9 /* DDPHomeMoreHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E33B21B81B68007BA84C /* DDPHomeMoreHeaderView.m */; };
+		89AD2F2025336E01008CD1E9 /* DDPLinkFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E36921B81F3E007BA84C /* DDPLinkFileManagerViewController.m */; };
+		89AD2F2125336E01008CD1E9 /* DDPSliderDismissAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381722E3665600ED15E3 /* DDPSliderDismissAnimate.m */; };
+		89AD2F2225336E01008CD1E9 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
+		89AD2F2325336E01008CD1E9 /* DDPCollectionCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECE201C6F880022DE0D /* DDPCollectionCache+DB.mm */; };
+		89AD2F2425336E01008CD1E9 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382322E3665600ED15E3 /* DDPPlayerShieldDanmakuTableViewCell.m */; };
+		89AD2F2525336E01008CD1E9 /* DDPHttpReceiveTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89929FFA1FBC6903009FDB06 /* DDPHttpReceiveTableViewCell.m */; };
+		89AD2F2625336E01008CD1E9 /* DDPSearchAnimeDetailsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187D2168F06000AE7484 /* DDPSearchAnimeDetailsCollection.m */; };
+		89AD2F2725336E01008CD1E9 /* DDPCommentNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA71EA5BB9D00FA0DF3 /* DDPCommentNetManagerOperation.m */; };
+		89AD2F2825336E01008CD1E9 /* DDPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89EC0E5B1F2D812A004D3C12 /* DDPHelpViewController.m */; };
+		89AD2F2925336E01008CD1E9 /* DDPFileManagerBaseViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8946D52A1EB6D38800161833 /* DDPFileManagerBaseViewCell.m */; };
+		89AD2F2A25336E01008CD1E9 /* HomePageSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32221B81B68007BA84C /* HomePageSearchTableViewCell.m */; };
+		89AD2F2B25336E01008CD1E9 /* DDPPlayerSubTitleIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383822E3665600ED15E3 /* DDPPlayerSubTitleIndexView.m */; };
+		89AD2F2C25336E01008CD1E9 /* DDPSMBFileManagerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89347AEE1F4BC7FE00914FB6 /* DDPSMBFileManagerPickerViewController.m */; };
+		89AD2F2D25336E01008CD1E9 /* DDPSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7FF1EB0588F009329AA /* DDPSettingViewController.m */; };
+		89AD2F2E25336E01008CD1E9 /* DDPAttentionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C21F628418008D06CF /* DDPAttentionDetailViewController.m */; };
+		89AD2F2F25336E01008CD1E9 /* DDPLinkNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85A91F68F4B500E7D841 /* DDPLinkNetManagerOperation.m */; };
+		89AD2F3025336E01008CD1E9 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F1733A1EB222E0006A2473 /* DDPOtherSettingTitleSubtitleTableViewCell.m */; };
+		89AD2F3125336E01008CD1E9 /* DDPLinkOriginalAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DE21BEC01A00C9D923 /* DDPLinkOriginalAccountViewController.m */; };
+		89AD2F3225336E01008CD1E9 /* DDPSMBFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F31F0A296000B4661F /* DDPSMBFileViewController.m */; };
+		89AD2F3325336E01008CD1E9 /* DDPDMHYSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C01F612F0F00D40F07 /* DDPDMHYSearchCollection.m */; };
+		89AD2F3425336E01008CD1E9 /* UICollectionView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18472166107300AE7484 /* UICollectionView+DDPTools.m */; };
+		89AD2F3525336E01008CD1E9 /* UIBarButtonItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2A1F7243310003AF96 /* UIBarButtonItem+Tools.m */; };
+		89AD2F3625336E01008CD1E9 /* DDPMatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7B81EA85BC900A2233D /* DDPMatchViewController.m */; };
+		89AD2F3725336E01008CD1E9 /* DDPSMBLoginHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5FA21F2349F20068A1DB /* DDPSMBLoginHeaderView.m */; };
+		89AD2F3825336E01008CD1E9 /* DDPPlayerMatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383922E3665600ED15E3 /* DDPPlayerMatchView.m */; };
+		89AD2F3925336E01008CD1E9 /* DDPSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F5F9C1F22F3100068A1DB /* DDPSMBFile.m */; };
+		89AD2F3A25336E01008CD1E9 /* HomePageBangumiProgressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E33A21B81B68007BA84C /* HomePageBangumiProgressTableViewCell.m */; };
+		89AD2F3B25336E01008CD1E9 /* DDPDanmakuCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EAA1EA5E10F00FA0DF3 /* DDPDanmakuCollection.m */; };
+		89AD2F3C25336E01008CD1E9 /* DDPLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD051A1F6AC18C00051A96 /* DDPLibrary.m */; };
+		89AD2F3D25336E01008CD1E9 /* DDPLinkWelcome.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AF1F68F62900E7D841 /* DDPLinkWelcome.m */; };
+		89AD2F3E25336E01008CD1E9 /* DDPLinkInfo+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B08201C4D310009A5FF /* DDPLinkInfo+DB.mm */; };
+		89AD2F3F25336E01008CD1E9 /* DDPCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDBA1EA78A10000D5F3F /* DDPCacheManager.m */; };
+		89AD2F4025336E01008CD1E9 /* DDPFileManagerFileLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAAE1E6C12A80021253F /* DDPFileManagerFileLongViewCell.m */; };
+		89AD2F4125336E01008CD1E9 /* DDPCollectionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623A1FA89FC00054A1F2 /* DDPCollectionCache.m */; };
+		89AD2F4225336E01008CD1E9 /* DDPHomePageBannerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31521B81B68007BA84C /* DDPHomePageBannerCollectionViewCell.m */; };
+		89AD2F4325336E01008CD1E9 /* DDPHomePageSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E30721B81B67007BA84C /* DDPHomePageSearchViewController.m */; };
+		89AD2F4425336E01008CD1E9 /* DDPSearchAnimateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E34221B81B68007BA84C /* DDPSearchAnimateViewController.m */; };
+		89AD2F4525336E01008CD1E9 /* DDPDownloadManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EED1201C78320022DE0D /* DDPDownloadManager.mm */; };
+		89AD2F4625336E01008CD1E9 /* DDPBangumiNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C18692168689900AE7484 /* DDPBangumiNetManagerOperation.m */; };
+		89AD2F4725336E01008CD1E9 /* DDPSearchEpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CF1EA8DCFB00A2233D /* DDPSearchEpisodeTableViewCell.m */; };
+		89AD2F4825336E01008CD1E9 /* DDPMatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB01EA5E7D000FA0DF3 /* DDPMatch.m */; };
+		89AD2F4925336E01008CD1E9 /* DDPPlayerSendDanmakuConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383A22E3665600ED15E3 /* DDPPlayerSendDanmakuConfigView.m */; };
+		89AD2F4A25336E01008CD1E9 /* DDPWebDAVLoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9121B24549F620013EC3E /* DDPWebDAVLoginInfo.m */; };
+		89AD2F4B25336E01008CD1E9 /* DDPPlayHistoryNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AC1FDD067900EF52BB /* DDPPlayHistoryNetManagerOperation.m */; };
+		89AD2F4C25336E01008CD1E9 /* UIColor+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8904467F1FE55567006872A0 /* UIColor+Tools.m */; };
+		89AD2F4D25336E01008CD1E9 /* DDPBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B121EAB0DA000072DA5 /* DDPBlurView.m */; };
+		89AD2F4E25336E01008CD1E9 /* DDPCacheManager+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B0E201C51250009A5FF /* DDPCacheManager+DB.mm */; };
+		89AD2F4F25336E01008CD1E9 /* DDPFileManagerPlayerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 897F02BB1F259DD900A8D1E5 /* DDPFileManagerPlayerListView.m */; };
+		89AD2F5025336E01008CD1E9 /* WMMagicScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181C2165028600AE7484 /* WMMagicScrollView.m */; };
+		89AD2F5125336E01008CD1E9 /* DDPDanmakuProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911380B22E3665600ED15E3 /* DDPDanmakuProducer.m */; };
+		89AD2F5225336E01008CD1E9 /* DDPOfficialSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C81EA8BB8D00A2233D /* DDPOfficialSearchViewController.m */; };
+		89AD2F5325336E01008CD1E9 /* UIApplication+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8930348623E08DF700BE1049 /* UIApplication+DDPTools.m */; };
+		89AD2F5425336E01008CD1E9 /* DDPLinkDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EEDF201C8B720022DE0D /* DDPLinkDownloadTask+Tools.m */; };
+		89AD2F5525336E01008CD1E9 /* DDPHomePageSearchFilterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32C21B81B68007BA84C /* DDPHomePageSearchFilterCollectionViewCell.m */; };
+		89AD2F5625336E01008CD1E9 /* DDPPlayerAudioChannelViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384822E3665600ED15E3 /* DDPPlayerAudioChannelViewMediator.m */; };
+		89AD2F5725336E01008CD1E9 /* DDPPlayerInterfaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384422E3665600ED15E3 /* DDPPlayerInterfaceView.m */; };
+		89AD2F5825336E01008CD1E9 /* DDPLinkFileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD05201F6AC49500051A96 /* DDPLinkFileTableViewCell.m */; };
+		89AD2F5925336E01008CD1E9 /* DDPMatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BB1EA85DB400A2233D /* DDPMatchTableViewCell.m */; };
+		89AD2F5A25336E01008CD1E9 /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC052053CF08007E378F /* UIImage+Tools.m */; };
+		89AD2F5B25336E01008CD1E9 /* NSURL+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69ED1F48085700F69975 /* NSURL+Tools.m */; };
+		89AD2F5C25336E01008CD1E9 /* UINavigation+SXFixSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 891643501FBB13D500096F09 /* UINavigation+SXFixSpace.m */; };
+		89AD2F5D25336E01008CD1E9 /* DDPEdgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B151EAB125700072DA5 /* DDPEdgeButton.m */; };
+		89AD2F5E25336E01008CD1E9 /* DDPWebDAVLoginInfo+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B45429248D2A5A00D3BFD1 /* DDPWebDAVLoginInfo+Tools.m */; };
+		89AD2F5F25336E01008CD1E9 /* DDPSearchAnimeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7CC1EA8DC2C00A2233D /* DDPSearchAnimeTitleTableViewCell.m */; };
+		89AD2F6025336E01008CD1E9 /* DDPWebDAVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9120F24549C0B0013EC3E /* DDPWebDAVViewController.m */; };
+		89AD2F6125336E01008CD1E9 /* DDPDanmakuFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23B1F579B6D0040B7C4 /* DDPDanmakuFilterTableViewCell.m */; };
+		89AD2F6225336E01008CD1E9 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
+		89AD2F6325336E01008CD1E9 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81D7203C096900717213 /* UIView+Toast.m */; };
+		89AD2F6425336E01008CD1E9 /* DDPBiliBiliSearchBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61041FD6C8AC00D62178 /* DDPBiliBiliSearchBangumi.m */; };
+		89AD2F6525336E01008CD1E9 /* DDPBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8AF1FDD069B00EF52BB /* DDPBangumiQueueIntro.m */; };
+		89AD2F6625336E01008CD1E9 /* DDPWebDAVLoginInfo+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B45423248D248D00D3BFD1 /* DDPWebDAVLoginInfo+DB.mm */; };
+		89AD2F6725336E01008CD1E9 /* DDPRegisterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C186121676C0600AE7484 /* DDPRegisterResult.m */; };
+		89AD2F6825336E01008CD1E9 /* DDPAttentionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */; };
+		89AD2F6925336E01008CD1E9 /* DDPSMBFileHashCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D9B6F1FC4677900E34275 /* DDPSMBFileHashCache.m */; };
+		89AD2F6A25336E01008CD1E9 /* NSString+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82C1EAF10A500676361 /* NSString+Tools.m */; };
+		89AD2F6B25336E01008CD1E9 /* DDPNewBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062121C2990D006E35D9 /* DDPNewBanner.m */; };
+		89AD2F6C25336E01008CD1E9 /* DDPFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467931F162C31001840C7 /* DDPFileViewController.m */; };
+		89AD2F6D25336E01008CD1E9 /* DDPPlayerConfigPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911380F22E3665600ED15E3 /* DDPPlayerConfigPanelViewController.m */; };
+		89AD2F6E25336E01008CD1E9 /* DDPHomePageFileLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31E21B81B68007BA84C /* DDPHomePageFileLocationView.m */; };
+		89AD2F6F25336E01008CD1E9 /* DDPFileManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FBDED21F457C7800663865 /* DDPFileManagerViewController.m */; };
+		89AD2F7025336E01008CD1E9 /* DDPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EA31EA5B22A00FA0DF3 /* DDPResponse.m */; };
+		89AD2F7125336E01008CD1E9 /* MJRefreshHeader+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F60F1E585320007AB1BD /* MJRefreshHeader+Tools.m */; };
+		89AD2F7225336E01008CD1E9 /* DDPFileLargeTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF001FA3752400C7915D /* DDPFileLargeTitleTableViewCell.m */; };
+		89AD2F7325336E01008CD1E9 /* DDPMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350AFF1EAAFB9900072DA5 /* DDPMediaPlayer.m */; };
+		89AD2F7425336E01008CD1E9 /* DDPMatchTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C11EA89A8A00A2233D /* DDPMatchTitleTableViewCell.m */; };
+		89AD2F7525336E01008CD1E9 /* DDPDMHYParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C91F6132DE00D40F07 /* DDPDMHYParse.m */; };
+		89AD2F7625336E01008CD1E9 /* DDPBaseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89753D5D1F8D07EE0036C0AB /* DDPBaseScrollView.m */; };
+		89AD2F7725336E01008CD1E9 /* DDPQRScannerHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E37021B81F3E007BA84C /* DDPQRScannerHistoryView.m */; };
+		89AD2F7825336E01008CD1E9 /* DDPNewHomePagePackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E34421B81B68007BA84C /* DDPNewHomePagePackageViewController.m */; };
+		89AD2F7925336E01008CD1E9 /* UIButton+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6181E58552D007AB1BD /* UIButton+Tools.m */; };
+		89AD2F7A25336E01008CD1E9 /* HomePageSearchFilterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32B21B81B68007BA84C /* HomePageSearchFilterModel.m */; };
+		89AD2F7B25336E01008CD1E9 /* DDPBiliBiliSearchBangumiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC002053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.m */; };
+		89AD2F7C25336E01008CD1E9 /* DDPHomeBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062721C2990D006E35D9 /* DDPHomeBangumi.m */; };
+		89AD2F7D25336E01008CD1E9 /* DDPSearchAnimeDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C187A2168EFCC00AE7484 /* DDPSearchAnimeDetails.m */; };
+		89AD2F7E25336E01008CD1E9 /* DDPControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383322E3665600ED15E3 /* DDPControlView.m */; };
+		89AD2F7F25336E01008CD1E9 /* DDPBiliBiliBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F001EA6023D00FA0DF3 /* DDPBiliBiliBangumiCollection.m */; };
+		89AD2F8025336E01008CD1E9 /* DDPTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E221BEC01A00C9D923 /* DDPTextField.m */; };
+		89AD2F8125336E01008CD1E9 /* DDPVideoModel+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E5D9A203698F30082FCCC /* DDPVideoModel+Tools.m */; };
+		89AD2F8225336E01008CD1E9 /* DDPBaseTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7BE1EA8958D00A2233D /* DDPBaseTreeView.m */; };
+		89AD2F8325336E01008CD1E9 /* DDPBaseNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AD2156BCAE00D0E17C /* DDPBaseNavigationBar.m */; };
+		89AD2F8425336E01008CD1E9 /* DDPEdgeTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 891EC6BB1F66DA7400431766 /* DDPEdgeTextField.m */; };
+		89AD2F8525336E01008CD1E9 /* DDPBaseDanmaku+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 899551121EACA62800AE04BC /* DDPBaseDanmaku+Tools.m */; };
+		89AD2F8625336E01008CD1E9 /* DDPBaseWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DDCFB31F2A3EA6007B83CA /* DDPBaseWebViewController.m */; };
+		89AD2F8725336E01008CD1E9 /* DDPHttpReceive.m in Sources */ = {isa = PBXBuildFile; fileRef = 89929FFD1FBC6A76009FDB06 /* DDPHttpReceive.m */; };
+		89AD2F8825336E01008CD1E9 /* DDPPlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382F22E3665600ED15E3 /* DDPPlayNavigationController.m */; };
+		89AD2F8925336E01008CD1E9 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1BF5522E4BD75000149CF /* SceneDelegate.m */; };
+		89AD2F8A25336E01008CD1E9 /* DDPRelatedCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EBC1EA5EDE500FA0DF3 /* DDPRelatedCollection.m */; };
+		89AD2F8B25336E01008CD1E9 /* DDPFileManagerVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDE9101F1BA41D00B49EA8 /* DDPFileManagerVideoTableViewCell.m */; };
+		89AD2F8C25336E01008CD1E9 /* DDPNewBangumiQueueIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063221C2990D006E35D9 /* DDPNewBangumiQueueIntro.m */; };
+		89AD2F8D25336E01008CD1E9 /* DDPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB491EB334520063BBA1 /* DDPFile.m */; };
+		89AD2F8E25336E01008CD1E9 /* DDPBiliBiliBangumi.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42F031EA6025000FA0DF3 /* DDPBiliBiliBangumi.m */; };
+		89AD2F8F25336E01008CD1E9 /* DDPEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EF11EA5FC3200FA0DF3 /* DDPEpisode.m */; };
+		89AD2F9025336E01008CD1E9 /* DDPBaseCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB531EB3A1590063BBA1 /* DDPBaseCollectionView.m */; };
+		89AD2F9125336E01008CD1E9 /* DDPRequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FD3E722001F0B100AF1DBB /* DDPRequestParameters.m */; };
+		89AD2F9225336E01008CD1E9 /* DDPWebDAVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9121824549E8D0013EC3E /* DDPWebDAVFile.m */; };
+		89AD2F9325336E01008CD1E9 /* DDPPlayerSliderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382922E3665600ED15E3 /* DDPPlayerSliderTableViewCell.m */; };
+		89AD2F9425336E01008CD1E9 /* DDPTextHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89993F631F71422D009F5364 /* DDPTextHeaderView.m */; };
+		89AD2F9525336E01008CD1E9 /* HomePageItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32D21B81B68007BA84C /* HomePageItemCollectionViewCell.m */; };
+		89AD2F9625336E01008CD1E9 /* DDPSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EEE1EA5FB9000FA0DF3 /* DDPSearch.m */; };
+		89AD2F9725336E01008CD1E9 /* DDPFilterNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F11E585135007AB1BD /* DDPFilterNetManagerOperation.m */; };
+		89AD2F9825336E01008CD1E9 /* DDPLocalFileManagerPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69F11F480E6A00F69975 /* DDPLocalFileManagerPickerViewController.m */; };
+		89AD2F9925336E01008CD1E9 /* DDPMatchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB31EA5E82D00FA0DF3 /* DDPMatchCollection.m */; };
+		89AD2F9A25336E01008CD1E9 /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 895595AD2371D10800AC092F /* LogUtil.m */; };
+		89AD2F9B25336E01008CD1E9 /* DDPHomePageSearchPackageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E34121B81B68007BA84C /* DDPHomePageSearchPackageViewController.m */; };
+		89AD2F9C25336E01008CD1E9 /* Masonry+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8960971022676D1E00673C28 /* Masonry+DDPTools.m */; };
+		89AD2F9D25336E01008CD1E9 /* DDPSMBInfo+WCDB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89F6B910201DC5210080B5ED /* DDPSMBInfo+WCDB.mm */; };
+		89AD2F9E25336E01008CD1E9 /* DDPRelated.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB91EA5ECC800FA0DF3 /* DDPRelated.m */; };
+		89AD2F9F25336E01008CD1E9 /* DDPSelectedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A1C0181EAF7F4000DB9BE9 /* DDPSelectedTableViewCell.m */; };
+		89AD2FA025336E01008CD1E9 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384A22E3665600ED15E3 /* DDPPlayerSubTitleIndexViewMediator.m */; };
+		89AD2FA125336E01008CD1E9 /* DDPPlayerSendDanmakuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384C22E3665600ED15E3 /* DDPPlayerSendDanmakuViewController.m */; };
+		89AD2FA225336E01008CD1E9 /* DDPSMBVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E834281F1E5A5400E781EB /* DDPSMBVideoModel.m */; };
+		89AD2FA325336E01008CD1E9 /* DDPWebDAVVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9121524549DA20013EC3E /* DDPWebDAVVideoModel.m */; };
+		89AD2FA425336E01008CD1E9 /* DDPControlVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AE14D21172BD90023DED4 /* DDPControlVideoViewController.m */; };
+		89AD2FA525336E01008CD1E9 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
+		89AD2FA625336E01008CD1E9 /* DDPPlayerDanmakuControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381222E3665600ED15E3 /* DDPPlayerDanmakuControlViewController.m */; };
+		89AD2FA725336E01008CD1E9 /* DDPDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6271E585C17007AB1BD /* DDPDanmaku.m */; };
+		89AD2FA825336E01008CD1E9 /* DDPFavoriteCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B91F626629008D06CF /* DDPFavoriteCollection.m */; };
+		89AD2FA925336E01008CD1E9 /* DDPEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89350B171EAB125700072DA5 /* DDPEdgeLabel.m */; };
+		89AD2FAA25336E01008CD1E9 /* DDPFileManagerSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891E69F41F480EAB00F69975 /* DDPFileManagerSearchView.m */; };
+		89AD2FAB25336E01008CD1E9 /* DDPConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8907526721A1188000D149F3 /* DDPConstant.m */; };
+		89AD2FAC25336E01008CD1E9 /* TOSMBSessionFile+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 891C22F61F0A51E700B4661F /* TOSMBSessionFile+Tools.m */; };
+		89AD2FAD25336E01008CD1E9 /* DDPNewHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063421C2990D006E35D9 /* DDPNewHomePage.m */; };
+		89AD2FAE25336E01008CD1E9 /* DDPActivityEdgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D38E541F516591009780A8 /* DDPActivityEdgeLabel.m */; };
+		89AD2FAF25336E01008CD1E9 /* DDPHTTPRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D4E1FE6611500953DA8 /* DDPHTTPRequestSerializer.m */; };
+		89AD2FB025336E01008CD1E9 /* DDPBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F594E1EA710A8004F4313 /* DDPBaseTableView.m */; };
+		89AD2FB125336E01008CD1E9 /* DDPHomeFeatured.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062E21C2990D006E35D9 /* DDPHomeFeatured.m */; };
+		89AD2FB225336E01008CD1E9 /* DDPHomeBangumiCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062D21C2990D006E35D9 /* DDPHomeBangumiCollection.m */; };
+		89AD2FB325336E01008CD1E9 /* DDPDMHYSearchConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74D51F6144E300D40F07 /* DDPDMHYSearchConfig.m */; };
+		89AD2FB425336E01008CD1E9 /* DDPBaseCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E981EA5B0BA00FA0DF3 /* DDPBaseCollection.m */; };
+		89AD2FB525336E01008CD1E9 /* DDPHomePageBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31B21B81B68007BA84C /* DDPHomePageBannerView.m */; };
+		89AD2FB625336E01008CD1E9 /* TOSMBSessionDownloadTask+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EED9201C8A2C0022DE0D /* TOSMBSessionDownloadTask+DB.mm */; };
+		89AD2FB725336E01008CD1E9 /* DDPQRScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E36821B81F3E007BA84C /* DDPQRScannerViewController.m */; };
+		89AD2FB825336E01008CD1E9 /* UINavigationItem+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F2D1F724C570003AF96 /* UINavigationItem+Tools.m */; };
+		89AD2FB925336E01008CD1E9 /* DDPSettingTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173051EB1F6F0006A2473 /* DDPSettingTitleTableViewCell.m */; };
+		89AD2FBA25336E01008CD1E9 /* DDPRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */; };
+		89AD2FBB25336E01008CD1E9 /* DDPMatchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F31E585135007AB1BD /* DDPMatchNetManagerOperation.m */; };
+		89AD2FBC25336E01008CD1E9 /* DDPQRHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E37321B81F3E007BA84C /* DDPQRHelpViewController.m */; };
+		89AD2FBD25336E01008CD1E9 /* DDPBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0A121568FB200D0E17C /* DDPBaseTableViewCell.m */; };
+		89AD2FBE25336E01008CD1E9 /* DDPUser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EEB1EA5F87500FA0DF3 /* DDPUser.mm */; };
+		89AD2FBF25336E01008CD1E9 /* DDPExpandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89657F271F7237930003AF96 /* DDPExpandView.m */; };
+		89AD2FC025336E01008CD1E9 /* DDPFileSectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEEFD1FA3738900C7915D /* DDPFileSectionTableViewCell.m */; };
+		89AD2FC125336E01008CD1E9 /* DDPWebDAVFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9121224549D370013EC3E /* DDPWebDAVFileViewController.m */; };
+		89AD2FC225336E01008CD1E9 /* DDPFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B61F626531008D06CF /* DDPFavorite.m */; };
+		89AD2FC325336E01008CD1E9 /* DDPPlayerControlHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382522E3665600ED15E3 /* DDPPlayerControlHeaderView.m */; };
+		89AD2FC425336E01008CD1E9 /* DDPNewHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31221B81B68007BA84C /* DDPNewHomePageViewController.m */; };
+		89AD2FC525336E01008CD1E9 /* DDPLinkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD85AC1F68F55B00E7D841 /* DDPLinkInfo.m */; };
+		89AD2FC625336E01008CD1E9 /* DDPFavoriteNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D2C1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.m */; };
+		89AD2FC725336E01008CD1E9 /* DDPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBA9C1E6BC8D20021253F /* DDPMainViewController.m */; };
+		89AD2FC825336E01008CD1E9 /* DDPDanmakuFilterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD2411F57BFA60040B7C4 /* DDPDanmakuFilterDetailViewController.m */; };
+		89AD2FC925336E01008CD1E9 /* DDPBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E74DA1EC6F5B3005137B4 /* DDPBaseNavigationController.m */; };
+		89AD2FCA25336E01008CD1E9 /* DDPMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894CBAA11E6BCA760021253F /* DDPMineViewController.m */; };
+		89AD2FCB25336E01008CD1E9 /* DDPLibraryCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DD051D1F6AC3AB00051A96 /* DDPLibraryCollection.m */; };
+		89AD2FCC25336E01008CD1E9 /* DDPAttentionDetailHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C81F6289EE008D06CF /* DDPAttentionDetailHistoryTableViewCell.m */; };
+		89AD2FCD25336E01008CD1E9 /* HomePageHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32E21B81B68007BA84C /* HomePageHeaderTableViewCell.m */; };
+		89AD2FCE25336E01008CD1E9 /* DDPSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8C9981F3DDEF100CCF4BC /* DDPSetting.m */; };
+		89AD2FCF25336E01008CD1E9 /* UITableView+DDPTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BA33362162647F00CC337E /* UITableView+DDPTools.m */; };
+		89AD2FD025336E01008CD1E9 /* DDPDanmakuSelectedFontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F7F91EB04DA1009329AA /* DDPDanmakuSelectedFontViewController.m */; };
+		89AD2FD125336E01008CD1E9 /* DDPBiliBiliSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF61071FD6C8D400D62178 /* DDPBiliBiliSearchResult.m */; };
+		89AD2FD225336E01008CD1E9 /* DDPBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F61F1E58583F007AB1BD /* DDPBaseViewController.m */; };
+		89AD2FD325336E01008CD1E9 /* DDPTransparentNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AF2156BD9A00D0E17C /* DDPTransparentNavigationBar.m */; };
+		89AD2FD425336E01008CD1E9 /* DDPHomeBangumiIntroHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31C21B81B68007BA84C /* DDPHomeBangumiIntroHeaderView.m */; };
+		89AD2FD525336E01008CD1E9 /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 895595AE2371D10800AC092F /* LogHelper.mm */; };
+		89AD2FD625336E01008CD1E9 /* DDPSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4FC1F77509F00F21E52 /* DDPSearchBar.m */; };
+		89AD2FD725336E01008CD1E9 /* DDPOtherSettingSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8031EB05A60009329AA /* DDPOtherSettingSwitchTableViewCell.m */; };
+		89AD2FD825336E01008CD1E9 /* DDPDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170B1F3343C700B34352 /* DDPDownloadTableViewCell.m */; };
+		89AD2FD925336E01008CD1E9 /* DDPFilterCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9F1EA5B14100FA0DF3 /* DDPFilterCollection.m */; };
+		89AD2FDA25336E01008CD1E9 /* DDPDanmakuFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E5AFAD1F56CB2300CD4334 /* DDPDanmakuFilterViewController.m */; };
+		89AD2FDB25336E01008CD1E9 /* DDPSMBFileOprationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA01F32C7EA0055BC84 /* DDPSMBFileOprationView.m */; };
+		89AD2FDC25336E01008CD1E9 /* DDPForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DC21BEC01A00C9D923 /* DDPForgetPasswordViewController.m */; };
+		89AD2FDD25336E01008CD1E9 /* DDPMediaThumbnailer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8990E7E81F85E386001117AD /* DDPMediaThumbnailer.m */; };
+		89AD2FDE25336E01008CD1E9 /* DDPToolsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B04F861E59CE9B007054CB /* DDPToolsManager.m */; };
+		89AD2FDF25336E01008CD1E9 /* DDPFilter+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B11201C53390009A5FF /* DDPFilter+DB.mm */; };
+		89AD2FE025336E01008CD1E9 /* DDPDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8905BDA31F32CEBA0055BC84 /* DDPDownloadViewController.m */; };
+		89AD2FE125336E01008CD1E9 /* UIImageView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6151E5854A2007AB1BD /* UIImageView+Tools.m */; };
+		89AD2FE225336E01008CD1E9 /* DDPBangumiEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B51FDD0BFB00EF52BB /* DDPBangumiEpisode.m */; };
+		89AD2FE325336E01008CD1E9 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E1E9F61EADA04700419C78 /* DDPFileManagerFolderPlayerListViewCell.m */; };
+		89AD2FE425336E01008CD1E9 /* DDPBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8930348B23E08E4500BE1049 /* DDPBaseTextView.m */; };
+		89AD2FE525336E01008CD1E9 /* DDPNewPopularTorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063621C2990D006E35D9 /* DDPNewPopularTorrentItem.m */; };
+		89AD2FE625336E01008CD1E9 /* DDPWebDAVInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 895693B824828ECB00FB466A /* DDPWebDAVInputStream.m */; };
+		89AD2FE725336E01008CD1E9 /* DDPVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EBF1EA5F09500FA0DF3 /* DDPVideoModel.m */; };
+		89AD2FE825336E01008CD1E9 /* DDPPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911380C22E3665600ED15E3 /* DDPPlayerViewController.m */; };
+		89AD2FE925336E01008CD1E9 /* DDPDefaultPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A467961F162DDA001840C7 /* DDPDefaultPageViewController.m */; };
+		89AD2FEA25336E01008CD1E9 /* CALayer+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37CB1F628C82008D06CF /* CALayer+Tools.m */; };
+		89AD2FEB25336E01008CD1E9 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381E22E3665600ED15E3 /* DDPPlayerControlPlayModeTableViewCell.m */; };
+		89AD2FEC25336E01008CD1E9 /* DDPPlayerControlAnimater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381822E3665600ED15E3 /* DDPPlayerControlAnimater.m */; };
+		89AD2FED25336E01008CD1E9 /* DDPPlayerDanmakuControlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381622E3665600ED15E3 /* DDPPlayerDanmakuControlModel.m */; };
+		89AD2FEE25336E01008CD1E9 /* DDPMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F911FE4EC6500704F33 /* DDPMethod.m */; };
+		89AD2FEF25336E01008CD1E9 /* DDPQRScannerHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E36F21B81F3E007BA84C /* DDPQRScannerHistoryTableViewCell.m */; };
+		89AD2FF025336E01008CD1E9 /* DDPRelatedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EB61EA5EB4500FA0DF3 /* DDPRelatedNetManagerOperation.m */; };
+		89AD2FF125336E01008CD1E9 /* DDPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955E721BEC01A00C9D923 /* DDPLoginViewController.m */; };
+		89AD2FF225336E01008CD1E9 /* DDPSMBLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 896E81DB203C1D6400717213 /* DDPSMBLoginView.m */; };
+		89AD2FF325336E01008CD1E9 /* DDPSettingDownloadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8981170E1F334ECD00B34352 /* DDPSettingDownloadTableViewCell.m */; };
+		89AD2FF425336E01008CD1E9 /* DDPFileManagerFolderLongViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8939FB4C1EB36CF00063BBA1 /* DDPFileManagerFolderLongViewCell.m */; };
+		89AD2FF525336E01008CD1E9 /* DDPHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063121C2990D006E35D9 /* DDPHomePage.m */; };
+		89AD2FF625336E01008CD1E9 /* UIFont+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F173371EB20E4D006A2473 /* UIFont+Tools.m */; };
+		89AD2FF725336E01008CD1E9 /* DDPRecommedNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F51E585135007AB1BD /* DDPRecommedNetManagerOperation.m */; };
+		89AD2FF825336E01008CD1E9 /* DDPDanmakuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F8CDB01EA7757F000D5F3F /* DDPDanmakuManager.m */; };
+		89AD2FF925336E01008CD1E9 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382722E3665600ED15E3 /* DDPPlayerShieldDanmakuCollectionViewCell.m */; };
+		89AD2FFA25336E01008CD1E9 /* HomePageSearchFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32421B81B68007BA84C /* HomePageSearchFilterView.m */; };
+		89AD2FFB25336E01008CD1E9 /* DDPBangumiQueueIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 895CA8B21FDD06A800EF52BB /* DDPBangumiQueueIntroCollection.m */; };
+		89AD2FFC25336E01008CD1E9 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5C01E5829BD007AB1BD /* AppDelegate.mm */; };
+		89AD2FFD25336E01008CD1E9 /* DDPAttentionDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37C51F628576008D06CF /* DDPAttentionDetailTableViewCell.m */; };
+		89AD2FFE25336E01008CD1E9 /* MJRefreshFooter+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F6121E58539D007AB1BD /* MJRefreshFooter+Tools.m */; };
+		89AD2FFF25336E01008CD1E9 /* DDPDMHYSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74BD1F612DD300D40F07 /* DDPDMHYSearch.m */; };
+		89AD300025336E01008CD1E9 /* JHFilterMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E32921B81B68007BA84C /* JHFilterMenuItem.m */; };
+		89AD300125336E01008CD1E9 /* DDPPlayerSelectedIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383C22E3665600ED15E3 /* DDPPlayerSelectedIndexView.m */; };
+		89AD300225336E01008CD1E9 /* DDPHTTPResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 898E2D511FE6612500953DA8 /* DDPHTTPResponseSerializer.m */; };
+		89AD300325336E01008CD1E9 /* DDPSMBFileHashCache+DB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B6EECB201C6CF00022DE0D /* DDPSMBFileHashCache+DB.mm */; };
+		89AD300425336E01008CD1E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5BD1E5829BD007AB1BD /* main.m */; };
+		89AD300525336E01008CD1E9 /* DDPHomeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062F21C2990D006E35D9 /* DDPHomeBanner.m */; };
+		89AD300625336E01008CD1E9 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382D22E3665600ED15E3 /* DDPPlayerFileManagerPlayerListViewController.m */; };
+		89AD300725336E01008CD1E9 /* DDPFileCollectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C3623D1FA8B2F40054A1F2 /* DDPFileCollectionTableViewCell.m */; };
+		89AD300825336E01008CD1E9 /* DDPHomeBangumiSubtitleGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063021C2990D006E35D9 /* DDPHomeBangumiSubtitleGroup.m */; };
+		89AD300925336E01008CD1E9 /* NSDate+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DA37511F5D127F003D7D59 /* NSDate+Tools.m */; };
+		89AD300A25336E01008CD1E9 /* DDPLinkDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 890DE4851F690CC7002B45EB /* DDPLinkDownloadTask.m */; };
+		89AD300B25336E01008CD1E9 /* HomePageItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E33321B81B68007BA84C /* HomePageItemTableViewCell.m */; };
+		89AD300C25336E01008CD1E9 /* DDPMineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C1864216783AC00AE7484 /* DDPMineHeadView.m */; };
+		89AD300D25336E01008CD1E9 /* DDPBatchResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89409F941FE4F1A700704F33 /* DDPBatchResponse.m */; };
+		89AD300E25336E01008CD1E9 /* DDPSMBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B3E1F090EDA00103CFF /* DDPSMBInfo.m */; };
+		89AD300F25336E01008CD1E9 /* DDPFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42E9C1EA5B12700FA0DF3 /* DDPFilter.m */; };
+		89AD301025336E01008CD1E9 /* DDPNewBangumiIntroCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955062321C2990D006E35D9 /* DDPNewBangumiIntroCollection.m */; };
+		89AD301125336E01008CD1E9 /* DDPAttentionListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BC1F626AE2008D06CF /* DDPAttentionListTableViewCell.m */; };
+		89AD301225336E01008CD1E9 /* CALayer+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B8F90222636E8600E2CF80 /* CALayer+Animation.m */; };
+		89AD301325336E01008CD1E9 /* DDPBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8930347D23E08C5E00BE1049 /* DDPBase.m */; };
+		89AD301425336E01008CD1E9 /* DDPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8916C7C41EA8AAB500A2233D /* DDPSearchViewController.m */; };
+		89AD301525336E01008CD1E9 /* DDPAboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8F8171EB09CAC009329AA /* DDPAboutUsViewController.m */; };
+		89AD301625336E01008CD1E9 /* LAContext+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8975F1E51FC86DE700C945EC /* LAContext+Tools.m */; };
+		89AD301725336E01008CD1E9 /* DDPLinkDownloadTaskCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 894C64911F691004003C7888 /* DDPLinkDownloadTaskCollection.m */; };
+		89AD301825336E01008CD1E9 /* DDPLinkVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 897858F21F6C136300010690 /* DDPLinkVideoModel.m */; };
+		89AD301925336E01008CD1E9 /* DDPSearchNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3F5F71E585135007AB1BD /* DDPSearchNetManagerOperation.m */; };
+		89AD301A25336E01008CD1E9 /* DDPFileManagerEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89314B1F1F4690C0002C1AEA /* DDPFileManagerEditView.m */; };
+		89AD301B25336E01008CD1E9 /* DDPVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911383422E3665600ED15E3 /* DDPVolumeView.m */; };
+		89AD301C25336E01008CD1E9 /* DDPSearchCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42EF71EA5FCA200FA0DF3 /* DDPSearchCollection.m */; };
+		89AD301D25336E01008CD1E9 /* DDPWebDAVHasnCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89B4542E248FD53500D3BFD1 /* DDPWebDAVHasnCache.mm */; };
+		89AD301E25336E01008CD1E9 /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */; };
+		89AD301F25336E01008CD1E9 /* DDPNewSearchAnimateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31A21B81B68007BA84C /* DDPNewSearchAnimateTableViewCell.m */; };
+		89AD302025336E01008CD1E9 /* DDPSMBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B351F08FAE400103CFF /* DDPSMBViewController.m */; };
+		89AD302125336E01008CD1E9 /* HomePageBangumiProgressCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E33E21B81B68007BA84C /* HomePageBangumiProgressCollectionViewCell.m */; };
+		89AD302225336E01008CD1E9 /* DDPFeaturedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E33021B81B68007BA84C /* DDPFeaturedTableViewCell.m */; };
+		89AD302325336E01008CD1E9 /* UITableViewCell+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938E4F91F7747F400F21E52 /* UITableViewCell+Tools.m */; };
+		89AD302425336E01008CD1E9 /* AFWebDAVManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F9120B245499600013EC3E /* AFWebDAVManager.m */; };
+		89AD302525336E01008CD1E9 /* DDPPlayHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37BF1F6282B2008D06CF /* DDPPlayHistory.m */; };
+		89AD302625336E01008CD1E9 /* DDPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894955DF21BEC01A00C9D923 /* DDPRegisterViewController.m */; };
+		89AD302725336E01008CD1E9 /* DDPNewHomePageItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E34021B81B68007BA84C /* DDPNewHomePageItemViewController.m */; };
+		89AD302825336E01008CD1E9 /* DDPSharedNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC4AD2264C98300BFBB4D /* DDPSharedNetManager.m */; };
+		89AD302925336E01008CD1E9 /* DDPRegisterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C185621676A6800AE7484 /* DDPRegisterRequest.m */; };
+		89AD302A25336E01008CD1E9 /* DDPPlayerVideoControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381122E3665600ED15E3 /* DDPPlayerVideoControlViewController.m */; };
+		89AD302B25336E01008CD1E9 /* DDPLoginNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89988D291F5AB975001413BE /* DDPLoginNetManagerOperation.m */; };
+		89AD302C25336E01008CD1E9 /* UIViewController+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 89681B381F08FB9A00103CFF /* UIViewController+Tools.m */; };
+		89AD302D25336E01008CD1E9 /* DDPPlayerStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911382B22E3665600ED15E3 /* DDPPlayerStepTableViewCell.m */; };
+		89AD302E25336E01008CD1E9 /* TOSMBSessionDownloadTask+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8920A2E11F38AD8A00A55444 /* TOSMBSessionDownloadTask+Tools.m */; };
+		89AD302F25336E01008CD1E9 /* DDPPlayerNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911384022E3665600ED15E3 /* DDPPlayerNoticeView.m */; };
+		89AD303025336E01008CD1E9 /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8928E31421B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.m */; };
+		89AD303125336E01008CD1E9 /* DDPWebDAVFilePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B45433248FE69600D3BFD1 /* DDPWebDAVFilePickerViewController.m */; };
+		89AD303225336E01008CD1E9 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8937D0AA2156BAA700D0E17C /* UINavigationController+FDFullscreenPopGesture.m */; };
+		89AD303325336E01008CD1E9 /* DDPSliderShowAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911381A22E3665600ED15E3 /* DDPSliderShowAnimate.m */; };
+		89AD303425336E01008CD1E9 /* DDPNewBangumiIntro.m in Sources */ = {isa = PBXBuildFile; fileRef = 8955063821C2990D006E35D9 /* DDPNewBangumiIntro.m */; };
+		89AD303525336E01008CD1E9 /* DDPParseNetManagerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BF74C61F6132AD00D40F07 /* DDPParseNetManagerOperation.m */; };
+		89AD303625336E01008CD1E9 /* WMStickyPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 898C181D2165028600AE7484 /* WMStickyPageController.m */; };
+		89AD303725336E01008CD1E9 /* DDPFileTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 890BEF041FA37BC300C7915D /* DDPFileTreeNode.m */; };
+		89AD303825336E01008CD1E9 /* UIScrollView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 898AD23E1F57A7460040B7C4 /* UIScrollView+Base.m */; };
+		89AD303925336E01008CD1E9 /* DDPTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8930348223E08D9900BE1049 /* DDPTabBar.m */; };
+		89AD303A25336E01008CD1E9 /* TOSMBSession+Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = 89582E2D23EAD02B00468D36 /* TOSMBSession+Hook.m */; };
+		89AD303B25336E01008CD1E9 /* UIView+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8987C1211F2ED964005BC154 /* UIView+Tools.m */; };
+		89AD303C25336E01008CD1E9 /* DDPHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F5C82F1EAF112200676361 /* DDPHTTPConnection.m */; };
+		89AD303D25336E01008CD1E9 /* DDPVideoCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89BE4B14201C58D70009A5FF /* DDPVideoCache.mm */; };
+		89AD303F25336E01008CD1E9 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595B52371D15700AC092F /* libresolv.9.tbd */; };
+		89AD304025336E01008CD1E9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595B32371D14F00AC092F /* CoreTelephony.framework */; };
+		89AD304125336E01008CD1E9 /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595AA2371D0F900AC092F /* mars.framework */; };
+		89AD304225336E01008CD1E9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595B92371D17900AC092F /* SystemConfiguration.framework */; };
+		89AD304325336E01008CD1E9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 895595B72371D16900AC092F /* libz.tbd */; };
+		89AD304625336E01008CD1E9 /* HomePageBangumiProgressCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E33821B81B68007BA84C /* HomePageBangumiProgressCollectionViewCell.xib */; };
+		89AD304725336E01008CD1E9 /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */; };
+		89AD304825336E01008CD1E9 /* qr_help2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257731FB8936200AC075A /* qr_help2@2x.png */; };
+		89AD304925336E01008CD1E9 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8911382622E3665600ED15E3 /* DDPPlayerShieldDanmakuCollectionViewCell.xib */; };
+		89AD304A25336E01008CD1E9 /* DDPFeaturedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E32121B81B68007BA84C /* DDPFeaturedTableViewCell.xib */; };
+		89AD304B25336E01008CD1E9 /* RefreshText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A80335208B35EA00FF6C2B /* RefreshText.plist */; };
+		89AD304C25336E01008CD1E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8930349523E08EEB00BE1049 /* Main.storyboard */; };
+		89AD304D25336E01008CD1E9 /* qr_help1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E257711FB88E6F00AC075A /* qr_help1@2x.png */; };
+		89AD304E25336E01008CD1E9 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8911382A22E3665600ED15E3 /* DDPPlayerShieldDanmakuTableViewCell.xib */; };
+		89AD304F25336E01008CD1E9 /* course in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFB01F2A3DB0007B83CA /* course */; };
+		89AD305025336E01008CD1E9 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E32821B81B68007BA84C /* DDPHomePageSearchFilterCollectionViewCell.xib */; };
+		89AD305125336E01008CD1E9 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893BCC012053C021007E378F /* DDPBiliBiliSearchBangumiTableViewCell.xib */; };
+		89AD305225336E01008CD1E9 /* DDPPlayerInterfaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8911384522E3665600ED15E3 /* DDPPlayerInterfaceView.xib */; };
+		89AD305325336E01008CD1E9 /* DDPSMBLoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 896E81DD203C1D6D00717213 /* DDPSMBLoginView.xib */; };
+		89AD305425336E01008CD1E9 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 89DDCFAE1F2A3DA3007B83CA /* web */; };
+		89AD305525336E01008CD1E9 /* DDPMineHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 898C1866216783B600AE7484 /* DDPMineHeadView.xib */; };
+		89AD305625336E01008CD1E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5CA1E5829BD007AB1BD /* LaunchScreen.storyboard */; };
+		89AD305725336E01008CD1E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89E3F5C81E5829BD007AB1BD /* Assets.xcassets */; };
+		89AD305825336E01008CD1E9 /* DDPQRScannerHistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E37221B81F3E007BA84C /* DDPQRScannerHistoryView.xib */; };
+		89AD305925336E01008CD1E9 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E31921B81B68007BA84C /* DDPNewHomePageBangumiIntroCollectionViewCell.xib */; };
+		89AD305A25336E01008CD1E9 /* DDPControlVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 894AE14E21172BD90023DED4 /* DDPControlVideoViewController.xib */; };
+		89AD305B25336E01008CD1E9 /* DDPHomePageFileLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E31621B81B68007BA84C /* DDPHomePageFileLocationView.xib */; };
+		89AD305C25336E01008CD1E9 /* DDPNewSearchAnimateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E31821B81B68007BA84C /* DDPNewSearchAnimateTableViewCell.xib */; };
+		89AD305D25336E01008CD1E9 /* DDPPlayerSelectedIndexView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8911383D22E3665600ED15E3 /* DDPPlayerSelectedIndexView.xib */; };
+		89AD305E25336E01008CD1E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89A8032D208B1B5200FF6C2B /* Localizable.strings */; };
+		89AD305F25336E01008CD1E9 /* DDPQRScannerHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8928E37121B81F3E007BA84C /* DDPQRScannerHistoryTableViewCell.xib */; };
+		89AD306025336E01008CD1E9 /* email.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89B8E36A1F8F6DD500DA9BEF /* email.plist */; };
 		89AE37B41F6262BD008D06CF /* DDPAttentionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */; };
 		89AE37B71F626531008D06CF /* DDPFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B61F626531008D06CF /* DDPFavorite.m */; };
 		89AE37BA1F626629008D06CF /* DDPFavoriteCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AE37B91F626629008D06CF /* DDPFavoriteCollection.m */; };
@@ -873,6 +1202,7 @@
 		89FF610B1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610A1FD6CB7700D62178 /* DDPBiliBiliSearchVideo.m */; };
 		89FF610E1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89FF610D1FD6CD3500D62178 /* DDPBiliBiliSearchViewController.m */; };
 		8B847BFE216C6A0300DC8623 /* YYPhotoBrowseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */; };
+		D190901E8467E1E7E1B026C1 /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C26A07950D354BDF10421414 /* libPods-DDPlay_Target-DDPlay_ToMac.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -907,9 +1237,21 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89AD306225336E01008CD1E9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E972109EEC2CC6D27AD2193 /* Pods-DDPlay_Target-DDPlay_Concept2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Concept2.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Concept2/Pods-DDPlay_Target-DDPlay_Concept2.release.xcconfig"; sourceTree = "<group>"; };
+		166F7EAD577B822930CB2250 /* Pods-DDPlay_Target-DDPlay_Concept2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Concept2.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Concept2/Pods-DDPlay_Target-DDPlay_Concept2.debug.xcconfig"; sourceTree = "<group>"; };
 		1D64E2391276E65AC4B7DCB6 /* Pods-DDPlay_Target-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
 		2200A8C5E60D84DF1B07F2C2 /* Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
 		2329A1F7CFD895899D6667C5 /* libPods-DDPlay_Target-iOS_Only-DDPlay_2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-iOS_Only-DDPlay_2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -918,6 +1260,7 @@
 		4815DC1762504B616355530E /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2/Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.release.xcconfig"; sourceTree = "<group>"; };
 		515687FB396BFB1133B15A8D /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
 		59F03C0BA3C8C1BB4328C21D /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay.debug.xcconfig"; sourceTree = "<group>"; };
+		64F3031E6CA29FFE8A95A087 /* libPods-DDPlay_Target-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8904467E1FE55567006872A0 /* UIColor+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tools.h"; sourceTree = "<group>"; };
 		8904467F1FE55567006872A0 /* UIColor+Tools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tools.m"; sourceTree = "<group>"; };
 		8905BD9F1F32C7EA0055BC84 /* DDPSMBFileOprationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBFileOprationView.h; sourceTree = "<group>"; };
@@ -1156,6 +1499,7 @@
 		893BCC082053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPBiliBiliSearchVideoTableViewCell.m; sourceTree = "<group>"; };
 		893BCC092053D5E6007E378F /* DDPBiliBiliSearchVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPBiliBiliSearchVideoTableViewCell.xib; sourceTree = "<group>"; };
 		893BDFC524697A7600AC8424 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		893D14924BCAC924FDA34548 /* libPods-DDPlay_Target-DDPlay_Concept2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_Concept2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		893D71EE2377ECDD004FF7F5 /* DDPGuildView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPGuildView.h; sourceTree = "<group>"; };
 		893D71EF2377ECDD004FF7F5 /* DDPGuildView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPGuildView.m; sourceTree = "<group>"; };
 		893D71F12377ECE9004FF7F5 /* DDPGuildView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DDPGuildView.xib; sourceTree = "<group>"; };
@@ -1314,6 +1658,7 @@
 		898E2D531FE662E000953DA8 /* DDPNetManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPNetManagerDefine.h; sourceTree = "<group>"; };
 		898E74D91EC6F5B3005137B4 /* DDPBaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPBaseNavigationController.h; sourceTree = "<group>"; };
 		898E74DA1EC6F5B3005137B4 /* DDPBaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPBaseNavigationController.m; sourceTree = "<group>"; };
+		89909A7A25334B6B0091358C /* APPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPKey.h; sourceTree = "<group>"; };
 		8990E7E71F85E386001117AD /* DDPMediaThumbnailer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPMediaThumbnailer.h; sourceTree = "<group>"; };
 		8990E7E81F85E386001117AD /* DDPMediaThumbnailer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPMediaThumbnailer.m; sourceTree = "<group>"; };
 		89929FF91FBC6903009FDB06 /* DDPHttpReceiveTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPHttpReceiveTableViewCell.h; sourceTree = "<group>"; };
@@ -1326,7 +1671,6 @@
 		89988D291F5AB975001413BE /* DDPLoginNetManagerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPLoginNetManagerOperation.m; sourceTree = "<group>"; };
 		89988D2B1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFavoriteNetManagerOperation.h; sourceTree = "<group>"; };
 		89988D2C1F5AC0E0001413BE /* DDPFavoriteNetManagerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPFavoriteNetManagerOperation.m; sourceTree = "<group>"; };
-		89993B89216D15CE00AD7938 /* APPKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPKey.h; sourceTree = "<group>"; };
 		89993F621F71422D009F5364 /* DDPTextHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPTextHeaderView.h; sourceTree = "<group>"; };
 		89993F631F71422D009F5364 /* DDPTextHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPTextHeaderView.m; sourceTree = "<group>"; };
 		899F5F9B1F22F3100068A1DB /* DDPSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPSMBFile.h; sourceTree = "<group>"; };
@@ -1384,6 +1728,8 @@
 		89A80332208B331D00FF6C2B /* DDPRefreshNormalHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPRefreshNormalHeader.h; sourceTree = "<group>"; };
 		89A80333208B331D00FF6C2B /* DDPRefreshNormalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDPRefreshNormalHeader.m; sourceTree = "<group>"; };
 		89A80335208B35EA00FF6C2B /* RefreshText.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RefreshText.plist; sourceTree = "<group>"; };
+		89AD306725336E01008CD1E9 /* DDPlay_Concept2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPlay_Concept2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89AD306825336E01008CD1E9 /* DDPlay copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DDPlay copy2-Info.plist"; path = "/Users/jimhuang/Dev/DanDanPlayForiOS/DDPlay copy2-Info.plist"; sourceTree = "<absolute>"; };
 		89AE37B21F6262BD008D06CF /* DDPAttentionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPAttentionListViewController.h; sourceTree = "<group>"; };
 		89AE37B31F6262BD008D06CF /* DDPAttentionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPAttentionListViewController.m; sourceTree = "<group>"; };
 		89AE37B51F626531008D06CF /* DDPFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPFavorite.h; sourceTree = "<group>"; };
@@ -1600,13 +1946,11 @@
 		8B847BFD216C6A0300DC8623 /* YYPhotoBrowseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoBrowseView.m; sourceTree = "<group>"; };
 		8D10852B8B5F492F892E8511 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2/Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.debug.xcconfig"; sourceTree = "<group>"; };
 		AB35A10C39832B613F53300A /* Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.release.xcconfig"; sourceTree = "<group>"; };
-		B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-iOS_Only-DDPlay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C26A07950D354BDF10421414 /* libPods-DDPlay_Target-DDPlay_ToMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_ToMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C27B61A3AF87507331C5113D /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
 		C6464BAB9F7694C40416117C /* Pods-DDPlay_Target-iOS_Only-DDPlay_2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay_2.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_2/Pods-DDPlay_Target-iOS_Only-DDPlay_2.debug.xcconfig"; sourceTree = "<group>"; };
-		D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-DDPlay_ToMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D840A3B433C226DB0BFBC037 /* Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig"; sourceTree = "<group>"; };
 		D8EC29B0550E4251CB4B7D8C /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.release.xcconfig"; sourceTree = "<group>"; };
-		E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E93BA740538F81BABBC04D4A /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig"; sourceTree = "<group>"; };
 		EFDBB67CB10F5B35CC5B825B /* Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; path = "Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1616,9 +1960,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4869704A890C631CD495B5AF /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */,
 				897E1DA32462707500640012 /* mars.framework in Frameworks */,
-				552C79F315DD304E88F174EC /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a in Frameworks */,
+				7EA7BC907443110ECD15E6E4 /* libPods-DDPlay_Target-DDPlay_Review.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1627,7 +1970,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				8911389522E371A200ED15E3 /* DanDanPlayEncrypt.xcframework in Frameworks */,
-				5659EBF407404F5F4B8634FA /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */,
+				D190901E8467E1E7E1B026C1 /* libPods-DDPlay_Target-DDPlay_ToMac.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89AD303E25336E01008CD1E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AD303F25336E01008CD1E9 /* libresolv.9.tbd in Frameworks */,
+				89AD304025336E01008CD1E9 /* CoreTelephony.framework in Frameworks */,
+				89AD304125336E01008CD1E9 /* mars.framework in Frameworks */,
+				89AD304225336E01008CD1E9 /* SystemConfiguration.framework in Frameworks */,
+				89AD304325336E01008CD1E9 /* libz.tbd in Frameworks */,
+				54E49B1A300A707C5B44B344 /* libPods-DDPlay_Target-DDPlay_Concept2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1636,12 +1992,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				895595B62371D16200AC092F /* libresolv.9.tbd in Frameworks */,
-				3BB8036605ACF9651E100C24 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */,
 				895595B42371D14F00AC092F /* CoreTelephony.framework in Frameworks */,
 				89426C23239EAB35000FC640 /* mars.framework in Frameworks */,
 				895595BA2371D17900AC092F /* SystemConfiguration.framework in Frameworks */,
 				895595B82371D17300AC092F /* libz.tbd in Frameworks */,
-				5733D0A7833907D032837357 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a in Frameworks */,
+				01C02F5C198A06B9529C35D0 /* libPods-DDPlay_Target-DDPlay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2545,6 +2900,7 @@
 				ED7A1E1B342C39B400A4933F /* Frameworks */,
 				89C20BD024D4468A009A094C /* DDPlay copy-Info.plist */,
 				89C20CC824D44707009A094C /* DDPlay_Review copy-Info.plist */,
+				89AD306825336E01008CD1E9 /* DDPlay copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2554,6 +2910,7 @@
 				89E3F5B91E5829BD007AB1BD /* DDPlay.app */,
 				8907526421A1171A00D149F3 /* DDPlay_Review.app */,
 				8911380622E35C7E00ED15E3 /* DDPlay_ToMac.app */,
+				89AD306725336E01008CD1E9 /* DDPlay_Concept2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2643,7 +3000,7 @@
 				8907526621A1188000D149F3 /* DDPConstant.h */,
 				8907526721A1188000D149F3 /* DDPConstant.m */,
 				89A42EA11EA5B1BF00FA0DF3 /* DDPMacroDefinition.h */,
-				89993B89216D15CE00AD7938 /* APPKey.h */,
+				89909A7A25334B6B0091358C /* APPKey.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -2879,6 +3236,8 @@
 				2344548B202E51930721C208 /* Pods-DDPlay_Target-iOS_Only-DDPlay_2.release.xcconfig */,
 				8D10852B8B5F492F892E8511 /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.debug.xcconfig */,
 				4815DC1762504B616355530E /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review_2.release.xcconfig */,
+				166F7EAD577B822930CB2250 /* Pods-DDPlay_Target-DDPlay_Concept2.debug.xcconfig */,
+				0E972109EEC2CC6D27AD2193 /* Pods-DDPlay_Target-DDPlay_Concept2.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -2891,11 +3250,11 @@
 				895595B72371D16900AC092F /* libz.tbd */,
 				895595B52371D15700AC092F /* libresolv.9.tbd */,
 				895595B32371D14F00AC092F /* CoreTelephony.framework */,
-				D64E0D2A15087E0768017EFE /* libPods-DDPlay_Target-DDPlay_ToMac.a */,
-				B77AF6E7DE48B5B4F0CE4599 /* libPods-DDPlay_Target-iOS_Only-DDPlay.a */,
-				E0F6A04D8B931B2C87E580A9 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review.a */,
 				2329A1F7CFD895899D6667C5 /* libPods-DDPlay_Target-iOS_Only-DDPlay_2.a */,
 				2F092C997939148229B9A283 /* libPods-DDPlay_Target-iOS_Only-DDPlay_Review_2.a */,
+				C26A07950D354BDF10421414 /* libPods-DDPlay_Target-DDPlay_ToMac.a */,
+				64F3031E6CA29FFE8A95A087 /* libPods-DDPlay_Target-DDPlay_Review.a */,
+				893D14924BCAC924FDA34548 /* libPods-DDPlay_Target-DDPlay_Concept2.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2913,7 +3272,7 @@
 				8907524221A1171A00D149F3 /* Resources */,
 				8907525F21A1171A00D149F3 /* ShellScript */,
 				8907526021A1171A00D149F3 /* Embed Frameworks */,
-				992F82BC2E6FE9C4BFD5778B /* [CP] Copy Pods Resources */,
+				1AD5FE0AEADB626EB46A531C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2934,7 +3293,7 @@
 				891137EF22E35C7E00ED15E3 /* Resources */,
 				8911380222E35C7E00ED15E3 /* Embed Frameworks */,
 				276F7DEB7D2A2DD6BDA2384C /* [CP] Embed Pods Frameworks */,
-				527227A73ED40D62FAD377BB /* [CP] Copy Pods Resources */,
+				D75E4E0DA844F0BB59D8B50F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2943,6 +3302,27 @@
 			name = DDPlay_ToMac;
 			productName = DanDanPlayForiOS;
 			productReference = 8911380622E35C7E00ED15E3 /* DDPlay_ToMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		89AD2F1025336E01008CD1E9 /* DDPlay_Concept2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89AD306425336E01008CD1E9 /* Build configuration list for PBXNativeTarget "DDPlay_Concept2" */;
+			buildPhases = (
+				89AD2F1125336E01008CD1E9 /* [CP] Check Pods Manifest.lock */,
+				89AD2F1225336E01008CD1E9 /* Sources */,
+				89AD303E25336E01008CD1E9 /* Frameworks */,
+				89AD304525336E01008CD1E9 /* Resources */,
+				89AD306125336E01008CD1E9 /* ShellScript */,
+				89AD306225336E01008CD1E9 /* Embed Frameworks */,
+				89AD306325336E01008CD1E9 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DDPlay_Concept2;
+			productName = DanDanPlayForiOS;
+			productReference = 89AD306725336E01008CD1E9 /* DDPlay_Concept2.app */;
 			productType = "com.apple.product-type.application";
 		};
 		89E3F5B81E5829BD007AB1BD /* DDPlay */ = {
@@ -2955,7 +3335,7 @@
 				89E3F5B71E5829BD007AB1BD /* Resources */,
 				89E5AFAB1F566CBD00CD4334 /* ShellScript */,
 				89409FC51FE518B900704F33 /* Embed Frameworks */,
-				E7770F7AE732DB9BF27F2CDD /* [CP] Copy Pods Resources */,
+				7E3D42E0F52AFAECC9E89063 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3006,6 +3386,7 @@
 				89E3F5B81E5829BD007AB1BD /* DDPlay */,
 				8907512621A1171A00D149F3 /* DDPlay_Review */,
 				8911371922E35C7E00ED15E3 /* DDPlay_ToMac */,
+				89AD2F1025336E01008CD1E9 /* DDPlay_Concept2 */,
 			);
 		};
 /* End PBXProject section */
@@ -3069,6 +3450,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89AD304525336E01008CD1E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AD304625336E01008CD1E9 /* HomePageBangumiProgressCollectionViewCell.xib in Resources */,
+				89AD304725336E01008CD1E9 /* DDPBiliBiliSearchVideoTableViewCell.xib in Resources */,
+				89AD304825336E01008CD1E9 /* qr_help2@2x.png in Resources */,
+				89AD304925336E01008CD1E9 /* DDPPlayerShieldDanmakuCollectionViewCell.xib in Resources */,
+				89AD304A25336E01008CD1E9 /* DDPFeaturedTableViewCell.xib in Resources */,
+				89AD304B25336E01008CD1E9 /* RefreshText.plist in Resources */,
+				89AD304C25336E01008CD1E9 /* Main.storyboard in Resources */,
+				89AD304D25336E01008CD1E9 /* qr_help1@2x.png in Resources */,
+				89AD304E25336E01008CD1E9 /* DDPPlayerShieldDanmakuTableViewCell.xib in Resources */,
+				89AD304F25336E01008CD1E9 /* course in Resources */,
+				89AD305025336E01008CD1E9 /* DDPHomePageSearchFilterCollectionViewCell.xib in Resources */,
+				89AD305125336E01008CD1E9 /* DDPBiliBiliSearchBangumiTableViewCell.xib in Resources */,
+				89AD305225336E01008CD1E9 /* DDPPlayerInterfaceView.xib in Resources */,
+				89AD305325336E01008CD1E9 /* DDPSMBLoginView.xib in Resources */,
+				89AD305425336E01008CD1E9 /* web in Resources */,
+				89AD305525336E01008CD1E9 /* DDPMineHeadView.xib in Resources */,
+				89AD305625336E01008CD1E9 /* LaunchScreen.storyboard in Resources */,
+				89AD305725336E01008CD1E9 /* Assets.xcassets in Resources */,
+				89AD305825336E01008CD1E9 /* DDPQRScannerHistoryView.xib in Resources */,
+				89AD305925336E01008CD1E9 /* DDPNewHomePageBangumiIntroCollectionViewCell.xib in Resources */,
+				89AD305A25336E01008CD1E9 /* DDPControlVideoViewController.xib in Resources */,
+				89AD305B25336E01008CD1E9 /* DDPHomePageFileLocationView.xib in Resources */,
+				89AD305C25336E01008CD1E9 /* DDPNewSearchAnimateTableViewCell.xib in Resources */,
+				89AD305D25336E01008CD1E9 /* DDPPlayerSelectedIndexView.xib in Resources */,
+				89AD305E25336E01008CD1E9 /* Localizable.strings in Resources */,
+				89AD305F25336E01008CD1E9 /* DDPQRScannerHistoryTableViewCell.xib in Resources */,
+				89AD306025336E01008CD1E9 /* email.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89E3F5B71E5829BD007AB1BD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3106,6 +3521,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1AD5FE0AEADB626EB46A531C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Review/Pods-DDPlay_Target-DDPlay_Review-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		276F7DEB7D2A2DD6BDA2384C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3145,21 +3577,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		527227A73ED40D62FAD377BB /* [CP] Copy Pods Resources */ = {
+		7E3D42E0F52AFAECC9E89063 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay/Pods-DDPlay_Target-DDPlay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7F8F40A67F52E72C332974FB /* [CP] Check Pods Manifest.lock */ = {
@@ -3177,7 +3609,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay_Review-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3197,6 +3629,58 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"5a3d1ad706\"\n# #\nBUGLY_APP_KEY=\"cff908ee-d69a-4e0f-8af4-4dc5592903d1\"\n# #\nBUNDLE_IDENTIFIER=\"com.dandanplay.player\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=1\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
 		};
+		89AD2F1125336E01008CD1E9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay_Concept2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89AD306125336E01008CD1E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"5a3d1ad706\"\n# #\nBUGLY_APP_KEY=\"cff908ee-d69a-4e0f-8af4-4dc5592903d1\"\n# #\nBUNDLE_IDENTIFIER=\"com.dandanplay.player\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=1\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
+		};
+		89AD306325336E01008CD1E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Concept2/Pods-DDPlay_Target-DDPlay_Concept2-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Concept2/Pods-DDPlay_Target-DDPlay_Concept2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_Concept2/Pods-DDPlay_Target-DDPlay_Concept2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		89E5AFAB1F566CBD00CD4334 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3210,38 +3694,21 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"5a3d1ad706\"\n# #\nBUGLY_APP_KEY=\"cff908ee-d69a-4e0f-8af4-4dc5592903d1\"\n# #\nBUNDLE_IDENTIFIER=\"com.dandanplay.player\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\n# UPLOAD_DEBUG_SYMBOLS=0\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=0\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=1\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
 		};
-		992F82BC2E6FE9C4BFD5778B /* [CP] Copy Pods Resources */ = {
+		D75E4E0DA844F0BB59D8B50F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay_Review/Pods-DDPlay_Target-iOS_Only-DDPlay_Review-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E7770F7AE732DB9BF27F2CDD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-iOS_Only-DDPlay/Pods-DDPlay_Target-iOS_Only-DDPlay-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DDPlay_Target-DDPlay_ToMac/Pods-DDPlay_Target-DDPlay_ToMac-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC0F983C240126E30C0DF224 /* [CP] Check Pods Manifest.lock */ = {
@@ -3259,7 +3726,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-iOS_Only-DDPlay-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-DDPlay_Target-DDPlay-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3766,6 +4233,312 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89AD2F1225336E01008CD1E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AD2F1325336E01008CD1E9 /* DDPPlayerInterfaceHolderView.m in Sources */,
+				89AD2F1425336E01008CD1E9 /* DDPCacheManager+multiply.mm in Sources */,
+				89AD2F1525336E01008CD1E9 /* JHQRCodeReader.m in Sources */,
+				89AD2F1625336E01008CD1E9 /* DDPSMBDownloadTaskCache.mm in Sources */,
+				89AD2F1725336E01008CD1E9 /* DDPEmailListView.m in Sources */,
+				89AD2F1825336E01008CD1E9 /* DDPBaseNetManager.m in Sources */,
+				89AD2F1925336E01008CD1E9 /* DDPLinkFile.m in Sources */,
+				89AD2F1A25336E01008CD1E9 /* DDPSMBInfo+Tools.m in Sources */,
+				89AD2F1B25336E01008CD1E9 /* DDPMainVCItem.m in Sources */,
+				89AD2F1C25336E01008CD1E9 /* MBProgressHUD+Tools.m in Sources */,
+				89AD2F1D25336E01008CD1E9 /* DDPHTTPServerViewController.m in Sources */,
+				89AD2F1E25336E01008CD1E9 /* DDPNewBangumiSeason.m in Sources */,
+				89AD2F1F25336E01008CD1E9 /* DDPHomeMoreHeaderView.m in Sources */,
+				89AD2F2025336E01008CD1E9 /* DDPLinkFileManagerViewController.m in Sources */,
+				89AD2F2125336E01008CD1E9 /* DDPSliderDismissAnimate.m in Sources */,
+				89AD2F2225336E01008CD1E9 /* DDPBiliBiliSearchVideo.m in Sources */,
+				89AD2F2325336E01008CD1E9 /* DDPCollectionCache+DB.mm in Sources */,
+				89AD2F2425336E01008CD1E9 /* DDPPlayerShieldDanmakuTableViewCell.m in Sources */,
+				89AD2F2525336E01008CD1E9 /* DDPHttpReceiveTableViewCell.m in Sources */,
+				89AD2F2625336E01008CD1E9 /* DDPSearchAnimeDetailsCollection.m in Sources */,
+				89AD2F2725336E01008CD1E9 /* DDPCommentNetManagerOperation.m in Sources */,
+				89AD2F2825336E01008CD1E9 /* DDPHelpViewController.m in Sources */,
+				89AD2F2925336E01008CD1E9 /* DDPFileManagerBaseViewCell.m in Sources */,
+				89AD2F2A25336E01008CD1E9 /* HomePageSearchTableViewCell.m in Sources */,
+				89AD2F2B25336E01008CD1E9 /* DDPPlayerSubTitleIndexView.m in Sources */,
+				89AD2F2C25336E01008CD1E9 /* DDPSMBFileManagerPickerViewController.m in Sources */,
+				89AD2F2D25336E01008CD1E9 /* DDPSettingViewController.m in Sources */,
+				89AD2F2E25336E01008CD1E9 /* DDPAttentionDetailViewController.m in Sources */,
+				89AD2F2F25336E01008CD1E9 /* DDPLinkNetManagerOperation.m in Sources */,
+				89AD2F3025336E01008CD1E9 /* DDPOtherSettingTitleSubtitleTableViewCell.m in Sources */,
+				89AD2F3125336E01008CD1E9 /* DDPLinkOriginalAccountViewController.m in Sources */,
+				89AD2F3225336E01008CD1E9 /* DDPSMBFileViewController.m in Sources */,
+				89AD2F3325336E01008CD1E9 /* DDPDMHYSearchCollection.m in Sources */,
+				89AD2F3425336E01008CD1E9 /* UICollectionView+DDPTools.m in Sources */,
+				89AD2F3525336E01008CD1E9 /* UIBarButtonItem+Tools.m in Sources */,
+				89AD2F3625336E01008CD1E9 /* DDPMatchViewController.m in Sources */,
+				89AD2F3725336E01008CD1E9 /* DDPSMBLoginHeaderView.m in Sources */,
+				89AD2F3825336E01008CD1E9 /* DDPPlayerMatchView.m in Sources */,
+				89AD2F3925336E01008CD1E9 /* DDPSMBFile.m in Sources */,
+				89AD2F3A25336E01008CD1E9 /* HomePageBangumiProgressTableViewCell.m in Sources */,
+				89AD2F3B25336E01008CD1E9 /* DDPDanmakuCollection.m in Sources */,
+				89AD2F3C25336E01008CD1E9 /* DDPLibrary.m in Sources */,
+				89AD2F3D25336E01008CD1E9 /* DDPLinkWelcome.m in Sources */,
+				89AD2F3E25336E01008CD1E9 /* DDPLinkInfo+DB.mm in Sources */,
+				89AD2F3F25336E01008CD1E9 /* DDPCacheManager.m in Sources */,
+				89AD2F4025336E01008CD1E9 /* DDPFileManagerFileLongViewCell.m in Sources */,
+				89AD2F4125336E01008CD1E9 /* DDPCollectionCache.m in Sources */,
+				89AD2F4225336E01008CD1E9 /* DDPHomePageBannerCollectionViewCell.m in Sources */,
+				89AD2F4325336E01008CD1E9 /* DDPHomePageSearchViewController.m in Sources */,
+				89AD2F4425336E01008CD1E9 /* DDPSearchAnimateViewController.m in Sources */,
+				89AD2F4525336E01008CD1E9 /* DDPDownloadManager.mm in Sources */,
+				89AD2F4625336E01008CD1E9 /* DDPBangumiNetManagerOperation.m in Sources */,
+				89AD2F4725336E01008CD1E9 /* DDPSearchEpisodeTableViewCell.m in Sources */,
+				89AD2F4825336E01008CD1E9 /* DDPMatch.m in Sources */,
+				89AD2F4925336E01008CD1E9 /* DDPPlayerSendDanmakuConfigView.m in Sources */,
+				89AD2F4A25336E01008CD1E9 /* DDPWebDAVLoginInfo.m in Sources */,
+				89AD2F4B25336E01008CD1E9 /* DDPPlayHistoryNetManagerOperation.m in Sources */,
+				89AD2F4C25336E01008CD1E9 /* UIColor+Tools.m in Sources */,
+				89AD2F4D25336E01008CD1E9 /* DDPBlurView.m in Sources */,
+				89AD2F4E25336E01008CD1E9 /* DDPCacheManager+DB.mm in Sources */,
+				89AD2F4F25336E01008CD1E9 /* DDPFileManagerPlayerListView.m in Sources */,
+				89AD2F5025336E01008CD1E9 /* WMMagicScrollView.m in Sources */,
+				89AD2F5125336E01008CD1E9 /* DDPDanmakuProducer.m in Sources */,
+				89AD2F5225336E01008CD1E9 /* DDPOfficialSearchViewController.m in Sources */,
+				89AD2F5325336E01008CD1E9 /* UIApplication+DDPTools.m in Sources */,
+				89AD2F5425336E01008CD1E9 /* DDPLinkDownloadTask+Tools.m in Sources */,
+				89AD2F5525336E01008CD1E9 /* DDPHomePageSearchFilterCollectionViewCell.m in Sources */,
+				89AD2F5625336E01008CD1E9 /* DDPPlayerAudioChannelViewMediator.m in Sources */,
+				89AD2F5725336E01008CD1E9 /* DDPPlayerInterfaceView.m in Sources */,
+				89AD2F5825336E01008CD1E9 /* DDPLinkFileTableViewCell.m in Sources */,
+				89AD2F5925336E01008CD1E9 /* DDPMatchTableViewCell.m in Sources */,
+				89AD2F5A25336E01008CD1E9 /* UIImage+Tools.m in Sources */,
+				89AD2F5B25336E01008CD1E9 /* NSURL+Tools.m in Sources */,
+				89AD2F5C25336E01008CD1E9 /* UINavigation+SXFixSpace.m in Sources */,
+				89AD2F5D25336E01008CD1E9 /* DDPEdgeButton.m in Sources */,
+				89AD2F5E25336E01008CD1E9 /* DDPWebDAVLoginInfo+Tools.m in Sources */,
+				89AD2F5F25336E01008CD1E9 /* DDPSearchAnimeTitleTableViewCell.m in Sources */,
+				89AD2F6025336E01008CD1E9 /* DDPWebDAVViewController.m in Sources */,
+				89AD2F6125336E01008CD1E9 /* DDPDanmakuFilterTableViewCell.m in Sources */,
+				89AD2F6225336E01008CD1E9 /* DDPBiliBiliSearchViewController.m in Sources */,
+				89AD2F6325336E01008CD1E9 /* UIView+Toast.m in Sources */,
+				89AD2F6425336E01008CD1E9 /* DDPBiliBiliSearchBangumi.m in Sources */,
+				89AD2F6525336E01008CD1E9 /* DDPBangumiQueueIntro.m in Sources */,
+				89AD2F6625336E01008CD1E9 /* DDPWebDAVLoginInfo+DB.mm in Sources */,
+				89AD2F6725336E01008CD1E9 /* DDPRegisterResult.m in Sources */,
+				89AD2F6825336E01008CD1E9 /* DDPAttentionListViewController.m in Sources */,
+				89AD2F6925336E01008CD1E9 /* DDPSMBFileHashCache.m in Sources */,
+				89AD2F6A25336E01008CD1E9 /* NSString+Tools.m in Sources */,
+				89AD2F6B25336E01008CD1E9 /* DDPNewBanner.m in Sources */,
+				89AD2F6C25336E01008CD1E9 /* DDPFileViewController.m in Sources */,
+				89AD2F6D25336E01008CD1E9 /* DDPPlayerConfigPanelViewController.m in Sources */,
+				89AD2F6E25336E01008CD1E9 /* DDPHomePageFileLocationView.m in Sources */,
+				89AD2F6F25336E01008CD1E9 /* DDPFileManagerViewController.m in Sources */,
+				89AD2F7025336E01008CD1E9 /* DDPResponse.m in Sources */,
+				89AD2F7125336E01008CD1E9 /* MJRefreshHeader+Tools.m in Sources */,
+				89AD2F7225336E01008CD1E9 /* DDPFileLargeTitleTableViewCell.m in Sources */,
+				89AD2F7325336E01008CD1E9 /* DDPMediaPlayer.m in Sources */,
+				89AD2F7425336E01008CD1E9 /* DDPMatchTitleTableViewCell.m in Sources */,
+				89AD2F7525336E01008CD1E9 /* DDPDMHYParse.m in Sources */,
+				89AD2F7625336E01008CD1E9 /* DDPBaseScrollView.m in Sources */,
+				89AD2F7725336E01008CD1E9 /* DDPQRScannerHistoryView.m in Sources */,
+				89AD2F7825336E01008CD1E9 /* DDPNewHomePagePackageViewController.m in Sources */,
+				89AD2F7925336E01008CD1E9 /* UIButton+Tools.m in Sources */,
+				89AD2F7A25336E01008CD1E9 /* HomePageSearchFilterModel.m in Sources */,
+				89AD2F7B25336E01008CD1E9 /* DDPBiliBiliSearchBangumiTableViewCell.m in Sources */,
+				89AD2F7C25336E01008CD1E9 /* DDPHomeBangumi.m in Sources */,
+				89AD2F7D25336E01008CD1E9 /* DDPSearchAnimeDetails.m in Sources */,
+				89AD2F7E25336E01008CD1E9 /* DDPControlView.m in Sources */,
+				89AD2F7F25336E01008CD1E9 /* DDPBiliBiliBangumiCollection.m in Sources */,
+				89AD2F8025336E01008CD1E9 /* DDPTextField.m in Sources */,
+				89AD2F8125336E01008CD1E9 /* DDPVideoModel+Tools.m in Sources */,
+				89AD2F8225336E01008CD1E9 /* DDPBaseTreeView.m in Sources */,
+				89AD2F8325336E01008CD1E9 /* DDPBaseNavigationBar.m in Sources */,
+				89AD2F8425336E01008CD1E9 /* DDPEdgeTextField.m in Sources */,
+				89AD2F8525336E01008CD1E9 /* DDPBaseDanmaku+Tools.m in Sources */,
+				89AD2F8625336E01008CD1E9 /* DDPBaseWebViewController.m in Sources */,
+				89AD2F8725336E01008CD1E9 /* DDPHttpReceive.m in Sources */,
+				89AD2F8825336E01008CD1E9 /* DDPPlayNavigationController.m in Sources */,
+				89AD2F8925336E01008CD1E9 /* SceneDelegate.m in Sources */,
+				89AD2F8A25336E01008CD1E9 /* DDPRelatedCollection.m in Sources */,
+				89AD2F8B25336E01008CD1E9 /* DDPFileManagerVideoTableViewCell.m in Sources */,
+				89AD2F8C25336E01008CD1E9 /* DDPNewBangumiQueueIntro.m in Sources */,
+				89AD2F8D25336E01008CD1E9 /* DDPFile.m in Sources */,
+				89AD2F8E25336E01008CD1E9 /* DDPBiliBiliBangumi.m in Sources */,
+				89AD2F8F25336E01008CD1E9 /* DDPEpisode.m in Sources */,
+				89AD2F9025336E01008CD1E9 /* DDPBaseCollectionView.m in Sources */,
+				89AD2F9125336E01008CD1E9 /* DDPRequestParameters.m in Sources */,
+				89AD2F9225336E01008CD1E9 /* DDPWebDAVFile.m in Sources */,
+				89AD2F9325336E01008CD1E9 /* DDPPlayerSliderTableViewCell.m in Sources */,
+				89AD2F9425336E01008CD1E9 /* DDPTextHeaderView.m in Sources */,
+				89AD2F9525336E01008CD1E9 /* HomePageItemCollectionViewCell.m in Sources */,
+				89AD2F9625336E01008CD1E9 /* DDPSearch.m in Sources */,
+				89AD2F9725336E01008CD1E9 /* DDPFilterNetManagerOperation.m in Sources */,
+				89AD2F9825336E01008CD1E9 /* DDPLocalFileManagerPickerViewController.m in Sources */,
+				89AD2F9925336E01008CD1E9 /* DDPMatchCollection.m in Sources */,
+				89AD2F9A25336E01008CD1E9 /* LogUtil.m in Sources */,
+				89AD2F9B25336E01008CD1E9 /* DDPHomePageSearchPackageViewController.m in Sources */,
+				89AD2F9C25336E01008CD1E9 /* Masonry+DDPTools.m in Sources */,
+				89AD2F9D25336E01008CD1E9 /* DDPSMBInfo+WCDB.mm in Sources */,
+				89AD2F9E25336E01008CD1E9 /* DDPRelated.m in Sources */,
+				89AD2F9F25336E01008CD1E9 /* DDPSelectedTableViewCell.m in Sources */,
+				89AD2FA025336E01008CD1E9 /* DDPPlayerSubTitleIndexViewMediator.m in Sources */,
+				89AD2FA125336E01008CD1E9 /* DDPPlayerSendDanmakuViewController.m in Sources */,
+				89AD2FA225336E01008CD1E9 /* DDPSMBVideoModel.m in Sources */,
+				89AD2FA325336E01008CD1E9 /* DDPWebDAVVideoModel.m in Sources */,
+				89AD2FA425336E01008CD1E9 /* DDPControlVideoViewController.m in Sources */,
+				89AD2FA525336E01008CD1E9 /* YYPhotoBrowseView.m in Sources */,
+				89AD2FA625336E01008CD1E9 /* DDPPlayerDanmakuControlViewController.m in Sources */,
+				89AD2FA725336E01008CD1E9 /* DDPDanmaku.m in Sources */,
+				89AD2FA825336E01008CD1E9 /* DDPFavoriteCollection.m in Sources */,
+				89AD2FA925336E01008CD1E9 /* DDPEdgeLabel.m in Sources */,
+				89AD2FAA25336E01008CD1E9 /* DDPFileManagerSearchView.m in Sources */,
+				89AD2FAB25336E01008CD1E9 /* DDPConstant.m in Sources */,
+				89AD2FAC25336E01008CD1E9 /* TOSMBSessionFile+Tools.m in Sources */,
+				89AD2FAD25336E01008CD1E9 /* DDPNewHomePage.m in Sources */,
+				89AD2FAE25336E01008CD1E9 /* DDPActivityEdgeLabel.m in Sources */,
+				89AD2FAF25336E01008CD1E9 /* DDPHTTPRequestSerializer.m in Sources */,
+				89AD2FB025336E01008CD1E9 /* DDPBaseTableView.m in Sources */,
+				89AD2FB125336E01008CD1E9 /* DDPHomeFeatured.m in Sources */,
+				89AD2FB225336E01008CD1E9 /* DDPHomeBangumiCollection.m in Sources */,
+				89AD2FB325336E01008CD1E9 /* DDPDMHYSearchConfig.m in Sources */,
+				89AD2FB425336E01008CD1E9 /* DDPBaseCollection.m in Sources */,
+				89AD2FB525336E01008CD1E9 /* DDPHomePageBannerView.m in Sources */,
+				89AD2FB625336E01008CD1E9 /* TOSMBSessionDownloadTask+DB.mm in Sources */,
+				89AD2FB725336E01008CD1E9 /* DDPQRScannerViewController.m in Sources */,
+				89AD2FB825336E01008CD1E9 /* UINavigationItem+Tools.m in Sources */,
+				89AD2FB925336E01008CD1E9 /* DDPSettingTitleTableViewCell.m in Sources */,
+				89AD2FBA25336E01008CD1E9 /* DDPRefreshNormalHeader.m in Sources */,
+				89AD2FBB25336E01008CD1E9 /* DDPMatchNetManagerOperation.m in Sources */,
+				89AD2FBC25336E01008CD1E9 /* DDPQRHelpViewController.m in Sources */,
+				89AD2FBD25336E01008CD1E9 /* DDPBaseTableViewCell.m in Sources */,
+				89AD2FBE25336E01008CD1E9 /* DDPUser.mm in Sources */,
+				89AD2FBF25336E01008CD1E9 /* DDPExpandView.m in Sources */,
+				89AD2FC025336E01008CD1E9 /* DDPFileSectionTableViewCell.m in Sources */,
+				89AD2FC125336E01008CD1E9 /* DDPWebDAVFileViewController.m in Sources */,
+				89AD2FC225336E01008CD1E9 /* DDPFavorite.m in Sources */,
+				89AD2FC325336E01008CD1E9 /* DDPPlayerControlHeaderView.m in Sources */,
+				89AD2FC425336E01008CD1E9 /* DDPNewHomePageViewController.m in Sources */,
+				89AD2FC525336E01008CD1E9 /* DDPLinkInfo.m in Sources */,
+				89AD2FC625336E01008CD1E9 /* DDPFavoriteNetManagerOperation.m in Sources */,
+				89AD2FC725336E01008CD1E9 /* DDPMainViewController.m in Sources */,
+				89AD2FC825336E01008CD1E9 /* DDPDanmakuFilterDetailViewController.m in Sources */,
+				89AD2FC925336E01008CD1E9 /* DDPBaseNavigationController.m in Sources */,
+				89AD2FCA25336E01008CD1E9 /* DDPMineViewController.m in Sources */,
+				89AD2FCB25336E01008CD1E9 /* DDPLibraryCollection.m in Sources */,
+				89AD2FCC25336E01008CD1E9 /* DDPAttentionDetailHistoryTableViewCell.m in Sources */,
+				89AD2FCD25336E01008CD1E9 /* HomePageHeaderTableViewCell.m in Sources */,
+				89AD2FCE25336E01008CD1E9 /* DDPSetting.m in Sources */,
+				89AD2FCF25336E01008CD1E9 /* UITableView+DDPTools.m in Sources */,
+				89AD2FD025336E01008CD1E9 /* DDPDanmakuSelectedFontViewController.m in Sources */,
+				89AD2FD125336E01008CD1E9 /* DDPBiliBiliSearchResult.m in Sources */,
+				89AD2FD225336E01008CD1E9 /* DDPBaseViewController.m in Sources */,
+				89AD2FD325336E01008CD1E9 /* DDPTransparentNavigationBar.m in Sources */,
+				89AD2FD425336E01008CD1E9 /* DDPHomeBangumiIntroHeaderView.m in Sources */,
+				89AD2FD525336E01008CD1E9 /* LogHelper.mm in Sources */,
+				89AD2FD625336E01008CD1E9 /* DDPSearchBar.m in Sources */,
+				89AD2FD725336E01008CD1E9 /* DDPOtherSettingSwitchTableViewCell.m in Sources */,
+				89AD2FD825336E01008CD1E9 /* DDPDownloadTableViewCell.m in Sources */,
+				89AD2FD925336E01008CD1E9 /* DDPFilterCollection.m in Sources */,
+				89AD2FDA25336E01008CD1E9 /* DDPDanmakuFilterViewController.m in Sources */,
+				89AD2FDB25336E01008CD1E9 /* DDPSMBFileOprationView.m in Sources */,
+				89AD2FDC25336E01008CD1E9 /* DDPForgetPasswordViewController.m in Sources */,
+				89AD2FDD25336E01008CD1E9 /* DDPMediaThumbnailer.m in Sources */,
+				89AD2FDE25336E01008CD1E9 /* DDPToolsManager.m in Sources */,
+				89AD2FDF25336E01008CD1E9 /* DDPFilter+DB.mm in Sources */,
+				89AD2FE025336E01008CD1E9 /* DDPDownloadViewController.m in Sources */,
+				89AD2FE125336E01008CD1E9 /* UIImageView+Tools.m in Sources */,
+				89AD2FE225336E01008CD1E9 /* DDPBangumiEpisode.m in Sources */,
+				89AD2FE325336E01008CD1E9 /* DDPFileManagerFolderPlayerListViewCell.m in Sources */,
+				89AD2FE425336E01008CD1E9 /* DDPBaseTextView.m in Sources */,
+				89AD2FE525336E01008CD1E9 /* DDPNewPopularTorrentItem.m in Sources */,
+				89AD2FE625336E01008CD1E9 /* DDPWebDAVInputStream.m in Sources */,
+				89AD2FE725336E01008CD1E9 /* DDPVideoModel.m in Sources */,
+				89AD2FE825336E01008CD1E9 /* DDPPlayerViewController.m in Sources */,
+				89AD2FE925336E01008CD1E9 /* DDPDefaultPageViewController.m in Sources */,
+				89AD2FEA25336E01008CD1E9 /* CALayer+Tools.m in Sources */,
+				89AD2FEB25336E01008CD1E9 /* DDPPlayerControlPlayModeTableViewCell.m in Sources */,
+				89AD2FEC25336E01008CD1E9 /* DDPPlayerControlAnimater.m in Sources */,
+				89AD2FED25336E01008CD1E9 /* DDPPlayerDanmakuControlModel.m in Sources */,
+				89AD2FEE25336E01008CD1E9 /* DDPMethod.m in Sources */,
+				89AD2FEF25336E01008CD1E9 /* DDPQRScannerHistoryTableViewCell.m in Sources */,
+				89AD2FF025336E01008CD1E9 /* DDPRelatedNetManagerOperation.m in Sources */,
+				89AD2FF125336E01008CD1E9 /* DDPLoginViewController.m in Sources */,
+				89AD2FF225336E01008CD1E9 /* DDPSMBLoginView.m in Sources */,
+				89AD2FF325336E01008CD1E9 /* DDPSettingDownloadTableViewCell.m in Sources */,
+				89AD2FF425336E01008CD1E9 /* DDPFileManagerFolderLongViewCell.m in Sources */,
+				89AD2FF525336E01008CD1E9 /* DDPHomePage.m in Sources */,
+				89AD2FF625336E01008CD1E9 /* UIFont+Tools.m in Sources */,
+				89AD2FF725336E01008CD1E9 /* DDPRecommedNetManagerOperation.m in Sources */,
+				89AD2FF825336E01008CD1E9 /* DDPDanmakuManager.m in Sources */,
+				89AD2FF925336E01008CD1E9 /* DDPPlayerShieldDanmakuCollectionViewCell.m in Sources */,
+				89AD2FFA25336E01008CD1E9 /* HomePageSearchFilterView.m in Sources */,
+				89AD2FFB25336E01008CD1E9 /* DDPBangumiQueueIntroCollection.m in Sources */,
+				89AD2FFC25336E01008CD1E9 /* AppDelegate.mm in Sources */,
+				89AD2FFD25336E01008CD1E9 /* DDPAttentionDetailTableViewCell.m in Sources */,
+				89AD2FFE25336E01008CD1E9 /* MJRefreshFooter+Tools.m in Sources */,
+				89AD2FFF25336E01008CD1E9 /* DDPDMHYSearch.m in Sources */,
+				89AD300025336E01008CD1E9 /* JHFilterMenuItem.m in Sources */,
+				89AD300125336E01008CD1E9 /* DDPPlayerSelectedIndexView.m in Sources */,
+				89AD300225336E01008CD1E9 /* DDPHTTPResponseSerializer.m in Sources */,
+				89AD300325336E01008CD1E9 /* DDPSMBFileHashCache+DB.mm in Sources */,
+				89AD300425336E01008CD1E9 /* main.m in Sources */,
+				89AD300525336E01008CD1E9 /* DDPHomeBanner.m in Sources */,
+				89AD300625336E01008CD1E9 /* DDPPlayerFileManagerPlayerListViewController.m in Sources */,
+				89AD300725336E01008CD1E9 /* DDPFileCollectionTableViewCell.m in Sources */,
+				89AD300825336E01008CD1E9 /* DDPHomeBangumiSubtitleGroup.m in Sources */,
+				89AD300925336E01008CD1E9 /* NSDate+Tools.m in Sources */,
+				89AD300A25336E01008CD1E9 /* DDPLinkDownloadTask.m in Sources */,
+				89AD300B25336E01008CD1E9 /* HomePageItemTableViewCell.m in Sources */,
+				89AD300C25336E01008CD1E9 /* DDPMineHeadView.m in Sources */,
+				89AD300D25336E01008CD1E9 /* DDPBatchResponse.m in Sources */,
+				89AD300E25336E01008CD1E9 /* DDPSMBInfo.m in Sources */,
+				89AD300F25336E01008CD1E9 /* DDPFilter.m in Sources */,
+				89AD301025336E01008CD1E9 /* DDPNewBangumiIntroCollection.m in Sources */,
+				89AD301125336E01008CD1E9 /* DDPAttentionListTableViewCell.m in Sources */,
+				89AD301225336E01008CD1E9 /* CALayer+Animation.m in Sources */,
+				89AD301325336E01008CD1E9 /* DDPBase.m in Sources */,
+				89AD301425336E01008CD1E9 /* DDPSearchViewController.m in Sources */,
+				89AD301525336E01008CD1E9 /* DDPAboutUsViewController.m in Sources */,
+				89AD301625336E01008CD1E9 /* LAContext+Tools.m in Sources */,
+				89AD301725336E01008CD1E9 /* DDPLinkDownloadTaskCollection.m in Sources */,
+				89AD301825336E01008CD1E9 /* DDPLinkVideoModel.m in Sources */,
+				89AD301925336E01008CD1E9 /* DDPSearchNetManagerOperation.m in Sources */,
+				89AD301A25336E01008CD1E9 /* DDPFileManagerEditView.m in Sources */,
+				89AD301B25336E01008CD1E9 /* DDPVolumeView.m in Sources */,
+				89AD301C25336E01008CD1E9 /* DDPSearchCollection.m in Sources */,
+				89AD301D25336E01008CD1E9 /* DDPWebDAVHasnCache.mm in Sources */,
+				89AD301E25336E01008CD1E9 /* DDPBiliBiliSearchVideoTableViewCell.m in Sources */,
+				89AD301F25336E01008CD1E9 /* DDPNewSearchAnimateTableViewCell.m in Sources */,
+				89AD302025336E01008CD1E9 /* DDPSMBViewController.m in Sources */,
+				89AD302125336E01008CD1E9 /* HomePageBangumiProgressCollectionViewCell.m in Sources */,
+				89AD302225336E01008CD1E9 /* DDPFeaturedTableViewCell.m in Sources */,
+				89AD302325336E01008CD1E9 /* UITableViewCell+Tools.m in Sources */,
+				89AD302425336E01008CD1E9 /* AFWebDAVManager.m in Sources */,
+				89AD302525336E01008CD1E9 /* DDPPlayHistory.m in Sources */,
+				89AD302625336E01008CD1E9 /* DDPRegisterViewController.m in Sources */,
+				89AD302725336E01008CD1E9 /* DDPNewHomePageItemViewController.m in Sources */,
+				89AD302825336E01008CD1E9 /* DDPSharedNetManager.m in Sources */,
+				89AD302925336E01008CD1E9 /* DDPRegisterRequest.m in Sources */,
+				89AD302A25336E01008CD1E9 /* DDPPlayerVideoControlViewController.m in Sources */,
+				89AD302B25336E01008CD1E9 /* DDPLoginNetManagerOperation.m in Sources */,
+				89AD302C25336E01008CD1E9 /* UIViewController+Tools.m in Sources */,
+				89AD302D25336E01008CD1E9 /* DDPPlayerStepTableViewCell.m in Sources */,
+				89AD302E25336E01008CD1E9 /* TOSMBSessionDownloadTask+Tools.m in Sources */,
+				89AD302F25336E01008CD1E9 /* DDPPlayerNoticeView.m in Sources */,
+				89AD303025336E01008CD1E9 /* DDPNewHomePageBangumiIntroCollectionViewCell.m in Sources */,
+				89AD303125336E01008CD1E9 /* DDPWebDAVFilePickerViewController.m in Sources */,
+				89AD303225336E01008CD1E9 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				89AD303325336E01008CD1E9 /* DDPSliderShowAnimate.m in Sources */,
+				89AD303425336E01008CD1E9 /* DDPNewBangumiIntro.m in Sources */,
+				89AD303525336E01008CD1E9 /* DDPParseNetManagerOperation.m in Sources */,
+				89AD303625336E01008CD1E9 /* WMStickyPageController.m in Sources */,
+				89AD303725336E01008CD1E9 /* DDPFileTreeNode.m in Sources */,
+				89AD303825336E01008CD1E9 /* UIScrollView+Base.m in Sources */,
+				89AD303925336E01008CD1E9 /* DDPTabBar.m in Sources */,
+				89AD303A25336E01008CD1E9 /* TOSMBSession+Hook.m in Sources */,
+				89AD303B25336E01008CD1E9 /* UIView+Tools.m in Sources */,
+				89AD303C25336E01008CD1E9 /* DDPHTTPConnection.m in Sources */,
+				89AD303D25336E01008CD1E9 /* DDPVideoCache.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		89E3F5B51E5829BD007AB1BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4128,7 +4901,7 @@
 /* Begin XCBuildConfiguration section */
 		8907526221A1171A00D149F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C27B61A3AF87507331C5113D /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.debug.xcconfig */;
+			baseConfigurationReference = E93BA740538F81BABBC04D4A /* Pods-DDPlay_Target-DDPlay_Review.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4217,7 +4990,7 @@
 		};
 		8907526321A1171A00D149F3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 515687FB396BFB1133B15A8D /* Pods-DDPlay_Target-iOS_Only-DDPlay_Review.release.xcconfig */;
+			baseConfigurationReference = D8EC29B0550E4251CB4B7D8C /* Pods-DDPlay_Target-DDPlay_Review.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4475,6 +5248,261 @@
 			};
 			name = Release;
 		};
+		89AD306525336E01008CD1E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 166F7EAD577B822930CB2250 /* Pods-DDPlay_Target-DDPlay_Concept2.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 202010121;
+				DEVELOPMENT_TEAM = Q35T78D2D5;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_NAME)/Vender",
+				);
+				GCC_PREFIX_HEADER = "${PROJECT_NAME}/Config/DDPPrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaHTTPServer\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/DDPShare\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/FBRetainCycleDetector\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/JHDanmakuRender\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MGSwipeTableCell\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/MLeaksFinder\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NKOColorPickerView\"",
+					"\"${PODS_ROOT}/Headers/Public/RATreeView\"",
+					"\"${PODS_ROOT}/Headers/Public/SQLiteRepairKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/Public/TOSMBClient\"",
+					"\"${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengUShare\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDB\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDBOptimizedSQLCipher\"",
+					"\"${PODS_ROOT}/Headers/Public/WMPageController\"",
+					"\"${PODS_ROOT}/Headers/Public/YYCategories\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/YYModel\"",
+					"\"${PODS_ROOT}/Headers/Public/YYUtility\"",
+					"\"${PODS_ROOT}/Headers/Public/YYWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/iCarousel\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
+				INFOPLIST_FILE = "DDPlay copy2-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCategories\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.concept2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		89AD306625336E01008CD1E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E972109EEC2CC6D27AD2193 /* Pods-DDPlay_Target-DDPlay_Concept2.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 202010121;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Q35T78D2D5;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_NAME)/Vender",
+				);
+				GCC_PREFIX_HEADER = "${PROJECT_NAME}/Config/DDPPrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/BlocksKit\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaHTTPServer\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/Public/DDPShare\"",
+					"\"${PODS_ROOT}/Headers/Public/DZNEmptyDataSet\"",
+					"\"${PODS_ROOT}/Headers/Public/FBRetainCycleDetector\"",
+					"\"${PODS_ROOT}/Headers/Public/IQKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/JHDanmakuRender\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/MGSwipeTableCell\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/MLeaksFinder\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/NKOColorPickerView\"",
+					"\"${PODS_ROOT}/Headers/Public/RATreeView\"",
+					"\"${PODS_ROOT}/Headers/Public/SQLiteRepairKit\"",
+					"\"${PODS_ROOT}/Headers/Public/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/Public/TOSMBClient\"",
+					"\"${PODS_ROOT}/Headers/Public/UITableView+FDTemplateLayoutCell\"",
+					"\"${PODS_ROOT}/Headers/Public/UMengUShare\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDB\"",
+					"\"${PODS_ROOT}/Headers/Public/WCDBOptimizedSQLCipher\"",
+					"\"${PODS_ROOT}/Headers/Public/WMPageController\"",
+					"\"${PODS_ROOT}/Headers/Public/YYCategories\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKeyboardManager\"",
+					"\"${PODS_ROOT}/Headers/Public/YYModel\"",
+					"\"${PODS_ROOT}/Headers/Public/YYUtility\"",
+					"\"${PODS_ROOT}/Headers/Public/YYWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/iCarousel\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
+				INFOPLIST_FILE = "DDPlay copy2-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 4.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CocoaAsyncSocket\"",
+					"-l\"CocoaHTTPServer\"",
+					"-l\"CocoaLumberjack\"",
+					"-l\"DZNEmptyDataSet\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"NKOColorPickerView\"",
+					"-l\"RATreeView\"",
+					"-l\"UITableView+FDTemplateLayoutCell\"",
+					"-l\"WMPageController\"",
+					"-l\"YYCategories\"",
+					"-l\"YYModel\"",
+					"-l\"YYWebImage\"",
+					"-l\"bz2\"",
+					"-l\"iconv\"",
+					"-l\"sqlite3\"",
+					"-l\"stdc++\"",
+					"-l\"xml2\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"OpenGLES\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dandanplay.concept2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		89E3F5CE1E5829BD007AB1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4524,7 +5552,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -4572,6 +5599,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4579,14 +5607,14 @@
 		};
 		89E3F5D11E5829BD007AB1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2200A8C5E60D84DF1B07F2C2 /* Pods-DDPlay_Target-iOS_Only-DDPlay.debug.xcconfig */;
+			baseConfigurationReference = 59F03C0BA3C8C1BB4328C21D /* Pods-DDPlay_Target-DDPlay.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202008301;
+				CURRENT_PROJECT_VERSION = 202010121;
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4706,14 +5734,14 @@
 		};
 		89E3F5D21E5829BD007AB1BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D840A3B433C226DB0BFBC037 /* Pods-DDPlay_Target-iOS_Only-DDPlay.release.xcconfig */;
+			baseConfigurationReference = 1D64E2391276E65AC4B7DCB6 /* Pods-DDPlay_Target-DDPlay.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_ENTITLEMENTS = DDPlay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202008301;
+				CURRENT_PROJECT_VERSION = 202010121;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q35T78D2D5;
 				ENABLE_BITCODE = NO;
@@ -4849,6 +5877,15 @@
 			buildConfigurations = (
 				8911380422E35C7E00ED15E3 /* Debug */,
 				8911380522E35C7E00ED15E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		89AD306425336E01008CD1E9 /* Build configuration list for PBXNativeTarget "DDPlay_Concept2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89AD306525336E01008CD1E9 /* Debug */,
+				89AD306625336E01008CD1E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
