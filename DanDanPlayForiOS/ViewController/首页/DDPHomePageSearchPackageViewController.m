@@ -120,16 +120,16 @@
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
     if (index == 0) {
-        let vc = [[DDPSearchAnimateViewController alloc] init];
-        vc.keyword = self.searchBar.text;
+        DDPHomePageSearchViewController *vc = [[DDPHomePageSearchViewController alloc] init];
+        let model = [[DDPDMHYSearchConfig alloc] init];
+        model.keyword = self.searchBar.text;
+        vc.config = model;
+        self.dmhySearchResultVC = vc;
         return vc;
     }
     
-    DDPHomePageSearchViewController *vc = [[DDPHomePageSearchViewController alloc] init];
-    let model = [[DDPDMHYSearchConfig alloc] init];
-    model.keyword = self.searchBar.text;
-    vc.config = model;
-    self.dmhySearchResultVC = vc;
+    let vc = [[DDPSearchAnimateViewController alloc] init];
+    vc.keyword = self.searchBar.text;
     return vc;
 }
 
@@ -157,7 +157,7 @@
 
 - (NSArray<NSString *> *)titleArr {
     if (_titleArr == nil) {
-        _titleArr = @[@"相关番剧", @"资源搜索"];
+        _titleArr = @[@"资源搜索", @"相关番剧"];
     }
     return _titleArr;
 }
