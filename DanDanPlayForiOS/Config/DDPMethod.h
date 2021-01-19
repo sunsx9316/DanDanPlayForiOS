@@ -198,6 +198,11 @@ UIKIT_EXTERN BOOL ddp_isChatAppInstall(void);
 + (NSString *)apiPath;
 
 /**
+ @return 搜索资源的域名
+ */
++ (NSString *)searchResDomain;
+
+/**
  v2请求路径
 
  @return v2请求路径

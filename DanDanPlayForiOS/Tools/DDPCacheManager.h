@@ -195,6 +195,8 @@ typedef NS_ENUM(NSUInteger, DDPFileSortType) {
  */
 @property (copy, nonatomic) NSString *userDefineRequestDomain;
 
+/** 用于搜索资源的域名 */
+@property (copy, nonatomic) NSString *userDefineResRequestDomain;
 
 /**
  文件排序类型

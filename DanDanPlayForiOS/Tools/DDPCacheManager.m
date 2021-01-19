@@ -454,6 +454,15 @@ static NSString *const collectionCacheKey = @"collection_cache";
     return path;
 }
 
+- (void)setUserDefineResRequestDomain:(NSString *)userDefineResRequestDomain {
+    [NSUserDefaults.standardUserDefaults setObject:userDefineResRequestDomain forKey:[self keyWithSEL:_cmd]];
+}
+
+- (NSString *)userDefineResRequestDomain {
+    NSString *path = (NSString *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
+    return path;
+}
+
 #pragma mark -
 - (NSMutableDictionary *)folderCache {
     NSMutableDictionary <NSString *, NSArray <NSString *>*>*dic = (NSMutableDictionary *)[NSUserDefaults.standardUserDefaults objectForKey:[self keyWithSEL:_cmd]];
