@@ -202,6 +202,13 @@ UIKIT_EXTERN BOOL ddp_isRootPath(NSString *path) {
     return @"https://api.acplay.net/";
 }
 
++ (NSString *)searchResDomain {
+    if ([DDPCacheManager shareCacheManager].userDefineResRequestDomain.length > 0) {
+        return [DDPCacheManager shareCacheManager].userDefineResRequestDomain;
+    }
+    return @"https://res.acplay.net/";
+}
+
 + (NSString *)apiPath {
     return [[self apiDomain] ddp_appendingPathComponent:@"api/v1"];
 }

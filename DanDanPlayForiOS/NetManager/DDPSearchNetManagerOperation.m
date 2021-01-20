@@ -151,7 +151,7 @@
         dic[@"subgroup"] = @(config.subGroupId);
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/list", API_DMHY_DOMAIN];
+    NSString *path = [NSString stringWithFormat:@"%@/list", DDPMethod.searchResDomain];
     
     return [[DDPSharedNetManager sharedNetManager] GETWithPath:path
                                              serializerType:DDPBaseNetManagerSerializerTypeJSON

@@ -420,6 +420,43 @@
         [otherSetting.items addObject:^{
             DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
             item.dequeueReuseCellCallBack = ^(DDPOtherSettingTitleSubtitleTableViewCell *cell) {
+                cell.titleLabel.text = @"搜索资源域名";
+                NSString *domain = [DDPCacheManager shareCacheManager].userDefineResRequestDomain;
+                cell.detailLabel.text = domain.length > 0 ? domain : @"默认";
+            };
+            
+            item.didSelectedCellCallBack = ^(NSIndexPath *indexPath) {
+                @strongify(self)
+                if (!self) return;
+                
+                UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"输入搜索资源域名" message:@"留空则使用默认域名" preferredStyle:UIAlertControllerStyleAlert];
+                @weakify(vc)
+                [vc addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    @strongify(vc)
+                    if (!vc) return;
+                    
+                    NSString *domain = vc.textFields.firstObject.text;
+                    [DDPCacheManager shareCacheManager].userDefineResRequestDomain = domain;
+                    [self.tableView reloadData];
+                }]];
+                
+                [vc addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [vc addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                    textField.text = [DDPCacheManager shareCacheManager].userDefineResRequestDomain;
+                    textField.font = [UIFont ddp_normalSizeFont];
+                    textField.placeholder = @"例如: https://res.acplay.net";
+                }];
+                
+                [self presentViewController:vc animated:true completion:nil];
+            };
+            
+            return item;
+        }()];
+        
+        [otherSetting.items addObject:^{
+            DDPSettingItem *item = [[DDPSettingItem alloc] initWithReuseClass:[DDPOtherSettingTitleSubtitleTableViewCell class]];
+            item.dequeueReuseCellCallBack = ^(DDPOtherSettingTitleSubtitleTableViewCell *cell) {
                 @strongify(self)
                 if (!self) return;
                 
